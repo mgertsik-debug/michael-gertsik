@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Michael Gertsik — Digital Assets & Law</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="posts.js"></script>
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --surface: #111114;
+      --surface2: #18181d;
+      --border: rgba(255,255,255,0.07);
+      --border-bright: rgba(255,255,255,0.15);
+      --text: #e8e6e0;
+      --text-dim: #7a7870;
+      --text-muted: #4a4845;
+      --accent: #c8a96e;
+      --accent2: #7eb8a0;
+      --accent-dim: rgba(200,169,110,0.12);
+      --red: #e05a4e;
+      --mono: 'DM Mono', monospace;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRID OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── PAGES ─── */
+    .page { display: none; min-height: 100vh; position: relative; z-index: 1; }
+    .page.active { display: block; }
+
+    /* ─── HOME ─── */
+    .hero {
+      padding: 160px 48px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(42px, 5vw, 68px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 32px;
+    }
+
+    .hero-bio {
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      max-width: 560px;
+    }
+
+    .hero-bio p + p { margin-top: 16px; }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 32px;
+      position: sticky;
+      top: 88px;
+    }
+
+    .hero-card-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .focus-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .focus-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .focus-list li::before {
+      content: '→';
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--border-bright);
+      border-radius: 2px;
+      color: var(--text-dim);
+    }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ─── EXPERIENCE TIMELINE ─── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      padding-left: 24px;
+      border-left: 1px solid var(--border-bright);
+    }
+
+    .timeline-item {
+      padding: 0 0 40px 32px;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+    }
+
+    .timeline-date {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .timeline-role {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .timeline-org {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 620px;
+    }
+
+    /* ─── AREAS GRID ─── */
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .area-cell {
+      background: var(--bg);
+      padding: 28px 24px;
+      transition: background 0.2s;
+    }
+
+    .area-cell:hover { background: var(--surface); }
+
+    .area-icon {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .area-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .area-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ─── BLOG PAGE ─── */
+    .blog-header {
+      padding: 140px 48px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .blog-intro {
+      font-size: 14px;
+      color: var(--text-dim);
+      max-width: 520px;
+      margin-top: 12px;
+    }
+
+    .posts-list {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px 80px;
+    }
+
+    .post-row {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      align-items: start;
+      gap: 32px;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .post-row:hover .post-title { color: var(--accent); }
+    .post-row:hover .post-arrow { opacity: 1; transform: translateX(4px); }
+
+    .post-date-col {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      padding-top: 4px;
+    }
+
+    .post-category {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .post-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+
+    .post-summary {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 580px;
+    }
+
+    .post-arrow {
+      font-size: 18px;
+      color: var(--accent);
+      opacity: 0;
+      transition: all 0.2s;
+      padding-top: 4px;
+    }
+
+    /* ─── ARTICLE VIEW ─── */
+    .article-view {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 140px 48px 100px;
+    }
+
+    .article-view.active { display: block; }
+
+    .back-btn {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover { color: var(--accent); }
+
+    .article-category {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .article-title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .article-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-body {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--text-dim);
+    }
+
+    .article-body h3 {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 36px 0 12px;
+    }
+
+    .article-body p + p { margin-top: 20px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-text {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── SOCIAL BUTTONS ─── */
+    .hero-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-dim);
+      border: 1px solid var(--border-bright);
+      padding: 8px 16px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .social-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* ─── PHOTO ─── */
+    .photo-block {
+      margin-bottom: 16px;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      max-height: 340px;
+      border: 1px dashed var(--border-bright);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .photo-inner {
+      text-align: center;
+      padding: 24px;
+    }
+
+    .photo-initials {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--text-muted);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .photo-hint {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      max-width: 180px;
+      line-height: 1.6;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-desc {
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.8;
+    }
+
+    .contact-right {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .contact-email {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .contact-email:first-child { border-top: 1px solid var(--border); }
+
+    a.contact-email:hover .contact-value { color: var(--accent); }
+
+    .contact-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .contact-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 820px) {
+      nav { padding: 0 24px; }
+      .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 40px; }
+      .hero-card { position: static; }
+      .section { padding: 48px 24px; }
+      .blog-header { padding: 120px 24px 40px; }
+      .posts-list { padding: 0 24px 60px; }
+      .post-row { grid-template-columns: 1fr; gap: 8px; }
+      .post-date-col { display: none; }
+      .post-arrow { display: none; }
+      .areas-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+      .article-view { padding: 120px 24px 80px; }
+      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Michael Gertsik</div>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" onclick="showPage('blog')">Writing</a></li>
+      <li><a href="https://www.linkedin.com/in/michael-gertsik" target="_blank">LinkedIn ↗</a></li>
+      <li><a href="#" onclick="showPage('home'); setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),100)">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════════════════════════
+       HOME PAGE
+  ══════════════════════════════════ -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="hero-eyebrow fade-up">Law · Digital Assets · Policy</div>
+        <h1 class="fade-up delay-1"><em>Michael</em><br />Gertsik</h1>
+        <p class="hero-subtitle fade-up delay-2">2L · Fordham University School of Law</p>
+        <div class="hero-bio fade-up delay-3">
+          <p>My work sits at the intersection of law, emerging technologies, and digital asset markets — a space I've studied closely since 2021, when the rapid rise of NFTs first revealed how decentralized systems could reshape how markets form, how information spreads, and how value moves across networks.</p>
+          <p>What began as late-night deep-dives into smart contracts, governance structures, and trading protocols gradually became a clear professional direction: understanding and helping shape the legal frameworks governing this evolving space.</p>
+        </div>
+        <div class="hero-social fade-up delay-4">
+          <a href="https://www.linkedin.com/in/michael-gertsik" target="_blank" class="social-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="mailto:mgertsik@fordham.edu" class="social-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            mgertsik@fordham.edu
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <!-- PHOTO -->
+        <div class="photo-block fade-up delay-2">
+          <div class="photo-placeholder" id="photo-area">
+            <div class="photo-inner">
+              <div class="photo-initials">MG</div>
+              <div class="photo-hint">Drop your headshot here to add it to the site</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card fade-up delay-4">
+        <div class="hero-card-label">// Current Focus Areas</div>
+        <ul class="focus-list">
+          <li>Digital Asset Market Structure</li>
+          <li>Stablecoin Regulation</li>
+          <li>Prediction Markets & CFTC</li>
+          <li>Crypto Asset Custody</li>
+          <li>SEC & CFTC Enforcement</li>
+          <li>DeFi Compliance Frameworks</li>
+        </ul>
+        <div class="divider"></div>
+        <div class="hero-card-label">// Research & Work</div>
+        <div class="tag-row">
+          <span class="tag">Blockchain Association</span>
+          <span class="tag">Fordham Law</span>
+          <span class="tag">Prof. Donna Redel</span>
+          <span class="tag">Blockchain Symposium</span>
+        </div>
+      </div><!-- end hero-card -->
+      </div><!-- end right col -->
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>Experience</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2024 – Present</div>
+          <div class="timeline-role">Research Assistant</div>
+          <div class="timeline-org">Fordham University School of Law — Prof. Donna Redel</div>
+          <div class="timeline-desc">Conducting legal research and writing on SEC and CFTC enforcement actions and regulatory developments in the digital asset space, with a focus on market structure, prediction markets, custody, stablecoins, and compliance obligations as regulators respond to innovation.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024 – Present</div>
+          <div class="timeline-role">Symposium Coordinator — Fordham Blockchain Regulatory Symposium</div>
+          <div class="timeline-org">Fordham University School of Law</div>
+          <div class="timeline-desc">Led logistics and programming for Fordham's annual Blockchain Regulatory Symposium — coordinating panelist and guest outreach, managing CLE accreditation, and developing programming for an audience of 350+ leading legal professionals. Building meaningful industry relationships through one-on-one engagement with participants.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Summer 2024</div>
+          <div class="timeline-role">Legal Intern</div>
+          <div class="timeline-org">Blockchain Association</div>
+          <div class="timeline-desc">Drafted memoranda, policy reports, and amicus briefs on key ecosystem developments. Analyzed the bipartisan passage of the GENIUS and CLARITY Acts. Prepared materials responding to the SEC's RFI on crypto asset custody. Assisted with briefs in <em>Oregon v. Coinbase</em> and <em>U.S. v. Rodriguez</em>, and closely followed the verdict in <em>United States v. Roman Storm</em>.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021 – 2023</div>
+          <div class="timeline-role">Independent Research — Digital Asset Markets</div>
+          <div class="timeline-org">Self-Directed</div>
+          <div class="timeline-desc">Became active in early NFT and DeFi communities during the 2021 market expansion. Spent years studying tokens, smart contracts, governance structures, and trading platforms to understand how decentralized systems operate in practice — experience that ultimately led to pursuing law school with a focus on digital assets.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH AREAS -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2>Research Areas</h2>
+      </div>
+      <div class="areas-grid">
+        <div class="area-cell">
+          <div class="area-icon">⚖️</div>
+          <div class="area-title">Enforcement & Litigation</div>
+          <div class="area-desc">SEC and CFTC enforcement actions, agency jurisdiction, and landmark cases shaping how regulators pursue digital asset market participants.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">🏛️</div>
+          <div class="area-title">Market Structure</div>
+          <div class="area-desc">How digital asset exchanges, custodians, and market makers interact within emerging regulatory frameworks — and what clarity could unlock.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">💵</div>
+          <div class="area-title">Stablecoins & Custody</div>
+          <div class="area-desc">Reserve requirements, qualified custodian standards, and the evolving legal treatment of payment stablecoins under state and federal law.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">📊</div>
+          <div class="area-title">Prediction Markets</div>
+          <div class="area-desc">CFTC jurisdiction over event contracts, the aftermath of the Kalshi litigation, and the regulatory challenge of decentralized prediction platforms.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">📋</div>
+          <div class="area-title">Legislation & Policy</div>
+          <div class="area-desc">Analyzing the GENIUS and CLARITY Acts, congressional intent, and the evolving policy landscape for digital asset regulation in the U.S.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">🔗</div>
+          <div class="area-title">DeFi & Protocol Governance</div>
+          <div class="area-desc">Legal questions raised by decentralized protocols — from liability attribution to governance token classification and compliance obligations.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>Get in Touch</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-left">
+          <p class="contact-desc">I'm always interested in connecting with practitioners, researchers, and others working at the intersection of law and digital assets — whether about research, the Fordham Blockchain Regulatory Symposium, or the space more broadly.</p>
+        </div>
+        <div class="contact-right">
+          <a href="mailto:mgertsik@fordham.edu" class="contact-email">
+            <span class="contact-label">// Email</span>
+            <span class="contact-value">mgertsik@fordham.edu →</span>
+          </a>
+          <a href="https://www.linkedin.com/in/michael-gertsik" target="_blank" class="contact-email">
+            <span class="contact-label">// LinkedIn</span>
+            <span class="contact-value">michael-gertsik →</span>
+          </a>
+          <div class="contact-email" style="cursor:default;">
+            <span class="contact-label">// Affiliation</span>
+            <span class="contact-value" style="color:var(--text-dim);">Fordham University School of Law</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span class="footer-text">© 2025 Michael Gertsik</span>
+      <span class="footer-text">Fordham University School of Law</span>
+    </footer>
+  </div>
+
+  <!-- ══════════════════════════════════
+       BLOG PAGE
+  ══════════════════════════════════ -->
+  <div id="page-blog" class="page">
+
+    <!-- BLOG LIST VIEW -->
+    <div id="blog-list">
+      <div class="blog-header">
+        <div class="hero-eyebrow">Writing & Analysis</div>
+        <h1 style="font-size: clamp(32px,4vw,52px);">Publications<br />&amp; <em>Commentary</em></h1>
+        <p class="blog-intro">Legal analysis, regulatory commentary, and research on the digital asset space — from enforcement trends to emerging legislation.</p>
+      </div>
+      <div class="posts-list" id="posts-container">
+        <!-- Populated by JS -->
+      </div>
+      <footer style="max-width:1100px;margin:0 auto;padding:32px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;">
+        <span class="footer-text">Fordham University School of Law</span>
+        <span class="footer-text">© 2025 — Digital Assets & Law</span>
+      </footer>
+    </div>
+
+    <!-- ARTICLE VIEW -->
+    <div id="article-view" class="article-view">
+      <button class="back-btn" onclick="closeArticle()">← All Writing</button>
+      <div class="article-category" id="art-category"></div>
+      <h1 class="article-title" id="art-title"></h1>
+      <div class="article-meta" id="art-meta"></div>
+      <div class="article-body" id="art-body"></div>
+    </div>
+
+  </div><!-- end page-blog -->
+
+  <script>
+    // ─── PHOTO UPLOAD ───
+    // When you have a headshot ready, you can drag & drop it onto the placeholder
+    const photoArea = document.getElementById('photo-area');
+    if (photoArea) {
+      photoArea.addEventListener('dragover', e => { e.preventDefault(); photoArea.style.borderColor = 'var(--accent)'; });
+      photoArea.addEventListener('dragleave', () => { photoArea.style.borderColor = ''; });
+      photoArea.addEventListener('drop', e => {
+        e.preventDefault();
+        photoArea.style.borderColor = '';
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = ev => {
+            photoArea.innerHTML = `<img src="${ev.target.result}" alt="Michael Gertsik" />`;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      // Also click to upload
+      photoArea.style.cursor = 'pointer';
+      photoArea.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file'; input.accept = 'image/*';
+        input.onchange = e => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = ev => {
+            photoArea.innerHTML = `<img src="${ev.target.result}" alt="Michael Gertsik" />`;
+          };
+          reader.readAsDataURL(file);
+        };
+        input.click();
+      });
+    }
+
+    // ─── PAGE NAVIGATION ───
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      window.scrollTo(0, 0);
+      if (name === 'blog') renderPosts();
+    }
+
+    // ─── RENDER POST LIST ───
+    function renderPosts() {
+      const container = document.getElementById('posts-container');
+      container.innerHTML = '';
+      POSTS.forEach((post, i) => {
+        const row = document.createElement('div');
+        row.className = 'post-row';
+        row.innerHTML = `
+          <div class="post-date-col">${post.date}</div>
+          <div>
+            <div class="post-category">${post.category}</div>
+            <div class="post-title">${post.title}</div>
+            <div class="post-summary">${post.summary}</div>
+          </div>
+          <div class="post-arrow">→</div>
+        `;
+        row.addEventListener('click', () => openArticle(i));
+        container.appendChild(row);
+      });
+    }
+
+    // ─── OPEN ARTICLE ───
+    function openArticle(index) {
+      const post = POSTS[index];
+      document.getElementById('art-category').textContent = post.category;
+      document.getElementById('art-title').textContent = post.title;
+      document.getElementById('art-meta').textContent = post.date;
+      document.getElementById('art-body').innerHTML = post.content;
+      document.getElementById('blog-list').style.display = 'none';
+      const av = document.getElementById('article-view');
+      av.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ─── CLOSE ARTICLE ───
+    function closeArticle() {
+      document.getElementById('article-view').classList.remove('active');
+      document.getElementById('blog-list').style.display = '';
+      window.scrollTo(0, 0);
+    }
+
+    // Init
+    renderPosts();
+  </script>
+</body>
+</html>
