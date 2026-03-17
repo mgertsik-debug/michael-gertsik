@@ -6,7 +6,7 @@
   <title>Michael Gertsik — Digital Assets & Law</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
   <script src="posts.js"></script>
   <style>
     :root {
@@ -18,13 +18,14 @@
       --text: #e8e6e0;
       --text-dim: #7a7870;
       --text-muted: #4a4845;
-      --accent: #c8a96e;
-      --accent2: #7eb8a0;
-      --accent-dim: rgba(200,169,110,0.12);
+      --accent: #00cccc;
+      --accent2: #00cccc;
+      --accent-dim: rgba(0,204,204,0.12);
       --red: #e05a4e;
-      --mono: 'DM Mono', monospace;
-      --serif: 'Playfair Display', Georgia, serif;
-      --sans: 'DM Sans', sans-serif;
+      --mono: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --heading: 'Sora', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,6 +55,73 @@
       opacity: 0.4;
     }
 
+    /* ─── NEON WAVE ANIMATION ─── */
+    @keyframes waveGlow {
+      0% { transform: translateX(-100%) translateY(-50%); opacity: 0; }
+      50% { opacity: 0.6; }
+      100% { transform: translateX(200%) translateY(-50%); opacity: 0; }
+    }
+
+    body {
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body .wave {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      width: 200%;
+      height: 200px;
+      background: linear-gradient(90deg, transparent 0%, rgba(0,204,204,0.25) 25%, rgba(0,204,204,0.4) 50%, rgba(0,204,204,0.25) 75%, transparent 100%);
+      filter: blur(50px);
+      pointer-events: none;
+      z-index: 0;
+      animation: waveGlow 6s linear infinite;
+    }
+
+    /* ─── FLOATING PARTICLES ─── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+
+    @keyframes orbit {
+      0% { transform: rotate(0deg) translateX(60px) rotate(-0deg); opacity: 0.4; }
+      50% { opacity: 0.7; }
+      100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); opacity: 0.4; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.5); }
+    }
+
+    @keyframes zigzag {
+      0% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+      25% { transform: translateY(-40px) translateX(30px); }
+      50% { transform: translateY(-80px) translateX(-30px); opacity: 0.6; }
+      75% { transform: translateY(-40px) translateX(30px); }
+      100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+    }
+
+    @keyframes spiral {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.3; }
+      50% { opacity: 0.7; }
+      100% { transform: translateY(-200px) translateX(100px) rotate(720deg); opacity: 0; }
+    }
+
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, rgba(0,204,204,0.6) 0%, rgba(0,204,204,0.15) 100%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      box-shadow: 0 0 10px rgba(0,204,204,0.4);
+    }
+
     /* ─── NAV ─── */
     nav {
       position: fixed;
@@ -76,6 +144,31 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-logo:hover {
+      filter: drop-shadow(0 0 10px rgba(0,204,204,0.7));
+    }
+
+    .nav-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hexagon-rotate {
+      transform-origin: 20px 20px;
+      animation: rotateHexagon 6s linear infinite;
+    }
+
+    @keyframes rotateHexagon {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .nav-links {
@@ -90,7 +183,7 @@
       font-weight: 400;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--text-dim);
+      color: var(--accent);
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -103,23 +196,23 @@
 
     /* ─── HOME ─── */
     .hero {
-      padding: 160px 48px 80px;
-      max-width: 1100px;
+      padding: 140px 48px 60px;
+      max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 80px;
+      grid-template-columns: 1fr 360px;
+      gap: 60px;
       align-items: start;
     }
 
     .hero-eyebrow {
       font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -133,14 +226,31 @@
       background: var(--accent);
     }
 
+    .hero-eyebrow::after {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
     h1 {
-      font-family: var(--serif);
+      font-family: var(--heading);
       font-size: clamp(42px, 5vw, 68px);
-      font-weight: 900;
+      font-weight: 700;
       line-height: 1.05;
       letter-spacing: -0.02em;
-      color: var(--text);
+      color: var(--accent);
       margin-bottom: 8px;
+    }
+
+    /* Slightly smaller hero title for better balance */
+    .hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(40px, 4.5vw, 58px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
     }
 
     h1 em {
@@ -149,15 +259,18 @@
     }
 
     .hero-subtitle {
-      font-family: var(--mono);
-      font-size: 12px;
+      font-family: var(--sans);
+      font-size: 14px;
       color: var(--text-dim);
-      letter-spacing: 0.08em;
-      margin-bottom: 32px;
+      letter-spacing: 0.04em;
+      margin-bottom: 28px;
+      font-weight: 500;
     }
 
     .hero-bio {
+      font-family: var(--sans);
       font-size: 15px;
+      font-weight: 400;
       color: var(--text-dim);
       line-height: 1.8;
       max-width: 560px;
@@ -166,44 +279,51 @@
     .hero-bio p + p { margin-top: 16px; }
 
     .hero-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 32px;
+      background: linear-gradient(135deg, rgba(17,17,20,0.8) 0%, rgba(24,24,29,0.6) 100%);
+      border: 1px solid rgba(200,169,110,0.15);
+      border-radius: 12px;
+      padding: 28px;
       position: sticky;
       top: 88px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
 
     .hero-card-label {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.2em;
+      font-family: var(--heading);
+      font-size: 14px;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 20px;
+      color: var(--text);
+      margin-bottom: 16px;
+      font-weight: 700;
+      text-decoration: none;
     }
 
     .focus-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 28px;
+      gap: 9px;
+      margin-bottom: 0;
     }
 
     .focus-list li {
       display: flex;
       align-items: center;
       gap: 10px;
+      font-family: var(--sans);
       font-size: 13px;
       color: var(--text-dim);
+      font-weight: 400;
+      transition: color 0.2s;
     }
 
     .focus-list li::before {
-      content: '→';
-      color: var(--accent);
+      content: '◆';
+      color: var(--accent2);
       font-family: var(--mono);
-      font-size: 11px;
+      font-size: 6px;
       flex-shrink: 0;
     }
 
@@ -233,31 +353,33 @@
 
     /* ─── SECTIONS ─── */
     .section {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 64px 48px;
-      border-top: 1px solid var(--border);
+      padding: 72px 48px;
+      border-top: 1px solid rgba(255,255,255,0.03);
     }
 
     .section-header {
       display: flex;
       align-items: baseline;
-      gap: 20px;
+      gap: 16px;
       margin-bottom: 48px;
     }
 
     .section-num {
       font-family: var(--mono);
-      font-size: 10px;
-      color: var(--text-muted);
+      font-size: 12px;
+      color: var(--accent2);
       letter-spacing: 0.1em;
+      font-weight: 600;
     }
 
     h2 {
-      font-family: var(--serif);
-      font-size: 28px;
+      font-family: var(--heading);
+      font-size: 32px;
       font-weight: 700;
       color: var(--text);
+      letter-spacing: -0.01em;
     }
 
     /* ─── EXPERIENCE TIMELINE ─── */
@@ -266,109 +388,128 @@
       flex-direction: column;
       gap: 0;
       position: relative;
-      padding-left: 24px;
-      border-left: 1px solid var(--border-bright);
+      padding-left: 28px;
+      border-left: 2px solid rgba(126,184,160,0.2);
     }
 
     .timeline-item {
-      padding: 0 0 40px 32px;
+      padding: 0 0 44px 32px;
       position: relative;
     }
 
     .timeline-item::before {
       content: '';
       position: absolute;
-      left: -5px;
-      top: 6px;
-      width: 8px;
-      height: 8px;
+      left: -6px;
+      top: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid var(--bg);
+      background: var(--accent2);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px rgba(126,184,160,0.3);
     }
 
     .timeline-date {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--accent);
-      letter-spacing: 0.12em;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .timeline-role {
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 700;
       color: var(--text);
-      margin-bottom: 2px;
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
     }
 
     .timeline-org {
-      font-family: var(--mono);
-      font-size: 11px;
+      font-family: var(--sans);
+      font-size: 12px;
       color: var(--text-dim);
       margin-bottom: 12px;
+      font-weight: 500;
     }
 
     .timeline-desc {
+      font-family: var(--sans);
       font-size: 14px;
       color: var(--text-dim);
       line-height: 1.7;
       max-width: 620px;
+      font-weight: 400;
     }
 
     /* ─── AREAS GRID ─── */
     .areas-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 16px;
+      background: transparent;
+      border: none;
     }
 
     .area-cell {
-      background: var(--bg);
-      padding: 28px 24px;
-      transition: background 0.2s;
+      background: linear-gradient(135deg, rgba(24,24,29,0.5) 0%, rgba(17,17,20,0.3) 100%);
+      padding: 28px;
+      border: 1px solid rgba(200,169,110,0.08);
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.23,1,0.320,1);
+      cursor: pointer;
     }
 
-    .area-cell:hover { background: var(--surface); }
+    .area-cell:hover { 
+      background: linear-gradient(135deg, rgba(24,24,29,0.8) 0%, rgba(17,17,20,0.6) 100%);
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 0 24px rgba(0,204,204,0.3), 0 12px 32px rgba(0,0,0,0.3);
+    }
 
     .area-icon {
-      font-size: 20px;
-      margin-bottom: 12px;
+      font-size: 28px;
+      margin-bottom: 14px;
     }
 
     .area-title {
-      font-size: 14px;
-      font-weight: 500;
+      font-family: var(--heading);
+      font-size: 15px;
+      font-weight: 700;
       color: var(--text);
       margin-bottom: 8px;
+      letter-spacing: -0.01em;
     }
 
     .area-desc {
-      font-size: 12px;
-      color: var(--text-muted);
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-dim);
       line-height: 1.6;
+      font-weight: 400;
     }
 
     /* ─── BLOG PAGE ─── */
     .blog-header {
       padding: 140px 48px 48px;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
     }
 
     .blog-intro {
-      font-size: 14px;
+      font-size: 15px;
       color: var(--text-dim);
       max-width: 520px;
       margin-top: 12px;
+      font-weight: 400;
     }
 
     .posts-list {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 48px 80px;
     }
@@ -379,51 +520,56 @@
       align-items: start;
       gap: 32px;
       padding: 36px 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .post-row:hover .post-title { color: var(--accent); }
+    .post-row:hover .post-title { color: var(--accent2); }
     .post-row:hover .post-arrow { opacity: 1; transform: translateX(4px); }
 
     .post-date-col {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
       padding-top: 4px;
+      font-weight: 500;
     }
 
     .post-category {
       font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.14em;
+      font-size: 11px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--accent2);
       margin-bottom: 8px;
+      font-weight: 600;
     }
 
     .post-title {
-      font-family: var(--serif);
-      font-size: 22px;
+      font-family: var(--heading);
+      font-size: 20px;
       font-weight: 700;
       color: var(--text);
-      line-height: 1.2;
+      line-height: 1.3;
       margin-bottom: 10px;
       transition: color 0.2s;
+      letter-spacing: -0.01em;
     }
 
     .post-summary {
-      font-size: 13px;
-      color: var(--text-muted);
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text-dim);
       line-height: 1.6;
       max-width: 580px;
+      font-weight: 400;
     }
 
     .post-arrow {
       font-size: 18px;
-      color: var(--accent);
+      color: var(--accent2);
       opacity: 0;
       transition: all 0.2s;
       padding-top: 4px;
@@ -440,10 +586,10 @@
     .article-view.active { display: block; }
 
     .back-btn {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: capitalize;
       color: var(--text-dim);
       background: none;
       border: none;
@@ -454,58 +600,64 @@
       align-items: center;
       gap: 8px;
       transition: color 0.2s;
+      font-weight: 600;
     }
 
-    .back-btn:hover { color: var(--accent); }
+    .back-btn:hover { color: var(--accent2); }
 
     .article-category {
       font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.16em;
+      font-size: 11px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--accent2);
       margin-bottom: 16px;
+      font-weight: 600;
     }
 
     .article-title {
-      font-family: var(--serif);
+      font-family: var(--heading);
       font-size: clamp(28px, 4vw, 44px);
-      font-weight: 900;
+      font-weight: 700;
       line-height: 1.1;
       color: var(--text);
       margin-bottom: 24px;
+      letter-spacing: -0.01em;
     }
 
     .article-meta {
-      font-family: var(--mono);
-      font-size: 11px;
+      font-family: var(--sans);
+      font-size: 13px;
       color: var(--text-muted);
       margin-bottom: 48px;
       padding-bottom: 32px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-weight: 500;
     }
 
     .article-body {
       font-size: 16px;
       line-height: 1.85;
       color: var(--text-dim);
+      font-weight: 400;
     }
 
     .article-body h3 {
-      font-family: var(--serif);
+      font-family: var(--heading);
       font-size: 20px;
       font-weight: 700;
       color: var(--text);
       margin: 36px 0 12px;
+      letter-spacing: -0.01em;
     }
 
     .article-body p + p { margin-top: 20px; }
 
     /* ─── FOOTER ─── */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 48px;
-      max-width: 1100px;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      padding: 40px 48px;
+      max-width: 1200px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -515,17 +667,18 @@
     }
 
     .footer-text {
-      font-family: var(--mono);
-      font-size: 10px;
+      font-family: var(--sans);
+      font-size: 12px;
       color: var(--text-muted);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.05em;
+      font-weight: 400;
     }
 
     /* ─── SOCIAL BUTTONS ─── */
     .hero-social {
       display: flex;
-      gap: 12px;
-      margin-top: 28px;
+      gap: 10px;
+      margin-top: 24px;
       flex-wrap: wrap;
     }
 
@@ -533,23 +686,25 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: none;
       text-decoration: none;
       color: var(--text-dim);
-      border: 1px solid var(--border-bright);
-      padding: 8px 16px;
-      border-radius: 2px;
-      transition: all 0.2s;
+      border: 1.5px solid rgba(200,169,110,0.2);
+      padding: 10px 18px;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.23,1,0.320,1);
+      background: rgba(24,24,29,0.3);
     }
 
     .social-btn:hover {
       color: var(--accent);
       border-color: var(--accent);
-      background: var(--accent-dim);
+      background: rgba(200,169,110,0.1);
+      transform: translateY(-2px);
     }
 
     /* ─── PHOTO ─── */
@@ -611,15 +766,17 @@
     }
 
     .contact-desc {
+      font-family: var(--sans);
       font-size: 15px;
       color: var(--text-dim);
       line-height: 1.8;
+      font-weight: 400;
     }
 
     .contact-right {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 0;
     }
 
     .contact-email {
@@ -627,28 +784,30 @@
       flex-direction: column;
       gap: 4px;
       padding: 20px 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
       text-decoration: none;
       transition: all 0.2s;
     }
 
-    .contact-email:first-child { border-top: 1px solid var(--border); }
+    .contact-email:first-child { border-top: 1px solid rgba(255,255,255,0.03); }
 
-    a.contact-email:hover .contact-value { color: var(--accent); }
+    a.contact-email:hover .contact-value { color: var(--accent2); }
 
     .contact-label {
       font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.16em;
+      font-size: 11px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--accent2);
+      font-weight: 600;
     }
 
     .contact-value {
       font-size: 15px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text);
       transition: color 0.2s;
+      letter-spacing: -0.01em;
     }
 
     /* ─── ANIMATIONS ─── */
@@ -679,13 +838,54 @@
       .article-view { padding: 120px 24px 80px; }
       footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
     }
+
+    /* ─── CHAT WIDGET ─── */
+    .chat-widget { position: fixed; right: 20px; bottom: 20px; z-index: 200; font-family: var(--sans); }
+    .chat-button {
+      position: fixed; right: 20px; bottom: 20px; width: 56px; height: 56px; border-radius: 50%; background: var(--accent);
+      display: flex; align-items: center; justify-content: center; color: var(--bg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4); cursor: pointer; border: none; z-index: 201;
+    }
+    .chat-window {
+      position: fixed; right: 20px; bottom: 88px; /* sits above the fixed button */
+      width: 360px; max-width: calc(100vw - 40px); background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+      display: flex; flex-direction: column; transform-origin: bottom right; z-index: 200;
+    }
+    .chat-header { padding: 12px 14px; background: linear-gradient(90deg, rgba(200,169,110,0.06), transparent); display:flex; align-items:center; gap:8px; }
+    .chat-title { font-weight: 700; color: var(--text); font-size: 13px; }
+    .chat-sub { font-size: 11px; color: var(--text-dim); margin-left: auto; }
+    .chat-body { padding: 12px; display:flex; flex-direction:column; gap:8px; }
+    .chat-messages { max-height: 220px; overflow:auto; display:flex; flex-direction:column; gap:8px; }
+    .msg { background: rgba(255,255,255,0.03); padding:8px 10px; border-radius:8px; color:var(--text); font-size:13px; }
+    .chat-input { display:flex; gap:8px; align-items:center; }
+    .chat-input textarea { flex:1; min-height:52px; max-height:140px; resize:none; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--surface2); color:var(--text); }
+    .chat-actions { display:flex; gap:8px; align-items:center; }
+    /* emoji & attach removed */
+    .attach-preview { display:none; }
+    .chat-footer { padding:10px 12px; border-top:1px solid var(--border); display:flex; gap:8px; align-items:center; }
+    .send-btn { background: var(--accent2); color: var(--bg); padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+
   </style>
 </head>
 <body>
 
+  <!-- NEON WAVE -->
+  <div class="wave"></div>
+
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">Michael Gertsik</div>
+    <div class="nav-logo">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Rotating hexagon -->
+        <g class="hexagon-rotate">
+          <path d="M20 2 L34 11 L34 29 L20 38 L6 29 L6 11 Z" stroke="#00cccc" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+        </g>
+        <!-- M and G centered inside hexagon (static) -->
+        <text x="15" y="22" font-family="Sora, system-ui, sans-serif" font-size="14" font-weight="700" fill="#00cccc" text-anchor="middle" dominant-baseline="middle">M</text>
+        <text x="27" y="22" font-family="Sora, system-ui, sans-serif" font-size="14" font-weight="700" fill="#00cccc" text-anchor="middle" dominant-baseline="middle">G</text>
+      </svg>
+    </div>
     <ul class="nav-links">
       <li><a href="#" onclick="showPage('home')">Home</a></li>
       <li><a href="#" onclick="showPage('blog')">Writing</a></li>
@@ -702,8 +902,8 @@
     <!-- HERO -->
     <section class="hero">
       <div>
-        <div class="hero-eyebrow fade-up">Law · Digital Assets · Policy</div>
-        <h1 class="fade-up delay-1"><em>Michael</em><br />Gertsik</h1>
+        <div class="hero-eyebrow fade-up">· Law · Digital Assets · Policy ·</div>
+        <h1 class="fade-up delay-1">Michael Gertsik</h1>
         <p class="hero-subtitle fade-up delay-2">2L · Fordham University School of Law</p>
         <div class="hero-bio fade-up delay-3">
           <p>My work sits at the intersection of law, emerging technologies, and digital asset markets — a space I've studied closely since 2021, when the rapid rise of NFTs first revealed how decentralized systems could reshape how markets form, how information spreads, and how value moves across networks.</p>
@@ -725,65 +925,78 @@
         <!-- PHOTO -->
         <div class="photo-block fade-up delay-2">
           <div class="photo-placeholder" id="photo-area">
-            <div class="photo-inner">
-              <div class="photo-initials">MG</div>
-              <div class="photo-hint">Drop your headshot here to add it to the site</div>
-            </div>
+            <img src="1733811415072-1.jpg" alt="Michael Gertsik" />
           </div>
         </div>
 
         <div class="hero-card fade-up delay-4">
-        <div class="hero-card-label">// Current Focus Areas</div>
+        <div class="hero-card-label">Current Focus Areas</div>
         <ul class="focus-list">
           <li>Digital Asset Market Structure</li>
           <li>Stablecoin Regulation</li>
-          <li>Prediction Markets & CFTC</li>
+          <li>Prediction Markets</li>
           <li>Crypto Asset Custody</li>
           <li>SEC & CFTC Enforcement</li>
           <li>DeFi Compliance Frameworks</li>
         </ul>
-        <div class="divider"></div>
-        <div class="hero-card-label">// Research & Work</div>
-        <div class="tag-row">
-          <span class="tag">Blockchain Association</span>
-          <span class="tag">Fordham Law</span>
-          <span class="tag">Prof. Donna Redel</span>
-          <span class="tag">Blockchain Symposium</span>
-        </div>
+        
       </div><!-- end hero-card -->
       </div><!-- end right col -->
     </section>
 
+  <!-- CHAT WIDGET -->
+  <div class="chat-widget" id="chatWidget">
+    <div class="chat-window" id="chatWindow" style="display:none;">
+      <div class="chat-header">
+        <div>
+          <div class="chat-title">Chat with Michael</div>
+          <div class="chat-sub">Please enter your message below.</div>
+        </div>
+      </div>
+        <div class="chat-body">
+          <div class="chat-messages" id="chatMessages"></div>
+
+          <div class="chat-input">
+            <textarea id="chatTextarea" placeholder="I will respond as soon as possible."></textarea>
+          </div>
+
+          <div class="chat-actions">
+            <!-- emoji and attach removed -->
+          </div>
+        </div>
+
+      <div class="chat-footer">
+        <button class="send-btn" id="sendBtn">Send</button>
+        <button class="chat-button" id="clearBtn" style="width:auto;height:36px;padding:6px 10px;border-radius:8px;background:transparent;color:var(--text-dim);border:1px solid var(--border);">✖</button>
+      </div>
+    </div>
+    <button class="chat-button" id="openChat" title="Message me">💬</button>
+  </div>
+
     <!-- EXPERIENCE -->
     <section class="section">
       <div class="section-header">
-        <span class="section-num">01</span>
+        <span class="section-num"></span>
         <h2>Experience</h2>
       </div>
       <div class="timeline">
         <div class="timeline-item">
-          <div class="timeline-date">2024 – Present</div>
+          <div class="timeline-date">May 2025 – Present</div>
           <div class="timeline-role">Research Assistant</div>
-          <div class="timeline-org">Fordham University School of Law — Prof. Donna Redel</div>
+          <div class="timeline-org">Fordham University School of Law — Professor Donna Redel</div>
           <div class="timeline-desc">Conducting legal research and writing on SEC and CFTC enforcement actions and regulatory developments in the digital asset space, with a focus on market structure, prediction markets, custody, stablecoins, and compliance obligations as regulators respond to innovation.</div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-date">2024 – Present</div>
-          <div class="timeline-role">Symposium Coordinator — Fordham Blockchain Regulatory Symposium</div>
+          <div class="timeline-date">May 2025 – Present</div>
+          <div class="timeline-role">Student Fellow — Fordham Blockchain Regulatory Symposium</div>
           <div class="timeline-org">Fordham University School of Law</div>
-          <div class="timeline-desc">Led logistics and programming for Fordham's annual Blockchain Regulatory Symposium — coordinating panelist and guest outreach, managing CLE accreditation, and developing programming for an audience of 350+ leading legal professionals. Building meaningful industry relationships through one-on-one engagement with participants.</div>
+          <div class="timeline-desc">Manage logistics and programming for Fordham's annual Blockchain Regulatory Symposium — coordinating panelist and guest outreach, managing CLE accreditation, and developing programming for an audience of 350+ leading legal professionals. Building meaningful industry relationships through one-on-one engagement with participants.</div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-date">Summer 2024</div>
+          <div class="timeline-date">June 2025 – August 2025</div>
           <div class="timeline-role">Legal Intern</div>
           <div class="timeline-org">Blockchain Association</div>
           <div class="timeline-desc">Drafted memoranda, policy reports, and amicus briefs on key ecosystem developments. Analyzed the bipartisan passage of the GENIUS and CLARITY Acts. Prepared materials responding to the SEC's RFI on crypto asset custody. Assisted with briefs in <em>Oregon v. Coinbase</em> and <em>U.S. v. Rodriguez</em>, and closely followed the verdict in <em>United States v. Roman Storm</em>.</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021 – 2023</div>
-          <div class="timeline-role">Independent Research — Digital Asset Markets</div>
-          <div class="timeline-org">Self-Directed</div>
-          <div class="timeline-desc">Became active in early NFT and DeFi communities during the 2021 market expansion. Spent years studying tokens, smart contracts, governance structures, and trading platforms to understand how decentralized systems operate in practice — experience that ultimately led to pursuing law school with a focus on digital assets.</div>
         </div>
       </div>
     </section>
@@ -791,7 +1004,7 @@
     <!-- RESEARCH AREAS -->
     <section class="section">
       <div class="section-header">
-        <span class="section-num">02</span>
+        <span class="section-num"></span>
         <h2>Research Areas</h2>
       </div>
       <div class="areas-grid">
@@ -831,7 +1044,7 @@
     <!-- CONTACT -->
     <section class="section" id="contact">
       <div class="section-header">
-        <span class="section-num">03</span>
+        <span class="section-num"></span>
         <h2>Get in Touch</h2>
       </div>
       <div class="contact-grid">
@@ -840,17 +1053,14 @@
         </div>
         <div class="contact-right">
           <a href="mailto:mgertsik@fordham.edu" class="contact-email">
-            <span class="contact-label">// Email</span>
+            <span class="contact-label">Email</span>
             <span class="contact-value">mgertsik@fordham.edu →</span>
           </a>
           <a href="https://www.linkedin.com/in/michael-gertsik" target="_blank" class="contact-email">
-            <span class="contact-label">// LinkedIn</span>
+            <span class="contact-label">LinkedIn</span>
             <span class="contact-value">michael-gertsik →</span>
           </a>
-          <div class="contact-email" style="cursor:default;">
-            <span class="contact-label">// Affiliation</span>
-            <span class="contact-value" style="color:var(--text-dim);">Fordham University School of Law</span>
-          </div>
+          
         </div>
       </div>
     </section>
@@ -983,4 +1193,70 @@
     renderPosts();
   </script>
 </body>
+  <script>
+    (function(){
+      const openChat = document.getElementById('openChat');
+      const chatWindow = document.getElementById('chatWindow');
+      const textarea = document.getElementById('chatTextarea');
+      const sendBtn = document.getElementById('sendBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const chatMessages = document.getElementById('chatMessages');
+      const RECIPIENT_EMAIL = 'mgertsik@fordham.edu';
+
+      openChat.addEventListener('click', ()=>{ chatWindow.style.display = chatWindow.style.display === 'none' ? 'flex' : 'none'; });
+
+      sendBtn.addEventListener('click', ()=>{
+        const msg = textarea.value.trim();
+        if(!msg){ alert('Please type a message.'); return; }
+
+        // save submission to localStorage for owner's review
+        const submission = { id: Date.now(), message: msg, ts: new Date().toISOString() };
+        const existing = JSON.parse(localStorage.getItem('chatSubmissions')||'[]'); existing.push(submission); localStorage.setItem('chatSubmissions', JSON.stringify(existing));
+
+        // open user's email client pre-filled (attachments removed)
+        const subject = encodeURIComponent('Website message from Michael Gertsik');
+        const body = encodeURIComponent(msg);
+        window.location.href = `mailto:${RECIPIENT_EMAIL}?subject=${subject}&body=${body}`;
+
+        // downloadable JSON backup for sender convenience
+        try{
+          const blob = new Blob([JSON.stringify(submission, null, 2)], {type:'application/json'});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a'); a.href = url; a.download = `message-${submission.id}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        }catch(e){}
+
+        textarea.value = '';
+      });
+
+      clearBtn.addEventListener('click', ()=>{ textarea.value = ''; });
+
+    })();
+  </script>
+
+  <!-- FLOATING PARTICLES GENERATION -->
+  <script>
+    (function() {
+      const particleCount = 30;
+      const animationTypes = ['float', 'orbit', 'zigzag', 'spiral'];
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = 6 + Math.random() * 14;
+        const delay = Math.random() * 5;
+        const animationType = animationTypes[Math.floor(Math.random() * animationTypes.length)];
+        
+        particle.style.left = x + '%';
+        particle.style.top = y + '%';
+        particle.style.animation = `${animationType} ${duration}s ease-in-out ${delay}s infinite`;
+        particle.style.width = (2 + Math.random() * 5) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.transformOrigin = '50% 50%';
+        
+        document.body.appendChild(particle);
+      }
+    })();
+  </script>
 </html>
