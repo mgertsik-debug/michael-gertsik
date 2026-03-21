@@ -92,7 +92,6 @@ const POSTS = [
           <li>Joint Interpretation, supra note 1.</li>
           <li>Securities Act of 1933 §§ 5, 17(a), 15 U.S.C. §§ 77e, 77q(a).</li>
           <li>Joint Interpretation, supra note 1.</li>
-          <li>Framework for “Investment Contract” Analysis of Digital Assets, SEC Strategic Hub for Innovation & Financial Technology (Apr. 3, 2019), superseded by Securities Act Release No. 33-11412.</li>
         </ol>
       </div>
     `
