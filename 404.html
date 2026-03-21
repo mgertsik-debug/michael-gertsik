@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- GitHub Pages SPA redirect: if not already redirected, send to index.html with original path as hash -->
+  <script>
+    // Only run if not already redirected
+    if (location.pathname !== '/' && !location.search.includes('redirected')) {
+      var newUrl = '/?redirected&path=' + encodeURIComponent(location.pathname + location.search + location.hash);
+      location.replace(newUrl);
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Michael Gertsik</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="posts.js"></script>
+  <script src="insights.js"></script>
+  <style>
+        .type-badge {
+          display: inline-block;
+          margin-right: 0.5em;
+          padding: 0.15em 0.7em;
+          font-size: 0.75em;
+          font-weight: 600;
+          border-radius: 999px;
+          background: var(--surface2);
+          color: var(--accent2);
+          border: 1px solid rgba(128,165,195,0.3);
+          vertical-align: middle;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+        }
+
+        .filter-tabs {
+          display: flex;
+          gap: 4px;
+          margin-top: 28px;
+          margin-bottom: 0;
+        }
+
+        .filter-tab {
+          background: none;
+          border: 1px solid var(--border);
+          color: var(--text-muted);
+          font-family: var(--mono);
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 8px 20px;
+          cursor: pointer;
+          border-radius: 2px;
+          transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+
+        .filter-tab:hover {
+          color: var(--text);
+          border-color: var(--border-bright);
+        }
+
+        .filter-tab.active {
+          color: var(--accent2);
+          border-color: var(--accent2);
+          background: rgba(128,165,195,0.08);
+          font-weight: 600;
+        }
+          /* ─── FOOTNOTES ─── */
+          .footnotes {
+            margin-top: 40px;
+            padding: 24px 0 0 0;
+            border-top: 1px solid var(--border);
+          }
+          .footnote-title {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--accent2);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+          }
+          .footnotes ol {
+            font-family: var(--sans);
+            font-size: 13px;
+            color: var(--accent2);
+            margin-left: 18px;
+          }
+          .footnotes li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+          }
+          .article-body sup {
+            font-family: var(--mono);
+            color: var(--accent2);
+            font-size: 11px;
+            vertical-align: super;
+          }
+    :root {
+      --bg: #0a0a0b;
+      --surface: #111114;
+      --surface2: #18181d;
+      --border: rgba(255,255,255,0.07);
+      --border-bright: rgba(255,255,255,0.15);
+      --text: #e8e6e0;
+      --text-dim: #a09d94;
+      --text-muted: #4a4845;
+      --accent: #80A5C3;
+      --accent2: #80A5C3;
+      --accent-dim: rgba(128,165,195,0.12);
+      --red: #e05a4e;
+      --mono: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --heading: 'Sora', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRID OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ─── NEON WAVE ANIMATION ─── */
+    @keyframes waveGlow {
+      0% { transform: translateX(-100%) translateY(-50%); opacity: 0; }
+      50% { opacity: 0.9; }
+      100% { transform: translateX(200%) translateY(-50%); opacity: 0; }
+    }
+
+    body {
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body .wave {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      width: 200%;
+      height: 200px;
+      background: linear-gradient(90deg, transparent 0%, rgba(128,165,195,0.45) 25%, rgba(128,165,195,0.65) 50%, rgba(128,165,195,0.45) 75%, transparent 100%);
+      filter: blur(50px);
+      pointer-events: none;
+      z-index: 0;
+      animation: waveGlow 5s linear infinite;
+    }
+
+    /* ─── FLOATING PARTICLES ─── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
+      50% { opacity: 0.9; }
+    }
+
+    @keyframes orbit {
+      0% { transform: rotate(0deg) translateX(60px) rotate(-0deg); opacity: 0.5; }
+      50% { opacity: 0.9; }
+      100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); opacity: 0.5; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.5); }
+    }
+
+    @keyframes zigzag {
+      0% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
+      25% { transform: translateY(-40px) translateX(30px); }
+      50% { transform: translateY(-80px) translateX(-30px); opacity: 0.9; }
+      75% { transform: translateY(-40px) translateX(30px); }
+      100% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
+    }
+
+    @keyframes spiral {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.5; }
+      50% { opacity: 0.9; }
+      100% { transform: translateY(-200px) translateX(100px) rotate(720deg); opacity: 0; }
+    }
+
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, rgba(128,165,195,0.85) 0%, rgba(128,165,195,0.35) 100%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      box-shadow: 0 0 4px rgba(128,165,195,0.4), 0 0 8px rgba(128,165,195,0.2);
+      filter: drop-shadow(0 0 3px rgba(128,165,195,0.3));
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-logo:hover {
+      filter: drop-shadow(0 0 10px rgba(128,165,195,0.7));
+    }
+
+    .nav-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hexagon-rotate {
+      transform-origin: 20px 20px;
+      animation: rotateHexagon 6s linear infinite;
+    }
+
+    @keyframes rotateHexagon {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── PAGES ─── */
+    .page { display: none; min-height: 100vh; position: relative; z-index: 1; }
+    .page.active { display: block; }
+
+    /* ─── HOME ─── */
+    .hero {
+      padding: 140px 48px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero-eyebrow::after {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: var(--heading);
+      font-size: clamp(42px, 5vw, 68px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    /* Slightly smaller hero title for better balance */
+    .hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(40px, 4.5vw, 58px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+
+    .hero-bio {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text-dim);
+      line-height: 1.8;
+      max-width: 560px;
+    }
+
+    .hero-bio p + p { margin-top: 16px; }
+
+    .hero-card {
+      background: linear-gradient(135deg, rgba(17,17,20,0.8) 0%, rgba(24,24,29,0.6) 100%);
+      border: 1px solid rgba(200,169,110,0.15);
+      border-radius: 12px;
+      padding: 28px;
+      position: sticky;
+      top: 88px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .hero-card-label {
+      font-family: var(--heading);
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 16px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .focus-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 0;
+    }
+
+    .focus-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-dim);
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .focus-list li::before {
+      content: '◆';
+      color: var(--accent2);
+      font-family: var(--mono);
+      font-size: 6px;
+      flex-shrink: 0;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--border-bright);
+      border-radius: 2px;
+      color: var(--text-dim);
+    }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 48px 32px 48px;
+      border-top: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 24px;
+      margin-left: -16px;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-family: var(--heading);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    /* Explicitly remove underline from section headers */
+    .section-header h2 {
+      padding-bottom: 0;
+      margin-bottom: 0;
+      font-family: var(--heading);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    /* ─── EXPERIENCE TIMELINE ─── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      padding-left: 28px;
+      border-left: 2px solid rgba(126,184,160,0.2);
+    }
+
+    .timeline-item {
+      padding: 0 0 44px 32px;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 8px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent2);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px rgba(126,184,160,0.3);
+    }
+
+    .timeline-date {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .timeline-role {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .timeline-org {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .timeline-desc {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 620px;
+      font-weight: 400;
+    }
+
+    /* ─── AREAS GRID ─── */
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      background: transparent;
+      border: none;
+    }
+
+    .area-cell {
+      background: linear-gradient(135deg, rgba(24,24,29,0.5) 0%, rgba(17,17,20,0.3) 100%);
+      padding: 28px;
+      border: 1px solid rgba(200,169,110,0.08);
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.23,1,0.320,1);
+      cursor: pointer;
+    }
+
+    .area-cell:hover { 
+      background: linear-gradient(135deg, rgba(24,24,29,0.8) 0%, rgba(17,17,20,0.6) 100%);
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 0 24px rgba(128,165,195,0.3), 0 12px 32px rgba(0,0,0,0.3);
+    }
+
+    .area-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+
+    .area-title {
+      font-family: var(--heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .area-desc {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* ─── BLOG PAGE ─── */
+    .blog-header {
+      padding: 140px 48px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .blog-intro {
+      font-size: 15px;
+      color: var(--text-dim);
+      max-width: 520px;
+      margin-top: 12px;
+      font-weight: 400;
+    }
+
+    .posts-list {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 80px;
+    }
+
+    .post-row {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      align-items: start;
+      gap: 32px;
+      padding: 36px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .post-row:hover .post-title { color: var(--accent2); }
+    .post-row:hover .post-arrow { opacity: 1; transform: translateX(4px); }
+
+    .post-date-col {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+      padding-top: 4px;
+      font-weight: 500;
+    }
+
+    .post-category {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .post-title {
+      font-family: var(--heading);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+      letter-spacing: -0.01em;
+    }
+
+    .post-summary {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      max-width: 580px;
+      font-weight: 400;
+    }
+
+    .post-arrow {
+      font-size: 18px;
+      color: var(--accent2);
+      opacity: 0;
+      transition: all 0.2s;
+      padding-top: 4px;
+    }
+
+    /* ─── ARTICLE VIEW ─── */
+    .article-view {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 140px 48px 100px;
+    }
+
+    .article-view.active { display: block; }
+
+    .back-btn {
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: capitalize;
+      color: var(--text-dim);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+      font-weight: 600;
+    }
+
+    .back-btn:hover { color: var(--accent2); }
+
+    .article-category {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .article-title {
+      font-family: var(--heading);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .article-meta {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: #ecf5ff; /* Slightly brighter grey for article date */
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-weight: 500;
+    }
+
+    .article-body {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .article-body h3 {
+      font-family: var(--heading);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 36px 0 12px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Custom link color for article content */
+    .article-body a {
+      color: #7ea0c0; /* Slightly less blue than default */
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .article-body a:hover {
+      color: #a2b8cc;
+    }
+
+    .article-body p + p { margin-top: 20px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.03);
+      padding: 40px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-text {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      font-weight: 400;
+    }
+
+    .footer-text.copyright {
+      font-size: 13px;
+      color: #b0aea8;
+      font-weight: 500;
+      text-align: center;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* ─── SOCIAL BUTTONS ─── */
+    .hero-social {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: none;
+      text-decoration: none;
+      color: var(--text-dim);
+      border: 1.5px solid rgba(200,169,110,0.2);
+      padding: 10px 18px;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.23,1,0.320,1);
+      background: rgba(24,24,29,0.3);
+    }
+
+    .social-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(200,169,110,0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ─── PHOTO ─── */
+    .photo-block {
+      margin-bottom: 16px;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      max-height: 340px;
+      border: 1px dashed var(--border-bright);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .photo-inner {
+      text-align: center;
+      padding: 24px;
+    }
+
+    .photo-initials {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--text-muted);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .photo-hint {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      max-width: 180px;
+      line-height: 1.6;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-desc {
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      font-weight: 400;
+    }
+
+    .contact-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-email {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .contact-email:first-child { border-top: 1px solid rgba(255,255,255,0.03); }
+
+    a.contact-email:hover .contact-value { color: var(--accent2); }
+
+    .contact-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .contact-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      transition: color 0.2s;
+      letter-spacing: -0.01em;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 820px) {
+      nav { padding: 0 24px; }
+      .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 40px; }
+      .hero-card { position: static; }
+      .section { padding: 18px 24px; }
+      .blog-header { padding: 120px 24px 40px; }
+      .posts-list { padding: 0 24px 60px; }
+      .post-row { grid-template-columns: 1fr; gap: 8px; }
+      .post-date-col { display: none; }
+      .post-arrow { display: none; }
+      .areas-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+      .article-view { padding: 120px 24px 80px; }
+      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    /* ─── CHAT WIDGET ─── */
+    .chat-widget { position: fixed; right: 20px; bottom: 20px; z-index: 200; font-family: var(--sans); }
+    .chat-button {
+      position: fixed; right: 20px; bottom: 20px; width: 56px; height: 56px; border-radius: 50%; background: var(--accent);
+      display: flex; align-items: center; justify-content: center; color: var(--bg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4); cursor: pointer; border: none; z-index: 201;
+    }
+    .chat-window {
+      position: fixed; right: 20px; bottom: 88px; /* sits above the fixed button */
+      width: 360px; max-width: calc(100vw - 40px); background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+      display: flex; flex-direction: column; transform-origin: bottom right; z-index: 200;
+    }
+    .chat-header { padding: 12px 14px; background: linear-gradient(90deg, rgba(200,169,110,0.06), transparent); display:flex; align-items:center; gap:8px; }
+    .chat-title { font-weight: 700; color: var(--text); font-size: 13px; }
+    .chat-sub { font-size: 11px; color: var(--text-dim); margin-left: auto; }
+    .chat-body { padding: 12px; display:flex; flex-direction:column; gap:8px; }
+    .chat-messages { max-height: 220px; overflow:auto; display:flex; flex-direction:column; gap:8px; }
+    .msg { background: rgba(255,255,255,0.03); padding:8px 10px; border-radius:8px; color:var(--text); font-size:13px; }
+    .chat-input { display:flex; gap:8px; align-items:center; }
+    .chat-input textarea { flex:1; min-height:52px; max-height:140px; resize:none; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--surface2); color:var(--text); }
+    .chat-actions { display:flex; gap:8px; align-items:center; }
+    /* emoji & attach removed */
+    .attach-preview { display:none; }
+    .chat-footer { padding:10px 12px; border-top:1px solid var(--border); display:flex; gap:8px; align-items:center; }
+    .send-btn { background: var(--accent2); color: var(--bg); padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+
+        .contact-value.email-link {
+          transition: color 0.2s;
+        }
+        .contact-value.email-link:hover {
+          color: var(--accent2);
+        }
+
+        .contact-email .contact-value {
+          transition: color 0.2s;
+        }
+        .contact-email:hover .contact-value {
+          color: var(--accent2);
+        }
+
+  </style>
+</head>
+<body>
+
+  <!-- NEON WAVE -->
+  <div class="wave"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Rotating hexagon -->
+        <g class="hexagon-rotate">
+          <path d="M20 2 L34 11 L34 29 L20 38 L6 29 L6 11 Z" stroke="#80A5C3" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+        </g>
+        <!-- M and G centered inside hexagon (static) -->
+        <text x="15" y="22" font-family="Sora, system-ui, sans-serif" font-size="14" font-weight="700" fill="#80A5C3" text-anchor="middle" dominant-baseline="middle">M</text>
+        <text x="27" y="22" font-family="Sora, system-ui, sans-serif" font-size="14" font-weight="700" fill="#80A5C3" text-anchor="middle" dominant-baseline="middle">G</text>
+      </svg>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" onclick="showBlogAll()">Writings</a></li>
+      <li><a href="https://www.linkedin.com/in/michael-gertsik" target="_blank">LinkedIn ↗</a></li>
+      <li><a href="#" onclick="showPage('home'); setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),100)">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════════════════════════
+       HOME PAGE
+  ══════════════════════════════════ -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="hero-eyebrow fade-up"> LAW · FINANCE · TECHNOLOGY </div>
+        <h1 class="fade-up delay-1">Michael Gertsik</h1>
+        <p class="hero-subtitle fade-up delay-2">2L · Fordham University School of Law</p>
+        <div class="hero-bio fade-up delay-3">
+          <p>I have long been drawn to the intersection of law, finance, and technology. Since 2021, my focus has centered around how new systems reshape value creation, information flow, and market dynamics.</p>
+          <p>What began as late-night dives into smart contracts, governance, and trading protocols has evolved into a clear professional direction. I aim to understand and help shape the legal frameworks guiding the digital asset space.</p>
+        </div>
+        <div class="hero-social fade-up delay-4">
+          <a href="https://www.linkedin.com/in/michael-gertsik" target="_blank" class="social-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="mailto:mgertsik@fordham.edu" class="social-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span class="email-link">mgertsik@fordham.edu</span>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <!-- PHOTO -->
+        <div class="photo-block fade-up delay-2">
+          <div class="photo-placeholder">
+            <img src="photo1.png" alt="Michael Gertsik" />
+          </div>
+        </div>
+
+        <div class="hero-card fade-up delay-4">
+        <div class="hero-card-label">Current Focus Areas</div>
+        <ul class="focus-list">
+          <li>DeFi</li>
+          <li>Prediction Markets</li>
+          <li>Tokenized Assets</li>
+          <li>Stablecoins</li>
+          <li>Staking</li>
+          <li>Custody</li>
+          <li>KYC/AML Compliance</li>
+          <li>Privacy Tools</li>
+        </ul>
+        
+      </div><!-- end hero-card -->
+      </div><!-- end right col -->
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num"></span>
+        <h2>Experience</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">May 2025 – Present</div>
+          <div class="timeline-role">Research Assistant</div>
+          <div class="timeline-org">Fordham University School of Law — Professor Donna Redel</div>
+          <div class="timeline-desc">Conduct legal research and writing on SEC/CFTC enforcement actions and regulatory developments in the digital asset space, with a focus on market structure, prediction markets, custody, stablecoins, and compliance obligations as regulators respond to innovation.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">May 2025 – Present</div>
+          <div class="timeline-role">Student Fellow — Fordham Blockchain Regulatory Symposium</div>
+          <div class="timeline-org">Fordham University School of Law</div>
+          <div class="timeline-desc">Manage logistics for Fordham’s Blockchain Regulatory Symposium, including speaker outreach, CLE accreditation, and development of panel topics for an audience of 350+ legal professionals.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">June 2025 – August 2025</div>
+          <div class="timeline-role">Legal Intern</div>
+          <div class="timeline-org">Blockchain Association</div>
+          <div class="timeline-desc">Drafted legal memoranda, amicus briefs, policy reports, and comment letters on federal and state legislative, regulatory, and enforcement developments. This work primarily focused on decentralized finance, tokenized assets, stablecoins, anti-money laundering, and sanctions compliance.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH AREAS -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num"></span>
+        <h2>Research Areas</h2>
+      </div>
+      <div class="areas-grid">
+        <div class="area-cell">
+          <div class="area-icon">⚖️</div>
+          <div class="area-title">Enforcement & Litigation</div>
+          <div class="area-desc">SEC and CFTC enforcement actions, agency jurisdiction, and landmark cases shaping how regulators pursue digital asset market participants.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">🏛️</div>
+          <div class="area-title">Market Structure</div>
+          <div class="area-desc">How exchanges, custodians, and market makers interact within emerging regulatory frameworks and what greater clarity could unlock.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">💵</div>
+          <div class="area-title">Stablecoins & Custody</div>
+          <div class="area-desc">Reserve requirements, qualified custodian standards, and the evolving legal treatment of payment stablecoins.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">📊</div>
+          <div class="area-title">Prediction Markets</div>
+          <div class="area-desc">Jurisdiction over event contracts, the rapid expansion of prediction markets, and the emerging enforcement landscape shaping market integrity across centralized and decentralized platforms.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">📋</div>
+          <div class="area-title">Legislation & Policy</div>
+          <div class="area-desc">Analyzing the GENIUS and CLARITY Acts, congressional intent, and the evolving policy landscape for digital asset regulation in the U.S.</div>
+        </div>
+        <div class="area-cell">
+          <div class="area-icon">🔗</div>
+          <div class="area-title">DeFi & Protocol Governance</div>
+          <div class="area-desc">When DeFi systems and smart contracts reduce reliance on intermediaries, where they fall within or outside securities laws, and what safeguards are required when those laws apply.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="section-header">
+        <span class="section-num"></span>
+        <h2>Get in Touch</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-left">
+          <p class="contact-desc">I am always interested in connecting with practitioners, researchers, and others working at the intersection of law, finance, and technology. Please feel free to reach out via email or LinkedIn.</p>
+        </div>
+        <div class="contact-right">
+          <a href="mailto:mgertsik@fordham.edu" class="contact-email">
+            <span class="contact-label" style="color: var(--accent2); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;">EMAIL</span>
+            <span class="contact-value" style="color: var(--text); font-family: var(--sans); font-size: 15px; font-weight: 400; display: block; margin-top: 2px;">mgertsik@fordham.edu →</span>
+          </a>
+          <a href="https://www.linkedin.com/in/michael-gertsik" target="_blank" class="contact-email">
+            <span class="contact-label">LinkedIn</span>
+            <span class="contact-value">michael-gertsik →</span>
+          </a>
+          
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span class="footer-text copyright">© 2026 by Michael Gertsik. All rights reserved.</span>
+    </footer>
+  </div>
+
+  <!-- ══════════════════════════════════
+       BLOG PAGE
+  ══════════════════════════════════ -->
+  <div id="page-blog" class="page">
+
+    <!-- BLOG LIST VIEW -->
+    <div id="blog-list">
+      <div class="blog-header">
+        <h1 style="font-size: clamp(32px,4vw,52px);">Writings</h1>
+        <p class="blog-intro">Publications and insights on the technology, regulation, and market trends shaping modern finance.</p>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="publications">Publications</button>
+          <button class="filter-tab" data-filter="insights">Insights</button>
+        </div>
+      </div>
+      <div class="posts-list" id="posts-container">
+        <!-- Populated by JS -->
+      </div>
+      <footer style="max-width:1100px;margin:0 auto;padding:32px 48px;border-top:1px solid var(--border);display:flex;justify-content:center;align-items:center;position:relative;z-index:1;">
+        <span class="footer-text copyright">© 2026 by Michael Gertsik. All rights reserved.</span>
+      </footer>
+    </div>
+
+    <!-- ARTICLE VIEW -->
+    <div id="article-view" class="article-view">
+      <button class="back-btn" onclick="closeArticle()">← All Writings</button>
+      <div class="article-category" id="art-category"></div>
+      <h1 class="article-title" id="art-title"></h1>
+      <div class="article-meta" id="art-meta"></div>
+      <div class="article-body" id="art-body"></div>
+    </div>
+
+  </div><!-- end page-blog -->
+
+  <script>
+
+    // SPA POPSTATE HANDLER: Sync page with URL on back/forward
+    window.addEventListener('popstate', function() {
+      const path = window.location.pathname;
+      if (path === '/' || path === '/home') {
+        showPage('home');
+      } else if (path === '/writings') {
+        showBlogAll();
+      } else if (path === '/contact') {
+        showPage('home');
+        setTimeout(()=>{
+          const el = document.getElementById('contact');
+          if (el) el.scrollIntoView({behavior:'smooth'});
+        }, 100);
+      } else {
+        // fallback to home
+        showPage('home');
+      }
+    });
+    // Photo upload functionality removed: photo is now static for all users.
+
+    // ─── PAGE NAVIGATION ───
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      window.scrollTo(0, 0);
+      if (name === 'blog') renderWritings();
+      // Update the URL to match the nav
+      let path = '/';
+      if (name === 'home') path = '/home';
+      else if (name === 'blog') path = '/writings';
+      else if (name === 'contact') path = '/contact';
+      window.history.pushState({}, '', path);
+    }
+
+    // Always show 'All' filter when clicking Writings
+    function showBlogAll() {
+      showPage('blog');
+      // Close any open article view and show blog list
+      document.getElementById('article-view').classList.remove('active');
+      document.getElementById('blog-list').style.display = '';
+      // Activate 'All' filter tab
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        if (tab.dataset.filter === 'all') {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+      renderWritings('all');
+      // Update the URL to /writings
+      window.history.pushState({}, '', '/writings');
+    }
+
+    // Convert [Label](url) markdown links in content to clickable HTML links
+    function convertBracketLinks(content) {
+      if (!content) return content;
+      // Replace [Label](url) with <a href="url" target="_blank">Label</a>
+      return content.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (m, label, url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+      });
+    }
+
+    // ─── RENDER WRITINGS LIST ───
+    function renderWritings(filter = 'all') {
+      const container = document.getElementById('posts-container');
+      container.innerHTML = '';
+      let items = [];
+      if (filter === 'all') {
+        items = [
+          ...POSTS.map(post => ({...post, type: 'Publication'})),
+          ...INSIGHTS.map(insight => ({...insight, type: 'Insight'}))
+        ];
+        items.sort((a, b) => new Date(b.date) - new Date(a.date));
+      } else if (filter === 'publications') {
+        items = POSTS.map(post => ({...post, type: 'Publication'}));
+      } else if (filter === 'insights') {
+        items = INSIGHTS.map(insight => ({...insight, type: 'Insight'}));
+      }
+      items.forEach((item, i) => {
+        const row = document.createElement('div');
+        row.className = 'post-row';
+        row.innerHTML = `
+          <div class="post-date-col">${item.date}</div>
+          <div>
+            <div class="post-category">
+              <span class="type-badge">${item.type}</span>
+              <span>${item.category}</span>
+            </div>
+            <div class="post-title">${item.title}</div>
+            <div class="post-summary">${item.summary}</div>
+          </div>
+          <div class="post-arrow">${item.type === 'Insight' && item.link ? '↗' : '→'}</div>
+        `;
+        row.addEventListener('click', () => {
+          if (item.type === 'Publication') {
+            openArticle(POSTS.findIndex(p => p.id === item.id));
+          } else if (item.type === 'Insight') {
+            if (item.link) {
+              window.open(item.link, '_blank');
+            } else {
+              openInsightArticle(item);
+            }
+          }
+        });
+        container.appendChild(row);
+      });
+    }
+
+    // ─── OPEN INSIGHT ARTICLE ───
+    function openInsightArticle(insight) {
+      document.getElementById('art-category').textContent = insight.category;
+      document.getElementById('art-title').textContent = insight.title;
+      document.getElementById('art-meta').textContent = insight.date;
+      // Render full content if present, otherwise fallback to summary, and convert bracket links
+      let body = insight.content ? insight.content : `<p>${insight.summary}</p>`;
+      document.getElementById('art-body').innerHTML = convertBracketLinks(body);
+      document.getElementById('blog-list').style.display = 'none';
+      const av = document.getElementById('article-view');
+      av.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ─── FILTER TAB LOGIC ───
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        renderWritings(this.dataset.filter);
+      });
+    });
+
+
+    // Init: On load, sync SPA view with URL
+    function syncPageWithUrl() {
+      const path = window.location.pathname;
+      if (path === '/' || path === '/home') {
+        showPage('home');
+      } else if (path === '/writings') {
+        showBlogAll();
+      } else if (path === '/contact') {
+        showPage('home');
+        setTimeout(()=>{
+          const el = document.getElementById('contact');
+          if (el) el.scrollIntoView({behavior:'smooth'});
+        }, 100);
+      } else {
+        showPage('home');
+      }
+    }
+    syncPageWithUrl();
+
+    // ─── OPEN ARTICLE ───
+    function openArticle(index) {
+      const post = POSTS[index];
+      document.getElementById('art-category').textContent = post.category;
+      document.getElementById('art-title').textContent = post.title;
+      document.getElementById('art-meta').textContent = post.date;
+      document.getElementById('art-body').innerHTML = convertBracketLinks(post.content);
+      document.getElementById('blog-list').style.display = 'none';
+      const av = document.getElementById('article-view');
+      av.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ─── CLOSE ARTICLE ───
+    function closeArticle() {
+      document.getElementById('article-view').classList.remove('active');
+      document.getElementById('blog-list').style.display = '';
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+
+  <!-- FLOATING PARTICLES GENERATION -->
+  <script>
+    (function() {
+      const particleCount = 30;
+      const animationTypes = ['float', 'orbit', 'zigzag', 'spiral'];
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = 6 + Math.random() * 14;
+        const delay = Math.random() * 5;
+        const animationType = animationTypes[Math.floor(Math.random() * animationTypes.length)];
+        
+        particle.style.left = x + '%';
+        particle.style.top = y + '%';
+        particle.style.animation = `${animationType} ${duration}s ease-in-out ${delay}s infinite`;
+        particle.style.width = (2 + Math.random() * 4) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.transformOrigin = '50% 50%';
+        
+        document.body.appendChild(particle);
+      }
+    })();
+  </script>
+</html>
