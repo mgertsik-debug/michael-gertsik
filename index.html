@@ -15,29 +15,29 @@
   <title>Michael Gertsik</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <script src="/insights.js"></script>
   <script src="/models.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     :root {
-      --bg: #060912;
-      --bg2: #0a1020;
-      --surface: #0d1426;
-      --surface2: #121b30;
+      --bg: #0A0C10;
+      --bg2: #0c1119;
+      --surface: #10151d;
+      --surface2: #161c26;
       --border: rgba(120,170,255,0.12);
       --border-bright: rgba(120,170,255,0.30);
-      --text: #eaf1fb;
-      --text-dim: #9fb0cc;
-      --text-muted: #5a6a85;
-      --accent: #2bd9ff;      /* electric cyan */
-      --accent2: #5b8cff;     /* electric blue */
-      --accent-dim: rgba(43,217,255,0.10);
-      --green: #34e2b0;
-      --red: #ff6b6b;
-      --glow: rgba(43,217,255,0.45);
-      --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      --heading: 'Sora', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --text: #E6E8EC;
+      --text-dim: #9aa3b2;
+      --text-muted: #7C8696;
+      --accent: #5B8DEF;     /* signal blue */
+      --accent2: #7BA2F2;     /* light blue */
+      --accent-dim: rgba(91,141,239,0.12);
+      --green: #2E9E6B;
+      --red: #D86B6B;
+      --glow: rgba(91,141,239,0.42);
+      --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --heading: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       --mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
     }
 
@@ -89,7 +89,7 @@
       inset: 0;
       background:
         radial-gradient(1100px 620px at 78% -8%, rgba(91,140,255,0.13), transparent 60%),
-        radial-gradient(900px 520px at 8% 108%, rgba(43,217,255,0.10), transparent 55%);
+        radial-gradient(900px 520px at 8% 108%, rgba(91,141,239,0.10), transparent 55%);
       pointer-events: none;
       z-index: 0;
     }
@@ -239,9 +239,9 @@
     .btn svg { width: 16px; height: 16px; }
     .btn-primary {
       background: linear-gradient(110deg, var(--accent), var(--accent2));
-      color: #05101f; box-shadow: 0 8px 30px rgba(43,217,255,0.22);
+      color: #05101f; box-shadow: 0 8px 30px rgba(91,141,239,0.22);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(43,217,255,0.38); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(91,141,239,0.38); }
     .btn-ghost {
       background: rgba(120,170,255,0.04); color: var(--text);
       border-color: var(--border-bright);
@@ -289,7 +289,7 @@
     }
     .glass-card::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(420px circle at var(--mx,50%) var(--my,0%), rgba(43,217,255,0.10), transparent 45%);
+      background: radial-gradient(420px circle at var(--mx,50%) var(--my,0%), rgba(91,141,239,0.10), transparent 45%);
       opacity: 0; transition: opacity 0.4s; pointer-events: none;
     }
     .glass-card:hover { transform: translateY(-5px); border-color: var(--border-bright); box-shadow: 0 16px 44px rgba(0,0,0,0.4), 0 0 0 1px var(--border-bright); }
@@ -350,7 +350,7 @@
     .post-category { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 9px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .type-badge {
       display: inline-block; padding: 3px 10px; font-size: 10px; font-weight: 600; border-radius: 999px;
-      background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(43,217,255,0.25);
+      background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(91,141,239,0.25);
       letter-spacing: 0.08em; text-transform: uppercase;
     }
     .post-title { font-family: var(--heading); font-size: 21px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 10px; transition: color 0.2s; letter-spacing: -0.015em; }
@@ -410,7 +410,7 @@
     .mcard > * { position: relative; z-index: 1; }
     .mtop-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 2; background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent); opacity: 0.35; transition: opacity .3s; }
     .mcard.live { cursor: pointer; }
-    .mcard.live:hover { transform: translateY(-8px); border-color: var(--border-bright); box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 42px rgba(43,217,255,0.10); }
+    .mcard.live:hover { transform: translateY(-8px); border-color: var(--border-bright); box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 42px rgba(91,141,239,0.10); }
     .mcard.live:hover .mtop-line { opacity: 1; }
     .mcard.soon { opacity: 0.9; }
     .corner { position: absolute; width: 13px; height: 13px; color: var(--accent); opacity: 0; transition: opacity .3s; z-index: 2; }
@@ -423,7 +423,7 @@
     .mcard-idx { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.14em; color: var(--text-muted); }
     .mcard-idx b { color: var(--accent); font-weight: 600; }
     .mstatus { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 11px; border-radius: 99px; border: 1px solid; }
-    .mstatus.live { color: var(--green); border-color: rgba(52,226,176,0.4); background: rgba(52,226,176,0.08); }
+    .mstatus.live { color: var(--green); border-color: rgba(46,158,107,0.4); background: rgba(46,158,107,0.08); }
     .mstatus.soon { color: var(--text-muted); border-color: var(--border); background: rgba(120,170,255,0.04); }
     .mdot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
     .mstatus.live .mdot { box-shadow: 0 0 8px currentColor; animation: pulse 2s ease-in-out infinite; }
@@ -469,7 +469,7 @@
     .timeline { display: flex; flex-direction: column; padding-left: 26px; border-left: 2px solid var(--border); margin-left: 4px; }
     .timeline-item { padding: 0 0 40px 30px; position: relative; }
     .timeline-item:last-child { padding-bottom: 0; }
-    .timeline-item::before { content: ''; position: absolute; left: -34px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); box-shadow: 0 0 0 2px rgba(43,217,255,0.35), 0 0 14px var(--glow); }
+    .timeline-item::before { content: ''; position: absolute; left: -34px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); box-shadow: 0 0 0 2px rgba(91,141,239,0.35), 0 0 14px var(--glow); }
     .timeline-date { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent2); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
     .timeline-role { font-family: var(--heading); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
     .timeline-org { font-size: 13px; color: var(--text-dim); margin-bottom: 12px; }
@@ -543,17 +543,7 @@
 
   <!-- NAV -->
   <nav>
-    <a href="/" class="nav-logo" onclick="showPage('home'); return false;" aria-label="Home">
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g class="hexagon-rotate">
-          <path d="M20 2 L34 11 L34 29 L20 38 L6 29 L6 11 Z" stroke="url(#hexg)" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
-        </g>
-        <text x="14.5" y="22" font-family="Sora, sans-serif" font-size="13" font-weight="700" fill="#2bd9ff" text-anchor="middle" dominant-baseline="middle">M</text>
-        <text x="26" y="22" font-family="Sora, sans-serif" font-size="13" font-weight="700" fill="#5b8cff" text-anchor="middle" dominant-baseline="middle">G</text>
-        <defs><linearGradient id="hexg" x1="0" y1="0" x2="40" y2="40"><stop offset="0" stop-color="#2bd9ff"/><stop offset="1" stop-color="#5b8cff"/></linearGradient></defs>
-      </svg>
-      <span class="wordmark">Michael&nbsp;Gertsik</span>
-    </a>
+    <span class="nav-spacer" aria-hidden="true"></span>
 
     <div class="nav-right">
       <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden />
@@ -640,9 +630,9 @@
         </div>
         <div class="model-frame-wrap">
           <div class="model-frame-bar">
-            <span class="tdot" style="background:#ff6b6b;"></span>
-            <span class="tdot" style="background:#ffce5b;"></span>
-            <span class="tdot" style="background:#34e2b0;"></span>
+            <span class="tdot" style="background:#D86B6B;"></span>
+            <span class="tdot" style="background:#E0B45A;"></span>
+            <span class="tdot" style="background:#2E9E6B;"></span>
             <span class="frame-label" id="model-frame-label">model</span>
           </div>
           <iframe id="model-frame" title="Interactive model" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer"></iframe>
