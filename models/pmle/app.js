@@ -403,7 +403,7 @@
       svg.appendChild(g);
     });
     return h("div", null,
-      lensHeader("FORCE GRAPH · ENTITIES & ACTIONS", "A list tells you which cases exist. This picture shows you the shape of the whole fight. In a single glance, you can spot which platform is most embattled. Just look for the biggest dot with the most lines running to it. You can also see which regulators are pressing hardest, and whether a given matchup tends to end in wins or losses. It answers "who's tangled up with whom, and how is it going?" far faster than reading every case one by one."),
+      lensHeader("FORCE GRAPH · ENTITIES & ACTIONS", "A list tells you which cases exist. This picture shows you the shape of the whole fight. In a single glance, you can spot which platform is most embattled. Just look for the biggest dot with the most lines running to it. You can also see which regulators are pressing hardest, and whether a given matchup tends to end in wins or losses. It answers \"who's tangled up with whom, and how is it going?\" far faster than reading every case one by one."),
       svg,
       h("div", { style: { display: "flex", gap: "18px", justifyContent: "center", marginTop: "6px", font: `500 10px ${MONO}`, color: "#6B7280" } },
         h("span", null, h("span", { style: { color: "#34D399" } }, "●"), " platform"),
