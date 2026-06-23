@@ -65,23 +65,9 @@
       opacity: 0.9;
       transition: opacity 0.6s ease;
     }
-    body.subdued #bg-canvas { opacity: 0.6; }
+    body.subdued #bg-canvas { opacity: 0.85; }
 
-    /* grid + radial glow overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 80%);
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.5;
-    }
+    /* ambient aurora base glow (drifting layer drawn on #bg-canvas) */
     body::after {
       content: '';
       position: fixed;
@@ -997,7 +983,7 @@
       var canvas = document.getElementById('bg-canvas');
       if (!canvas || !canvas.getContext) return;
       var ctx = canvas.getContext('2d');
-      var COLORS = ['52,211,153', '52,211,153', '52,211,153', '248,113,113', '150,162,178'];
+      var COLORS = ['52,211,153', '52,211,153', '248,113,113', '52,211,153', '248,113,113'];
       var W = 0, H = 0, dpr = 1, orbs = [], raf = 0, running = true, rt = 0;
       function rnd(a, b) { return a + Math.random() * (b - a); }
       function build() {
@@ -1005,16 +991,16 @@
         W = window.innerWidth; H = window.innerHeight;
         canvas.width = W * dpr; canvas.height = H * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        var small = W < 760, count = small ? 6 : 10;
+        var small = W < 760, count = small ? 4 : 6;
         orbs = [];
         for (var i = 0; i < count; i++) {
           orbs.push({
             x: rnd(0, W), y: rnd(0, H),
-            r: rnd(small ? 130 : 200, small ? 250 : 380),
+            r: rnd(small ? 280 : 440, small ? 480 : 760),
             c: COLORS[i % COLORS.length],
-            a: rnd(0.05, 0.11),
-            sx: rnd(-0.12, 0.12), sy: rnd(-0.09, 0.09),
-            ph: rnd(0, Math.PI * 2), amp: rnd(20, 55)
+            a: rnd(0.05, 0.09),
+            sx: rnd(-0.07, 0.07), sy: rnd(-0.055, 0.055),
+            ph: rnd(0, Math.PI * 2), amp: rnd(30, 80)
           });
         }
       }
@@ -1023,8 +1009,8 @@
         ctx.globalCompositeOperation = 'lighter';
         for (var i = 0; i < orbs.length; i++) {
           var o = orbs[i];
-          var x = o.x + Math.sin(t * 0.00020 + o.ph) * o.amp;
-          var y = o.y + Math.cos(t * 0.00017 + o.ph) * o.amp * 0.7;
+          var x = o.x + Math.sin(t * 0.00013 + o.ph) * o.amp;
+          var y = o.y + Math.cos(t * 0.00011 + o.ph) * o.amp * 0.7;
           var g = ctx.createRadialGradient(x, y, 0, x, y, o.r);
           g.addColorStop(0, 'rgba(' + o.c + ',' + o.a + ')');
           g.addColorStop(1, 'rgba(' + o.c + ',0)');
