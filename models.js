@@ -48,7 +48,7 @@ const MODELS = [
   // Flip status to "live" and add `src` or `html` when ready.
   {
     id: "insider-trading-timeline",
-    category: "Market Integrity",
+    category: "Insider Trading",
     level: "Case study",
     title: "Insider Trading: Anatomy of a Case",
     summary: "An interactive timeline that walks through a classic insider-trading fact pattern: who knew what, when, and how the elements of liability come together.",
