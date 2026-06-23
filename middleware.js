@@ -33,10 +33,22 @@ const ARTICLES = {
 };
 // ─────────────────────────────────────────────────────────────
 
+// ─── INTERACTIVE MODELS ──────────────────────────────────────
+// Key = the id field from your models.js entry. Add an entry
+// here whenever you publish a new model so LinkedIn/Twitter
+// previews show the right title and description for /model/<id>.
+const MODELS = {
+  'howey-test': {
+    title: 'The Howey Test, Interactively — Michael Gertsik',
+    description: 'Step through the four prongs of SEC v. Howey to see how a transaction is classified as an investment contract.',
+  },
+};
+// ─────────────────────────────────────────────────────────────
+
 const OG_IMAGE = 'https://www.michael-gertsik.com/LINKEDIN_IMAGE.png';
 
 export const config = {
-  matcher: ['/article/:path*', '/insight/:path*', '/writings', '/'],
+  matcher: ['/article/:path*', '/insight/:path*', '/model/:path*', '/writings', '/models', '/about', '/contact', '/'],
 };
 
 export default async function middleware(request) {
@@ -50,12 +62,22 @@ export default async function middleware(request) {
   let pageTitle = 'Michael Gertsik';
   let pageDesc = '2L · Fordham University School of Law';
 
-  const match = path.match(/^\/(article|insight)\/(.+)$/);
+  const match = path.match(/^\/(article|insight|model)\/(.+)$/);
+  const kind = match?.[1];
   const id = match?.[2];
 
-  if (id && ARTICLES[id]) {
+  if (kind === 'model' && id && MODELS[id]) {
+    pageTitle = MODELS[id].title;
+    pageDesc = MODELS[id].description;
+  } else if (id && ARTICLES[id]) {
     pageTitle = ARTICLES[id].title;
     pageDesc = ARTICLES[id].description;
+  } else if (path === '/models') {
+    pageTitle = 'Interactive Models — Michael Gertsik';
+    pageDesc = 'Hands-on interactive demonstrations of how law, finance, and technology systems work.';
+  } else if (path === '/about') {
+    pageTitle = 'About — Michael Gertsik';
+    pageDesc = '2L · Fordham University School of Law — working at the intersection of law, finance, and technology.';
   }
 
   html = html.replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${fullUrl}"`);
