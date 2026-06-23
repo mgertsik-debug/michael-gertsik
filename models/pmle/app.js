@@ -78,6 +78,7 @@
   let _net = null;    // network graph
   let _drag = null;   // dragged node
   let _lastCount = 0;
+  let _scrub = null;  // in-place scrubber updater for map/timeline (crossfade, no re-mount)
 
   function set(patch) {
     Object.assign(S, typeof patch === "function" ? patch(S) : patch);
@@ -172,6 +173,7 @@
 
   function renderLens() {
     if (!els.lensbox) return;
+    _scrub = null;
     const list = filtered();
     const reveal = revealed(list);
     const revIds = new Set(reveal.map((m) => m.id));
@@ -262,28 +264,51 @@
     }));
     return agg;
   }
+  function postureOf(a) {
+    if (!a) return null;
+    for (const p of POST_PRIORITY) if (a.postures.has(p)) return p;
+    return null;
+  }
   function mapLens(reveal) {
-    const agg = stateAgg(reveal);
     const sz = 34, gap = 5, ox = 10, oy = 8;
+    const liveAgg = () => stateAgg(revealed(filtered()));
+    const refs = {};
     const cells = Object.entries(TILES).map(([st, [r, c]]) => {
-      const a = agg[st];
-      let post = null;
-      if (a) for (const p of POST_PRIORITY) if (a.postures.has(p)) { post = p; break; }
-      const col = post ? POSTURE[post].c : "#1b211f";
-      const selOn = S.states.includes(st);
       const x = ox + c * (sz + gap), y = oy + r * (sz + gap);
-      const g = h("g", { key: st, className: a ? "pmle-cell" : "", style: { cursor: a ? "pointer" : "default" },
-        role: a ? "button" : null, "aria-label": a ? `${st}, ${a.count} matter${a.count > 1 ? "s" : ""}, ${post ? POSTURE[post].label : ""}` : null,
-        onMouseEnter: a ? (e) => showTip(e, st, [`${a.count} matter${a.count > 1 ? "s" : ""}`, post ? POSTURE[post].label : ""]) : null,
-        onMouseMove: a ? moveTip : null, onMouseLeave: hideTip,
-        onClick: a ? () => { if (!S.states.includes(st)) toggle("states", st); else select(a.matters[0].id); } : null },
-        h("rect", { x, y, width: sz, height: sz, rx: 6, fill: a ? col : "#13181699",
-          fillOpacity: a ? (0.18 + Math.min(a.count, 3) * 0.24) : 1,
-          stroke: selOn ? "#6EE7B7" : "rgba(255,255,255,.07)", strokeWidth: selOn ? 1.6 : 1 }),
-        h("text", { x: x + sz / 2, y: y + sz / 2 + 4, textAnchor: "middle", style: { font: `600 10px ${MONO}`, fill: a ? "#ECFDF5" : "#3a4441", pointerEvents: "none" } }, st),
-        a && a.count > 1 ? h("text", { x: x + sz - 5, y: y + 10, textAnchor: "end", style: { font: `600 8px ${MONO}`, fill: col, pointerEvents: "none" } }, a.count) : null);
+      const selOn = S.states.includes(st);
+      // Animatable presentation set via CSS (style) so fill / fill-opacity crossfade.
+      const rect = h("rect", { x, y, width: sz, height: sz, rx: 6,
+        stroke: selOn ? "#6EE7B7" : "rgba(255,255,255,.07)", strokeWidth: selOn ? 1.6 : 1,
+        style: { fill: "#131816", fillOpacity: "1", transition: "fill .4s ease, fill-opacity .4s ease" } });
+      const label = h("text", { x: x + sz / 2, y: y + sz / 2 + 4, textAnchor: "middle",
+        style: { font: `600 10px ${MONO}`, fill: "#3a4441", pointerEvents: "none", transition: "fill .4s ease" } }, st);
+      const count = h("text", { x: x + sz - 5, y: y + 10, textAnchor: "end",
+        style: { font: `600 8px ${MONO}`, fill: "#131816", pointerEvents: "none", opacity: "0", transition: "opacity .4s ease" } }, "");
+      const g = h("g", { key: st, "data-st": st, style: { cursor: "default", transition: "filter .15s" },
+        onMouseEnter: (e) => { const a = liveAgg()[st]; if (!a) return; const post = postureOf(a); showTip(e, st, [`${a.count} matter${a.count > 1 ? "s" : ""}`, post ? POSTURE[post].label : ""]); },
+        onMouseMove: moveTip, onMouseLeave: hideTip,
+        onClick: () => { const a = liveAgg()[st]; if (!a) return; if (!S.states.includes(st)) toggle("states", st); else select(a.matters[0].id); } },
+        rect, label, count);
+      refs[st] = { g, rect, label, count };
       return g;
     });
+    // paint to the current year, in place; reused for every scrub tick (no re-mount = no blink)
+    const applyMap = () => {
+      const agg = stateAgg(revealed(filtered()));
+      for (const st in refs) {
+        const ref = refs[st], a = agg[st], post = postureOf(a), col = post ? POSTURE[post].c : "#131816";
+        ref.rect.style.fill = a ? col : "#131816";
+        ref.rect.style.fillOpacity = a ? String(0.18 + Math.min(a.count, 3) * 0.24) : "1";
+        ref.label.style.fill = a ? "#ECFDF5" : "#3a4441";
+        ref.g.style.cursor = a ? "pointer" : "default";
+        ref.g.setAttribute("aria-label", a ? `${st}, ${a.count} matter${a.count > 1 ? "s" : ""}, ${post ? POSTURE[post].label : ""}` : st);
+        if (a) ref.g.classList.add("pmle-cell"); else ref.g.classList.remove("pmle-cell");
+        if (a && a.count > 1) { ref.count.textContent = a.count; ref.count.style.fill = col; ref.count.style.opacity = "1"; }
+        else ref.count.style.opacity = "0";
+      }
+    };
+    applyMap();
+    _scrub = applyMap;
     return h("div", null,
       lensHeader("UNITED STATES · POSTURE BY STATE", "This area of law is fought state-by-state. Color = current posture."),
       h("svg", { viewBox: "0 0 440 290", role: "img", "aria-label": "US cartogram colored by posture", style: { width: "100%", maxWidth: "560px", margin: "4px auto 0", display: "block" } }, cells),
@@ -298,21 +323,31 @@
     for (let yr = YEAR_MIN; yr <= YEAR_MAX; yr += 2) grid.push(h("g", { key: yr },
       h("line", { x1: x(yr), y1: 30, x2: x(yr), y2: y0 + FORUMS.length * laneH - 18, stroke: "rgba(255,255,255,.05)" }),
       h("text", { x: x(yr), y: 22, textAnchor: "middle", style: { font: `500 10px ${MONO}`, fill: "#4B5563" } }, yr)));
+    const nodeRefs = [];
     const lanes = FORUMS.map((f) => {
       const cy = y0 + FORUMS.indexOf(f) * laneH + laneH / 2;
       const nodes = list.filter((m) => m.forum === f).map((m) => {
         const on = revIds.has(m.id), oc = OUT[m.outcome], selOn = S.selectedId === m.id;
-        return h("g", { key: m.id, className: "pmle-node", "data-sel": selOn ? "1" : null, style: { cursor: "pointer", transition: "opacity .3s" }, opacity: on ? 1 : 0.18,
+        // opacity lives in CSS (style) so it crossfades via the transition below instead of snapping
+        const g = h("g", { key: m.id, className: "pmle-node", "data-sel": selOn ? "1" : null,
+          style: { cursor: "pointer", transition: "opacity .4s ease", opacity: on ? "1" : "0.18" },
           onMouseEnter: (e) => showTip(e, m.caption, [oc.label + " · " + yearOf(m.filedDate)]),
           onMouseMove: moveTip, onMouseLeave: hideTip, onClick: () => select(m.id) },
           h("circle", { cx: x(yearOf(m.filedDate)), cy, r: 6, fill: oc.c, stroke: selOn ? "#fff" : "rgba(0,0,0,.3)", strokeWidth: selOn ? 1.5 : 1 }),
           h("text", { x: x(yearOf(m.filedDate)), y: cy + 3, textAnchor: "middle", style: { font: `700 7px ${MONO}`, fill: "#06120e", pointerEvents: "none" } }, oc.l));
+        nodeRefs.push({ g, id: m.id });
+        return g;
       });
       return h("g", { key: f },
         h("line", { x1: padL, y1: cy, x2: W - padR, y2: cy, stroke: "rgba(255,255,255,.04)" }),
         h("text", { x: 14, y: cy + 3, style: { font: `500 9.5px ${MONO}`, fill: "#9CA3AF", letterSpacing: ".04em" } }, f),
         nodes);
     });
+    // crossfade matters in/out as the scrubber moves, in place (no re-mount = no blink)
+    _scrub = () => {
+      const rev = new Set(revealed(filtered()).map((m) => m.id));
+      nodeRefs.forEach(({ g, id }) => { g.style.opacity = rev.has(id) ? "1" : "0.18"; });
+    };
     return h("div", null,
       lensHeader("TIME SPINE · BY FORUM", "Each matter sits at its filing date, lane = forum, color = outcome."),
       h("svg", { viewBox: `0 0 ${W} ${y0 + FORUMS.length * laneH}`, role: "img", "aria-label": "Timeline of matters by forum", style: { width: "100%", marginTop: "2px" } }, grid, lanes),
@@ -439,27 +474,32 @@
 
   function scrubber(reveal) {
     return h("div", { style: { display: "flex", alignItems: "center", gap: "13px", marginTop: "12px", padding: "11px 15px", borderRadius: "12px", border: "1px solid rgba(255,255,255,.06)", background: "rgba(255,255,255,.02)" } },
-      h("button", { onClick: togglePlay, "aria-label": S.playing ? "Pause timeline" : "Play timeline",
+      h("button", { id: "pmle-scrub-btn", onClick: togglePlay, "aria-label": S.playing ? "Pause timeline" : "Play timeline",
         style: { width: "34px", height: "34px", flexShrink: "0", borderRadius: "9px", cursor: "pointer", border: "1px solid rgba(52,211,153,.4)", background: "rgba(52,211,153,.12)", color: "#6EE7B7", fontSize: "13px", display: "flex", alignItems: "center", justifyContent: "center" } },
         S.playing ? "■" : "▶"),
       h("div", { id: "pmle-scrub-year", style: { font: `600 13px ${MONO}`, color: "#ECFDF5", width: "44px" } }, S.scrubberYear),
-      h("input", { type: "range", min: YEAR_MIN, max: YEAR_MAX, value: S.scrubberYear, "aria-label": "Reveal matters up to year",
+      h("input", { id: "pmle-scrub-slider", type: "range", min: YEAR_MIN, max: YEAR_MAX, value: S.scrubberYear, "aria-label": "Reveal matters up to year",
         onInput: (e) => scrub(+e.target.value), style: { flex: "1", accentColor: "#34D399" } }),
       h("div", { id: "pmle-reveal-n", style: { font: `500 10px ${MONO}`, letterSpacing: ".1em", color: "#6B7280" } }, reveal.length + " revealed"));
   }
-  // live scrub without recreating the slider (keeps the drag smooth)
-  function scrub(yr) {
-    S.scrubberYear = yr; if (S.playing) { clearInterval(_play); S.playing = false; }
+  // Live scrub. Updates the map / timeline IN PLACE (CSS crossfade) instead of
+  // re-mounting the lens, so years fade into each other rather than blinking.
+  function setPlayBtn() { const b = document.getElementById("pmle-scrub-btn"); if (b) { b.textContent = S.playing ? "■" : "▶"; b.setAttribute("aria-label", S.playing ? "Pause timeline" : "Play timeline"); } }
+  function scrub(yr, fromPlay) {
+    S.scrubberYear = yr;
+    if (!fromPlay && S.playing) { clearInterval(_play); S.playing = false; setPlayBtn(); }
     const yEl = document.getElementById("pmle-scrub-year"); if (yEl) yEl.textContent = yr;
-    renderLens();
+    const sl = document.getElementById("pmle-scrub-slider"); if (sl && +sl.value !== yr) sl.value = yr;
+    if (_scrub) _scrub(); else renderLens();
     const rn = document.getElementById("pmle-reveal-n"); if (rn) rn.textContent = revealed(filtered()).length + " revealed";
   }
   function togglePlay() {
-    if (S.playing) { clearInterval(_play); set({ playing: false }); return; }
-    set((s) => ({ playing: true, scrubberYear: s.scrubberYear >= YEAR_MAX ? YEAR_MIN : s.scrubberYear }));
+    if (S.playing) { clearInterval(_play); S.playing = false; setPlayBtn(); return; }
+    if (S.scrubberYear >= YEAR_MAX) scrub(YEAR_MIN);
+    S.playing = true; setPlayBtn();
     _play = setInterval(() => {
-      if (S.scrubberYear >= YEAR_MAX) { clearInterval(_play); set({ playing: false }); return; }
-      set((s) => ({ scrubberYear: s.scrubberYear + 1 }));
+      if (S.scrubberYear >= YEAR_MAX) { clearInterval(_play); S.playing = false; setPlayBtn(); return; }
+      scrub(S.scrubberYear + 1, true);
     }, 650);
   }
 
