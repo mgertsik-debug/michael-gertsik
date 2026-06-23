@@ -57,7 +57,7 @@ const MODELS = [
     id: "securities-analyzer",
     category: "Securities Analysis",
     title: "Is It a Security? The Complete Analyzer",
-    summary: "A guided, authority-backed walkthrough of the full federal securities analysis. Classify the instrument, toggle every operative fact, and watch each choice drive the determination, with the controlling case law at every step.",
+    summary: "A guided, authority-backed walkthrough of the full federal securities analysis. Classify the instrument, toggle every operative fact, and watch each choice drive the determination with the controlling case law at every step.",
     status: "live",
     src: "/models/securities-analyzer.html",
   },
