@@ -387,7 +387,7 @@
     .model-search input:focus { border-color: var(--accent); background: rgba(52,211,153,0.05); }
     .topic-pills { display: flex; flex-wrap: wrap; gap: 8px; }
     .pill { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.03em; color: var(--text-dim); background: rgba(150,162,178,0.05); border: 1px solid var(--border); border-radius: 999px; padding: 8px 14px; cursor: pointer; transition: color .18s, border-color .18s, background .18s; display: inline-flex; align-items: center; gap: 7px; }
-    .pill:hover { color: var(--text); border-color: var(--border-bright); }
+    .pill:not(.active):hover { color: var(--accent); border-color: var(--accent); background: rgba(52,211,153,0.10); box-shadow: 0 0 16px rgba(52,211,153,0.28); }
     .pill.active { color: #06120c; background: linear-gradient(120deg, var(--accent), var(--accent2)); border-color: transparent; font-weight: 600; }
     .pill .pc { font-size: 10.5px; opacity: 0.7; }
 
