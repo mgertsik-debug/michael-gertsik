@@ -38,9 +38,9 @@ const ARTICLES = {
 // here whenever you publish a new model so LinkedIn/Twitter
 // previews show the right title and description for /model/<id>.
 const MODELS = {
-  'howey-test': {
-    title: 'The Howey Test, Interactively — Michael Gertsik',
-    description: 'Step through the four prongs of SEC v. Howey to see how a transaction is classified as an investment contract.',
+  'securities-analyzer': {
+    title: 'Is It a Security? — The Complete Analyzer | Michael Gertsik',
+    description: 'A guided, authority-backed walkthrough of the federal securities analysis — Howey, Reves, entity structures, real estate, and the statutory exceptions, with the controlling case law at every step.',
   },
 };
 // ─────────────────────────────────────────────────────────────
