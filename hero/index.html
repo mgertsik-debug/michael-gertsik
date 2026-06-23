@@ -187,7 +187,7 @@ class Component extends DCLogic {
       cx.fillStyle = '#ffffff';
       cx.textBaseline = 'middle';
       cx.textAlign = 'center';
-      // One row per statute, each drawn ONCE — no statute repeats on the floor.
+      // One row per statute, each drawn ONCE, no statute repeats on the floor.
       const rows = STR.length;
       for (let r = 0; r < rows; r++) {
         const y = (r + 0.5) / rows * 2048;
@@ -508,7 +508,7 @@ class Component extends DCLogic {
       if (statMat) statMat.uniforms.uScroll.value = time * 0.02;
 
       // Fade only in a thin sliver right at (and just past) the current visible
-      // edge — masks the off-screen recycle seam while keeping the row full
+      // edge, masks the off-screen recycle seam while keeping the row full
       // and at full opacity across the entire visible width.
       const visHalfW = visHalfH * (w / h);
       const fadeOuter = visHalfW + 0.5;
