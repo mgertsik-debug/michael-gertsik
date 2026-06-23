@@ -311,7 +311,7 @@
     _scrub = applyMap;
     return h("div", null,
       lensHeader("UNITED STATES · POSTURE BY STATE", "This area of law is fought state-by-state. Color = current posture."),
-      h("svg", { viewBox: "0 0 440 290", role: "img", "aria-label": "US cartogram colored by posture", style: { width: "100%", maxWidth: "560px", margin: "4px auto 0", display: "block" } }, cells),
+      h("svg", { viewBox: "0 0 440 322", role: "img", "aria-label": "US cartogram colored by posture", style: { width: "100%", maxWidth: "560px", margin: "4px auto 0", display: "block" } }, cells),
       legend([["Permitted", "#34D399"], ["Pending", "#FBBF24"], ["Regulator action", "#FB923C"], ["Enjoined", "#F87171"], ["Settled", "#60A5FA"], ["Silent", "#1b211f"]]));
   }
 
