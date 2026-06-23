@@ -177,7 +177,7 @@ class Component extends DCLogic {
     // ---------- statutory text on the floor (law as the foundation) ----------
     // Skipped on mobile to keep the scene light.
     let statTex = null, statMat = null, statPlane = null;
-    if (!isMobile) {
+    { /* floor statute text — enabled on mobile too */
       const STR = ['Securities Act of 1933', 'Securities Exchange Act of 1934', 'Maloney Act of 1938', 'Trust Indenture Act of 1939', 'Investment Company Act of 1940', 'Investment Advisers Act of 1940', 'Securities Investor Protection Act of 1970 (SIPA)', 'Insider Trading Sanctions Act of 1984', 'Insider Trading and Securities Fraud Enforcement Act of 1988', 'Securities Enforcement Remedies and Penny Stock Reform Act of 1990', 'Market Reform Act of 1990', 'Private Securities Litigation Reform Act of 1995 (PSLRA)', 'National Securities Markets Improvement Act of 1996 (NSMIA)', 'Securities Litigation Uniform Standards Act of 1998 (SLUSA)', 'Gramm-Leach-Bliley Act of 1999', 'Sarbanes-Oxley Act of 2002', 'Credit Rating Agency Reform Act of 2006', 'JOBS Act of 2012', 'FAST Act of 2015', 'Grain Futures Act of 1922', 'Commodity Exchange Act of 1936', 'Commodity Futures Trading Commission Act of 1974', 'Futures Trading Acts of 1978, 1982, and 1986', 'Commodity Futures Modernization Act of 2000 (CFMA)', 'Food, Conservation, and Energy Act of 2008'];
       const cv = document.createElement('canvas');
       cv.width = 2048; cv.height = 2048;
