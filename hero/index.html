@@ -285,11 +285,28 @@ class Component extends DCLogic {
       return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
     }
 
+    let trend = 0.22;
     function genCandle(prevClose) {
-      const drift = -prevClose * 0.04;
+      // Soft walls keep the series inside the visible band and force clean
+      // reversals there, so it always reads as a trend (up or down) and never
+      // flatlines or runs off screen.
+      const HI = 4.0, LO = -2.2;
+      if (prevClose > HI) {
+        trend = -Math.abs(trend) - 0.06;
+      } else if (prevClose < LO) {
+        trend = Math.abs(trend) + 0.06;
+      } else {
+        // occasional regime change -> sustained runs in a new direction
+        if (Math.random() < 0.035) trend = (Math.random() < 0.5 ? -1 : 1) * (0.14 + Math.random() * 0.34);
+        trend += (Math.random() - 0.5) * 0.03;
+      }
+      if (trend > 0.5) trend = 0.5;
+      if (trend < -0.5) trend = -0.5;
       const volatile = Math.random() < 0.06;
-      const mag = volatile ? 4.6 : 1.0;
-      let close = prevClose + drift + randn() * 0.55 * mag;
+      const mag = volatile ? 3.6 : 1.0;
+      let close = prevClose + trend + randn() * 0.38 * mag;
+      if (close > 4.7) close = 4.7;
+      if (close < -2.9) close = -2.9;
       const open = prevClose;
       const hi = Math.max(open, close) + Math.abs(randn()) * 0.4 + 0.12;
       const lo = Math.min(open, close) - Math.abs(randn()) * 0.4 - 0.12;
