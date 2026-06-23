@@ -39,8 +39,8 @@ const ARTICLES = {
 // previews show the right title and description for /model/<id>.
 const MODELS = {
   'securities-analyzer': {
-    title: 'Is It a Security? — The Complete Analyzer | Michael Gertsik',
-    description: 'A guided, authority-backed walkthrough of the federal securities analysis — Howey, Reves, entity structures, real estate, and the statutory exceptions, with the controlling case law at every step.',
+    title: 'Is It a Security? The Complete Analyzer | Michael Gertsik',
+    description: 'A guided, authority-backed walkthrough of the federal securities analysis: Howey, Reves, entity structures, real estate, and the statutory exceptions, with the controlling case law at every step.',
   },
 };
 // ─────────────────────────────────────────────────────────────
@@ -73,14 +73,14 @@ export default async function middleware(request) {
     pageTitle = ARTICLES[id].title;
     pageDesc = ARTICLES[id].description;
   } else if (path === '/insights' || path === '/writings') {
-    pageTitle = 'Insights — Michael Gertsik';
+    pageTitle = 'Insights | Michael Gertsik';
     pageDesc = 'Timely commentary and analysis on the technology, regulation, and market dynamics shaping modern finance.';
   } else if (path === '/models') {
-    pageTitle = 'Interactive Models — Michael Gertsik';
+    pageTitle = 'Interactive Models | Michael Gertsik';
     pageDesc = 'Hands-on interactive demonstrations of how law, finance, and technology systems work.';
   } else if (path === '/about') {
-    pageTitle = 'About — Michael Gertsik';
-    pageDesc = '2L · Fordham University School of Law — working at the intersection of law, finance, and technology.';
+    pageTitle = 'About | Michael Gertsik';
+    pageDesc = '2L · Fordham University School of Law, working at the intersection of law, finance, and technology.';
   }
 
   html = html.replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${fullUrl}"`);
@@ -92,7 +92,7 @@ export default async function middleware(request) {
   html = html.replace(/<link id="canonical-url" rel="canonical" href="[^"]*"/, `<link id="canonical-url" rel="canonical" href="${fullUrl}"`);
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`);
 
-  // Inject og:image — always your LINKEDIN_IMAGE.png
+  // Inject og:image: always your LINKEDIN_IMAGE.png
   if (!html.includes('og:image')) {
     html = html.replace(
       /<meta property="og:url"/,

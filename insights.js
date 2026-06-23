@@ -1,5 +1,5 @@
 // ============================================================
-//  YOUR INSIGHTS — Edit this file to add new entries.
+//  YOUR INSIGHTS: Edit this file to add new entries.
 //
 //  Insights = short, timely commentary on news, enforcement
 //  actions, regulatory updates, and brief analysis.

@@ -1,8 +1,8 @@
-# Your Website — Quick Start Guide
+# Your Website: Quick Start Guide
 
 ## Files in this folder
-- `index.html` — Your full website (home + blog)
-- `posts.js`   — Your blog posts (edit this to publish new articles)
+- `index.html`: Your full website (home + blog)
+- `posts.js`: Your blog posts (edit this to publish new articles)
 
 ---
 
@@ -37,14 +37,14 @@ Copy this template and paste it at the **very top** of the POSTS array (right af
 },
 ```
 
-Then re-upload the updated `posts.js` file to Netlify (drag & drop again — it updates automatically).
+Then re-upload the updated `posts.js` file to Netlify (drag & drop again, and it updates automatically).
 
 ---
 
 ## Tips
 - Categories can be anything: "Regulation", "Legislation", "Market Structure", "Commentary", etc.
 - The `content` field supports basic HTML: `<p>`, `<h3>`, `<em>`, `<strong>`, `<a href="...">link</a>`
-- Posts appear in the order they are listed — newest first (top of array)
+- Posts appear in the order they are listed, newest first (top of array)
 
 ---
 

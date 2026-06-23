@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Is It a Security? — The Complete Analyzer</title>
+<title>Is It a Security? The Complete Analyzer</title>
 <style>
   :root{
     --bg:#060912; --surface:#0d1426; --surface2:#121b30; --surface3:#16223c;
@@ -193,21 +193,21 @@
 <div class="wrap">
   <div class="eyebrow">Securities Analysis · Interactive</div>
   <h1><span class="grad">Is It a Security?</span></h1>
-  <p class="lede">A step-by-step walkthrough of the federal securities analysis. Answer one question at a time; the panel on the right records each finding and builds toward a determination under the Securities Act of 1933. The controlling case law sits under "Case law &amp; reasoning" on every option — open it only if you want the depth.</p>
+  <p class="lede">A step-by-step walkthrough of the federal securities analysis. Answer one question at a time; the panel on the right records each finding and builds toward a determination under the Securities Act of 1933. The controlling case law sits under "Case law &amp; reasoning" on every option. Open it only if you want the depth.</p>
 
   <div class="stepper" id="stepper"></div>
 
   <details class="ref">
-    <summary><span class="ic">+</span> First principles &amp; § 2(a)(1) — open the reference</summary>
+    <summary><span class="ic">+</span> First principles &amp; § 2(a)(1): open the reference</summary>
     <div class="ref-body">
-      <h4>The statutory definition — § 2(a)(1), Securities Act of 1933</h4>
+      <h4>The statutory definition: § 2(a)(1), Securities Act of 1933</h4>
       <div class="stat">"Any note, stock, treasury stock, security future, security-based swap, bond, debenture, evidence of indebtedness, certificate of interest or participation in any profit-sharing agreement … transferable share, <em>investment contract</em> … certificate of deposit for a security … any put, call, straddle, option, or privilege on any security … or, in general, any interest or instrument commonly known as a 'security' …"</div>
-      <p>Intentionally broad — drafted to reach the countless schemes devised to use other people's money on the promise of profits. An instrument either is a security or it is not; there is no in-between.</p>
+      <p>Intentionally broad, drafted to reach the countless schemes devised to use other people's money on the promise of profits. An instrument either is a security or it is not; there is no in-between.</p>
       <h4>Three operating principles</h4>
       <ul>
-        <li><b>The "duck" test.</b> If it functions like a security — people invest money expecting profits from the efforts of others — it is one, whatever the label says.</li>
+        <li><b>The "duck" test.</b> If it functions like a security (people invest money expecting profits from the efforts of others), it is one, whatever the label says.</li>
         <li><b>The regime is mandatory.</b> Once an instrument is a security, federal law attaches automatically; you cannot re-label your way out.</li>
-        <li><b>No waiver, no opt-in (§ 14).</b> Any clause waiving compliance is void — and parties cannot opt <em>into</em> securities law if the instrument does not qualify.</li>
+        <li><b>No waiver, no opt-in (§ 14).</b> Any clause waiving compliance is void, and parties cannot opt <em>into</em> securities law if the instrument does not qualify.</li>
       </ul>
       <h4>How this tool is organized</h4>
       <p>① <b>Classify</b> the instrument → ② apply the <b>governing test</b> (Landreth for stock, Reves for notes, Howey for everything else) → ③ check the <b>exceptions</b> → ✓ <b>result</b>. Not every path uses every stage.</p>
@@ -219,7 +219,7 @@
     <aside class="trail" id="trail"></aside>
   </div>
 
-  <p class="disclaimer"><b>Educational analytical aid — not legal advice.</b> Models the leading federal framework (Securities Act of 1933 § 2(a)(1); <span class="cite">SEC v. Howey</span>; <span class="cite">Reves v. Ernst &amp; Young</span>; and progeny). Classification is fact-specific, jurisdiction-dependent, and evolving. Identify your circuit's commonality standard and consult primary authority before relying on any conclusion.</p>
+  <p class="disclaimer"><b>Educational analytical aid, not legal advice.</b> Models the leading federal framework (Securities Act of 1933 § 2(a)(1); <span class="cite">SEC v. Howey</span>; <span class="cite">Reves v. Ernst &amp; Young</span>; and progeny). Classification is fact-specific, jurisdiction-dependent, and evolving. Identify your circuit's commonality standard and consult primary authority before relying on any conclusion.</p>
 </div>
 
 <script>
@@ -240,26 +240,26 @@ var STAGES = [
    ============================================================ */
 var NODES = {
 
-  /* ---- STAGE 1 — CLASSIFY ---- */
+  /* ---- STAGE 1: CLASSIFY ---- */
   start: {
     stage:1, crumb:'Step 1 of the analysis',
     q:'What kind of instrument are you analyzing?',
-    plain:'<p>Start here. The category decides which test governs — so pick the description that best fits your facts, looking at how the deal really works rather than what it is called.</p>',
+    plain:'<p>Start here. The category decides which test governs, so pick the description that best fits your facts, looking at how the deal really works rather than what it is called.</p>',
     instruction:'Choose one',
     options:[
-      { t:'Corporate stock', d:'An instrument called "stock" — common or preferred shares in a company.',
-        auth:'<p>Stock is treated categorically. <span class="cite">Landreth Timber Co. v. Landreth</span>, 471 U.S. 681 (1985), held that stock bearing the usual characteristics of stock is a security per se, and rejected the "sale of business" doctrine — buying or selling even 100% of the stock is a securities transaction.</p>',
+      { t:'Corporate stock', d:'An instrument called "stock": common or preferred shares in a company.',
+        auth:'<p>Stock is treated categorically. <span class="cite">Landreth Timber Co. v. Landreth</span>, 471 U.S. 681 (1985), held that stock bearing the usual characteristics of stock is a security per se, and rejected the "sale of business" doctrine: buying or selling even 100% of the stock is a securities transaction.</p>',
         next:'stock' },
-      { t:'A note or other debt (you lend, they repay)', d:'A note, demand note, debenture, or bond — borrowing with a promise to repay.',
-        auth:'<p>Debt runs through the family-resemblance test of <span class="cite">Reves v. Ernst &amp; Young</span>, 494 U.S. 56 (1990) — not <span class="cite">Howey</span>. Debentures and bonds are securities; notes get the four-factor analysis.</p>',
+      { t:'A note or other debt (you lend, they repay)', d:'A note, demand note, debenture, or bond: borrowing with a promise to repay.',
+        auth:'<p>Debt runs through the family-resemblance test of <span class="cite">Reves v. Ernst &amp; Young</span>, 494 U.S. 56 (1990), not <span class="cite">Howey</span>. Debentures and bonds are securities; notes get the four-factor analysis.</p>',
         next:'debtType' },
       { t:'An interest in a business entity', d:'A partnership interest, LLC membership, or corporate shares.',
-        auth:'<p>Entity interests turn on <span class="cite">Howey</span>\'s third prong — is the holder genuinely passive, or do they retain real control? The operative documents govern, not the label.</p>',
+        auth:'<p>Entity interests turn on <span class="cite">Howey</span>\'s third prong: is the holder genuinely passive, or do they retain real control? The operative documents govern, not the label.</p>',
         next:'entity' },
       { t:'A real-estate purchase or lease', d:'Buying or leasing real property.',
         auth:'<p>A plain sale or lease is not a security. It can become one where returns are sold as flowing from others\' development or management efforts (rental-pool resort condos). Compare <span class="cite">Hocking v. Dubois</span> with <span class="cite">Salameh v. Tarsadia Hotel</span> (9th Cir.).</p>',
         next:'realEstate' },
-      { t:'Some other scheme, contract, or arrangement', d:'Any other plan where you commit value hoping for a return — the catch-all.',
+      { t:'Some other scheme, contract, or arrangement', d:'Any other plan where you commit value hoping for a return, the catch-all.',
         auth:'<p>Apply the <span class="cite">Howey</span> investment-contract test directly: (1) investment of money, (2) in a common enterprise, (3) expecting profits predominantly from the efforts of others.</p>',
         next:'howey_p1', set:{ctx:'generic'} },
     ]
@@ -271,11 +271,11 @@ var NODES = {
     plain:'<p>Those characteristics are: dividends tied to profits, the share is negotiable, it can be pledged as collateral, it carries voting rights in proportion to shares, and it can rise in value. If they\'re all there, the "stock" label and reality line up.</p>',
     instruction:'Choose one',
     options:[
-      { t:'Yes — ordinary stock with those traits', d:'Dividends, negotiable, pledgeable, voting, can appreciate.',
-        auth:'<p><span class="cite">Landreth</span>, 471 U.S. 681 (1985): stock with the usual characteristics is a security as a matter of law — no <span class="cite">Howey</span> analysis needed — and a sale of even a 100% block is still a securities transaction.</p>',
+      { t:'Yes, ordinary stock with those traits', d:'Dividends, negotiable, pledgeable, voting, can appreciate.',
+        auth:'<p><span class="cite">Landreth</span>, 471 U.S. 681 (1985): stock with the usual characteristics is a security as a matter of law (no <span class="cite">Howey</span> analysis needed), and a sale of even a 100% block is still a securities transaction.</p>',
         finding:{phase:'Classify', text:'<b>Stock with the usual characteristics</b> → security per se (<span class="cite">Landreth</span>).'},
         next:'term_security', lead:'yes' },
-      { t:'No — "stock" in name only', d:'E.g., co-op "stock" usable only to lease an apartment — non-transferable, no profit potential.',
+      { t:'No, "stock" in name only', d:'E.g., co-op "stock" usable only to lease an apartment: non-transferable, no profit potential.',
         auth:'<p><span class="cite">United Housing Found. v. Forman</span>, 421 U.S. 837 (1975): the name isn\'t dispositive. Where the instrument lacks stock\'s characteristics, courts look to economic reality and apply <span class="cite">Howey</span>.</p>',
         finding:{phase:'Classify', text:'Labeled "stock" but lacking stock\'s traits → apply <span class="cite">Howey</span> on economic reality (<span class="cite">Forman</span>).'},
         next:'howey_p1', set:{ctx:'stocklike'} },
@@ -288,13 +288,13 @@ var NODES = {
     plain:'<p>Term is a quick sorter. Long- and medium-term debt are securities outright; only shorter notes need the full analysis.</p>',
     instruction:'Choose one',
     options:[
-      { t:'Bond — long-term (10+ years)', d:'A long-term debt security.',
+      { t:'Bond: long-term (10+ years)', d:'A long-term debt security.',
         auth:'<p>Bonds are within the enumerated § 2(a)(1) list and are securities.</p>',
         finding:{phase:'Classify', text:'<b>Bond</b> (long-term) → security.'}, next:'term_security', lead:'yes' },
-      { t:'Debenture — medium-term (~5–9 years)', d:'A medium-term, usually unsecured debt security.',
+      { t:'Debenture: medium-term (~5–9 years)', d:'A medium-term, usually unsecured debt security.',
         auth:'<p>Debentures are securities under the enumerated definition.</p>',
         finding:{phase:'Classify', text:'<b>Debenture</b> (medium-term) → security.'}, next:'term_security', lead:'yes' },
-      { t:'Note — short-term or a demand note', d:'Run the four-factor Reves test.',
+      { t:'Note: short-term or a demand note', d:'Run the four-factor Reves test.',
         auth:'<p><span class="cite">Reves</span>, 494 U.S. 56 (1990): every note is presumed a security; that presumption is rebutted only if it strongly resembles a recognized family of commercial (non-security) notes, judged by four factors.</p>',
         next:'reves' },
     ]
@@ -303,31 +303,31 @@ var NODES = {
   reves: {
     stage:2, crumb:'Governing test · Reves', type:'reves',
     q:'Apply the Reves four-factor test.',
-    plain:'<p>A note starts out <b>presumed to be a security</b>. It loses that status only if, on balance, it looks like ordinary commercial lending. For each factor, pick the side that fits your facts — the reading at the bottom updates as you go.</p>',
+    plain:'<p>A note starts out <b>presumed to be a security</b>. It loses that status only if, on balance, it looks like ordinary commercial lending. For each factor, pick the side that fits your facts. The reading at the bottom updates as you go.</p>',
     instruction:'Set each factor, then evaluate'
   },
 
   entity: {
     stage:1, crumb:'Classify · Entity',
     q:'Which kind of entity interest is it?',
-    plain:'<p>All four roads lead to the same question — how passive is the holder? — but each form starts with a different default.</p>',
+    plain:'<p>All four roads lead to the same question (how passive is the holder?), but each form starts with a different default.</p>',
     instruction:'Choose one',
     options:[
       { t:'General partnership interest', d:'A partner with the statutory right to help manage the business.',
-        auth:'<p>Usually <b>not</b> a security — general partners share management power, so they don\'t rely on others\' efforts. Not a per se rule, though: if those powers are illusory and the partner is really passive, it is a security. <span class="cite">Williamson v. Tucker</span>; <span class="cite">Miller v. Cent. Chinchilla Grp.</span> (8th Cir. 1974).</p>',
-        finding:{phase:'Classify', text:'<b>General partnership</b> interest — depends on whether management rights are real or illusory (<span class="cite">Williamson</span>).'},
+        auth:'<p>Usually <b>not</b> a security: general partners share management power, so they don\'t rely on others\' efforts. Not a per se rule, though: if those powers are illusory and the partner is really passive, it is a security. <span class="cite">Williamson v. Tucker</span>; <span class="cite">Miller v. Cent. Chinchilla Grp.</span> (8th Cir. 1974).</p>',
+        finding:{phase:'Classify', text:'<b>General partnership</b> interest: depends on whether management rights are real or illusory (<span class="cite">Williamson</span>).'},
         next:'howey_p1', set:{ctx:'gp'} },
       { t:'Limited partnership interest', d:'A limited partner, typically with little or no management role.',
-        auth:'<p>Usually <b>a security</b> — limited partners resemble passive shareholders. The exception: an LP agreement granting substantial, invasive control (veto power over major decisions) can make the holder too active.</p>',
-        finding:{phase:'Classify', text:'<b>Limited partnership</b> interest — usually a security unless the LP holds substantial control.'},
+        auth:'<p>Usually <b>a security</b>: limited partners resemble passive shareholders. The exception: an LP agreement granting substantial, invasive control (veto power over major decisions) can make the holder too active.</p>',
+        finding:{phase:'Classify', text:'<b>Limited partnership</b> interest: usually a security unless the LP holds substantial control.'},
         next:'howey_p1', set:{ctx:'lp'} },
       { t:'LLC membership interest', d:'Turns entirely on the operating agreement.',
         auth:'<p>Depends on members\' actual rights. Passive members (manager-managed) → usually a security; substantial control (member-managed) → usually not. Cf. McDonald\'s owner-operator model, built to require active management and avoid security status.</p>',
-        finding:{phase:'Classify', text:'<b>LLC</b> interest — depends on the operating agreement and members\' real control.'},
+        finding:{phase:'Classify', text:'<b>LLC</b> interest: depends on the operating agreement and members\' real control.'},
         next:'howey_p1', set:{ctx:'llc'} },
       { t:'Corporate shares (a shareholder)', d:'An ordinary shareholder.',
-        auth:'<p>Shareholders have no management power under state corporate law — inherently passive — so the efforts-of-others prong is met by default and shares are usually securities.</p>',
-        finding:{phase:'Classify', text:'<b>Corporate shares</b> — shareholders are passive by default; efforts-of-others met.'},
+        auth:'<p>Shareholders have no management power under state corporate law (inherently passive), so the efforts-of-others prong is met by default and shares are usually securities.</p>',
+        finding:{phase:'Classify', text:'<b>Corporate shares</b>: shareholders are passive by default; efforts-of-others met.'},
         next:'howey_p1', set:{ctx:'corp'} },
     ]
   },
@@ -343,87 +343,87 @@ var NODES = {
         finding:{phase:'Classify', text:'Standard sale/lease for personal use → <b>not</b> a security.'},
         next:'term_not', lead:'no' },
       { t:'As an income unit run by a manager (rental pool)', d:'You won\'t occupy it; income depends on a manager renting and operating it.',
-        auth:'<p>Securitized real estate. <span class="cite">Hocking v. Dubois</span> (9th Cir.): a condo sold with a rental-pool arrangement (owners shared rental income; a third party managed) was a security. Contrast <span class="cite">Salameh v. Tarsadia Hotel</span> (9th Cir.): no investment expectation, and the management agreement came ~a year later and wasn\'t part of one inducement — not a security.</p>',
+        auth:'<p>Securitized real estate. <span class="cite">Hocking v. Dubois</span> (9th Cir.): a condo sold with a rental-pool arrangement (owners shared rental income; a third party managed) was a security. Contrast <span class="cite">Salameh v. Tarsadia Hotel</span> (9th Cir.): no investment expectation, and the management agreement came ~a year later and wasn\'t part of one inducement, so not a security.</p>',
         finding:{phase:'Classify', text:'Managed rental-pool unit → apply <span class="cite">Howey</span> (<span class="cite">Hocking</span>; cf. <span class="cite">Salameh</span>).'},
         next:'howey_p1', set:{ctx:'realestate'} },
     ]
   },
 
-  /* ---- STAGE 2 — HOWEY ---- */
+  /* ---- STAGE 2: HOWEY ---- */
   howey_p1: {
     stage:2, crumb:'Governing test · Howey, prong 1 of 3',
-    q:'Prong 1 — Is there an investment of money?',
-    plain:'<p>"Money" means anything of value (cash, crypto, gold). The real question is <em>why</em> the buyer is paying. A capitalist pays expecting a return; a consumer pays to use or consume something — and only the capitalist satisfies this prong.</p>',
+    q:'Prong 1: Is there an investment of money?',
+    plain:'<p>"Money" means anything of value (cash, crypto, gold). The real question is <em>why</em> the buyer is paying. A capitalist pays expecting a return; a consumer pays to use or consume something, and only the capitalist satisfies this prong.</p>',
     rule:{k:'Key test', text:'<b>Economic reality vs. use/consumption</b> (<span class="cite">Forman</span>). Marketing and intent control, not the name.'},
     instruction:'Choose one',
     options:[
       { t:'To earn a profit or return (investor motive)', d:'Value committed hoping for appreciation, income, or resale gain.',
         auth:'<p><span class="cite">Forman</span>, 421 U.S. 837 (1975). <em>Jaguar hypo:</em> pitching "put $80,000 down now, resell later for profit" to the public to raise capital looks like an investment; selling to collectors who intend to drive the car is a consumption-driven delivery contract, not a security.</p>',
-        finding:{phase:'Howey · 1', text:'Investment of money — <b>met</b> (profit motive; <span class="cite">Forman</span>).'},
+        finding:{phase:'Howey · 1', text:'Investment of money: <b>met</b> (profit motive; <span class="cite">Forman</span>).'},
         next:'howey_p2' },
       { t:'To use or consume something (consumer motive)', d:'Value committed to obtain something to use, occupy, or consume.',
-        auth:'<p><span class="cite">Forman</span>: tenants who bought co-op "stock" to get an apartment were consumers — the prong failed, even though a profit was theoretically possible.</p>',
-        finding:{phase:'Howey · 1', text:'Investment of money — <b>not met</b> (consumption motive). No investment contract (<span class="cite">Forman</span>).'},
+        auth:'<p><span class="cite">Forman</span>: tenants who bought co-op "stock" to get an apartment were consumers; the prong failed, even though a profit was theoretically possible.</p>',
+        finding:{phase:'Howey · 1', text:'Investment of money: <b>not met</b> (consumption motive). No investment contract (<span class="cite">Forman</span>).'},
         next:'term_not', lead:'no' },
     ]
   },
 
   howey_p2: {
     stage:2, crumb:'Governing test · Howey, prong 2 of 3', type:'common',
-    q:'Prong 2 — Is there a common enterprise?',
-    plain:'<p>The circuits disagree on what this requires, and the answer can turn on it. So first pick your circuit\'s standard — then you\'ll only be shown the facts that matter for that standard.</p>',
+    q:'Prong 2: Is there a common enterprise?',
+    plain:'<p>The circuits disagree on what this requires, and the answer can turn on it. So first pick your circuit\'s standard; then you\'ll only be shown the facts that matter for that standard.</p>',
     instruction:'First, select your circuit\'s standard'
   },
 
   howey_p3: {
     stage:2, crumb:'Governing test · Howey, prong 3 of 3',
-    q:'Prong 3 — Do the profits come from the efforts of others?',
-    plain:'<p>The investor must rely <em>predominantly</em> on someone else\'s managerial or entrepreneurial work (the word "solely" was dropped — <span class="cite">Koscot</span>). Those efforts must be the post-investment activity that produces the return: "I invest the capital, you invest the labor."</p>',
-    rule:{k:'Note', text:'A <b>fixed</b> return still counts (<span class="cite">SEC v. Edwards</span>, 540 U.S. 389 (2004) — fixed 14% payphone scheme held a security).'},
+    q:'Prong 3: Do the profits come from the efforts of others?',
+    plain:'<p>The investor must rely <em>predominantly</em> on someone else\'s managerial or entrepreneurial work (the word "solely" was dropped; see <span class="cite">Koscot</span>). Those efforts must be the post-investment activity that produces the return: "I invest the capital, you invest the labor."</p>',
+    rule:{k:'Note', text:'A <b>fixed</b> return still counts (<span class="cite">SEC v. Edwards</span>, 540 U.S. 389 (2004): fixed 14% payphone scheme held a security).'},
     ctxNote:{
-      gp:{k:'Your context — GP', text:'Real, exercisable management rights → fails this prong (not a security). Illusory rights / true passivity → met (<span class="cite">Williamson</span>; <span class="cite">Chinchilla</span>).'},
-      lp:{k:'Your context — LP', text:'Passive LP → met (security). Substantial, invasive control → fails (not a security).'},
-      llc:{k:'Your context — LLC', text:'Passive (manager-managed) members → met. Substantial control (member-managed; McDonald\'s owner-operator) → fails.'},
-      corp:{k:'Your context — Corp', text:'Shareholders are passive by default — this prong is ordinarily met.'},
-      realestate:{k:'Your context — Real estate', text:'Manager rents/operates and owner is passive → met (<span class="cite">Hocking</span>). Owner controls the property / no real investment inducement → fails (<span class="cite">Salameh</span>).'}
+      gp:{k:'Your context: GP', text:'Real, exercisable management rights → fails this prong (not a security). Illusory rights / true passivity → met (<span class="cite">Williamson</span>; <span class="cite">Chinchilla</span>).'},
+      lp:{k:'Your context: LP', text:'Passive LP → met (security). Substantial, invasive control → fails (not a security).'},
+      llc:{k:'Your context: LLC', text:'Passive (manager-managed) members → met. Substantial control (member-managed; McDonald\'s owner-operator) → fails.'},
+      corp:{k:'Your context: Corp', text:'Shareholders are passive by default, so this prong is ordinarily met.'},
+      realestate:{k:'Your context: Real estate', text:'Manager rents/operates and owner is passive → met (<span class="cite">Hocking</span>). Owner controls the property / no real investment inducement → fails (<span class="cite">Salameh</span>).'}
     },
     instruction:'Choose one',
     options:[
       { t:'Mostly from a promoter or manager (investor is passive)', d:'Someone else does the essential post-investment work that generates the return.',
         auth:'<p><span class="cite">SEC v. Howey</span>, 328 U.S. 293 (1946); <span class="cite">Koscot</span> (need not be "solely"); <span class="cite">Edwards</span> (fixed return still qualifies). The investor entrusts control and waits for the return.</p>',
-        finding:{phase:'Howey · 3', text:'Efforts of others — <b>met</b> (investor passive; <span class="cite">Howey</span>/<span class="cite">Edwards</span>).'},
+        finding:{phase:'Howey · 3', text:'Efforts of others: <b>met</b> (investor passive; <span class="cite">Howey</span>/<span class="cite">Edwards</span>).'},
         next:'exceptions' },
       { t:'Significantly from the investor\'s own efforts / control', d:'The holder manages the venture or has genuine, exercisable control.',
-        auth:'<p>Where the investor\'s own efforts predominate — an active general partner, a controlling LLC member, an owner-operator — the prong fails and there is no investment contract. <span class="cite">Williamson v. Tucker</span>.</p>',
-        finding:{phase:'Howey · 3', text:'Efforts of others — <b>not met</b> (investor has real control). No investment contract.'},
+        auth:'<p>Where the investor\'s own efforts predominate (an active general partner, a controlling LLC member, an owner-operator), the prong fails and there is no investment contract. <span class="cite">Williamson v. Tucker</span>.</p>',
+        finding:{phase:'Howey · 3', text:'Efforts of others: <b>not met</b> (investor has real control). No investment contract.'},
         next:'term_not', lead:'no' },
     ]
   },
 
-  /* ---- STAGE 3 — EXCEPTIONS ---- */
+  /* ---- STAGE 3: EXCEPTIONS ---- */
   exceptions: {
     stage:3, crumb:'Exceptions · all three prongs met',
     q:'All three Howey prongs are met. Does an exception still apply?',
-    plain:'<p>Even a textbook investment contract can fall outside the securities laws in two narrow situations. Check both — pick the first only if neither applies.</p>',
-    rule:{k:'The two exceptions', text:'<b>(1) Better-suited regime</b> — another scheme governs (<span class="cite">Teamsters v. Daniel</span>, ERISA pension; <span class="cite">Marine Bank v. Weaver</span>, bank CD). <b>(2) Uniqueness</b> — only one buyer in the world would want it (<span class="cite">Marine Bank</span>); novelty is not uniqueness.'},
+    plain:'<p>Even a textbook investment contract can fall outside the securities laws in two narrow situations. Check both. Pick the first only if neither applies.</p>',
+    rule:{k:'The two exceptions', text:'<b>(1) Better-suited regime</b>: another scheme governs (<span class="cite">Teamsters v. Daniel</span>, ERISA pension; <span class="cite">Marine Bank v. Weaver</span>, bank CD). <b>(2) Uniqueness</b>: only one buyer in the world would want it (<span class="cite">Marine Bank</span>); novelty is not uniqueness.'},
     instruction:'Choose one',
     options:[
-      { t:'No — neither exception applies', d:'No alternative regime governs, and ordinary investors could want it.',
-        auth:'<p>With all three prongs met and no exception, it is an investment contract and therefore a security — registration and disclosure attach unless an exemption applies.</p>',
+      { t:'No, neither exception applies', d:'No alternative regime governs, and ordinary investors could want it.',
+        auth:'<p>With all three prongs met and no exception, it is an investment contract and therefore a security: registration and disclosure attach unless an exemption applies.</p>',
         finding:{phase:'Exceptions', text:'Neither exception applies → the investment contract <b>is a security</b>.'},
         next:'term_security', lead:'yes' },
-      { t:'Yes — a better-suited regulatory regime governs', d:'E.g., an ERISA pension, or a federally regulated bank CD.',
+      { t:'Yes, a better-suited regulatory regime governs', d:'E.g., an ERISA pension, or a federally regulated bank CD.',
         auth:'<p><span class="cite">Teamsters v. Daniel</span>, 439 U.S. 551 (1979) (ERISA); <span class="cite">Marine Bank v. Weaver</span>, 455 U.S. 551 (1982) (bank CD). A comprehensive alternative regime makes the Securities Act unnecessary.</p>',
         finding:{phase:'Exceptions', text:'Howey met, but a <b>better-suited regime</b> governs → not a security (<span class="cite">Daniel</span>/<span class="cite">Marine Bank</span>).'},
         next:'term_not_exc', lead:'no' },
-      { t:'Yes — the arrangement is genuinely unique', d:'Essentially only one person could ever want it (not merely new).',
+      { t:'Yes, the arrangement is genuinely unique', d:'Essentially only one person could ever want it (not merely new).',
         auth:'<p><span class="cite">Marine Bank v. Weaver</span>: a privately negotiated deal attractive only to two neighboring landowners was too unique to be a security. The bar is high.</p>',
         finding:{phase:'Exceptions', text:'Howey met, but it is <b>uniquely</b> attractive to one buyer → not a security (<span class="cite">Marine Bank</span>).'},
         next:'term_not_exc', lead:'no' },
     ]
   },
 
-  /* ---- STAGE 4 — TERMINALS ---- */
+  /* ---- STAGE 4: TERMINALS ---- */
   term_security:{ stage:4, terminal:true, result:'SECURITY' },
   term_not:{ stage:4, terminal:true, result:'NOT' },
   term_not_exc:{ stage:4, terminal:true, result:'NOT', exception:true },
@@ -525,7 +525,7 @@ var REVES_FACTORS = [
     inv:{lbl:'Investment', t:'The financial world would treat it as an investment.'},
     com:{lbl:'Commercial', t:'Reasonably seen as a commercial or consumer arrangement.'} },
   { key:'riskreducer', q:'4 · Is the risk reduced some other way?', sub:'A factor that makes the Securities Act unnecessary.',
-    inv:{lbl:'No', t:'No collateral, insurance, or other regime — the Act is needed.'},
+    inv:{lbl:'No', t:'No collateral, insurance, or other regime, so the Act is needed.'},
     com:{lbl:'Yes', t:'Another scheme (banking, ERISA) or collateral/insurance cuts the risk.'} },
 ];
 function renderReves(node){
@@ -541,7 +541,7 @@ function renderReves(node){
   });
   html += '<div class="switchrow"><div class="switch '+(r.family?'on':'')+'" id="famSw"></div>'+
     '<div class="sw-text"><div class="swt">Categorical family match (optional)</div>'+
-    '<div class="swd">It clearly fits a recognized non-security class — consumer financing, a note secured by a lien on a small business, a "character" loan, open-account debt, or a note formalizing an unsecured commercial debt.</div></div></div>';
+    '<div class="swd">It clearly fits a recognized non-security class: consumer financing, a note secured by a lien on a small business, a "character" loan, open-account debt, or a note formalizing an unsecured commercial debt.</div></div></div>';
 
   /* live reading */
   var set = REVES_FACTORS.filter(function(f){return r[f.key];}).length;
@@ -556,7 +556,7 @@ function renderReves(node){
   }
   html += '<div class="reading '+rcls+'"><span class="rl">Reading</span><span>'+rtext+'</span></div>';
 
-  html += '<details class="auth" style="margin-left:0"><summary>Case law &amp; reasoning — Reves</summary><div class="auth-body">'+
+  html += '<details class="auth" style="margin-left:0"><summary>Case law &amp; reasoning: Reves</summary><div class="auth-body">'+
     '<p><span class="cite">Reves v. Ernst &amp; Young</span>, 494 U.S. 56 (1990): a co-op sold uncollateralized, uninsured variable-rate demand notes marketed as an "Investment Program." The Court adopted this four-factor family-resemblance test. A note is presumed a security unless it strongly resembles the commercial family; ordinary 30/60/90-day business paper is not a security, while notes that function as interest-bearing loans to an issuer are.</p>'+
     '</div></details>';
 
@@ -598,9 +598,9 @@ function renderCommon(node){
   html += '</div>';
 
   html += '<details class="auth" style="margin-left:0"><summary>What each standard means</summary><div class="auth-body">'+
-    '<p><b>Horizontal</b> — multiple investors\' funds are pooled and they share risk/reward pro-rata ("same boat"). <span class="cite">Howey</span> itself had this.</p>'+
-    '<p><b>Broad vertical</b> — the promoter\'s fortunes rise and fall with the investors\' (when they profit, so does the promoter), but not necessarily equally.</p>'+
-    '<p><b>Strict vertical</b> — the promoter and investors share the <em>same</em> outcome (promoter loses if investors lose). <span class="cite">Howey</span> would fail this — Howey took 10% of gross off the top.</p>'+
+    '<p><b>Horizontal</b>: multiple investors\' funds are pooled and they share risk/reward pro-rata ("same boat"). <span class="cite">Howey</span> itself had this.</p>'+
+    '<p><b>Broad vertical</b>: the promoter\'s fortunes rise and fall with the investors\' (when they profit, so does the promoter), but not necessarily equally.</p>'+
+    '<p><b>Strict vertical</b>: the promoter and investors share the <em>same</em> outcome (promoter loses if investors lose). <span class="cite">Howey</span> would fail this; Howey took 10% of gross off the top.</p>'+
     '<p><b>Single investor?</b> Traditionally defeats horizontal commonality, but Judge Posner in <span class="cite">SEC v. Lauer</span> looked to whether the investment\'s <em>character</em> would attract multiple investors.</p></div></details>';
 
   /* progressive disclosure: only show the facts relevant to the chosen standard */
@@ -608,11 +608,11 @@ function renderCommon(node){
     html += '<div class="instruction">Now set the facts</div>';
     if(c.jx==='horizontal'){
       html += swrow('pooled', c.pooled, 'Multiple investors\' funds are pooled', 'Pooled into a common venture, sharing risk/return pro-rata.');
-      html += swrow('single', c.single, 'There is only a single investor', 'Consider the '+'<span class="cite">Lauer</span>'+'/Posner view — does the investment\'s character invite multiple investors?');
+      html += swrow('single', c.single, 'There is only a single investor', 'Consider the '+'<span class="cite">Lauer</span>'+'/Posner view: does the investment\'s character invite multiple investors?');
     } else if(c.jx==='vbroad'){
       html += swrow('tied', c.tied, 'The promoter\'s profits rise and fall with the investors\'', 'E.g., performance-based compensation tied to investor success.');
     } else if(c.jx==='vstrict'){
-      html += swrow('same', c.same, 'The promoter shares the investors\' exact outcome', 'The promoter loses if the investors lose — not merely a fee off the top.');
+      html += swrow('same', c.same, 'The promoter shares the investors\' exact outcome', 'The promoter loses if the investors lose, not merely a fee off the top.');
     }
     html += commonReading(c);
   }
@@ -639,26 +639,26 @@ function swrow(k, on, title, desc){
 function commonResult(c){
   if(c.jx==='horizontal'){
     if(c.pooled && !c.single) return {met:true, why:'funds are pooled among multiple investors (horizontal commonality).'};
-    if(c.pooled && c.single) return {met:true, why:'a single investor, but with pooling and an investment whose character invites others — satisfied under the <span class="cite">Lauer</span>/Posner view (jurisdiction-dependent).'};
+    if(c.pooled && c.single) return {met:true, why:'a single investor, but with pooling and an investment whose character invites others, satisfied under the <span class="cite">Lauer</span>/Posner view (jurisdiction-dependent).'};
     if(c.single) return {met:false, why:'a single investor with no pooling traditionally defeats horizontal commonality (though <span class="cite">Lauer</span> looks to the investment\'s character).'};
-    return {met:false, why:'no pooling of multiple investors\' funds — horizontal commonality not shown.'};
+    return {met:false, why:'no pooling of multiple investors\' funds, so horizontal commonality is not shown.'};
   }
   if(c.jx==='vbroad'){
-    if(c.tied) return {met:true, why:'the promoter\'s fortunes rise and fall with the investors\' — broad vertical commonality.'};
-    return {met:false, why:'the promoter\'s return is not tied to investor success — broad vertical commonality not shown.'};
+    if(c.tied) return {met:true, why:'the promoter\'s fortunes rise and fall with the investors\'.'};
+    return {met:false, why:'the promoter\'s return is not tied to investor success, so broad vertical commonality is not shown.'};
   }
-  if(c.same) return {met:true, why:'the promoter shares the investors\' exact outcome — strict vertical commonality.'};
-  return {met:false, why:'the promoter takes a return independent of investor losses — strict vertical commonality not shown (as in <span class="cite">Howey</span> itself).'};
+  if(c.same) return {met:true, why:'the promoter shares the investors\' exact outcome.'};
+  return {met:false, why:'the promoter takes a return independent of investor losses, so strict vertical commonality is not shown (as in <span class="cite">Howey</span> itself).'};
 }
 function commonReading(c){
   var r = commonResult(c);
-  return '<div class="reading '+(r.met?'yes':'no')+'"><span class="rl">Reading</span><span>Under <b>'+JX[c.jx].name.toLowerCase()+'</b>, common enterprise is currently <b>'+(r.met?'satisfied':'not satisfied')+'</b> — '+r.why+'</span></div>';
+  return '<div class="reading '+(r.met?'yes':'no')+'"><span class="rl">Reading</span><span>Under <b>'+JX[c.jx].name.toLowerCase()+'</b>, common enterprise is currently <b>'+(r.met?'satisfied':'not satisfied')+'</b>: '+r.why+'</span></div>';
 }
 function commonEvaluate(c){
   var r = commonResult(c);
   var jxName = JX[c.jx].name.toLowerCase();
-  if(r.met) go('howey_p3', {phase:'Howey · 2', text:'Common enterprise — <b>met</b> ('+jxName+'): '+r.why});
-  else go('term_not', {phase:'Howey · 2', text:'Common enterprise — <b>not met</b> ('+jxName+'): '+r.why+' No investment contract under that standard.'});
+  if(r.met) go('howey_p3', {phase:'Howey · 2', text:'Common enterprise is <b>met</b> ('+jxName+'): '+r.why});
+  else go('term_not', {phase:'Howey · 2', text:'Common enterprise is <b>not met</b> ('+jxName+'): '+r.why+' No investment contract under that standard.'});
 }
 
 /* ---- TRAIL ---- */
@@ -686,13 +686,13 @@ function renderTerminal(node){
   html += '<div class="t-badge '+(isSec?'yes':'no')+'"><span class="dot"></span>'+(isSec?'Result · It is a security':'Result · Not a security')+'</div>';
   if(isSec){
     html += '<div class="t-title">The instrument is a security.</div>';
-    html += '<div class="t-summary">On the path you built, it falls within § 2(a)(1). The federal securities laws apply — registration and disclosure obligations attach unless an exemption is available, and § 14 means these protections cannot be waived by contract.</div>';
+    html += '<div class="t-summary">On the path you built, it falls within § 2(a)(1). The federal securities laws apply: registration and disclosure obligations attach unless an exemption is available, and § 14 means these protections cannot be waived by contract.</div>';
   } else if(node.exception){
-    html += '<div class="t-title">Not a security — an exception applies.</div>';
-    html += '<div class="t-summary">It satisfies all three <span class="cite">Howey</span> prongs, yet still is not a security: a recognized exception removes it from the Act. This is exception-specific — change the facts and the result can flip.</div>';
+    html += '<div class="t-title">Not a security: an exception applies.</div>';
+    html += '<div class="t-summary">It satisfies all three <span class="cite">Howey</span> prongs, yet still is not a security: a recognized exception removes it from the Act. This is exception-specific. Change the facts and the result can flip.</div>';
   } else {
     html += '<div class="t-title">The instrument is not a security.</div>';
-    html += '<div class="t-summary">On the path you built, a required element is missing, so it falls outside § 2(a)(1). Other bodies of law may still apply (state law, banking, commodities, consumer protection). Re-run it if the facts or marketing change — economic reality controls.</div>';
+    html += '<div class="t-summary">On the path you built, a required element is missing, so it falls outside § 2(a)(1). Other bodies of law may still apply (state law, banking, commodities, consumer protection). Re-run it if the facts or marketing change; economic reality controls.</div>';
   }
   html += '<div class="t-h">How you got here</div><ul class="t-reasoning">';
   state.findings.forEach(function(f){ html += '<li><span class="ph">'+f.phase+'</span><span>'+f.text+'</span></li>'; });

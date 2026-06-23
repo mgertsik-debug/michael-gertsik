@@ -1,5 +1,5 @@
 // ============================================================
-//  INTERACTIVE MODELS — Edit this file to add new models.
+//  INTERACTIVE MODELS: Edit this file to add new models.
 //
 //  Each model is an interactive demonstration of how something
 //  in the law / finance / technology space works (e.g. the
@@ -24,7 +24,7 @@
 //  Provide the interactive content in ONE of two ways:
 //    src   →  a path to a standalone .html file in the repo
 //             (e.g. "/models/securities-analyzer.html"). Loaded
-//             in a sandboxed iframe. Best for larger models —
+//             in a sandboxed iframe. Best for larger models:
 //             write a normal standalone page, no escaping.
 //    html  →  a full, self-contained HTML document as a string,
 //             rendered inline in the sandboxed iframe. Handy for
@@ -42,7 +42,7 @@ const MODELS = [
     id: "insider-trading-timeline",
     category: "Market Integrity",
     title: "Insider Trading: Anatomy of a Case",
-    summary: "An interactive timeline that walks through a classic insider-trading fact pattern — who knew what, when, and how the elements of liability come together.",
+    summary: "An interactive timeline that walks through a classic insider-trading fact pattern: who knew what, when, and how the elements of liability come together.",
     status: "soon",
   },
 
@@ -56,8 +56,8 @@ const MODELS = [
   {
     id: "securities-analyzer",
     category: "Securities Analysis",
-    title: "Is It a Security? — The Complete Analyzer",
-    summary: "A guided, authority-backed walkthrough of the full federal securities analysis. Classify the instrument, then toggle every operative fact — Howey, Reves, entity structures, real estate, securitization, and the statutory exceptions — and watch each choice drive the determination, with the controlling case law at every step.",
+    title: "Is It a Security? The Complete Analyzer",
+    summary: "A guided, authority-backed walkthrough of the full federal securities analysis. Classify the instrument, then toggle every operative fact (Howey, Reves, entity structures, real estate, securitization, and the statutory exceptions) and watch each choice drive the determination, with the controlling case law at every step.",
     status: "live",
     src: "/models/securities-analyzer.html",
   },
