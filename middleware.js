@@ -45,7 +45,7 @@ const MODELS = {
 };
 // ─────────────────────────────────────────────────────────────
 
-const OG_IMAGE = 'https://www.michael-gertsik.com/LINKEDIN_IMAGE.png';
+const OG_IMAGE = 'https://www.michael-gertsik.com/og-card.png';
 
 export const config = {
   matcher: ['/insight/:path*', '/model/:path*', '/insights', '/writings', '/models', '/about', '/contact', '/'],
