@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #0A0C10; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="position:fixed; inset:0; background:#0A0C10; overflow:hidden; display:flex; flex-direction:column;">
+  <div ref="{{ setRoot }}" style="position:relative; flex:1 1 auto; min-height:0;">
+    <canvas ref="{{ setCanvas }}" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas>
+    <div style="position:absolute; inset:0; pointer-events:none; background:radial-gradient(120% 95% at 50% 42%, rgba(10,12,16,0) 40%, rgba(8,10,13,0.5) 82%, rgba(6,7,10,0.85) 100%);"></div>
+  </div>
+  <div style="position:relative; flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:16px; padding:0 24px 8vh; pointer-events:none;">
+    <div style="position:absolute; left:0; right:0; bottom:0; top:-80px; pointer-events:none; background:linear-gradient(to top, rgba(6,7,10,0.96) 0%, rgba(8,10,13,0.9) 45%, rgba(10,12,16,0) 100%); z-index:0;"></div>
+    <div style="position:relative; z-index:1; width:30px; height:1px; background:linear-gradient(90deg, transparent, #5B8DEF, transparent); opacity:0.8;"></div>
+    <h1 style="position:relative; z-index:1; margin:0; font-family:'Geist', 'Helvetica Neue', Arial, sans-serif; font-weight:300; font-size:clamp(30px, 4.6vw, 62px); letter-spacing:0.05em; color:#E6E8EC; text-align:center; line-height:1.1;">Michael Gertsik</h1>
+    <div style="position:relative; z-index:1; font-family:'JetBrains Mono', 'SF Mono', monospace; font-weight:400; font-size:clamp(10px, 0.95vw, 13px); letter-spacing:0.4em; text-transform:uppercase; color:#7C8696;">Law · Finance · Technology</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;100%&quot; },
+  &quot;scrollSpeed&quot;: { &quot;editor&quot;: &quot;float&quot;, &quot;default&quot;: 0.9, &quot;min&quot;: 0.2, &quot;max&quot;: 2.5, &quot;step&quot;: 0.1, &quot;tsType&quot;: &quot;number&quot; },
+  &quot;bloom&quot;: { &quot;editor&quot;: &quot;float&quot;, &quot;default&quot;: 0.65, &quot;min&quot;: 0, &quot;max&quot;: 1.5, &quot;step&quot;: 0.05, &quot;tsType&quot;: &quot;number&quot; },
+  &quot;upColor&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#2E9E6B&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;downColor&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#D86B6B&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;accentColor&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#5B8DEF&quot;, &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      setRoot: (el) => { this.root = el; },
+      setCanvas: (el) => { this.canvas = el; },
+    };
+  }
+
+  async componentDidMount() {
+    if (this._started || !this.canvas) return;
+    this._started = true;
+
+    let THREE, EffectComposer, RenderPass, UnrealBloomPass, OutputPass, Line2, LineGeometry, LineMaterial;
+    try {
+      THREE = await import('three');
+      ({ EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js'));
+      ({ RenderPass } = await import('three/addons/postprocessing/RenderPass.js'));
+      ({ UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js'));
+      ({ OutputPass } = await import('three/addons/postprocessing/OutputPass.js'));
+      ({ Line2 } = await import('three/addons/lines/Line2.js'));
+      ({ LineGeometry } = await import('three/addons/lines/LineGeometry.js'));
+      ({ LineMaterial } = await import('three/addons/lines/LineMaterial.js'));
+    } catch (e) { console.error('three.js failed to load', e); return; }
+
+    const canvas = this.canvas;
+    const root = this.root;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    const DX = 0.6;
+    const Y = 0.85;
+    // Visible half-width at the chart plane, derived from the camera frustum.
+    const FOV = 32;
+    const CAM_DIST = 16.82;
+    const visHalfH = CAM_DIST * Math.tan((FOV * Math.PI) / 360);
+    // Build enough candles to cover the widest reasonable viewport PLUS margin
+    // beyond both edges, so recycling always happens off-screen and the row
+    // stays full and unbroken across the entire width at all times.
+    const maxAspect = isMobile ? 2.2 : 2.8;
+    const needHalfMax = visHalfH * maxAspect + 2.8;
+    const N = Math.ceil((needHalfMax * 2) / DX) + 2;
+    const halfSpan = ((N - 1) / 2) * DX;
+    const recycleAt = -(halfSpan + DX * 0.5);
+    const W_MA = 6;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
+
+    let w = root.clientWidth || window.innerWidth;
+    let h = root.clientHeight || window.innerHeight;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(dpr);
+    renderer.setSize(w, h, false);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#0A0C10');
+
+    const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 100);
+    camera.position.set(0, 3.4, 16.8);
+    camera.lookAt(0, 2.4, 0);
+
+    const pivot = new THREE.Group();
+    scene.add(pivot);
+    const chart = new THREE.Group();
+    chart.rotation.x = -0.17;
+    chart.rotation.y = 0.0;
+    chart.position.y = 2.6;
+    pivot.add(chart);
+
+    // ---------- grid plane ----------
+    const gridMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uOffset: { value: 0 },
+        uColor: { value: new THREE.Color('#1C2533') },
+        uSpacing: { value: DX },
+      },
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      extensions: { derivatives: true },
+      vertexShader: `
+        varying vec2 vP;
+        void main(){
+          vP = position.xy;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        precision highp float;
+        uniform float uOffset; uniform vec3 uColor; uniform float uSpacing;
+        varying vec2 vP;
+        void main(){
+          vec2 c = vec2(vP.x + uOffset, vP.y) / uSpacing;
+          vec2 g = abs(fract(c - 0.5) - 0.5) / fwidth(c);
+          float line = min(g.x, g.y);
+          float a = 1.0 - clamp(line, 0.0, 1.0);
+          float d = length(vP / vec2(14.0, 8.0));
+          float fade = smoothstep(1.0, 0.12, d);
+          a *= fade * 0.5;
+          if (a < 0.002) discard;
+          gl_FragColor = vec4(uColor, a);
+        }
+      `,
+    });
+    const grid = new THREE.Mesh(new THREE.PlaneGeometry(56, 30, 1, 1), gridMat);
+    grid.rotation.x = -Math.PI / 2;
+    grid.position.y = -3.0;
+    chart.add(grid);
+
+    // ---------- candle shaders ----------
+    const bodyVert = `
+      varying vec3 vN; varying vec3 vV;
+      void main(){
+        vec4 wp = modelMatrix * vec4(position, 1.0);
+        vN = normalize(mat3(modelMatrix) * normal);
+        vV = normalize(cameraPosition - wp.xyz);
+        gl_Position = projectionMatrix * viewMatrix * wp;
+      }
+    `;
+    const bodyFrag = `
+      precision highp float;
+      uniform vec3 uColor; uniform float uGlow; uniform float uOpacity;
+      varying vec3 vN; varying vec3 vV;
+      void main(){
+        float fres = pow(1.0 - clamp(dot(normalize(vN), normalize(vV)), 0.0, 1.0), 2.3);
+        vec3 base = uColor * 0.20;
+        vec3 rim  = uColor * fres * 2.3;
+        vec3 core = uColor * uGlow * 2.6;
+        vec3 col = base + rim + core;
+        float alpha = clamp(0.34 + fres * 0.55 + uGlow * 0.45, 0.0, 1.0) * uOpacity;
+        if (alpha < 0.003) discard;
+        gl_FragColor = vec4(col, alpha);
+      }
+    `;
+    const wickFrag = `
+      precision highp float;
+      uniform vec3 uColor; uniform float uI;
+      void main(){
+        if (uI < 0.003) discard;
+        gl_FragColor = vec4(uColor * 1.5, uI);
+      }
+    `;
+
+    const bodyGeo = new THREE.BoxGeometry(0.36, 1, 0.36);
+    const wickGeo = new THREE.BoxGeometry(0.05, 1, 0.05);
+
+    const upCol = new THREE.Color('#2E9E6B');
+    const dnCol = new THREE.Color('#D86B6B');
+
+    function randn() {
+      let u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function genCandle(prevClose) {
+      const drift = -prevClose * 0.04;
+      const volatile = Math.random() < 0.06;
+      const mag = volatile ? 4.6 : 1.0;
+      let close = prevClose + drift + randn() * 0.55 * mag;
+      const open = prevClose;
+      const hi = Math.max(open, close) + Math.abs(randn()) * 0.4 + 0.12;
+      const lo = Math.min(open, close) - Math.abs(randn()) * 0.4 - 0.12;
+      return { open, close, high: hi, low: lo, volatile };
+    }
+
+    const cs = [];
+    let lastClose = 0;
+    let lastPx = 0;
+    let printIdx = 0;
+
+    for (let i = 0; i < N; i++) {
+      const px = (i - (N - 1) / 2) * DX;
+      const d = genCandle(lastClose);
+      lastClose = d.close;
+      lastPx = px;
+
+      const g = new THREE.Group();
+      g.position.x = px;
+      const bodyMat = new THREE.ShaderMaterial({
+        uniforms: { uColor: { value: new THREE.Color() }, uGlow: { value: 0 }, uOpacity: { value: 1 } },
+        vertexShader: bodyVert, fragmentShader: bodyFrag, transparent: true, depthWrite: false,
+      });
+      const wickMat = new THREE.ShaderMaterial({
+        uniforms: { uColor: { value: new THREE.Color() }, uI: { value: 1 } },
+        vertexShader: bodyVert, fragmentShader: wickFrag, transparent: true, depthWrite: false,
+      });
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      const wick = new THREE.Mesh(wickGeo, wickMat);
+      g.add(wick); g.add(body);
+      chart.add(g);
+
+      cs.push({
+        group: g, body, wick, bodyMat, wickMat, px, idx: printIdx++,
+        open: d.open, close: d.close, high: d.high, low: d.low,
+        up: d.close >= d.open, volatile: d.volatile,
+        animStart: -10, glowStart: -10, glowAmp: 0,
+      });
+    }
+
+    function applyShape(c) {
+      const o = c.open * Y, cl = c.close * Y, hi = c.high * Y, lo = c.low * Y;
+      const top = Math.max(o, cl), bot = Math.min(o, cl);
+      const bh = Math.max(top - bot, 0.06);
+      c.body.scale.y = bh; c.body.position.y = (top + bot) / 2;
+      c.wick.scale.y = Math.max(hi - lo, 0.02); c.wick.position.y = (hi + lo) / 2;
+    }
+    cs.forEach(applyShape);
+
+    // ---------- moving average line ----------
+    const accent = new THREE.Color('#5B8DEF');
+    const lineGeo = new LineGeometry();
+    const lineMat = new LineMaterial({ color: 0x5B8DEF, linewidth: 2.4, transparent: true, opacity: 0.96 });
+    lineMat.resolution.set(w, h);
+    const initArr = [];
+    for (let i = 0; i < N; i++) { initArr.push((i - (N - 1) / 2) * DX, 0, 0.26); }
+    lineGeo.setPositions(initArr);
+    const maLine = new Line2(lineGeo, lineMat);
+    maLine.computeLineDistances();
+    chart.add(maLine);
+
+    // ---------- post ----------
+    const composer = new EffectComposer(renderer);
+    composer.setPixelRatio(dpr);
+    composer.setSize(w, h);
+    composer.addPass(new RenderPass(scene, camera));
+    const bloom = new UnrealBloomPass(new THREE.Vector2(w, h), 0.65, 0.6, 0.12);
+    composer.addPass(bloom);
+    composer.addPass(new OutputPass());
+
+    // ---------- interaction ----------
+    this._mx = 0; this._my = 0;
+    let curRotY = 0, curRotX = 0;
+    const onMove = (e) => {
+      this._mx = (e.clientX / window.innerWidth) * 2 - 1;
+      this._my = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    window.addEventListener('pointermove', onMove);
+    this._onMove = onMove;
+
+    const onResize = () => {
+      w = root.clientWidth || window.innerWidth;
+      h = root.clientHeight || window.innerHeight;
+      camera.aspect = w / h; camera.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+      composer.setSize(w, h);
+      bloom.setSize(w, h);
+      lineMat.resolution.set(w, h);
+      composer.render();
+    };
+    const ro = new ResizeObserver(onResize);
+    ro.observe(root);
+    this._ro = ro;
+
+    let offset = 0;
+    const sorted = cs.slice();
+    const maxDeg = 0.105; // ~6deg
+
+    const update = (dt, time) => {
+      // live tweaks
+      upCol.set(this.props.upColor || '#2E9E6B');
+      dnCol.set(this.props.downColor || '#D86B6B');
+      accent.set(this.props.accentColor || '#5B8DEF');
+      lineMat.color.copy(accent);
+      bloom.strength = this.props.bloom ?? 0.65;
+      const speed = this.props.scrollSpeed ?? 0.9;
+
+      offset += speed * dt;
+      gridMat.uniforms.uOffset.value = offset;
+
+      // Fade only in a thin sliver right at (and just past) the current visible
+      // edge — masks the off-screen recycle seam while keeping the row full
+      // and at full opacity across the entire visible width.
+      const visHalfW = visHalfH * (w / h);
+      const fadeOuter = visHalfW + 0.5;
+      const fadeInner = visHalfW - 1.4;
+
+      // recycle + per-candle visuals
+      for (const c of cs) {
+        let wx = c.px - offset;
+        if (wx < recycleAt) {
+          c.px = lastPx + DX; lastPx = c.px;
+          const d = genCandle(lastClose); lastClose = d.close;
+          c.open = d.open; c.close = d.close; c.high = d.high; c.low = d.low;
+          c.up = d.close >= d.open; c.volatile = d.volatile; c.idx = printIdx++;
+          applyShape(c);
+          c.animStart = time; c.glowStart = time; c.glowAmp = d.volatile ? 2.4 : 0.95;
+          wx = c.px - offset;
+        }
+        c.group.position.x = wx;
+
+        const ax = Math.abs(wx);
+        const edge = 1.0 - smoothstep(fadeInner, fadeOuter, ax);
+
+        // print-in scale (ease-out-back)
+        let s = 1;
+        const p = (time - c.animStart) / 0.45;
+        if (p < 1) {
+          const bk = 1.9;
+          const t1 = p - 1;
+          s = 1 + t1 * t1 * ((bk + 1) * t1 + bk);
+          s = Math.max(0, s);
+        }
+        c.group.scale.set(s, s, s);
+
+        // glow ping
+        let glow = 0;
+        const gp = (time - c.glowStart) / 0.6;
+        if (gp < 1) glow = (1 - gp) * (1 - gp) * c.glowAmp;
+
+        const col = c.up ? upCol : dnCol;
+        c.bodyMat.uniforms.uColor.value.copy(col);
+        c.bodyMat.uniforms.uGlow.value = glow;
+        c.bodyMat.uniforms.uOpacity.value = edge;
+        c.wickMat.uniforms.uColor.value.copy(col);
+        c.wickMat.uniforms.uI.value = edge * (0.75 + glow * 0.5);
+      }
+
+      // moving average line
+      sorted.length = 0;
+      for (const c of cs) sorted.push(c);
+      sorted.sort((a, b) => a.px - b.px);
+      const pts = [];
+      for (let i = 0; i < sorted.length; i++) {
+        let sum = 0, n = 0;
+        for (let k = Math.max(0, i - W_MA + 1); k <= i; k++) { sum += sorted[k].close; n++; }
+        const ma = (sum / n) * Y;
+        pts.push(new THREE.Vector3(sorted[i].px - offset, ma, 0.26));
+      }
+      const curve = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
+      const smooth = curve.getPoints(pts.length * 6);
+      const arr = [];
+      for (const p of smooth) arr.push(p.x, p.y, p.z);
+      lineGeo.setPositions(arr);
+      maLine.computeLineDistances();
+
+      // parallax
+      const idle = Math.sin(time * 0.32) * 0.018;
+      const tY = this._mx * maxDeg + idle;
+      const tX = -this._my * 0.055;
+      curRotY += (tY - curRotY) * Math.min(1, dt * 3.5);
+      curRotX += (tX - curRotX) * Math.min(1, dt * 3.5);
+      pivot.rotation.y = curRotY;
+      pivot.rotation.x = curRotX;
+    };
+
+    function smoothstep(a, b, x) {
+      const t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+      return t * t * (3 - 2 * t);
+    }
+
+    const clock = new THREE.Clock();
+
+    if (reduced) {
+      update(0, 0);
+      composer.render();
+      this._reduced = true;
+      return;
+    }
+
+    update(0, 0);
+    composer.render();
+    const loop = () => {
+      this._raf = requestAnimationFrame(loop);
+      const dt = Math.min(clock.getDelta(), 0.05);
+      try {
+        update(dt, clock.elapsedTime);
+        composer.render();
+      } catch (err) {
+        cancelAnimationFrame(this._raf);
+        console.error('[hero] loop error', err);
+      }
+    };
+    this._raf = requestAnimationFrame(loop);
+    this._cleanup = () => {
+      cancelAnimationFrame(this._raf);
+      window.removeEventListener('pointermove', this._onMove);
+      this._ro && this._ro.disconnect();
+      renderer.dispose();
+    };
+  }
+
+  componentWillUnmount() {
+    this._cleanup && this._cleanup();
+  }
+}
+</script>
+</body>
+</html>

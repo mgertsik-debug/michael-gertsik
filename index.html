@@ -172,6 +172,9 @@
     .page { display: none; min-height: 100vh; position: relative; z-index: 1; }
     .page.active { display: block; }
 
+    /* full-screen animated home hero (embedded) */
+    .hero-embed { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; border: 0; display: block; z-index: 1; background: #0A0C10; }
+
     .shell { max-width: 1180px; margin: 0 auto; padding-left: clamp(20px,4vw,48px); padding-right: clamp(20px,4vw,48px); }
 
     /* ─── HERO ─── */
@@ -571,23 +574,7 @@
 
   <!-- ═══════════════ HOME ═══════════════ -->
   <div id="page-home" class="page active">
-    <div class="shell">
-      <section class="hero">
-        <div class="hero-eyebrow fade-up">Law · Finance · Technology</div>
-        <h1 class="hero-title fade-up delay-1"><span class="grad">Michael Gertsik</span></h1>
-        <p class="hero-subtitle fade-up delay-2">2L · Fordham University School of Law<span class="pipe">/</span>Digital Asset &amp; Markets Regulation</p>
-        <p class="hero-bio fade-up delay-3">I work at the intersection of law, finance, and technology, focused on the legal frameworks that guide how emerging systems transform value creation, information flow, and market dynamics. From blockchain and DeFi to prediction markets and stablecoins.</p>
-        <div class="hero-cta fade-up delay-4">
-          <a href="/models" class="btn btn-primary" onclick="navClick('models'); return false;">
-            Explore Interactive Models
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a href="/insights" class="btn btn-ghost" onclick="navClick('blog'); return false;">Read Insights</a>
-        </div>
-      </section>
-
-      <footer><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span></footer>
-    </div>
+    <iframe class="hero-embed" src="/hero/index.html" title="Michael Gertsik" scrolling="no" loading="eager"></iframe>
   </div>
 
   <!-- ═══════════════ INSIGHTS ═══════════════ -->
