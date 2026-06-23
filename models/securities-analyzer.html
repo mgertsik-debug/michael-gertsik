@@ -210,7 +210,7 @@
         <li><b>No waiver, no opt-in (§ 14).</b> Any clause waiving compliance is void, and parties cannot opt <em>into</em> securities law if the instrument does not qualify.</li>
       </ul>
       <h4>How this tool is organized</h4>
-      <p>① <b>Classify</b> the instrument → ② apply the <b>governing test</b> (Landreth for stock, Reves for notes, Howey for everything else) → ③ check the <b>exceptions</b> → ✓ <b>result</b>. Not every path uses every stage.</p>
+      <p>First, <b>classify</b> the instrument. Then apply the <b>governing test</b> (Landreth for stock, Reves for notes, Howey for everything else), check the <b>exceptions</b>, and reach a <b>result</b>. Not every path uses every stage.</p>
     </div>
   </details>
 
@@ -466,7 +466,7 @@ function renderStepper(cur){
   var html='';
   STAGES.forEach(function(s,i){
     var cls = s.n<cur ? 'done' : s.n===cur ? 'active' : '';
-    var mark = s.n<cur ? '✓' : (s.n===4 ? '✓' : s.n);
+    var mark = s.n;
     html += '<div class="sstep '+cls+'"><span class="sdot">'+mark+'</span><span class="slab">'+s.label+'</span></div>';
     if(i<STAGES.length-1) html += '<div class="sline '+(s.n<cur?'done':'')+'"></div>';
   });
@@ -672,8 +672,8 @@ function renderTrail(node){
   var vstat, vmain, vcolor;
   if(node.terminal){
     vstat='Determination';
-    if(node.result==='SECURITY'){ vmain='✓ It IS a security'; vcolor='rgba(52,226,176,0.45)'; }
-    else { vmain='✗ Not a security'; vcolor='rgba(255,107,107,0.4)'; }
+    if(node.result==='SECURITY'){ vmain='It is a security'; vcolor='rgba(52,226,176,0.45)'; }
+    else { vmain='Not a security'; vcolor='rgba(255,107,107,0.4)'; }
   } else { vstat='Status'; vmain='In progress…'; vcolor='var(--border)'; }
   html += '<div class="verdict-box" style="border-color:'+vcolor+'"><div class="vstat">'+vstat+'</div><div class="vmain">'+vmain+'</div></div>';
   trailEl.innerHTML = html;

@@ -291,7 +291,7 @@
     }
     .glass-card:hover { transform: translateY(-5px); border-color: var(--border-bright); box-shadow: 0 16px 44px rgba(0,0,0,0.4), 0 0 0 1px var(--border-bright); }
     .glass-card:hover::before { opacity: 1; }
-    .card-icon { font-size: 24px; margin-bottom: 14px; display: block; }
+    .card-idx { font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: var(--accent); display: block; margin-bottom: 14px; }
     .card-title { font-family: var(--heading); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: -0.01em; }
     .card-desc { font-size: 13.5px; color: var(--text-dim); line-height: 1.65; }
 
@@ -531,7 +531,6 @@
         <li><a href="/insights" data-nav="blog" onclick="navClick('blog'); return false;">Insights</a></li>
         <li><a href="/models" data-nav="models" onclick="navClick('models'); return false;">Models</a></li>
         <li><a href="/about" data-nav="about" onclick="navClick('about'); return false;">About</a></li>
-        <li><a href="/contact" data-nav="contact" onclick="navClick('contact'); return false;">Contact</a></li>
       </ul>
       <a href="https://www.linkedin.com/in/michael-gertsik" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -676,18 +675,10 @@
         <div class="areas-grid" id="about-areas"></div>
       </section>
 
-      <footer><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span></footer>
-    </div>
-  </div>
-
-  <!-- ═══════════════ CONTACT ═══════════════ -->
-  <div id="page-contact" class="page">
-    <div class="shell">
-      <div class="contact-wrap">
-        <div class="section-tag">Get in Touch</div>
-        <h1 class="page-head" style="padding:0; margin-bottom:0; font-family:var(--heading); font-size:clamp(34px,5vw,56px); font-weight:800; letter-spacing:-0.025em; line-height:1.05;"><span class="grad">Let's connect</span></h1>
+      <section class="section" id="contact">
+        <div class="section-head"><div class="section-tag">Get in Touch</div><h2 class="section-title">Let's connect</h2></div>
         <div class="contact-grid">
-          <p class="contact-desc">I'm always interested in connecting with practitioners, researchers, and others working at the intersection of law, finance, and technology. Reach out via email or LinkedIn.</p>
+          <p class="contact-desc">I'm always interested in connecting with practitioners, researchers, and others working at the intersection of law, finance, and technology. Reach out by email or on LinkedIn.</p>
           <div class="contact-links">
             <a id="contact-email-link" href="#" class="contact-link">
               <span class="contact-label">Email</span>
@@ -699,7 +690,8 @@
             </a>
           </div>
         </div>
-      </div>
+      </section>
+
       <footer><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span></footer>
     </div>
   </div>
@@ -712,12 +704,12 @@
     if (typeof MODELS === 'undefined') window.MODELS = [];
 
     const RESEARCH_AREAS = [
-      { icon: '⚖️', title: 'Enforcement & Litigation', desc: 'SEC and CFTC enforcement actions, agency jurisdiction, and landmark cases shaping how regulators pursue digital asset market participants.' },
-      { icon: '🏛️', title: 'Market Structure', desc: 'How exchanges, custodians, and market makers interact within emerging regulatory frameworks and what greater clarity could unlock.' },
-      { icon: '💵', title: 'Stablecoins & Custody', desc: 'Reserve requirements, qualified custodian standards, and the evolving legal treatment of payment stablecoins.' },
-      { icon: '📊', title: 'Prediction Markets', desc: 'Jurisdiction over event contracts, the rapid expansion of prediction markets, and the emerging enforcement landscape shaping market integrity.' },
-      { icon: '📋', title: 'Legislation & Policy', desc: 'Analyzing the GENIUS and CLARITY Acts, congressional intent, and the evolving policy landscape for digital asset regulation in the U.S.' },
-      { icon: '🔗', title: 'DeFi & Protocol Governance', desc: 'When DeFi systems and smart contracts reduce reliance on intermediaries, where they fall within or outside securities laws, and what safeguards apply.' },
+      { title: 'Enforcement & Litigation', desc: 'SEC and CFTC enforcement actions, agency jurisdiction, and landmark cases shaping how regulators pursue digital asset market participants.' },
+      { title: 'Market Structure', desc: 'How exchanges, custodians, and market makers interact within emerging regulatory frameworks and what greater clarity could unlock.' },
+      { title: 'Stablecoins & Custody', desc: 'Reserve requirements, qualified custodian standards, and the evolving legal treatment of payment stablecoins.' },
+      { title: 'Prediction Markets', desc: 'Jurisdiction over event contracts, the rapid expansion of prediction markets, and the emerging enforcement landscape shaping market integrity.' },
+      { title: 'Legislation & Policy', desc: 'Analyzing the GENIUS and CLARITY Acts, congressional intent, and the evolving policy landscape for digital asset regulation in the U.S.' },
+      { title: 'DeFi & Protocol Governance', desc: 'When DeFi systems and smart contracts reduce reliance on intermediaries, where they fall within or outside securities laws, and what safeguards apply.' },
     ];
 
     // ─── BRACKET LINKS ───
@@ -876,21 +868,17 @@
 
     // ─── RENDER: HOME DYNAMIC SECTIONS ───
     function renderHome() {
-      const areas = document.getElementById('home-areas');
-      if (areas) areas.innerHTML = RESEARCH_AREAS.slice(0, 6).map(a => `
+      const cardMarkup = (a, i) => `
         <div class="glass-card">
-          <span class="card-icon">${a.icon}</span>
+          <span class="card-idx">${String(i + 1).padStart(2, '0')}</span>
           <div class="card-title">${a.title}</div>
           <div class="card-desc">${a.desc}</div>
-        </div>`).join('');
+        </div>`;
+      const areas = document.getElementById('home-areas');
+      if (areas) areas.innerHTML = RESEARCH_AREAS.slice(0, 6).map(cardMarkup).join('');
 
       const ab = document.getElementById('about-areas');
-      if (ab) ab.innerHTML = RESEARCH_AREAS.map(a => `
-        <div class="glass-card">
-          <span class="card-icon">${a.icon}</span>
-          <div class="card-title">${a.title}</div>
-          <div class="card-desc">${a.desc}</div>
-        </div>`).join('');
+      if (ab) ab.innerHTML = RESEARCH_AREAS.map(cardMarkup).join('');
 
       const feat = document.getElementById('home-featured');
       if (feat) {
@@ -928,8 +916,7 @@
       if (path === '/' || path === '/home' || path === '') activatePage('home');
       else if (path === '/insights' || path === '/writings') showBlogList();
       else if (path === '/models') showModelsList();
-      else if (path === '/about') activatePage('about');
-      else if (path === '/contact') activatePage('contact');
+      else if (path === '/about' || path === '/contact') activatePage('about');
       else if (path.startsWith('/insight/')) {
         const id = path.replace('/insight/', ''); _isRouting = true;
         activatePage('blog'); renderWritings('all'); setActiveFilter('all');

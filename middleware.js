@@ -78,7 +78,7 @@ export default async function middleware(request) {
   } else if (path === '/models') {
     pageTitle = 'Interactive Models | Michael Gertsik';
     pageDesc = 'Hands-on interactive demonstrations of how law, finance, and technology systems work.';
-  } else if (path === '/about') {
+  } else if (path === '/about' || path === '/contact') {
     pageTitle = 'About | Michael Gertsik';
     pageDesc = '2L · Fordham University School of Law, working at the intersection of law, finance, and technology.';
   }
