@@ -84,12 +84,24 @@
     Object.assign(S, typeof patch === "function" ? patch(S) : patch);
     render();
   }
+  // True when any search text or facet filter is currently active.
+  function isQuerying(st) {
+    return st.search.trim() !== "" || st.platform.length || st.contractType.length ||
+      st.forum.length || st.states.length || st.outcome.length ||
+      st.yearMin !== YEAR_MIN || st.yearMax !== YEAR_MAX;
+  }
+  // Apply a search/filter change. If the change leaves NO active query, also drop
+  // the selected matter so MATTER DETAIL empties out when the search/filter clears.
+  function setQuery(patch) {
+    const next = { ...S, ...patch };
+    set(isQuerying(next) ? patch : { ...patch, selectedId: null, sourcesOpen: false });
+  }
   function toggle(facet, val) {
     const a = S[facet];
-    set({ [facet]: a.includes(val) ? a.filter((x) => x !== val) : [...a, val] });
+    setQuery({ [facet]: a.includes(val) ? a.filter((x) => x !== val) : [...a, val] });
   }
   function clearAll() {
-    set({ search: "", platform: [], contractType: [], forum: [], states: [], outcome: [], yearMin: YEAR_MIN, yearMax: YEAR_MAX });
+    setQuery({ search: "", platform: [], contractType: [], forum: [], states: [], outcome: [], yearMin: YEAR_MIN, yearMax: YEAR_MAX });
   }
   function select(id) { set({ selectedId: id, sourcesOpen: false }); }
 
@@ -192,7 +204,7 @@
       h("div", { style: { position: "relative", flex: "1 1 280px", minWidth: "240px" } },
         h("span", { "aria-hidden": "true", style: { position: "absolute", left: "13px", top: "50%", transform: "translateY(-50%)", color: "#4B5563", fontSize: "15px" } }, "⚲"),
         h("input", { value: S.search, "aria-label": "Search matters, parties, statutes",
-          onInput: (e) => set({ search: e.target.value }), placeholder: "Search matters, parties, statutes…",
+          onInput: (e) => setQuery({ search: e.target.value }), placeholder: "Search matters, parties, statutes…",
           ...(document.activeElement && document.activeElement.id === "pmle-search" ? { autoFocus: true } : {}),
           id: "pmle-search",
           style: { width: "100%", padding: "11px 13px 11px 34px", borderRadius: "10px", border: "1px solid rgba(255,255,255,.09)", background: "rgba(255,255,255,.025)", color: "#E5E7EB", font: `500 13.5px ${SANS}`, outline: "none" } })),
@@ -205,7 +217,7 @@
         "[ ", h("span", { id: "pmle-count", style: { color: "#6EE7B7" } }, list.length), " matter", list.length === 1 ? "" : "s", " ]"),
       pills.length ? h("div", { style: { flexBasis: "100%", display: "flex", gap: "7px", flexWrap: "wrap", marginTop: "2px" } },
         pills.map((p, i) => h("button", { key: i, "aria-label": "Remove filter " + p.v,
-          onClick: () => p.f === "year" ? set({ yearMin: YEAR_MIN, yearMax: YEAR_MAX }) : toggle(p.f, p.v),
+          onClick: () => p.f === "year" ? setQuery({ yearMin: YEAR_MIN, yearMax: YEAR_MAX }) : toggle(p.f, p.v),
           style: { display: "inline-flex", alignItems: "center", gap: "6px", padding: "4px 9px", borderRadius: "20px", cursor: "pointer", border: "1px solid rgba(52,211,153,.45)", background: "rgba(52,211,153,.08)", color: "#A7F3D0", font: `500 11.5px ${MONO}` } },
           p.v, h("span", { style: { color: "#6EE7B7" } }, "×"))),
         h("button", { onClick: clearAll, style: { padding: "4px 8px", borderRadius: "20px", cursor: "pointer", border: "1px solid rgba(255,255,255,.08)", background: "transparent", color: "#6B7280", font: `500 11px ${MONO}` } }, "clear all")) : null);
@@ -235,9 +247,9 @@
       h("div", null,
         h("div", { style: { font: `500 10px ${MONO}`, letterSpacing: ".16em", color: "#6B7280", marginBottom: "8px" } }, `YEAR FILED · ${S.yearMin}–${S.yearMax}`),
         h("input", { type: "range", min: YEAR_MIN, max: YEAR_MAX, value: S.yearMin, "aria-label": "Earliest year filed",
-          onInput: (e) => set({ yearMin: Math.min(+e.target.value, S.yearMax) }), style: { width: "100%", accentColor: "#34D399" } }),
+          onInput: (e) => setQuery({ yearMin: Math.min(+e.target.value, S.yearMax) }), style: { width: "100%", accentColor: "#34D399" } }),
         h("input", { type: "range", min: YEAR_MIN, max: YEAR_MAX, value: S.yearMax, "aria-label": "Latest year filed",
-          onInput: (e) => set({ yearMax: Math.max(+e.target.value, S.yearMin) }), style: { width: "100%", accentColor: "#34D399" } })));
+          onInput: (e) => setQuery({ yearMax: Math.max(+e.target.value, S.yearMin) }), style: { width: "100%", accentColor: "#34D399" } })));
   }
 
   function lensTabs() {
