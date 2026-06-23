@@ -16,7 +16,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <script src="/posts.js"></script>
   <script src="/insights.js"></script>
   <script src="/models.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -545,7 +544,7 @@
       <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden />
       <ul class="nav-links" id="nav-links">
         <li><a href="/" data-nav="home" onclick="navClick('home'); return false;">Home</a></li>
-        <li><a href="/writings" data-nav="blog" onclick="navClick('blog'); return false;">Writings</a></li>
+        <li><a href="/insights" data-nav="blog" onclick="navClick('blog'); return false;">Insights</a></li>
         <li><a href="/models" data-nav="models" onclick="navClick('models'); return false;">Models</a></li>
         <li><a href="/about" data-nav="about" onclick="navClick('about'); return false;">About</a></li>
         <li><a href="/contact" data-nav="contact" onclick="navClick('contact'); return false;">Contact</a></li>
@@ -576,7 +575,7 @@
             Explore Interactive Models
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a href="/writings" class="btn btn-ghost" onclick="navClick('blog'); return false;">Read Writings</a>
+          <a href="/insights" class="btn btn-ghost" onclick="navClick('blog'); return false;">Read Insights</a>
         </div>
         <div class="scroll-hint fade-up delay-5"><span class="dot"></span> Scroll to explore</div>
       </section>
@@ -601,14 +600,14 @@
         <div class="card-grid" id="home-areas"></div>
       </section>
 
-      <!-- FEATURED WRITINGS -->
+      <!-- FEATURED INSIGHTS -->
       <section class="section">
         <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px;">
           <div>
-            <div class="section-tag">Latest Writings</div>
+            <div class="section-tag">Latest Insights</div>
             <h2 class="section-title">Recent analysis</h2>
           </div>
-          <a href="/writings" class="btn btn-ghost" onclick="navClick('blog'); return false;">View all →</a>
+          <a href="/insights" class="btn btn-ghost" onclick="navClick('blog'); return false;">View all →</a>
         </div>
         <div class="feature-list" id="home-featured"></div>
       </section>
@@ -630,18 +629,13 @@
     </div>
   </div>
 
-  <!-- ═══════════════ WRITINGS ═══════════════ -->
+  <!-- ═══════════════ INSIGHTS ═══════════════ -->
   <div id="page-blog" class="page">
     <div id="blog-list">
       <div class="shell">
         <div class="page-head">
-          <h1><span class="grad">Writings</span></h1>
-          <p class="page-intro">Publications and insights on the technology, regulation, and market dynamics shaping modern finance.</p>
-          <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">All</button>
-            <button class="filter-tab" data-filter="publications">Publications</button>
-            <button class="filter-tab" data-filter="insights">Insights</button>
-          </div>
+          <h1><span class="grad">Insights</span></h1>
+          <p class="page-intro">Timely commentary and analysis on the technology, regulation, and market dynamics shaping modern finance.</p>
         </div>
         <div class="posts-list" id="posts-container"></div>
         <footer><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span></footer>
@@ -650,7 +644,7 @@
 
     <div id="article-view" class="article-view">
       <div class="shell" style="max-width:760px;">
-        <button class="back-btn" onclick="closeArticle()">← All Writings</button>
+        <button class="back-btn" onclick="closeArticle()">← All Insights</button>
         <div class="article-category" id="art-category"></div>
         <h1 class="article-title" id="art-title"></h1>
         <div class="article-meta" id="art-meta"></div>
@@ -780,7 +774,6 @@
     // ═══════════════════════════════════════════════════
     //  DATA GUARDS
     // ═══════════════════════════════════════════════════
-    if (typeof POSTS === 'undefined') window.POSTS = [];
     if (typeof INSIGHTS === 'undefined') window.INSIGHTS = [];
     if (typeof MODELS === 'undefined') window.MODELS = [];
 
@@ -825,7 +818,7 @@
     }
 
     // ─── NAV (updates URL) ───
-    const PATHS = { home: '/', blog: '/writings', models: '/models', about: '/about', contact: '/contact' };
+    const PATHS = { home: '/', blog: '/insights', models: '/models', about: '/about', contact: '/contact' };
     function navClick(name) { showPage(name); }
     function showPage(name) {
       if (name === 'blog') showBlogList();
@@ -834,19 +827,8 @@
       window.history.pushState(null, '', PATHS[name] || '/');
     }
 
-    // ─── ARTICLES ───
+    // ─── INSIGHTS ───
     let _isRouting = false;
-    function openArticle(id) {
-      const post = POSTS.find(p => p.id === id); if (!post) return;
-      document.getElementById('art-category').textContent = post.category;
-      document.getElementById('art-title').textContent = post.title;
-      document.getElementById('art-meta').textContent = post.date;
-      document.getElementById('art-body').innerHTML = convertBracketLinks(post.content);
-      document.getElementById('blog-list').style.display = 'none';
-      document.getElementById('article-view').classList.add('active');
-      window.scrollTo(0, 0);
-      if (!_isRouting) window.history.pushState(null, '', '/article/' + id);
-    }
     function openInsight(id) {
       const ins = INSIGHTS.find(i => i.id === id); if (!ins) return;
       document.getElementById('art-category').textContent = ins.category;
@@ -863,7 +845,7 @@
       document.getElementById('blog-list').style.display = '';
       setActiveFilter('all'); renderWritings('all');
       window.scrollTo(0, 0);
-      window.history.pushState(null, '', '/writings');
+      window.history.pushState(null, '', '/insights');
     }
 
     // ─── MODELS ───
@@ -900,19 +882,14 @@
       tab.addEventListener('click', function () { setActiveFilter(this.dataset.filter); renderWritings(this.dataset.filter); });
     });
 
-    // ─── RENDER: WRITINGS ───
-    function renderWritings(filter = 'all') {
+    // ─── RENDER: INSIGHTS ───
+    function renderWritings() {
       const container = document.getElementById('posts-container');
       container.innerHTML = '';
-      let items = [];
-      if (filter === 'all') {
-        items = [...POSTS.map(p => ({ ...p, type: 'Publication' })), ...INSIGHTS.map(i => ({ ...i, type: 'Insight' }))];
-        items.sort((a, b) => new Date(b.date) - new Date(a.date));
-      } else if (filter === 'publications') items = POSTS.map(p => ({ ...p, type: 'Publication' }));
-      else if (filter === 'insights') items = INSIGHTS.map(i => ({ ...i, type: 'Insight' }));
+      const items = [...INSIGHTS].sort((a, b) => new Date(b.date) - new Date(a.date));
 
       if (!items.length) {
-        container.innerHTML = '<div class="empty-state">// No writings published yet — check back soon.</div>';
+        container.innerHTML = '<div class="empty-state">// No insights published yet — check back soon.</div>';
         return;
       }
       items.forEach(item => {
@@ -921,14 +898,13 @@
         row.innerHTML = `
           <div class="post-date-col">${item.date}</div>
           <div>
-            <div class="post-category"><span class="type-badge">${item.type}</span><span>${item.category}</span></div>
+            <div class="post-category"><span>${item.category}</span></div>
             <div class="post-title">${item.title}</div>
             <div class="post-summary">${item.summary}</div>
           </div>
-          <div class="post-arrow">${item.type === 'Insight' && item.link ? '↗' : '→'}</div>`;
+          <div class="post-arrow">${item.link ? '↗' : '→'}</div>`;
         row.addEventListener('click', () => {
-          if (item.type === 'Publication') openArticle(item.id);
-          else if (item.link) window.open(item.link, '_blank');
+          if (item.link) window.open(item.link, '_blank');
           else openInsight(item.id);
         });
         container.appendChild(row);
@@ -984,20 +960,18 @@
 
       const feat = document.getElementById('home-featured');
       if (feat) {
-        const items = [...POSTS.map(p => ({ ...p, type: 'Publication' })), ...INSIGHTS.map(i => ({ ...i, type: 'Insight' }))]
-          .sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 4);
-        if (!items.length) { feat.innerHTML = '<div class="empty-state">// New writings coming soon.</div>'; return; }
+        const items = [...INSIGHTS].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 4);
+        if (!items.length) { feat.innerHTML = '<div class="empty-state">// New insights coming soon.</div>'; return; }
         feat.innerHTML = '';
         items.forEach(item => {
           const row = document.createElement('div');
           row.className = 'feature-row';
           row.innerHTML = `
-            <div class="feature-kind">${item.type}</div>
+            <div class="feature-kind">Insight</div>
             <div><div class="feature-title">${item.title}</div><div class="feature-sub">${item.date} · ${item.category}</div></div>
             <div class="feature-arrow">→</div>`;
           row.addEventListener('click', () => {
-            if (item.type === 'Publication') { showPage('blog'); openArticle(item.id); }
-            else if (item.link) window.open(item.link, '_blank');
+            if (item.link) window.open(item.link, '_blank');
             else { showPage('blog'); openInsight(item.id); }
           });
           feat.appendChild(row);
@@ -1018,17 +992,11 @@
     function routeFromPath() {
       const path = window.location.pathname;
       if (path === '/' || path === '/home' || path === '') activatePage('home');
-      else if (path === '/writings') showBlogList();
+      else if (path === '/insights' || path === '/writings') showBlogList();
       else if (path === '/models') showModelsList();
       else if (path === '/about') activatePage('about');
       else if (path === '/contact') activatePage('contact');
-      else if (path.startsWith('/article/')) {
-        const id = path.replace('/article/', ''); _isRouting = true;
-        activatePage('blog'); renderWritings('all'); setActiveFilter('all');
-        document.getElementById('article-view').classList.remove('active');
-        document.getElementById('blog-list').style.display = '';
-        openArticle(id); _isRouting = false;
-      } else if (path.startsWith('/insight/')) {
+      else if (path.startsWith('/insight/')) {
         const id = path.replace('/insight/', ''); _isRouting = true;
         activatePage('blog'); renderWritings('all'); setActiveFilter('all');
         document.getElementById('article-view').classList.remove('active');
@@ -1060,10 +1028,7 @@
       const setMeta = (prop, val) => { const el = document.querySelector('meta[property="' + prop + '"]'); if (el) el.setAttribute('content', val); };
       setMeta('og:url', base + path);
       const canonical = document.getElementById('canonical-url'); if (canonical) canonical.setAttribute('href', base + path);
-      if (path.startsWith('/article/')) {
-        const post = POSTS.find(p => p.id === path.replace('/article/', ''));
-        if (post) { document.title = post.title + ' — Michael Gertsik'; setMeta('og:title', post.title); setMeta('og:description', post.summary || '2L · Fordham University School of Law'); }
-      } else if (path.startsWith('/insight/')) {
+      if (path.startsWith('/insight/')) {
         const ins = INSIGHTS.find(i => i.id === path.replace('/insight/', ''));
         if (ins) { document.title = ins.title + ' — Michael Gertsik'; setMeta('og:title', ins.title); setMeta('og:description', ins.summary || '2L · Fordham University School of Law'); }
       } else if (path.startsWith('/model/')) {

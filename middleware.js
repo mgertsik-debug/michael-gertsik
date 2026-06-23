@@ -48,7 +48,7 @@ const MODELS = {
 const OG_IMAGE = 'https://www.michael-gertsik.com/LINKEDIN_IMAGE.png';
 
 export const config = {
-  matcher: ['/article/:path*', '/insight/:path*', '/model/:path*', '/writings', '/models', '/about', '/contact', '/'],
+  matcher: ['/insight/:path*', '/model/:path*', '/insights', '/writings', '/models', '/about', '/contact', '/'],
 };
 
 export default async function middleware(request) {
@@ -62,7 +62,7 @@ export default async function middleware(request) {
   let pageTitle = 'Michael Gertsik';
   let pageDesc = '2L · Fordham University School of Law';
 
-  const match = path.match(/^\/(article|insight|model)\/(.+)$/);
+  const match = path.match(/^\/(insight|model)\/(.+)$/);
   const kind = match?.[1];
   const id = match?.[2];
 
@@ -72,6 +72,9 @@ export default async function middleware(request) {
   } else if (id && ARTICLES[id]) {
     pageTitle = ARTICLES[id].title;
     pageDesc = ARTICLES[id].description;
+  } else if (path === '/insights' || path === '/writings') {
+    pageTitle = 'Insights — Michael Gertsik';
+    pageDesc = 'Timely commentary and analysis on the technology, regulation, and market dynamics shaping modern finance.';
   } else if (path === '/models') {
     pageTitle = 'Interactive Models — Michael Gertsik';
     pageDesc = 'Hands-on interactive demonstrations of how law, finance, and technology systems work.';
