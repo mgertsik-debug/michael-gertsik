@@ -504,46 +504,81 @@
   }
 
   /* ---------- context panel ---------- */
+  // Full detail card for one matter (shown when it is selected).
+  function detailBlock(sel) {
+    const oc = OUT[sel.outcome], po = POSTURE[sel.posture];
+    const row = (k, v) => h("div", { key: k, style: { display: "flex", gap: "10px", padding: "7px 0", borderBottom: "1px solid rgba(255,255,255,.04)" } },
+      h("div", { style: { font: `500 9.5px ${MONO}`, letterSpacing: ".1em", color: "#6B7280", width: "88px", flexShrink: "0", paddingTop: "1px" } }, k),
+      h("div", { style: { font: `500 12.5px ${SANS}`, color: "#D1D5DB", flex: "1", lineHeight: "1.45" } }, v));
+    return h("div", null,
+      h("div", { style: { font: `700 16px ${SANS}`, color: "#F3F4F6", lineHeight: "1.3", letterSpacing: "-.01em" } }, sel.caption),
+      h("div", { style: { display: "flex", gap: "8px", marginTop: "12px", marginBottom: "14px" } },
+        h("div", { style: { flex: "1", padding: "9px 11px", borderRadius: "10px", background: po.c + "1f", border: "1px solid " + po.c + "40" } },
+          h("div", { style: { font: `500 9px ${MONO}`, letterSpacing: ".14em", color: "#9CA3AF" } }, "STATUS"),
+          h("div", { style: { display: "flex", alignItems: "center", gap: "7px", marginTop: "5px" } },
+            h("span", { style: { width: "9px", height: "9px", borderRadius: "50%", background: po.c } }),
+            h("span", { style: { font: `600 12.5px ${SANS}`, color: "#F3F4F6" } }, po.label + " (" + po.l + ")"))),
+        h("div", { style: { padding: "9px 11px", borderRadius: "10px", background: oc.g, border: "1px solid " + oc.c + "40", minWidth: "78px" } },
+          h("div", { style: { font: `500 9px ${MONO}`, letterSpacing: ".14em", color: "#9CA3AF" } }, "OUTCOME"),
+          h("div", { style: { font: `600 12.5px ${SANS}`, color: oc.c, marginTop: "5px" } }, oc.label + " (" + oc.l + ")"))),
+      h("div", { style: { font: `400 12.5px ${SANS}`, color: "#9CA3AF", lineHeight: "1.55", marginBottom: "12px" } }, sel.summary),
+      row("PARTIES", sel.parties.map((p, i) => h("div", { key: i }, h("span", { style: { color: "#E5E7EB" } }, p.name), h("span", { style: { color: "#6B7280" } }, " · " + p.role)))),
+      row("PLATFORM", sel.platform),
+      row("CONTRACT", sel.contractType),
+      row("FORUM", sel.forum),
+      row("STATES", sel.states.length ? sel.states.join(", ") : "None (federal)"),
+      row("STATUTES", sel.statutes.join(" · ")),
+      row("QUESTION", h("span", { style: { color: "#A7F3D0", fontStyle: "italic" } }, sel.doctrinalQuestion)),
+      row("FILED", yearOf(sel.filedDate) + (sel.decidedDate ? "  →  decided " + yearOf(sel.decidedDate) : "  ·  ongoing")),
+      h("button", { onClick: () => set({ sourcesOpen: !S.sourcesOpen }), "aria-expanded": S.sourcesOpen ? "true" : "false",
+        style: { marginTop: "12px", width: "100%", display: "flex", alignItems: "center", gap: "8px", padding: "9px 11px", borderRadius: "9px", cursor: "pointer",
+          border: "1px solid " + (S.sourcesOpen ? "rgba(52,211,153,.35)" : "rgba(255,255,255,.07)"), background: S.sourcesOpen ? "rgba(52,211,153,.07)" : "rgba(255,255,255,.02)", color: "#6EE7B7", font: `600 10.5px ${MONO}`, letterSpacing: ".1em" } },
+        h("span", null, S.sourcesOpen ? "−" : "+"), " READING & SOURCES"),
+      S.sourcesOpen ? h("div", { style: { padding: "10px 12px", animation: "pmleUp .2s ease" } },
+        sel.sources.map((src, i) => h("div", { key: i, style: { font: `400 11.5px ${MONO}`, color: "#9CA3AF", padding: "4px 0", display: "flex", gap: "8px" } },
+          h("span", { style: { color: "#34D399" } }, "›"), src))) : null);
+  }
+
+  // Compact, clickable row used in the search-results list.
+  function resultRow(m) {
+    const oc = OUT[m.outcome], on = S.selectedId === m.id;
+    return h("button", { key: m.id, onClick: () => select(m.id),
+      onMouseEnter: (e) => showTip(e, m.caption, [oc.label + (m.states.length ? " · " + m.states.join(",") : " · federal")]),
+      onMouseMove: moveTip, onMouseLeave: hideTip,
+      style: { width: "100%", textAlign: "left", display: "flex", alignItems: "flex-start", gap: "10px", padding: "10px 11px", borderRadius: "10px", cursor: "pointer", marginBottom: "7px",
+        border: "1px solid " + (on ? "rgba(52,211,153,.5)" : "rgba(255,255,255,.06)"), background: on ? "rgba(52,211,153,.09)" : "rgba(255,255,255,.02)", transition: "border-color .15s, background .15s" } },
+      h("span", { style: { width: "9px", height: "9px", borderRadius: "50%", background: oc.c, flexShrink: "0", marginTop: "4px" } }),
+      h("div", { style: { flex: "1", minWidth: "0" } },
+        h("div", { style: { font: `600 13px ${SANS}`, color: on ? "#ECFDF5" : "#E5E7EB", lineHeight: "1.3" } }, m.caption),
+        h("div", { style: { font: `500 10.5px ${MONO}`, color: "#6B7280", marginTop: "4px" } }, m.forum + (m.states.length ? " · " + m.states.join(",") : "") + " · " + oc.label)));
+  }
+
   function context(sel) {
+    const list = filtered();
+    const querying = S.search.trim() !== "" || activePills().length > 0;
+    const selInList = sel && list.some((m) => m.id === sel.id);
     const head = h("div", { style: { font: `600 11px ${MONO}`, letterSpacing: ".18em", color: "#A7F3D0", marginBottom: "14px" } }, "MATTER DETAIL");
+
     let body;
-    if (!sel) {
+    if (querying) {
+      // Active search / filter: lead with every matching matter so the user can
+      // scroll through them; if one is selected, its full detail sits on top.
+      const parts = [];
+      if (selInList) parts.push(detailBlock(sel), h("div", { style: { height: "1px", background: "rgba(255,255,255,.07)", margin: "16px 0" } }));
+      parts.push(h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", margin: "2px 0 11px" } },
+        h("div", { style: { font: `500 10px ${MONO}`, letterSpacing: ".16em", color: "#6B7280" } }, list.length + (list.length === 1 ? " MATCH" : " MATCHES")),
+        h("button", { onClick: clearAll, "aria-label": "Clear search and filters", style: { padding: "3px 8px", borderRadius: "20px", cursor: "pointer", border: "1px solid rgba(255,255,255,.08)", background: "transparent", color: "#6B7280", font: `500 10px ${MONO}`, letterSpacing: ".06em" } }, "clear")));
+      parts.push(list.length
+        ? h("div", null, list.map(resultRow))
+        : h("div", { style: { padding: "20px 6px", textAlign: "center", font: `500 13px ${SANS}`, color: "#6B7280", lineHeight: "1.55" } }, "No matters match your search. Try a case name, a party (e.g. Kalshi, CFTC), or a statute."));
+      body = h("div", { key: "q" + S.search + S.selectedId, style: { animation: "pmleFade .2s ease" } }, parts);
+    } else if (sel) {
+      body = detailBlock(sel);
+    } else {
       body = h("div", { style: { padding: "30px 6px", textAlign: "center" } },
         h("div", { style: { width: "42px", height: "42px", borderRadius: "11px", margin: "0 auto 14px", border: "1px dashed rgba(255,255,255,.14)", display: "flex", alignItems: "center", justifyContent: "center", color: "#4B5563", fontSize: "18px" } }, "◎"),
-        h("div", { style: { font: `500 13.5px ${SANS}`, color: "#9CA3AF", lineHeight: "1.55" } }, "Hover or select anything to inspect it."),
-        h("div", { style: { font: `400 12px ${SANS}`, color: "#6B7280", marginTop: "8px", lineHeight: "1.55" } }, "Your selection stays in sync across all five lenses."));
-    } else {
-      const oc = OUT[sel.outcome], po = POSTURE[sel.posture];
-      const row = (k, v) => h("div", { key: k, style: { display: "flex", gap: "10px", padding: "7px 0", borderBottom: "1px solid rgba(255,255,255,.04)" } },
-        h("div", { style: { font: `500 9.5px ${MONO}`, letterSpacing: ".1em", color: "#6B7280", width: "88px", flexShrink: "0", paddingTop: "1px" } }, k),
-        h("div", { style: { font: `500 12.5px ${SANS}`, color: "#D1D5DB", flex: "1", lineHeight: "1.45" } }, v));
-      body = h("div", null,
-        h("div", { style: { font: `700 16px ${SANS}`, color: "#F3F4F6", lineHeight: "1.3", letterSpacing: "-.01em" } }, sel.caption),
-        h("div", { style: { display: "flex", gap: "8px", marginTop: "12px", marginBottom: "14px" } },
-          h("div", { style: { flex: "1", padding: "9px 11px", borderRadius: "10px", background: po.c + "1f", border: "1px solid " + po.c + "40" } },
-            h("div", { style: { font: `500 9px ${MONO}`, letterSpacing: ".14em", color: "#9CA3AF" } }, "STATUS"),
-            h("div", { style: { display: "flex", alignItems: "center", gap: "7px", marginTop: "5px" } },
-              h("span", { style: { width: "9px", height: "9px", borderRadius: "50%", background: po.c } }),
-              h("span", { style: { font: `600 12.5px ${SANS}`, color: "#F3F4F6" } }, po.label + " (" + po.l + ")"))),
-          h("div", { style: { padding: "9px 11px", borderRadius: "10px", background: oc.g, border: "1px solid " + oc.c + "40", minWidth: "78px" } },
-            h("div", { style: { font: `500 9px ${MONO}`, letterSpacing: ".14em", color: "#9CA3AF" } }, "OUTCOME"),
-            h("div", { style: { font: `600 12.5px ${SANS}`, color: oc.c, marginTop: "5px" } }, oc.label + " (" + oc.l + ")"))),
-        h("div", { style: { font: `400 12.5px ${SANS}`, color: "#9CA3AF", lineHeight: "1.55", marginBottom: "12px" } }, sel.summary),
-        row("PARTIES", sel.parties.map((p, i) => h("div", { key: i }, h("span", { style: { color: "#E5E7EB" } }, p.name), h("span", { style: { color: "#6B7280" } }, " · " + p.role)))),
-        row("PLATFORM", sel.platform),
-        row("CONTRACT", sel.contractType),
-        row("FORUM", sel.forum),
-        row("STATES", sel.states.length ? sel.states.join(", ") : "None (federal)"),
-        row("STATUTES", sel.statutes.join(" · ")),
-        row("QUESTION", h("span", { style: { color: "#A7F3D0", fontStyle: "italic" } }, sel.doctrinalQuestion)),
-        row("FILED", yearOf(sel.filedDate) + (sel.decidedDate ? "  →  decided " + yearOf(sel.decidedDate) : "  ·  ongoing")),
-        h("button", { onClick: () => set({ sourcesOpen: !S.sourcesOpen }), "aria-expanded": S.sourcesOpen ? "true" : "false",
-          style: { marginTop: "12px", width: "100%", display: "flex", alignItems: "center", gap: "8px", padding: "9px 11px", borderRadius: "9px", cursor: "pointer",
-            border: "1px solid " + (S.sourcesOpen ? "rgba(52,211,153,.35)" : "rgba(255,255,255,.07)"), background: S.sourcesOpen ? "rgba(52,211,153,.07)" : "rgba(255,255,255,.02)", color: "#6EE7B7", font: `600 10.5px ${MONO}`, letterSpacing: ".1em" } },
-          h("span", null, S.sourcesOpen ? "−" : "+"), " READING & SOURCES"),
-        S.sourcesOpen ? h("div", { style: { padding: "10px 12px", animation: "pmleUp .2s ease" } },
-          sel.sources.map((src, i) => h("div", { key: i, style: { font: `400 11.5px ${MONO}`, color: "#9CA3AF", padding: "4px 0", display: "flex", gap: "8px" } },
-            h("span", { style: { color: "#34D399" } }, "›"), src))) : null);
+        h("div", { style: { font: `500 13.5px ${SANS}`, color: "#9CA3AF", lineHeight: "1.55" } }, "Search a case, party, or statute, or select anything to inspect it."),
+        h("div", { style: { font: `400 12px ${SANS}`, color: "#6B7280", marginTop: "8px", lineHeight: "1.55" } }, "Matches list here and light up across all five lenses."));
     }
     return h("div", { className: "pmle-context", style: { position: "sticky", top: "14px", borderRadius: "14px", border: "1px solid rgba(255,255,255,.07)", background: "rgba(17,22,21,.55)", padding: "16px 16px 18px", maxHeight: "78vh", overflowY: "auto" } }, head, body);
   }
