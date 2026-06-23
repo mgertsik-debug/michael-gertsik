@@ -324,7 +324,27 @@
     return h("div", null,
       lensHeader("UNITED STATES · POSTURE BY STATE", "This area of law is fought state-by-state. Color = current posture."),
       h("svg", { viewBox: "0 0 440 322", role: "img", "aria-label": "US cartogram colored by posture", style: { width: "100%", maxWidth: "560px", margin: "4px auto 0", display: "block" } }, cells),
-      legend([["Permitted", "#34D399"], ["Pending", "#FBBF24"], ["Regulator action", "#FB923C"], ["Enjoined", "#F87171"], ["Settled", "#60A5FA"], ["Silent", "#1b211f"]]));
+      legend([["Permitted", "#34D399"], ["Pending", "#FBBF24"], ["Regulator action", "#FB923C"], ["Enjoined", "#F87171"], ["Settled", "#60A5FA"], ["Dismissed", "#6B7280"], ["Silent", "#1b211f"]]),
+      postureKey());
+  }
+  // One-sentence definition of each posture shown in the map legend.
+  const POSTURE_DEFS = [
+    ["Permitted", "#34D399", "A court or regulator allowed the market to operate; the contracts were upheld."],
+    ["Pending", "#FBBF24", "The matter is in active litigation, with no decision reached yet."],
+    ["Regulator action", "#FB923C", "An agency (the CFTC, the SEC, or a state board) has an open enforcement proceeding underway."],
+    ["Enjoined", "#F87171", "A court ordered the activity halted; an injunction is in force."],
+    ["Settled", "#60A5FA", "The matter was resolved by agreement or a consent order rather than a ruling."],
+    ["Dismissed", "#6B7280", "The claim was thrown out, so the market was not found unlawful on that theory."],
+    ["Silent", "#1b211f", "No matter is on record in that state, so the tile stays dim."],
+  ];
+  function postureKey() {
+    return h("details", { style: { maxWidth: "560px", margin: "12px auto 0" } },
+      h("summary", { style: { cursor: "pointer", listStyle: "none", font: `600 10px ${MONO}`, letterSpacing: ".16em", color: "#6B7280", padding: "5px 0", textAlign: "center" } }, "WHAT EACH POSTURE MEANS"),
+      h("div", { style: { display: "grid", gap: "7px", marginTop: "8px", padding: "12px 14px", borderRadius: "12px", border: "1px solid rgba(255,255,255,.07)", background: "rgba(255,255,255,.02)" } },
+        POSTURE_DEFS.map(([term, color, def]) => h("div", { key: term, style: { display: "flex", gap: "10px", alignItems: "flex-start" } },
+          h("span", { style: { width: "11px", height: "11px", borderRadius: "3px", background: color, flexShrink: "0", marginTop: "3px", border: "1px solid " + color, opacity: color === "#1b211f" ? 1 : 0.7 } }),
+          h("div", { style: { font: `400 12px ${SANS}`, color: "#9CA3AF", lineHeight: "1.5" } },
+            h("span", { style: { color: "#E5E7EB", fontWeight: "600" } }, term), ": " + def)))));
   }
 
   /* ---------- TIMELINE ---------- */
