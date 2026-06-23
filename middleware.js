@@ -45,7 +45,7 @@ const MODELS = {
 };
 // ─────────────────────────────────────────────────────────────
 
-const OG_IMAGE = 'https://www.michael-gertsik.com/og-card.png';
+const OG_IMAGE = 'https://www.michael-gertsik.com/link-preview.png';
 
 export const config = {
   matcher: ['/insight/:path*', '/model/:path*', '/insights', '/writings', '/models', '/about', '/contact', '/'],
@@ -92,7 +92,7 @@ export default async function middleware(request) {
   html = html.replace(/<link id="canonical-url" rel="canonical" href="[^"]*"/, `<link id="canonical-url" rel="canonical" href="${fullUrl}"`);
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`);
 
-  // Inject og:image: always the og-card.png preview
+  // Inject og:image: always the link-preview.png image
   if (!html.includes('og:image')) {
     html = html.replace(
       /<meta property="og:url"/,
