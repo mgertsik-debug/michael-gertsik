@@ -92,7 +92,7 @@ export default async function middleware(request) {
   html = html.replace(/<link id="canonical-url" rel="canonical" href="[^"]*"/, `<link id="canonical-url" rel="canonical" href="${fullUrl}"`);
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`);
 
-  // Inject og:image: always your LINKEDIN_IMAGE.png
+  // Inject og:image: always the og-card.png preview
   if (!html.includes('og:image')) {
     html = html.replace(
       /<meta property="og:url"/,
