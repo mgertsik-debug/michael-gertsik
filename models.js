@@ -20,6 +20,14 @@
 //    summary   one or two sentences shown on the card
 //    status    "live"  → opens the interactive model
 //              "soon"  → shows a "Coming soon" card (no link)
+//    level     optional short tag shown next to the topic on the
+//              card, e.g. "Framework", "Case study", "Intro".
+//
+//  The Models page treats `category` as the primary TOPIC: it
+//  auto-builds the topic filter pills (with counts) and feeds the
+//  search box, so just give each model a clean topic name
+//  (e.g. "Securities", "Market Integrity", "Derivatives",
+//  "Crypto & Digital Assets", "Corporate Governance").
 //
 //  Provide the interactive content in ONE of two ways:
 //    src   →  a path to a standalone .html file in the repo
@@ -41,6 +49,7 @@ const MODELS = [
   {
     id: "insider-trading-timeline",
     category: "Market Integrity",
+    level: "Case study",
     title: "Insider Trading: Anatomy of a Case",
     summary: "An interactive timeline that walks through a classic insider-trading fact pattern: who knew what, when, and how the elements of liability come together.",
     status: "soon",
@@ -55,7 +64,8 @@ const MODELS = [
   // carries its controlling doctrine and case law.
   {
     id: "securities-analyzer",
-    category: "Securities Analysis",
+    category: "Securities",
+    level: "Framework",
     title: "Is It a Security? Run the Test.",
     summary: "A guided, authority-backed walkthrough of the full federal securities analysis. Classify the instrument, toggle every operative fact, and watch each choice drive the determination with the controlling case law at every step.",
     status: "live",
