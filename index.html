@@ -15,7 +15,7 @@
   <title>Michael Gertsik</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="/insights.js"></script>
   <script src="/models.js"></script>
   <style>
@@ -29,15 +29,15 @@
       --text: #E6E8EC;
       --text-dim: #9aa3b2;
       --text-muted: #7C8696;
-      --accent: #34B87A;     /* signal green */
-      --accent2: #DE6F66;     /* signal red */
-      --accent-dim: rgba(52,184,122,0.12);
-      --green: #2E9E6B;
-      --red: #D86B6B;
-      --glow: rgba(52,184,122,0.42);
+      --accent: #34D399;     /* signal green */
+      --accent2: #F87171;     /* signal red */
+      --accent-dim: rgba(52,211,153,0.12);
+      --green: #34D399;
+      --red: #F87171;
+      --glow: rgba(52,211,153,0.42);
       --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       --heading: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      --mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+      --mono: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -65,7 +65,7 @@
       opacity: 0.9;
       transition: opacity 0.6s ease;
     }
-    body.subdued #bg-canvas { opacity: 0.4; }
+    body.subdued #bg-canvas { opacity: 0.6; }
 
     /* grid + radial glow overlay */
     body::before {
@@ -87,8 +87,8 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(1100px 620px at 80% -10%, rgba(46,158,107,0.13), transparent 60%),
-        radial-gradient(900px 520px at 6% 110%, rgba(216,107,107,0.10), transparent 55%);
+        radial-gradient(1100px 620px at 80% -10%, rgba(52,211,153,0.13), transparent 60%),
+        radial-gradient(900px 520px at 6% 110%, rgba(248,113,113,0.10), transparent 55%);
       pointer-events: none;
       z-index: 0;
     }
@@ -238,9 +238,9 @@
     .btn svg { width: 16px; height: 16px; }
     .btn-primary {
       background: linear-gradient(110deg, var(--accent), var(--accent2));
-      color: #05101f; box-shadow: 0 8px 30px rgba(52,184,122,0.22);
+      color: #05101f; box-shadow: 0 8px 30px rgba(52,211,153,0.22);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(52,184,122,0.38); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(52,211,153,0.38); }
     .btn-ghost {
       background: rgba(150,162,178,0.04); color: var(--text);
       border-color: var(--border-bright);
@@ -288,7 +288,7 @@
     }
     .glass-card::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(420px circle at var(--mx,50%) var(--my,0%), rgba(52,184,122,0.10), transparent 45%);
+      background: radial-gradient(420px circle at var(--mx,50%) var(--my,0%), rgba(52,211,153,0.10), transparent 45%);
       opacity: 0; transition: opacity 0.4s; pointer-events: none;
     }
     .glass-card:hover { transform: translateY(-5px); border-color: var(--border-bright); box-shadow: 0 16px 44px rgba(0,0,0,0.4), 0 0 0 1px var(--border-bright); }
@@ -325,7 +325,7 @@
     /* ─── WRITINGS ─── */
     .page-head { padding: 130px 0 36px; }
     .page-head h1 { font-family: var(--heading); font-size: clamp(34px, 5vw, 56px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; }
-    .page-head .grad { background: linear-gradient(110deg, var(--text) 0%, var(--accent) 52%, var(--accent2) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .page-head .grad { background: linear-gradient(115deg, var(--text) 22%, var(--accent) 115%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
     .page-intro { font-size: 16px; color: var(--text-dim); max-width: 560px; margin-top: 14px; }
 
     .filter-tabs { display: flex; gap: 8px; margin-top: 30px; flex-wrap: wrap; }
@@ -349,7 +349,7 @@
     .post-category { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 9px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .type-badge {
       display: inline-block; padding: 3px 10px; font-size: 10px; font-weight: 600; border-radius: 999px;
-      background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(52,184,122,0.25);
+      background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(52,211,153,0.25);
       letter-spacing: 0.08em; text-transform: uppercase;
     }
     .post-title { font-family: var(--heading); font-size: 21px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 10px; transition: color 0.2s; letter-spacing: -0.015em; }
@@ -409,7 +409,7 @@
     .mcard > * { position: relative; z-index: 1; }
     .mtop-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 2; background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent); opacity: 0.35; transition: opacity .3s; }
     .mcard.live { cursor: pointer; }
-    .mcard.live:hover { transform: translateY(-8px); border-color: var(--border-bright); box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 42px rgba(52,184,122,0.10); }
+    .mcard.live:hover { transform: translateY(-8px); border-color: var(--border-bright); box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 42px rgba(52,211,153,0.10); }
     .mcard.live:hover .mtop-line { opacity: 1; }
     .mcard.soon { opacity: 0.9; }
     .corner { position: absolute; width: 13px; height: 13px; color: var(--accent); opacity: 0; transition: opacity .3s; z-index: 2; }
@@ -422,7 +422,7 @@
     .mcard-idx { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.14em; color: var(--text-muted); }
     .mcard-idx b { color: var(--accent); font-weight: 600; }
     .mstatus { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 11px; border-radius: 99px; border: 1px solid; }
-    .mstatus.live { color: var(--green); border-color: rgba(46,158,107,0.4); background: rgba(46,158,107,0.08); }
+    .mstatus.live { color: var(--green); border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.08); }
     .mstatus.soon { color: var(--text-muted); border-color: var(--border); background: rgba(150,162,178,0.04); }
     .mdot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
     .mstatus.live .mdot { box-shadow: 0 0 8px currentColor; animation: pulse 2s ease-in-out infinite; }
@@ -468,7 +468,7 @@
     .timeline { display: flex; flex-direction: column; padding-left: 26px; border-left: 2px solid var(--border); margin-left: 4px; }
     .timeline-item { padding: 0 0 40px 30px; position: relative; }
     .timeline-item:last-child { padding-bottom: 0; }
-    .timeline-item::before { content: ''; position: absolute; left: -34px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); box-shadow: 0 0 0 2px rgba(52,184,122,0.35), 0 0 14px var(--glow); }
+    .timeline-item::before { content: ''; position: absolute; left: -34px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); box-shadow: 0 0 0 2px rgba(52,211,153,0.35), 0 0 14px var(--glow); }
     .timeline-date { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent2); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
     .timeline-role { font-family: var(--heading); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
     .timeline-org { font-size: 13px; color: var(--text-dim); margin-bottom: 12px; }
@@ -629,9 +629,9 @@
         </div>
         <div class="model-frame-wrap">
           <div class="model-frame-bar">
-            <span class="tdot" style="background:#D86B6B;"></span>
+            <span class="tdot" style="background:#F87171;"></span>
             <span class="tdot" style="background:#E0B45A;"></span>
-            <span class="tdot" style="background:#2E9E6B;"></span>
+            <span class="tdot" style="background:#34D399;"></span>
             <span class="frame-label" id="model-frame-label">model</span>
           </div>
           <iframe id="model-frame" title="Interactive model" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer"></iframe>
@@ -990,74 +990,58 @@
     else boot();
   </script>
 
-  <!-- ANIMATED CANDLESTICK BACKGROUND (2D canvas) -->
+  <!-- AMBIENT GLOW BACKGROUND (2D canvas) -->
   <script>
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var canvas = document.getElementById('bg-canvas');
       if (!canvas || !canvas.getContext) return;
       var ctx = canvas.getContext('2d');
-      var UP = '46,158,107', DOWN = '216,107,107', MA = '150,162,178';
-      var W = 0, H = 0, dpr = 1, step = 0, bodyW = 0, baseY = 0, amp = 0, n = 0;
-      var candles = [], offset = 0, running = true, raf = 0, rt = 0;
-
+      var COLORS = ['52,211,153', '52,211,153', '52,211,153', '248,113,113', '150,162,178'];
+      var W = 0, H = 0, dpr = 1, orbs = [], raf = 0, running = true, rt = 0;
       function rnd(a, b) { return a + Math.random() * (b - a); }
-      function makeCandle(prev) {
-        var open = (prev == null) ? rnd(0.35, 0.65) : prev;
-        var close = Math.min(0.94, Math.max(0.06, open + rnd(-0.075, 0.08)));
-        var hi = Math.max(open, close) + rnd(0.01, 0.05);
-        var lo = Math.min(open, close) - rnd(0.01, 0.05);
-        return { open: open, close: close, hi: hi, lo: lo };
-      }
       function build() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         W = window.innerWidth; H = window.innerHeight;
         canvas.width = W * dpr; canvas.height = H * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        bodyW = Math.max(6, Math.round(W / 120));
-        step = Math.round(bodyW * 2.2);
-        baseY = H * 0.5; amp = Math.min(H * 0.3, 280);
-        n = Math.ceil(W / step) + 4;
-        candles = []; var p = null;
-        for (var i = 0; i < n; i++) { var c = makeCandle(p); candles.push(c); p = c.close; }
-        offset = 0;
+        var small = W < 760, count = small ? 6 : 10;
+        orbs = [];
+        for (var i = 0; i < count; i++) {
+          orbs.push({
+            x: rnd(0, W), y: rnd(0, H),
+            r: rnd(small ? 130 : 200, small ? 250 : 380),
+            c: COLORS[i % COLORS.length],
+            a: rnd(0.05, 0.11),
+            sx: rnd(-0.12, 0.12), sy: rnd(-0.09, 0.09),
+            ph: rnd(0, Math.PI * 2), amp: rnd(20, 55)
+          });
+        }
       }
-      function yv(v) { return baseY - (v - 0.5) * amp * 2; }
-      function draw() {
+      function draw(t) {
         ctx.clearRect(0, 0, W, H);
-        ctx.lineWidth = 1.4; ctx.strokeStyle = 'rgba(' + MA + ',0.26)'; ctx.shadowBlur = 0;
-        ctx.beginPath();
-        for (var i = 0; i < candles.length; i++) {
-          var s = 0, k = 0;
-          for (var j = Math.max(0, i - 6); j <= i; j++) { s += candles[j].close; k++; }
-          var x = i * step - offset, yy = yv(s / k);
-          if (i === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy);
+        ctx.globalCompositeOperation = 'lighter';
+        for (var i = 0; i < orbs.length; i++) {
+          var o = orbs[i];
+          var x = o.x + Math.sin(t * 0.00020 + o.ph) * o.amp;
+          var y = o.y + Math.cos(t * 0.00017 + o.ph) * o.amp * 0.7;
+          var g = ctx.createRadialGradient(x, y, 0, x, y, o.r);
+          g.addColorStop(0, 'rgba(' + o.c + ',' + o.a + ')');
+          g.addColorStop(1, 'rgba(' + o.c + ',0)');
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.arc(x, y, o.r, 0, Math.PI * 2); ctx.fill();
         }
-        ctx.stroke();
-        for (var a = 0; a < candles.length; a++) {
-          var c2 = candles[a], xx = a * step - offset, upx = c2.close >= c2.open;
-          var col = upx ? UP : DOWN;
-          ctx.strokeStyle = 'rgba(' + col + ',0.5)';
-          ctx.fillStyle = 'rgba(' + col + ',0.4)';
-          ctx.shadowColor = 'rgba(' + col + ',0.55)'; ctx.shadowBlur = 9;
-          ctx.lineWidth = 1.2;
-          ctx.beginPath(); ctx.moveTo(xx, yv(c2.hi)); ctx.lineTo(xx, yv(c2.lo)); ctx.stroke();
-          var yo = yv(c2.open), yc = yv(c2.close), top = Math.min(yo, yc), h = Math.max(2, Math.abs(yc - yo));
-          ctx.fillRect(xx - bodyW / 2, top, bodyW, h);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+      function move() {
+        for (var i = 0; i < orbs.length; i++) {
+          var o = orbs[i]; o.x += o.sx; o.y += o.sy;
+          if (o.x < -o.r) o.x = W + o.r; if (o.x > W + o.r) o.x = -o.r;
+          if (o.y < -o.r) o.y = H + o.r; if (o.y > H + o.r) o.y = -o.r;
         }
-        ctx.shadowBlur = 0;
       }
-      function frame() {
-        if (!running) return;
-        offset += 0.32;
-        if (offset >= step) { offset -= step; var last = candles[candles.length - 1]; candles.shift(); candles.push(makeCandle(last.close)); }
-        draw();
-        raf = requestAnimationFrame(frame);
-      }
-      function start() {
-        build(); draw();
-        if (!reduce) { cancelAnimationFrame(raf); running = true; raf = requestAnimationFrame(frame); }
-      }
+      function frame(t) { if (!running) return; move(); draw(t || 0); raf = requestAnimationFrame(frame); }
+      function start() { build(); draw(0); if (!reduce) { cancelAnimationFrame(raf); running = true; raf = requestAnimationFrame(frame); } }
       window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(build, 150); });
       document.addEventListener('visibilitychange', function () {
         running = !document.hidden;
