@@ -1005,6 +1005,12 @@
 
     window.addEventListener('popstate', () => { try { routeFromPath(); } catch (e) { activatePage('home'); } });
 
+    // Let an embedded model (e.g. the Prediction Market Explorer) ask to return to the index.
+    window.addEventListener('message', (e) => {
+      const d = e && e.data;
+      if (d && d.type === 'pmle-navigate' && d.to === '/models') { try { closeModel(); } catch (err) {} }
+    });
+
     function boot() {
       renderHome();
       try { routeFromPath(); } catch (e) { activatePage('home'); }

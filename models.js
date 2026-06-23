@@ -43,6 +43,24 @@
 
 const MODELS = [
 
+  // ── LIVE INTERACTIVE MODEL ───────────────────────────────
+  // The Prediction Market Litigation Explorer: every suit, regulatory
+  // action, and ruling across Kalshi, Polymarket, PredictIt and the
+  // CFTC / SEC / state gaming regulators, read through five synchronized
+  // lenses (map, timeline, matrix, network, doctrine flow) plus a
+  // "build a fact pattern" simulator. Its case data lives in a dedicated,
+  // validated data layer at /models/pmle/ (see HOW_TO_ADD_A_CASE.md) so
+  // new matters can be appended without touching any UI code.
+  {
+    id: "prediction-market-explorer",
+    category: "Prediction Markets",
+    level: "Explorer",
+    title: "The Prediction Market Litigation Explorer",
+    summary: "Trace every suit, regulatory action, and ruling across Kalshi, Polymarket, and the agencies they answer to. Filter the field once, then read it through five synchronized lenses, or build a hypothetical fact pattern and predict its posture.",
+    status: "live",
+    src: "/models/prediction-market-explorer.html",
+  },
+
   // ── COMING-SOON EXAMPLE ──────────────────────────────────
   // This is the pattern for a model you plan to build later.
   // Flip status to "live" and add `src` or `html` when ready.
