@@ -379,34 +379,60 @@
     .footnotes li { margin-bottom: 8px; line-height: 1.6; }
 
     /* ─── MODELS ─── */
-    .model-group { margin-bottom: 56px; }
-    .model-group-title {
-      font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 14px;
-    }
-    .model-group-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .model-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
-    .model-card {
-      background: linear-gradient(150deg, rgba(18,27,48,0.72) 0%, rgba(13,20,38,0.42) 100%);
-      border: 1px solid var(--border); border-radius: 18px; padding: 26px;
-      display: flex; flex-direction: column; gap: 12px; position: relative; overflow: hidden;
-      transition: transform 0.35s cubic-bezier(.22,1,.36,1), border-color 0.3s, box-shadow 0.3s;
-    }
-    .model-card.live { cursor: pointer; }
-    .model-card.live:hover { transform: translateY(-6px); border-color: var(--border-bright); box-shadow: 0 18px 50px rgba(0,0,0,0.45), 0 0 30px rgba(43,217,255,0.08); }
-    .model-card .glow-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent); opacity: 0; transition: opacity 0.3s; }
-    .model-card.live:hover .glow-line { opacity: 1; }
-    .model-status { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; }
-    .status-live { color: var(--green); }
-    .status-soon { color: var(--text-muted); }
-    .status-dot { width: 7px; height: 7px; border-radius: 50%; }
-    .status-live .status-dot { background: var(--green); box-shadow: 0 0 9px rgba(52,226,176,0.7); animation: pulse 2s ease-in-out infinite; }
-    .status-soon .status-dot { background: var(--text-muted); }
-    .model-card-title { font-family: var(--heading); font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.015em; line-height: 1.25; }
-    .model-card-desc { font-size: 14px; color: var(--text-dim); line-height: 1.65; flex: 1; }
-    .model-card-cta { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--accent); display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; }
-    .model-card.soon .model-card-cta { color: var(--text-muted); }
-    .model-card.live:hover .model-card-cta { gap: 12px; }
+    /* ===== MODELS — horizontal module rail ===== */
+    .models-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .models-sys { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 11px; margin-bottom: 14px; }
+    .models-sys::before { content: ''; width: 26px; height: 1px; background: linear-gradient(90deg, var(--accent), transparent); }
+    .rail-controls { display: flex; align-items: center; gap: 12px; padding-bottom: 4px; }
+    .rail-count { font-family: var(--mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; }
+    .rail-btn { width: 42px; height: 42px; border-radius: 11px; border: 1px solid var(--border-bright); background: rgba(120,170,255,0.05); color: var(--accent); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .2s, background .2s, transform .2s; }
+    .rail-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-dim); transform: translateY(-1px); }
+    .rail-btn:disabled { opacity: 0.28; cursor: not-allowed; }
+    .rail-btn svg { width: 18px; height: 18px; }
+
+    .model-rail { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 30px 4px 26px; margin: 0 -4px; scrollbar-width: thin; scrollbar-color: var(--accent) rgba(120,170,255,0.08); }
+    .model-rail::-webkit-scrollbar { height: 8px; }
+    .model-rail::-webkit-scrollbar-track { background: rgba(120,170,255,0.06); border-radius: 99px; }
+    .model-rail::-webkit-scrollbar-thumb { background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; }
+
+    .mcard { position: relative; flex: 0 0 350px; scroll-snap-align: start; min-height: 304px;
+      background: linear-gradient(160deg, rgba(18,27,48,0.85) 0%, rgba(10,16,30,0.6) 100%);
+      border: 1px solid var(--border); border-radius: 18px; padding: 24px;
+      display: flex; flex-direction: column; gap: 13px; overflow: hidden;
+      transition: transform .4s cubic-bezier(.22,1,.36,1), border-color .3s, box-shadow .3s; }
+    @media (max-width: 560px) { .mcard { flex-basis: 82vw; } }
+    .mcard::before { content: ''; position: absolute; inset: 0; z-index: 0;
+      background-image: radial-gradient(rgba(120,170,255,0.10) 1px, transparent 1px); background-size: 18px 18px; opacity: 0.5;
+      -webkit-mask-image: linear-gradient(180deg, #000, transparent 72%); mask-image: linear-gradient(180deg, #000, transparent 72%); pointer-events: none; }
+    .mcard > * { position: relative; z-index: 1; }
+    .mtop-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 2; background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent); opacity: 0.35; transition: opacity .3s; }
+    .mcard.live { cursor: pointer; }
+    .mcard.live:hover { transform: translateY(-8px); border-color: var(--border-bright); box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 42px rgba(43,217,255,0.10); }
+    .mcard.live:hover .mtop-line { opacity: 1; }
+    .mcard.soon { opacity: 0.9; }
+    .corner { position: absolute; width: 13px; height: 13px; color: var(--accent); opacity: 0; transition: opacity .3s; z-index: 2; }
+    .mcard.live:hover .corner { opacity: 0.85; }
+    .corner.tl { top: 11px; left: 11px; border-top: 1.5px solid; border-left: 1.5px solid; }
+    .corner.tr { top: 11px; right: 11px; border-top: 1.5px solid; border-right: 1.5px solid; }
+    .corner.bl { bottom: 11px; left: 11px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+    .corner.br { bottom: 11px; right: 11px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+    .mcard-top { display: flex; align-items: center; justify-content: space-between; }
+    .mcard-idx { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.14em; color: var(--text-muted); }
+    .mcard-idx b { color: var(--accent); font-weight: 600; }
+    .mstatus { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 11px; border-radius: 99px; border: 1px solid; }
+    .mstatus.live { color: var(--green); border-color: rgba(52,226,176,0.4); background: rgba(52,226,176,0.08); }
+    .mstatus.soon { color: var(--text-muted); border-color: var(--border); background: rgba(120,170,255,0.04); }
+    .mdot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .mstatus.live .mdot { box-shadow: 0 0 8px currentColor; animation: pulse 2s ease-in-out infinite; }
+    .mcard-cat { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .mcard-title { font-family: var(--heading); font-size: 21px; font-weight: 700; color: var(--text); line-height: 1.25; letter-spacing: -0.015em; }
+    .mcard-desc { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; flex: 1; }
+    .mcard-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .mcard-cta { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+    .mcard.soon .mcard-cta { color: var(--text-muted); }
+    .mcard-arrow { color: var(--accent); font-size: 18px; transition: transform .25s; }
+    .mcard.live:hover .mcard-arrow { transform: translateX(5px); }
+    .mcard-wm { position: absolute; right: -8px; bottom: -26px; z-index: 0; font-family: var(--heading); font-weight: 800; font-size: 130px; line-height: 1; letter-spacing: -0.04em; color: rgba(120,170,255,0.05); pointer-events: none; }
 
     /* model viewer */
     .model-view { display: none; padding: 110px 0 60px; }
@@ -593,10 +619,24 @@
     <div id="models-list">
       <div class="shell">
         <div class="page-head">
-          <h1><span class="grad">Interactive Models</span></h1>
-          <p class="page-intro">Hands-on demonstrations of how things in the law, finance &amp; technology space actually work, built to make complex frameworks tangible. Each model lives under its own section.</p>
+          <div class="models-head">
+            <div>
+              <div class="models-sys">Interactive_Models</div>
+              <h1><span class="grad">Interactive Models</span></h1>
+              <p class="page-intro">Hands-on demonstrations of how things in the law, finance &amp; technology space actually work, built to make complex frameworks tangible. Scroll the rail to explore each module.</p>
+            </div>
+            <div class="rail-controls">
+              <span class="rail-count" id="rail-count"></span>
+              <button class="rail-btn" id="rail-prev" onclick="railScroll(-1)" aria-label="Scroll left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <button class="rail-btn" id="rail-next" onclick="railScroll(1)" aria-label="Scroll right">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <div id="models-container" style="padding: 24px 0 90px;"></div>
+        <div id="models-container" style="padding: 8px 0 90px;"></div>
         <footer><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span></footer>
       </div>
     </div>
@@ -829,30 +869,59 @@
     // ─── RENDER: MODELS (grouped by category) ───
     function renderModels() {
       const container = document.getElementById('models-container');
-      container.innerHTML = '';
       if (!MODELS.length) {
         container.innerHTML = '<div class="empty-state">// No models published yet. Check back soon.</div>';
+        updateRailControls();
         return;
       }
-      const groups = {};
-      MODELS.forEach(m => { (groups[m.category] = groups[m.category] || []).push(m); });
-      Object.keys(groups).forEach(cat => {
-        const group = document.createElement('div');
-        group.className = 'model-group';
-        const grid = groups[cat].map(m => {
-          const live = m.status !== 'soon';
-          return `
-            <div class="model-card ${live ? 'live' : 'soon'}" ${live ? `onclick="openModel('${m.id}')"` : ''}>
-              <span class="glow-line"></span>
-              <span class="model-status ${live ? 'status-live' : 'status-soon'}"><span class="status-dot"></span>${live ? 'Live' : 'Coming soon'}</span>
-              <div class="model-card-title">${m.title}</div>
-              <div class="model-card-desc">${m.summary}</div>
-              <span class="model-card-cta">${live ? 'Launch model →' : 'In development'}</span>
-            </div>`;
-        }).join('');
-        group.innerHTML = `<div class="model-group-title">${cat}</div><div class="model-grid">${grid}</div>`;
-        container.appendChild(group);
-      });
+      const cards = MODELS.map((m, i) => {
+        const live = m.status !== 'soon';
+        const idx = String(i + 1).padStart(2, '0');
+        return `
+          <article class="mcard ${live ? 'live' : 'soon'}" ${live ? `onclick="openModel('${m.id}')"` : ''}>
+            <span class="mtop-line"></span>
+            <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+            <div class="mcard-top">
+              <span class="mcard-idx">MODEL&nbsp;<b>${idx}</b></span>
+              <span class="mstatus ${live ? 'live' : 'soon'}"><span class="mdot"></span>${live ? 'Live' : 'Soon'}</span>
+            </div>
+            <div class="mcard-cat">${m.category}</div>
+            <h3 class="mcard-title">${m.title}</h3>
+            <p class="mcard-desc">${m.summary}</p>
+            <div class="mcard-foot">
+              <span class="mcard-cta">${live ? 'Launch model' : 'In development'}</span>
+              <span class="mcard-arrow">${live ? '→' : ''}</span>
+            </div>
+            <span class="mcard-wm">${idx}</span>
+          </article>`;
+      }).join('');
+      container.innerHTML = `<div class="model-rail" id="model-rail">${cards}</div>`;
+      updateRailControls();
+    }
+
+    // ─── MODEL RAIL CONTROLS (horizontal scroll) ───
+    function railScroll(dir) {
+      const r = document.getElementById('model-rail');
+      if (!r) return;
+      const card = r.querySelector('.mcard');
+      const step = card ? card.offsetWidth + 20 : 360;
+      r.scrollBy({ left: dir * step, behavior: 'smooth' });
+    }
+    function updateRailControls() {
+      const cnt = document.getElementById('rail-count');
+      if (cnt) cnt.textContent = '[ ' + MODELS.length + ' ' + (MODELS.length === 1 ? 'module' : 'modules') + ' ]';
+      const r = document.getElementById('model-rail');
+      const prev = document.getElementById('rail-prev');
+      const next = document.getElementById('rail-next');
+      if (!prev || !next) return;
+      const upd = () => {
+        if (!r) { prev.disabled = next.disabled = true; return; }
+        const max = r.scrollWidth - r.clientWidth - 2;
+        prev.disabled = r.scrollLeft <= 2;
+        next.disabled = max <= 0 || r.scrollLeft >= max;
+      };
+      upd();
+      if (r) r.onscroll = upd;
     }
 
     // ─── RENDER: HOME DYNAMIC SECTIONS ───
