@@ -481,6 +481,8 @@
     /* ─── FOOTER ─── */
     footer { border-top: 1px solid var(--border); padding: 36px 0; display: flex; justify-content: center; align-items: center; position: relative; z-index: 1; }
     .footer-text { font-family: var(--mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.04em; }
+    .footer-col { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+    .footer-note { font-family: var(--sans); font-size: 11.5px; color: var(--text-muted); max-width: 760px; line-height: 1.65; padding: 0 8px; }
 
     /* ─── ANIMATIONS ─── */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
@@ -561,7 +563,7 @@
           <p class="page-intro">Timely commentary and analysis on the technology, regulation, and market dynamics shaping modern finance.</p>
         </div>
         <div class="posts-list" id="posts-container"></div>
-        <footer><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span></footer>
+        <footer><div class="footer-col"><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span><span class="footer-note">For informational purposes only, not legal advice. AI-generated visualizations; verify all data independently. This is a personal project of Michael Gertsik. The author makes no representations as to the accuracy or completeness of the information presented herein, and this project may be discontinued at any time without notice. For the best viewing experience, use a desktop browser.</span></div></footer>
       </div>
     </div>
 
@@ -599,7 +601,7 @@
           </div>
         </div>
         <div id="models-container" style="padding: 8px 0 90px;"></div>
-        <footer><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span></footer>
+        <footer><div class="footer-col"><span class="footer-text">© 2026 Michael Gertsik. All rights reserved.</span><span class="footer-note">For informational purposes only, not legal advice. AI-generated visualizations; verify all data independently. This is a personal project of Michael Gertsik. The author makes no representations as to the accuracy or completeness of the information presented herein, and this project may be discontinued at any time without notice. For the best viewing experience, use a desktop browser.</span></div></footer>
       </div>
     </div>
 
