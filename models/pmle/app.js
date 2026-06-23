@@ -349,7 +349,7 @@
       nodeRefs.forEach(({ g, id }) => { g.style.opacity = rev.has(id) ? "1" : "0.18"; });
     };
     return h("div", null,
-      lensHeader("TIMELINE · BY FORUM", "Each dot representts one case. Its left-to-right position shows when it was filed, its row shows which forum handled it (CFTC, SEC, state gaming regulator, federal court, or state court), and its color shows how it ended: pending, enjoined, permitted, settled, or dismissed. Click any dot to open the full case, including the parties, contract type, legal question, laws involved, and outcome with sources. Press play to watch the cases appear in order and see when activity sped up and which forums got busiest."),
+      lensHeader("TIMELINE · BY FORUM", "Each dot represents one case. Its left-to-right position shows when it was filed, its row shows which forum handled it (CFTC, SEC, state gaming regulator, federal court, or state court), and its color shows how it ended: pending, enjoined, permitted, settled, or dismissed. Click any dot to open the full case, including the parties, contract type, legal question, laws involved, and outcome with sources. Press play to watch the cases appear in order and see when activity sped up and which forums got busiest."),
       h("svg", { viewBox: `0 0 ${W} ${y0 + FORUMS.length * laneH}`, role: "img", "aria-label": "Timeline of matters by forum", style: { width: "100%", marginTop: "2px" } }, grid, lanes),
       outcomeLegend());
   }
