@@ -290,7 +290,7 @@ class Component extends DCLogic {
       // Soft walls keep the series inside the visible band and force clean
       // reversals there, so it always reads as a trend (up or down) and never
       // flatlines or runs off screen.
-      const HI = 4.0, LO = -2.2;
+      const HI = 2.2, LO = -2.2;
       if (prevClose > HI) {
         trend = -Math.abs(trend) - 0.06;
       } else if (prevClose < LO) {
@@ -303,9 +303,9 @@ class Component extends DCLogic {
       if (trend > 0.5) trend = 0.5;
       if (trend < -0.5) trend = -0.5;
       const volatile = Math.random() < 0.06;
-      const mag = volatile ? 3.6 : 1.0;
+      const mag = volatile ? 2.4 : 1.0;
       let close = prevClose + trend + randn() * 0.38 * mag;
-      if (close > 4.7) close = 4.7;
+      if (close > 2.6) close = 2.6;
       if (close < -2.9) close = -2.9;
       const open = prevClose;
       const hi = Math.max(open, close) + Math.abs(randn()) * 0.4 + 0.12;
@@ -350,7 +350,7 @@ class Component extends DCLogic {
     function applyShape(c) {
       // Ceiling in chart-local Y. Candle tops are clamped here so even the
       // print-in scale overshoot only just touches the top edge of the screen.
-      const CAP = 4.1;
+      const CAP = 3.55;
       // Floor in chart-local Y. Candle bottoms are clamped here so even the
       // print-in scale overshoot only just reaches the top of the title box,
       // never crossing into it. (local Y -3.0 maps to the box top; -2.7 leaves
