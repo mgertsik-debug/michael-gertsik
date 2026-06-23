@@ -53,7 +53,7 @@ const MODELS = [
   // new matters can be appended without touching any UI code.
   {
     id: "prediction-market-explorer",
-    category: "Prediction Markets",
+    category: "Prediction Market Litigation",
     level: "Explorer",
     title: "The Prediction Market Litigation Explorer",
     summary: "Trace every suit, regulatory action, and ruling across Kalshi, Polymarket, and the agencies they answer to. Filter the field once, then read it through five synchronized lenses, or build a hypothetical fact pattern and predict its posture.",
