@@ -859,6 +859,27 @@
         </article>`;
     }
 
+    // Build a searchable text blob for each model (title/summary + full content).
+    // Inline `html` models index immediately; `src` models are fetched once and cached.
+    function stripForIndex(html) {
+      return (html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').toLowerCase();
+    }
+    function ensureModelText(onDone) {
+      let pending = 0;
+      MODELS.forEach(m => {
+        if (m._text != null) return;
+        if (m.html) { m._text = stripForIndex(m.html); return; }
+        if (m.src) {
+          pending++;
+          fetch(m.src).then(r => (r.ok ? r.text() : '')).then(t => { m._text = stripForIndex(t); })
+            .catch(() => { m._text = ''; })
+            .finally(() => { if (--pending === 0 && onDone) onDone(); });
+          return;
+        }
+        m._text = '';
+      });
+    }
+
     function renderModels() {
       const container = document.getElementById('models-container');
       const pillsEl = document.getElementById('topic-pills');
@@ -876,12 +897,13 @@
       if (pillsEl) {
         pillsEl.innerHTML = mkPill('all', 'All', MODELS.length) + topics.map(t => mkPill(t, t, counts[t])).join('');
       }
-      // filter by topic + search
+      // index full model content (async fetch for src files), then filter
+      ensureModelText(renderModels);
       const q = _modelQuery.trim().toLowerCase();
       const items = MODELS.filter(m => {
         if (_modelTopic !== 'all' && modelTopicOf(m) !== _modelTopic) return false;
         if (q) {
-          const hay = (m.title + ' ' + m.summary + ' ' + modelTopicOf(m) + ' ' + (m.level || '')).toLowerCase();
+          const hay = (m.title + ' ' + m.summary + ' ' + modelTopicOf(m) + ' ' + (m.level || '') + ' ' + (m._text || '')).toLowerCase();
           if (!hay.includes(q)) return false;
         }
         return true;
