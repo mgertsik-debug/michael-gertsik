@@ -61,18 +61,6 @@ const MODELS = [
     src: "/models/prediction-market-explorer.html",
   },
 
-  // ── COMING-SOON EXAMPLE ──────────────────────────────────
-  // This is the pattern for a model you plan to build later.
-  // Flip status to "live" and add `src` or `html` when ready.
-  {
-    id: "insider-trading-timeline",
-    category: "Insider Trading",
-    level: "Case study",
-    title: "Insider Trading: Anatomy of a Case",
-    summary: "An interactive timeline that walks through a classic insider-trading fact pattern: who knew what, when, and how the elements of liability come together.",
-    status: "soon",
-  },
-
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────
   // A full guided analyzer for whether an instrument is a
   // security: § 2(a)(1) threshold, Landreth (stock), Reves
