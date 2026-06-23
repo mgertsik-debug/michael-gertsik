@@ -22,19 +22,32 @@
 <style>
   html, body { margin: 0; padding: 0; height: 100%; background: #0A0C10; }
   * { box-sizing: border-box; }
+  @keyframes lt-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes lt-word {
+    0%, 100% { color: #7C8696; text-shadow: none; }
+    5%       { color: #E6E8EC; text-shadow: 0 0 14px rgba(230,232,236,0.45); }
+    16%      { color: #7C8696; text-shadow: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lt-anim { animation: none !important; }
+  }
 </style>
 </helmet>
 <div style="position:fixed; inset:0; background:#0A0C10; overflow:hidden; display:flex; flex-direction:column;">
   <div ref="{{ setRoot }}" style="position:relative; flex:1 1 auto; min-height:0;">
     <canvas ref="{{ setCanvas }}" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas>
-    <div style="position:absolute; inset:0; pointer-events:none; background:radial-gradient(120% 95% at 50% 42%, rgba(10,12,16,0) 40%, rgba(8,10,13,0.5) 82%, rgba(6,7,10,0.85) 100%);"></div>
+    <div ref="{{ setTicker }}" style="position:absolute; top:0; left:0; right:0; height:22px; overflow:hidden; pointer-events:none; z-index:2; -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%); mask-image:linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%);">
+      <div ref="{{ setTickerTrack }}" class="lt-anim" style="position:absolute; top:0; left:0; white-space:nowrap; font-family:'JetBrains Mono','SF Mono',monospace; font-size:10px; line-height:22px; letter-spacing:0.12em; color:rgba(58,71,89,0.6); animation:lt-ticker 64s linear infinite;"></div>
+    </div>
+    <div ref="{{ setOverlay }}" style="position:absolute; inset:0; pointer-events:none; z-index:2; overflow:hidden;"></div>
+    <div style="position:absolute; inset:0; pointer-events:none; z-index:3; background:radial-gradient(120% 95% at 50% 42%, rgba(10,12,16,0) 40%, rgba(8,10,13,0.5) 82%, rgba(6,7,10,0.85) 100%);"></div>
   </div>
-  <div style="position:relative; flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:16px; padding:0 24px 8vh; pointer-events:none;">
-    <div style="position:absolute; left:0; right:0; bottom:0; top:-80px; pointer-events:none; background:linear-gradient(to top, rgba(6,7,10,0.96) 0%, rgba(8,10,13,0.9) 45%, rgba(10,12,16,0) 100%); z-index:0;"></div>
-    <div style="position:relative; z-index:1; width:30px; height:1px; background:linear-gradient(90deg, transparent, #5B8DEF, transparent); opacity:0.8;"></div>
-    <h1 style="position:relative; z-index:1; margin:0; font-family:'Geist', 'Helvetica Neue', Arial, sans-serif; font-weight:300; font-size:clamp(30px, 4.6vw, 62px); letter-spacing:0.05em; color:#E6E8EC; text-align:center; line-height:1.1;">Michael Gertsik</h1>
-    <div style="position:relative; z-index:1; font-family:'Geist', 'Helvetica Neue', Arial, sans-serif; font-weight:300; font-size:clamp(15px, 1.7vw, 22px); letter-spacing:0.05em; color:#E6E8EC; text-align:center; line-height:1.1;">Fordham University School of Law</div>
-    <div style="position:relative; z-index:1; font-family:'Geist', 'Helvetica Neue', Arial, sans-serif; font-weight:400; font-size:clamp(10px, 0.95vw, 13px); letter-spacing:0.34em; text-transform:uppercase; color:#7C8696;">Law · Finance · Technology</div>
+  <div style="position:relative; flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:8px; padding:0 24px 7vh; pointer-events:none;">
+    <div style="position:absolute; left:0; right:0; bottom:0; top:-300px; pointer-events:none; background:linear-gradient(to top, #050608 0%, rgba(7,9,12,0.99) 14%, rgba(8,10,13,0.92) 30%, rgba(9,11,15,0.72) 48%, rgba(10,12,16,0.42) 66%, rgba(10,12,16,0.16) 82%, rgba(10,12,16,0) 100%); z-index:0;"></div>
+    <div style="position:relative; z-index:1; width:26px; height:1px; background:linear-gradient(90deg, transparent, #5B8DEF, transparent); opacity:0.8; margin-bottom:4px;"></div>
+    <h1 style="position:relative; z-index:1; margin:0; font-family:'Geist', 'Helvetica Neue', Arial, sans-serif; font-weight:300; font-size:clamp(25px, 3.8vw, 51px); letter-spacing:0.05em; color:#E6E8EC; text-align:center; line-height:1.1;">Michael Gertsik</h1>
+    <div style="position:relative; z-index:1; font-family:'Geist','Helvetica Neue',Arial,sans-serif; font-weight:300; font-size:clamp(11px, 1.48vw, 20px); letter-spacing:0.04em; color:#FFFFFF; text-align:center; line-height:1.2; margin-top:2px;">Fordham University School of Law</div>
+    <div style="position:relative; z-index:1; font-family:'JetBrains Mono', 'SF Mono', monospace; font-weight:400; font-size:clamp(8px, 0.78vw, 12px); letter-spacing:0.4em; text-transform:uppercase; color:#7C8696; margin-top:7px; display:flex; gap:0.4em; align-items:center;"><span>Law</span><span style="color:#4A5568;">·</span><span>Finance</span><span style="color:#4A5568;">·</span><span>Technology</span></div>
   </div>
 </div>
 </x-dc>
@@ -51,6 +64,9 @@ class Component extends DCLogic {
     return {
       setRoot: (el) => { this.root = el; },
       setCanvas: (el) => { this.canvas = el; },
+      setTicker: (el) => { this.ticker = el; },
+      setTickerTrack: (el) => { this.tickerTrack = el; },
+      setOverlay: (el) => { this.overlay = el; },
     };
   }
 
@@ -158,6 +174,70 @@ class Component extends DCLogic {
     grid.position.y = -3.0;
     chart.add(grid);
 
+    // ---------- statutory text on the floor (law as the foundation) ----------
+    // Skipped on mobile to keep the scene light.
+    let statTex = null, statMat = null, statPlane = null;
+    if (!isMobile) {
+      const STR = ['Securities Act of 1933', 'Securities Exchange Act of 1934', 'Maloney Act of 1938', 'Trust Indenture Act of 1939', 'Investment Company Act of 1940', 'Investment Advisers Act of 1940', 'Securities Investor Protection Act of 1970 (SIPA)', 'Insider Trading Sanctions Act of 1984', 'Insider Trading and Securities Fraud Enforcement Act of 1988', 'Securities Enforcement Remedies and Penny Stock Reform Act of 1990', 'Market Reform Act of 1990', 'Private Securities Litigation Reform Act of 1995 (PSLRA)', 'National Securities Markets Improvement Act of 1996 (NSMIA)', 'Securities Litigation Uniform Standards Act of 1998 (SLUSA)', 'Gramm-Leach-Bliley Act of 1999', 'Sarbanes-Oxley Act of 2002', 'Credit Rating Agency Reform Act of 2006', 'JOBS Act of 2012', 'FAST Act of 2015', 'Grain Futures Act of 1922', 'Commodity Exchange Act of 1936', 'Commodity Futures Trading Commission Act of 1974', 'Futures Trading Acts of 1978, 1982, and 1986', 'Commodity Futures Modernization Act of 2000 (CFMA)', 'Food, Conservation, and Energy Act of 2008'];
+      const cv = document.createElement('canvas');
+      cv.width = 2048; cv.height = 2048;
+      const cx = cv.getContext('2d');
+      cx.clearRect(0, 0, 2048, 2048);
+      cx.font = '500 22px "JetBrains Mono", ui-monospace, monospace';
+      cx.fillStyle = '#ffffff';
+      cx.textBaseline = 'middle';
+      cx.textAlign = 'center';
+      // One row per statute, each drawn ONCE — no statute repeats on the floor.
+      const rows = STR.length;
+      for (let r = 0; r < rows; r++) {
+        const y = (r + 0.5) / rows * 2048;
+        const s = STR[r];
+        const half = cx.measureText(s).width / 2;
+        let x = 1024 + ((r % 2) ? 1 : -1) * (90 + (r * 67) % 300);
+        x = Math.max(half + 24, Math.min(2048 - half - 24, x));
+        cx.fillText(s, x, y);
+      }
+      statTex = new THREE.CanvasTexture(cv);
+      statTex.wrapS = THREE.ClampToEdgeWrapping;
+      statTex.wrapT = THREE.RepeatWrapping;
+      statTex.repeat.set(1, 1);
+      statTex.anisotropy = 8;
+      statMat = new THREE.ShaderMaterial({
+        uniforms: { uTex: { value: statTex }, uScroll: { value: 0 }, uOpacity: { value: 0.55 } },
+        transparent: true, depthWrite: false,
+        vertexShader: `
+          varying vec2 vUv;
+          void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }
+        `,
+        fragmentShader: `
+          precision highp float;
+          uniform sampler2D uTex; uniform float uScroll; uniform float uOpacity;
+          varying vec2 vUv;
+          void main(){
+            vec2 uv = vec2(vUv.x, vUv.y + uScroll);
+            float t = texture2D(uTex, uv).a;
+            // Full strength at the lowest (nearest) edge, fading toward the horizon.
+            float far = smoothstep(1.0, 0.35, vUv.y);
+            float a = t * far * uOpacity;
+            if (a < 0.002) discard;
+            gl_FragColor = vec4(vec3(0.435, 0.510, 0.620), a);
+          }
+        `,
+      });
+      statPlane = new THREE.Mesh(new THREE.PlaneGeometry(50, 26, 1, 1), statMat);
+      // Tilt the floor up toward the camera so the statute names read more
+      // front-on (less extreme grazing angle) and are easier to read.
+      statPlane.rotation.x = -Math.PI / 2 + 0.42;
+      statPlane.position.y = -2.97;
+      // Locked floor group: same resting transform as `chart` (static depth
+      // tilt + lift) but OUTSIDE `pivot`, so the mouse parallax never moves it.
+      const floorGroup = new THREE.Group();
+      floorGroup.position.y = 2.6;
+      floorGroup.rotation.x = -0.17;
+      floorGroup.add(statPlane);
+      scene.add(floorGroup);
+    }
+
     // ---------- candle shaders ----------
     const bodyVert = `
       varying vec3 vN; varying vec3 vV;
@@ -251,7 +331,17 @@ class Component extends DCLogic {
     }
 
     function applyShape(c) {
-      const o = c.open * Y, cl = c.close * Y, hi = c.high * Y, lo = c.low * Y;
+      // Ceiling in chart-local Y. Candle tops are clamped here so even the
+      // print-in scale overshoot only just touches the top edge of the screen.
+      const CAP = 4.1;
+      // Floor in chart-local Y. Candle bottoms are clamped here so even the
+      // print-in scale overshoot only just reaches the top of the title box,
+      // never crossing into it. (local Y -3.0 maps to the box top; -2.7 leaves
+      // headroom for the ~1.12x ease-out-back overshoot.)
+      const FLOOR = -2.7;
+      const clamp = (v) => Math.max(FLOOR, Math.min(CAP, v));
+      let o = clamp(c.open * Y), cl = clamp(c.close * Y);
+      let hi = clamp(c.high * Y), lo = clamp(c.low * Y);
       const top = Math.max(o, cl), bot = Math.min(o, cl);
       const bh = Math.max(top - bot, 0.06);
       c.body.scale.y = bh; c.body.position.y = (top + bot) / 2;
@@ -308,6 +398,85 @@ class Component extends DCLogic {
     const sorted = cs.slice();
     const maxDeg = 0.105; // ~6deg
 
+    // ---------- legal overlay layer (DOM, projected from 3D) ----------
+    const CITES = ['SEC v. W.J. Howey Co.', 'Securities Act of 1933', 'SEC v. Ripple', 'MiCA', 'GDPR Art. 17', 'Reg ATS', 'Howey Test', '15 U.S.C. § 77'];
+    if (this.tickerTrack) {
+      const unit = CITES.join('\u00A0\u00A0\u00A0·\u00A0\u00A0\u00A0') + '\u00A0\u00A0\u00A0·\u00A0\u00A0\u00A0';
+      this.tickerTrack.textContent = unit + unit;
+    }
+    if (isMobile && this.ticker) this.ticker.style.display = 'none';
+
+    const ov = this.overlay;
+    const mk = (style) => {
+      const d = document.createElement('div');
+      d.style.cssText = 'position:absolute; pointer-events:none; ' + style;
+      ov && ov.appendChild(d);
+      return d;
+    };
+    const maTagEl = mk('font-family:"JetBrains Mono",ui-monospace,monospace; font-size:11px; letter-spacing:0.18em; color:#C9D8F5; white-space:nowrap; transform:translate(-50%,-100%); opacity:0; text-shadow:0 0 10px rgba(157,184,232,0.5);');
+    const maDotEl = mk('width:7px; height:7px; border-radius:50%; background:#9DB8E8; box-shadow:0 0 10px 2px rgba(157,184,232,0.85); transform:translate(-50%,-50%); opacity:0;');
+    const flagBoxEl = mk('border:1px solid rgba(224,163,62,0.6); transform:translate(-50%,-50%); opacity:0; border-radius:1px;');
+    const flagTagEl = mk('font-family:"JetBrains Mono",ui-monospace,monospace; font-size:10px; letter-spacing:0.16em; color:rgba(224,163,62,0.88); white-space:nowrap; transform:translate(0,-50%); opacity:0; text-shadow:0 0 8px rgba(224,163,62,0.4);');
+
+    const _pv = new THREE.Vector3();
+    const project = (x, y, z) => {
+      _pv.set(x, y, z).applyMatrix4(chart.matrixWorld).project(camera);
+      return { x: (_pv.x * 0.5 + 0.5) * w, y: (-_pv.y * 0.5 + 0.5) * h };
+    };
+    const pickNear = (tx) => {
+      let best = null, bd = 1e9;
+      for (const c of cs) { const d = Math.abs(c.group.position.x - tx); if (d < bd) { bd = d; best = c; } }
+      return best;
+    };
+
+    const maTags = ['15 U.S.C. § 78j(b)', '17 C.F.R. § 240.10b-5', '17 C.F.R. § 240.10b5-1', '17 C.F.R. § 240.14e-3', '15 U.S.C. § 78p(b)', '15 U.S.C. § 78u-1', '15 U.S.C. § 78ff', '18 U.S.C. § 1348', '7 U.S.C. § 9', '18 U.S.C. § 1343'];
+    const flagTags = ['UNDER REVIEW', 'RESTRICTED', 'DISCLOSURE', 'EXEMPT'];
+    let maTimer = 1.2, maIdx = 0, maAct = null;
+    let flagTimer = 2.8, flagIdx = 0, flagAct = null;
+
+    const placeFlag = (c, o) => {
+      const wx = c.group.position.x;
+      const a = project(wx - 0.28, c.high * Y + 0.15, 0);
+      const b = project(wx + 0.28, c.low * Y - 0.15, 0);
+      const l = Math.min(a.x, b.x), r = Math.max(a.x, b.x), t = Math.min(a.y, b.y), bo = Math.max(a.y, b.y);
+      flagBoxEl.style.opacity = o; flagBoxEl.style.left = ((l + r) / 2) + 'px'; flagBoxEl.style.top = ((t + bo) / 2) + 'px';
+      flagBoxEl.style.width = Math.max(2, r - l) + 'px'; flagBoxEl.style.height = Math.max(2, bo - t) + 'px';
+      flagTagEl.style.opacity = o; flagTagEl.style.left = (r + 9) + 'px'; flagTagEl.style.top = ((t + bo) / 2) + 'px';
+    };
+
+    const updateOverlays = (dt, time) => {
+      pivot.updateWorldMatrix(true, true);
+
+      // MA classification tags
+      maTimer -= dt;
+      if (!maAct && maTimer <= 0) { maAct = { c: pickNear(1.4), text: maTags[maIdx++ % maTags.length], t0: time }; maTimer = 2.2 + Math.random(); }
+      if (maAct) {
+        const age = time - maAct.t0, c = maAct.c;
+        const p = project(c.group.position.x, c.maY || 0, 0.30);
+        let o = age < 0.28 ? age / 0.28 : age < 1.5 ? 1 : age < 1.72 ? 1 - (age - 1.5) / 0.22 : 0;
+        o = Math.max(0, Math.min(1, o)) * 0.95;
+        maTagEl.textContent = maAct.text; maTagEl.style.opacity = o;
+        maTagEl.style.left = p.x + 'px'; maTagEl.style.top = (p.y - 11) + 'px';
+        const dop = age < 0.55 ? (1 - age / 0.55) : 0;
+        const ds = 6 + (age < 0.55 ? (0.55 - age) / 0.55 * 7 : 0);
+        maDotEl.style.opacity = Math.max(0, dop); maDotEl.style.left = p.x + 'px'; maDotEl.style.top = p.y + 'px';
+        maDotEl.style.width = ds + 'px'; maDotEl.style.height = ds + 'px';
+        if (age > 1.72) { maAct = null; maTagEl.style.opacity = 0; maDotEl.style.opacity = 0; }
+      }
+
+      // Flagged candle (regulatory review)
+      flagTimer -= dt;
+      if (!flagAct && flagTimer <= 0) { flagAct = { c: pickNear(-1.2), text: flagTags[flagIdx++ % flagTags.length], t0: time }; flagTimer = 4.8 + Math.random() * 1.4; }
+      if (flagAct) {
+        const age = time - flagAct.t0;
+        let o = age < 0.3 ? age / 0.3 : age < 1.35 ? 1 : age < 1.6 ? 1 - (age - 1.35) / 0.25 : 0;
+        o = Math.max(0, Math.min(1, o)) * 0.6;
+        flagTagEl.textContent = flagAct.text;
+        placeFlag(flagAct.c, o);
+        if (age > 1.6) { flagAct = null; flagBoxEl.style.opacity = 0; flagTagEl.style.opacity = 0; }
+      }
+    };
+
     const update = (dt, time) => {
       // live tweaks
       upCol.set(this.props.upColor || '#2E9E6B');
@@ -319,9 +488,10 @@ class Component extends DCLogic {
 
       offset += speed * dt;
       gridMat.uniforms.uOffset.value = offset;
+      if (statMat) statMat.uniforms.uScroll.value = time * 0.02;
 
       // Fade only in a thin sliver right at (and just past) the current visible
-      // edge, masks the off-screen recycle seam while keeping the row full
+      // edge — masks the off-screen recycle seam while keeping the row full
       // and at full opacity across the entire visible width.
       const visHalfW = visHalfH * (w / h);
       const fadeOuter = visHalfW + 0.5;
@@ -376,7 +546,8 @@ class Component extends DCLogic {
       for (let i = 0; i < sorted.length; i++) {
         let sum = 0, n = 0;
         for (let k = Math.max(0, i - W_MA + 1); k <= i; k++) { sum += sorted[k].close; n++; }
-        const ma = (sum / n) * Y;
+        const ma = Math.max(-2.7, Math.min((sum / n) * Y, 4.1));
+        sorted[i].maY = ma;
         pts.push(new THREE.Vector3(sorted[i].px - offset, ma, 0.26));
       }
       const curve = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
@@ -406,18 +577,29 @@ class Component extends DCLogic {
     if (reduced) {
       update(0, 0);
       composer.render();
+      // Legal layers present but static.
+      pivot.updateWorldMatrix(true, true);
+      const cma = pickNear(1.4);
+      const pm = project(cma.group.position.x, cma.maY || 0, 0.30);
+      maTagEl.textContent = maTags[0]; maTagEl.style.opacity = 0.95;
+      maTagEl.style.left = pm.x + 'px'; maTagEl.style.top = (pm.y - 11) + 'px';
+      maDotEl.style.opacity = 0.9; maDotEl.style.left = pm.x + 'px'; maDotEl.style.top = pm.y + 'px';
+      flagTagEl.textContent = flagTags[0];
+      placeFlag(pickNear(-1.2), 0.6);
       this._reduced = true;
       return;
     }
 
     update(0, 0);
     composer.render();
+    updateOverlays(0, 0);
     const loop = () => {
       this._raf = requestAnimationFrame(loop);
       const dt = Math.min(clock.getDelta(), 0.05);
       try {
         update(dt, clock.elapsedTime);
         composer.render();
+        updateOverlays(dt, clock.elapsedTime);
       } catch (err) {
         cancelAnimationFrame(this._raf);
         console.error('[hero] loop error', err);
