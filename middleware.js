@@ -43,7 +43,7 @@ const MODELS = {
     description: 'A guided, authority-backed walkthrough of the federal securities analysis: Howey, Reves, entity structures, real estate, and the statutory exceptions, with the controlling case law at every step.',
   },
   'prediction-market-explorer': {
-    title: 'The Prediction Market Litigation Explorer | Michael Gertsik',
+    title: 'Prediction Market Litigation Explorer | Michael Gertsik',
     description: 'Trace every suit, regulatory action, and ruling across Kalshi, Polymarket, and the CFTC, SEC, and state gaming regulators, read through five synchronized lenses plus a fact-pattern simulator.',
   },
 };
