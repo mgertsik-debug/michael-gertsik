@@ -1,0 +1,49 @@
+# Background surveillance watcher
+# -----------------------------------------------------------------------------
+# Pulls the live surveillance feed on a schedule and appends new flags to a
+# rolling history (data/surveillance/history.json), so anomalies are recorded
+# even when no one has the model open. It calls the site's own public endpoint
+# — which already holds the Kalshi key server-side — so no secret is needed here.
+#
+# Each new-flag commit triggers a Vercel deploy; the 30-min cadence keeps that
+# modest. Tune the cron below (or switch to Vercel KV) for higher frequency.
+name: surveillance-watch
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # every 30 minutes
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: surveillance-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Pull the live surveillance feed
+        run: |
+          curl -fsS --max-time 30 "https://www.michael-gertsik.com/api/surveillance/feed" -o feed.json \
+            || echo '{"alerts":[]}' > feed.json
+          node scripts/surveillance/append.js feed.json
+
+      - name: Commit history if new flags appeared
+        run: |
+          if git diff --quiet -- data/surveillance/history.json; then
+            echo "No new flags."
+            exit 0
+          fi
+          git config user.email "noreply@anthropic.com"
+          git config user.name  "surveillance-watch"
+          git add data/surveillance/history.json
+          git commit -m "surveillance: append new flag(s) to history"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
