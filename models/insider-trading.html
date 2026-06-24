@@ -533,26 +533,30 @@ class Component extends DCLogic {
     if (usedInfo || manip) out.r8 = mk('unsettled','New York\'s Martin Act gives the Attorney General broad authority over securities AND commodities fraud and has been applied expansively. A parallel sovereign could reach deceptive trading even where the instrument is not a security, but the fit to event contracts is unsettled. (Distinct from the state gambling-preemption fight in Model 03.)','Deceptive practice reachable by a state. UNSETTLED');
     else out.r8 = mk('na','No deceptive or manipulative trading for a state antifraud regulator to reach.','Deceptive practice. Not at issue');
 
-    // R9 — Kalshi Rulebook (binds trades executed on Kalshi). Broader than the
-    // federal misappropriation theory: Rule 2.11 + Chapter 12 adopt CFTC Reg
-    // 1.59 (barring use of material non-public information), and Rule 5.17 bars
-    // wash / pre-arranged / non-competitive and manipulative trading plus a
-    // catch-all "just and equitable principles of trade" — none of which need a
-    // breached duty to an information source.
-    const tradeMisconduct = usedInfo || manip;
+    // R9 — Kalshi Rulebook (binds trades on Kalshi). Rule 5.17 bars wash /
+    // pre-arranged / non-competitive and manipulative trading and applies a
+    // broad "just and equitable principles of trade" catch-all; Rule 2.11 +
+    // Chapter 12 adopt CFTC Reg 1.59 on use of material non-public information.
+    const control = s.who === 'candidate';   // trades a market whose outcome they control
     if (s.venue !== 'kalshi') out.r9 = mk('na','Kalshi’s Rulebook binds trades executed on Kalshi. This trade is on another venue.','Trade on Kalshi. Not at issue');
-    else if (!tradeMisconduct) out.r9 = mk('missing','No conduct the Rulebook prohibits: no use of material non-public information and no manipulative or non-competitive trading.','Prohibited conduct. NONE');
-    else out.r9 = mk('liable', (manip ? 'Rule 5.17 bars wash, pre-arranged, and manipulative trading outright. ' : 'Rule 2.11 and Chapter 12 adopt CFTC Reg 1.59, barring use of material non-public information, and Rule 5.17’s “just and equitable principles of trade” reaches the conduct. ') + 'These exchange rules require no breach of a duty to a source, so they catch trading the federal misappropriation theory may not, with private remedies (voided trades, fines, suspension).','Kalshi Rulebook Rule 5.17 / Rule 2.11. SATISFIED','Kalshi Rulebook Rules 5.17, 2.11 (Reg 1.59)');
+    else if (manip) out.r9 = mk('liable','Rule 5.17 bars wash, pre-arranged, non-competitive, and manipulative trading outright.','Kalshi Rulebook Rule 5.17. SATISFIED');
+    else if (control) out.r9 = mk('liable','Trading a market whose outcome you control offends Rule 5.17’s “just and equitable principles of trade” — the manipulative-scheme theory the CFTC flagged against a candidate who traded his own race.','Just and equitable principles of trade. SATISFIED');
+    else if (usedInfo && dutyBreach) out.r9 = mk('liable','Use of material non-public information taken in breach of a duty to its source. Rule 2.11 and Chapter 12 adopt CFTC Reg 1.59, and Rule 180.1 reaches the trade.','Kalshi Rulebook Rule 2.11 (Reg 1.59). SATISFIED');
+    else if (usedInfo) out.r9 = mk('unsettled','No duty to a source was breached, but Rule 5.17’s “just and equitable principles of trade” catch-all is broader than misappropriation and may reach trading on a non-public informational edge. Its reach over an ordinary trader’s lawful edge is untested.','Just and equitable principles of trade. UNSETTLED');
+    else out.r9 = mk('missing','No conduct the Rulebook prohibits.','Prohibited conduct. NONE');
 
-    // R10 — Polymarket Terms of Service (govern trading on Polymarket). The
-    // consumer Terms prohibit fraud, market manipulation, and abusive use and
-    // reserve remedies, but unlike Kalshi they do not codify a specific
-    // insider-trading / MNPI rule, so reach over a pure informational edge is
-    // less certain. (Live TOS not independently verified here.)
-    if (s.venue !== 'polymarket') out.r10 = mk('na','Polymarket’s Terms govern trading on Polymarket. This trade is on another venue.','Trade on Polymarket. Not at issue');
-    else if (manip) out.r10 = mk('liable','Polymarket’s Terms prohibit market manipulation and abusive trading and reserve remedies (voided trades, suspension). Wash or spoofing conduct violates them directly.','Anti-manipulation / abusive-use terms. SATISFIED');
-    else if (usedInfo) out.r10 = mk('unsettled','Polymarket’s consumer Terms bar fraud and abusive use but do not codify a Kalshi-style insider-trading rule, so whether they reach trading on a pure informational edge is uncertain.','Insider-trading-specific term. UNSETTLED');
-    else out.r10 = mk('missing','No conduct Polymarket’s Terms prohibit.','Prohibited conduct. NONE');
+    // R10 — Polymarket US Rules. QCX LLC d/b/a Polymarket US is a CFTC-registered
+    // DCM; its Market Integrity rules bar (1) trading on confidential information
+    // whose use breaches a duty, (2) trading on illegal tips, and (3) trading a
+    // market whose outcome you can influence — plus manipulation, spoofing, wash
+    // trading, and fictitious transactions. A lawful informational edge is
+    // expressly permitted (it is not a parity-of-information regime).
+    if (s.venue !== 'polymarket') out.r10 = mk('na','Polymarket US’s rules govern trades on Polymarket US. This trade is on another venue.','Trade on Polymarket US. Not at issue');
+    else if (manip) out.r10 = mk('liable','Polymarket US bars market manipulation, spoofing, wash trading, and fictitious transactions, with exchange remedies (voided trades, suspension, penalties).','Anti-manipulation rules. SATISFIED');
+    else if (control) out.r10 = mk('liable','Polymarket US prohibits trading a market whose outcome you hold authority or influence to affect, or trading at such a person’s direction. A candidate trading on his own race is the rule’s own example.','Trading while able to influence the outcome. SATISFIED');
+    else if (usedInfo && dutyBreach) out.r10 = mk('liable','Trading on confidential information whose use breaches a preexisting duty of trust or confidence, or on a tip from someone who owed such a duty. This is Polymarket US’s codified misappropriation / tipping prohibition.','Breach of a duty to the source. SATISFIED');
+    else if (usedInfo) out.r10 = mk('missing','A non-public informational edge obtained lawfully, with no duty breached and no control over the outcome, is expressly permitted: Polymarket US is not a parity-of-information regime.','Breach of a duty to the source. MISSING');
+    else out.r10 = mk('missing','No conduct Polymarket US’s rules prohibit.','Prohibited conduct. NONE');
 
     return { out, anonymous, usedInfo };
   }
@@ -567,7 +571,7 @@ class Component extends DCLogic {
     { id:'r7', name:'SEC Rule 10b-5', authority:'17 C.F.R. \u00A7240.10b-5', tag:'Securities' },
     { id:'r8', name:'State antifraud', authority:'NY Gen. Bus. Law art. 23-A (Martin Act)', tag:'State sovereign' },
     { id:'r9', name:'Kalshi Rulebook', authority:'Kalshi Rulebook Rules 5.17, 2.11 (Reg 1.59)', tag:'Exchange rules' },
-    { id:'r10', name:'Polymarket ToS', authority:'Polymarket Terms of Service', tag:'Platform terms' }
+    { id:'r10', name:'Polymarket US Rules', authority:'Polymarket US (QCX) Market Integrity Rules', tag:'Exchange rules' }
   ];
 
   ENGINE_CONTROLS = [
