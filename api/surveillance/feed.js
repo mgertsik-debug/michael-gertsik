@@ -65,7 +65,7 @@ function hhmm() { return new Date().toISOString().slice(11, 16) + " UTC"; }
 function topic(text) {
   const s = String(text || "").toLowerCase();
   if (/\bvs\.?\b|spread:|o\/u|over\/under|moneyline|win on \d{4}-|world cup|counter-?strike|esports|goalscorer|glove|\bwnba\b|\bnba\b|\bnfl\b|\bmlb\b|\bnhl\b|\bufc\b|\bf1\b|halftime|to score|\bbo\d\b|premier league|champions league|rebounds|points per/.test(s)) return "sports";
-  if (/\bcpi\b|inflation|\bfomc\b|fed (rate|meeting|cut|hike)|rate (cut|hike|decision)|jobs report|unemployment|jobless|payroll|\bgdp\b|interest rate/.test(s)) return "econ";
+  if (/\bcpi\b|inflation|\bfomc\b|\bfed\b|rate (cut|hike|decision)|jobs report|unemployment|jobless|payroll|\bgdp\b|interest rate|recession|kxfed|kxcpi/.test(s)) return "econ";
   if (/bitcoin|ethereum|\bbtc\b|\beth\b|\bspx\b|s&p ?500|nasdaq|price of|above \$|below \$|up or down/.test(s)) return "cryptoprice";
   if (/prime minister|\bpresident\b|election|drop out|resign|cabinet|nominee|chancellor|parliament|government|\bcoup\b|impeach|governor|senate|congress|\bmayor\b|appointed/.test(s)) return "political";
   if (/\bwar\b|invade|enter iran|\bstrike\b|ceasefire|hormuz|missile|nuclear|maduro|hostage|sanction|troops|military|annex|\bborder\b|airstrike|occupy/.test(s)) return "geopolitical";
@@ -86,33 +86,50 @@ async function polymarket() {
     const q = (m.question || m.title || m.slug || "Market").toString().slice(0, 90);
     const tp = topic(q);
     if (!INSIDER_TOPICS.has(tp)) return;          // skip sports / crypto-price / other
-    if (!(liq >= 5000 && vol >= 50000)) return;   // ignore dust + quiet markets
-    const ratio = vol / liq;
-    if (ratio < 6) return;
-    const sev = (ratio >= 15 || (vol >= 400000 && liq < 30000)) ? "high" : "med";
-    alerts.push(alert({
-      id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
-      detector: "vol_liq", sev,
-      metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k / $" + Math.round(liq / 1000) + "k)  [" + tp + "]",
-    }));
-  });
-  // Recent large single fills (Data API, public). usd = shares * price.
-  const trades = await getJSON("https://data-api.polymarket.com/trades?limit=100").catch(() => []);
-  (Array.isArray(trades) ? trades : []).forEach((t, i) => {
-    const shares = num(t.size || t.amount || t.makerAmountFilled);
-    const price = num(t.price || t.outcomePrice);
-    const usd = price > 0 && price <= 1 ? shares * price : num(t.usdcSize || t.size);
-    const title = (t.title || t.market || t.eventSlug || t.slug || "Market").toString().slice(0, 90);
-    const tp = topic(title);
-    if (usd >= 20000 && INSIDER_TOPICS.has(tp)) {
+    if (vol < 50000) return;                       // needs real money behind it
+    // Pre-event price-move detector (the strongest signal): a sharp 1h move on a
+    // market that turns on nonpublic information can be front-running the wire.
+    const ch = num(m.oneHourPriceChange);
+    if (Math.abs(ch) >= 0.12) {
       alerts.push(alert({
-        id: "pm-whale-" + (t.transactionHash || t.id || i), ts: hhmm(), platform: "polymarket", market: title,
-        detector: "vacuum", sev: usd >= 100000 ? "high" : "med",
-        metric: "$" + Math.round(usd / 1000) + "k single fill" + (t.side ? " (" + String(t.side).toLowerCase() + ")" : "") + "  [" + tp + "]",
+        id: "pm-move-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
+        detector: "lead", sev: Math.abs(ch) >= 0.25 ? "high" : "med",
+        metric: (ch >= 0 ? "+" : "") + Math.round(ch * 100) + "c in 1h  ($" + Math.round(vol / 1000) + "k vol)  [" + tp + "]",
       }));
     }
+    // Volume-to-liquidity spike on a thin niche book.
+    if (liq >= 5000) {
+      const ratio = vol / liq;
+      if (ratio >= 6) {
+        alerts.push(alert({
+          id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
+          detector: "vol_liq", sev: (ratio >= 15 || (vol >= 400000 && liq < 30000)) ? "high" : "med",
+          metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k / $" + Math.round(liq / 1000) + "k)  [" + tp + "]",
+        }));
+      }
+    }
   });
-  return alerts.slice(0, 40);
+  // Large single fills on insider-relevant markets (Data API). The firehose is
+  // mostly tiny crypto-bot trades, so we scan deeper and topic-filter. usd = shares*price.
+  const trades = await getJSON("https://data-api.polymarket.com/trades?limit=500").catch(() => []);
+  const whales = {};
+  (Array.isArray(trades) ? trades : []).forEach((t, i) => {
+    const usd = num(t.size) * num(t.price);
+    const title = (t.title || t.eventSlug || t.slug || "Market").toString().slice(0, 90);
+    const tp = topic(title);
+    if (usd >= 10000 && INSIDER_TOPICS.has(tp)) {
+      const key = title + "|" + (t.side || "");
+      if (!whales[key] || usd > whales[key].usd) {
+        whales[key] = { usd, title, tp, side: t.side, hash: t.transactionHash || i, wallet: t.proxyWallet };
+      }
+    }
+  });
+  Object.values(whales).forEach((w) => alerts.push(alert({
+    id: "pm-whale-" + w.hash, ts: hhmm(), platform: "polymarket", market: w.title,
+    detector: "vacuum", sev: w.usd >= 50000 ? "high" : "med",
+    metric: "$" + Math.round(w.usd / 1000) + "k fill" + (w.side ? " (" + String(w.side).toLowerCase() + ")" : "") + "  [" + w.tp + "]",
+  })));
+  return alerts.slice(0, 50);
 }
 
 /* ----------------------------------------------------------------- Kalshi -- */
@@ -135,24 +152,21 @@ async function kalshi() {
   const data = await getJSON(base + path, { headers: kalshiHeaders("GET", "/trade-api/v2/markets") }).catch(() => null);
   const markets = (data && (data.markets || data.data)) || [];
   markets.forEach((m, i) => {
-    const vol = num(m.volume_24h || m.volume24h || m.volume);
-    const oi = num(m.open_interest || m.openInterest);
-    const liq = num(m.liquidity);
-    const title = (m.title || m.subtitle || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 90);
-    const tp = topic(title + " " + (m.ticker || ""));
+    // Kalshi v2 uses _fp (fixed-point counts) and _dollars suffixes.
+    const vol = num(m.volume_24h_fp || m.volume_24h || m.volume_fp || m.volume);
+    const oi = num(m.open_interest_fp || m.open_interest);
+    const title = (m.title || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 90);
+    const tp = topic(title + " " + (m.event_ticker || "") + " " + (m.ticker || ""));
     if (!INSIDER_TOPICS.has(tp)) return;          // only insider-relevant topics
-    if (vol < 8000) return;                        // needs real money behind it
-    // Churn vs standing positions; Kalshi OI runs closer to volume than
-    // Polymarket liquidity, so the bar is lower than the Polymarket vol/liq one.
-    const denom = oi > 0 ? oi : (liq > 0 ? liq : 0);
-    if (!denom) return;
-    const ratio = vol / denom;
+    if (vol < 1000) return;                        // contracts; needs real activity
+    if (oi <= 0) return;                           // need standing positions to compare against
+    const ratio = vol / oi;                        // 24h churn vs open interest
     if (ratio < 2.5) return;
     const sev = ratio >= 5 ? "high" : "med";
     alerts.push(alert({
       id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: title,
       detector: "vol_liq", sev,
-      metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(vol).toLocaleString() + " / " + Math.round(denom).toLocaleString() + ")  [" + tp + "]",
+      metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(vol).toLocaleString() + " / " + Math.round(oi).toLocaleString() + " contracts)  [" + tp + "]",
     }));
   });
   return alerts.slice(0, 30);
