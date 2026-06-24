@@ -88,12 +88,18 @@
   </div>
 </div>
 
-<!-- ---- DATA LAYER (single source of truth) ---- -->
-<script src="/models/pmle/constants.js?v=3"></script>
-<script src="/models/pmle/data.js?v=3"></script>
-<script src="/models/pmle/validate.js?v=3"></script>
-<!-- ---- UI ---- -->
-<script src="/models/pmle/app.js?v=3"></script>
+<!-- ---- DATA LAYER + UI ----
+     Loaded with a runtime timestamp so an updated data.js is ALWAYS fetched
+     fresh (no browser/CDN caching can serve a stale copy). The scripts are
+     written in order, so they execute constants -> data -> validate -> app. -->
+<script>
+  (function () {
+    var bust = '?_=' + Date.now();
+    ['constants', 'data', 'validate', 'app'].forEach(function (f) {
+      document.write('<script src="/models/pmle/' + f + '.js' + bust + '"><\/script>');
+    });
+  })();
+</script>
 <script>
   // Hide the SAMPLE-DATA banner automatically once real data is in (PMLE.SAMPLE_DATA=false).
   if (window.PMLE && window.PMLE.SAMPLE_DATA === false) {

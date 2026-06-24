@@ -779,7 +779,7 @@
       document.getElementById('model-summary').textContent = m.summary;
       document.getElementById('model-frame-label').textContent = (m.id || 'model') + '.model';
       const frame = document.getElementById('model-frame');
-      if (m.src) { frame.removeAttribute('srcdoc'); frame.src = m.src; }
+      if (m.src) { frame.removeAttribute('srcdoc'); frame.src = m.src + (m.src.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now(); }
       else if (m.html) { frame.removeAttribute('src'); frame.srcdoc = m.html; }
       document.getElementById('models-list').style.display = 'none';
       document.getElementById('model-view').classList.add('active');
