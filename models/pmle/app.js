@@ -174,7 +174,7 @@
         (S.lens === "map" || S.lens === "timeline") ? scrubber(reveal) : null),
       context(sel));
 
-    const node = h("div", { style: { padding: "18px 18px 22px" } },
+    const node = h("div", { className: "pmle-explore", style: { padding: "18px 18px 22px" } },
       commandBar(list), facetPanel(), lensTabs(), grid);
 
     // fill the lens box now that it exists in the tree
@@ -200,7 +200,7 @@
 
   function commandBar(list) {
     const pills = activePills(), nF = pills.length;
-    return h("div", { style: { display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" } },
+    return h("div", { className: "pmle-cmd", style: { display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" } },
       h("div", { style: { position: "relative", flex: "1 1 280px", minWidth: "240px" } },
         h("span", { "aria-hidden": "true", style: { position: "absolute", left: "13px", top: "50%", transform: "translateY(-50%)", color: "#4B5563", fontSize: "15px" } }, "⚲"),
         h("input", { value: S.search, "aria-label": "Search matters, parties, statutes",
@@ -254,7 +254,7 @@
 
   function lensTabs() {
     const tabs = [["map", "MAP", "◉"], ["timeline", "TIMELINE", "─"], ["matrix", "MATRIX", "▦"], ["network", "NETWORK", "⁂"], ["doctrine", "DOCTRINE", "⇉"]];
-    return h("div", { role: "tablist", "aria-label": "Lens", style: { display: "flex", gap: "4px", marginTop: "14px", padding: "4px", borderRadius: "11px", background: "rgba(255,255,255,.022)", border: "1px solid rgba(255,255,255,.05)", width: "fit-content", maxWidth: "100%", flexWrap: "wrap" } },
+    return h("div", { role: "tablist", "aria-label": "Lens", className: "pmle-tabs", style: { display: "flex", gap: "4px", marginTop: "14px", padding: "4px", borderRadius: "11px", background: "rgba(255,255,255,.022)", border: "1px solid rgba(255,255,255,.05)", width: "fit-content", maxWidth: "100%", flexWrap: "wrap" } },
       tabs.map(([id, label, ic]) => {
         const on = S.lens === id;
         return h("button", { key: id, role: "tab", "aria-selected": on ? "true" : "false", onClick: () => setLens(id),
@@ -663,7 +663,7 @@
     const done = S.simStep >= 4;
     const frag = document.createDocumentFragment();
 
-    const stepper = h("div", { style: { display: "flex", alignItems: "center", gap: "0", marginBottom: "24px" } },
+    const stepper = h("div", { className: "pmle-stepper", style: { display: "flex", alignItems: "center", gap: "0", marginBottom: "24px" } },
       steps.map((st, i) => {
         const active = i === S.simStep, complete = i < S.simStep || done;
         return [
@@ -712,7 +712,7 @@
           style: { marginLeft: "auto", padding: "11px 22px", borderRadius: "10px", cursor: "pointer", border: "1px solid rgba(255,255,255,.1)", background: "transparent", color: "#9CA3AF", font: `600 12px ${MONO}`, letterSpacing: ".06em" } }, "↻ RESET"));
 
     appendKids(frag, [header, h("div", { style: { marginTop: "20px" } }, stepper), panel, nav]);
-    return h("div", { style: { padding: "26px 26px 28px", maxWidth: "760px", margin: "0 auto" } }, frag);
+    return h("div", { className: "pmle-sim", style: { padding: "26px 26px 28px", maxWidth: "760px", margin: "0 auto" } }, frag);
   }
 
   // Maps the chosen statutory hook to its doctrine gate + a description of the
