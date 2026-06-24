@@ -72,7 +72,7 @@
               <div data-builder style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px 22px;align-items:start">
                 <sc-for list="{{ engine.controls }}" as="ctl" hint-placeholder-count="6">
                   <div>
-                    <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">{{ ctl.label }}</div>
+                    <div style="font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#6EE7B7;margin-bottom:4px">{{ ctl.label }}</div>
                     <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">{{ ctl.helper }}</div>
                     <div style="display:flex;flex-wrap:wrap;gap:6px">
                       <sc-for list="{{ ctl.opts }}" as="o" hint-placeholder-count="4">
@@ -82,7 +82,7 @@
                   </div>
                 </sc-for>
                 <div>
-                  <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">Concealment</div>
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#6EE7B7;margin-bottom:4px">Concealment</div>
                   <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">whether proceeds were hidden</div>
                   <button type="button" aria-pressed="{{ engine.classicalDark }}" style="{{ engine.concealStyle }}" onClick="{{ engine.onConceal }}">Concealed proceeds (crypto / deletion)</button>
                 </div>
