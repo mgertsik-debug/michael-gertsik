@@ -158,12 +158,43 @@ async function kalshi() {
   return alerts.slice(0, 30);
 }
 
+/* ------------------------------------------------------------------ debug -- */
+// /api/surveillance/feed?debug=1 — returns the RAW shape of each upstream API
+// (counts + field names + one sample) so detector field-mapping can be fixed
+// without guessing. Read-only, public data; never returns the Kalshi key.
+async function diagnose() {
+  const o = {};
+  try {
+    const d = await getJSON("https://api.elections.kalshi.com/trade-api/v2/markets?limit=20&status=open",
+      { headers: kalshiHeaders("GET", "/trade-api/v2/markets") });
+    const arr = (d && (d.markets || d.data)) || [];
+    o.kalshi = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], sample: arr[0] || null };
+  } catch (e) { o.kalshi = { ok: false, error: e.message }; }
+  try {
+    const d = await getJSON("https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=5&order=volume24hr&ascending=false");
+    const arr = Array.isArray(d) ? d : (d.data || []);
+    o.pmMarkets = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], sampleTitle: arr[0] && (arr[0].question || arr[0].title) };
+  } catch (e) { o.pmMarkets = { ok: false, error: e.message }; }
+  try {
+    const d = await getJSON("https://data-api.polymarket.com/trades?limit=5");
+    const arr = Array.isArray(d) ? d : (d.data || d.trades || []);
+    o.pmTrades = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], sample: arr[0] || null };
+  } catch (e) { o.pmTrades = { ok: false, error: e.message }; }
+  return o;
+}
+
 /* ------------------------------------------------------------------- main -- */
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=60");
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
+
+  if ((req.query && (req.query.debug === "1" || req.query.debug === "true")) || String(req.url || "").includes("debug=1")) {
+    res.setHeader("Cache-Control", "no-store");
+    res.status(200).json(await diagnose());
+    return;
+  }
 
   const sources = { polymarket: "ok", kalshi: process.env.KALSHI_KEY_ID ? "ok(auth)" : "ok(public)" };
   let pm = [], k = [];
