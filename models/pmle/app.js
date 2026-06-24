@@ -255,7 +255,7 @@
   }
 
   function lensTabs() {
-    const tabs = [["map", "MAP", "◉"], ["timeline", "TIMELINE", "─"], ["matrix", "MATRIX", "▦"], ["network", "NETWORK", "⁂"], ["doctrine", "DOCTRINE", "⇉"], ["tracker", "TRACKER", "≣"]];
+    const tabs = [["tracker", "TRACKER", "≣"], ["map", "MAP", "◉"], ["timeline", "TIMELINE", "─"], ["matrix", "MATRIX", "▦"], ["network", "NETWORK", "⁂"], ["doctrine", "DOCTRINE", "⇉"]];
     return h("div", { role: "tablist", "aria-label": "Lens", className: "pmle-tabs", style: { display: "flex", gap: "4px", marginTop: "14px", padding: "4px", borderRadius: "11px", background: "rgba(255,255,255,.022)", border: "1px solid rgba(255,255,255,.05)", width: "fit-content", maxWidth: "100%", flexWrap: "wrap" } },
       tabs.map(([id, label, ic]) => {
         const on = S.lens === id;
