@@ -802,15 +802,19 @@
     const info = HOOK_INFO[H] || HOOK_INFO["State gaming / bucket-shop law"];
     const low = (s) => String(s).toLowerCase();
 
-    // Score every real matter against the chosen route.
-    const scored = DATA.map((m) => {
+    // Score every real matter against the chosen route. Recomputed live from
+    // the full dataset on every render, so newly-tracked cases are included
+    // automatically — nothing here is precomputed or capped to a snapshot.
+    const scoredAll = DATA.map((m) => {
       let sc = 0;
       if (m.contractType === C) sc += 3;
       if (m.forum === F) sc += 3;
       if (ST && m.states.includes(ST)) sc += 2;
       if (m.gate === info.gate) sc += 2;
       return { m, sc };
-    }).filter((x) => x.sc > 0).sort((a, b) => b.sc - a.sc).slice(0, 4);
+    }).filter((x) => x.sc > 0).sort((a, b) => b.sc - a.sc);
+    const matchCount = scoredAll.length;       // how many real matters fit this pattern
+    const scored = scoredAll.slice(0, 4);      // top analogs shown
     const hasAnalogs = scored.length > 0;
 
     // Relevant pools from the real data.
@@ -880,7 +884,10 @@
         hasAnalogs ? reasonP("Closest precedent. ", ["The analogs above turned on the same question; the nearest, ", em(scored[0].m.caption), ", is ", em(low(scored[0].m.outcome)), ". ", statutes.length ? "Authorities in play include " + statutes.join("; ") + "." : ""]) : reasonP("Closest precedent. ", ["The dataset has no matter on this exact combination, so there is no controlling analog yet."]),
         ST ? reasonP("State trend. ", statePool.length
           ? ["In ", em(ST), ", the matter" + (statePool.length > 1 ? "s" : "") + " on record are ", breakdown(tally(statePool, "posture"), POST_PRIORITY, (k) => POSTURE[k].label), ", which weighs on the prediction."]
-          : ["No matter is on record in ", em(ST), " yet, so this would be a question of first impression there."]) : null) : null);
+          : ["No matter is on record in ", em(ST), " yet, so this would be a question of first impression there."]) : null) : null,
+      h("div", { style: { marginTop: "16px", paddingTop: "12px", borderTop: "1px solid rgba(255,255,255,.06)", font: `400 11px ${MONO}`, letterSpacing: ".02em", color: "#4B5563", display: "flex", alignItems: "center", gap: "7px" } },
+        h("span", { style: { width: "6px", height: "6px", borderRadius: "50%", background: "#34D399", flexShrink: "0" } }),
+        "Computed live from all " + DATA.length + " tracked matters" + (matchCount ? " · " + matchCount + " match this fact pattern" : "") + ". Updates automatically as new cases are added."));
   }
   // Renders one reasoning paragraph: a mono lead-in label + body fragments.
   function reasonP(label, frags) {
