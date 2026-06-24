@@ -260,16 +260,26 @@
   }
 
   function lensTabs() {
-    const tabs = [["tracker", "TRACKER", "≣"], ["map", "MAP", "◉"], ["timeline", "TIMELINE", "─"], ["doctrine", "DOCTRINE", "⇉"], ["matrix", "MATRIX", "▦"], ["network", "NETWORK", "⁂"]];
+    // Each lens has its own accent color so the tabs glow distinctly.
+    const tabs = [
+      ["tracker",  "TRACKER",  "≣", "#34D399", "52,211,153"],   // emerald
+      ["map",      "MAP",      "◉", "#60A5FA", "96,165,250"],   // blue
+      ["timeline", "TIMELINE", "─", "#FBBF24", "251,191,36"],   // amber
+      ["doctrine", "DOCTRINE", "⇉", "#A78BFA", "167,139,250"],  // violet
+      ["matrix",   "MATRIX",   "▦", "#FB7185", "251,113,133"],  // rose
+      ["network",  "NETWORK",  "⁂", "#22D3EE", "34,211,238"],   // cyan
+    ];
     return h("div", { role: "tablist", "aria-label": "Lens", className: "pmle-tabs", style: { display: "flex", gap: "4px", marginTop: "14px", padding: "4px", borderRadius: "11px", background: "rgba(255,255,255,.022)", border: "1px solid rgba(255,255,255,.05)", width: "fit-content", maxWidth: "100%", flexWrap: "wrap" } },
-      tabs.map(([id, label, ic]) => {
+      tabs.map(([id, label, ic, hex, rgb]) => {
         const on = S.lens === id;
         return h("button", { key: id, role: "tab", "aria-selected": on ? "true" : "false", onClick: () => setLens(id),
           style: { display: "flex", alignItems: "center", gap: "7px", padding: "7px 12px", borderRadius: "8px", cursor: "pointer", font: `600 10.5px ${MONO}`, letterSpacing: ".07em", whiteSpace: "nowrap", transition: "all .2s",
-            border: "1px solid " + (on ? "rgba(52,211,153,.4)" : "transparent"),
-            background: on ? "rgba(52,211,153,.13)" : "transparent", color: on ? "#6EE7B7" : "#9CA3AF",
-            animation: on ? "pmlePulse 2.2s ease-in-out infinite" : "none" } },
-          h("span", { "aria-hidden": "true", style: { fontSize: "13px", opacity: ".85" } }, ic), label);
+            border: "1px solid " + (on ? `rgba(${rgb},.6)` : "transparent"),
+            background: on ? `rgba(${rgb},.15)` : "transparent",
+            color: on ? hex : `rgba(${rgb},.7)`,
+            boxShadow: on ? `0 0 16px rgba(${rgb},.5), inset 0 0 12px rgba(${rgb},.14)` : "none",
+            textShadow: `0 0 ${on ? 12 : 7}px rgba(${rgb},${on ? ".8" : ".3"})` } },
+          h("span", { "aria-hidden": "true", style: { fontSize: "13px", opacity: on ? "1" : ".8" } }, ic), label);
       }));
   }
   function setLens(l) { stopNet(); set({ lens: l }); }
