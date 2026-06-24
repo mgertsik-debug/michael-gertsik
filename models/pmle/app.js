@@ -558,17 +558,24 @@
       row("PLATFORM", sel.platform),
       row("CONTRACT", sel.contractType),
       row("FORUM", sel.forum),
+      sel.courtForum ? row("COURT", sel.courtForum) : null,
+      sel.docketNumber ? row("DOCKET", h("span", { style: { fontFamily: MONO, fontSize: "11.5px" } }, sel.docketNumber)) : null,
       row("STATES", sel.states.length ? sel.states.join(", ") : "None (federal)"),
       row("STATUTES", sel.statutes.join(" · ")),
       row("QUESTION", h("span", { style: { color: "#A7F3D0", fontStyle: "italic" } }, sel.doctrinalQuestion)),
-      row("FILED", yearOf(sel.filedDate) + (sel.decidedDate ? "  →  decided " + yearOf(sel.decidedDate) : "  ·  ongoing")),
+      row("FILED", sel.filedDate + (sel.decidedDate ? "  →  decided " + sel.decidedDate : "  ·  ongoing")),
+      sel.lastUpdate ? row("LAST UPDATE", sel.lastUpdate) : null,
       h("button", { onClick: () => set({ sourcesOpen: !S.sourcesOpen }), "aria-expanded": S.sourcesOpen ? "true" : "false",
         style: { marginTop: "12px", width: "100%", display: "flex", alignItems: "center", gap: "8px", padding: "9px 11px", borderRadius: "9px", cursor: "pointer",
           border: "1px solid " + (S.sourcesOpen ? "rgba(52,211,153,.35)" : "rgba(255,255,255,.07)"), background: S.sourcesOpen ? "rgba(52,211,153,.07)" : "rgba(255,255,255,.02)", color: "#6EE7B7", font: `600 10.5px ${MONO}`, letterSpacing: ".1em" } },
         h("span", null, S.sourcesOpen ? "−" : "+"), " READING & SOURCES"),
       S.sourcesOpen ? h("div", { style: { padding: "10px 12px", animation: "pmleUp .2s ease" } },
-        sel.sources.map((src, i) => h("div", { key: i, style: { font: `400 11.5px ${MONO}`, color: "#9CA3AF", padding: "4px 0", display: "flex", gap: "8px" } },
-          h("span", { style: { color: "#34D399" } }, "›"), src))) : null);
+        sel.sources.map((src, i) => {
+          const isUrl = /^https?:\/\//.test(src);
+          return h("div", { key: i, style: { font: `400 11.5px ${MONO}`, color: "#9CA3AF", padding: "4px 0", display: "flex", gap: "8px" } },
+            h("span", { style: { color: "#34D399", flexShrink: "0" } }, "›"),
+            isUrl ? h("a", { href: src, target: "_blank", rel: "noopener noreferrer", style: { color: "#6EE7B7", textDecoration: "none", wordBreak: "break-all" } }, src) : src);
+        })) : null);
   }
 
   // Compact, clickable row used in the search-results list.
@@ -620,7 +627,7 @@
     const steps = [
       { key: "simC", label: "CONTRACT TYPE", opts: CTYPES, desc: { Election: "Outcome of a government election or control of a chamber.", Sports: "Outcome of a sporting event or season.", "Economic indicator": "A macro print: CPI, rate decision, jobs.", Cultural: "Awards, entertainment, or pop-culture events.", Other: "Anything outside the above buckets." } },
       { key: "simF", label: "FORUM", opts: FORUMS, desc: { CFTC: "Commodity Futures Trading Commission action.", SEC: "Securities & Exchange Commission action.", "State gaming regulator": "A state board asserting gambling jurisdiction.", "Federal court": "Article III court (often preemption suits).", "State court": "State court enforcement or class claims." } },
-      { key: "simS", label: "STATE", opts: ["DC", "NV", "NJ", "MD", "NY", "IL", "AZ", "CA", "TX"], desc: {} },
+      { key: "simS", label: "STATE", opts: [...new Set(DATA.flatMap((m) => m.states))].sort(), desc: {} },
       { key: "simH", label: "STATUTORY HOOK", opts: ["CEA swap regulation", "State gaming / bucket-shop law", "Securities (Howey)", "Consumer protection / UDAP"], desc: { "CEA swap regulation": "Federal commodity-exchange framework & special rule.", "State gaming / bucket-shop law": "State prohibitions on wagering / chance.", "Securities (Howey)": "Investment-contract analysis under Howey.", "Consumer protection / UDAP": "Deception / unfair-practice theories." } },
     ];
     const cur = steps[S.simStep];

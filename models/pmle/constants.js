@@ -86,7 +86,7 @@
   };
 
   /* Year window the timeline / scrubber / year-filter span. */
-  const YEAR_MIN = 2014;
+  const YEAR_MIN = 2022;
   const YEAR_MAX = 2026;
 
   /* Allowed enum values, derived from the maps above so they never drift. */
