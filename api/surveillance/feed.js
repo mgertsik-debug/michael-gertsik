@@ -74,8 +74,97 @@ function topic(text) {
 }
 const INSIDER_TOPICS = new Set(["political", "geopolitical", "corporate", "econ"]);
 
+/* ------------------------------------------------- z-score helpers (measured)
+ * Population mean / standard deviation, then z-scores from real on-chain fills.
+ * This is the same construction as the informed-trading screen: a wallet's
+ * anomaly is measured relative to the distribution it sits in, not in raw $. */
+function zStat(vals) {
+  const n = vals.length; if (n < 2) return null;
+  const mean = vals.reduce((a, b) => a + b, 0) / n;
+  const sd = Math.sqrt(vals.reduce((a, b) => a + (b - mean) * (b - mean), 0) / n);
+  return { mean, sd, n };
+}
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+// Pull recent on-chain fills for one market (by conditionId) and aggregate per
+// wallet: buy USDC, sell USDC, and buy USDC in the final 48h. Then compute the
+// real cross-sectional bet-size z-score for the most anomalous qualifying
+// wallet, plus its late-buy fraction, directional concentration, and (via a
+// second call) its within-trader bet-size z-score across its other markets.
+async function enrichMarket(cond) {
+  const trades = [];
+  let offset = 0, pages = 0;
+  do {
+    const d = await getJSON(
+      "https://data-api.polymarket.com/trades?market=" + encodeURIComponent(cond) + "&limit=500&offset=" + offset,
+      { timeout: 6000 }
+    ).catch(() => null);
+    const arr = Array.isArray(d) ? d : (d && (d.data || d.trades)) || [];
+    if (!arr.length) break;
+    trades.push(...arr); offset += arr.length; pages++;
+  } while (trades.length < 700 && pages < 2);
+  if (trades.length < 20) return null;
+
+  const maxTs = trades.reduce((mx, t) => Math.max(mx, num(t.timestamp)), 0);
+  const lateCut = maxTs - 48 * 3600;            // final-48h window, per the screen
+  const W = {};
+  trades.forEach((t) => {
+    const w = t.proxyWallet; if (!w) return;
+    const usd = num(t.size) * num(t.price); if (!usd) return;
+    const o = W[w] || (W[w] = { buy: 0, sell: 0, late: 0 });
+    if (String(t.side || "").toUpperCase() === "SELL") { o.sell += usd; }
+    else { o.buy += usd; if (num(t.timestamp) >= lateCut) o.late += usd; }
+  });
+  const wallets = Object.keys(W);
+  const buys = wallets.map((w) => W[w].buy).filter((v) => v > 0);
+  if (buys.length < 3) return null;              // need a reference distribution
+  const st = zStat(buys); if (!st || st.sd <= 0) return null;
+
+  // most anomalous wallet that cleared the $500 minimum buy
+  let best = null, bestZ = -Infinity;
+  wallets.forEach((w) => {
+    const b = W[w].buy; if (b < 500) return;
+    const z = (b - st.mean) / st.sd;
+    if (z > bestZ) { bestZ = z; best = w; }
+  });
+  if (!best) return null;
+  const o = W[best];
+  const zCross = clamp(bestZ, 0, 20);
+  const lateFrac = o.buy > 0 ? clamp(o.late / o.buy, 0, 1) : 0;
+  const dirScore = o.buy > 0 ? clamp(1 - o.sell / o.buy, 0, 1) : 0;
+
+  // within-trader: this wallet's bet size here vs. its own bets in other markets
+  let zWithin = 0;
+  try {
+    const d = await getJSON(
+      "https://data-api.polymarket.com/trades?user=" + encodeURIComponent(best) + "&limit=500",
+      { timeout: 6000 }
+    ).catch(() => null);
+    const arr = Array.isArray(d) ? d : (d && (d.data || d.trades)) || [];
+    const perM = {};
+    arr.forEach((t) => {
+      const m = t.conditionId; if (!m) return;
+      if (String(t.side || "").toUpperCase() === "SELL") return;
+      perM[m] = (perM[m] || 0) + num(t.size) * num(t.price);
+    });
+    const vals = Object.values(perM).filter((v) => v > 0);
+    if (vals.length >= 2) {
+      const ws = zStat(vals);
+      if (ws && ws.sd > 0) zWithin = clamp((o.buy - ws.mean) / ws.sd, 0, 12);
+    }
+  } catch (_) {}
+
+  return {
+    computed: true, nWallets: buys.length,
+    wallet: best.slice(0, 6) + "…" + best.slice(-4),
+    buyUsd: Math.round(o.buy),
+    zCross: +zCross.toFixed(2), zWithin: +zWithin.toFixed(2),
+    lateFrac: +lateFrac.toFixed(3), dirScore: +dirScore.toFixed(3),
+  };
+}
+
 async function polymarket() {
-  const alerts = [];
+  const out = [];   // { cond, a } so we can attach measured signals after
   // Active markets ranked by 24h volume (Gamma API, public).
   const markets = await getJSON(
     "https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=250&order=volume24hr&ascending=false"
@@ -87,25 +176,26 @@ async function polymarket() {
     const tp = topic(q);
     if (!INSIDER_TOPICS.has(tp)) return;          // skip sports / crypto-price / other
     if (vol < 50000) return;                       // needs real money behind it
+    const cond = m.conditionId || null;
     // Pre-event price-move detector (the strongest signal): a sharp 1h move on a
     // market that turns on nonpublic information can be front-running the wire.
     const ch = num(m.oneHourPriceChange);
     if (Math.abs(ch) >= 0.12) {
-      alerts.push(alert({
+      out.push({ cond, a: alert({
         id: "pm-move-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
         detector: "lead", sev: Math.abs(ch) >= 0.25 ? "high" : "med",
         metric: (ch >= 0 ? "+" : "") + Math.round(ch * 100) + "c in 1h  ($" + Math.round(vol / 1000) + "k vol)  [" + tp + "]",
-      }));
+      }) });
     }
     // Volume-to-liquidity spike on a thin niche book.
     if (liq >= 5000) {
       const ratio = vol / liq;
       if (ratio >= 6) {
-        alerts.push(alert({
+        out.push({ cond, a: alert({
           id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
           detector: "vol_liq", sev: (ratio >= 15 || (vol >= 400000 && liq < 30000)) ? "high" : "med",
           metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k / $" + Math.round(liq / 1000) + "k)  [" + tp + "]",
-        }));
+        }) });
       }
     }
   });
@@ -120,16 +210,29 @@ async function polymarket() {
     if (usd >= 10000 && INSIDER_TOPICS.has(tp)) {
       const key = title + "|" + (t.side || "");
       if (!whales[key] || usd > whales[key].usd) {
-        whales[key] = { usd, title, tp, side: t.side, hash: t.transactionHash || i, wallet: t.proxyWallet };
+        whales[key] = { usd, title, tp, side: t.side, hash: t.transactionHash || i, cond: t.conditionId || null };
       }
     }
   });
-  Object.values(whales).forEach((w) => alerts.push(alert({
+  Object.values(whales).forEach((w) => out.push({ cond: w.cond, a: alert({
     id: "pm-whale-" + w.hash, ts: hhmm(), platform: "polymarket", market: w.title,
     detector: "vacuum", sev: w.usd >= 50000 ? "high" : "med",
     metric: "$" + Math.round(w.usd / 1000) + "k fill" + (w.side ? " (" + String(w.side).toLowerCase() + ")" : "") + "  [" + w.tp + "]",
-  })));
-  return alerts.slice(0, 50);
+  }) }));
+
+  // ---- measured z-score enrichment on the flagged markets ----
+  // Cap at 6 markets (high-severity first) to stay inside the time budget; each
+  // pulls real fills and computes the screen's z-scores from them.
+  const order = out.slice().sort((a, b) => (b.a.sev === "high" ? 1 : 0) - (a.a.sev === "high" ? 1 : 0));
+  const conds = [];
+  order.forEach((o) => { if (o.cond && conds.indexOf(o.cond) === -1 && conds.length < 6) conds.push(o.cond); });
+  const measured = {};
+  await Promise.all(conds.map(async (cond) => {
+    try { const sig = await enrichMarket(cond); if (sig) measured[cond] = sig; } catch (_) {}
+  }));
+  out.forEach((o) => { if (o.cond && measured[o.cond]) o.a.signals = measured[o.cond]; });
+
+  return out.map((o) => o.a).slice(0, 50);
 }
 
 /* ----------------------------------------------------------------- Kalshi -- */
@@ -245,6 +348,8 @@ module.exports = async (req, res) => {
   try { k = await kalshi(); } catch (e) { sources.kalshi = "error: " + e.message; }
 
   const alerts = [...k, ...pm].sort((a, b) => (a.sev === b.sev ? 0 : a.sev === "high" ? -1 : 1));
+  const zscored = alerts.filter((a) => a.signals && a.signals.computed).length;
+  if (sources.polymarket === "ok") sources.polymarket = "ok(" + zscored + " z-scored)";
   res.status(200).json({
     generatedAt: new Date().toISOString(),
     live: alerts.length > 0,
