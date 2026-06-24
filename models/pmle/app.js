@@ -502,21 +502,30 @@
   /* ---------- DOCTRINE ---------- */
   function doctrineLens(list) {
     const gates = DOCTRINE_STATIONS;
-    const W = 700, H = 360, colX = (i) => 60 + i * ((W - 100) / (gates.length - 1));
     const byGate = { swap: [], special: [], cleared: [] };
     list.forEach((m) => { (byGate[m.gate] || byGate.special).push(m); });
+    // A gate can hold many matters (e.g. dozens in "special"), so we pack each
+    // column into a compact grid: fixed rows, wrapping into sub-columns. This
+    // guarantees every case is drawn — nothing clamps or hides underneath.
+    const maxN = Math.max(1, byGate.swap.length, byGate.special.length, byGate.cleared.length);
+    const top = 70, rowGap = 16, subColGap = 15;
+    const rowsMax = Math.max(6, Math.min(maxN, 13));   // rows per sub-column
+    const W = 700, H = Math.max(360, top + (rowsMax - 1) * rowGap + 60);
+    const colX = (i) => 60 + i * ((W - 100) / (gates.length - 1));
     const flows = [], nodes = [];
+    const sx = colX(0), sy = H / 2;
     list.forEach((m) => {
       const gi = GATE_ORDER.indexOf(m.gate) + 1;
-      const arr = byGate[m.gate] || byGate.special, idx = arr.indexOf(m);
-      const y = 70 + idx * 30;
-      const tx = colX(gi), ty = Math.min(y, H - 40);
+      const arr = byGate[m.gate] || byGate.special, n = arr.length, idx = arr.indexOf(m);
+      const cols = Math.ceil(n / rowsMax);
+      const col = Math.floor(idx / rowsMax), row = idx % rowsMax;
+      const tx = colX(gi) + (col - (cols - 1) / 2) * subColGap;
+      const ty = top + row * rowGap;
       const oc = OUT[m.outcome], selOn = S.selectedId === m.id;
-      const sx = colX(0), sy = H / 2;
-      flows.push(h("path", { key: "p" + m.id, d: `M ${sx} ${sy} C ${(sx + tx) / 2} ${sy}, ${(sx + tx) / 2} ${ty}, ${tx} ${ty}`, fill: "none", stroke: oc.c, strokeOpacity: selOn ? 0.9 : 0.32, strokeWidth: selOn ? 2.4 : 1.4 }));
+      flows.push(h("path", { key: "p" + m.id, d: `M ${sx} ${sy} C ${(sx + tx) / 2} ${sy}, ${(sx + tx) / 2} ${ty}, ${tx} ${ty}`, fill: "none", stroke: oc.c, strokeOpacity: selOn ? 0.9 : 0.28, strokeWidth: selOn ? 2.4 : 1.2 }));
       nodes.push(h("g", { key: "n" + m.id, className: "pmle-node", "data-sel": selOn ? "1" : null, style: { cursor: "pointer" },
         onMouseEnter: (e) => showTip(e, m.caption, [m.doctrinalQuestion]), onMouseMove: moveTip, onMouseLeave: hideTip, onClick: () => select(m.id) },
-        h("circle", { cx: tx, cy: ty, r: selOn ? 7 : 5, fill: oc.c, stroke: selOn ? "#fff" : "none", strokeWidth: 1.4 })));
+        h("circle", { cx: tx, cy: ty, r: selOn ? 7 : 4.5, fill: oc.c, stroke: selOn ? "#fff" : "none", strokeWidth: 1.4 })));
     });
     const stations = gates.map(([id, label], i) => h("g", { key: id },
       h("line", { x1: colX(i), y1: 36, x2: colX(i), y2: H - 24, stroke: "rgba(255,255,255,.06)", strokeDasharray: i === 0 ? "0" : "3 4" }),
