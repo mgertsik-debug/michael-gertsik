@@ -137,25 +137,30 @@
   /*  RENDER                                                               */
   /* ===================================================================== */
   function render() {
-    mount(els.mode, modeToggle());
-    mount(els.body, S.appMode === "explore" ? explore() : simulate());
+    mount(els.mode, null); // the mode switch now lives prominently in the body
+    mount(els.body, [modeSwitcher(), S.appMode === "explore" ? explore() : simulate()]);
     mount(els.overlays, [S.showCoach ? coach() : null, S.showPalette ? palette() : null]);
     // restore caret on the text inputs after rebuild
     const af = els.root.querySelector("[data-autofocus]");
     if (af) { af.focus(); const n = af.value.length; try { af.setSelectionRange(n, n); } catch (e) {} }
   }
 
-  /* ---------- mode toggle ---------- */
-  function modeToggle() {
-    const btn = (id, label) => h("button", {
-      onClick: () => set({ appMode: id }), "aria-pressed": S.appMode === id ? "true" : "false",
-      style: { font: `600 11px ${MONO}`, letterSpacing: ".12em", padding: "6px 13px", borderRadius: "8px", cursor: "pointer",
-        border: "1px solid " + (S.appMode === id ? "rgba(52,211,153,.5)" : "rgba(255,255,255,.08)"),
-        background: S.appMode === id ? "rgba(52,211,153,.14)" : "transparent",
-        color: S.appMode === id ? "#6EE7B7" : "#9CA3AF", transition: "all .18s" },
-    }, label);
-    return h("div", { role: "tablist", "aria-label": "Mode", style: { display: "flex", gap: "6px", padding: "3px", borderRadius: "10px", background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,255,255,.05)" } },
-      btn("explore", "EXPLORE"), btn("simulate", "SIMULATE"));
+  /* ---------- mode switcher (prominent two-card control) ---------- */
+  function modeSwitcher() {
+    const opt = (id, label, desc) => {
+      const on = S.appMode === id;
+      return h("button", { key: id, onClick: () => set({ appMode: id }), "aria-pressed": on ? "true" : "false",
+        style: { flex: "1 1 0", minWidth: "0", textAlign: "left", display: "flex", flexDirection: "column", gap: "4px", padding: "13px 16px", borderRadius: "12px", cursor: "pointer", transition: "all .18s",
+          border: "1px solid " + (on ? "rgba(52,211,153,.55)" : "rgba(255,255,255,.08)"),
+          background: on ? "rgba(52,211,153,.1)" : "rgba(255,255,255,.02)",
+          boxShadow: on ? "0 0 0 3px rgba(52,211,153,.08)" : "none" } },
+        h("div", { style: { display: "flex", alignItems: "center", gap: "8px", font: `700 12px ${MONO}`, letterSpacing: ".12em", color: on ? "#6EE7B7" : "#D1D5DB" } },
+          h("span", { style: { width: "7px", height: "7px", borderRadius: "50%", background: on ? "#34D399" : "rgba(255,255,255,.25)" } }), label),
+        h("div", { style: { font: `400 11.5px ${SANS}`, color: on ? "#A7F3D0" : "#6B7280", lineHeight: "1.4" } }, desc));
+    };
+    return h("div", { className: "pmle-modeswitch", role: "tablist", "aria-label": "Mode", style: { display: "flex", gap: "10px", padding: "18px 18px 0" } },
+      opt("explore", "EXPLORE", "Browse all 48 cases in the tracker and five lenses."),
+      opt("simulate", "SIMULATE", "Build a hypothetical fact pattern and predict its outcome."));
   }
 
   /* ================= EXPLORE ================= */
