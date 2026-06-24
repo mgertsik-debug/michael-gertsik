@@ -322,7 +322,7 @@
     applyMap();
     _scrub = applyMap;
     return h("div", null,
-      lensHeader("UNITED STATES · POSTURE BY STATE", "This area of law is fought state-by-state. Color = current posture."),
+      lensHeader("UNITED STATES · POSTURE BY STATE", "Shows where these cases are being fought, state by state. Each state is shaded by how its matters currently stand, so at a glance you can see where the markets are blocked, still in court, or allowed."),
       h("svg", { viewBox: "0 0 440 322", role: "img", "aria-label": "US cartogram colored by posture", style: { width: "100%", maxWidth: "560px", margin: "4px auto 0", display: "block" } }, cells),
       legend([["Permitted", "#34D399"], ["Pending", "#FBBF24"], ["Regulator action", "#FB923C"], ["Enjoined", "#F87171"], ["Settled", "#60A5FA"], ["Dismissed", "#6B7280"], ["Silent", "#1b211f"]]),
       postureKey());
@@ -381,7 +381,7 @@
       nodeRefs.forEach(({ g, id }) => { g.style.opacity = rev.has(id) ? "1" : "0.18"; });
     };
     return h("div", null,
-      lensHeader("TIMELINE · BY FORUM", "Each dot represents one case. Its left-to-right position shows when it was filed, its row shows which forum handled it (CFTC, SEC, state gaming regulator, federal court, or state court), and its color shows how it ended: pending, enjoined, permitted, settled, or dismissed. Click any dot to open the full case, including the parties, contract type, legal question, laws involved, and outcome with sources. Press play to watch the cases appear in order and see when activity sped up and which forums got busiest."),
+      lensHeader("TIMELINE · BY FORUM", "Plots every case by its filing date, in rows by the court or agency hearing it, with dot color showing how it ended. Click a dot for the full case, or press play to watch the cases appear in order and see which forums got busiest."),
       h("svg", { viewBox: `0 0 ${W} ${y0 + FORUMS.length * laneH}`, role: "img", "aria-label": "Timeline of matters by forum", style: { width: "100%", marginTop: "2px" } }, grid, lanes),
       outcomeLegend());
   }
@@ -390,7 +390,7 @@
   function matrixLens(list) {
     const max = Math.max(1, ...CTYPES.flatMap((ct) => FORUMS.map((f) => list.filter((m) => m.contractType === ct && m.forum === f).length)));
     return h("div", null,
-      lensHeader("HEAT GRID · CONTRACT × FORUM", "Cell intensity = matter volume. Click a cell to drill in."),
+      lensHeader("HEAT GRID · CONTRACT × FORUM", "Crosses the type of contract against the venue hearing the dispute; each cell counts the matters in that pairing, and darker means more. It shows where the fights cluster. Click a cell to filter to those cases."),
       h("div", { style: { overflowX: "auto", marginTop: "4px" } },
         h("table", { style: { borderCollapse: "separate", borderSpacing: "6px", margin: "0 auto" } },
           h("thead", null, h("tr", null, h("th", null), FORUMS.map((f) => h("th", { key: f, style: { padding: "0 4px 8px", font: `500 9.5px ${MONO}`, color: "#9CA3AF", letterSpacing: ".05em", verticalAlign: "bottom", maxWidth: "84px" } }, f)))),
@@ -435,7 +435,7 @@
       svg.appendChild(g);
     });
     return h("div", null,
-      lensHeader("FORCE GRAPH · ENTITIES & ACTIONS", "A list tells you which cases exist. This picture shows you the shape of the whole fight. In a single glance, you can spot which platform is most embattled. Just look for the biggest dot with the most lines running to it. You can also see which regulators are pressing hardest, and whether a given matchup tends to end in wins or losses. It answers \"who's tangled up with whom, and how is it going?\" far faster than reading every case one by one."),
+      lensHeader("FORCE GRAPH · ENTITIES & ACTIONS", "Maps who is fighting whom: the platforms and the courts or agencies acting on them are the dots, linked by each case, and the line color shows the outcome. It lets you spot at a glance which platform is most embattled and which regulators are pushing hardest."),
       svg,
       h("div", { style: { display: "flex", gap: "18px", justifyContent: "center", marginTop: "6px", font: `500 10px ${MONO}`, color: "#6B7280" } },
         h("span", null, h("span", { style: { color: "#34D399" } }, "●"), " platform"),
@@ -486,7 +486,7 @@
       h("line", { x1: colX(i), y1: 36, x2: colX(i), y2: H - 24, stroke: "rgba(255,255,255,.06)", strokeDasharray: i === 0 ? "0" : "3 4" }),
       label.split("\n").map((ln, j) => h("text", { key: j, x: colX(i), y: 26 + j * 11, textAnchor: "middle", style: { font: `500 9px ${MONO}`, fill: i === gates.length - 1 ? "#6EE7B7" : "#9CA3AF", letterSpacing: ".03em" } }, ln))));
     return h("div", null,
-      lensHeader("DOCTRINE FLOW · CLASSIFICATION GATES", "Each matter stops at the gate where it actually turned. Color = outcome."),
+      lensHeader("DOCTRINE FLOW · CLASSIFICATION GATES", "Follows the legal test each case turns on. Every matter flows left to right and stops at the gate where it was actually decided: the swap test, the special gaming rule, Howey, or cleared, with dot color showing the outcome."),
       h("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Doctrine classification flow", style: { width: "100%", marginTop: "2px" } }, stations, flows, nodes),
       outcomeLegend());
   }
