@@ -617,13 +617,6 @@
     <div id="model-view" class="model-view">
       <div class="shell">
         <button class="back-btn" onclick="closeModel()">← All Models</button>
-        <div class="model-view-head">
-          <div>
-            <div class="article-category" id="model-category" style="margin-bottom:10px;"></div>
-            <h1 class="article-title" id="model-title" style="font-size:clamp(26px,3.6vw,38px); margin-bottom:10px;"></h1>
-            <p class="page-intro" id="model-summary" style="margin-top:0;"></p>
-          </div>
-        </div>
         <div class="model-frame-wrap">
           <div class="model-frame-bar">
             <span class="tdot" style="background:#F87171;"></span>
@@ -779,9 +772,8 @@
     function openModel(id) {
       const m = MODELS.find(x => x.id === id);
       if (!m || m.status === 'soon') return;
-      document.getElementById('model-category').textContent = m.category;
-      document.getElementById('model-title').textContent = m.title;
-      document.getElementById('model-summary').textContent = m.summary;
+      // The model's own page (inside the iframe) shows its title/eyebrow/summary,
+      // so we don't repeat them here; the index cards keep that info.
       document.getElementById('model-frame-label').textContent = (m.id || 'model') + '.model';
       const frame = document.getElementById('model-frame');
       // Hold the iframe invisible until its content is ready, then fade it in
