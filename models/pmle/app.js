@@ -159,7 +159,7 @@
         h("div", { style: { font: `400 11.5px ${SANS}`, color: on ? "#A7F3D0" : "#6B7280", lineHeight: "1.4" } }, desc));
     };
     return h("div", { className: "pmle-modeswitch", role: "tablist", "aria-label": "Mode", style: { display: "flex", gap: "10px", padding: "18px 18px 0" } },
-      opt("explore", "EXPLORE", "Browse all 48 cases in the tracker and five lenses."),
+      opt("explore", "EXPLORE", "Browse all " + DATA.length + " cases in the tracker and five lenses."),
       opt("simulate", "SIMULATE", "Build a hypothetical fact pattern and predict its outcome."));
   }
 
