@@ -71,7 +71,6 @@ to the one where the matter **actually turned**:
 | --- | --- | --- |
 | `swap` | *Is it a swap under the CEA / within CFTC jurisdiction?* | The fight was about unregistered swaps / event contracts offered off a designated exchange. |
 | `special` | *Does the special rule on enumerated / "gaming" activity bar it?* | The fight was the gaming / election-contract / state-wagering question (the most common bucket). |
-| `howey` | *Is it a security under Howey?* | The fight was whether tokenized shares / instruments are investment contracts. |
 | `cleared` | *Cleared / permitted to list.* | It got past the gates, e.g. a downstream disclosure / consumer claim, not a classification fight. |
 
 ---

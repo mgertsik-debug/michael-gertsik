@@ -503,7 +503,7 @@
   function doctrineLens(list) {
     const gates = DOCTRINE_STATIONS;
     const W = 700, H = 360, colX = (i) => 60 + i * ((W - 100) / (gates.length - 1));
-    const byGate = { swap: [], special: [], howey: [], cleared: [] };
+    const byGate = { swap: [], special: [], cleared: [] };
     list.forEach((m) => { (byGate[m.gate] || byGate.special).push(m); });
     const flows = [], nodes = [];
     list.forEach((m) => {
@@ -522,7 +522,7 @@
       h("line", { x1: colX(i), y1: 36, x2: colX(i), y2: H - 24, stroke: "rgba(255,255,255,.06)", strokeDasharray: i === 0 ? "0" : "3 4" }),
       label.split("\n").map((ln, j) => h("text", { key: j, x: colX(i), y: 26 + j * 11, textAnchor: "middle", style: { font: `500 9px ${MONO}`, fill: i === gates.length - 1 ? "#6EE7B7" : "#9CA3AF", letterSpacing: ".03em" } }, ln))));
     return h("div", null,
-      lensHeader("DOCTRINE FLOW · CLASSIFICATION GATES", "Follows the legal test each case turns on. Every matter flows left to right and stops at the gate where it was actually decided: the swap test, the special gaming rule, Howey, or cleared, with dot color showing the outcome."),
+      lensHeader("DOCTRINE FLOW · CLASSIFICATION GATES", "Follows the legal test each case turns on. Every matter flows left to right and stops at the gate where it was actually decided: the swap test, the special gaming rule, or cleared, with dot color showing the outcome."),
       h("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Doctrine classification flow", style: { width: "100%", marginTop: "2px" } }, stations, flows, nodes),
       outcomeLegend());
   }
@@ -710,7 +710,7 @@
       { key: "simC", label: "CONTRACT TYPE", opts: CTYPES, desc: { Election: "Outcome of a government election or control of a chamber.", Sports: "Outcome of a sporting event or season.", "Economic indicator": "A macro print: CPI, rate decision, jobs.", Cultural: "Awards, entertainment, or pop-culture events.", Other: "Anything outside the above buckets." } },
       { key: "simF", label: "FORUM", opts: FORUMS, desc: { CFTC: "Commodity Futures Trading Commission action.", SEC: "Securities & Exchange Commission action.", "State gaming regulator": "A state board asserting gambling jurisdiction.", "Federal court": "Article III court (often preemption suits).", "State court": "State court enforcement or class claims." } },
       { key: "simS", label: "STATE", opts: [...new Set(DATA.flatMap((m) => m.states))].sort(), desc: {} },
-      { key: "simH", label: "STATUTORY HOOK", opts: ["CEA swap regulation", "State gaming / bucket-shop law", "Securities (Howey)", "Consumer protection / UDAP"], desc: { "CEA swap regulation": "Federal commodity-exchange framework & special rule.", "State gaming / bucket-shop law": "State prohibitions on wagering / chance.", "Securities (Howey)": "Investment-contract analysis under Howey.", "Consumer protection / UDAP": "Deception / unfair-practice theories." } },
+      { key: "simH", label: "STATUTORY HOOK", opts: ["CEA swap regulation", "State gaming / bucket-shop law", "Consumer protection / UDAP"], desc: { "CEA swap regulation": "Federal commodity-exchange framework & special rule.", "State gaming / bucket-shop law": "State prohibitions on wagering / chance.", "Consumer protection / UDAP": "Deception / unfair-practice theories." } },
     ];
     const cur = steps[S.simStep];
     const done = S.simStep >= 4;
@@ -780,11 +780,6 @@
       gate: "special",
       route: "the special rule on enumerated / 'gaming' activities, weighed against CEA preemption of state wagering law",
       q: (c, f) => "whether " + c.toLowerCase() + " contracts are unlicensed wagering the state may bar, or preempted exchange-traded contracts the state may not reach",
-    },
-    "Securities (Howey)": {
-      gate: "howey",
-      route: "the Howey investment-contract test",
-      q: (c, f) => "whether the position is an investment-contract security under Howey",
     },
     "Consumer protection / UDAP": {
       gate: "cleared",

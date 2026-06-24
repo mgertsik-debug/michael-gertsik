@@ -55,18 +55,16 @@
    * `gate` on each matter says which classification question it actually
    * turned on. GATE_ORDER drives the left-to-right flow; STATIONS are the
    * labeled columns drawn in the Doctrine lens (\n = line break in the SVG). */
-  const GATE_ORDER = ["swap", "special", "howey", "cleared"];
+  const GATE_ORDER = ["swap", "special", "cleared"];
   const GATE_LABELS = {
     swap:    "Is it a swap? (CEA / CFTC jurisdiction)",
     special: "Special rule on enumerated / gaming activity",
-    howey:   "Is it a security under Howey?",
     cleared: "Cleared / permitted to list",
   };
   const DOCTRINE_STATIONS = [
     ["entry",   "Contracts"],
     ["swap",    "Is it a swap?"],
     ["special", "Special rule\n(gaming / enumerated)?"],
-    ["howey",   "Security\nunder Howey?"],
     ["cleared", "Cleared /\nPermitted"],
   ];
 
