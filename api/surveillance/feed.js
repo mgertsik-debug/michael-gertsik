@@ -148,43 +148,42 @@ function kalshiHeaders(method, path) {
 async function kalshi() {
   const alerts = [];
   const base = "https://api.elections.kalshi.com";
-  // Target insider-relevant CATEGORIES via the events endpoint, instead of the
-  // raw /markets firehose (which is flooded with freshly-created sports markets).
-  const CATS = /econom|politic|world|financ|elect|climate|health/i;
-  let markets = [];
-  try {
-    const d = await getJSON(base + "/trade-api/v2/events?limit=200&status=open&with_nested_markets=true",
-      { headers: kalshiHeaders("GET", "/trade-api/v2/events") });
-    const events = (d && (d.events || d.data)) || [];
-    events.forEach((ev) => {
+  // Kalshi can't sort markets by activity, so page through events in the
+  // insider-relevant categories, collect every nested market, then rank by
+  // 24h volume ourselves and surface the most active.
+  const CATS = /econom|politic|world|financ|elect|climate|company|companies|social/i;
+  const collected = [];
+  let cursor = null, pages = 0;
+  do {
+    const url = base + "/trade-api/v2/events?limit=200&status=open&with_nested_markets=true" + (cursor ? "&cursor=" + cursor : "");
+    const d = await getJSON(url, { headers: kalshiHeaders("GET", "/trade-api/v2/events") }).catch(() => null);
+    if (!d) break;
+    (d.events || d.data || []).forEach((ev) => {
       const cat = String(ev.category || "");
+      if (!CATS.test(cat)) return;
       const evTitle = String(ev.title || ev.sub_title || "");
-      const ok = CATS.test(cat) || INSIDER_TOPICS.has(topic(evTitle + " " + (ev.series_ticker || "")));
-      if (!ok) return;
-      (ev.markets || []).forEach((m) => markets.push({ ...m, _evTitle: evTitle, _cat: cat }));
+      (ev.markets || []).forEach((m) => {
+        const vol = num(m.volume_24h_fp || m.volume_24h);
+        if (vol < 200) return;
+        collected.push({ vol, oi: num(m.open_interest_fp || m.open_interest), ticker: m.ticker, cat, title: (evTitle || m.title || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 90) });
+      });
     });
-  } catch (_) { /* fall through to raw market scan */ }
-  if (!markets.length) {
-    const d = await getJSON(base + "/trade-api/v2/markets?limit=1000&status=open",
-      { headers: kalshiHeaders("GET", "/trade-api/v2/markets") }).catch(() => null);
-    markets = (d && (d.markets || d.data)) || [];
-  }
-  markets.forEach((m, i) => {
-    // Kalshi v2 uses _fp (fixed-point counts) and _dollars suffixes.
-    const vol = num(m.volume_24h_fp || m.volume_24h || m.volume_fp || m.volume);
-    const oi = num(m.open_interest_fp || m.open_interest);
-    const title = (m._evTitle || m.title || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 90);
-    const tp = m._cat ? "kalshi" : topic(title + " " + (m.event_ticker || "") + " " + (m.ticker || ""));
-    if (!m._cat && !INSIDER_TOPICS.has(tp)) return;  // raw-scan path still topic-gates
-    if (vol < 1000) return;                          // contracts; needs real activity
-    if (oi <= 0) return;                             // need standing positions to compare against
-    const ratio = vol / oi;                          // 24h churn vs open interest
-    if (ratio < 2.5) return;
-    const sev = ratio >= 5 ? "high" : "med";
+    cursor = d.cursor; pages++;
+  } while (cursor && pages < 3);
+
+  collected.sort((a, b) => b.vol - a.vol);
+  collected.slice(0, 30).forEach((m, i) => {
+    const ratio = m.oi > 0 ? m.vol / m.oi : null;
+    let sev = null;
+    if (m.vol >= 3000 || (ratio && ratio >= 4)) sev = "high";
+    else if (m.vol >= 400 || (ratio && ratio >= 2)) sev = "med";
+    if (!sev) return;
+    const metric = ratio
+      ? "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(m.vol).toLocaleString() + " / " + Math.round(m.oi).toLocaleString() + " contracts)  [" + m.cat + "]"
+      : Math.round(m.vol).toLocaleString() + " contracts/24h, no standing OI  [" + m.cat + "]";
     alerts.push(alert({
-      id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: title,
-      detector: "vol_liq", sev,
-      metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(vol).toLocaleString() + " / " + Math.round(oi).toLocaleString() + " contracts)  [" + (m._cat || tp) + "]",
+      id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: m.title,
+      detector: "vol_liq", sev, metric,
     }));
   });
   return alerts.slice(0, 30);
