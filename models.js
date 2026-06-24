@@ -72,7 +72,7 @@ const MODELS = [
     id: "securities-analyzer",
     category: "Securities",
     level: "Framework",
-    title: "Is This a Security? Run the Test.",
+    title: "Is this a Security? Run the Test.",
     summary: "A guided, authority-backed walkthrough of the full federal securities analysis. Classify the instrument, toggle every operative fact, and watch each choice drive the determination with the controlling case law at every step.",
     status: "live",
     src: "/models/securities-analyzer.html",
