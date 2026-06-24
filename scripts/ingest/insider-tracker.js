@@ -24,14 +24,14 @@ const path = require("path");
 
 const MODEL_PATH = path.resolve(__dirname, "../../models/insider-trading.html");
 
-/** Find the `enforcement:[ … ]` array body inside the model file.
- *  Returns { pre, body, post } where body is the text between [ and the
- *  matching ]. Bracket-counted so nested […] in strings can't fool it. */
-function locateEnforcement(text) {
-  const key = "enforcement:[";
-  const at = text.indexOf(key);
-  if (at === -1) throw new Error("enforcement array not found in model file");
-  const open = at + key.length - 1;            // index of '['
+/** Find a `<key>:[ … ]` array body inside the model file (key e.g. "enforcement"
+ *  or "regulatory"). Returns { pre, body, post }; bracket-counted so nested
+ *  […] inside strings can't fool it. */
+function locateArray(text, key) {
+  const anchor = key + ":[";
+  const at = text.indexOf(anchor);
+  if (at === -1) throw new Error(anchor + " not found in model file");
+  const open = at + anchor.length - 1;            // index of '['
   let depth = 0, i = open, inStr = false, q = "";
   for (; i < text.length; i++) {
     const c = text[i];
@@ -44,9 +44,12 @@ function locateEnforcement(text) {
     if (c === "[") depth++;
     else if (c === "]") { depth--; if (depth === 0) break; }
   }
-  if (depth !== 0) throw new Error("unbalanced enforcement array");
+  if (depth !== 0) throw new Error("unbalanced " + anchor);
   return { pre: text.slice(0, open + 1), body: text.slice(open + 1, i), post: text.slice(i) };
 }
+
+/** Back-compat: the enforcement array specifically. */
+function locateEnforcement(text) { return locateArray(text, "enforcement"); }
 
 /** Parse the row objects out of an array body. Tolerant: pulls each top-level
  *  { … } and reads its single-quoted string fields. */
@@ -90,11 +93,11 @@ function rowKey(r) {
   return "actor:" + String(r.actors || "").toLowerCase().replace(/\s+/g, " ").trim();
 }
 
-/** Splice new rows at the TOP of the enforcement array, newest-first, skipping
- *  any whose key already appears among existing rows or in `seenKeys`.
- *  Returns { text, added:[…] }. */
-function spliceRows(text, newRows, seenKeys) {
-  const { pre, body, post } = locateEnforcement(text);
+/** Splice new rows at the TOP of a section's array (default "enforcement"),
+ *  newest-first, skipping any whose key already appears among existing rows or
+ *  in `seenKeys`. Returns { text, added:[…] }. */
+function spliceSection(text, key, newRows, seenKeys) {
+  const { pre, body, post } = locateArray(text, key);
   const existing = parseRows(body);
   const have = new Set(seenKeys || []);
   existing.forEach((e) => have.add(rowKey(e.fields)));
@@ -115,7 +118,10 @@ function spliceRows(text, newRows, seenKeys) {
   return { text: pre + block + body + post, added: fresh };
 }
 
-module.exports = { locateEnforcement, parseRows, readFields, serializeRow, rowKey, spliceRows, MODEL_PATH };
+/** Back-compat: splice into the enforcement section. */
+function spliceRows(text, newRows, seenKeys) { return spliceSection(text, "enforcement", newRows, seenKeys); }
+
+module.exports = { locateArray, locateEnforcement, parseRows, readFields, serializeRow, rowKey, spliceSection, spliceRows, MODEL_PATH };
 
 /* ----------------------------- self-test --------------------------------- */
 if (require.main === module && process.argv.includes("--selftest")) {
