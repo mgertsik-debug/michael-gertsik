@@ -349,24 +349,53 @@
 
   /* ---------- TIMELINE ---------- */
   function timelineLens(list, revIds) {
-    const W = 680, padL = 120, padR = 20, y0 = 44, laneH = 58;
-    const x = (y) => padL + ((y - YEAR_MIN) / (YEAR_MAX - YEAR_MIN)) * (W - padL - padR);
+    const W = 680, padL = 120, padR = 20, y0 = 36, r = 6, laneGap = 12, minLaneH = 40;
+    // Position by the FULL filing date (year + month + day), not just the year,
+    // so cases filed in the same year no longer land on the same point.
+    const dateFrac = (d) => { const y = +d.slice(0, 4), mo = (+d.slice(5, 7)) || 1, da = (+d.slice(8, 10)) || 1; return y + (mo - 1) / 12 + (da - 1) / 372; };
+    const allFr = list.map((m) => dateFrac(m.filedDate));
+    const domMax = Math.max(YEAR_MAX + 0.35, (allFr.length ? Math.max(...allFr) : YEAR_MAX) + 0.2);
+    const x = (fr) => padL + ((fr - YEAR_MIN) / (domMax - YEAR_MIN)) * (W - padL - padR);
+
+    // Beeswarm-pack each lane so overlapping dots fan out vertically; lane height
+    // grows to fit, so every matter is visible (no stacking on one spot).
+    const gapX = 2 * r + 1, gapY = 2 * r + 1;
+    let cursorY = y0;
+    const laneInfos = FORUMS.map((f) => {
+      const items = list.filter((m) => m.forum === f).map((m) => ({ m, fx: x(dateFrac(m.filedDate)) })).sort((a, b) => a.fx - b.fx);
+      const placed = [];
+      items.forEach((it) => {
+        let yoff = 0, k = 0;
+        const hit = (yo) => placed.some((p) => Math.abs(p.fx - it.fx) < gapX && Math.abs(p.yoff - yo) < gapY);
+        while (hit(yoff)) { k++; yoff = (k % 2 ? 1 : -1) * Math.ceil(k / 2) * gapY; }
+        placed.push({ m: it.m, fx: it.fx, yoff });
+      });
+      const half = placed.length ? Math.max(...placed.map((p) => Math.abs(p.yoff))) + r + 6 : minLaneH / 2;
+      const laneH = Math.max(minLaneH, half * 2);
+      const cy = cursorY + laneH / 2;
+      cursorY += laneH + laneGap;
+      return { f, placed, cy };
+    });
+    const totalH = cursorY + 6;
+
     const grid = [];
-    for (let yr = YEAR_MIN; yr <= YEAR_MAX; yr += 2) grid.push(h("g", { key: yr },
-      h("line", { x1: x(yr), y1: 30, x2: x(yr), y2: y0 + FORUMS.length * laneH - 18, stroke: "rgba(255,255,255,.05)" }),
-      h("text", { x: x(yr), y: 22, textAnchor: "middle", style: { font: `500 10px ${MONO}`, fill: "#4B5563" } }, yr)));
+    for (let yr = YEAR_MIN; yr <= YEAR_MAX; yr += 1) {
+      const major = yr % 2 === 0;
+      grid.push(h("g", { key: yr },
+        h("line", { x1: x(yr), y1: 24, x2: x(yr), y2: totalH - 8, stroke: major ? "rgba(255,255,255,.06)" : "rgba(255,255,255,.03)" }),
+        major ? h("text", { x: x(yr), y: 16, textAnchor: "middle", style: { font: `500 10px ${MONO}`, fill: "#4B5563" } }, yr) : null));
+    }
+
     const nodeRefs = [];
-    const lanes = FORUMS.map((f) => {
-      const cy = y0 + FORUMS.indexOf(f) * laneH + laneH / 2;
-      const nodes = list.filter((m) => m.forum === f).map((m) => {
-        const on = revIds.has(m.id), oc = OUT[m.outcome], selOn = S.selectedId === m.id;
-        // opacity lives in CSS (style) so it crossfades via the transition below instead of snapping
+    const lanes = laneInfos.map(({ f, placed, cy }) => {
+      const nodes = placed.map(({ m, fx, yoff }) => {
+        const on = revIds.has(m.id), oc = OUT[m.outcome], selOn = S.selectedId === m.id, ny = cy + yoff;
         const g = h("g", { key: m.id, className: "pmle-node", "data-sel": selOn ? "1" : null,
           style: { cursor: "pointer", transition: "opacity .4s ease", opacity: on ? "1" : "0.18" },
-          onMouseEnter: (e) => showTip(e, m.caption, [oc.label + " · " + yearOf(m.filedDate)]),
+          onMouseEnter: (e) => showTip(e, m.caption, [oc.label + " · " + m.filedDate]),
           onMouseMove: moveTip, onMouseLeave: hideTip, onClick: () => select(m.id) },
-          h("circle", { cx: x(yearOf(m.filedDate)), cy, r: 6, fill: oc.c, stroke: selOn ? "#fff" : "rgba(0,0,0,.3)", strokeWidth: selOn ? 1.5 : 1 }),
-          h("text", { x: x(yearOf(m.filedDate)), y: cy + 3, textAnchor: "middle", style: { font: `700 7px ${MONO}`, fill: "#06120e", pointerEvents: "none" } }, oc.l));
+          h("circle", { cx: fx, cy: ny, r: r, fill: oc.c, stroke: selOn ? "#fff" : "rgba(0,0,0,.35)", strokeWidth: selOn ? 1.5 : 1 }),
+          h("text", { x: fx, y: ny + 3, textAnchor: "middle", style: { font: `700 7px ${MONO}`, fill: "#06120e", pointerEvents: "none" } }, oc.l));
         nodeRefs.push({ g, id: m.id });
         return g;
       });
@@ -382,7 +411,7 @@
     };
     return h("div", null,
       lensHeader("TIMELINE · BY FORUM", "Plots every case by its filing date, in rows by the court or agency hearing it, with dot color showing how it ended. Click a dot for the full case, or press play to watch the cases appear in order and see which forums got busiest."),
-      h("svg", { viewBox: `0 0 ${W} ${y0 + FORUMS.length * laneH}`, role: "img", "aria-label": "Timeline of matters by forum", style: { width: "100%", marginTop: "2px" } }, grid, lanes),
+      h("svg", { viewBox: `0 0 ${W} ${totalH}`, role: "img", "aria-label": "Timeline of matters by forum", style: { width: "100%", marginTop: "2px" } }, grid, lanes),
       outcomeLegend());
   }
 
