@@ -57,35 +57,43 @@ function alert(o) {
 }
 function hhmm() { return new Date().toISOString().slice(11, 16) + " UTC"; }
 
-/* ------------------------------------------------------------ Polymarket --- */
-// Routine high-churn sports/esports markets are NOT an insider signal — a busy
-// World Cup match naturally has volume >> resting liquidity. Filter them so the
-// feed surfaces thin, niche, non-sports markets where a sharp spike is telling.
-const SPORTS_RE = /\bvs\.?\b|spread|o\/u|over\/under|moneyline|win on \d{4}-|world cup|counter-?strike|esports|goalscorer|glove|\bnba\b|\bnfl\b|\bmlb\b|\bnhl\b|\bufc\b|\bf1\b|halftime|to score|\bbo\d\b/i;
+/* --------------------------------------------------------- topic classifier -
+ * Insider trading only makes sense where the OUTCOME turns on nonpublic
+ * information: geopolitics, government/political decisions, leakable economic
+ * data, and corporate events. Sports, esports, and crypto/index price levels
+ * are efficient + public, so we drop them — that is where the noise was. */
+function topic(text) {
+  const s = String(text || "").toLowerCase();
+  if (/\bvs\.?\b|spread:|o\/u|over\/under|moneyline|win on \d{4}-|world cup|counter-?strike|esports|goalscorer|glove|\bwnba\b|\bnba\b|\bnfl\b|\bmlb\b|\bnhl\b|\bufc\b|\bf1\b|halftime|to score|\bbo\d\b|premier league|champions league|rebounds|points per/.test(s)) return "sports";
+  if (/\bcpi\b|inflation|\bfomc\b|fed (rate|meeting|cut|hike)|rate (cut|hike|decision)|jobs report|unemployment|jobless|payroll|\bgdp\b|interest rate/.test(s)) return "econ";
+  if (/bitcoin|ethereum|\bbtc\b|\beth\b|\bspx\b|s&p ?500|nasdaq|price of|above \$|below \$|up or down/.test(s)) return "cryptoprice";
+  if (/prime minister|\bpresident\b|election|drop out|resign|cabinet|nominee|chancellor|parliament|government|\bcoup\b|impeach|governor|senate|congress|\bmayor\b|appointed/.test(s)) return "political";
+  if (/\bwar\b|invade|enter iran|\bstrike\b|ceasefire|hormuz|missile|nuclear|maduro|hostage|sanction|troops|military|annex|\bborder\b|airstrike|occupy/.test(s)) return "geopolitical";
+  if (/\bceo\b|merger|acquisition|earnings|\bipo\b|bankruptcy|layoffs|\bfda\b|approval|recall|guidance|acquire/.test(s)) return "corporate";
+  return "other";
+}
+const INSIDER_TOPICS = new Set(["political", "geopolitical", "corporate", "econ"]);
 
 async function polymarket() {
   const alerts = [];
   // Active markets ranked by 24h volume (Gamma API, public).
   const markets = await getJSON(
-    "https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=150&order=volume24hr&ascending=false"
+    "https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=250&order=volume24hr&ascending=false"
   ).catch(() => []);
   (Array.isArray(markets) ? markets : []).forEach((m, i) => {
     const vol = num(m.volume24hr || m.volume_24hr || m.volume24Hr);
     const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
     const q = (m.question || m.title || m.slug || "Market").toString().slice(0, 90);
-    if (!(liq > 0 && vol > 20000)) return;
+    const tp = topic(q);
+    if (!INSIDER_TOPICS.has(tp)) return;          // skip sports / crypto-price / other
+    if (!(liq >= 5000 && vol >= 50000)) return;   // ignore dust + quiet markets
     const ratio = vol / liq;
-    const sport = SPORTS_RE.test(q);
-    const thin = liq < 80000;            // a genuinely shallow, niche book
-    let sev = null;
-    if (!sport && thin && ratio >= 8) sev = "high";        // thin niche market, sharp spike
-    else if (!sport && ratio >= 6) sev = "med";            // non-sports churn spike
-    else if (sport && thin && ratio >= 40) sev = "med";    // even for sports, extreme on a thin book
-    if (!sev) return;
+    if (ratio < 6) return;
+    const sev = (ratio >= 15 || (vol >= 400000 && liq < 30000)) ? "high" : "med";
     alerts.push(alert({
       id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
-      detector: thin ? "vacuum" : "vol_liq", sev,
-      metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k vol / $" + Math.round(liq / 1000) + "k liq)",
+      detector: "vol_liq", sev,
+      metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k / $" + Math.round(liq / 1000) + "k)  [" + tp + "]",
     }));
   });
   // Recent large single fills (Data API, public). usd = shares * price.
@@ -95,11 +103,12 @@ async function polymarket() {
     const price = num(t.price || t.outcomePrice);
     const usd = price > 0 && price <= 1 ? shares * price : num(t.usdcSize || t.size);
     const title = (t.title || t.market || t.eventSlug || t.slug || "Market").toString().slice(0, 90);
-    if (usd >= 15000) {
+    const tp = topic(title);
+    if (usd >= 20000 && INSIDER_TOPICS.has(tp)) {
       alerts.push(alert({
         id: "pm-whale-" + (t.transactionHash || t.id || i), ts: hhmm(), platform: "polymarket", market: title,
-        detector: "vacuum", sev: usd >= 75000 ? "high" : "med",
-        metric: "$" + Math.round(usd / 1000) + "k single fill" + (t.side ? " (" + String(t.side).toLowerCase() + ")" : ""),
+        detector: "vacuum", sev: usd >= 100000 ? "high" : "med",
+        metric: "$" + Math.round(usd / 1000) + "k single fill" + (t.side ? " (" + String(t.side).toLowerCase() + ")" : "") + "  [" + tp + "]",
       }));
     }
   });
@@ -122,21 +131,29 @@ function kalshiHeaders(method, path) {
 async function kalshi() {
   const alerts = [];
   const base = "https://api.elections.kalshi.com";
-  const path = "/trade-api/v2/markets?limit=200&status=open";
+  const path = "/trade-api/v2/markets?limit=1000&status=open";
   const data = await getJSON(base + path, { headers: kalshiHeaders("GET", "/trade-api/v2/markets") }).catch(() => null);
   const markets = (data && (data.markets || data.data)) || [];
   markets.forEach((m, i) => {
     const vol = num(m.volume_24h || m.volume24h || m.volume);
     const oi = num(m.open_interest || m.openInterest);
-    const title = (m.title || m.subtitle || m.ticker || "Market").toString().slice(0, 80);
-    // Volume-to-open-interest spike: lots of churn relative to standing positions.
-    if (oi > 0 && vol / oi >= 5 && vol > 5000) {
-      alerts.push(alert({
-        id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: title,
-        detector: "vol_liq", sev: vol / oi >= 10 ? "high" : "med",
-        metric: "vol/OI " + (vol / oi).toFixed(1) + "x  (" + vol.toLocaleString() + " / " + oi.toLocaleString() + ")",
-      }));
-    }
+    const liq = num(m.liquidity);
+    const title = (m.title || m.subtitle || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 90);
+    const tp = topic(title + " " + (m.ticker || ""));
+    if (!INSIDER_TOPICS.has(tp)) return;          // only insider-relevant topics
+    if (vol < 8000) return;                        // needs real money behind it
+    // Churn vs standing positions; Kalshi OI runs closer to volume than
+    // Polymarket liquidity, so the bar is lower than the Polymarket vol/liq one.
+    const denom = oi > 0 ? oi : (liq > 0 ? liq : 0);
+    if (!denom) return;
+    const ratio = vol / denom;
+    if (ratio < 2.5) return;
+    const sev = ratio >= 5 ? "high" : "med";
+    alerts.push(alert({
+      id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: title,
+      detector: "vol_liq", sev,
+      metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(vol).toLocaleString() + " / " + Math.round(denom).toLocaleString() + ")  [" + tp + "]",
+    }));
   });
   return alerts.slice(0, 30);
 }
