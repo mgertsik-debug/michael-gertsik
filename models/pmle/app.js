@@ -836,8 +836,8 @@
   function coach() {
     const steps = [["01", "Filter once", "Use search + facets to shape one result set, and the count updates live."], ["02", "Pick a lens", "Five synchronized views of the same matters: map, timeline, matrix, network, doctrine."], ["03", "Inspect & predict", "Select anything to populate MATTER DETAIL, or switch to Simulate to test a fact pattern."]];
     return h("div", { style: { position: "absolute", inset: "0", background: "rgba(6,9,8,.74)", backdropFilter: "blur(3px)", zIndex: "30", display: "flex", alignItems: "center", justifyContent: "center", animation: "pmleFade .25s ease" } },
-      h("div", { role: "dialog", "aria-label": "How to read this", style: { maxWidth: "520px", margin: "20px", padding: "26px 26px 22px", borderRadius: "16px", border: "1px solid rgba(52,211,153,.22)", background: "linear-gradient(180deg,rgba(20,28,25,.96),rgba(11,16,14,.98))", boxShadow: "0 30px 70px -20px rgba(0,0,0,.8)" } },
-        h("div", { style: { font: `600 11px ${MONO}`, letterSpacing: ".18em", color: "#34D399" } }, "HOW TO READ THIS"),
+      h("div", { role: "dialog", "aria-label": "How to use this", style: { maxWidth: "520px", margin: "20px", padding: "26px 26px 22px", borderRadius: "16px", border: "1px solid rgba(52,211,153,.22)", background: "linear-gradient(180deg,rgba(20,28,25,.96),rgba(11,16,14,.98))", boxShadow: "0 30px 70px -20px rgba(0,0,0,.8)" } },
+        h("div", { style: { font: `600 11px ${MONO}`, letterSpacing: ".18em", color: "#34D399" } }, "HOW TO USE THIS"),
         h("div", { style: { display: "grid", gap: "14px", margin: "18px 0 20px" } }, steps.map(([n, t, d]) =>
           h("div", { key: n, style: { display: "flex", gap: "14px" } },
             h("div", { style: { width: "30px", height: "30px", flexShrink: "0", borderRadius: "8px", border: "1px solid rgba(52,211,153,.4)", background: "rgba(52,211,153,.1)", color: "#6EE7B7", display: "flex", alignItems: "center", justifyContent: "center", font: `600 12px ${MONO}` } }, n),
