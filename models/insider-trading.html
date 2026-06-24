@@ -63,8 +63,43 @@
         <!-- ============ TAB 1: ENGINE ============ -->
         <sc-if value="{{ isEngine }}" hint-placeholder-val="{{ true }}">
           <div>
-            <!-- TOP: verdict dashboard (horizontal, full width) -->
-            <div style="margin-bottom:22px">
+            <!-- STEP 1: fact-pattern builder (top) -->
+            <div style="background:#0C1210;border:1px solid #1F2A26;border-left:3px solid rgba(52,211,153,.6);border-radius:12px;padding:18px 18px 20px;margin-bottom:18px">
+              <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+                <span style="display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#34D399"><span style="width:7px;height:7px;border-radius:2px;background:#34D399"></span>BUILD THE FACT PATTERN</span>
+                <span style="font-size:12px;color:#6b7772">Set the facts once; every regime re-scores live in the verdict board below.</span>
+              </div>
+              <div data-builder style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px 22px;align-items:start">
+                <sc-for list="{{ engine.controls }}" as="ctl" hint-placeholder-count="6">
+                  <div>
+                    <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">{{ ctl.label }}</div>
+                    <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">{{ ctl.helper }}</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px">
+                      <sc-for list="{{ ctl.opts }}" as="o" hint-placeholder-count="4">
+                        <button type="button" aria-pressed="{{ o.active }}" style="{{ o.style }}" onClick="{{ o.onSelect }}">{{ o.lab }}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+                <div>
+                  <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">Concealment</div>
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">whether proceeds were hidden</div>
+                  <button type="button" aria-pressed="{{ engine.classicalDark }}" style="{{ engine.concealStyle }}" onClick="{{ engine.onConceal }}">Concealed proceeds (crypto / deletion)</button>
+                </div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid #1F2A26">
+                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onVanDyke }}">Load Van Dyke</button>
+                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onSpagnuolo }}">Load Spagnuolo</button>
+                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid #1F2A26;background:transparent;color:#9CA3AF;font-size:11.5px;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onReset }}">Reset to clean baseline</button>
+              </div>
+            </div>
+
+            <!-- STEP 2: verdict board (below, distinct panel) -->
+            <div style="background:radial-gradient(900px 260px at 50% -40%, rgba(52,211,153,.06), transparent 70%), #090E0C;border:1px solid #233029;border-radius:12px;padding:18px">
+              <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+                <span style="display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#E5E7EB"><span style="width:7px;height:7px;border-radius:2px;background:#E5E7EB"></span>THE VERDICT BOARD</span>
+                <span style="font-size:12px;color:#6b7772">How each legal regime scores these facts, in parallel.</span>
+              </div>
               <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px">
                 <sc-for list="{{ engine.statCards }}" as="st" hint-placeholder-count="2">
                   <div style="flex:1;min-width:170px;background:#0C1210;border:1px solid {{ st.border }};border-radius:10px;padding:13px 16px">
@@ -109,34 +144,6 @@
                   </div>
                 </div>
               </sc-for>
-            </div>
-
-            <!-- BELOW: fact-pattern builder (horizontal) -->
-            <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:18px">
-              <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:16px">FACT-PATTERN BUILDER</div>
-              <div data-builder style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px 22px;align-items:start">
-                <sc-for list="{{ engine.controls }}" as="ctl" hint-placeholder-count="6">
-                  <div>
-                    <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">{{ ctl.label }}</div>
-                    <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">{{ ctl.helper }}</div>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px">
-                      <sc-for list="{{ ctl.opts }}" as="o" hint-placeholder-count="4">
-                        <button type="button" aria-pressed="{{ o.active }}" style="{{ o.style }}" onClick="{{ o.onSelect }}">{{ o.lab }}</button>
-                      </sc-for>
-                    </div>
-                  </div>
-                </sc-for>
-                <div>
-                  <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">Concealment</div>
-                  <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">whether proceeds were hidden</div>
-                  <button type="button" aria-pressed="{{ engine.classicalDark }}" style="{{ engine.concealStyle }}" onClick="{{ engine.onConceal }}">Concealed proceeds (crypto / deletion)</button>
-                </div>
-              </div>
-              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid #1F2A26">
-                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onVanDyke }}">Load Van Dyke</button>
-                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onSpagnuolo }}">Load Spagnuolo</button>
-                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid #1F2A26;background:transparent;color:#9CA3AF;font-size:11.5px;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onReset }}">Reset to clean baseline</button>
-              </div>
             </div>
           </div>
         </sc-if>
