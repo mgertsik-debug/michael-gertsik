@@ -69,7 +69,7 @@
     search: "", platform: [], contractType: [], forum: [], states: [], outcome: [],
     yearMin: YEAR_MIN, yearMax: YEAR_MAX, scrubberYear: YEAR_MAX, playing: false,
     selectedId: null,
-    showFilters: false, showCoach: true, showPalette: false, sourcesOpen: false,
+    showFilters: false, showPalette: false, sourcesOpen: false,
     simStep: 0, simC: null, simF: null, simS: null, simH: null, simReason: false,
     trackerSort: "newest",
   };
@@ -139,7 +139,7 @@
   function render() {
     mount(els.mode, null); // the mode switch now lives prominently in the body
     mount(els.body, [modeSwitcher(), S.appMode === "explore" ? explore() : simulate()]);
-    mount(els.overlays, [S.showCoach ? coach() : null, S.showPalette ? palette() : null]);
+    mount(els.overlays, [S.showPalette ? palette() : null]);
     // restore caret on the text inputs after rebuild
     const af = els.root.querySelector("[data-autofocus]");
     if (af) { af.focus(); const n = af.value.length; try { af.setSelectionRange(n, n); } catch (e) {} }
@@ -881,19 +881,6 @@
   function em(t) { return h("span", { style: { color: "#A7F3D0" } }, t); }
 
   /* ---------- overlays ---------- */
-  function coach() {
-    const steps = [["01", "Filter once", "Use search + facets to shape one result set, and the count updates live."], ["02", "Pick a lens", "Five synchronized views of the same matters: map, timeline, matrix, network, doctrine."], ["03", "Inspect & predict", "Select anything to populate MATTER DETAIL, or switch to Simulate to test a fact pattern."]];
-    return h("div", { style: { position: "absolute", inset: "0", background: "rgba(6,9,8,.74)", backdropFilter: "blur(3px)", zIndex: "30", display: "flex", alignItems: "center", justifyContent: "center", animation: "pmleFade .25s ease" } },
-      h("div", { role: "dialog", "aria-label": "How to use this", style: { maxWidth: "520px", margin: "20px", padding: "26px 26px 22px", borderRadius: "16px", border: "1px solid rgba(52,211,153,.22)", background: "linear-gradient(180deg,rgba(20,28,25,.96),rgba(11,16,14,.98))", boxShadow: "0 30px 70px -20px rgba(0,0,0,.8)" } },
-        h("div", { style: { font: `600 11px ${MONO}`, letterSpacing: ".18em", color: "#34D399" } }, "HOW TO USE THIS"),
-        h("div", { style: { display: "grid", gap: "14px", margin: "18px 0 20px" } }, steps.map(([n, t, d]) =>
-          h("div", { key: n, style: { display: "flex", gap: "14px" } },
-            h("div", { style: { width: "30px", height: "30px", flexShrink: "0", borderRadius: "8px", border: "1px solid rgba(52,211,153,.4)", background: "rgba(52,211,153,.1)", color: "#6EE7B7", display: "flex", alignItems: "center", justifyContent: "center", font: `600 12px ${MONO}` } }, n),
-            h("div", null, h("div", { style: { font: `600 14px ${SANS}`, color: "#F3F4F6" } }, t), h("div", { style: { font: `400 12.5px ${SANS}`, color: "#9CA3AF", marginTop: "2px", lineHeight: "1.5" } }, d))))),
-        h("button", { onClick: () => set({ showCoach: false }),
-          style: { width: "100%", padding: "11px", borderRadius: "10px", cursor: "pointer", border: "1px solid rgba(52,211,153,.5)", background: "rgba(52,211,153,.16)", color: "#6EE7B7", font: `600 12px ${MONO}`, letterSpacing: ".08em" } }, "GOT IT →")));
-  }
-
   function palette() {
     const q = S.search.toLowerCase();
     const hits = DATA.filter((m) => !q || m.caption.toLowerCase().includes(q) || m.parties.some((p) => p.name.toLowerCase().includes(q))).slice(0, 7);
