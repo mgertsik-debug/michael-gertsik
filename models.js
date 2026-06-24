@@ -44,7 +44,7 @@
 const MODELS = [
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────
-  // Insider Trading on Prediction Markets (Model 04). Assemble a fact
+  // Insider Trading on Prediction Markets. Assemble a fact
   // pattern once and every legal regime evaluates it in parallel (the
   // Liability Engine), plus a surveillance lab, interactive case files,
   // duty & materiality tools, and a live enforcement Tracker. Built as a
@@ -58,7 +58,7 @@ const MODELS = [
     title: "Insider Trading on Prediction Markets",
     summary: "Assemble a fact pattern once and watch every legal regime evaluate it in parallel: CFTC Rule 180.1, the Eddie Murphy Rule, wire and commodities fraud, the Martin Act, and platform rules. Plus a surveillance lab, case-file teardowns, duty and materiality tools, and a live enforcement tracker.",
     status: "live",
-    src: "/models/insider-trading.html?v=9",
+    src: "/models/insider-trading.html?v=10",
   },
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────
