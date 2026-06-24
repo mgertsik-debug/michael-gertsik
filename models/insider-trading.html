@@ -169,16 +169,22 @@
                 <div data-scroll style="display:flex;flex-direction:column;gap:8px;max-height:620px;overflow-y:auto;padding-right:2px">
                   <sc-for list="{{ surv.rows }}" as="r" hint-placeholder-count="8">
                     <div role="button" tabindex="0" aria-pressed="{{ r.selected }}" aria-label="{{ r.aria }}" style="{{ r.rowStyle }}" onClick="{{ r.onSelect }}" onKeyDown="{{ r.onKey }}">
-                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
                         <div style="min-width:0">
                           <div style="font-size:13.5px;font-weight:600;color:#E5E7EB;line-height:1.3">{{ r.market }}</div>
                           <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#8A938F;margin-top:4px;line-height:1.4">{{ r.metric }}</div>
                         </div>
-                        {{ r.sparkEl }}
+                        <div style="text-align:right;flex-shrink:0">
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:19px;font-weight:700;line-height:1;color:{{ r.scoreColor }}">{{ r.scoreNum }}</div>
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:8px;letter-spacing:.1em;color:#6b7772;margin-top:2px">SCORE</div>
+                        </div>
                       </div>
-                      <div style="display:flex;align-items:center;gap:9px;margin-top:9px">
-                        <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:#8A938F;padding:2px 7px;border-radius:5px;border:1px solid #1B2521">{{ r.platformLabel }}</span>
-                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.sevColor }}"></span><span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:{{ r.sevColor }}">{{ r.sevLabel }}</span></span>
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:9px">
+                        <div style="display:flex;align-items:center;gap:9px">
+                          <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:#8A938F;padding:2px 7px;border-radius:5px;border:1px solid #1B2521">{{ r.platformLabel }}</span>
+                          <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.sevColor }}"></span><span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:{{ r.sevColor }}">{{ r.sevLabel }}</span></span>
+                        </div>
+                        {{ r.sparkEl }}
                       </div>
                     </div>
                   </sc-for>
@@ -193,11 +199,60 @@
                   <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:{{ surv.sel.sevColor }}"></span><span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.04em;color:{{ surv.sel.sevColor }}">{{ surv.sel.sevLine }}</span></span>
                 </div>
                 <h2 style="margin:0 0 12px;font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.16;color:#E5E7EB">{{ surv.sel.market }}</h2>
-                <p style="margin:0 0 24px;font-size:14.5px;line-height:1.6;color:#cdd3d0;max-width:62ch">{{ surv.sel.plain }}</p>
+                <p style="margin:0 0 22px;font-size:14.5px;line-height:1.6;color:#cdd3d0;max-width:62ch">{{ surv.sel.plain }}</p>
+
+                <!-- composite suspicion score -->
+                <div style="border:1px solid #1B2521;border-radius:12px;background:#0A0E0D;padding:17px 19px;margin-bottom:24px">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
+                    <div>
+                      <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F">COMPOSITE SUSPICION SCORE</div>
+                      <div style="display:flex;align-items:baseline;gap:11px;margin-top:6px">
+                        <span style="font-family:'JetBrains Mono', monospace;font-size:34px;font-weight:700;line-height:1;color:{{ surv.sel.tierColor }}">{{ surv.sel.scoreNum }}</span>
+                        <span style="{{ surv.sel.tierChipStyle }}">{{ surv.sel.tierLabel }}</span>
+                      </div>
+                    </div>
+                    <div style="text-align:right">
+                      <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#E5E7EB">{{ surv.sel.topPctLabel }}</div>
+                      <div style="font-size:10.5px;color:#6b7772;margin-top:1px">of flagged pairs</div>
+                      <div style="font-size:10.5px;color:#8A938F;margin-top:7px">tier win rate: <span style="color:{{ surv.sel.tierColor }};font-weight:600">{{ surv.sel.winRate }}</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:14px">{{ surv.sel.gaugeEl }}</div>
+                  <div style="font-size:10.5px;color:#6b7772;line-height:1.5;margin-top:10px">{{ surv.sel.estNote }}</div>
+                </div>
+
+                <!-- signal decomposition (interactive) -->
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px">
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F">SIGNAL DECOMPOSITION &middot; WHAT DROVE THE SCORE</div>
+                  <div style="font-size:10px;color:#6b7772">tap a signal</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:26px">
+                  <sc-for list="{{ surv.sel.decomp }}" as="sd" hint-placeholder-count="5">
+                    <div style="border:1px solid #1B2521;border-radius:9px;background:#0A0E0D;overflow:hidden">
+                      <button type="button" aria-expanded="{{ sd.expanded }}" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:12px 14px" onClick="{{ sd.onToggle }}">
+                        <div style="display:flex;align-items:center;gap:10px">
+                          <span style="width:8px;height:8px;border-radius:50%;background:{{ sd.color }};flex-shrink:0;box-shadow:0 0 7px {{ sd.color }}"></span>
+                          <span style="flex:1;min-width:0;font-size:13px;font-weight:600;color:#E5E7EB">{{ sd.name }}</span>
+                          <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:{{ sd.color }}">{{ sd.valLabel }}</span>
+                          <span style="font-family:'JetBrains Mono', monospace;font-size:9px;color:#8A938F;padding:2px 6px;border-radius:5px;border:1px solid #1B2521">{{ sd.weightLabel }}</span>
+                          <span style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;min-width:52px;text-align:right">{{ sd.points }}</span>
+                          <span style="font-family:'JetBrains Mono', monospace;font-size:13px;color:#6b7772;width:10px;text-align:center">{{ sd.caret }}</span>
+                        </div>
+                        <div style="margin-top:9px;height:7px;border-radius:6px;background:#11201b;overflow:hidden"><div style="{{ sd.barStyle }}"></div></div>
+                      </button>
+                      <sc-if value="{{ sd.expanded }}" hint-placeholder-val="{{ false }}">
+                        <div style="padding:2px 14px 14px;border-top:1px solid #1B2521">
+                          <p style="margin:11px 0 9px;font-size:12.5px;line-height:1.6;color:#cdd3d0">{{ sd.blurb }}</p>
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:{{ sd.color }};background:#070B0A;border:1px solid #1B2521;border-radius:7px;padding:9px 11px">{{ sd.formula }}</div>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
 
                 <!-- chart -->
                 <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:9px">IMPLIED PROBABILITY OVER TIME</div>
-                <div style="background:#0A0E0D;border:1px solid #1B2521;border-radius:10px;padding:14px 14px 8px;margin-bottom:26px">{{ surv.sel.chartEl }}</div>
+                <div style="background:#0A0E0D;border:1px solid #1B2521;border-radius:10px;padding:20px 14px 8px;margin-bottom:26px">{{ surv.sel.chartEl }}</div>
 
                 <!-- readings -->
                 <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:12px">WHAT THE DETECTOR SAW</div>
@@ -230,8 +285,46 @@
               </div>
             </div>
 
-            <!-- glossary -->
+            <!-- methodology: how the score works -->
             <div style="margin-top:20px;border:1px solid #1B2521;border-radius:11px;background:#0F1513;overflow:hidden">
+              <button type="button" aria-expanded="{{ surv.methodOpen }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:none;border:none;cursor:pointer;color:#E5E7EB;text-align:left" onClick="{{ surv.onToggleMethod }}">
+                <span style="font-size:13px;font-weight:600">How is the suspicion score calculated?</span>
+                <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#8A938F">{{ surv.methodIcon }}</span>
+              </button>
+              <sc-if value="{{ surv.methodOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:4px 18px 20px;border-top:1px solid #1B2521">
+                  <div style="font-size:12px;color:#9CA3AF;line-height:1.6;margin:14px 0 18px;max-width:84ch">Each flagged trade gets one composite score &mdash; a <b style="color:#E5E7EB">weighted sum of five independent anomaly signals</b>, the z-score screening approach used in securities-market surveillance. A signal is &ldquo;z-scored&rdquo; by measuring how many standard deviations a trader sits above the norm, so a small bet in a quiet market can outrank a large bet in a busy one. The weights are fixed in advance, not tuned to the results.</div>
+                  <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:22px">
+                    <sc-for list="{{ surv.method.signals }}" as="m" hint-placeholder-count="5">
+                      <div>
+                        <div style="display:flex;align-items:center;gap:9px;margin-bottom:5px">
+                          <span style="width:8px;height:8px;border-radius:50%;background:{{ m.color }};flex-shrink:0;box-shadow:0 0 7px {{ m.color }}"></span>
+                          <span style="flex:1;font-size:12.5px;font-weight:600;color:#E5E7EB">{{ m.name }}</span>
+                          <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:{{ m.color }}">{{ m.weightLabel }}</span>
+                        </div>
+                        <div style="height:6px;border-radius:5px;background:#11201b;overflow:hidden;margin:0 0 5px 17px"><div style="{{ m.barStyle }}"></div></div>
+                        <div style="font-size:11.5px;color:#9CA3AF;line-height:1.5;margin-left:17px">{{ m.blurb }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.1em;color:#8A938F;margin-bottom:9px">VALIDATION &middot; WIN RATE RISES WITH SCORE</div>
+                  <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+                    <sc-for list="{{ surv.method.tiers }}" as="t" hint-placeholder-count="4">
+                      <div style="display:grid;grid-template-columns:84px 88px 1fr auto;gap:10px;align-items:center;padding:7px 11px;border:1px solid #1B2521;border-radius:8px;background:#0A0E0D">
+                        <span style="font-size:11.5px;font-weight:700;color:{{ t.color }}">{{ t.label }}</span>
+                        <span style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#8A938F">score {{ t.range }}</span>
+                        <span style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#E5E7EB">{{ t.winRate }} <span style="color:#6b7772;font-size:10px">win rate</span></span>
+                        <span style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#8A938F">med. {{ t.median }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="font-size:11px;color:#6b7772;line-height:1.6;max-width:84ch">Win rate climbs monotonically from <b style="color:#9CA3AF">68.6%</b> to <b style="color:#9CA3AF">80.0%</b> as the score rises &mdash; the score isn&rsquo;t just finding big bettors, it&rsquo;s finding traders who bet big <i>and</i> were right. A permutation test (10,000 simulated coin-flip resolutions) placed the observed 69.9% win rate roughly <b style="color:#9CA3AF">59.6 standard deviations</b> above chance. A high score still means anomalous, not unlawful.</div>
+                </div>
+              </sc-if>
+            </div>
+
+            <!-- glossary -->
+            <div style="margin-top:14px;border:1px solid #1B2521;border-radius:11px;background:#0F1513;overflow:hidden">
               <button type="button" aria-expanded="{{ surv.glossaryOpen }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:none;border:none;cursor:pointer;color:#E5E7EB;text-align:left" onClick="{{ surv.onToggleGlossary }}">
                 <span style="font-size:13px;font-weight:600">What do these patterns mean?</span>
                 <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#8A938F">{{ surv.glossaryIcon }}</span>
@@ -468,6 +561,7 @@ class Component extends DCLogic {
       openRegimes:{},
       // --- Surveillance: Signal List + Inspector ---
       survSel:'maduro', survListFilter:'all', glossaryOpen:false, clock:'00:00:00',
+      expandedSig:null, methodOpen:false,
       survLive:null, survLiveAt:null, survSources:null,
       // --- Case files ---
       caseId:'vandyke',
@@ -666,51 +760,108 @@ class Component extends DCLogic {
     { id:'funding', name:'funding-trail trace',        group:'chain', platforms:['poly'],          desc:'A wallet funded minutes earlier from a bridge or mixer, then immediately oversized.' },
     { id:'dormant', name:'dormant-then-precise',       group:'chain', platforms:['poly'],          desc:'A long-idle wallet that wakes only to hit one resolving market.' }
   ];
-  // lead = hours before disclosure (higher = earlier = more suspicious). signal 0..1.
+  // lead = hours before disclosure (drives the probability curve). signal 0..1.
+  // The five z-score sub-signals (zCross, zWithin, zProfit, lateFrac, dirScore)
+  // feed the composite suspicion score; see SIGNAL_META / compositeScore below.
   SIGNALS = [
     { id:'maduro', market:'Maduro out by Jan 31?', platform:'poly', detector:'accum', severity:'high', lead:6.0, signal:0.90, fireT:0.30,
+      zCross:6.4, zWithin:3.0, zProfit:4.6, lateFrac:0.55, dirScore:1.00,
       metric:'+0.41 over 6h, held to resolve', desc:'A single wallet built a large one-sided YES position over six hours and held it into a discrete geopolitical resolution.',
       gap:'A one-sided hold that resolves correctly is a strong anomaly, but holding a directional position is not itself unlawful.' },
     { id:'search', market:'#1 searched person of the year', platform:'poly', detector:'crosshit', severity:'high', lead:5.0, signal:0.86, fireT:0.44,
+      zCross:5.2, zWithin:4.1, zProfit:5.5, lateFrac:0.40, dirScore:0.90,
       metric:'11 of 12 correlated bets correct', desc:'One wallet placed correlated, correct positions across a dozen year-end ranking markets in a single window.',
       gap:'An improbable hit rate suggests an information edge, but a lawful edge with no breached duty is not a violation.' },
     { id:'cpi', market:'CPI above forecast (May)', platform:'kalshi', detector:'lead', severity:'high', lead:0.78, signal:0.82, fireT:0.66,
+      zCross:4.4, zWithin:2.4, zProfit:3.6, lateFrac:0.95, dirScore:0.90,
       metric:'+0.28 in 9 min, 47 min pre-release', desc:'Implied probability jumped sharply well before the scheduled data-release timestamp.',
       gap:'A pre-release move is the classic fingerprint, but the move alone does not prove the trader had misappropriated nonpublic data.' },
     { id:'halftime', market:'Halftime guest: Lady Gaga?', platform:'poly', detector:'fresh', severity:'high', lead:3.0, signal:0.80, fireT:0.20,
+      zCross:4.0, zWithin:5.5, zProfit:4.0, lateFrac:0.70, dirScore:1.00,
       metric:'$70k from a 26h-old wallet', desc:'An account created roughly a day before the event bought heavily into the who-performs contracts and profited on all but one.',
       gap:'A brand-new wallet winning big is suspicious, yet account age proves neither a nonpublic source nor a breached duty.' },
     { id:'fed', market:'Fed cut at next meeting?', platform:'kalshi', detector:'imbal', severity:'watch', lead:2.0, signal:0.50, fireT:0.52,
+      zCross:2.6, zWithin:1.4, zProfit:0.8, lateFrac:0.80, dirScore:0.50,
       metric:'one-sided book, 2h pre-decision', desc:'Stacked one-sided limit orders accumulated ahead of the scheduled rate decision.',
       gap:'Pre-positioning ahead of a scheduled decision is ordinary trading absent a nonpublic source.' },
     { id:'oscars', market:'Best Picture: long-shot favorite?', platform:'poly', detector:'whale', severity:'high', lead:3.5, signal:0.78, fireT:0.40,
+      zCross:5.6, zWithin:3.2, zProfit:2.2, lateFrac:0.45, dirScore:0.95,
       metric:'$180k shove, +0.22 odds', desc:'A single large position pushed the odds sharply in a thin, obscure market.',
       gap:'Moving odds with size is not manipulation unless paired with intent to deceive or a misused nonpublic edge.' },
     { id:'gdp', market:'GDP print beats consensus?', platform:'kalshi', detector:'volliq', severity:'watch', lead:1.2, signal:0.60, fireT:0.60,
+      zCross:3.4, zWithin:1.8, zProfit:1.0, lateFrac:0.60, dirScore:0.60,
       metric:'volume 8x trailing liquidity', desc:'Volume spiked far beyond the market’s historical liquidity ahead of the print.',
       gap:'A volume spike flags attention, not wrongdoing; many spikes are lawful momentum.' },
     { id:'senate', market:'Surprise committee vote passes?', platform:'poly', detector:'funding', severity:'high', lead:4.5, signal:0.80, fireT:0.34,
+      zCross:4.6, zWithin:6.2, zProfit:3.0, lateFrac:0.85, dirScore:0.95,
       metric:'funded 8 min before, 9x sized', desc:'A wallet funded from a bridge minutes before placing an abnormally large position.',
       gap:'Fast funding then an oversized bet looks orchestrated, but the trail alone is not proof of misappropriation.' },
     { id:'tencup', market:'Niche award winner revealed?', platform:'poly', detector:'dormant', severity:'watch', lead:5.5, signal:0.58, fireT:0.26,
+      zCross:3.0, zWithin:2.0, zProfit:1.6, lateFrac:0.55, dirScore:1.00,
       metric:'idle 9 months, one precise hit', desc:'A long-dormant wallet woke only to take one resolving market, then went quiet.',
       gap:'A precise one-off wake-up is a pattern of interest, not evidence of a duty breached.' },
     { id:'divg', market:'Rate path vs offshore venue', platform:'kalshi', detector:'diverge', severity:'watch', lead:2.2, signal:0.52, fireT:0.50,
+      zCross:2.4, zWithin:1.2, zProfit:0.9, lateFrac:0.50, dirScore:0.40,
       metric:'0.12 probability gap vs offshore', desc:'This market’s probability diverged from the same event priced on another venue just before resolution.',
       gap:'Cross-venue divergence can be arbitrage or latency, not necessarily information misuse.' },
     { id:'settle', market:'Index closes above strike?', platform:'kalshi', detector:'ramp', severity:'watch', lead:0.4, signal:0.50, fireT:0.78,
+      zCross:2.8, zWithin:1.5, zProfit:0.7, lateFrac:0.95, dirScore:0.50,
       metric:'late-window pressure into expiry', desc:'Buying concentrated in the final minutes, pressing the settlement reference.',
       gap:'A late ramp raises a manipulation question that turns on intent, which the chart cannot establish.' },
     { id:'vac', market:'Obscure ruling goes plaintiff?', platform:'poly', detector:'vacuum', severity:'high', lead:2.8, signal:0.74, fireT:0.38,
+      zCross:4.2, zWithin:2.6, zProfit:2.8, lateFrac:0.65, dirScore:0.90,
       metric:'thin book, +0.30 on small size', desc:'A marketable order timed to a thin book moved the odds with little capital.',
       gap:'Exploiting a thin book is aggressive trading; it becomes unlawful only with deception or a misused nonpublic edge.' },
     { id:'spf', market:'Playoff upset: underdog wins?', platform:'kalshi', detector:'spoof', severity:'watch', lead:1.5, signal:0.48, fireT:0.56,
+      zCross:2.2, zWithin:1.1, zProfit:0.4, lateFrac:0.70, dirScore:0.30,
       metric:'order-to-cancel 14:1 near touch', desc:'Large displayed orders repeatedly placed and pulled near the best price.',
       gap:'A high cancel ratio suggests spoofing, an order-flow theory that still requires proof of intent to cancel.' },
     { id:'clus', market:'Local election called early?', platform:'poly', detector:'cluster', severity:'watch', lead:4.0, signal:0.55, fireT:0.46,
+      zCross:3.2, zWithin:1.7, zProfit:1.2, lateFrac:0.55, dirScore:0.60,
       metric:'6 wallets, synchronized entries', desc:'A group of wallets with shared funding entered the same contract within minutes.',
       gap:'Coordinated wallets imply one actor, but coordination is not itself the crime of insider trading.' }
   ];
+
+  // ============ COMPOSITE SUSPICION SCORE ============
+  // Weighted z-score screen adapted from the prediction-market informed-trading
+  // literature. Composite S = 25·zCross + 20·zWithin + 30·zProfit
+  //   + 15·lateFrac + 10·dirScore   (z-scores raw; late/dir in 0..1).
+  // Win-rate / tier figures below are the published validation results
+  // (monotonic across tiers; permutation test ~59.6σ above chance).
+  SIGNAL_META = [
+    { key:'zProfit',  name:'Profit vs. the field',       weight:30, color:'#A78BFA', ref:8, kind:'z',
+      blurb:'How far this trader’s profit sits above everyone else in the same market — not just whether they won, but whether they won disproportionately. The most direct sign of an information edge, so it carries the most weight.',
+      formula:'z = (wallet profit − market mean profit) ÷ market std-dev' },
+    { key:'zCross',   name:'Bet size vs. the field',     weight:25, color:'#34D399', ref:8, kind:'z',
+      blurb:'How far this stake sits above the average bet in the same market. A z-score of 3 means three standard deviations above the field — disproportionate capital deployment.',
+      formula:'z = (wallet bet − market mean bet) ÷ market std-dev' },
+    { key:'zWithin',  name:'Bet size vs. their own past', weight:20, color:'#22D3EE', ref:6, kind:'z',
+      blurb:'How far this bet deviates from the same wallet’s own typical bet across every other market it has traded. Flags an out-of-character bet even from a small account, and avoids penalising traders who are simply wealthy.',
+      formula:'z = (this bet − wallet’s own mean) ÷ wallet’s own std-dev' },
+    { key:'lateFrac', name:'Late, pre-event buying',     weight:15, color:'#FBBF24', ref:1, kind:'pct',
+      blurb:'Share of the wallet’s buying that landed in the final 48 hours before the event resolved — when time-sensitive information is most valuable and the risk of being overtaken by public disclosure is highest.',
+      formula:'USDC bought in last 48h ÷ total USDC bought' },
+    { key:'dirScore', name:'One-directional conviction', weight:10, color:'#F472B6', ref:1, kind:'pct',
+      blurb:'How one-sided the position was. 100% means the trader only bought and held to resolution with no hedging — consistent with conviction rather than market-making or position adjustment.',
+      formula:'1 − (offsetting sells ÷ total buys)' }
+  ];
+  compositeScore(g){
+    if(!g) return 0;
+    return 25*(g.zCross||0) + 20*(g.zWithin||0) + 30*(g.zProfit||0) + 15*(g.lateFrac||0) + 10*(g.dirScore||0);
+  }
+  scoreTier(s){
+    if(s>=500) return { key:'extreme',  label:'Extreme',  color:'#F87171', winRate:'80.0%', median:'$3,878' };
+    if(s>=200) return { key:'high',     label:'High',     color:'#FB923C', winRate:'79.5%', median:'$2,411' };
+    if(s>=100) return { key:'elevated', label:'Elevated', color:'#FBBF24', winRate:'69.6%', median:'$144'   };
+    return       { key:'moderate', label:'Moderate', color:'#34D399', winRate:'68.6%', median:'$51'    };
+  }
+  // approximate top-percentile from the published score distribution anchors
+  scorePercentile(s){
+    const pts=[[40,2],[105.3,50],[184.2,90],[228.4,95],[368.5,99],[600,99.8]];
+    if(s<=pts[0][0]) return 100-pts[0][1];
+    for(let i=1;i<pts.length;i++){ if(s<=pts[i][0]){ const a=pts[i-1],b=pts[i]; const r=a[1]+(b[1]-a[1])*(s-a[0])/(b[0]-a[0]); return Math.max(0.1,100-r); } }
+    return 0.1;
+  }
 
   detName(id){ const d=this.DETECTORS.find(x=>x.id===id); return d?d.name:id; }
   sevColor(sev){ return sev==='high'?this.SCOPE.high:this.SCOPE.watch; }
@@ -794,12 +945,23 @@ class Component extends DCLogic {
     const n=Math.max(1,alerts.length);
     return alerts.map((a,i)=>{
       const high = a.sev==='high';
+      const det = String(a.detector||'');
       let seed=0; const id=String(a.id||i); for(let k=0;k<id.length;k++) seed=(seed+id.charCodeAt(k))%97;
+      // Best-estimate sub-signals from the live alert. zProfit is modest because
+      // most live markets are pre-resolution (no realised profit yet).
+      const lateDet = /lead|imbal|ramp|vacuum|vol_?liq/.test(det);
+      const dirDet  = /accum|fresh|dormant|whale|funding|cluster|crosshit/.test(det);
+      const jit = (seed%20)/100;            // small per-signal jitter for variety
       return {
         id:a.id, market:a.market,
         platform: a.platform==='polymarket' ? 'poly' : 'kalshi',
-        detector:a.detector, severity: high?'high':'watch',
+        detector:a.detector, severity: high?'high':'watch', estimated:true,
         lead: 0.5 + (seed%60)/10, signal: high?0.85:0.52, fireT: 1 - i/n,
+        zCross:  (high?4.4:2.4) + jit,
+        zWithin: (high?2.6:1.3) + jit,
+        zProfit: (high?2.6:0.9) + jit,
+        lateFrac: lateDet?0.85:(dirDet?0.52:0.45),
+        dirScore: dirDet?0.92:(/spoof|imbal/.test(det)?0.40:0.65),
         metric:a.metric, desc:a.note, gap:a.gap
       };
     });
@@ -830,15 +992,43 @@ class Component extends DCLogic {
       h('path',{ d, fill:'none', stroke:'#8A938F', strokeWidth:1.3, opacity:0.85 }));
   }
 
-  // large annotated inspector chart (info = inspector entry for discLabel)
+  // tiered composite-score gauge (40 .. 500+ with marker)
+  buildScoreGauge(score){
+    const h=React.createElement, C=this.SCOPE;
+    const W=600,H=66, x0=8,x1=W-8, tw=x1-x0, y=30, bh=15;
+    const D0=40,D1=520;
+    const X=v=> x0 + (Math.max(D0,Math.min(D1,v))-D0)/(D1-D0)*tw;
+    const segs=[[40,100,'#34D399'],[100,200,'#FBBF24'],[200,500,'#FB923C'],[500,520,'#F87171']];
+    const segEls=segs.map((sg,i)=> h('rect',{ key:'g'+i, x:X(sg[0]), y, width:Math.max(2,X(sg[1])-X(sg[0])), height:bh, fill:sg[2], opacity:0.5 }));
+    const ticks=[100,200,500].map((tk,i)=> h('g',{ key:'t'+i },
+      h('line',{ x1:X(tk), x2:X(tk), y1:y, y2:y+bh, stroke:C.canvas, strokeWidth:1.5 }),
+      h('text',{ x:X(tk), y:y+bh+12, textAnchor:'middle', fontSize:9, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, tk===500?'500+':String(tk)) ));
+    const mx=X(score);
+    const marker=h('g',null,
+      h('line',{ x1:mx, x2:mx, y1:y-7, y2:y+bh+3, stroke:'#E5E7EB', strokeWidth:2 }),
+      h('path',{ d:`M${mx-5} ${y-7} L${mx+5} ${y-7} L${mx} ${y-1} Z`, fill:'#E5E7EB' }),
+      h('text',{ x:Math.min(W-26, Math.max(22, mx)), y:y-12, textAnchor:'middle', fontSize:13, fontWeight:700, fill:'#E5E7EB', fontFamily:'JetBrains Mono, monospace' }, Math.round(score) ));
+    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Composite suspicion score ${Math.round(score)} of 500+`, style:{ display:'block' } },
+      h('defs',null, h('clipPath',{ id:'gaugeclip' }, h('rect',{ x:x0, y, width:tw, height:bh, rx:7 }))),
+      h('rect',{ x:x0, y, width:tw, height:bh, rx:7, fill:'#0A0E0D', stroke:C.bd, strokeWidth:1 }),
+      h('g',{ clipPath:'url(#gaugeclip)' }, segEls),
+      h('rect',{ x:x0, y, width:tw, height:bh, rx:7, fill:'none', stroke:C.bd, strokeWidth:1 }),
+      ticks, marker,
+      h('text',{ x:x0, y:y-12, fontSize:8.5, fill:'#6b7772', fontFamily:'JetBrains Mono, monospace' }, 'less suspicious'),
+      h('text',{ x:x1, y:y-12, textAnchor:'end', fontSize:8.5, fill:'#6b7772', fontFamily:'JetBrains Mono, monospace' }, 'more suspicious'));
+  }
+
+  // large annotated inspector chart with the final-48h pre-event window shaded
   buildInspectorChart(g, info){
     const h=React.createElement, C=this.SCOPE;
     info = info || this.INSPECTOR_DATA[g.id] || {};
+    const lateFrac = g.lateFrac==null ? 0.5 : g.lateFrac;
     const W=600,H=270, padL=52,padR=18,padT=30,padB=44;
     const iw=W-padL-padR, ih=H-padT-padB;
     const X=t=> padL + t*iw;
     const Y=p=> padT + (1-Math.max(0,Math.min(1,p)))*ih;
-    const disc=0.80, w0=Math.max(0.08,disc-0.34), w1=disc-0.03;
+    const lateStart=0.80, disc=0.92;             // final-48h window + resolution marker
+    const w0=Math.max(0.08,disc-0.40);
     const N=70, series=[];
     for(let i=0;i<N;i++){ const t=i/(N-1); let p=0.40+0.035*Math.sin(t*9+g.lead*1.3);
       if(t>=w0 && t<=disc) p+=(t-w0)/(disc-w0)*g.signal*0.44;
@@ -849,14 +1039,20 @@ class Component extends DCLogic {
     const yt=[0,0.25,0.5,0.75,1].map((v,i)=> h('g',{ key:'y'+i },
       h('line',{ x1:padL, x2:padL+iw, y1:Y(v), y2:Y(v), stroke:C.bd, strokeWidth:1, opacity:i===0?1:.55 }),
       h('text',{ x:padL-8, y:Y(v)+3, textAnchor:'end', fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, Math.round(v*100)) ));
+    // final-48h window, shaded; opacity scales with how much buying landed there
     const band=h('g',null,
-      h('rect',{ x:X(w0), y:padT, width:X(w1)-X(w0), height:ih, fill:'rgba(138,147,143,.08)', stroke:'rgba(138,147,143,.35)', strokeWidth:1, strokeDasharray:'3 3' }),
-      h('text',{ x:(X(w0)+X(w1))/2, y:padT-9, textAnchor:'middle', fontSize:10, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, '← unusual buying here'));
-    const dots=[w0+0.07,(w0+disc)/2,disc-0.06].map((mt,i)=>{ const seg=series.reduce((a,b)=> Math.abs(b[0]-mt)<Math.abs(a[0]-mt)?b:a, series[0]); return h('circle',{ key:'d'+i, cx:X(mt), cy:Y(seg[1]), r:3.5, fill:'#C9D1CE', stroke:C.canvas, strokeWidth:1.2 }); });
+      h('rect',{ x:X(lateStart), y:padT, width:X(1)-X(lateStart), height:ih, fill:`rgba(251,191,36,${(0.05+0.12*lateFrac).toFixed(3)})`, stroke:'rgba(251,191,36,.4)', strokeWidth:1, strokeDasharray:'3 3' }),
+      h('text',{ x:(X(lateStart)+X(1))/2, y:padT-17, textAnchor:'middle', fontSize:9.5, fill:'#FBBF24', fontFamily:'JetBrains Mono, monospace' }, 'final 48h'),
+      h('text',{ x:(X(lateStart)+X(1))/2, y:padT-6, textAnchor:'middle', fontSize:9, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, Math.round(lateFrac*100)+'% of buying'));
+    // buy markers: density in the late window tracks lateFrac
+    const nLate=Math.max(1,Math.round(lateFrac*5)), nEarly=Math.max(0,5-nLate), buys=[];
+    for(let i=0;i<nEarly;i++) buys.push(0.12+i*(0.62/Math.max(1,nEarly)));
+    for(let i=0;i<nLate;i++)  buys.push(lateStart+0.02+i*((disc-lateStart-0.02)/Math.max(1,nLate)));
+    const dots=buys.map((mt,i)=>{ const seg=series.reduce((a,b)=> Math.abs(b[0]-mt)<Math.abs(a[0]-mt)?b:a, series[0]); const late=mt>=lateStart; return h('circle',{ key:'d'+i, cx:X(mt), cy:Y(seg[1]), r:late?4:3, fill:late?'#FBBF24':'#C9D1CE', stroke:C.canvas, strokeWidth:1.2 }); });
     const discG=h('g',null,
       h('line',{ x1:X(disc), x2:X(disc), y1:padT-2, y2:padT+ih, stroke:C.kalshi, strokeWidth:1.4, strokeDasharray:'4 4' }),
-      h('text',{ x:X(disc)+5, y:padT+10, fontSize:9.5, fill:C.kalshi, fontFamily:'JetBrains Mono, monospace' }, info.discLabel||'news public'));
-    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Implied probability over time for ${g.market}. Suspicious window and ${info.discLabel||'disclosure'} marked.`, style:{ display:'block' } },
+      h('text',{ x:X(disc)+5, y:padT+10, fontSize:9.5, fill:C.kalshi, fontFamily:'JetBrains Mono, monospace' }, info.discLabel||'event resolves'));
+    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Implied probability over time for ${g.market}. ${Math.round(lateFrac*100)} percent of buying fell in the final 48 hours; ${info.discLabel||'resolution'} marked.`, style:{ display:'block' } },
       yt, band,
       h('text',{ x:14, y:padT+ih/2, fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace', transform:`rotate(-90 14 ${padT+ih/2})`, textAnchor:'middle' }, 'implied probability %'),
       h('path',{ d:line+` L${X(1)} ${padT+ih} L${X(0)} ${padT+ih} Z`, fill:'rgba(52,211,153,.05)' }),
@@ -1350,36 +1546,71 @@ class Component extends DCLogic {
         style:`padding:6px 12px;border-radius:8px;font-family:'JetBrains Mono', monospace;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid ${on?'rgba(52,211,153,.5)':SC.bd};background:${on?'rgba(52,211,153,.1)':'#0F1513'};color:${on?SC.kalshi:SC.mut}`,
         onClick:()=> this.setState({ survListFilter:id }) };
     });
-    // rows (newest first)
-    const rowSig = sigList.filter(x=> listFilter==='all' || (listFilter==='high'? x.severity==='high' : x.platform===listFilter)).slice().sort((a,b)=> b.fireT-a.fireT);
+    // rows (ranked by composite suspicion score, highest first)
+    const rowSig = sigList.filter(x=> listFilter==='all' || (listFilter==='high'? x.severity==='high' : x.platform===listFilter))
+      .slice().sort((a,b)=> this.compositeScore(b)-this.compositeScore(a));
     const defSel = (sigList.find(x=>x.id===s.survSel) ? s.survSel : (sigList[0]&&sigList[0].id));
     const rows = rowSig.map(x=>{
       const seld = defSel===x.id;
+      const rsc = this.compositeScore(x); const rt = this.scoreTier(rsc);
       return { id:x.id, market:x.market, metric:x.metric, platformLabel:this.platLabel(x.platform),
         sevColor:sevC(x.severity), sevLabel:x.severity==='high'?'high':'watch', selected:seld,
-        aria:`${x.market}. ${this.platLabel(x.platform)}. ${x.severity==='high'?'High signal':'Watch'}. ${x.metric}.`,
+        scoreNum:String(Math.round(rsc)), scoreColor:rt.color, tierLabel:rt.label,
+        aria:`${x.market}. ${this.platLabel(x.platform)}. Suspicion score ${Math.round(rsc)}, ${rt.label} tier. ${x.metric}.`,
         sparkEl:this.buildMiniSpark(x),
-        rowStyle:`text-align:left;cursor:pointer;border-radius:10px;padding:13px 14px;border:1px solid ${seld?'rgba(52,211,153,.4)':SC.bd};border-left:${seld?'3px solid #34D399':'1px solid '+SC.bd};background:${seld?'rgba(52,211,153,.06)':'#0F1513'};transition:background .15s,border-color .15s`,
+        rowStyle:`text-align:left;cursor:pointer;border-radius:10px;padding:13px 14px;border:1px solid ${seld?'rgba(52,211,153,.4)':SC.bd};border-left:${seld?'3px solid '+rt.color:'1px solid '+SC.bd};background:${seld?'rgba(52,211,153,.06)':'#0F1513'};transition:background .15s,border-color .15s`,
         onSelect:()=> this.selectSignal(x.id),
         onKey:(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.selectSignal(x.id); } } };
     });
     // selected signal (never empty)
     const g = sigList.find(x=>x.id===defSel) || sigList[0];
     const info = (g && inspMap[g.id]) || {};
+    // composite score + breakdown for the selected signal
+    const gScore = this.compositeScore(g); const gTier = this.scoreTier(gScore);
+    const gPct = this.scorePercentile(gScore);
+    const decomp = g ? this.SIGNAL_META.map(m=>{
+      const raw = g[m.key]||0;
+      const intensity = Math.max(0, Math.min(1, raw/m.ref));
+      const pts = m.weight*raw;
+      return { key:m.key, name:m.name, weight:m.weight, weightLabel:m.weight+'%', color:m.color,
+        valLabel: m.kind==='z' ? ('z = '+raw.toFixed(1)) : (Math.round(raw*100)+'%'),
+        points: '+'+Math.round(pts)+' pts',
+        blurb:m.blurb, formula:m.formula,
+        barStyle:`height:7px;border-radius:6px;width:${(intensity*100).toFixed(1)}%;background:${m.color};box-shadow:0 0 9px ${m.color}99;transition:width .45s ease`,
+        expanded: s.expandedSig===m.key, caret: s.expandedSig===m.key?'−':'+',
+        onToggle:()=> this.setState(st=>({ expandedSig: st.expandedSig===m.key?null:m.key })) };
+    }) : [];
     const sel = g ? {
       market:g.market, platformLabel:this.platLabel(g.platform),
       sevColor:sevC(g.severity), sevLine: g.severity==='high'?'High-signal anomaly':'Worth watching',
       plain:g.desc, chartEl:this.buildInspectorChart(g, info),
       readings:(info.readings||[]).map(([m,e])=>({ m, e })),
-      why:info.why||'', gap:g.gap, prov:info.prov||''
-    } : { readings:[] };
+      why:info.why||'', gap:g.gap, prov:info.prov||'',
+      scoreNum:String(Math.round(gScore)), tierLabel:gTier.label, tierColor:gTier.color,
+      tierChipStyle:`font-size:11px;font-weight:700;color:${gTier.color};padding:3px 9px;border-radius:6px;border:1px solid ${gTier.color}88;background:${gTier.color}1a;font-family:'JetBrains Mono', monospace;letter-spacing:.03em`,
+      winRate:gTier.winRate, topPctLabel:'top '+gPct.toFixed(1)+'%', gaugeEl:this.buildScoreGauge(gScore),
+      decomp,
+      estNote: g.estimated ? 'Live estimate — sub-signals approximated from the feed; profit z-score needs resolution data.' : 'Illustrative figures, scored with the live weighting.'
+    } : { readings:[], decomp:[] };
+    const method = {
+      signals: this.SIGNAL_META.map(m=>({ name:m.name, weightLabel:m.weight+'%', color:m.color, blurb:m.blurb,
+        barStyle:`height:6px;border-radius:5px;width:${m.weight}%;background:${m.color};box-shadow:0 0 8px ${m.color}88` })),
+      tiers: [
+        { label:'Moderate', range:'40–100',  color:'#34D399', winRate:'68.6%', median:'$51'   },
+        { label:'Elevated', range:'100–200', color:'#FBBF24', winRate:'69.6%', median:'$144'  },
+        { label:'High',     range:'200–500', color:'#FB923C', winRate:'79.5%', median:'$2,411'},
+        { label:'Extreme',  range:'500+',    color:'#F87171', winRate:'80.0%', median:'$3,878'}
+      ]
+    };
     const surv = {
       clock:s.clock, activeCount, highCount,
-      chips, rows, sel,
+      chips, rows, sel, method,
       feedLabel: isLive ? ('LIVE FEED · updated ' + (s.survLiveAt ? s.survLiveAt.slice(11,16) + ' UTC' : 'just now')) : 'SAMPLE FEED · LIVE WIRING PENDING',
       feedStyle: isLive
         ? `font-family:'JetBrains Mono', monospace;font-size:10px;color:#34D399;padding:4px 10px;border-radius:999px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);white-space:nowrap`
         : `font-family:'JetBrains Mono', monospace;font-size:10px;color:#FBBF24;padding:4px 10px;border-radius:999px;border:1px solid rgba(251,191,36,.35);background:rgba(251,191,36,.07);white-space:nowrap`,
+      methodOpen:!!s.methodOpen, methodIcon: s.methodOpen?'−':'+',
+      onToggleMethod:()=> this.setState(st=>({ methodOpen:!st.methodOpen })),
       glossaryOpen:!!s.glossaryOpen, glossaryIcon: s.glossaryOpen?'−':'+',
       glossary: this.DETECTORS.map(d=>({ name:d.name, desc:d.desc })),
       onToggleGlossary:()=> this.setState(st=>({ glossaryOpen:!st.glossaryOpen })),
