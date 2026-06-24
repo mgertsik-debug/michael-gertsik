@@ -136,53 +136,72 @@
         <!-- ============ TAB 2: SURVEILLANCE ============ -->
         <sc-if value="{{ isSurv }}" hint-placeholder-val="{{ false }}">
           <div>
-            <div data-split style="display:grid;grid-template-columns:230px 1fr;gap:22px;align-items:start">
-              <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:16px">
-                <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:12px">SCENARIO</div>
-                <div style="display:flex;flex-direction:column;gap:7px">
-                  <sc-for list="{{ surveillance.scenarios }}" as="sc" hint-placeholder-count="6">
-                    <button type="button" aria-pressed="{{ sc.active }}" style="{{ sc.style }}" onClick="{{ sc.onSelect }}">{{ sc.label }}</button>
-                  </sc-for>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+              <div>
+                <div style="display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#E5E7EB"><span style="width:7px;height:7px;border-radius:2px;background:#F87171"></span>SURVEILLANCE CONSOLE</div>
+                <div style="font-size:12px;color:#9CA3AF;margin-top:5px;max-width:74ch">Streams public Kalshi and Polymarket market data and flags the fingerprints a DCM and the CFTC look for. Detection-side only: a flag is anomalous, not proof of a violation.</div>
+              </div>
+              <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#FBBF24;border:1px solid rgba(251,191,36,.35);background:rgba(251,191,36,.06);border-radius:6px;padding:5px 10px;white-space:nowrap">{{ surveillance.dataSource }}</div>
+            </div>
+
+            <div data-split style="display:grid;grid-template-columns:248px 1fr;gap:22px;align-items:start">
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:14px">
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:10px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:9px">PLATFORM</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+                    <sc-for list="{{ surveillance.platBtns }}" as="b" hint-placeholder-count="3">
+                      <button type="button" aria-pressed="{{ b.active }}" style="{{ b.style }}" onClick="{{ b.onSelect }}">{{ b.l }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:10px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:9px">SEVERITY</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    <sc-for list="{{ surveillance.sevBtns }}" as="b" hint-placeholder-count="3">
+                      <button type="button" aria-pressed="{{ b.active }}" style="{{ b.style }}" onClick="{{ b.onSelect }}">{{ b.l }}</button>
+                    </sc-for>
+                  </div>
                 </div>
-                <div style="margin-top:16px;padding-top:14px;border-top:1px solid #1F2A26;font-size:11px;color:#6b7772;line-height:1.5">Framed from the detection side. Abstract and illustrative, not an evasion guide.</div>
+                <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:14px">
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:10px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:11px">DETECTOR CATALOG</div>
+                  <div style="display:flex;flex-direction:column;gap:12px">
+                    <sc-for list="{{ surveillance.detectors }}" as="d" hint-placeholder-count="6">
+                      <div>
+                        <div style="display:flex;gap:7px;align-items:baseline"><span style="width:6px;height:6px;border-radius:50%;background:{{ d.sevColor }};flex-shrink:0;transform:translateY(-1px)"></span><span style="font-size:12px;font-weight:600;color:#E5E7EB">{{ d.name }}</span></div>
+                        <div style="font-size:11px;color:#9CA3AF;line-height:1.4;margin:2px 0 0 13px">{{ d.desc }}</div>
+                        <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.05em;color:#6b7772;margin:3px 0 0 13px">{{ d.platTags }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
               </div>
 
               <div>
-                <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:6px">
-                  <div>
-                    <div style="font-size:17px;font-weight:600;color:#E5E7EB">{{ surveillance.label }}</div>
-                    <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#FBBF24;margin-top:3px">{{ surveillance.fingerprint }}</div>
-                  </div>
-                  <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#9CA3AF">{{ surveillance.authority }}</div>
-                </div>
-                <div style="background:#0A0E0D;border:1px solid #1F2A26;border-radius:12px;padding:14px 14px 8px">
-                  {{ surveillance.chartEl }}
-                  <div style="display:flex;align-items:center;gap:12px;padding:8px 4px 4px">
-                    <span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772">SCRUB</span>
-                    <input type="range" min="0" max="100" value="{{ surveillance.scrub }}" oninput="{{ surveillance.onScrub }}" aria-label="Scrub timeline" style="flex:1">
-                    <span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#34D399;min-width:34px;text-align:right">{{ surveillance.scrub }}%</span>
-                  </div>
-                </div>
-
-                <div data-board style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
-                  <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:11px;padding:15px">
-                    <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;letter-spacing:.1em;color:#9CA3AF;margin-bottom:12px">SURVEILLANCE READOUT</div>
-                    <div style="display:flex;flex-direction:column;gap:11px">
-                      <sc-for list="{{ surveillance.metrics }}" as="m" hint-placeholder-count="5">
-                        <div style="display:flex;gap:10px;align-items:flex-start">
-                          <span style="flex-shrink:0;width:7px;height:7px;border-radius:50%;margin-top:5px;background:{{ m.dot }}"></span>
-                          <div>
-                            <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><span style="font-size:12.5px;font-weight:600;color:#E5E7EB">{{ m.k }}</span><span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:{{ m.dot }}">{{ m.v }}</span></div>
-                            <div style="font-size:11px;color:#9CA3AF;line-height:1.4;margin-top:2px">{{ m.note }}</div>
-                          </div>
-                        </div>
-                      </sc-for>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+                  <sc-for list="{{ surveillance.statCards }}" as="st" hint-placeholder-count="3">
+                    <div style="flex:1;min-width:120px;background:#0C1210;border:1px solid {{ st.border }};border-radius:10px;padding:12px 15px">
+                      <div style="font-size:26px;font-weight:700;font-family:'JetBrains Mono', monospace;line-height:1;color:{{ st.color }}">{{ st.n }}</div>
+                      <div style="font-size:11px;color:#9CA3AF;margin-top:3px">{{ st.label }}</div>
                     </div>
-                  </div>
-                  <div style="background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.28);border-radius:11px;padding:15px">
-                    <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;letter-spacing:.1em;color:#FBBF24;margin-bottom:10px">THE LEGAL GAP &middot; ANOMALOUS &ne; ILLEGAL</div>
-                    <div style="font-size:13px;color:#E5E7EB;line-height:1.6">{{ surveillance.legalGap }}</div>
-                  </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:11px">
+                  <sc-for list="{{ surveillance.alerts }}" as="a" hint-placeholder-count="6">
+                    <div style="background:#0C1210;border:1px solid #1F2A26;border-left:3px solid {{ a.sevColor }};border-radius:11px;padding:14px 16px">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                          <span style="{{ a.platStyle }}">{{ a.platLabel }}</span>
+                          <span style="font-size:14px;font-weight:600;color:#E5E7EB">{{ a.market }}</span>
+                        </div>
+                        <span style="{{ a.sevStyle }}">{{ a.sevLabel }}</span>
+                      </div>
+                      <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#FBBF24;margin-top:6px">{{ a.detectorName }} <span style="color:#6b7772">&middot; {{ a.ts }}</span></div>
+                      <div style="display:flex;align-items:center;gap:12px;margin-top:9px;flex-wrap:wrap">
+                        <div style="flex-shrink:0">{{ a.sparkEl }}</div>
+                        <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:{{ a.sevColor }}">{{ a.metric }}</span>
+                      </div>
+                      <div style="font-size:12px;color:#cdd3d0;line-height:1.5;margin-top:8px">{{ a.note }}</div>
+                      <div style="font-size:11.5px;color:#9CA3AF;line-height:1.5;margin-top:7px;padding-top:8px;border-top:1px solid #18221e"><span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#FBBF24">GAP</span> &nbsp;{{ a.gap }}</div>
+                    </div>
+                  </sc-for>
                 </div>
               </div>
             </div>
@@ -557,6 +576,36 @@ class Component extends DCLogic {
     { id:'r8', name:'State antifraud', authority:'NY Gen. Bus. Law art. 23-A (Martin Act)', tag:'State sovereign' },
     { id:'r9', name:'Kalshi Rulebook', authority:'Kalshi Rulebook Rules 5.17, 2.11 (Reg 1.59)', tag:'Exchange rules' },
     { id:'r10', name:'Polymarket US Rules', authority:'Polymarket US (QCX) Market Integrity Rules', tag:'Exchange rules' }
+  ];
+
+  // ============ SURVEILLANCE CONSOLE: detector catalog ============
+  // Each detector is platform-aware. Polymarket is on-chain (wallet-level
+  // signals possible); Kalshi exposes market data only (no public user data).
+  SURVEIL_DETECTORS = [
+    { id:'lead',     name:'Pre-event lead move',        platforms:['kalshi','polymarket'], sev:'high', desc:'Probability moves sharply in the window before the resolving event becomes public — front-running the wire.' },
+    { id:'imbalance',name:'Order imbalance before catalyst', platforms:['kalshi','polymarket'], sev:'high', desc:'Outsized one-sided limit orders stacked just before scheduled news or data.' },
+    { id:'vol_liq',  name:'Volume-to-liquidity spike',  platforms:['kalshi','polymarket'], sev:'med',  desc:'Volume vastly exceeds the market’s historical liquidity — aggressive position-filling.' },
+    { id:'vacuum',   name:'Liquidity-vacuum sniping',   platforms:['kalshi','polymarket'], sev:'med',  desc:'Large marketable orders timed to a thin book to move odds with little capital.' },
+    { id:'spoof',    name:'Spoofing / layering',        platforms:['kalshi','polymarket'], sev:'med',  desc:'High order-to-cancel ratio near the touch — orders placed and pulled to move price.' },
+    { id:'accum',    name:'One-directional accumulation', platforms:['polymarket','kalshi'], sev:'high', desc:'A steady one-sided position built and held into a discrete nonpublic resolution.' },
+    { id:'crossmkt', name:'Cross-market hit rate',      platforms:['polymarket'], sev:'high', desc:'One wallet improbably correct across many unrelated markets in a short window.' },
+    { id:'fresh',    name:'Fresh-wallet dump',          platforms:['polymarket'], sev:'high', desc:'A wallet minted hours ago drops an abnormally large bet on a niche, low-liquidity market.' },
+    { id:'dormant',  name:'Dormant-then-decisive',      platforms:['polymarket'], sev:'med',  desc:'An aged, inactive wallet wakes up to fund and make one large decisive bet near resolution.' },
+    { id:'cluster',  name:'Sybil / funding cluster',    platforms:['polymarket'], sev:'med',  desc:'Separate wallets traced to a common funding source or bridge tx, trading in coordination.' },
+    { id:'smart',    name:'Smart-money early entry',    platforms:['polymarket'], sev:'med',  desc:'A wallet ranked top by historical resolved PnL takes an early position in a new market.' },
+    { id:'control',  name:'Control-of-outcome proximity', platforms:['kalshi','polymarket'], sev:'high', desc:'Concentrated positioning in a market whose outcome a few people control.' }
+  ];
+
+  // Sample alert feed (clearly marked). The live serverless collector replaces
+  // this array at runtime; shape is identical so nothing else changes.
+  SURVEIL_SAMPLE = [
+    { id:'s1', ts:'13:42 UTC', platform:'polymarket', market:'Maduro out by Jan 31?', detector:'accum', sev:'high', metric:'+0.41 over 6h, held to resolve', spark:[.18,.2,.25,.34,.52,.7,.83,.86], note:'A single wallet built a large one-sided YES position over six hours and held it into a discrete geopolitical resolution.', gap:'Anomalous, not proof. A violation still needs misappropriated nonpublic information or a breached duty — the pattern alone establishes neither.' },
+    { id:'s2', ts:'09:15 UTC', platform:'polymarket', market:'#1 searched person of the year', detector:'crossmkt', sev:'high', metric:'11 of 12 correlated bets correct', spark:[.3,.55,.4,.62,.7,.58,.75,.9], note:'One wallet placed correlated, correct positions across a dozen year-end ranking markets in a single window.', gap:'A high hit rate is a strong signal, not itself a crime. The question is whether the edge came from confidential data used in breach of a duty.' },
+    { id:'s3', ts:'18:03 UTC', platform:'kalshi', market:'CPI above forecast (May)', detector:'lead', sev:'high', metric:'+0.28 in 9 min, 47 min pre-release', spark:[.5,.5,.51,.52,.6,.74,.78,.79], note:'Implied probability jumped sharply well before the scheduled data-release timestamp.', gap:'A pre-release move can be informed trading or a sharp read of public signals. Proof requires nonpublic information and, federally, a breached duty.' },
+    { id:'s4', ts:'21:30 UTC', platform:'polymarket', market:'Halftime guest: Lady Gaga?', detector:'fresh', sev:'high', metric:'$70k from a 26h-old wallet', spark:[.1,.12,.4,.55,.5,.66,.7,.72], note:'An account created roughly a day before the event bought heavily into the “who performs” contracts and profited on all but one.', gap:'Strong anomaly, no proven breach. A fresh wallet and good timing are not, without more, a violation.' },
+    { id:'s5', ts:'11:48 UTC', platform:'kalshi', market:'Fed cut at next meeting?', detector:'imbalance', sev:'med', metric:'limit-buy wall 7x book depth', spark:[.4,.42,.41,.43,.55,.58,.6,.61], note:'A one-sided limit-buy wall many times the resting depth appeared minutes before a Fed communications window.', gap:'Aggressive positioning is not manipulation unless the orders are non-bona-fide or paired with nonpublic information.' },
+    { id:'s6', ts:'02:12 UTC', platform:'polymarket', market:'Niche state primary turnout', detector:'cluster', sev:'med', metric:'5 wallets, one funding source', spark:[.2,.3,.28,.45,.5,.6,.58,.7], note:'Five separate-looking wallets traced to a single exchange withdrawal funded and traded the same thin market together.', gap:'Coordination can be a Sybil for limits or a wash setup — or innocent. It completes a violation only if manipulative or masking one beneficial owner.' },
+    { id:'s7', ts:'16:55 UTC', platform:'kalshi', market:'Candidate drops out of race?', detector:'control', sev:'high', metric:'concentrated YES, outcome-holder', spark:[.3,.35,.34,.4,.55,.7,.74,.8], note:'Concentrated positioning in a market whose outcome a single person controls.', gap:'If the trader controls or can influence the outcome, both platforms’ rules prohibit it outright — no information edge required.' }
   ];
 
   ENGINE_CONTROLS = [
@@ -1024,23 +1073,45 @@ class Component extends DCLogic {
       onReset:()=> this.setState({ who:'private', source:'public', duty:'none', instrument:'sports', venue:'kalshi', conduct:'none', concealed:false })
     };
 
-    // ---- surveillance ----
-    const scnData = this.scenarioData();
-    const scn = scnData[s.scn];
-    const survScenarios = this.SCN_ORDER.map(id=>{
-      const on = s.scn===id;
-      return { id, label:scnData[id].label, active:on,
-        style:`padding:9px 12px;border-radius:8px;font-size:11.5px;font-weight:500;cursor:pointer;text-align:left;border:1px solid ${on?'rgba(52,211,153,.45)':C.border};background:${on?'rgba(52,211,153,.08)':'#0C1210'};color:${on?C.text:C.muted}`,
-        onSelect:()=> this.setState({ scn:id, scrub:1 }) };
-    });
-    const survMetrics = scn.metrics.map(([k,v,note,flag])=>({ k, v, note, flag,
-      dot: flag ? C.red : C.muted }));
+    // ---- surveillance console (sample feed; live serverless wiring pending) ----
+    const survPlat = s.survPlatform || 'all';
+    const survSev = s.survSev || 'all';
+    const SEVC = { high:C.red, med:C.amber };
+    const PLAT = { kalshi:{ l:'KALSHI', c:'#34D399' }, polymarket:{ l:'POLYMARKET', c:'#8B9DFF' } };
+    const detById = {}; this.SURVEIL_DETECTORS.forEach(d=>detById[d.id]=d);
+    const hSv = React.createElement;
+    const spark = (vals,color)=>{
+      if(!vals||vals.length<2) return null;
+      const W=120,Hs=26,mn=Math.min(...vals),mx=Math.max(...vals),rng=(mx-mn)||1;
+      const pts=vals.map((v,i)=>((i/(vals.length-1))*W).toFixed(1)+','+((1-(v-mn)/rng)*(Hs-4)+2).toFixed(1)).join(' ');
+      return hSv('svg',{ width:W, height:Hs, viewBox:'0 0 '+W+' '+Hs },
+        hSv('polyline',{ points:pts, fill:'none', stroke:color, strokeWidth:1.6, strokeLinejoin:'round', strokeLinecap:'round' }));
+    };
+    const pill = (active,color)=>`padding:6px 11px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace;border:1px solid ${active?color:'#1F2A26'};background:${active?color+'1a':'#0C1210'};color:${active?color:C.muted}`;
+    const alerts = this.SURVEIL_SAMPLE
+      .filter(a=> (survPlat==='all'||a.platform===survPlat) && (survSev==='all'||a.sev===survSev))
+      .map(a=>{
+        const det=detById[a.detector]||{ name:a.detector };
+        const pl=PLAT[a.platform]||{ l:a.platform, c:C.muted };
+        const sc=SEVC[a.sev]||C.muted;
+        return { ...a, detectorName:det.name, platLabel:pl.l, sevColor:sc,
+          sevLabel: a.sev==='high'?'High signal':'Watch',
+          platStyle:`display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:6px;font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;color:${pl.c};background:${pl.c}1a;border:1px solid ${pl.c}44`,
+          sevStyle:`display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;color:${sc};background:${sc}1f;border:1px solid ${sc}55`,
+          sparkEl: spark(a.spark, sc) };
+      });
+    const nHigh = alerts.filter(a=>a.sev==='high').length;
     const surveillance = {
-      scenarios:survScenarios, label:scn.label, fingerprint:scn.fp, authority:scn.authority,
-      chartEl: this.buildChart(scn, s.scrub),
-      scrub: Math.round(s.scrub*100), scrubVal:s.scrub,
-      onScrub:(e)=> this.setState({ scrub: Number(e.target.value)/100 }),
-      metrics:survMetrics, legalGap:scn.gap
+      dataSource:'SAMPLE FEED · LIVE WIRING PENDING',
+      alerts,
+      statCards:[
+        { n:String(alerts.length), color:C.text, border:'#1F2A26', label:'active flags' },
+        { n:String(nHigh), color:C.red, border:'rgba(248,113,113,.3)', label:'high-signal' },
+        { n:String(this.SURVEIL_DETECTORS.length), color:C.emerald, border:'rgba(52,211,153,.3)', label:'detectors armed' }
+      ],
+      platBtns: [['all','All'],['kalshi','Kalshi'],['polymarket','Polymarket']].map(([v,l])=>({ v, l, active:survPlat===v, style:pill(survPlat===v,C.emerald), onSelect:()=>this.setState({ survPlatform:v }) })),
+      sevBtns: [['all','All'],['high','High'],['med','Watch']].map(([v,l])=>({ v, l, active:survSev===v, style:pill(survSev===v,C.amber), onSelect:()=>this.setState({ survSev:v }) })),
+      detectors: this.SURVEIL_DETECTORS.map(d=>({ name:d.name, desc:d.desc, sevColor:SEVC[d.sev]||C.muted, platTags: d.platforms.map(p=>PLAT[p]?PLAT[p].l:p).join(' · ') }))
     };
 
     // ---- case files ----
