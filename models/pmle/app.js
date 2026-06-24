@@ -71,6 +71,7 @@
     selectedId: null,
     showFilters: false, showCoach: true, showPalette: false, sourcesOpen: false,
     simStep: 0, simC: null, simF: null, simS: null, simH: null, simReason: false,
+    trackerSort: "newest",
   };
   let els = {};       // mounted region refs
   let _play = null;   // scrubber interval
@@ -194,6 +195,7 @@
       : L === "timeline" ? timelineLens(list, revIds)
       : L === "matrix" ? matrixLens(list)
       : L === "network" ? networkLens()
+      : L === "tracker" ? trackerLens(list)
       : doctrineLens(list);
     mount(els.lensbox, h("div", { key: L, style: { animation: "pmleFade .3s ease" } }, inner));
   }
@@ -253,7 +255,7 @@
   }
 
   function lensTabs() {
-    const tabs = [["map", "MAP", "◉"], ["timeline", "TIMELINE", "─"], ["matrix", "MATRIX", "▦"], ["network", "NETWORK", "⁂"], ["doctrine", "DOCTRINE", "⇉"]];
+    const tabs = [["map", "MAP", "◉"], ["timeline", "TIMELINE", "─"], ["matrix", "MATRIX", "▦"], ["network", "NETWORK", "⁂"], ["doctrine", "DOCTRINE", "⇉"], ["tracker", "TRACKER", "≣"]];
     return h("div", { role: "tablist", "aria-label": "Lens", className: "pmle-tabs", style: { display: "flex", gap: "4px", marginTop: "14px", padding: "4px", borderRadius: "11px", background: "rgba(255,255,255,.022)", border: "1px solid rgba(255,255,255,.05)", width: "fit-content", maxWidth: "100%", flexWrap: "wrap" } },
       tabs.map(([id, label, ic]) => {
         const on = S.lens === id;
@@ -518,6 +520,52 @@
       lensHeader("DOCTRINE FLOW · CLASSIFICATION GATES", "Follows the legal test each case turns on. Every matter flows left to right and stops at the gate where it was actually decided: the swap test, the special gaming rule, Howey, or cleared, with dot color showing the outcome."),
       h("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Doctrine classification flow", style: { width: "100%", marginTop: "2px" } }, stations, flows, nodes),
       outcomeLegend());
+  }
+
+  /* ---------- TRACKER (live case list) ---------- */
+  function trackerLens(list) {
+    const sort = S.trackerSort || "newest";
+    const cmp = {
+      newest: (a, b) => String(b.filedDate).localeCompare(String(a.filedDate)),
+      oldest: (a, b) => String(a.filedDate).localeCompare(String(b.filedDate)),
+      updated: (a, b) => String(b.lastUpdate || "").localeCompare(String(a.lastUpdate || "")),
+      az: (a, b) => a.caption.localeCompare(b.caption),
+    };
+    const sorted = [...list].sort(cmp[sort] || cmp.newest);
+    const SORTS = [["newest", "NEWEST FILED"], ["oldest", "OLDEST FILED"], ["updated", "RECENTLY UPDATED"], ["az", "A–Z"]];
+    const sortBtn = ([id, label]) => h("button", { key: id, onClick: () => set({ trackerSort: id }), "aria-pressed": sort === id ? "true" : "false",
+      style: { padding: "6px 12px", borderRadius: "8px", cursor: "pointer", font: `600 10.5px ${MONO}`, letterSpacing: ".06em", whiteSpace: "nowrap",
+        border: "1px solid " + (sort === id ? "rgba(52,211,153,.45)" : "rgba(255,255,255,.08)"),
+        background: sort === id ? "rgba(52,211,153,.12)" : "rgba(255,255,255,.02)", color: sort === id ? "#6EE7B7" : "#9CA3AF" } }, label);
+
+    const rows = sorted.map((m) => {
+      const oc = OUT[m.outcome], on = S.selectedId === m.id, url = (m.sources && m.sources[0]) || null;
+      return h("div", { key: m.id, className: "pmle-trk-row", role: "button", onClick: () => select(m.id),
+        style: { padding: "12px 14px", borderRadius: "11px", cursor: "pointer", marginBottom: "8px",
+          border: "1px solid " + (on ? "rgba(52,211,153,.5)" : "rgba(255,255,255,.06)"), background: on ? "rgba(52,211,153,.07)" : "rgba(255,255,255,.02)", transition: "border-color .15s, background .15s" } },
+        h("div", { style: { display: "flex", alignItems: "flex-start", gap: "10px" } },
+          h("span", { style: { width: "9px", height: "9px", borderRadius: "50%", background: oc.c, flexShrink: "0", marginTop: "5px" } }),
+          h("div", { style: { flex: "1", minWidth: "0" } },
+            h("div", { style: { font: `600 14px ${SANS}`, color: on ? "#ECFDF5" : "#F3F4F6", lineHeight: "1.3" } }, m.caption),
+            h("div", { style: { font: `500 10.5px ${MONO}`, color: "#6B7280", marginTop: "5px" } },
+              m.platform + " · " + m.forum + (m.states.length ? " · " + m.states.join(",") : "") + " · " + oc.label)),
+          h("div", { style: { font: `500 10px ${MONO}`, color: "#9CA3AF", textAlign: "right", flexShrink: "0", lineHeight: "1.5" } },
+            h("div", null, "FILED ", m.filedDate),
+            m.lastUpdate ? h("div", { style: { color: "#6B7280" } }, "UPD ", m.lastUpdate) : null)),
+        m.docketNumber ? h("div", { style: { font: `400 11px ${MONO}`, color: "#9CA3AF", marginTop: "9px", lineHeight: "1.45", wordBreak: "break-word" } },
+          h("span", { style: { color: "#6B7280" } }, "Docket: "), m.docketNumber) : null,
+        url ? h("div", { style: { marginTop: "7px" } },
+          h("a", { href: url, target: "_blank", rel: "noopener noreferrer", onClick: (e) => e.stopPropagation(),
+            style: { font: `500 11px ${MONO}`, color: "#6EE7B7", textDecoration: "none", wordBreak: "break-all" } },
+            "↗ " + url.replace(/^https?:\/\//, ""))) : null);
+    });
+
+    return h("div", null,
+      lensHeader("LIVE TRACKER · ALL MATTERS", "A running list of every case with its filing date, latest update, docket number, and source link. It updates automatically as new filings are added. Sort by newest, oldest, or most recently updated."),
+      h("div", { role: "group", "aria-label": "Sort", style: { display: "flex", gap: "6px", flexWrap: "wrap", margin: "6px 0 12px" } }, SORTS.map(sortBtn)),
+      h("div", { style: { maxHeight: "62vh", overflowY: "auto", paddingRight: "4px" } }, rows.length ? rows
+        : h("div", { style: { padding: "24px 6px", textAlign: "center", color: "#6B7280", font: `500 13px ${SANS}` } }, "No matters match the current filters.")),
+      h("div", { style: { font: `500 10px ${MONO}`, letterSpacing: ".06em", color: "#6B7280", marginTop: "10px" } }, sorted.length + " matter" + (sorted.length === 1 ? "" : "s") + " · updates automatically as new filings land"));
   }
 
   /* ---------- shared bits ---------- */
