@@ -531,7 +531,7 @@
       h("line", { x1: colX(i), y1: 36, x2: colX(i), y2: H - 24, stroke: "rgba(255,255,255,.06)", strokeDasharray: i === 0 ? "0" : "3 4" }),
       label.split("\n").map((ln, j) => h("text", { key: j, x: colX(i), y: 26 + j * 11, textAnchor: "middle", style: { font: `500 9px ${MONO}`, fill: i === gates.length - 1 ? "#6EE7B7" : "#9CA3AF", letterSpacing: ".03em" } }, ln))));
     return h("div", null,
-      lensHeader("DOCTRINE FLOW · CLASSIFICATION GATES", "Follows the legal test each case turns on. Every matter flows left to right and stops at the gate where it was actually decided: the swap test, the special gaming rule, or cleared, with dot color showing the outcome."),
+      lensHeader("DOCTRINE FLOW · CLASSIFICATION GATES", "Follows the legal test each case turns on. Each matter flows left to right and stops at the gate it turns on: the swap test, the special gaming rule, or — past both classification gates — a downstream consumer claim. Dot color is a separate axis showing the case's outcome, so a matter can sit in a later gate and still be pending (yellow)."),
       h("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Doctrine classification flow", style: { width: "100%", marginTop: "2px" } }, stations, flows, nodes),
       outcomeLegend());
   }
