@@ -511,28 +511,36 @@
     const gates = DOCTRINE_STATIONS;
     const byGate = { swap: [], special: [], cleared: [] };
     list.forEach((m) => { (byGate[m.gate] || byGate.special).push(m); });
-    // A gate can hold many matters (e.g. dozens in "special"), so we pack each
-    // column into a compact grid: fixed rows, wrapping into sub-columns. This
-    // guarantees every case is drawn — nothing clamps or hides underneath.
+    // Sort each gate's cases by outcome so the dots read as clean color bands
+    // (decided outcomes grouped at the top, the pending majority below).
+    const OUT_RANK = { Permitted: 0, Settled: 1, Dismissed: 2, Enjoined: 3, Pending: 4 };
+    const rank = (o) => (OUT_RANK[o] === undefined ? 9 : OUT_RANK[o]);
+    Object.keys(byGate).forEach((k) => byGate[k].sort((a, b) =>
+      rank(a.outcome) - rank(b.outcome) || a.caption.localeCompare(b.caption)));
+    // ONE column per gate, every case at a UNIQUE height. The old layout wrapped
+    // a gate into sub-columns, which put two cases on the same row (same y) so
+    // their flow lines stacked and looked like overlap. A single column per gate
+    // gives each line its own height — a clean, non-overlapping fan. Row spacing
+    // adapts to the busiest gate so even ~50 cases fit.
     const maxN = Math.max(1, byGate.swap.length, byGate.special.length, byGate.cleared.length);
-    const top = 70, rowGap = 16, subColGap = 15;
-    const rowsMax = Math.max(6, Math.min(maxN, 13));   // rows per sub-column
-    const W = 700, H = Math.max(360, top + (rowsMax - 1) * rowGap + 60);
-    const colX = (i) => 60 + i * ((W - 100) / (gates.length - 1));
+    const top = 64, botPad = 40;
+    const rowGap = Math.max(9, Math.min(16, Math.round(430 / Math.max(maxN - 1, 1))));
+    const colH = (maxN - 1) * rowGap;
+    const W = 720, H = top + colH + botPad;
+    const colX = (i) => 64 + i * ((W - 120) / (gates.length - 1));
     const flows = [], nodes = [];
-    const sx = colX(0), sy = H / 2;
+    const sx = colX(0), sy = top + colH / 2;
     list.forEach((m) => {
       const gi = GATE_ORDER.indexOf(m.gate) + 1;
       const arr = byGate[m.gate] || byGate.special, n = arr.length, idx = arr.indexOf(m);
-      const cols = Math.ceil(n / rowsMax);
-      const col = Math.floor(idx / rowsMax), row = idx % rowsMax;
-      const tx = colX(gi) + (col - (cols - 1) / 2) * subColGap;
-      const ty = top + row * rowGap;
+      const tx = colX(gi);
+      const ty = top + (colH - (n - 1) * rowGap) / 2 + idx * rowGap; // each gate column vertically centered
       const oc = OUT[m.outcome], selOn = S.selectedId === m.id;
-      flows.push(h("path", { key: "p" + m.id, d: `M ${sx} ${sy} C ${(sx + tx) / 2} ${sy}, ${(sx + tx) / 2} ${ty}, ${tx} ${ty}`, fill: "none", stroke: oc.c, strokeOpacity: selOn ? 0.9 : 0.28, strokeWidth: selOn ? 2.4 : 1.2 }));
+      const mx = (sx + tx) / 2;
+      flows.push(h("path", { key: "p" + m.id, d: `M ${sx} ${sy} C ${mx} ${sy}, ${mx} ${ty}, ${tx} ${ty}`, fill: "none", stroke: oc.c, strokeOpacity: selOn ? 0.95 : 0.2, strokeWidth: selOn ? 2.6 : 1 }));
       nodes.push(h("g", { key: "n" + m.id, className: "pmle-node", "data-sel": selOn ? "1" : null, style: { cursor: "pointer" },
         onMouseEnter: (e) => showTip(e, m.caption, [m.doctrinalQuestion]), onMouseMove: moveTip, onMouseLeave: hideTip, onClick: () => select(m.id) },
-        h("circle", { cx: tx, cy: ty, r: selOn ? 7 : 4.5, fill: oc.c, stroke: selOn ? "#fff" : "none", strokeWidth: 1.4 })));
+        h("circle", { cx: tx, cy: ty, r: selOn ? 6.5 : 3.7, fill: oc.c, stroke: selOn ? "#fff" : "none", strokeWidth: 1.4 })));
     });
     const stations = gates.map(([id, label], i) => h("g", { key: id },
       h("line", { x1: colX(i), y1: 36, x2: colX(i), y2: H - 24, stroke: "rgba(255,255,255,.06)", strokeDasharray: i === 0 ? "0" : "3 4" }),
