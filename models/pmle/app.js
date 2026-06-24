@@ -822,14 +822,22 @@
     const gatePool = DATA.filter((m) => m.gate === info.gate);
     const statePool = ST ? DATA.filter((m) => m.states.includes(ST)) : [];
 
-    // Predict by a score-weighted vote of the analogs' outcomes, with the
-    // chosen state's matters weighted extra.
+    // A hypothetical resolves to a TERMINAL outcome, so "Pending" is never a
+    // prediction. Vote only over comparable matters that have actually been
+    // DECIDED, score-weighted, with the chosen state weighted extra. If nothing
+    // comparable has resolved yet, the honest answer is "Unsettled", not Pending.
+    const DECIDED = { Permitted: 1, Enjoined: 1, Settled: 1, Dismissed: 1 };
+    const decidedAnalogs = scoredAll.filter(({ m }) => DECIDED[m.outcome]); // nearest-first
     const votes = {};
-    scored.forEach(({ m, sc }) => { votes[m.outcome] = (votes[m.outcome] || 0) + sc; });
-    statePool.forEach((m) => { votes[m.outcome] = (votes[m.outcome] || 0) + 2; });
-    let predicted = Object.keys(votes).sort((a, b) => votes[b] - votes[a])[0] || "Pending";
-    if (!hasAnalogs) predicted = "Pending";
-    const po = OUT[predicted] || OUT.Pending;
+    decidedAnalogs.forEach(({ m, sc }) => {
+      votes[m.outcome] = (votes[m.outcome] || 0) + sc + (ST && m.states.includes(ST) ? 2 : 0);
+    });
+    const unsettled = decidedAnalogs.length === 0;
+    const predicted = unsettled ? "Unsettled" : Object.keys(votes).sort((a, b) => votes[b] - votes[a])[0];
+    const po = unsettled
+      ? { c: "#FBBF24", g: "rgba(251,191,36,.09)", l: "?", label: "Unsettled" }
+      : (OUT[predicted] || OUT.Pending);
+    const headline = unsettled ? "Unsettled — no decided precedent yet" : predicted + " (" + po.l + ")";
 
     // Outcome / posture breakdowns over a pool.
     const OUT_ORDER = ["Permitted", "Pending", "Enjoined", "Settled", "Dismissed"];
@@ -841,15 +849,18 @@
       return parts.slice(0, -1).join(", ") + " and " + parts[parts.length - 1];
     };
 
-    // Predicted-posture rationale, grounded in the real counts.
+    // Predicted-outcome rationale, grounded in the DECIDED counts.
     let why;
-    if (!hasAnalogs) {
-      why = "No matter in the dataset matches this combination, so it reads as a question of first impression; expect contested, unsettled litigation until a court rules.";
+    if (unsettled) {
+      why = !hasAnalogs
+        ? "No matter in the dataset matches this combination, so it reads as a question of first impression; expect contested, unsettled litigation until a court rules."
+        : "The closest fact patterns are all still in litigation — none has resolved yet — so the outcome is genuinely unsettled. Expect contested litigation until a court rules.";
     } else {
       const bits = [];
-      if (cfPool.length) bits.push("Of the " + cfPool.length + " " + low(C) + " matter" + (cfPool.length > 1 ? "s" : "") + " in " + low(F) + " on record, " + breakdown(tally(cfPool, "outcome"), OUT_ORDER) + ".");
-      if (statePool.length) bits.push("In " + ST + ", the matter" + (statePool.length > 1 ? "s" : "") + " on record are " + breakdown(tally(statePool, "posture"), POST_PRIORITY, (k) => POSTURE[k].label) + ".");
-      bits.push("The closest analog, " + scored[0].m.caption + ", resolved " + low(scored[0].m.outcome) + ".");
+      bits.push("Among the " + decidedAnalogs.length + " comparable matter" + (decidedAnalogs.length > 1 ? "s" : "") + " that have actually resolved, " + breakdown(tally(decidedAnalogs.map((x) => x.m), "outcome"), OUT_ORDER) + ".");
+      bits.push("The nearest decided analog, " + decidedAnalogs[0].m.caption + ", was " + low(decidedAnalogs[0].m.outcome) + ".");
+      const stDecided = statePool.filter((m) => DECIDED[m.outcome]);
+      if (stDecided.length) bits.push("In " + ST + ", decided matters are " + breakdown(tally(stDecided, "outcome"), OUT_ORDER) + ".");
       why = bits.join(" ");
     }
 
@@ -858,10 +869,10 @@
 
     return h("div", { style: { animation: "pmleUp .35s ease" } },
       h("div", { style: { padding: "20px 22px", borderRadius: "14px", border: "1px solid " + po.c + "44", background: po.g } },
-        h("div", { style: { font: `500 10px ${MONO}`, letterSpacing: ".16em", color: "#9CA3AF" } }, "PREDICTED POSTURE"),
+        h("div", { style: { font: `500 10px ${MONO}`, letterSpacing: ".16em", color: "#9CA3AF" } }, "PREDICTED OUTCOME"),
         h("div", { style: { display: "flex", alignItems: "center", gap: "12px", marginTop: "10px" } },
           h("span", { style: { width: "14px", height: "14px", borderRadius: "50%", background: po.c, boxShadow: "0 0 0 5px " + po.c + "22" } }),
-          h("div", { style: { font: `800 26px ${SANS}`, color: "#F3F4F6", letterSpacing: "-.02em" } }, predicted + " (" + po.l + ")")),
+          h("div", { style: { font: `800 26px ${SANS}`, color: "#F3F4F6", letterSpacing: "-.02em" } }, headline)),
         h("div", { style: { font: `400 13px ${SANS}`, color: "#D1D5DB", marginTop: "10px", lineHeight: "1.55", maxWidth: "62ch" } }, why)),
       h("div", { style: { font: `500 10px ${MONO}`, letterSpacing: ".16em", color: "#6B7280", margin: "22px 0 10px" } }, "MOST ANALOGOUS MATTERS"),
       hasAnalogs ? h("div", { style: { display: "grid", gap: "9px" } }, scored.map(({ m, sc }) => {
@@ -881,7 +892,7 @@
       S.simReason ? h("div", { style: { padding: "12px 14px", animation: "pmleUp .2s ease" } },
         reasonP("Doctrinal route. ", ["With your hook (", em(H), "), the model routes a ", em(low(C)), " contract in ", em(low(F)), " through ", info.route, ". The controlling question is ", em(info.q(C, F)), "."]),
         gatePool.length ? reasonP("Where this gate has landed. ", ["Across the " + gatePool.length + " matter" + (gatePool.length > 1 ? "s" : "") + " in the dataset that turned on the ", em(info.gate), " question, outcomes are ", breakdown(tally(gatePool, "outcome"), OUT_ORDER), "."]) : null,
-        hasAnalogs ? reasonP("Closest precedent. ", ["The analogs above turned on the same question; the nearest, ", em(scored[0].m.caption), ", is ", em(low(scored[0].m.outcome)), ". ", statutes.length ? "Authorities in play include " + statutes.join("; ") + "." : ""]) : reasonP("Closest precedent. ", ["The dataset has no matter on this exact combination, so there is no controlling analog yet."]),
+        !unsettled ? reasonP("Closest decided precedent. ", ["Among comparable matters that have actually resolved, the nearest is ", em(decidedAnalogs[0].m.caption), ", which was ", em(low(decidedAnalogs[0].m.outcome)), ". ", statutes.length ? "Authorities in play include " + statutes.join("; ") + "." : ""]) : reasonP("Closest decided precedent. ", ["No comparable matter has resolved yet, so there is no controlling decided analog — the prediction is unsettled."]),
         ST ? reasonP("State trend. ", statePool.length
           ? ["In ", em(ST), ", the matter" + (statePool.length > 1 ? "s" : "") + " on record are ", breakdown(tally(statePool, "posture"), POST_PRIORITY, (k) => POSTURE[k].label), ", which weighs on the prediction."]
           : ["No matter is on record in ", em(ST), " yet, so this would be a question of first impression there."]) : null) : null,
