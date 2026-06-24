@@ -686,23 +686,85 @@
     return h("div", { style: { padding: "26px 26px 28px", maxWidth: "760px", margin: "0 auto" } }, frag);
   }
 
+  // Maps the chosen statutory hook to its doctrine gate + a description of the
+  // legal route and the controlling question, used to tailor the prediction.
+  const HOOK_INFO = {
+    "CEA swap regulation": {
+      gate: "swap",
+      route: "the CEA 'swap' / event-contract test: whether the position falls within the CFTC's exclusive jurisdiction so that federal registration preempts state law",
+      q: (c, f) => "whether " + c.toLowerCase() + " event contracts are 'swaps' under the Commodity Exchange Act (so a registered exchange may list them free of state interference)",
+    },
+    "State gaming / bucket-shop law": {
+      gate: "special",
+      route: "the special rule on enumerated / 'gaming' activities, weighed against CEA preemption of state wagering law",
+      q: (c, f) => "whether " + c.toLowerCase() + " contracts are unlicensed wagering the state may bar, or preempted exchange-traded contracts the state may not reach",
+    },
+    "Securities (Howey)": {
+      gate: "howey",
+      route: "the Howey investment-contract test",
+      q: (c, f) => "whether the position is an investment-contract security under Howey",
+    },
+    "Consumer protection / UDAP": {
+      gate: "cleared",
+      route: "a downstream consumer / loss-recovery theory that assumes the classification fight is already past",
+      q: (c, f) => "whether the platform is liable to users under state consumer-protection or gambling loss-recovery statutes",
+    },
+  };
+
   function simResult() {
-    const hookMap = { "CEA swap regulation": "CEA", "State gaming / bucket-shop law": "gaming", "Securities (Howey)": "Howey", "Consumer protection / UDAP": "UDAP" };
+    const C = S.simC, F = S.simF, ST = S.simS, H = S.simH;
+    const info = HOOK_INFO[H] || HOOK_INFO["State gaming / bucket-shop law"];
+    const low = (s) => String(s).toLowerCase();
+
+    // Score every real matter against the chosen route.
     const scored = DATA.map((m) => {
       let sc = 0;
-      if (m.contractType === S.simC) sc += 3;
-      if (m.forum === S.simF) sc += 3;
-      if (m.states.includes(S.simS)) sc += 2;
-      if (m.statutes.join(" ").includes(hookMap[S.simH]) || (m.gate === "special" && S.simH.includes("gaming"))) sc += 1;
+      if (m.contractType === C) sc += 3;
+      if (m.forum === F) sc += 3;
+      if (ST && m.states.includes(ST)) sc += 2;
+      if (m.gate === info.gate) sc += 2;
       return { m, sc };
-    }).filter((x) => x.sc > 0).sort((a, b) => b.sc - a.sc).slice(0, 3);
+    }).filter((x) => x.sc > 0).sort((a, b) => b.sc - a.sc).slice(0, 4);
+    const hasAnalogs = scored.length > 0;
 
-    let predicted = "Pending", why = "No close precedent: genuinely unsettled, expect contested litigation.";
-    if (S.simF === "State gaming regulator" && S.simC === "Sports") { predicted = "Enjoined"; why = "State gaming boards are actively asserting jurisdiction over sports contracts; absent a preemption ruling, in-state offerings are being halted."; }
-    else if (S.simH === "CEA swap regulation" && (S.simF === "Federal court" || S.simF === "CFTC") && (S.simC === "Election" || S.simC === "Economic indicator")) { predicted = "Permitted"; why = "Federal-exchange framework plus the special rule has, so far, sustained election and economic-indicator contracts against gaming challenges."; }
-    else if (S.simH === "Securities (Howey)" || S.simF === "SEC") { predicted = "Pending"; why = "Howey treatment of outcome shares is unresolved; inquiries are open but no clear ruling yet."; }
-    else if (scored.length) { const oc = scored[0].m.outcome; predicted = oc; why = "Driven by the closest analog in the dataset, which resolved " + oc.toLowerCase() + "."; }
+    // Relevant pools from the real data.
+    const cfPool = DATA.filter((m) => m.contractType === C && m.forum === F);
+    const gatePool = DATA.filter((m) => m.gate === info.gate);
+    const statePool = ST ? DATA.filter((m) => m.states.includes(ST)) : [];
+
+    // Predict by a score-weighted vote of the analogs' outcomes, with the
+    // chosen state's matters weighted extra.
+    const votes = {};
+    scored.forEach(({ m, sc }) => { votes[m.outcome] = (votes[m.outcome] || 0) + sc; });
+    statePool.forEach((m) => { votes[m.outcome] = (votes[m.outcome] || 0) + 2; });
+    let predicted = Object.keys(votes).sort((a, b) => votes[b] - votes[a])[0] || "Pending";
+    if (!hasAnalogs) predicted = "Pending";
     const po = OUT[predicted] || OUT.Pending;
+
+    // Outcome / posture breakdowns over a pool.
+    const OUT_ORDER = ["Permitted", "Pending", "Enjoined", "Settled", "Dismissed"];
+    const tally = (pool, key) => { const t = {}; pool.forEach((m) => { t[m[key]] = (t[m[key]] || 0) + 1; }); return t; };
+    const breakdown = (t, order, labelFor) => {
+      const parts = order.filter((k) => t[k]).map((k) => t[k] + " " + low(labelFor ? labelFor(k) : k));
+      if (!parts.length) return "none decided yet";
+      if (parts.length === 1) return parts[0];
+      return parts.slice(0, -1).join(", ") + " and " + parts[parts.length - 1];
+    };
+
+    // Predicted-posture rationale, grounded in the real counts.
+    let why;
+    if (!hasAnalogs) {
+      why = "No matter in the dataset matches this combination, so it reads as a question of first impression; expect contested, unsettled litigation until a court rules.";
+    } else {
+      const bits = [];
+      if (cfPool.length) bits.push("Of the " + cfPool.length + " " + low(C) + " matter" + (cfPool.length > 1 ? "s" : "") + " in " + low(F) + " on record, " + breakdown(tally(cfPool, "outcome"), OUT_ORDER) + ".");
+      if (statePool.length) bits.push("In " + ST + ", the matter" + (statePool.length > 1 ? "s" : "") + " on record are " + breakdown(tally(statePool, "posture"), POST_PRIORITY, (k) => POSTURE[k].label) + ".");
+      bits.push("The closest analog, " + scored[0].m.caption + ", resolved " + low(scored[0].m.outcome) + ".");
+      why = bits.join(" ");
+    }
+
+    // Authorities actually cited by the closest analogs.
+    const statutes = [...new Set(scored.flatMap(({ m }) => m.statutes))].slice(0, 5);
 
     return h("div", { style: { animation: "pmleUp .35s ease" } },
       h("div", { style: { padding: "20px 22px", borderRadius: "14px", border: "1px solid " + po.c + "44", background: po.g } },
@@ -712,7 +774,7 @@
           h("div", { style: { font: `800 26px ${SANS}`, color: "#F3F4F6", letterSpacing: "-.02em" } }, predicted + " (" + po.l + ")")),
         h("div", { style: { font: `400 13px ${SANS}`, color: "#D1D5DB", marginTop: "10px", lineHeight: "1.55", maxWidth: "62ch" } }, why)),
       h("div", { style: { font: `500 10px ${MONO}`, letterSpacing: ".16em", color: "#6B7280", margin: "22px 0 10px" } }, "MOST ANALOGOUS MATTERS"),
-      scored.length ? h("div", { style: { display: "grid", gap: "9px" } }, scored.map(({ m, sc }) => {
+      hasAnalogs ? h("div", { style: { display: "grid", gap: "9px" } }, scored.map(({ m, sc }) => {
         const oc = OUT[m.outcome];
         return h("button", { key: m.id, onClick: () => set({ appMode: "explore", selectedId: m.id }),
           style: { textAlign: "left", width: "100%", padding: "13px 15px", borderRadius: "11px", border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.02)", cursor: "pointer" } },
@@ -722,17 +784,24 @@
             h("div", { style: { font: `500 10px ${MONO}`, color: "#6B7280" } }, "match " + sc)),
           h("div", { style: { font: `400 12px ${SANS}`, color: "#9CA3AF", marginTop: "6px", paddingLeft: "19px", lineHeight: "1.5" } },
             m.contractType + " · " + m.forum + (m.states.length ? " · " + m.states.join(",") : "") + " · " + oc.label));
-      })) : h("div", { style: { font: `400 12.5px ${SANS}`, color: "#6B7280", padding: "8px 0" } }, "No analogous matters in the sample set; this fact pattern is novel."),
+      })) : h("div", { style: { font: `400 12.5px ${SANS}`, color: "#6B7280", padding: "8px 0" } }, "No matter in the dataset shares this combination yet, so this fact pattern is novel."),
       h("button", { onClick: () => set({ simReason: !S.simReason }), "aria-expanded": S.simReason ? "true" : "false",
         style: { marginTop: "12px", width: "100%", display: "flex", gap: "8px", padding: "10px 12px", borderRadius: "9px", cursor: "pointer", border: "1px solid " + (S.simReason ? "rgba(52,211,153,.35)" : "rgba(255,255,255,.07)"), background: S.simReason ? "rgba(52,211,153,.06)" : "transparent", color: "#6EE7B7", font: `600 10.5px ${MONO}`, letterSpacing: ".1em" } },
         h("span", null, S.simReason ? "−" : "+"), " CASE LAW & REASONING"),
-      S.simReason ? h("div", { style: { padding: "12px 14px", font: `400 12.5px ${SANS}`, color: "#9CA3AF", lineHeight: "1.6", animation: "pmleUp .2s ease" } },
-        "The hypothetical routes through the swap test, then the special rule on enumerated / gaming activities, then Howey. With your hook (",
-        h("span", { style: { color: "#A7F3D0" } }, S.simH), "), the controlling question is whether ",
-        h("span", { style: { color: "#A7F3D0" } }, String(S.simC).toLowerCase()), " contracts in a ", h("span", { style: { color: "#A7F3D0" } }, String(S.simF).toLowerCase()),
-        " clear that gate. The analogs above are the matters that turned on the same question. ",
-        h("span", { style: { color: "#6B7280" } }, "(Sample reasoning over placeholder data.)")) : null);
+      S.simReason ? h("div", { style: { padding: "12px 14px", animation: "pmleUp .2s ease" } },
+        reasonP("Doctrinal route. ", ["With your hook (", em(H), "), the model routes a ", em(low(C)), " contract in ", em(low(F)), " through ", info.route, ". The controlling question is ", em(info.q(C, F)), "."]),
+        gatePool.length ? reasonP("Where this gate has landed. ", ["Across the " + gatePool.length + " matter" + (gatePool.length > 1 ? "s" : "") + " in the dataset that turned on the ", em(info.gate), " question, outcomes are ", breakdown(tally(gatePool, "outcome"), OUT_ORDER), "."]) : null,
+        hasAnalogs ? reasonP("Closest precedent. ", ["The analogs above turned on the same question; the nearest, ", em(scored[0].m.caption), ", is ", em(low(scored[0].m.outcome)), ". ", statutes.length ? "Authorities in play include " + statutes.join("; ") + "." : ""]) : reasonP("Closest precedent. ", ["The dataset has no matter on this exact combination, so there is no controlling analog yet."]),
+        ST ? reasonP("State trend. ", statePool.length
+          ? ["In ", em(ST), ", the matter" + (statePool.length > 1 ? "s" : "") + " on record are ", breakdown(tally(statePool, "posture"), POST_PRIORITY, (k) => POSTURE[k].label), ", which weighs on the prediction."]
+          : ["No matter is on record in ", em(ST), " yet, so this would be a question of first impression there."]) : null) : null);
   }
+  // Renders one reasoning paragraph: a mono lead-in label + body fragments.
+  function reasonP(label, frags) {
+    return h("div", { style: { font: `400 12.5px ${SANS}`, color: "#9CA3AF", lineHeight: "1.6", marginBottom: "10px" } },
+      h("span", { style: { font: `600 11px ${MONO}`, letterSpacing: ".06em", color: "#6EE7B7" } }, label), frags);
+  }
+  function em(t) { return h("span", { style: { color: "#A7F3D0" } }, t); }
 
   /* ---------- overlays ---------- */
   function coach() {
