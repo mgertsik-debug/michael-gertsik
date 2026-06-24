@@ -426,7 +426,7 @@
   function matrixLens(list) {
     const max = Math.max(1, ...CTYPES.flatMap((ct) => FORUMS.map((f) => list.filter((m) => m.contractType === ct && m.forum === f).length)));
     return h("div", null,
-      lensHeader("HEAT GRID · CONTRACT × FORUM", "Crosses the type of contract against the venue hearing the dispute; each cell counts the matters in that pairing, and darker means more. It shows where the fights cluster. Click a cell to filter to those cases."),
+      lensHeader("HEAT GRID · CONTRACT × FORUM", "Crosses the type of contract against the venue hearing the dispute; each cell counts the matters in that pairing, and the hotter it burns — brighter, with a stronger glow — the more cases sit there. Hue tilts green where they're being permitted, red where they're enjoined. It shows where the fights cluster. Click a cell to filter to those cases."),
       h("div", { style: { overflowX: "auto", marginTop: "4px" } },
         h("table", { style: { borderCollapse: "separate", borderSpacing: "6px", margin: "0 auto" } },
           h("thead", null, h("tr", null, h("th", null), FORUMS.map((f) => h("th", { key: f, style: { padding: "0 4px 8px", font: `500 9.5px ${MONO}`, color: "#9CA3AF", letterSpacing: ".05em", verticalAlign: "bottom", maxWidth: "84px" } }, f)))),
@@ -437,14 +437,21 @@
               const n = cell.length, t = n / max, on = n > 0;
               const wins = cell.filter((m) => m.outcome === "Permitted").length, loses = cell.filter((m) => m.outcome === "Enjoined").length;
               const tilt = wins > loses ? "#34D399" : loses > wins ? "#F87171" : "#FBBF24";
+              const rgb = tilt === "#34D399" ? "52,211,153" : tilt === "#F87171" ? "248,113,113" : "251,191,36";
+              // Thermal intensity: a hot cell glows outward + inward and the
+              // count itself radiates, so where the cases pile up visibly burns.
+              const heat = Math.pow(t, 0.72);            // ease so mid counts already read warm
+              const glow = Math.round(6 + heat * 30), inner = Math.round(9 + heat * 24);
               return h("td", { key: f, onClick: on ? () => { set({ contractType: [ct], forum: [f] }); if (cell[0]) select(cell[0].id); } : null,
                 role: on ? "button" : null, "aria-label": on ? `${ct} in ${f}, ${n} matter${n > 1 ? "s" : ""}` : null,
                 className: on ? "pmle-mcell" : "",
                 style: { width: "74px", height: "54px", borderRadius: "9px", cursor: on ? "pointer" : "default", textAlign: "center", verticalAlign: "middle",
-                  background: on ? `rgba(52,211,153,${0.08 + t * 0.34})` : "rgba(255,255,255,.015)",
-                  border: "1px solid " + (on ? tilt + "66" : "rgba(255,255,255,.04)"), transition: "transform .15s" } },
-                on ? h("div", null, h("div", { style: { font: `700 17px ${MONO}`, color: "#ECFDF5" } }, n),
-                  h("div", { style: { width: "18px", height: "3px", borderRadius: "2px", background: tilt, margin: "3px auto 0" } })) : h("span", { style: { color: "#374151" } }, "·"));
+                  background: on ? `rgba(${rgb},${(0.10 + heat * 0.5).toFixed(3)})` : "rgba(255,255,255,.015)",
+                  border: "1px solid " + (on ? `rgba(${rgb},${(0.35 + heat * 0.55).toFixed(2)})` : "rgba(255,255,255,.04)"),
+                  boxShadow: on ? `0 0 ${glow}px rgba(${rgb},${(0.20 + heat * 0.5).toFixed(3)}), inset 0 0 ${inner}px rgba(${rgb},${(0.10 + heat * 0.42).toFixed(3)})` : "none",
+                  transition: "transform .15s, box-shadow .25s, background .25s" } },
+                on ? h("div", null, h("div", { style: { font: `700 17px ${MONO}`, color: "#F0FDF4", textShadow: `0 0 ${Math.round(4 + heat * 16)}px rgba(${rgb},${(0.45 + heat * 0.45).toFixed(2)})` } }, n),
+                  h("div", { style: { width: "18px", height: "3px", borderRadius: "2px", background: tilt, margin: "4px auto 0", boxShadow: `0 0 ${Math.round(4 + heat * 8)}px ${tilt}` } })) : h("span", { style: { color: "#374151" } }, "·"));
             })))))));
   }
 
