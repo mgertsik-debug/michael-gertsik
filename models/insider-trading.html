@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/models/insider/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#07100D;color:#E5E7EB;-webkit-font-smoothing:antialiased}
+  ::selection{background:rgba(52,211,153,.25)}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:4px;background:#1F2A26;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#34D399;cursor:pointer;box-shadow:0 0 8px rgba(52,211,153,.6);border:2px solid #07100D}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#34D399;cursor:pointer;border:2px solid #07100D}
+  [data-scroll]::-webkit-scrollbar{height:8px;width:8px}
+  [data-scroll]::-webkit-scrollbar-thumb{background:#1F2A26;border-radius:8px}
+  button:focus-visible,[role=button]:focus-visible{outline:2px solid #34D399;outline-offset:2px}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes mpulse{0%{transform:scale(1);opacity:.5}70%{transform:scale(2.4);opacity:0}100%{opacity:0}}
+  @media (max-width:900px){ [data-split]{grid-template-columns:1fr !important} [data-board]{grid-template-columns:1fr !important} }
+  @media (max-width:560px){ [data-tabbar]{overflow-x:auto !important} [data-dutysplit]{grid-template-columns:1fr !important} }
+  @media (prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} }
+</style>
+</helmet>
+<div style="min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%, rgba(52,211,153,.06), transparent 60%), #07100D;font-family:'Inter', sans-serif;padding:26px 16px 40px">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="border:1px solid #1F2A26;border-radius:14px;background:#0F1513;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5)">
+
+      <!-- browser chrome -->
+      <div style="display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid #1F2A26;background:#0C1210">
+        <div style="display:flex;gap:7px">
+          <span style="width:11px;height:11px;border-radius:50%;background:#F87171"></span>
+          <span style="width:11px;height:11px;border-radius:50%;background:#FBBF24"></span>
+          <span style="width:11px;height:11px;border-radius:50%;background:#34D399"></span>
+        </div>
+        <div style="flex:1;display:flex;justify-content:center">
+          <div style="display:flex;align-items:center;gap:8px;padding:5px 16px;border-radius:8px;background:#07100D;border:1px solid #1F2A26;font-family:'JetBrains Mono', monospace;font-size:12px;color:#9CA3AF">
+            <span style="width:6px;height:6px;border-radius:50%;background:#34D399"></span>insider-trading.model
+          </div>
+        </div>
+        <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#3f4b46">MODEL 04</div>
+      </div>
+
+      <div style="padding:30px 30px 26px">
+        <!-- header -->
+        <div style="font-family:'JetBrains Mono', monospace;font-size:11.5px;letter-spacing:.18em;color:#34D399;margin-bottom:14px">INSIDER TRADING &middot; PREDICTION MARKETS</div>
+        <h1 style="margin:0 0 14px;font-size:33px;font-weight:700;letter-spacing:-.02em;line-height:1.08;max-width:760px">Insider Trading on Prediction Markets</h1>
+        <p style="margin:0;max-width:760px;font-size:15px;line-height:1.62;color:#9CA3AF">Assemble a fact pattern and watch every applicable legal regime evaluate it in parallel. The teaching payoff is seeing identical facts light up differently across regimes, and how anonymous DCM counterparties break the classical theory so misappropriation and the government-information rule carry the load. This is educational analysis, not legal advice; pending cases involve defendants presumed innocent.</p>
+
+        <!-- tabs -->
+        <div data-tabbar data-scroll style="display:flex;gap:8px;margin:26px 0 24px;padding-bottom:6px;border-bottom:1px solid #1F2A26;overflow-x:visible">
+          <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+            <button type="button" aria-pressed="{{ t.active }}" style="{{ t.style }}" onClick="{{ t.onClick }}">{{ t.label }}</button>
+          </sc-for>
+        </div>
+
+        <!-- ============ TAB 1: ENGINE ============ -->
+        <sc-if value="{{ isEngine }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div data-split style="display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start">
+
+              <!-- left: fact builder -->
+              <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:18px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#9CA3AF">FACT-PATTERN BUILDER</div>
+                </div>
+                <sc-for list="{{ engine.controls }}" as="ctl" hint-placeholder-count="6">
+                  <div style="margin-bottom:16px">
+                    <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">{{ ctl.label }}</div>
+                    <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">{{ ctl.helper }}</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px">
+                      <sc-for list="{{ ctl.opts }}" as="o" hint-placeholder-count="4">
+                        <button type="button" aria-pressed="{{ o.active }}" style="{{ o.style }}" onClick="{{ o.onSelect }}">{{ o.lab }}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+                <div style="margin-bottom:18px">
+                  <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:8px">Concealment</div>
+                  <button type="button" aria-pressed="{{ engine.classicalDark }}" style="{{ engine.concealStyle }}" onClick="{{ engine.onConceal }}">Concealed proceeds (crypto / deletion)</button>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;padding-top:16px;border-top:1px solid #1F2A26">
+                  <button type="button" style="flex:1;min-width:120px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onVanDyke }}">Load Van Dyke</button>
+                  <button type="button" style="flex:1;min-width:120px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onSpagnuolo }}">Load Spagnuolo</button>
+                  <button type="button" style="width:100%;padding:8px;border-radius:8px;border:1px solid #1F2A26;background:transparent;color:#9CA3AF;font-size:11px;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onReset }}">Reset to clean baseline</button>
+                </div>
+              </div>
+
+              <!-- right: verdict board -->
+              <div>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+                  <sc-for list="{{ engine.statCards }}" as="st" hint-placeholder-count="2">
+                    <div style="flex:1;min-width:150px;background:#0C1210;border:1px solid {{ st.border }};border-radius:10px;padding:13px 16px">
+                      <div style="font-size:30px;font-weight:700;font-family:'JetBrains Mono', monospace;line-height:1;color:{{ st.color }}">{{ st.n }}</div>
+                      <div style="font-size:11.5px;color:#9CA3AF;margin-top:3px">{{ st.label }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <div style="{{ engine.classicalStyle }};margin-bottom:16px">
+                  <span style="font-size:18px;line-height:1;color:{{ engine.classicalColor }}">&#9211;</span>
+                  <div style="font-size:12px;line-height:1.5;color:#cdd3d0">{{ engine.classicalText }}</div>
+                </div>
+
+                <div data-board style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                  <sc-for list="{{ engine.regimes }}" as="r" hint-placeholder-count="9">
+                    <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:11px;padding:15px 16px;display:flex;flex-direction:column;gap:9px">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+                        <div>
+                          <div style="font-size:14px;font-weight:600;color:#E5E7EB">{{ r.name }}</div>
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772;margin-top:2px">{{ r.tag }}</div>
+                        </div>
+                        <span style="{{ r.chipStyle }}"><span>{{ r.mark }}</span>{{ r.statusLabel }}</span>
+                      </div>
+                      <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#9CA3AF;line-height:1.45">{{ r.authority }}</div>
+                      <div style="font-size:11.5px;color:#cdd3d0;line-height:1.45;padding:7px 10px;border-radius:7px;background:rgba(255,255,255,.02);border:1px solid #18221e">{{ r.element }}</div>
+                      <button type="button" aria-expanded="{{ r.open }}" style="align-self:flex-start;background:none;border:none;color:#34D399;font-size:11px;font-weight:600;cursor:pointer;padding:0;font-family:'JetBrains Mono', monospace" onClick="{{ r.onToggle }}">why &rsaquo;</button>
+                      <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
+                        <div style="font-size:12px;color:#9CA3AF;line-height:1.55;padding-top:2px;border-top:1px solid #18221e">{{ r.why }}</div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ============ TAB 2: SURVEILLANCE ============ -->
+        <sc-if value="{{ isSurv }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div data-split style="display:grid;grid-template-columns:230px 1fr;gap:22px;align-items:start">
+              <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:16px">
+                <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:12px">SCENARIO</div>
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <sc-for list="{{ surveillance.scenarios }}" as="sc" hint-placeholder-count="6">
+                    <button type="button" aria-pressed="{{ sc.active }}" style="{{ sc.style }}" onClick="{{ sc.onSelect }}">{{ sc.label }}</button>
+                  </sc-for>
+                </div>
+                <div style="margin-top:16px;padding-top:14px;border-top:1px solid #1F2A26;font-size:11px;color:#6b7772;line-height:1.5">Framed from the detection side. Abstract and illustrative, not an evasion guide.</div>
+              </div>
+
+              <div>
+                <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:6px">
+                  <div>
+                    <div style="font-size:17px;font-weight:600;color:#E5E7EB">{{ surveillance.label }}</div>
+                    <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#FBBF24;margin-top:3px">{{ surveillance.fingerprint }}</div>
+                  </div>
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#9CA3AF">{{ surveillance.authority }}</div>
+                </div>
+                <div style="background:#0A0E0D;border:1px solid #1F2A26;border-radius:12px;padding:14px 14px 8px">
+                  {{ surveillance.chartEl }}
+                  <div style="display:flex;align-items:center;gap:12px;padding:8px 4px 4px">
+                    <span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772">SCRUB</span>
+                    <input type="range" min="0" max="100" value="{{ surveillance.scrub }}" oninput="{{ surveillance.onScrub }}" aria-label="Scrub timeline" style="flex:1">
+                    <span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#34D399;min-width:34px;text-align:right">{{ surveillance.scrub }}%</span>
+                  </div>
+                </div>
+
+                <div data-board style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+                  <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:11px;padding:15px">
+                    <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;letter-spacing:.1em;color:#9CA3AF;margin-bottom:12px">SURVEILLANCE READOUT</div>
+                    <div style="display:flex;flex-direction:column;gap:11px">
+                      <sc-for list="{{ surveillance.metrics }}" as="m" hint-placeholder-count="5">
+                        <div style="display:flex;gap:10px;align-items:flex-start">
+                          <span style="flex-shrink:0;width:7px;height:7px;border-radius:50%;margin-top:5px;background:{{ m.dot }}"></span>
+                          <div>
+                            <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><span style="font-size:12.5px;font-weight:600;color:#E5E7EB">{{ m.k }}</span><span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:{{ m.dot }}">{{ m.v }}</span></div>
+                            <div style="font-size:11px;color:#9CA3AF;line-height:1.4;margin-top:2px">{{ m.note }}</div>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.28);border-radius:11px;padding:15px">
+                    <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;letter-spacing:.1em;color:#FBBF24;margin-bottom:10px">THE LEGAL GAP &middot; ANOMALOUS &ne; ILLEGAL</div>
+                    <div style="font-size:13px;color:#E5E7EB;line-height:1.6">{{ surveillance.legalGap }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ============ TAB 3: CASE FILES ============ -->
+        <sc-if value="{{ isCases }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div data-split style="display:grid;grid-template-columns:260px 1fr;gap:22px;align-items:start">
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ cases.list }}" as="c" hint-placeholder-count="4">
+                  <button type="button" aria-pressed="{{ c.active }}" style="{{ c.style }};text-align:left" onClick="{{ c.onSelect }}">
+                    <div style="font-size:13px;font-weight:600;color:{{ c.labelColor }}">{{ c.label }}</div>
+                    <div style="font-size:11px;color:#6b7772;margin-top:2px">{{ c.defendant }}</div>
+                  </button>
+                </sc-for>
+              </div>
+
+              <div>
+                <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:18px 20px;margin-bottom:14px">
+                  <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-start">
+                    <div>
+                      <h2 style="margin:0;font-size:20px;font-weight:700">{{ cases.current.label }}</h2>
+                      <div style="font-size:13px;color:#9CA3AF;margin-top:3px">{{ cases.current.defendant }} &middot; {{ cases.current.meta }}</div>
+                    </div>
+                    <div style="text-align:right">
+                      <div style="font-size:24px;font-weight:700;color:#34D399;font-family:'JetBrains Mono', monospace;line-height:1">{{ cases.current.profitFmt }}</div>
+                      <div style="font-size:10.5px;color:#6b7772;margin-top:2px">alleged amount at issue</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 13px;font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#9CA3AF">
+                    <span style="padding:3px 9px;border-radius:6px;background:#07100D;border:1px solid #1F2A26">{{ cases.current.court }}</span>
+                    <span style="padding:3px 9px;border-radius:6px;background:#07100D;border:1px solid #1F2A26">{{ cases.current.docketCrim }}</span>
+                    <span style="padding:3px 9px;border-radius:6px;background:#07100D;border:1px solid #1F2A26">{{ cases.current.filed }}</span>
+                  </div>
+                  <p style="margin:0 0 10px;font-size:13px;line-height:1.6;color:#cdd3d0">{{ cases.current.summary }}</p>
+                  <div style="font-size:11.5px;color:#34D399;line-height:1.5;font-style:italic">{{ cases.current.first }}</div>
+                </div>
+
+                <div style="background:#0A0E0D;border:1px solid #1F2A26;border-radius:12px;padding:14px 16px;margin-bottom:14px">
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;letter-spacing:.1em;color:#9CA3AF;margin-bottom:6px">TIMELINE</div>
+                  {{ cases.current.trackEl }}
+                </div>
+
+                <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;letter-spacing:.1em;color:#9CA3AF;margin:18px 0 11px">CHARGE SHEET &middot; ALL ALLEGED</div>
+                <div style="display:flex;flex-direction:column;gap:13px">
+                  <sc-for list="{{ cases.current.charges }}" as="ch" hint-placeholder-count="4">
+                    <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:11px;padding:16px 18px">
+                      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:flex-start;margin-bottom:11px">
+                        <div>
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#34D399">{{ ch.statute }}</div>
+                          <div style="font-size:14px;font-weight:600;margin-top:2px">{{ ch.name }}</div>
+                        </div>
+                        <span style="{{ ch.chipStyle }}">{{ ch.statusLabel }}</span>
+                      </div>
+                      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:11px">
+                        <sc-for list="{{ ch.elements }}" as="el" hint-placeholder-count="3">
+                          <div style="display:flex;gap:9px;align-items:center"><span style="{{ el.dotStyle }}">{{ el.mark }}</span><span style="font-size:12.5px;color:#cdd3d0">{{ el.text }}</span></div>
+                        </sc-for>
+                      </div>
+                      <div style="font-size:12px;color:#9CA3AF;line-height:1.5;margin-bottom:9px"><span style="color:#6b7772;font-family:'JetBrains Mono', monospace;font-size:10px">ALLEGED&nbsp;</span>{{ ch.facts }}</div>
+                      <div style="font-size:12px;color:#cdd3d0;line-height:1.5;padding:9px 11px;border-radius:8px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2)"><span style="color:#FBBF24;font-family:'JetBrains Mono', monospace;font-size:10px">DEFENSE&nbsp;</span>{{ ch.defense }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772">
+                  <sc-for list="{{ cases.current.sources }}" as="src" hint-placeholder-count="1">
+                    <span style="padding:4px 10px;border-radius:6px;background:#0C1210;border:1px solid #1F2A26">source: {{ src.0 }} &middot; {{ src.1 }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ============ TAB 4: DUTY & MATERIALITY ============ -->
+        <sc-if value="{{ isDuty }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div data-dutysplit style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">
+
+              <!-- duty map -->
+              <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:18px">
+                <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:4px">DUTY MAP</div>
+                <p style="margin:0 0 14px;font-size:12px;color:#9CA3AF;line-height:1.5">Pick a trader and a source. The edge resolves whether a duty of trust or confidence exists, and from where.</p>
+                <div style="background:#0A0E0D;border:1px solid #1F2A26;border-radius:10px;padding:8px;margin-bottom:14px">{{ duty.graphEl }}</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+                  <div>
+                    <div style="font-size:11px;color:#6b7772;font-family:'JetBrains Mono', monospace;margin-bottom:7px">TRADER</div>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <sc-for list="{{ duty.traderBtns }}" as="t" hint-placeholder-count="5">
+                        <button type="button" aria-pressed="{{ t.active }}" style="{{ t.style }};text-align:left" onClick="{{ t.onSelect }}">{{ t.l }}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div>
+                    <div style="font-size:11px;color:#6b7772;font-family:'JetBrains Mono', monospace;margin-bottom:7px">SOURCE</div>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <sc-for list="{{ duty.sourceBtns }}" as="sr" hint-placeholder-count="5">
+                        <button type="button" aria-pressed="{{ sr.active }}" style="{{ sr.style }};text-align:left" onClick="{{ sr.onSelect }}">{{ sr.l }}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+                <div style="padding-top:14px;border-top:1px solid #1F2A26">
+                  <span style="{{ duty.verdictStyle }}">{{ duty.verdict }}</span>
+                  <p style="margin:11px 0 0;font-size:12.5px;color:#cdd3d0;line-height:1.6">{{ duty.verdictAuth }}</p>
+                </div>
+              </div>
+
+              <!-- materiality calibrator -->
+              <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:18px">
+                <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:4px">MATERIALITY &amp; NONPUBLIC CALIBRATOR</div>
+                <p style="margin:0 0 14px;font-size:12px;color:#9CA3AF;line-height:1.5">Drag the marker. The no-parity rule always holds: merely possessing better lawful information is not a violation.</p>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+                  <span style="{{ duty.zoneStyle }}">{{ duty.zoneLabel }}</span>
+                </div>
+                <div style="background:#0A0E0D;border:1px solid #1F2A26;border-radius:10px;padding:6px;margin-bottom:14px;max-width:360px;margin-left:auto;margin-right:auto">{{ duty.gridEl }}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+                  <span style="font-size:11px;color:#6b7772;font-family:'JetBrains Mono', monospace;align-self:center">info type</span>
+                  <sc-for list="{{ duty.matInfoBtns }}" as="b" hint-placeholder-count="3">
+                    <button type="button" aria-pressed="{{ b.active }}" style="{{ b.style }}" onClick="{{ b.onSelect }}">{{ b.l }}</button>
+                  </sc-for>
+                  <button type="button" aria-pressed="{{ duty.matPublic }}" style="{{ duty.publicStyle }}" onClick="{{ duty.onPublic }}">Publicly available</button>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+                  <span style="font-size:11px;color:#6b7772;font-family:'JetBrains Mono', monospace;align-self:center">presets</span>
+                  <sc-for list="{{ duty.presetBtns }}" as="p" hint-placeholder-count="3">
+                    <button type="button" aria-pressed="{{ p.active }}" style="{{ p.style }}" onClick="{{ p.onSelect }}">{{ p.l }}</button>
+                  </sc-for>
+                </div>
+                <div style="padding-top:13px;border-top:1px solid #1F2A26">
+                  <p style="margin:0;font-size:12.5px;color:#cdd3d0;line-height:1.6">{{ duty.zoneNote }}</p>
+                  <sc-if value="{{ duty.isIrClerk }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:11px;font-size:12px;color:#FBBF24;line-height:1.55;padding:10px 12px;border-radius:8px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25)">The IR-clerk puzzle: a not-yet-public earnings script is decisive for a "how many words" contract yet would never move the company stock. Decisive for the event, immaterial under traditional doctrine. This is the cleanest illustration of why prediction markets strain materiality, and why it is genuinely unsettled.</div>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ============ TAB 5: TRACKER ============ -->
+        <sc-if value="{{ isTracker }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+              <button type="button" style="padding:7px 14px;border-radius:8px;border:1px solid #1F2A26;background:#0C1210;color:#9CA3AF;font-size:11.5px;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ tracker.onSort }}">Sort: {{ tracker.sortLabel }}</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:22px">
+              <sc-for list="{{ tracker.sections }}" as="sec" hint-placeholder-count="3">
+                <div>
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.1em;color:#34D399;margin-bottom:10px">{{ sec.title }}</div>
+                  <div style="border:1px solid #1F2A26;border-radius:11px;overflow:hidden">
+                    <sc-for list="{{ sec.rows }}" as="row" hint-placeholder-count="4">
+                      <div style="display:grid;grid-template-columns:108px 1fr auto;gap:14px;align-items:center;padding:13px 16px;border-bottom:1px solid #161f1b;background:#0C1210">
+                        <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#9CA3AF">{{ row.date }}</div>
+                        <div>
+                          <div style="font-size:13px;font-weight:600;color:#E5E7EB">{{ row.actors }}</div>
+                          <div style="font-size:12px;color:#9CA3AF;line-height:1.45;margin-top:2px">{{ row.sum }}</div>
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772;margin-top:4px">source: {{ row.src }}</div>
+                        </div>
+                        <span style="{{ row.chipStyle }}">{{ row.status }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <!-- footer disclaimer -->
+      <div style="padding:16px 30px;border-top:1px solid #1F2A26;background:#0C1210;font-size:11px;line-height:1.6;color:#6b7772">
+        <strong style="color:#9CA3AF;font-weight:600">Disclaimer.</strong> Educational and analytical tool, not legal advice and not investment advice. It discusses pending criminal matters; every allegation is "alleged" and all defendants are presumed innocent. Where the law is genuinely unresolved it is marked unsettled (amber) rather than answered. Statuses for legislation are "introduced, verify current status." Conceptually cross-links Model 02 (the swap-vs-security gate) and Model 03 (the litigation that decides whether Rule 180.1 applies).
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:880},&quot;defaultTab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;engine&quot;,&quot;surveillance&quot;,&quot;cases&quot;,&quot;duty&quot;,&quot;tracker&quot;],&quot;default&quot;:&quot;engine&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;expandAllRegimes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+// =====================================================================
+//  MODEL 04 — INSIDER TRADING ON PREDICTION MARKETS
+//  Single source-of-truth data + evaluation logic.
+//  Seeded ONLY from the Vetted Facts appendix (June 24 2026).
+//  Anything genuinely unknown is marked "verify". Extend the DATA_*
+//  blocks below to add cases / statutes / bills later.
+// =====================================================================
+
+// --- small count-up element (motion: respects reduced-motion) --------
+class CountUp extends React.Component {
+  state = { v: 0 };
+  componentDidMount(){ this.run(); }
+  componentDidUpdate(p){ if (p.value !== this.props.value) this.run(); }
+  componentWillUnmount(){ cancelAnimationFrame(this.raf); }
+  run(){
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce){ this.setState({ v: this.props.value }); return; }
+    const dur = 650, start = performance.now(), from = this.state.v, to = this.props.value;
+    const tick = (now)=>{ let k = Math.min(1,(now-start)/dur); k = 1-Math.pow(1-k,3);
+      this.setState({ v: from + (to-from)*k }); if (k<1) this.raf = requestAnimationFrame(tick); };
+    this.raf = requestAnimationFrame(tick);
+  }
+  render(){ const f = this.props.format || (x=>Math.round(x).toString()); return React.createElement('span', null, f(this.state.v)); }
+}
+
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      activeTab: null,            // falls back to props.defaultTab
+      // --- Liability Engine inputs ---
+      who:'government', source:'classified', duty:'govt',
+      instrument:'geopolitical', venue:'polymarket', conduct:'mnpi', concealed:true,
+      openRegimes:{},
+      // --- Surveillance ---
+      scn:'vandyke', scrub:1,
+      // --- Case files ---
+      caseId:'vandyke',
+      // --- Duty & materiality ---
+      dutyTrader:'government', dutySource:'classified',
+      matX:0.82, matY:0.74, matPublic:false, matInfo:'govt', matPreset:'vandyke',
+      // --- Tracker ---
+      sortDir:'asc'
+    };
+    this.gridRef = React.createRef();
+  }
+
+  componentDidMount(){
+    this._move = (e)=>{
+      if (!this.dragging || !this.gridRef.current) return;
+      const pt = e.touches ? e.touches[0] : e;
+      const r = this.gridRef.current.getBoundingClientRect();
+      let x = (pt.clientX - r.left)/r.width, y = (pt.clientY - r.top)/r.height;
+      x = Math.max(0,Math.min(1,x)); y = Math.max(0,Math.min(1,y));
+      this.setState({ matX:x, matY:1-y, matPreset:'custom' });
+      if (e.cancelable) e.preventDefault();
+    };
+    this._up = ()=>{ this.dragging = false; };
+    document.addEventListener('mousemove', this._move);
+    document.addEventListener('mouseup', this._up);
+    document.addEventListener('touchmove', this._move, { passive:false });
+    document.addEventListener('touchend', this._up);
+  }
+  componentWillUnmount(){
+    document.removeEventListener('mousemove', this._move);
+    document.removeEventListener('mouseup', this._up);
+    document.removeEventListener('touchmove', this._move);
+    document.removeEventListener('touchend', this._up);
+  }
+
+  // ----- palette -----
+  C = { red:'#F87171', emerald:'#34D399', amber:'#FBBF24', muted:'#9CA3AF', text:'#E5E7EB',
+        panel:'#0F1513', panel2:'#0C1210', border:'#1F2A26' };
+
+  chip(status){
+    const C = this.C;
+    if (status==='liable')   return { label:'Liability likely', color:C.red,     bg:'rgba(248,113,113,.13)', bd:'rgba(248,113,113,.4)', mark:'\u25C6' };
+    if (status==='missing')  return { label:'Element missing',  color:C.emerald, bg:'rgba(52,211,153,.13)',  bd:'rgba(52,211,153,.4)',  mark:'\u25CB' };
+    if (status==='unsettled')return { label:'Unsettled',        color:C.amber,   bg:'rgba(251,191,36,.13)',  bd:'rgba(251,191,36,.4)',  mark:'\u25B3' };
+    return { label:"Doesn't apply", color:C.muted, bg:'rgba(156,163,175,.10)', bd:'rgba(156,163,175,.3)', mark:'\u2014' };
+  }
+
+  // ============ LIABILITY ENGINE EVALUATION ============
+  evaluate(){
+    const s = this.state;
+    const lawfulPublic = s.source === 'public';
+    const govtInfo  = s.source === 'classified';
+    const privInfo  = s.source === 'employer' || s.source === 'nda' || s.source === 'polling';
+    const isMNPI    = s.conduct === 'mnpi' && !lawfulPublic;
+    const tipped    = s.conduct === 'tipped';
+    const usedInfo  = (isMNPI || tipped) && !lawfulPublic;
+    const govtDutyBreach = (s.duty === 'govt') && govtInfo;
+    const privDutyBreach = (s.duty === 'fiduciary' || s.duty === 'contract' || s.duty === 'family') && privInfo;
+    const dutyBreach = govtDutyBreach || privDutyBreach;
+    const anonymous = s.duty === 'none';
+    const sports = s.instrument === 'sports';
+    const wash = s.conduct === 'wash', spoof = s.conduct === 'spoofing';
+    const manip = wash || spoof;
+    const concealed = s.concealed;
+
+    const mk = (status, why, element, authority) => ({ status, why, element, authority });
+    const out = {};
+
+    // R1 — CFTC Rule 180.1 / CEA 6(c)(1)  (misappropriation)
+    if (lawfulPublic) out.r1 = mk('missing','Lawful or public information. Rule 180.1 is modeled on Rule 10b-5 but is not a parity-of-information regime: a lawful informational edge, without a breached duty, is not a violation.','Material nonpublic information. MISSING');
+    else if (!usedInfo) out.r1 = mk('na', manip ? 'This regime targets fraud and misappropriation tied to MNPI. The selected conduct is reached instead by the other CEA trading prohibitions.' : 'No use of material nonpublic information is selected.','Use of MNPI. Not at issue');
+    else if (anonymous && !dutyBreach) out.r1 = mk('missing','The classical theory has no fiduciary duty to anonymous DCM counterparties to anchor to, and no duty to the information source was breached. Misappropriation cannot attach without a breached duty.','Breach of a duty to the source. MISSING');
+    else if (dutyBreach){
+      if (sports) out.r1 = mk('unsettled','A duty to the source was breached, but Rule 180.1 reaches the trade only if the contract is a "swap." Whether sports event contracts are swaps is unsettled (district courts split, appeals pending). This is the gate explored in Model 03.','Swap-classification gate. UNSETTLED');
+      else out.r1 = mk('liable','Trading on MNPI in breach of a duty owed to the information source (misappropriation, the O\'Hagan logic). The event contract trades as a swap, so Rule 180.1 reaches it.','Breach of duty to source. SATISFIED');
+    } else out.r1 = mk('missing','MNPI was used, but no duty to the information source was breached. Misappropriation requires a breached duty, not merely a knowledge advantage.','Breach of a duty to the source. MISSING');
+
+    // R2 — Eddie Murphy Rule, CEA 4c(a)(3)-(4)
+    if (govtInfo && usedInfo){
+      if (sports) out.r2 = mk('unsettled','Misuse of nonpublic government information, with no breach of a duty to a private source required. It reaches futures, options, and swaps; whether a sports contract is a swap is unsettled.','Swap-classification gate. UNSETTLED');
+      else out.r2 = mk('liable','Misuse of nonpublic government information to trade a swap. No breach of a duty to a private source is required. This is the basis of the first "Eddie Murphy Rule" charge, in Van Dyke.','Nonpublic government information. SATISFIED');
+    } else out.r2 = mk('na','No nonpublic government information at issue. CEA 4c(a)(3)-(4) reaches only misuse of government information.','Government information. Not at issue');
+
+    // R3 — Wire fraud, 18 U.S.C. 1343
+    if (usedInfo && dutyBreach){
+      if (govtInfo) out.r3 = mk('unsettled','Wire fraud reaches schemes to obtain "property." Blaszczak (2d Cir.) holds federal-agency pre-decisional information may not be "property," a live obstacle to a Title 18 count built on a government-decision contract.','Information as "property." UNSETTLED (Blaszczak)');
+      else out.r3 = mk('unsettled','Wire-fraud misappropriation of a private company\'s confidential information requires proof the information had commercial value to the company (Chastain, 2d Cir.).','Commercial value to the company. UNSETTLED (Chastain)');
+    } else if (usedInfo && anonymous) out.r3 = mk('missing','No breach of a duty to the source. Misappropriation wire fraud needs a fiduciary or fiduciary-like breach.','Breach of duty. MISSING');
+    else out.r3 = mk('na','No deceptive use of misappropriated information over the wires at issue.','Scheme to defraud. Not at issue');
+
+    // R4 — Commodities fraud, 18 U.S.C. 1348 / 7 U.S.C. 9(1),13(a)(5)
+    if (usedInfo && dutyBreach){
+      if (sports) out.r4 = mk('unsettled','The Title 18 commodities-fraud count parallels the CFTC theory but still turns on the unsettled swap classification for sports contracts.','Swap-classification gate. UNSETTLED');
+      else out.r4 = mk('liable','A scheme to defraud in connection with a commodity (the event contract). Charged alongside Rule 180.1 in Van Dyke.','Scheme in connection with a commodity. SATISFIED');
+    } else out.r4 = mk('na','No fraudulent scheme in connection with a commodity at issue.','Scheme. Not at issue');
+
+    // R5 — Other CEA trading prohibitions
+    if (wash) out.r5 = mk('liable','Self-matching or pre-arranged, noncompetitive trading that inflates volume without market risk. This is what the Surveillance Lab flags as a wash-trading fingerprint.','Self-matching / noncompetitive trade. SATISFIED','CEA \u00A74c(a)(1), (2)(A); Reg 1.38(a)');
+    else if (spoof) out.r5 = mk('liable','Bidding or offering with intent to cancel before execution (spoofing or layering) to move price. Flagged by the Surveillance Lab order-to-cancel metric.','Intent to cancel before execution. SATISFIED','CEA \u00A74c(a)(5)(C)');
+    else out.r5 = mk('na','Lights on wash, pre-arranged or noncompetitive, or spoofing conduct, not on MNPI-based trading.','Disruptive / wash conduct. Not at issue','CEA \u00A74c(a)(1),(2)(A),(5)');
+
+    // R6 — Money laundering, 18 U.S.C. 1957
+    if (concealed){
+      const predicate = (usedInfo && dutyBreach && !sports) || manip;
+      if (predicate) out.r6 = mk('liable','A monetary transaction over $10,000 in proceeds of specified unlawful activity. Tracks the Van Dyke concealment allegations: a foreign crypto wallet, an email change, and a requested account deletion.','Criminally derived proceeds. SATISFIED');
+      else out.r6 = mk('unsettled','Section 1957 needs a predicate specified unlawful activity. Without an established underlying violation, there are no criminally derived proceeds to launder.','Predicate unlawful activity. UNSETTLED');
+    } else out.r6 = mk('na','Lights only when proceeds of an unlawful act are concealed.','Concealment of proceeds. Not at issue');
+
+    // R7 — SEC Rule 10b-5
+    out.r7 = mk('na','Event contracts are generally "swaps," not "securities," so SEC Rule 10b-5 does not reach them. This is the swap-vs-security gate of Model 02. The column stays dark on purpose: it teaches why the securities regime is the wrong tool here.','A "security." NOT PRESENT');
+
+    // R8 — State antifraud / NY Martin Act
+    if (usedInfo || manip) out.r8 = mk('unsettled','New York\'s Martin Act gives the Attorney General broad authority over securities AND commodities fraud and has been applied expansively. A parallel sovereign could reach deceptive trading even where the instrument is not a security, but the fit to event contracts is unsettled. (Distinct from the state gambling-preemption fight in Model 03.)','Deceptive practice reachable by a state. UNSETTLED');
+    else out.r8 = mk('na','No deceptive or manipulative trading for a state antifraud regulator to reach.','Deceptive practice. Not at issue');
+
+    // R9 — Platform rules / Terms of Service
+    const misconduct = usedInfo || manip || concealed;
+    if (!misconduct) out.r9 = mk('missing','No conduct that platform terms prohibit.','Prohibited conduct. NONE');
+    else if (s.venue === 'offshore') out.r9 = mk('unsettled','An offshore or decentralized platform may have terms, but enforcement and remedies against a trader are uncertain.','Enforceable platform rules. UNSETTLED');
+    else out.r9 = mk('liable','Platform Terms of Service broadly prohibit manipulation, misuse of confidential information, and coordinated trading, with private remedies (suspension, voided trades, disgorgement). Kalshi\'s insider-trading rules are broader than misappropriation, with no breach-of-duty element, so they can catch conduct the federal regimes may not.','Violation of platform rules. SATISFIED');
+
+    return { out, anonymous, usedInfo };
+  }
+
+  REGIME_META = [
+    { id:'r1', name:'CFTC Rule 180.1', authority:'17 C.F.R. \u00A7180.1 / CEA \u00A76(c)(1)', tag:'Misappropriation' },
+    { id:'r2', name:'Eddie Murphy Rule', authority:'CEA \u00A74c(a)(3)\u2013(4) \u00B7 7 U.S.C. \u00A76c(a)(3)\u2013(4)', tag:'Govt information' },
+    { id:'r3', name:'Wire fraud', authority:'18 U.S.C. \u00A71343', tag:'Title 18' },
+    { id:'r4', name:'Commodities fraud', authority:'18 U.S.C. \u00A71348 \u00B7 7 U.S.C. \u00A7\u00A79(1),13(a)(5)', tag:'Title 18' },
+    { id:'r5', name:'Other CEA prohibitions', authority:'CEA \u00A74c(a)(1),(2)(A),(5)', tag:'Wash / spoofing' },
+    { id:'r6', name:'Money laundering', authority:'18 U.S.C. \u00A71957', tag:'Concealment' },
+    { id:'r7', name:'SEC Rule 10b-5', authority:'17 C.F.R. \u00A7240.10b-5', tag:'Securities' },
+    { id:'r8', name:'State antifraud', authority:'NY Gen. Bus. Law art. 23-A (Martin Act)', tag:'State sovereign' },
+    { id:'r9', name:'Platform rules / ToS', authority:'Kalshi / Polymarket Terms of Service', tag:'Most direct' }
+  ];
+
+  ENGINE_CONTROLS = [
+    { key:'who', label:'Who traded', helper:'identity of the trader',
+      opts:[['private','Private individual'],['corporate','Corporate insider / employee'],['government','Govt employee / service member'],['congress','Member of Congress / staff'],['cftc','CFTC or DCM employee'],['candidate','Candidate (own race)']] },
+    { key:'source', label:'Source of the information', helper:'where the edge came from',
+      opts:[['employer',"Own employer's confidential data"],['classified','Classified / nonpublic govt info'],['nda','Third party under NDA / duty'],['public','Lawfully obtained or public'],['polling','Nonpublic polling / forecasting']] },
+    { key:'duty', label:'Duty to the source', helper:'relationship that anchors a breach',
+      opts:[['fiduciary','Fiduciary'],['contract','Contractual / NDA'],['govt','Government duty of trust'],['family','Family / personal'],['none','None (anonymous counterparty)']] },
+    { key:'instrument', label:'Contract category', helper:'subject of the event contract',
+      opts:[['sports','Sports event'],['political','Political / election'],['geopolitical','Geopolitical / war'],['economic','Economic indicator'],['cultural','Cultural']] },
+    { key:'venue', label:'Venue', helper:'where it traded',
+      opts:[['kalshi','Kalshi (DCM)'],['polymarket','Polymarket US (DCM)'],['offshore','Offshore / decentralized']] },
+    { key:'conduct', label:'Conduct', helper:'what the trader did',
+      opts:[['mnpi','Traded on MNPI'],['tipped','Tipped another'],['wash','Wash trading'],['spoofing','Spoofing / layering'],['none','None of these']] }
+  ];
+
+  // ============ SURVEILLANCE LAB DATA ============
+  scenarioData(){
+    const S = (n, f)=>{ const a=[]; for(let i=0;i<n;i++){ const t=i/(n-1); a.push({ t, p:Math.max(0.03,Math.min(0.97,f(t,i))), v:0.2+0.6*Math.abs(Math.sin(i*1.7)) }); } return a; };
+    return {
+      vandyke:{
+        label:'Well-timed accumulation', fp:'The Van Dyke fingerprint',
+        authority:'CFTC v. Van Dyke \u00B7 7 U.S.C. \u00A76c(a)(3)',
+        infoT:0.10, publicT:0.80, review:[0.40,0.66],
+        markers:[{t:0.42},{t:0.48},{t:0.54},{t:0.60},{t:0.63}],
+        points:S(40,(t)=> t<0.80 ? 0.15+0.018*Math.sin(t*26) : 0.15+(t-0.80)/0.20*0.78),
+        metrics:[
+          ['Timing vs. information event','0 days','Position built immediately after access to nonpublic information.',true],
+          ['Position concentration','436,000+ shares','One-directional "Yes" stake, no hedging.',true],
+          ['Wallet clustering','Single foreign wallet','Funded and withdrawn through one offshore wallet.',true],
+          ['Order-to-cancel ratio','Low','Accumulation, not order manipulation.',false],
+          ['Cross-market correlation','N/A','Single contract.',false]
+        ],
+        gap:'Anomalous and well timed, but a violation needs a breached duty or misuse of government information. Here the classified-information source supplies it, via the Eddie Murphy Rule and misappropriation. Remove the duty and the identical chart is just a lucky directional bet.'
+      },
+      spagnuolo:{
+        label:'Near-perfect cross-market hit rate', fp:'The Spagnuolo fingerprint',
+        authority:'CFTC v. Spagnuolo \u00B7 17 C.F.R. \u00A7180.1',
+        infoT:0.50, publicT:0.86, review:[0.18,0.82],
+        markers:[{t:0.22},{t:0.31},{t:0.40},{t:0.52},{t:0.61},{t:0.72},{t:0.80}],
+        points:S(40,(t)=> 0.5+0.22*Math.sin(t*9)+ (t>0.5? (t-0.5)*0.2:0)),
+        metrics:[
+          ['Cross-market correlation','Very high','Many correlated correct bets across distinct ranking markets.',true],
+          ['Hit rate','Improbable','Win rate far outside chance given stake size.',true],
+          ['Timing vs. information event','Pre-publication','Trades cluster before year-end data became public.',true],
+          ['Position concentration','~$2.7M at risk','Large notional, ~$1.2M alleged profit.',true],
+          ['Order-to-cancel ratio','Low','Directional, not manipulative order flow.',false]
+        ],
+        gap:'A correct-bet cluster is a strong signal but not itself a crime. The case turns on misappropriation: confidential "Year in Search" data, used in breach of a duty to the employer. The defense will test materiality, whether internal ranking data is the kind of confidential information Rule 180.1 protects.'
+      },
+      superbowl:{
+        label:'Brand-new account, improbable success', fp:'Super Bowl 2026 halftime (uncharged)',
+        authority:'No charges filed \u00B7 illustrative',
+        infoT:null, publicT:0.84, review:[0.10,0.24],
+        markers:[{t:0.13},{t:0.16},{t:0.19},{t:0.22}],
+        points:S(40,(t)=> 0.48+0.16*Math.sin(t*7)+(t>0.82?(t-0.82)*1.8:0)),
+        metrics:[
+          ['Account age at trade','~1 day','Account created roughly a day before the event.',true],
+          ['Outcome','Profit on all but one','~$70,000 across "who performs" contracts.',true],
+          ['Information event','None proven','No nonpublic source identified.',false],
+          ['Duty breach','None proven','No relationship to a protected source shown.',false],
+          ['Order-to-cancel ratio','Low','Plain directional buying.',false]
+        ],
+        gap:'The clearest "suspicious but not proven illegal" pattern. Strong anomaly, no proven breach. Without a duty or a misused nonpublic source, surveillance can flag it and a platform can act under its terms, but no insider-trading charge completes. Anomalous is not the same as actionable.'
+      },
+      wash:{
+        label:'Wash trading', fp:'Self-matching to inflate volume',
+        authority:'CEA \u00A74c(a)(1),(2)(A) \u00B7 Reg 1.38(a)',
+        infoT:null, publicT:null, review:[0.28,0.74],
+        markers:[{t:0.32},{t:0.40},{t:0.48},{t:0.56},{t:0.64},{t:0.70}],
+        points:S(40,(t)=> 0.5+0.02*Math.sin(t*40)),
+        metrics:[
+          ['Self-match rate','High','Buy and sell from related accounts at the same price.',true],
+          ['Volume vs. price impact','Volume up, price flat','Activity without genuine market risk.',true],
+          ['Account clustering','Related accounts','Same beneficial owner across both sides.',true],
+          ['Timing vs. information','N/A','Not information-driven.',false],
+          ['Order-to-cancel ratio','Moderate','Some canceled to coordinate matches.',false]
+        ],
+        gap:'This needs no MNPI and no duty. It is a freestanding CEA trading violation. It connects to the Liability Engine through "Other CEA prohibitions," not through the misappropriation columns. The dispositive element is self-matching with no genuine change in market position.'
+      },
+      spoof:{
+        label:'Spoofing / layering', fp:'Orders placed and pulled to move price',
+        authority:'CEA \u00A74c(a)(5)(C)',
+        infoT:null, publicT:null, review:[0.30,0.72],
+        markers:[{t:0.34},{t:0.42},{t:0.50},{t:0.58},{t:0.66}],
+        points:S(40,(t)=> 0.5+0.12*Math.sin(t*16)),
+        metrics:[
+          ['Order-to-cancel ratio','Very high','Most resting orders canceled before execution.',true],
+          ['Cancel timing','Pre-execution','Orders pulled as price approaches them.',true],
+          ['Net executed size','Small','Large displayed interest, little real fill.',true],
+          ['Information event','N/A','Not information-driven.',false],
+          ['Position concentration','Low','Intent is price movement, not a position.',false]
+        ],
+        gap:'Spoofing turns on intent to cancel before execution, an order-flow crime independent of any nonpublic information. The Liability Engine lights "Other CEA prohibitions" when conduct is spoofing, and the misappropriation columns stay dark.'
+      },
+      ramp:{
+        label:'Ramp into settlement', fp:'Pressure as the contract approaches expiry',
+        authority:'CEA \u00A76(c)(1) \u00B7 manipulation',
+        infoT:null, publicT:0.96, review:[0.78,0.97],
+        markers:[{t:0.82},{t:0.88},{t:0.92},{t:0.95}],
+        points:S(40,(t)=> 0.5+(t>0.74?(t-0.74)*1.7:0)+0.02*Math.sin(t*20)),
+        metrics:[
+          ['Late-window concentration','High','Buying concentrated just before settlement.',true],
+          ['Price trajectory','Steep into expiry','Marking the settlement reference.',true],
+          ['Counter-flow','Thin','Little opposing liquidity absorbed.',true],
+          ['Information event','None proven','Manipulation theory, not MNPI.',false],
+          ['Order-to-cancel ratio','Moderate','Mix of aggressive fills and probing orders.',false]
+        ],
+        gap:'A settlement ramp is a manipulation theory under 6(c)(1), proven by intent to distort the reference price, not by any nonpublic information. It overlaps the surveillance side and the manipulation columns, not the misappropriation columns.'
+      }
+    };
+  }
+  SCN_ORDER = ['vandyke','spagnuolo','superbowl','wash','spoof','ramp'];
+
+  buildChart(scn, scrub){
+    const h = React.createElement, C = this.C;
+    const W=720, H=250, padL=10, padR=10, padT=14, padB=52;
+    const iw = W-padL-padR, ih = H-padT-padB;
+    const X = t => padL + t*iw;
+    const Y = p => padT + (1-p)*ih;
+    const pts = scn.points;
+    const line = pts.map((d,i)=>(i?'L':'M')+X(d.t).toFixed(1)+' '+Y(d.p).toFixed(1)).join(' ');
+    const baseY = padT+ih;
+    const clipId = 'clip-'+Math.round(scrub*1000);
+    const reveal = X(scrub);
+    const grid = [0,0.25,0.5,0.75,1].map((g,i)=> h('line',{ key:'g'+i, x1:padL, x2:padL+iw, y1:Y(g), y2:Y(g), stroke:C.border, strokeWidth:1 }));
+    const vbar = pts.map((d,i)=> h('rect',{ key:'v'+i, x:X(d.t)-2.4, y:baseY+8, width:4.8, height:d.v*22, rx:1, fill: d.t<=scrub? 'rgba(52,211,153,.28)':'rgba(156,163,175,.12)' }));
+    const verticals = [];
+    if (scn.infoT!=null) verticals.push(h('g',{key:'info'},
+      h('line',{ x1:X(scn.infoT), x2:X(scn.infoT), y1:padT, y2:baseY, stroke:C.muted, strokeWidth:1.3, strokeDasharray:'4 4' }),
+      h('text',{ x:X(scn.infoT)+5, y:padT+12, fill:C.muted, fontSize:10, fontFamily:'JetBrains Mono, monospace' },'nonpublic fact exists')));
+    if (scn.publicT!=null) verticals.push(h('g',{key:'pub'},
+      h('line',{ x1:X(scn.publicT), x2:X(scn.publicT), y1:padT, y2:baseY, stroke:C.emerald, strokeWidth:1.3, strokeDasharray:'4 4' }),
+      h('text',{ x:X(scn.publicT)-5, y:padT+12, fill:C.emerald, fontSize:10, textAnchor:'end', fontFamily:'JetBrains Mono, monospace' },'becomes public')));
+    const band = scn.review ? h('rect',{ x:X(scn.review[0]), y:padT, width:X(scn.review[1])-X(scn.review[0]), height:ih, fill:'rgba(251,191,36,.07)', stroke:'rgba(251,191,36,.25)', strokeWidth:1, strokeDasharray:'3 3' }) : null;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const markers = scn.markers.filter(m=>m.t<=scrub+0.001).map((m,i)=>{
+      const d = pts.reduce((a,b)=> Math.abs(b.t-m.t)<Math.abs(a.t-m.t)?b:a, pts[0]);
+      return h('g',{ key:'m'+i },
+        !reduce && h('circle',{ cx:X(m.t), cy:Y(d.p), r:9, fill:'none', stroke:C.red, strokeWidth:1.4, opacity:0.5, style:{ transformOrigin:`${X(m.t)}px ${Y(d.p)}px`, animation:'mpulse 1.8s ease-out infinite' } }),
+        h('circle',{ cx:X(m.t), cy:Y(d.p), r:4, fill:C.red, stroke:'#0A0E0D', strokeWidth:1.2 }));
+    });
+    const playhead = h('g',null,
+      h('line',{ x1:reveal, x2:reveal, y1:padT, y2:baseY, stroke:C.emerald, strokeWidth:1.4, opacity:0.85 }),
+      h('circle',{ cx:reveal, cy:padT, r:3, fill:C.emerald }));
+    const xlabels = h('g',{ fontFamily:'JetBrains Mono, monospace', fontSize:10, fill:C.muted },
+      h('text',{ x:padL, y:H-8 },'open'),
+      h('text',{ x:padL+iw, y:H-8, textAnchor:'end' },'resolution'));
+    return h('svg',{ viewBox:`0 0 ${W} ${H}`, width:'100%', role:'img', 'aria-label':'Price, volume and surveillance markers for '+scn.label, style:{ display:'block' } },
+      h('defs',null, h('clipPath',{ id:clipId }, h('rect',{ x:0, y:0, width:reveal, height:H }))),
+      grid, band, vbar,
+      h('path',{ d:line+` L${X(1)} ${baseY} L${X(0)} ${baseY} Z`, fill:'rgba(52,211,153,.06)', clipPath:`url(#${clipId})` }),
+      h('path',{ d:line, fill:'none', stroke:C.emerald, strokeWidth:2, clipPath:`url(#${clipId})`, style:{ filter:'drop-shadow(0 0 6px rgba(52,211,153,.4))' } }),
+      verticals, markers, playhead, xlabels);
+  }
+
+  // ============ CASE FILES DATA ============
+  CASES = {
+    vandyke:{
+      label:'United States v. Van Dyke', defendant:'Gannon Ken Van Dyke',
+      meta:'U.S. Army Special Forces master sergeant (active duty)',
+      court:'S.D.N.Y.', docketCrim:'No. 1:26-cr-00156', docketCiv:'No. 1:26-cv-03369',
+      filed:'Indicted / filed Apr 23 2026', profit:409881, profitFmt:'$404K\u2013$409,881',
+      first:'First event-contract insider-trading case. First use of the Eddie Murphy Rule.',
+      summary:'Alleged use of classified nonpublic information from "Operation Absolute Resolve" (a U.S. operation to capture Nicol\u00E1s Maduro and Cilia Flores) to buy 436,000+ "Yes" shares of the "Maduro Out by January 31, 2026?" contract on Polymarket. Concealment via a foreign crypto wallet, an email change, and a requested account deletion. Handle "Burdensome-Mix."',
+      principals:'U.S. Attorney Jay Clayton (SDNY) \u00B7 CFTC Chairman Michael S. Selig \u00B7 Enforcement Director David I. Miller',
+      sources:[['CFTC PR 9217-26','cftc.gov/PressRoom/PressReleases/9217-26'],['DOJ (Apr 23 2026)','justice.gov/opa']],
+      tracks:{
+        info:[{t:0.06,l:'Gains access to operational planning'},{t:0.14,l:'Op remains classified / nonpublic'}],
+        trades:[{t:0.30,l:'Opens "Yes" position'},{t:0.50,l:'Accumulates 436,000+ shares'},{t:0.70,l:'Conceals via foreign wallet'}],
+        public:[{t:0.82,l:'Operation reported publicly'},{t:0.90,l:'Contract resolves; ~$404K\u2013$410K profit'}]
+      },
+      charges:[
+        { statute:'7 U.S.C. \u00A76c(a)(3)', name:'Misuse of nonpublic government information', status:'liable',
+          elements:[['Nonpublic government information','sat'],['Used to trade a swap','sat'],['No private-source duty required','sat']],
+          facts:'Classified operational information used to trade the Maduro contract.',
+          defense:'Is a Maduro-removal contract a "swap" that the rule reaches?' },
+        { statute:'7 U.S.C. \u00A76c(a)(4)(C)', name:'Eddie Murphy Rule (companion)', status:'liable',
+          elements:[['Government employee / trust','sat'],['Trading on the information','sat']],
+          facts:'Active-duty service member trading on classified information.',
+          defense:'Scope of the STOCK Act amendment as applied to a soldier.' },
+        { statute:'7 U.S.C. \u00A7\u00A79(1),13(a)(5) + 17 C.F.R. \u00A7180.1', name:'Commodities fraud', status:'unsettled',
+          elements:[['Manipulative or deceptive device','sat'],['In connection with a swap','unsettled'],['Materiality','sat']],
+          facts:'Misappropriation theory built on the classified source.',
+          defense:'Swap classification of the geopolitical contract.' },
+        { statute:'18 U.S.C. \u00A71343', name:'Wire fraud', status:'unsettled',
+          elements:[['Scheme to defraud','sat'],['Information as "property"','unsettled'],['Use of the wires','sat']],
+          facts:'Cross-wire trading on misappropriated government information.',
+          defense:'Blaszczak: federal pre-decisional information may not be "property."' },
+        { statute:'18 U.S.C. \u00A71957', name:'Unlawful monetary transaction', status:'liable',
+          elements:[['Transaction over $10,000','sat'],['Criminally derived proceeds','sat'],['Concealment conduct','sat']],
+          facts:'Proceeds moved through a foreign wallet; account deletion requested.',
+          defense:'Depends on a sustained predicate offense.' }
+      ]
+    },
+    spagnuolo:{
+      label:'United States v. Spagnuolo', defendant:'Michele Spagnuolo',
+      meta:'Google software engineer',
+      court:'S.D.N.Y.', docketCrim:'Docket \u2014 verify', docketCiv:'Docket \u2014 verify',
+      filed:'Filed May 27 2026', profit:1200000, profitFmt:'~$1.2M (on ~$2.7M at risk)',
+      first:'Private-employer misappropriation theory on a decentralized platform.',
+      summary:'Alleged misappropriation of confidential Google "Year in Search" / year-end ranking data to trade event contracts (for example "Will Pope Leo XIV be the #1 searched person?" and "Will Donald Trump rank in the Top 5 most searched?") on a decentralized platform. ~$2.7M at risk, ~$1.2M profit. Crypto concealment.',
+      principals:'CFTC Enforcement \u00B7 S.D.N.Y.',
+      sources:[['CFTC v. Spagnuolo','cftc.gov \u2014 verify release no.']],
+      tracks:{
+        info:[{t:0.10,l:'Access to internal ranking data'},{t:0.40,l:'Data finalized, not yet public'}],
+        trades:[{t:0.25,l:'Bets across multiple ranking markets'},{t:0.55,l:'Correlated correct positions'}],
+        public:[{t:0.82,l:'"Year in Search" published'},{t:0.90,l:'Contracts resolve; ~$1.2M profit'}]
+      },
+      charges:[
+        { statute:'CEA \u00A76(c)(1)', name:'Manipulative / deceptive device', status:'unsettled',
+          elements:[['Deceptive device','sat'],['In connection with a swap','sat'],['Materiality','unsettled']],
+          facts:'Confidential ranking data used across correlated markets.',
+          defense:'Is internal "Year in Search" data material in the Rule 180.1 sense?' },
+        { statute:'17 C.F.R. \u00A7180.1', name:'Misappropriation (insider trading)', status:'unsettled',
+          elements:[['Confidential information','sat'],['Breach of duty to employer','sat'],['Use in trading','sat'],['Information is "material"','unsettled']],
+          facts:'Duty to Google as employer; trades on nonpublic rankings.',
+          defense:'Chastain: commercial value of the data to the company.' }
+      ]
+    },
+    kalshi_candidate:{
+      label:'Kalshi internal \u2014 candidate', defendant:'A political candidate',
+      meta:'Traded contracts on his own candidacy',
+      court:'Kalshi internal enforcement', docketCrim:'\u2014', docketCiv:'\u2014',
+      filed:'Referenced in CFTC advisory Feb 25 2026', profit:0, profitFmt:'verify',
+      first:'CFTC hinted at a non-misappropriation "manipulative scheme" theory.',
+      summary:'A political candidate traded event contracts on his own candidacy. Kalshi imposed penalties and a suspension. The CFTC\'s Feb 25 2026 advisory said he "potentially" violated Rule 180.1, hinting at a manipulative-scheme theory that does not depend on misappropriation.',
+      principals:'Kalshi \u00B7 CFTC Enforcement Division',
+      sources:[['CFTC PR 9185-26','cftc.gov/PressRoom/PressReleases/9185-26']],
+      tracks:{
+        info:[{t:0.15,l:'Candidate holds private campaign knowledge'}],
+        trades:[{t:0.40,l:'Trades own-candidacy contract'}],
+        public:[{t:0.78,l:'Kalshi penalties + suspension'},{t:0.88,l:'CFTC advisory references the matter'}]
+      },
+      charges:[
+        { statute:'17 C.F.R. \u00A7180.1', name:'Manipulative scheme (potential)', status:'unsettled',
+          elements:[['Manipulative or deceptive scheme','unsettled'],['Breach of duty','unsettled'],['Materiality','sat']],
+          facts:'Trading on one\'s own race; no classic misappropriation source.',
+          defense:'Whether 180.1 reaches self-referential trading absent a breached duty.' },
+        { statute:'Platform rules', name:'Kalshi Terms of Service', status:'liable',
+          elements:[['Prohibited conduct under ToS','sat'],['Private remedy available','sat']],
+          facts:'Kalshi imposed penalties and a suspension directly.',
+          defense:'Contractual, not a defense to liability under the terms.' }
+      ]
+    },
+    kalshi_youtube:{
+      label:'Kalshi internal \u2014 YouTube affiliate', defendant:'Employee / affiliate',
+      meta:'Tied to a company connected to a YouTube channel',
+      court:'Kalshi internal enforcement', docketCrim:'\u2014', docketCiv:'\u2014',
+      filed:'Conduct Aug\u2013Sep 2025', profit:20397.58, profitFmt:'$20,397.58 total',
+      first:'Concrete internal fine: $5,397.58 disgorgement + $15,000 penalty, two-year suspension.',
+      summary:'An employee or affiliate of a company tied to a YouTube channel traded contracts on the channel\'s videos (Aug\u2013Sep 2025). Kalshi fined the trader $20,397.58 ($5,397.58 disgorgement + $15,000 penalty) and imposed a two-year suspension. The CFTC characterized it as potential \u00A76(c)(1) / Reg 180.1 misappropriation.',
+      principals:'Kalshi \u00B7 CFTC Enforcement Division',
+      sources:[['CFTC PR 9185-26','cftc.gov/PressRoom/PressReleases/9185-26']],
+      tracks:{
+        info:[{t:0.12,l:'Nonpublic knowledge of channel videos'}],
+        trades:[{t:0.35,l:'Trades on the channel\'s contracts'},{t:0.55,l:'Aug\u2013Sep 2025 window'}],
+        public:[{t:0.80,l:'Kalshi fine + two-year suspension'}]
+      },
+      charges:[
+        { statute:'CEA \u00A76(c)(1) / Reg 180.1', name:'Misappropriation (potential)', status:'unsettled',
+          elements:[['Confidential information','sat'],['Breach of duty to source','unsettled'],['Use in trading','sat']],
+          facts:'Affiliate relationship to the channel as the duty source.',
+          defense:'Whether the affiliation creates a duty Rule 180.1 protects.' },
+        { statute:'Platform rules', name:'Kalshi Terms of Service', status:'liable',
+          elements:[['Prohibited conduct under ToS','sat'],['Disgorgement + penalty imposed','sat'],['Suspension imposed','sat']],
+          facts:'$5,397.58 disgorgement, $15,000 penalty, two-year suspension.',
+          defense:'Contractual remedy; applied directly by the platform.' }
+      ]
+    }
+  };
+  CASE_ORDER = ['vandyke','spagnuolo','kalshi_candidate','kalshi_youtube'];
+
+  // ============ DUTY MAP ============
+  DUTY_TRADERS = [['private','Private individual'],['corporate','Corporate insider'],['government','Govt / service member'],['congress','Member of Congress'],['anon','Anonymous DCM counterparty']];
+  DUTY_SOURCES = [['employer',"Own employer"],['classified','Classified govt info'],['nda','Third party (NDA)'],['public','Public / lawful'],['counterparty','Trading counterparty']];
+  dutyResolve(tr, sr){
+    const C = this.C;
+    if (sr==='public') return { exists:false, label:'No duty', auth:'Lawful or public information. No-parity rule: a knowledge edge alone is not a breach.' };
+    if (sr==='counterparty') return { exists:false, label:'No classical duty', auth:'On a DCM the counterparty is anonymous. The classical theory has no fiduciary duty to anchor to, so it cannot reach the trade.' };
+    if (tr==='corporate' && sr==='employer') return { exists:true, label:'Fiduciary duty', auth:'Employee-to-employer fiduciary duty. Misappropriation under O\'Hagan.' };
+    if (tr==='government' && sr==='classified') return { exists:true, label:'Government duty of trust', auth:'Government duty of trust. The Eddie Murphy Rule reaches misuse of nonpublic government information, no private-source breach required.' };
+    if (tr==='congress' && sr==='classified') return { exists:true, label:'Government duty (STOCK Act)', auth:'Member duty under the STOCK Act framework. Misuse of nonpublic government information.' };
+    if (sr==='nda') return { exists:true, label:'Contractual duty', auth:'Duty created by NDA or contract. Misappropriation can attach to breach of a contractual duty of confidence.' };
+    if (sr==='employer' && (tr==='government'||tr==='congress')) return { exists:false, label:'No duty to this source', auth:'No relationship to a private employer as the source. Pick a matching source to anchor a duty.' };
+    if (sr==='classified' && (tr==='private'||tr==='corporate')) return { exists:false, label:'No access / no duty', auth:'A private party with no government role has no duty over classified information (and ordinarily no access).' };
+    return { exists:false, label:'No duty', auth:'No duty of trust or confidence between this trader and this source.' };
+  }
+  buildDutyGraph(){
+    const h = React.createElement, C = this.C;
+    const W=520, H=300;
+    const trs = this.DUTY_TRADERS, srs = this.DUTY_SOURCES;
+    const lx=18, rx=W-18, ty=58, gap=48;
+    const trY = i=> ty + i*gap, srY = i=> ty + i*gap;
+    const selT = trs.findIndex(t=>t[0]===this.state.dutyTrader);
+    const selS = srs.findIndex(s=>s[0]===this.state.dutySource);
+    const res = this.dutyResolve(this.state.dutyTrader, this.state.dutySource);
+    const edgeColor = res.exists ? C.emerald : C.muted;
+    const edge = (selT>=0 && selS>=0) ? h('g',null,
+      h('line',{ x1:lx+150, y1:trY(selT), x2:rx-150, y2:srY(selS), stroke:edgeColor, strokeWidth:2.4, strokeDasharray: res.exists?'none':'5 5', opacity:0.9, style: res.exists?{ filter:'drop-shadow(0 0 6px rgba(52,211,153,.5))' }:{} }),
+      h('rect',{ x:(lx+150+rx-150)/2-58, y:(trY(selT)+srY(selS))/2-12, width:116, height:22, rx:11, fill:'#0A0E0D', stroke:edgeColor, strokeWidth:1 }),
+      h('text',{ x:W/2, y:(trY(selT)+srY(selS))/2+3, textAnchor:'middle', fontSize:10.5, fontFamily:'JetBrains Mono, monospace', fill:edgeColor },res.label)
+    ) : null;
+    const node = (label, x, y, sel, anchor)=> h('g',{ key:label },
+      h('rect',{ x: anchor==='l'? x : x-150, y:y-15, width:150, height:30, rx:7, fill: sel? 'rgba(52,211,153,.08)':'#0C1210', stroke: sel? C.emerald : C.border, strokeWidth: sel?1.6:1 }),
+      h('text',{ x: anchor==='l'? x+12 : x-12, y:y+4, textAnchor: anchor==='l'?'start':'end', fontSize:11, fill: sel?C.text:C.muted, fontFamily:'Inter, sans-serif' },label));
+    return h('svg',{ viewBox:`0 0 ${W} ${H}`, width:'100%', role:'img', 'aria-label':'Duty relationship graph', style:{ display:'block' } },
+      h('text',{ x:lx, y:34, fontSize:10, fontFamily:'JetBrains Mono, monospace', fill:C.muted, letterSpacing:'.08em' },'TRADER'),
+      h('text',{ x:rx, y:34, textAnchor:'end', fontSize:10, fontFamily:'JetBrains Mono, monospace', fill:C.muted, letterSpacing:'.08em' },'SOURCE'),
+      edge,
+      trs.map((t,i)=> node(t[1], lx, trY(i), i===selT, 'l')),
+      srs.map((sN,i)=> node(sN[1], rx, srY(i), i===selS, 'r')));
+  }
+
+  // ============ MATERIALITY GRID ============
+  matZone(){
+    const s = this.state;
+    if (s.matPublic) return { key:'lawful', label:'Likely lawful', color:this.C.emerald,
+      note:'Public or lawful information. The no-parity-of-information rule controls: a lawful informational edge is not actionable, however decisive.' };
+    if (s.matX>=0.62 && s.matY>=0.55){
+      const govt = s.matInfo==='govt';
+      return { key:'actionable', label:'Actionable MNPI', color:this.C.red,
+        note: govt ? 'Nonpublic, decisive, and accessed in a position of trust. The Eddie Murphy Rule reaches misuse of government information here.' : 'Nonpublic, decisive to the outcome, and accessed through a duty relationship. The clearest case for misappropriation liability.' };
+    }
+    if (s.matX<0.4 && s.matY<0.45) return { key:'lawful', label:'Likely lawful', color:this.C.emerald,
+      note:'Low directness to the outcome and limited access. Closer to ordinary research than to actionable MNPI.' };
+    return { key:'unsettled', label:'Unsettled', color:this.C.amber,
+      note:'In between. The legal answer is genuinely indeterminate, which is the central feature of this subject rather than a gap to resolve.' };
+  }
+  buildMatGrid(){
+    const h = React.createElement, C = this.C, s = this.state;
+    const W=360, H=360, pad=42;
+    const iw=W-pad-14, ih=H-pad-32;
+    const gx = x=> pad + x*iw;
+    const gy = y=> (pad-26) + (1-y)*ih;
+    const zone = this.matZone();
+    const cells=[];
+    for (let i=0;i<6;i++) for (let j=0;j<6;j++){
+      const cx=(i+0.5)/6, cy=(j+0.5)/6;
+      let col;
+      if (s.matPublic) col='rgba(52,211,153,.05)';
+      else if (cx>=0.62 && cy>=0.55) col='rgba(248,113,113,.07)';
+      else if (cx<0.4 && cy<0.45) col='rgba(52,211,153,.05)';
+      else col='rgba(251,191,36,.05)';
+      cells.push(h('rect',{ key:i+'-'+j, x:gx(i/6), y:gy((j+1)/6), width:iw/6, height:ih/6, fill:col, stroke:C.border, strokeWidth:0.5 }));
+    }
+    const mx=gx(s.matX), my=gy(s.matY);
+    return h('svg',{ ref:this.gridRef, viewBox:`0 0 ${W} ${H}`, width:'100%', role:'img', 'aria-label':'Materiality calibrator grid, draggable marker', style:{ display:'block', cursor:'crosshair', touchAction:'none' },
+        onMouseDown:(e)=>{ this.dragging=true; this._move(e); }, onTouchStart:(e)=>{ this.dragging=true; this._move(e); } },
+      cells,
+      h('text',{ x:pad, y:H-8, fontSize:10.5, fill:C.muted, fontFamily:'JetBrains Mono, monospace' },'directness to the outcome \u2192'),
+      h('text',{ x:-(H/2)+10, y:16, transform:`rotate(-90 0 0) translate(${-(H/2)+10} 16)`, fontSize:10.5, fill:C.muted, fontFamily:'JetBrains Mono, monospace', style:{ transform:`translate(14px, ${H-pad}px) rotate(-90deg)`, transformBox:'fill-box' } },'access / control \u2192'),
+      h('line',{ x1:mx, y1:gy(0), x2:mx, y2:gy(1), stroke:zone.color, strokeWidth:1, strokeDasharray:'3 4', opacity:0.5 }),
+      h('line',{ x1:gx(0), y1:my, x2:gx(1), y2:my, stroke:zone.color, strokeWidth:1, strokeDasharray:'3 4', opacity:0.5 }),
+      h('circle',{ cx:mx, cy:my, r:13, fill:'none', stroke:zone.color, strokeWidth:1.3, opacity:0.45 }),
+      h('circle',{ cx:mx, cy:my, r:7, fill:zone.color, stroke:'#0A0E0D', strokeWidth:2 }));
+  }
+  MAT_PRESETS = [
+    ['vandyke','Classic MNPI'],['irclerk','IR-clerk word count'],['public','Lawful edge']
+  ];
+  applyMatPreset(p){
+    if (p==='vandyke') this.setState({ matX:0.9, matY:0.86, matPublic:false, matInfo:'govt', matPreset:'vandyke' });
+    else if (p==='irclerk') this.setState({ matX:0.82, matY:0.66, matPublic:false, matInfo:'corp', matPreset:'irclerk' });
+    else if (p==='public') this.setState({ matX:0.72, matY:0.24, matPublic:true, matInfo:'corp', matPreset:'public' });
+  }
+
+  // ============ TRACKER DATA ============
+  TRACKER = {
+    enforcement:[
+      { d:'2026-04-23', date:'Apr 23 2026', actors:'DOJ / CFTC v. Van Dyke', sum:'First event-contract insider-trading case; first Eddie Murphy Rule use (Maduro contract).', src:'CFTC PR 9217-26', status:'Charged', sc:'red' },
+      { d:'2026-05-27', date:'May 27 2026', actors:'DOJ / CFTC v. Spagnuolo', sum:'Misappropriation of Google "Year in Search" data to trade ranking contracts.', src:'CFTC \u2014 verify', status:'Charged', sc:'red' },
+      { d:'2026-02-25', date:'Feb 25 2026', actors:'Kalshi internal \u2014 candidate', sum:'Candidate traded own-candidacy contracts; penalties + suspension; CFTC noted potential 180.1.', src:'CFTC PR 9185-26', status:'Internal action', sc:'amber' },
+      { d:'2025-09-01', date:'Aug-Sep 2025', actors:'Kalshi internal \u2014 YouTube affiliate', sum:'Fined $20,397.58 ($5,397.58 disgorgement + $15,000) + two-year suspension.', src:'CFTC PR 9185-26', status:'Internal action', sc:'amber' }
+    ],
+    regulatory:[
+      { d:'2026-02-17', date:'Feb 17 2026', actors:'CFTC', sum:'Affirms exclusive jurisdiction over U.S. commodity derivatives, including prediction markets.', src:'CFTC PR 9183-26', status:'Statement', sc:'emerald' },
+      { d:'2026-02-23', date:'Feb 23 2026', actors:'Senate Democrats (6)', sum:'Letter to Chair Selig urging review of death / war / terrorism / assassination contracts.', src:'Senate \u2014 verify', status:'Oversight', sc:'amber' },
+      { d:'2026-02-25', date:'Feb 25 2026', actors:'CFTC Enforcement Division', sum:'Prediction Markets Advisory: misappropriation, wash/noncompetitive, disruptive trading; DCM duties under \u00A75(d).', src:'CFTC PR 9185-26', status:'Advisory', sc:'emerald' },
+      { d:'2026-03-09', date:'Mar 9 2026', actors:'Chair Selig (FIA)', sum:'Exclusive jurisdiction; possible registration framework for non-custodial / DeFi software.', src:'CFTC remarks', status:'Remarks', sc:'muted' },
+      { d:'2026-03-12', date:'Mar 12 2026', actors:'CFTC ANPRM + DMO (Letter 26-08)', sum:'Event contracts are "swaps"; DCM self-regulatory / surveillance duties. Comments due Apr 30 2026.', src:'CFTC PR 9193-26', status:'ANPRM', sc:'emerald' },
+      { d:'2026-03-19', date:'Mar 19 2026', actors:'CFTC \u2013 MLB MOU', sum:'Information-sharing on the integrity of baseball-related prediction markets.', src:'CFTC PR 9199-26', status:'Agreement', sc:'emerald' },
+      { d:'2026-03-31', date:'Mar 31 2026', actors:'Enf. Director Miller (NYU)', sum:'Insider trading a priority; no "trivial" cases or cases with "no clear breach of duty."', src:'CFTC remarks', status:'Remarks', sc:'muted' }
+    ],
+    legislation:[
+      { d:'2026-01-01', date:'119th Cong.', actors:'H.R. 7004', sum:'Public Integrity in Financial Prediction Markets Act of 2026.', src:'congress.gov', status:'Introduced \u2014 verify', sc:'amber' },
+      { d:'2026-01-02', date:'119th Cong.', actors:'H.R. 8076 (PREDICT Act)', sum:'PREDICT Act.', src:'congress.gov', status:'Introduced \u2014 verify', sc:'amber' },
+      { d:'2026-01-03', date:'119th Cong.', actors:'S. 4017', sum:'End Prediction Market Corruption Act.', src:'congress.gov', status:'Introduced \u2014 verify', sc:'amber' },
+      { d:'2026-01-04', date:'119th Cong.', actors:'S. 4060', sum:'Prediction Markets Security and Integrity Act of 2026.', src:'congress.gov', status:'Introduced \u2014 verify', sc:'amber' },
+      { d:'2026-01-05', date:'119th Cong.', actors:'S. 4188', sum:'Public Integrity in Financial Prediction Markets Act.', src:'congress.gov', status:'Introduced \u2014 verify', sc:'amber' },
+      { d:'2026-01-06', date:'119th Cong.', actors:'H.R. 7840', sum:'Event Contract Enforcement Act.', src:'congress.gov', status:'Introduced \u2014 verify', sc:'amber' },
+      { d:'2026-01-07', date:'119th Cong.', actors:'BETS OFF (S. 4115 / H.R. 7955)', sum:'BETS OFF Act.', src:'congress.gov', status:'Introduced \u2014 verify', sc:'amber' },
+      { d:'2026-01-08', date:'119th Cong.', actors:'STOP Corrupt Bets (S. 4226 / H.R. 8123)', sum:'STOP Corrupt Bets Act of 2026.', src:'congress.gov', status:'Introduced \u2014 verify', sc:'amber' }
+    ]
+  };
+  scColor(sc){ const C=this.C; return sc==='red'?C.red:sc==='amber'?C.amber:sc==='emerald'?C.emerald:C.muted; }
+
+  // ============ RENDER ============
+  renderVals(){
+    const C = this.C, s = this.state;
+    const active = s.activeTab || this.props.defaultTab || 'engine';
+    const setTab = (id)=> ()=> this.setState({ activeTab:id });
+    const tabsDef = [['engine','Engine'],['surveillance','Surveillance'],['cases','Case Files'],['duty','Duty & Materiality'],['tracker','Tracker']];
+    const tabs = tabsDef.map(([id,label])=>{
+      const on = active===id;
+      return { id, label, active:on,
+        style:`padding:10px 16px;border-radius:9px;font-size:12.5px;font-weight:600;letter-spacing:.04em;cursor:pointer;white-space:nowrap;border:1px solid ${on?'rgba(52,211,153,.45)':'transparent'};background:${on?'rgba(52,211,153,.12)':'transparent'};color:${on?C.emerald:C.muted};font-family:'JetBrains Mono', monospace;text-transform:uppercase;transition:all .18s`,
+        onClick:setTab(id) };
+    });
+
+    // ---- engine ----
+    const ev = this.evaluate();
+    const expandAll = !!this.props.expandAllRegimes;
+    const regimes = this.REGIME_META.map(m=>{
+      const r = ev.out[m.id];
+      const c = this.chip(r.status);
+      const open = (s.openRegimes[m.id] !== undefined) ? s.openRegimes[m.id] : expandAll;
+      return { id:m.id, name:m.name, tag:m.tag, authority:r.authority||m.authority,
+        status:r.status, statusLabel:c.label, statusColor:c.color, statusBg:c.bg, statusBd:c.bd, mark:c.mark,
+        element:r.element, why:r.why, open,
+        chipStyle:`display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;font-family:'JetBrains Mono', monospace;color:${c.color};background:${c.bg};border:1px solid ${c.bd}`,
+        onToggle:()=> this.setState(st=>({ openRegimes:{ ...st.openRegimes, [m.id]: !open } })) };
+    });
+    const flagCount = regimes.filter(r=>r.status==='liable').length;
+    const unsettledCount = regimes.filter(r=>r.status==='unsettled').length;
+    const controls = this.ENGINE_CONTROLS.map(ctl=>({
+      key:ctl.key, label:ctl.label, helper:ctl.helper,
+      opts: ctl.opts.map(([val,lab])=>{
+        const on = s[ctl.key]===val;
+        return { val, lab, active:on,
+          style:`padding:7px 11px;border-radius:8px;font-size:11.5px;font-weight:500;cursor:pointer;border:1px solid ${on?'rgba(52,211,153,.5)':C.border};background:${on?'rgba(52,211,153,.10)':'#0C1210'};color:${on?C.text:C.muted};transition:all .15s`,
+          onSelect:()=> this.setState({ [ctl.key]: val }) };
+      })
+    }));
+    const concealStyle = `padding:7px 12px;border-radius:8px;font-size:11.5px;font-weight:600;cursor:pointer;border:1px solid ${s.concealed?'rgba(248,113,113,.5)':C.border};background:${s.concealed?'rgba(248,113,113,.10)':'#0C1210'};color:${s.concealed?C.red:C.muted}`;
+    const engine = {
+      controls, regimes, flagCount, unsettledCount,
+      statCards:[
+        { n:String(flagCount), color:C.red, border:'rgba(248,113,113,.3)', label:'regimes flag likely liability' },
+        { n:String(unsettledCount), color:C.amber, border:'rgba(251,191,36,.3)', label:'turn on unsettled law' }
+      ],
+      classicalDark: ev.anonymous,
+      classicalStyle:`display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;border:1px solid ${ev.anonymous?'rgba(156,163,175,.3)':'rgba(52,211,153,.35)'};background:${ev.anonymous?'rgba(156,163,175,.06)':'rgba(52,211,153,.06)'};opacity:${ev.anonymous?0.6:1}`,
+      classicalText: ev.anonymous ? 'Classical theory: DARK. Anonymous DCM counterparties leave no fiduciary duty to anchor to, so misappropriation and the government-information rule carry the load.' : 'Classical theory: a duty to the source is present, so a duty-based theory has something to anchor to.',
+      classicalColor: ev.anonymous ? C.muted : C.emerald,
+      concealStyle,
+      onConceal:()=> this.setState(st=>({ concealed:!st.concealed })),
+      onVanDyke:()=> this.setState({ who:'government', source:'classified', duty:'govt', instrument:'geopolitical', venue:'polymarket', conduct:'mnpi', concealed:true }),
+      onSpagnuolo:()=> this.setState({ who:'corporate', source:'employer', duty:'fiduciary', instrument:'cultural', venue:'offshore', conduct:'mnpi', concealed:true }),
+      onReset:()=> this.setState({ who:'private', source:'public', duty:'none', instrument:'sports', venue:'kalshi', conduct:'none', concealed:false })
+    };
+
+    // ---- surveillance ----
+    const scnData = this.scenarioData();
+    const scn = scnData[s.scn];
+    const survScenarios = this.SCN_ORDER.map(id=>{
+      const on = s.scn===id;
+      return { id, label:scnData[id].label, active:on,
+        style:`padding:9px 12px;border-radius:8px;font-size:11.5px;font-weight:500;cursor:pointer;text-align:left;border:1px solid ${on?'rgba(52,211,153,.45)':C.border};background:${on?'rgba(52,211,153,.08)':'#0C1210'};color:${on?C.text:C.muted}`,
+        onSelect:()=> this.setState({ scn:id, scrub:1 }) };
+    });
+    const survMetrics = scn.metrics.map(([k,v,note,flag])=>({ k, v, note, flag,
+      dot: flag ? C.red : C.muted }));
+    const surveillance = {
+      scenarios:survScenarios, label:scn.label, fingerprint:scn.fp, authority:scn.authority,
+      chartEl: this.buildChart(scn, s.scrub),
+      scrub: Math.round(s.scrub*100), scrubVal:s.scrub,
+      onScrub:(e)=> this.setState({ scrub: Number(e.target.value)/100 }),
+      metrics:survMetrics, legalGap:scn.gap
+    };
+
+    // ---- case files ----
+    const caseList = this.CASE_ORDER.map(id=>{
+      const on = s.caseId===id;
+      return { id, label:this.CASES[id].label, defendant:this.CASES[id].defendant, active:on,
+        style:`padding:11px 13px;border-radius:9px;cursor:pointer;border:1px solid ${on?'rgba(52,211,153,.45)':C.border};background:${on?'rgba(52,211,153,.08)':'#0C1210'};transition:all .15s`,
+        labelColor:on?C.text:C.muted,
+        onSelect:()=> this.setState({ caseId:id }) };
+    });
+    const cc = this.CASES[s.caseId];
+    const trackEl = this.buildCaseTimeline(cc);
+    const charges = cc.charges.map(ch=>{
+      const c = this.chip(ch.status);
+      return { statute:ch.statute, name:ch.name, facts:ch.facts, defense:ch.defense,
+        statusLabel:c.label, statusColor:c.color, statusBg:c.bg, statusBd:c.bd,
+        chipStyle:`display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:10.5px;font-weight:600;font-family:'JetBrains Mono', monospace;color:${c.color};background:${c.bg};border:1px solid ${c.bd}`,
+        elements: ch.elements.map(([text,st])=>{
+          const col = st==='sat'?C.emerald:st==='unsettled'?C.amber:C.muted;
+          const mark = st==='sat'?'\u2713':st==='unsettled'?'\u25B3':'\u25CB';
+          return { text, color:col, mark, dotStyle:`flex-shrink:0;width:16px;height:16px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:${col};background:${st==='sat'?'rgba(52,211,153,.12)':st==='unsettled'?'rgba(251,191,36,.12)':'rgba(156,163,175,.1)'}` };
+        }) };
+    });
+    const cases = {
+      list:caseList, current:{ ...cc, trackEl, charges }
+    };
+
+    // ---- duty & materiality ----
+    const dutyTraderBtns = this.DUTY_TRADERS.map(([v,l])=>({ v,l, active:s.dutyTrader===v,
+      style:`padding:7px 10px;border-radius:7px;font-size:11px;cursor:pointer;border:1px solid ${s.dutyTrader===v?'rgba(52,211,153,.5)':C.border};background:${s.dutyTrader===v?'rgba(52,211,153,.1)':'#0C1210'};color:${s.dutyTrader===v?C.text:C.muted}`,
+      onSelect:()=> this.setState({ dutyTrader:v }) }));
+    const dutySourceBtns = this.DUTY_SOURCES.map(([v,l])=>({ v,l, active:s.dutySource===v,
+      style:`padding:7px 10px;border-radius:7px;font-size:11px;cursor:pointer;border:1px solid ${s.dutySource===v?'rgba(52,211,153,.5)':C.border};background:${s.dutySource===v?'rgba(52,211,153,.1)':'#0C1210'};color:${s.dutySource===v?C.text:C.muted}`,
+      onSelect:()=> this.setState({ dutySource:v }) }));
+    const dres = this.dutyResolve(s.dutyTrader, s.dutySource);
+    const zone = this.matZone();
+    const matInfoBtns = [['govt','Government'],['corp','Corporate'],['poll','Polling']].map(([v,l])=>({ v,l, active:s.matInfo===v,
+      style:`padding:6px 11px;border-radius:7px;font-size:11px;cursor:pointer;border:1px solid ${s.matInfo===v?'rgba(52,211,153,.5)':C.border};background:${s.matInfo===v?'rgba(52,211,153,.1)':'#0C1210'};color:${s.matInfo===v?C.text:C.muted}`,
+      onSelect:()=> this.setState({ matInfo:v, matPreset:'custom' }) }));
+    const presetBtns = this.MAT_PRESETS.map(([v,l])=>({ v,l, active:s.matPreset===v,
+      style:`padding:6px 11px;border-radius:7px;font-size:11px;cursor:pointer;border:1px solid ${s.matPreset===v?'rgba(52,211,153,.5)':C.border};background:${s.matPreset===v?'rgba(52,211,153,.1)':'#0C1210'};color:${s.matPreset===v?C.text:C.muted}`,
+      onSelect:()=> this.applyMatPreset(v) }));
+    const publicStyle = `padding:6px 11px;border-radius:7px;font-size:11px;cursor:pointer;border:1px solid ${s.matPublic?'rgba(52,211,153,.5)':C.border};background:${s.matPublic?'rgba(52,211,153,.1)':'#0C1210'};color:${s.matPublic?C.emerald:C.muted}`;
+    const duty = {
+      graphEl:this.buildDutyGraph(), traderBtns:dutyTraderBtns, sourceBtns:dutySourceBtns,
+      verdict:dres.label, verdictAuth:dres.auth, verdictColor:dres.exists?C.emerald:C.muted,
+      verdictStyle:`display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:600;font-family:'JetBrains Mono', monospace;color:${dres.exists?C.emerald:C.muted};background:${dres.exists?'rgba(52,211,153,.12)':'rgba(156,163,175,.08)'};border:1px solid ${dres.exists?'rgba(52,211,153,.4)':'rgba(156,163,175,.3)'}`,
+      gridEl:this.buildMatGrid(), matInfoBtns, presetBtns, publicStyle,
+      matPublic:s.matPublic, onPublic:()=> this.setState(st=>({ matPublic:!st.matPublic, matPreset:'custom' })),
+      zoneLabel:zone.label, zoneColor:zone.color, zoneNote:zone.note, zoneKey:zone.key,
+      zoneStyle:`display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:600;font-family:'JetBrains Mono', monospace;color:${zone.color};background:${zone.color}20;border:1px solid ${zone.color}66`,
+      isIrClerk: s.matPreset==='irclerk'
+    };
+
+    // ---- tracker ----
+    const sortRows = (rows)=>{ const r=[...rows]; r.sort((a,b)=> s.sortDir==='asc'? a.d.localeCompare(b.d) : b.d.localeCompare(a.d)); return r; };
+    const mkRows = (rows)=> sortRows(rows).map(r=>({ ...r, color:this.scColor(r.sc),
+      chipStyle:`display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:600;font-family:'JetBrains Mono', monospace;color:${this.scColor(r.sc)};background:${this.scColor(r.sc)}1f;border:1px solid ${this.scColor(r.sc)}55;white-space:nowrap` }));
+    const tracker = {
+      sortDir:s.sortDir, sortLabel: s.sortDir==='asc'?'Date \u2191':'Date \u2193',
+      onSort:()=> this.setState(st=>({ sortDir: st.sortDir==='asc'?'desc':'asc' })),
+      sections:[
+        { title:'Enforcement actions', rows:mkRows(this.TRACKER.enforcement) },
+        { title:'Regulatory actions', rows:mkRows(this.TRACKER.regulatory) },
+        { title:'Legislation (119th Cong.)', rows:mkRows(this.TRACKER.legislation) }
+      ]
+    };
+
+    return {
+      tabs, active,
+      isEngine: active==='engine', isSurv: active==='surveillance', isCases: active==='cases',
+      isDuty: active==='duty', isTracker: active==='tracker',
+      engine, surveillance, cases, duty, tracker
+    };
+  }
+
+  buildCaseTimeline(cc){
+    const h = React.createElement, C = this.C;
+    const W=720, rowH=46, padL=120, padR=16, top=22;
+    const tracks = [['info','Information access', C.amber],['trades','Trades', C.red],['public','Public event', C.emerald]];
+    const H = top + tracks.length*rowH + 10;
+    const X = t=> padL + t*(W-padL-padR);
+    return h('svg',{ viewBox:`0 0 ${W} ${H}`, width:'100%', role:'img', 'aria-label':'Three-track case timeline', style:{ display:'block' } },
+      tracks.map((tk,i)=>{
+        const y = top + i*rowH + rowH/2;
+        const evs = cc.tracks[tk[0]]||[];
+        return h('g',{ key:tk[0] },
+          h('text',{ x:8, y:y+4, fontSize:10.5, fill:C.muted, fontFamily:'JetBrains Mono, monospace' }, tk[1]),
+          h('line',{ x1:padL, x2:W-padR, y1:y, y2:y, stroke:C.border, strokeWidth:1 }),
+          evs.map((e,j)=> h('g',{ key:j },
+            h('circle',{ cx:X(e.t), cy:y, r:5, fill:tk[2], stroke:'#0A0E0D', strokeWidth:1.5 }),
+            h('text',{ x:X(e.t), y: i===2? y+18 : y-12, textAnchor:'middle', fontSize:9.5, fill:C.text, fontFamily:'Inter, sans-serif' },
+              this.wrapLabel(e.l)) ))
+        );
+      }));
+  }
+  wrapLabel(s){ return s.length>22 ? s.slice(0,21)+'\u2026' : s; }
+}
+
+</script>
+</body>
+</html>
