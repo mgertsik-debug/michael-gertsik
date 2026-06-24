@@ -1,0 +1,56 @@
+# Insider Trading model -> Tracker ingestion
+# -----------------------------------------------------------------------------
+# Keeps the Insider Trading model's Tracker live. CFTC press releases are the
+# PRIMARY feed (keyword-gated to prediction-market insider trading); CourtListener
+# is SECONDARY (docket links/dates). AUTONOMOUS: it splices matches straight into
+# models/insider-trading.html and commits to the deploy branch, so Vercel
+# redeploys with no human step.
+#
+# Inert until committed to the default branch. CourtListener needs the
+# COURTLISTENER_API_TOKEN secret (shared with the PMLE ingest); CFTC needs none.
+# If CFTC.gov's WAF blocks the runner, the run logs it and continues on CL.
+name: insider-tracker-ingest
+
+on:
+  schedule:
+    - cron: "41 13 * * *"   # daily ~13:41 UTC (offset from the PMLE ingest)
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Look-back window in days"
+        required: false
+        default: "30"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: insider-tracker-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Ingest CFTC + CourtListener into the Tracker
+        env:
+          COURTLISTENER_API_TOKEN: ${{ secrets.COURTLISTENER_API_TOKEN }}
+        run: |
+          node scripts/ingest/insider.js --auto --days "${{ github.event.inputs.days || '30' }}"
+
+      - name: Commit + deploy if the Tracker changed
+        run: |
+          if git diff --quiet -- models/insider-trading.html data/ingest/insider-seen.json; then
+            echo "No new Tracker rows. Nothing to deploy."
+            exit 0
+          fi
+          git config user.email "noreply@anthropic.com"
+          git config user.name  "insider-tracker-ingest"
+          git add models/insider-trading.html data/ingest/insider-seen.json
+          git commit -m "ingest: auto-publish new insider-trading Tracker row(s)"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
