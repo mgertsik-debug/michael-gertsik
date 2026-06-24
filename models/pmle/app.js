@@ -65,7 +65,7 @@
 
   /* ------------------------------------------------------------- state --- */
   const S = {
-    appMode: "explore", lens: "map",
+    appMode: "explore", lens: "tracker",
     search: "", platform: [], contractType: [], forum: [], states: [], outcome: [],
     yearMin: YEAR_MIN, yearMax: YEAR_MAX, scrubberYear: YEAR_MAX, playing: false,
     selectedId: null,
