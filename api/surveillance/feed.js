@@ -171,22 +171,22 @@ async function kalshi() {
     cursor = d.cursor; pages++;
   } while (cursor && pages < 3);
 
-  collected.sort((a, b) => b.vol - a.vol);
-  collected.slice(0, 30).forEach((m, i) => {
-    const ratio = m.oi > 0 ? m.vol / m.oi : null;
-    let sev = null;
-    if (m.vol >= 3000 || (ratio && ratio >= 4)) sev = "high";
-    else if (m.vol >= 400 || (ratio && ratio >= 2)) sev = "med";
-    if (!sev) return;
-    const metric = ratio
-      ? "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(m.vol).toLocaleString() + " / " + Math.round(m.oi).toLocaleString() + " contracts)  [" + m.cat + "]"
-      : Math.round(m.vol).toLocaleString() + " contracts/24h, no standing OI  [" + m.cat + "]";
+  // Flag on CHURN (24h volume relative to standing open interest), not raw
+  // volume — a popular market with huge OI and modest daily turnover is calm,
+  // not suspicious. A high vol/OI ratio is the unusual-burst signal.
+  collected.forEach((m, i) => {
+    if (m.oi <= 0 || m.vol < 1000) return;     // need standing positions + real activity
+    const ratio = m.vol / m.oi;
+    if (ratio < 1.5) return;                    // only genuine churn spikes
+    const sev = ratio >= 3 ? "high" : "med";
     alerts.push(alert({
       id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: m.title,
-      detector: "vol_liq", sev, metric,
+      detector: "vol_liq", sev,
+      metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(m.vol).toLocaleString() + " / " + Math.round(m.oi).toLocaleString() + " contracts)  [" + m.cat + "]",
     }));
   });
-  return alerts.slice(0, 30);
+  alerts.sort((a, b) => (b.sev === "high" ? 1 : 0) - (a.sev === "high" ? 1 : 0));
+  return alerts.slice(0, 15);
 }
 
 /* ------------------------------------------------------------------ debug -- */
