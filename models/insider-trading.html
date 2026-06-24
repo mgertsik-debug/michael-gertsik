@@ -421,8 +421,9 @@ class Component extends DCLogic {
       who:'government', source:'classified', duty:'govt',
       instrument:'geopolitical', venue:'polymarket', conduct:'mnpi', concealed:true,
       openRegimes:{},
-      // --- Surveillance ---
-      scn:'vandyke', scrub:1,
+      // --- Surveillance console ---
+      survPlatform:'all', survSev:'all',
+      survLive:null, survLiveAt:null, survSources:null,
       // --- Case files ---
       caseId:'vandyke',
       // --- Duty & materiality ---
@@ -449,12 +450,25 @@ class Component extends DCLogic {
     document.addEventListener('mouseup', this._up);
     document.addEventListener('touchmove', this._move, { passive:false });
     document.addEventListener('touchend', this._up);
+    // Live surveillance feed: poll the serverless collector; fall back to the
+    // embedded sample if it is unreachable. Refreshes every 45s.
+    this._survPoll();
+    this._survTimer = setInterval(()=> this._survPoll(), 45000);
+  }
+  _survPoll(){
+    try {
+      fetch('/api/surveillance/feed', { cache:'no-store' })
+        .then(r=> r.ok ? r.json() : null)
+        .then(d=>{ if (d && Array.isArray(d.alerts)) this.setState({ survLive:d.alerts, survLiveAt:d.generatedAt, survSources:d.sources }); })
+        .catch(()=>{});
+    } catch(_) {}
   }
   componentWillUnmount(){
     document.removeEventListener('mousemove', this._move);
     document.removeEventListener('mouseup', this._up);
     document.removeEventListener('touchmove', this._move);
     document.removeEventListener('touchend', this._up);
+    if (this._survTimer) clearInterval(this._survTimer);
   }
 
   // ----- palette -----
@@ -1088,7 +1102,9 @@ class Component extends DCLogic {
         hSv('polyline',{ points:pts, fill:'none', stroke:color, strokeWidth:1.6, strokeLinejoin:'round', strokeLinecap:'round' }));
     };
     const pill = (active,color)=>`padding:6px 11px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace;border:1px solid ${active?color:'#1F2A26'};background:${active?color+'1a':'#0C1210'};color:${active?color:C.muted}`;
-    const alerts = this.SURVEIL_SAMPLE
+    const isLive = !!(s.survLive && s.survLive.length);
+    const feed = isLive ? s.survLive : this.SURVEIL_SAMPLE;
+    const alerts = feed
       .filter(a=> (survPlat==='all'||a.platform===survPlat) && (survSev==='all'||a.sev===survSev))
       .map(a=>{
         const det=detById[a.detector]||{ name:a.detector };
@@ -1102,7 +1118,7 @@ class Component extends DCLogic {
       });
     const nHigh = alerts.filter(a=>a.sev==='high').length;
     const surveillance = {
-      dataSource:'SAMPLE FEED · LIVE WIRING PENDING',
+      dataSource: isLive ? ('LIVE FEED · updated ' + (s.survLiveAt ? s.survLiveAt.slice(11,16) + ' UTC' : 'just now')) : 'SAMPLE FEED · LIVE WIRING PENDING',
       alerts,
       statCards:[
         { n:String(alerts.length), color:C.text, border:'#1F2A26', label:'active flags' },
