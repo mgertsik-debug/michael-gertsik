@@ -108,25 +108,36 @@
                   <div style="font-size:12px;line-height:1.5;color:#cdd3d0">{{ engine.classicalText }}</div>
                 </div>
 
-                <div data-board style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                  <sc-for list="{{ engine.regimes }}" as="r" hint-placeholder-count="9">
-                    <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:11px;padding:15px 16px;display:flex;flex-direction:column;gap:9px">
-                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
-                        <div>
-                          <div style="font-size:14px;font-weight:600;color:#E5E7EB">{{ r.name }}</div>
-                          <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772;margin-top:2px">{{ r.tag }}</div>
-                        </div>
-                        <span style="{{ r.chipStyle }}"><span>{{ r.mark }}</span>{{ r.statusLabel }}</span>
-                      </div>
-                      <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#9CA3AF;line-height:1.45">{{ r.authority }}</div>
-                      <div style="font-size:11.5px;color:#cdd3d0;line-height:1.45;padding:7px 10px;border-radius:7px;background:rgba(255,255,255,.02);border:1px solid #18221e">{{ r.element }}</div>
-                      <button type="button" aria-expanded="{{ r.open }}" style="align-self:flex-start;background:none;border:none;color:#34D399;font-size:11px;font-weight:600;cursor:pointer;padding:0;font-family:'JetBrains Mono', monospace" onClick="{{ r.onToggle }}">why &rsaquo;</button>
-                      <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
-                        <div style="font-size:12px;color:#9CA3AF;line-height:1.55;padding-top:2px;border-top:1px solid #18221e">{{ r.why }}</div>
-                      </sc-if>
+                <sc-for list="{{ engine.groups }}" as="g" hint-placeholder-count="4">
+                  <div style="margin-bottom:18px">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+                      <span style="width:7px;height:7px;border-radius:2px;background:{{ g.color }}"></span>
+                      <span style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:{{ g.color }}">{{ g.label }}</span>
+                      <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#6b7772">{{ g.count }}</span>
                     </div>
-                  </sc-for>
-                </div>
+                    <div data-board style="display:grid;grid-template-columns:{{ g.cols }};gap:12px">
+                      <sc-for list="{{ g.regimes }}" as="r" hint-placeholder-count="4">
+                        <div style="{{ r.cardStyle }}">
+                          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+                            <div>
+                              <div style="font-size:14px;font-weight:600;color:#E5E7EB">{{ r.name }}</div>
+                              <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772;margin-top:2px">{{ r.tag }}</div>
+                            </div>
+                            <span style="{{ r.chipStyle }}"><span>{{ r.mark }}</span>{{ r.statusLabel }}</span>
+                          </div>
+                          <sc-if value="{{ r.full }}" hint-placeholder-val="{{ true }}">
+                            <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#9CA3AF;line-height:1.45">{{ r.authority }}</div>
+                            <div style="font-size:11.5px;color:#cdd3d0;line-height:1.45;padding:7px 10px;border-radius:7px;background:rgba(255,255,255,.02);border:1px solid #18221e">{{ r.element }}</div>
+                            <button type="button" aria-expanded="{{ r.open }}" style="align-self:flex-start;background:none;border:none;color:#34D399;font-size:11px;font-weight:600;cursor:pointer;padding:0;font-family:'JetBrains Mono', monospace" onClick="{{ r.onToggle }}">why &rsaquo;</button>
+                          </sc-if>
+                          <sc-if value="{{ r.openFull }}" hint-placeholder-val="{{ false }}">
+                            <div style="font-size:12px;color:#9CA3AF;line-height:1.55;padding-top:2px;border-top:1px solid #18221e">{{ r.why }}</div>
+                          </sc-if>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
               </div>
             </div>
           </div>
@@ -961,6 +972,21 @@ class Component extends DCLogic {
     });
     const flagCount = regimes.filter(r=>r.status==='liable').length;
     const unsettledCount = regimes.filter(r=>r.status==='unsettled').length;
+    // Group the regime cards by verdict so the board reads top-down by what
+    // matters: likely liability first, then unsettled, then defenses, then the
+    // regimes that simply do not apply (dimmed + compact). Empty groups drop out.
+    const GROUP_DEF = [
+      ['liable',    'Likely liability',         C.red],
+      ['unsettled', 'Turns on unsettled law',   C.amber],
+      ['missing',   'Element missing / defense', C.emerald],
+      ['na',        'Does not apply here',      C.muted],
+    ];
+    const groups = GROUP_DEF.map(([key,label,color])=>{
+      const compact = key==='na';
+      const inGroup = regimes.filter(r=>r.status===key).map(r=>({ ...r, full: !compact, openFull: !compact && r.open,
+        cardStyle:`background:#0C1210;border:1px solid ${compact?'#161e1b':'#1F2A26'};border-radius:11px;padding:${compact?'11px 14px':'15px 16px'};display:flex;flex-direction:column;gap:${compact?'7px':'9px'};opacity:${compact?'0.6':'1'}` }));
+      return { key, label, color, count:String(inGroup.length), cols: compact?'1fr 1fr':'1fr 1fr', regimes:inGroup };
+    }).filter(g=> g.regimes.length>0);
     const controls = this.ENGINE_CONTROLS.map(ctl=>({
       key:ctl.key, label:ctl.label, helper:ctl.helper,
       opts: ctl.opts.map(([val,lab])=>{
@@ -972,7 +998,7 @@ class Component extends DCLogic {
     }));
     const concealStyle = `padding:7px 12px;border-radius:8px;font-size:11.5px;font-weight:600;cursor:pointer;border:1px solid ${s.concealed?'rgba(248,113,113,.5)':C.border};background:${s.concealed?'rgba(248,113,113,.10)':'#0C1210'};color:${s.concealed?C.red:C.muted}`;
     const engine = {
-      controls, regimes, flagCount, unsettledCount,
+      controls, regimes, groups, flagCount, unsettledCount,
       statCards:[
         { n:String(flagCount), color:C.red, border:'rgba(248,113,113,.3)', label:'regimes flag likely liability' },
         { n:String(unsettledCount), color:C.amber, border:'rgba(251,191,36,.3)', label:'turn on unsettled law' }
