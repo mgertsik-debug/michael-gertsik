@@ -780,12 +780,9 @@
     return _tip;
   }
   function showTip(e, title, lines) {
-    const t = ensureTip();
-    clear(t);
-    t.appendChild(h("div", { style: { font: `600 12.5px ${SANS}`, color: "#F3F4F6", lineHeight: "1.3" } }, title));
-    (lines || []).filter(Boolean).forEach((l) => t.appendChild(h("div", { style: { font: `500 11px ${MONO}`, color: "#9CA3AF", marginTop: "3px" } }, l)));
-    t.style.display = "block";
-    moveTip(e);
+    // Hover tooltips are disabled: the MATTER DETAIL panel already shows this
+    // info, and the floating tip overlapped the panel. No-op on purpose.
+    return;
   }
   function moveTip(e) { if (!_tip) return; _tip.style.left = e.clientX + 14 + "px"; _tip.style.top = e.clientY + 14 + "px"; }
   function hideTip() { if (_tip) _tip.style.display = "none"; }
