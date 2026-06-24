@@ -59,13 +59,13 @@
   const GATE_LABELS = {
     swap:    "Is it a swap? (CEA / CFTC jurisdiction)",
     special: "Special rule on enumerated / gaming activity",
-    cleared: "Cleared / permitted to list",
+    cleared: "Past the classification gates -> downstream consumer / contract claim",
   };
   const DOCTRINE_STATIONS = [
     ["entry",   "Contracts"],
     ["swap",    "Is it a swap?"],
     ["special", "Special rule\n(gaming / enumerated)?"],
-    ["cleared", "Cleared /\nPermitted"],
+    ["cleared", "Downstream\nclaims"],
   ];
 
   /* -- US TILE GRID -------------------------------------------------------
