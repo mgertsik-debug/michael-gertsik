@@ -63,15 +63,60 @@
         <!-- ============ TAB 1: ENGINE ============ -->
         <sc-if value="{{ isEngine }}" hint-placeholder-val="{{ true }}">
           <div>
-            <div data-split style="display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start">
+            <!-- TOP: verdict dashboard (horizontal, full width) -->
+            <div style="margin-bottom:22px">
+              <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+                <sc-for list="{{ engine.statCards }}" as="st" hint-placeholder-count="2">
+                  <div style="flex:1;min-width:170px;background:#0C1210;border:1px solid {{ st.border }};border-radius:10px;padding:13px 16px">
+                    <div style="font-size:30px;font-weight:700;font-family:'JetBrains Mono', monospace;line-height:1;color:{{ st.color }}">{{ st.n }}</div>
+                    <div style="font-size:11.5px;color:#9CA3AF;margin-top:3px">{{ st.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
 
-              <!-- left: fact builder -->
-              <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:18px">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-                  <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#9CA3AF">FACT-PATTERN BUILDER</div>
+              <div style="{{ engine.classicalStyle }};margin-bottom:16px">
+                <span style="font-size:18px;line-height:1;color:{{ engine.classicalColor }}">&#9211;</span>
+                <div style="font-size:12px;line-height:1.5;color:#cdd3d0">{{ engine.classicalText }}</div>
+              </div>
+
+              <sc-for list="{{ engine.groups }}" as="g" hint-placeholder-count="4">
+                <div style="margin-bottom:18px">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+                    <span style="width:7px;height:7px;border-radius:2px;background:{{ g.color }}"></span>
+                    <span style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:{{ g.color }}">{{ g.label }}</span>
+                    <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#6b7772">{{ g.count }}</span>
+                  </div>
+                  <div data-board style="display:grid;grid-template-columns:{{ g.cols }};gap:12px">
+                    <sc-for list="{{ g.regimes }}" as="r" hint-placeholder-count="4">
+                      <div style="{{ r.cardStyle }}">
+                        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+                          <div>
+                            <div style="font-size:14px;font-weight:600;color:#E5E7EB">{{ r.name }}</div>
+                            <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772;margin-top:2px">{{ r.tag }}</div>
+                          </div>
+                          <span style="{{ r.chipStyle }}"><span>{{ r.mark }}</span>{{ r.statusLabel }}</span>
+                        </div>
+                        <sc-if value="{{ r.full }}" hint-placeholder-val="{{ true }}">
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#9CA3AF;line-height:1.45">{{ r.authority }}</div>
+                          <div style="font-size:11.5px;color:#cdd3d0;line-height:1.45;padding:7px 10px;border-radius:7px;background:rgba(255,255,255,.02);border:1px solid #18221e">{{ r.element }}</div>
+                          <button type="button" aria-expanded="{{ r.open }}" style="align-self:flex-start;background:none;border:none;color:#34D399;font-size:11px;font-weight:600;cursor:pointer;padding:0;font-family:'JetBrains Mono', monospace" onClick="{{ r.onToggle }}">why &rsaquo;</button>
+                        </sc-if>
+                        <sc-if value="{{ r.openFull }}" hint-placeholder-val="{{ false }}">
+                          <div style="font-size:12px;color:#9CA3AF;line-height:1.55;padding-top:2px;border-top:1px solid #18221e">{{ r.why }}</div>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
                 </div>
+              </sc-for>
+            </div>
+
+            <!-- BELOW: fact-pattern builder (horizontal) -->
+            <div style="background:#0C1210;border:1px solid #1F2A26;border-radius:12px;padding:18px">
+              <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.12em;color:#9CA3AF;margin-bottom:16px">FACT-PATTERN BUILDER</div>
+              <div data-builder style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px 22px;align-items:start">
                 <sc-for list="{{ engine.controls }}" as="ctl" hint-placeholder-count="6">
-                  <div style="margin-bottom:16px">
+                  <div>
                     <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">{{ ctl.label }}</div>
                     <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">{{ ctl.helper }}</div>
                     <div style="display:flex;flex-wrap:wrap;gap:6px">
@@ -81,63 +126,16 @@
                     </div>
                   </div>
                 </sc-for>
-                <div style="margin-bottom:18px">
-                  <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:8px">Concealment</div>
+                <div>
+                  <div style="font-size:12.5px;font-weight:600;color:#E5E7EB;margin-bottom:3px">Concealment</div>
+                  <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#6b7772;margin-bottom:8px">whether proceeds were hidden</div>
                   <button type="button" aria-pressed="{{ engine.classicalDark }}" style="{{ engine.concealStyle }}" onClick="{{ engine.onConceal }}">Concealed proceeds (crypto / deletion)</button>
                 </div>
-                <div style="display:flex;flex-wrap:wrap;gap:8px;padding-top:16px;border-top:1px solid #1F2A26">
-                  <button type="button" style="flex:1;min-width:120px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onVanDyke }}">Load Van Dyke</button>
-                  <button type="button" style="flex:1;min-width:120px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onSpagnuolo }}">Load Spagnuolo</button>
-                  <button type="button" style="width:100%;padding:8px;border-radius:8px;border:1px solid #1F2A26;background:transparent;color:#9CA3AF;font-size:11px;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onReset }}">Reset to clean baseline</button>
-                </div>
               </div>
-
-              <!-- right: verdict board -->
-              <div>
-                <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px">
-                  <sc-for list="{{ engine.statCards }}" as="st" hint-placeholder-count="2">
-                    <div style="flex:1;min-width:150px;background:#0C1210;border:1px solid {{ st.border }};border-radius:10px;padding:13px 16px">
-                      <div style="font-size:30px;font-weight:700;font-family:'JetBrains Mono', monospace;line-height:1;color:{{ st.color }}">{{ st.n }}</div>
-                      <div style="font-size:11.5px;color:#9CA3AF;margin-top:3px">{{ st.label }}</div>
-                    </div>
-                  </sc-for>
-                </div>
-
-                <div style="{{ engine.classicalStyle }};margin-bottom:16px">
-                  <span style="font-size:18px;line-height:1;color:{{ engine.classicalColor }}">&#9211;</span>
-                  <div style="font-size:12px;line-height:1.5;color:#cdd3d0">{{ engine.classicalText }}</div>
-                </div>
-
-                <sc-for list="{{ engine.groups }}" as="g" hint-placeholder-count="4">
-                  <div style="margin-bottom:18px">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
-                      <span style="width:7px;height:7px;border-radius:2px;background:{{ g.color }}"></span>
-                      <span style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:{{ g.color }}">{{ g.label }}</span>
-                      <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#6b7772">{{ g.count }}</span>
-                    </div>
-                    <div data-board style="display:grid;grid-template-columns:{{ g.cols }};gap:12px">
-                      <sc-for list="{{ g.regimes }}" as="r" hint-placeholder-count="4">
-                        <div style="{{ r.cardStyle }}">
-                          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
-                            <div>
-                              <div style="font-size:14px;font-weight:600;color:#E5E7EB">{{ r.name }}</div>
-                              <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772;margin-top:2px">{{ r.tag }}</div>
-                            </div>
-                            <span style="{{ r.chipStyle }}"><span>{{ r.mark }}</span>{{ r.statusLabel }}</span>
-                          </div>
-                          <sc-if value="{{ r.full }}" hint-placeholder-val="{{ true }}">
-                            <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#9CA3AF;line-height:1.45">{{ r.authority }}</div>
-                            <div style="font-size:11.5px;color:#cdd3d0;line-height:1.45;padding:7px 10px;border-radius:7px;background:rgba(255,255,255,.02);border:1px solid #18221e">{{ r.element }}</div>
-                            <button type="button" aria-expanded="{{ r.open }}" style="align-self:flex-start;background:none;border:none;color:#34D399;font-size:11px;font-weight:600;cursor:pointer;padding:0;font-family:'JetBrains Mono', monospace" onClick="{{ r.onToggle }}">why &rsaquo;</button>
-                          </sc-if>
-                          <sc-if value="{{ r.openFull }}" hint-placeholder-val="{{ false }}">
-                            <div style="font-size:12px;color:#9CA3AF;line-height:1.55;padding-top:2px;border-top:1px solid #18221e">{{ r.why }}</div>
-                          </sc-if>
-                        </div>
-                      </sc-for>
-                    </div>
-                  </div>
-                </sc-for>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid #1F2A26">
+                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onVanDyke }}">Load Van Dyke</button>
+                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08);color:#34D399;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onSpagnuolo }}">Load Spagnuolo</button>
+                <button type="button" style="flex:1;min-width:150px;padding:9px;border-radius:8px;border:1px solid #1F2A26;background:transparent;color:#9CA3AF;font-size:11.5px;cursor:pointer;font-family:'JetBrains Mono', monospace" onClick="{{ engine.onReset }}">Reset to clean baseline</button>
               </div>
             </div>
           </div>
@@ -985,7 +983,7 @@ class Component extends DCLogic {
       const compact = key==='na';
       const inGroup = regimes.filter(r=>r.status===key).map(r=>({ ...r, full: !compact, openFull: !compact && r.open,
         cardStyle:`background:#0C1210;border:1px solid ${compact?'#161e1b':'#1F2A26'};border-radius:11px;padding:${compact?'11px 14px':'15px 16px'};display:flex;flex-direction:column;gap:${compact?'7px':'9px'};opacity:${compact?'0.6':'1'}` }));
-      return { key, label, color, count:String(inGroup.length), cols: compact?'1fr 1fr':'1fr 1fr', regimes:inGroup };
+      return { key, label, color, count:String(inGroup.length), cols: compact?'repeat(auto-fill,minmax(230px,1fr))':'repeat(auto-fill,minmax(300px,1fr))', regimes:inGroup };
     }).filter(g=> g.regimes.length>0);
     const controls = this.ENGINE_CONTROLS.map(ctl=>({
       key:ctl.key, label:ctl.label, helper:ctl.helper,
