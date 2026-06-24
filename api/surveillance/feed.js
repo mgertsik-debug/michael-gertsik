@@ -58,40 +58,52 @@ function alert(o) {
 function hhmm() { return new Date().toISOString().slice(11, 16) + " UTC"; }
 
 /* ------------------------------------------------------------ Polymarket --- */
+// Routine high-churn sports/esports markets are NOT an insider signal — a busy
+// World Cup match naturally has volume >> resting liquidity. Filter them so the
+// feed surfaces thin, niche, non-sports markets where a sharp spike is telling.
+const SPORTS_RE = /\bvs\.?\b|spread|o\/u|over\/under|moneyline|win on \d{4}-|world cup|counter-?strike|esports|goalscorer|glove|\bnba\b|\bnfl\b|\bmlb\b|\bnhl\b|\bufc\b|\bf1\b|halftime|to score|\bbo\d\b/i;
+
 async function polymarket() {
   const alerts = [];
   // Active markets ranked by 24h volume (Gamma API, public).
   const markets = await getJSON(
-    "https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=60&order=volume24hr&ascending=false"
+    "https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=150&order=volume24hr&ascending=false"
   ).catch(() => []);
   (Array.isArray(markets) ? markets : []).forEach((m, i) => {
     const vol = num(m.volume24hr || m.volume_24hr || m.volume24Hr);
     const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
-    const q = (m.question || m.title || m.slug || "Market").toString().slice(0, 80);
-    if (liq > 0 && vol / liq >= 4 && vol > 25000) {
-      alerts.push(alert({
-        id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
-        detector: "vol_liq", sev: vol / liq >= 8 ? "high" : "med",
-        metric: "vol/liq " + (vol / liq).toFixed(1) + "x  ($" + Math.round(vol / 1000) + "k / $" + Math.round(liq / 1000) + "k)",
-      }));
-    }
+    const q = (m.question || m.title || m.slug || "Market").toString().slice(0, 90);
+    if (!(liq > 0 && vol > 20000)) return;
+    const ratio = vol / liq;
+    const sport = SPORTS_RE.test(q);
+    const thin = liq < 80000;            // a genuinely shallow, niche book
+    let sev = null;
+    if (!sport && thin && ratio >= 8) sev = "high";        // thin niche market, sharp spike
+    else if (!sport && ratio >= 6) sev = "med";            // non-sports churn spike
+    else if (sport && thin && ratio >= 40) sev = "med";    // even for sports, extreme on a thin book
+    if (!sev) return;
+    alerts.push(alert({
+      id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
+      detector: thin ? "vacuum" : "vol_liq", sev,
+      metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k vol / $" + Math.round(liq / 1000) + "k liq)",
+    }));
   });
-  // Recent large trades (Data API, public). Field names vary; read defensively.
-  const trades = await getJSON("https://data-api.polymarket.com/trades?limit=120&takerOnly=false").catch(() => []);
+  // Recent large single fills (Data API, public). usd = shares * price.
+  const trades = await getJSON("https://data-api.polymarket.com/trades?limit=100").catch(() => []);
   (Array.isArray(trades) ? trades : []).forEach((t, i) => {
-    const size = num(t.size || t.amount || t.usdcSize || t.makerAmountFilled);
-    const price = num(t.price || t.outcomePrice) || 1;
-    const usd = size > 1000 ? size : size * price; // size may already be USDC
-    const title = (t.title || t.market || t.eventSlug || t.slug || "Market").toString().slice(0, 80);
-    if (usd >= 10000) {
+    const shares = num(t.size || t.amount || t.makerAmountFilled);
+    const price = num(t.price || t.outcomePrice);
+    const usd = price > 0 && price <= 1 ? shares * price : num(t.usdcSize || t.size);
+    const title = (t.title || t.market || t.eventSlug || t.slug || "Market").toString().slice(0, 90);
+    if (usd >= 15000) {
       alerts.push(alert({
-        id: "pm-vacuum-" + (t.transactionHash || t.id || i), ts: hhmm(), platform: "polymarket", market: title,
-        detector: "vacuum", sev: usd >= 50000 ? "high" : "med",
+        id: "pm-whale-" + (t.transactionHash || t.id || i), ts: hhmm(), platform: "polymarket", market: title,
+        detector: "vacuum", sev: usd >= 75000 ? "high" : "med",
         metric: "$" + Math.round(usd / 1000) + "k single fill" + (t.side ? " (" + String(t.side).toLowerCase() + ")" : ""),
       }));
     }
   });
-  return alerts.slice(0, 30);
+  return alerts.slice(0, 40);
 }
 
 /* ----------------------------------------------------------------- Kalshi -- */
