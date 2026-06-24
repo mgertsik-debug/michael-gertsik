@@ -148,25 +148,43 @@ function kalshiHeaders(method, path) {
 async function kalshi() {
   const alerts = [];
   const base = "https://api.elections.kalshi.com";
-  const path = "/trade-api/v2/markets?limit=1000&status=open";
-  const data = await getJSON(base + path, { headers: kalshiHeaders("GET", "/trade-api/v2/markets") }).catch(() => null);
-  const markets = (data && (data.markets || data.data)) || [];
+  // Target insider-relevant CATEGORIES via the events endpoint, instead of the
+  // raw /markets firehose (which is flooded with freshly-created sports markets).
+  const CATS = /econom|politic|world|financ|elect|climate|health/i;
+  let markets = [];
+  try {
+    const d = await getJSON(base + "/trade-api/v2/events?limit=200&status=open&with_nested_markets=true",
+      { headers: kalshiHeaders("GET", "/trade-api/v2/events") });
+    const events = (d && (d.events || d.data)) || [];
+    events.forEach((ev) => {
+      const cat = String(ev.category || "");
+      const evTitle = String(ev.title || ev.sub_title || "");
+      const ok = CATS.test(cat) || INSIDER_TOPICS.has(topic(evTitle + " " + (ev.series_ticker || "")));
+      if (!ok) return;
+      (ev.markets || []).forEach((m) => markets.push({ ...m, _evTitle: evTitle, _cat: cat }));
+    });
+  } catch (_) { /* fall through to raw market scan */ }
+  if (!markets.length) {
+    const d = await getJSON(base + "/trade-api/v2/markets?limit=1000&status=open",
+      { headers: kalshiHeaders("GET", "/trade-api/v2/markets") }).catch(() => null);
+    markets = (d && (d.markets || d.data)) || [];
+  }
   markets.forEach((m, i) => {
     // Kalshi v2 uses _fp (fixed-point counts) and _dollars suffixes.
     const vol = num(m.volume_24h_fp || m.volume_24h || m.volume_fp || m.volume);
     const oi = num(m.open_interest_fp || m.open_interest);
-    const title = (m.title || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 90);
-    const tp = topic(title + " " + (m.event_ticker || "") + " " + (m.ticker || ""));
-    if (!INSIDER_TOPICS.has(tp)) return;          // only insider-relevant topics
-    if (vol < 1000) return;                        // contracts; needs real activity
-    if (oi <= 0) return;                           // need standing positions to compare against
-    const ratio = vol / oi;                        // 24h churn vs open interest
+    const title = (m._evTitle || m.title || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 90);
+    const tp = m._cat ? "kalshi" : topic(title + " " + (m.event_ticker || "") + " " + (m.ticker || ""));
+    if (!m._cat && !INSIDER_TOPICS.has(tp)) return;  // raw-scan path still topic-gates
+    if (vol < 1000) return;                          // contracts; needs real activity
+    if (oi <= 0) return;                             // need standing positions to compare against
+    const ratio = vol / oi;                          // 24h churn vs open interest
     if (ratio < 2.5) return;
     const sev = ratio >= 5 ? "high" : "med";
     alerts.push(alert({
       id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: title,
       detector: "vol_liq", sev,
-      metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(vol).toLocaleString() + " / " + Math.round(oi).toLocaleString() + " contracts)  [" + tp + "]",
+      metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(vol).toLocaleString() + " / " + Math.round(oi).toLocaleString() + " contracts)  [" + (m._cat || tp) + "]",
     }));
   });
   return alerts.slice(0, 30);
@@ -184,6 +202,18 @@ async function diagnose() {
     const arr = (d && (d.markets || d.data)) || [];
     o.kalshi = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], sample: arr[0] || null };
   } catch (e) { o.kalshi = { ok: false, error: e.message }; }
+  try {
+    const d = await getJSON("https://api.elections.kalshi.com/trade-api/v2/events?limit=30&status=open&with_nested_markets=true",
+      { headers: kalshiHeaders("GET", "/trade-api/v2/events") });
+    const arr = (d && (d.events || d.data)) || [];
+    o.kalshiEvents = {
+      ok: true, count: arr.length,
+      keys: arr[0] ? Object.keys(arr[0]) : [],
+      categories: [...new Set(arr.map((e) => e.category).filter(Boolean))],
+      sampleTitles: arr.slice(0, 8).map((e) => (e.title || "") + " [" + (e.category || "") + "]"),
+      sampleMarketKeys: arr[0] && arr[0].markets && arr[0].markets[0] ? Object.keys(arr[0].markets[0]) : [],
+    };
+  } catch (e) { o.kalshiEvents = { ok: false, error: e.message }; }
   try {
     const d = await getJSON("https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=5&order=volume24hr&ascending=false");
     const arr = Array.isArray(d) ? d : (d.data || []);
