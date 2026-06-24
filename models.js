@@ -44,6 +44,24 @@
 const MODELS = [
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────
+  // Insider Trading on Prediction Markets (Model 04). Assemble a fact
+  // pattern once and every legal regime evaluates it in parallel (the
+  // Liability Engine), plus a surveillance lab, interactive case files,
+  // duty & materiality tools, and a live enforcement Tracker. Built as a
+  // self-contained Design Component (models/insider-trading.html + the
+  // models/insider/ runtime); the Tracker's enforcement rows are wired to
+  // CourtListener so new prosecutions flow in automatically.
+  {
+    id: "insider-trading",
+    category: "Prediction Market Litigation",
+    level: "Liability Engine",
+    title: "Insider Trading on Prediction Markets",
+    summary: "Assemble a fact pattern once and watch every legal regime evaluate it in parallel: CFTC Rule 180.1, the Eddie Murphy Rule, wire and commodities fraud, the Martin Act, and platform rules. Plus a surveillance lab, case-file teardowns, duty and materiality tools, and a live enforcement tracker.",
+    status: "live",
+    src: "/models/insider-trading.html",
+  },
+
+  // ── LIVE INTERACTIVE MODEL ───────────────────────────────
   // The Prediction Market Litigation Explorer: every suit, regulatory
   // action, and ruling across Kalshi, Polymarket, PredictIt and the
   // CFTC / SEC / state gaming regulators, read through five synchronized

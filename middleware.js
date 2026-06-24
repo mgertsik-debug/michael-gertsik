@@ -38,6 +38,10 @@ const ARTICLES = {
 // here whenever you publish a new model so LinkedIn/Twitter
 // previews show the right title and description for /model/<id>.
 const MODELS = {
+  'insider-trading': {
+    title: 'Insider Trading on Prediction Markets | Michael Gertsik',
+    description: 'Assemble a fact pattern and watch every legal regime evaluate it in parallel: CFTC Rule 180.1, the Eddie Murphy Rule, wire and commodities fraud, the Martin Act, and platform rules. Plus a surveillance lab, case-file teardowns, duty and materiality tools, and a live enforcement tracker.',
+  },
   'securities-analyzer': {
     title: 'Is It a Security? The Complete Analyzer | Michael Gertsik',
     description: 'A guided, authority-backed walkthrough of the federal securities analysis: Howey, Reves, entity structures, real estate, and the statutory exceptions, with the controlling case law at every step.',
