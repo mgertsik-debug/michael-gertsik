@@ -51,10 +51,11 @@ const num = (x) => { const n = Number(x); return isFinite(n) ? n : 0; };
 function alert(o) {
   return {
     id: o.id, ts: o.ts, platform: o.platform, market: o.market, detector: o.detector,
-    sev: o.sev, metric: o.metric, spark: o.spark || null,
+    sev: o.sev, metric: o.metric, spark: o.spark || null, metrics: o.metrics || null,
     note: o.note || NOTE[o.detector] || "", gap: o.gap || GAP[o.detector] || "Anomalous, not proof of a violation.",
   };
 }
+const clip = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 function hhmm() { return new Date().toISOString().slice(11, 16) + " UTC"; }
 
 /* --------------------------------------------------------- topic classifier -
@@ -153,14 +154,20 @@ async function polymarket() {
     if (!INSIDER_TOPICS.has(tp)) return;          // skip sports / crypto-price / other
     if (vol < 50000) return;                       // needs real money behind it
     const cond = m.conditionId || null;
+    // current YES price -> before/after for the event-aligned score
+    let price = num(m.lastTradePrice);
+    if (!price && m.outcomePrices) { try { const op = typeof m.outcomePrices === "string" ? JSON.parse(m.outcomePrices) : m.outcomePrices; price = num(op && op[0]); } catch (_) {} }
     // Pre-event price-move detector (the strongest signal): a sharp 1h move on a
     // market that turns on nonpublic information can be front-running the wire.
     const ch = num(m.oneHourPriceChange);
     if (Math.abs(ch) >= 0.12) {
+      const pA = price ? clip(price, 0.01, 0.99) : null;
+      const pB = pA != null ? clip(pA - ch, 0.01, 0.99) : null;
       out.push({ cond, a: alert({
         id: "pm-move-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
         detector: "lead", sev: Math.abs(ch) >= 0.25 ? "high" : "med",
         metric: (ch >= 0 ? "+" : "") + Math.round(ch * 100) + "c in 1h  ($" + Math.round(vol / 1000) + "k vol)  [" + tp + "]",
+        metrics: { pBefore: pB, pAfter: pA, windowH: 1, volUsd: Math.round(vol), liqUsd: liq ? Math.round(liq) : null, volRatio: liq ? +(vol / liq).toFixed(1) : null },
       }) });
     }
     // Volume-to-liquidity spike on a thin niche book.
@@ -171,6 +178,7 @@ async function polymarket() {
           id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
           detector: "vol_liq", sev: (ratio >= 15 || (vol >= 400000 && liq < 30000)) ? "high" : "med",
           metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k / $" + Math.round(liq / 1000) + "k)  [" + tp + "]",
+          metrics: { volUsd: Math.round(vol), liqUsd: Math.round(liq), volRatio: +ratio.toFixed(1) },
         }) });
       }
     }
@@ -194,6 +202,7 @@ async function polymarket() {
     id: "pm-whale-" + w.hash, ts: hhmm(), platform: "polymarket", market: w.title,
     detector: "vacuum", sev: w.usd >= 50000 ? "high" : "med",
     metric: "$" + Math.round(w.usd / 1000) + "k fill" + (w.side ? " (" + String(w.side).toLowerCase() + ")" : "") + "  [" + w.tp + "]",
+    metrics: { volUsd: Math.round(w.usd) },
   }) }));
 
   // ---- measured z-score enrichment on the flagged markets ----
@@ -262,6 +271,7 @@ async function kalshi() {
       id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: m.title,
       detector: "vol_liq", sev,
       metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(m.vol).toLocaleString() + " / " + Math.round(m.oi).toLocaleString() + " contracts)  [" + m.cat + "]",
+      metrics: { contracts: Math.round(m.vol), oi: Math.round(m.oi), volRatio: +ratio.toFixed(1) },
     }));
   });
   alerts.sort((a, b) => (b.sev === "high" ? 1 : 0) - (a.sev === "high" ? 1 : 0));
