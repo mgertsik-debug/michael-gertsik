@@ -633,24 +633,32 @@ class Component extends DCLogic {
       h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.1em", color: "#6B756F" } }, label),
       h("div", { style: { fontFamily: mono, fontSize: "15px", fontWeight: 600, color: color || "#ECEFED" } }, val));
     const fired = (fz.fired || []);
+    const prof = d.profile || {};
     const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", conceal: "concealment", cluster: "group" };
+    const profitColor = (prof.profitNum || 0) >= 0 ? "#34D399" : "#F87171";
     return h("div", null,
       h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" } },
         h("div", { style: { fontFamily: mono, fontSize: "13px", color: "#ECEFED" } }, short(d.user)),
         h("span", { style: { fontFamily: mono, fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: tc, border: "1px solid " + tc + "66", background: tc + "14", borderRadius: "999px", padding: "4px 11px" } }, flagged ? tier.toUpperCase() : "NOT FLAGGED")),
       h("p", { style: { fontSize: "14px", lineHeight: 1.6, color: "#D7DCD9", margin: "14px 0 16px" } }, d.verdict || ""),
-      won.hasData === false
-        ? h("div", { style: { fontFamily: mono, fontSize: "12px", color: "#949C98", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "13px" } }, "Reason: " + (won.reason || "fewer than 5 resolved long-shot bets") + ".")
-        : h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(110px,1fr))", gap: "14px", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "15px 16px" } },
+      // ALWAYS-ON PROFILE — works for any wallet
+      h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(96px,1fr))", gap: "14px", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "15px 16px" } },
+        row("RESOLVED BETS", String(prof.resolvedBets != null ? prof.resolvedBets : "—")),
+        row("WIN RATE", prof.winRate || "—"),
+        row("PROFIT", prof.profit || "—", profitColor),
+        row("AVG ODDS", prof.avgOdds || "—"),
+        row("LONG-SHOTS", (prof.longShotBets != null ? prof.longShotBets + " · " + (prof.longShotWinRate || "—") : "—"))),
+      // FORENSIC IMPROBABILITY — only when there are >=5 long-shots to score
+      won.hasData === false ? null
+        : h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(110px,1fr))", gap: "14px", background: "rgba(52,211,153,0.04)", border: "1px solid " + tc + "44", borderRadius: "10px", padding: "15px 16px", marginTop: "12px" } },
             row("CHANCE BY LUCK", won.improbText || "—", tc),
             row("LONG-SHOT WINS", (won.k != null ? won.k + " / " + won.n : "—")),
-            row("WIN RATE", won.winRate || "—"),
-            row("AVG ODDS", (won.p != null ? Math.round(won.p * 100) + "%" : "—")),
-            row("DETECTORS", String((fz.agreeing != null ? fz.agreeing : fired.length)))),
+            row("AT AVG ODDS", (won.p != null ? Math.round(won.p * 100) + "%" : "—")),
+            row("DETECTORS AGREEING", String((fz.agreeing != null ? fz.agreeing : fired.length)))),
       fired.length ? h("div", { style: { display: "flex", flexWrap: "wrap", gap: "7px", marginTop: "13px" } },
         fired.map((k, i) => h("span", { key: i, style: { fontFamily: mono, fontSize: "10px", color: "#34D399", border: "1px solid rgba(52,211,153,0.35)", background: "rgba(52,211,153,0.08)", borderRadius: "999px", padding: "3px 9px" } }, "✓ " + (nameMap[k] || k)))) : null,
       (d.sampleBets && d.sampleBets.length) ? h("div", { style: { marginTop: "16px" } },
-        h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#6B756F", marginBottom: "8px" } }, "SAMPLE LONG-SHOT BETS (" + d.longShotBets + " total)"),
+        h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#6B756F", marginBottom: "8px" } }, (d.longShotBets ? "SAMPLE LONG-SHOT BETS (" + d.longShotBets + " total)" : "SAMPLE BETS")),
         h("div", { style: { display: "flex", flexDirection: "column", gap: "4px" } },
           d.sampleBets.map((b, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: "10px", fontFamily: mono, fontSize: "11px", color: "#C4CAC6", padding: "6px 0", borderBottom: "1px solid #141C18" } },
             h("span", { style: { color: "#949C98", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%" } }, b.market),
