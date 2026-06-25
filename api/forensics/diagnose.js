@@ -43,18 +43,27 @@ async function scoreWallet(addr) {
 
   // Data-source probe: show what each Polymarket feed returns for this wallet, so
   // the source of truth is verifiable rather than assumed.
-  let positions = [], utrades = [];
-  try { positions = await poly.userPositions(addr); } catch (_) {}
+  let utrades = [];
   try { utrades = await poly.userTrades(addr); } catch (e) { return Object.assign(o, { error: "trades fetch failed: " + (e && e.message) }); }
+
+  // SELF-SUFFICIENT lookup: resolve markets the scan catalog hasn't reached yet
+  // on-demand from Gamma, so any wallet scores fully right now — not only the
+  // ones the sweep happens to have cataloged.
+  const condOf = (t) => t.conditionId || t.market || t.condition_id;
+  const inCat = (c) => !!catalog[c];
+  const missing = Array.from(new Set(utrades.map(condOf).filter((c) => c && !inCat(c))));
+  let onDemand = {};
+  if (missing.length) { try { onDemand = await poly.marketsByConds(missing); } catch (_) {} }
+  const merged = Object.assign({}, catalog, onDemand);
   o.sources = {
-    positions: positions.length,
-    positionsResolvedParsed: positions.map(poly.positionToBet).filter(Boolean).length,
     trades: utrades.length,
-    tradesInCatalog: utrades.filter((t) => catalog[t.conditionId || t.market || t.condition_id]).length,
+    catalogSize: o.catalogSize,
+    resolvedOnDemand: Object.keys(onDemand).length,
+    tradesResolvable: utrades.filter((t) => merged[condOf(t)]).length,
   };
 
-  // Authoritative record: full trade history joined to the resolved-market catalog.
-  const bets = poly.buildUserRecord(utrades, catalog);
+  // Authoritative record: full trade history joined to the (merged) resolved-market catalog.
+  const bets = poly.buildUserRecord(utrades, merged);
   o.resolvedBetsParsed = bets.length;
   const longshots = bets.filter((b) => b.entryPrice <= 0.35);
   o.longShotBets = longshots.length;
@@ -78,6 +87,15 @@ async function scoreWallet(addr) {
     : (f.tier && f.tier !== "unflagged"
         ? ("FLAGGED " + f.tier.toUpperCase() + " — won " + dets.won.k + " of " + dets.won.n + " long-shots (~" + Math.round(dets.won.p * 100) + "% implied); chance by luck " + dets.won.improbText + "; " + f.fired.length + " detectors fired.")
         : ("Not flagged — won " + dets.won.k + " of " + dets.won.n + " long-shots; chance by luck " + dets.won.improbText + " does not clear the bar (or <2 detectors agree)."));
+
+  // Full dossier subject (same shape the tab renders for flagged wallets) so the
+  // lookup can show a real evidence file, flagged or not.
+  if (dets.won.hasData) {
+    try {
+      const subj = build.buildSubject(agg, 0, {});
+      if (subj) { build.derive([subj]); o.subject = subj; }
+    } catch (_) {}
+  }
   return o;
 }
 
