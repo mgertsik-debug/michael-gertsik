@@ -122,7 +122,12 @@ async function run() {
     processed++;
     await poly.sleep(60);
   }
-  state.reviewed = (state.reviewed || 0) + state._reviewedThisRun.size;
+  // `reviewed` is the distinct wallets seen across ONE sweep of the universe, not
+  // an ever-growing sum — accumulate within the sweep, snapshot it on wrap, and
+  // reset, so the funnel's top number stays an honest count, not a re-touch tally.
+  state.reviewedSweep = (state.reviewedSweep || 0) + state._reviewedThisRun.size;
+  if (exhausted) { state.reviewedFull = state.reviewedSweep; state.reviewedSweep = 0; }
+  state.reviewed = Math.max(state.reviewedFull || 0, state.reviewedSweep || 0);
   state.snapshotTs = newestResolved || NOW_S;
   // advance (or wrap) the watermark so the next run sweeps the next slice
   state.watermark.offset = exhausted ? 0 : nextOffset;
