@@ -138,20 +138,17 @@ async function run() {
     await poly.sleep(60);
   }
   state._catalog = catalog;        // handed to deep-enrich + persisted in finalize
-  // `observed` = ALL-TIME distinct wallets ever seen (HyperLogLog sketch, ~4 KB),
-  // the wide top-of-funnel that closes the gap to public dashboards. Every wallet
-  // touched this run is folded in; the sketch persists in state across sweeps.
+  // `observed` = ALL-TIME DISTINCT wallets ever seen (HyperLogLog sketch, ~4 KB),
+  // deduplicated, the single honest top-of-funnel. Every wallet touched this run is
+  // folded in; the sketch persists across sweeps. `reviewed` mirrors it (same set,
+  // same distinct count) — we do NOT keep a separate summed counter, which would
+  // double-count wallets re-seen across runs and (wrongly) exceed `observed`.
   const sketch = hll.fromB64(state.hllB64);
   for (const a of state._reviewedThisRun) hll.add(sketch, a);
   state.hllB64 = hll.toB64(sketch);
   state.observed = hll.estimate(sketch);
-
-  // `reviewed` is the distinct wallets SCORED across ONE sweep of the universe, not
-  // an ever-growing sum — accumulate within the sweep, snapshot it on wrap, and
-  // reset, so the funnel's scored number stays an honest count, not a re-touch tally.
-  state.reviewedSweep = (state.reviewedSweep || 0) + state._reviewedThisRun.size;
-  if (exhausted) { state.reviewedFull = state.reviewedSweep; state.reviewedSweep = 0; }
-  state.reviewed = Math.max(state.reviewedFull || 0, state.reviewedSweep || 0);
+  state.reviewed = state.observed;
+  delete state.reviewedSweep; delete state.reviewedFull;     // retire the inflated counters
   state.snapshotTs = newestResolved || NOW_S;
   // advance (or wrap) the watermark so the next run sweeps the next slice
   state.watermark.offset = exhausted ? 0 : nextOffset;

@@ -56,7 +56,7 @@
       </div>
     </div>
     <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #949C98; text-align: right;">Observed <span style="color: #ECEFED;">{{ corpus.observed }}</span> wallets · scored <span style="color: #ECEFED;">{{ corpus.wallets }}</span> · <span style="color: #FBBF24;">{{ corpus.flagged }}</span> flagged<br><span style="color: #5C6661;">{{ corpus.asOf }}</span></div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #949C98; text-align: right;">Observed <span style="color: #ECEFED;">{{ corpus.observed }}</span> wallets · <span style="color: #FBBF24;">{{ corpus.flagged }}</span> flagged<br><span style="color: #5C6661;">{{ corpus.asOf }}</span></div>
       <span title="{{ snapshotTitle }}" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #A78BFA; border: 1px solid rgba(167,139,250,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(167,139,250,0.07); box-shadow: 0 0 18px -6px rgba(167,139,250,0.4);">{{ snapshotLabel }}</span>
       <div style="display: flex; align-items: center; gap: 9px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 10px; padding: 10px 13px; min-width: 230px; box-shadow: inset 0 0 16px -8px rgba(52,211,153,0.18);">
         <span style="color: #5C6661; font-size: 13px;">⌕</span>
@@ -792,7 +792,6 @@ class Component extends DCLogic {
       },
       funnelSteps: [
         { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", arrow: "" },
-        { k: "reviewed", label: "scored", val: this.fmtInt(fn.reviewed), color: "#9AA39E", arrow: "→" },
         { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", arrow: "→" },
         { k: "flagged", label: "flagged", val: "0", color: "#34D399", arrow: "→" },
         { k: "extreme", label: "extreme", val: "0", color: "#F87171", arrow: "→" },
@@ -800,7 +799,7 @@ class Component extends DCLogic {
       modal: { open: false }, modalBody: null,
       emptyTitle: haveSnap ? "No bettors meet the bar yet" : "Scanning Polymarket…",
       emptyBody: haveSnap
-        ? "The scan has reviewed " + this.fmtInt(this.meta.reviewed || 0) + " bettors so far and none clear the multi-detector threshold. A wallet appears here only when its resolved-market record is too unlikely to be chance (binomial improbability plus at least two agreeing signals). An empty list is the honest result — not everyone is informed."
+        ? "The scan has observed " + this.fmtInt(this.meta.observed || 0) + " bettors so far and none clear the multi-detector threshold. A wallet appears here only when its resolved-market record is too unlikely to be chance (binomial improbability plus at least two agreeing signals). An empty list is the honest result — not everyone is informed."
         : "The scheduled job is sweeping resolved Polymarket markets and aggregating by wallet. Flagged bettors will appear here as soon as a record clears the bar. No sample data is shown.",
     };
   }
@@ -1167,7 +1166,6 @@ class Component extends DCLogic {
     const fn = this.funnel();
     const funnelSteps = [
       { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", arrow: "" },
-      { k: "reviewed", label: "scored", val: this.fmtInt(fn.reviewed), color: "#9AA39E", arrow: "\u2192" },
       { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", arrow: "\u2192" },
       { k: "flagged", label: "flagged", val: String(fn.flagged), color: "#34D399", arrow: "\u2192" },
       { k: "extreme", label: "extreme", val: String(fn.extreme), color: "#F87171", arrow: "\u2192" },
