@@ -1104,9 +1104,12 @@ class Component extends DCLogic {
       // news context (insider engine only; manipulation has no news gate)
       const nw=D.news, leadH=nw&&nw.leadH!=null?nw.leadH:null, headline=nw&&nw.headline?nw.headline:null;
       const fmtDay=(ts)=>{ try{ return new Date(ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}); }catch(e){ return ''; } };
+      // exact published TIME (not just the day) so the earliest-first ordering is
+      // visible — the whole point of the leakage test is time-precise comparison.
+      const fmtDT=(ts)=>{ try{ return new Date(ts*1000).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; }catch(e){ return ''; } };
       const newsArticles = (nw&&Array.isArray(nw.articles)?nw.articles:[]).map(a=>({
         title:a.title, source:a.source||'news', when:a.when||'',
-        date: a.ts?fmtDay(a.ts/1000):'', url:a.url||null,
+        date: a.ts?fmtDT(a.ts/1000):'', url:a.url||null,
         beforeMove: a.when==='before' }));
       const newsAt = (nw&&nw.atMs)?(nw.atMs/1000):null;   // catalyst time in unix seconds (chart marker)
       const preFrac = (nw&&nw.preNewsFraction!=null)?Math.round(nw.preNewsFraction*100):null;
@@ -1210,7 +1213,7 @@ class Component extends DCLogic {
       let nf;
       if(a<=T[0]) nf=0; else if(a>=T[T.length-1]) nf=N-1; else { let i=0; while(i<T.length-1 && T[i+1]<a) i++; const span=(T[i+1]-T[i])||1; nf=i+(a-T[i])/span; }
       newsX=pl+(N>1?nf/(N-1):0)*plotW;
-      try{ newsDate=new Date(a*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}); }catch(e){}
+      try{ newsDate=new Date(a*1000).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; }catch(e){}
     }
     const sx = newsX!=null ? Math.max(pl, Math.min(pl+plotW, newsX)) : X(m.surgeStart);
     if(newsX!=null){
