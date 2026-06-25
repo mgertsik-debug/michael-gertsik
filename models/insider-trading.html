@@ -1199,7 +1199,7 @@ class Component extends DCLogic {
       els.push(h('rect',{key:'pvbg',x:pl,y:pt,width:plotW,height:plotH,fill:'#0c1110',opacity:0.5}));
       els.push(h('text',{key:'pv1',x:pl+plotW/2,y:pt+plotH/2-6,textAnchor:'middle',fill:'#8A938F',style:{font:'600 12px Inter, sans-serif'}},'Loading live price history from '+(m.platform==='kalshi'?'Kalshi':'Polymarket')+'…'));
       els.push(h('text',{key:'pv2',x:pl+plotW/2,y:pt+plotH/2+13,textAnchor:'middle',fill:'#5d6864',style:{font:'500 10px JetBrains Mono, monospace'}},'this market is being scored on open'));
-      return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',style:{display:'block',maxWidth:'100%'},preserveAspectRatio:'xMidYMid meet'},els);
+      return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',style:{display:'block',maxWidth:'760px'},preserveAspectRatio:'xMidYMid meet'},els);
     }
 
     // the market's usual range (shaded + labelled) — what the price normally does
@@ -1259,7 +1259,7 @@ class Component extends DCLogic {
     els.push(h('text',{key:'xl',x:pl,y:H-12,fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},xl));
     if(xm) els.push(h('text',{key:'xm',x:pl+plotW/2,y:H-12,textAnchor:'middle',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},xm));
     els.push(h('text',{key:'xr',x:pl+plotW,y:H-12,textAnchor:'end',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},xr));
-    return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',style:{display:'block',maxWidth:'100%'},preserveAspectRatio:'xMidYMid meet'},els);
+    return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',style:{display:'block',maxWidth:'760px'},preserveAspectRatio:'xMidYMid meet'},els);
   }
   // a small horizontal bar (0-100) used in the score breakdown + each check
   bar(value, color, w){
