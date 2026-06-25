@@ -36,18 +36,15 @@
   @media (max-width:760px){ [data-twozone]{grid-template-columns:1fr !important} }
   @media (max-width:560px){ [data-tabbar]{overflow-x:auto !important} [data-dutysplit]{grid-template-columns:1fr !important} }
   @media (prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} }
-  /* root content container: wider on big screens, and proportionally zoomed down
-     so much more (filters, watchlist, inspector, graphs) fits without scrolling.
-     Mobile (<1100px) is left at full size for readability. */
+  /* root content container. Mobile keeps the comfortable reading width; desktop
+     fills the whole frame at natural scale (no CSS zoom — a zoomed full-bleed
+     box overflowed/clipped). The narrow left column + full width is what gives
+     the inspector and graph their room. */
   #mroot{ max-width:1180px; margin:0 auto; }
-  /* desktop: fill the whole frame edge-to-edge and zoom the content down. The
-     width is pre-scaled by 1/zoom so that after the zoom it still spans 100%
-     (a plain width:100% + zoom would shrink to leave a margin). */
-  @media (min-width:1100px){ #mroot{ max-width:none; width:calc(100% / 0.85); margin:0; zoom:0.85; } }
-  @media (min-width:1700px){ #mroot{ width:calc(100% / 0.8); zoom:0.8; } }
+  @media (min-width:1100px){ #mroot{ max-width:none; width:auto; margin:0; } }
 </style>
 </helmet>
-<div style="min-height:100vh;overflow-x:hidden;background:radial-gradient(1200px 600px at 50% -10%, rgba(52,211,153,.06), transparent 60%), #07100D;font-family:'Inter', sans-serif;padding:22px 12px 36px">
+<div style="min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%, rgba(52,211,153,.06), transparent 60%), #07100D;font-family:'Inter', sans-serif;padding:22px 18px 36px">
   <div id="mroot" style="margin:0 auto">
     <div style="border:1px solid #1F2A26;border-radius:14px;background:#0F1513;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5)">
 
