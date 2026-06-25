@@ -139,105 +139,166 @@
         <!-- ============ TAB 2: SURVEILLANCE ============ -->
         <sc-if value="{{ isSurv }}" hint-placeholder-val="{{ false }}">
           <div>
-            <!-- status strip -->
-            <div data-statbar style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:11px 16px;border-radius:11px;border:1px solid #1B2521;background:#0F1513;margin-bottom:18px">
+            <!-- ── control bar ── -->
+            <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:11px 16px;border-radius:11px;border:1px solid #1B2521;background:#0F1513;margin-bottom:14px">
               <div style="display:flex;align-items:center;gap:9px">
                 <span style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 8px #34D399;animation:blink 2.2s ease-in-out infinite"></span>
                 <span style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#E5E7EB;letter-spacing:.04em">{{ surv.clock }}</span>
-                <span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F">UTC</span>
               </div>
-              <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-                <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#E5E7EB">{{ surv.activeCount }}</span><span style="font-size:11px;color:#8A938F">active signals</span></div>
+              <div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap">
+                <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#E5E7EB">{{ surv.scanCount }}</span><span style="font-size:11px;color:#8A938F">markets scanned</span></div>
+                <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#FBBF24">{{ surv.flaggedCount }}</span><span style="font-size:11px;color:#8A938F">flagged</span></div>
                 <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#F87171">{{ surv.highCount }}</span><span style="font-size:11px;color:#8A938F">high-signal</span></div>
               </div>
-              <div style="display:flex;align-items:center;gap:14px;margin-left:auto">
-                <span style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#8A938F">Kalshi &middot; Polymarket</span>
-                <span style="{{ surv.feedStyle }}">{{ surv.feedLabel }}</span>
+              <div style="display:flex;align-items:center;gap:14px;margin-left:auto;flex-wrap:wrap">
+                <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F"><span style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 6px #34D399"></span>Kalshi</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F"><span style="width:7px;height:7px;border-radius:50%;background:#A78BFA;box-shadow:0 0 6px #A78BFA"></span>Polymarket</span>
+                <span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772">{{ surv.updated }}</span>
+                <span style="{{ surv.feedStyle }}">{{ surv.feedText }}</span>
               </div>
             </div>
 
-            <!-- two zones -->
-            <div data-twozone style="display:grid;grid-template-columns:38% 1fr;gap:22px;align-items:start">
-
-              <!-- ZONE 1 :: SIGNAL LIST -->
-              <div>
-                <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px">
-                  <sc-for list="{{ surv.chips }}" as="ch" hint-placeholder-count="4">
-                    <button type="button" aria-pressed="{{ ch.active }}" style="{{ ch.style }}" onClick="{{ ch.onClick }}">{{ ch.label }}</button>
+            <!-- ── filters ── -->
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                <input type="text" value="{{ surv.search }}" onChange="{{ surv.onSearch }}" placeholder="Search market questions…" aria-label="Search market questions" style="flex:1;min-width:200px;padding:9px 13px;border-radius:9px;border:1px solid #1B2521;background:#0A0E0D;color:#E5E7EB;font-size:13px;outline:none" />
+                <div style="display:flex;gap:7px;flex-wrap:wrap">
+                  <sc-for list="{{ surv.platChips }}" as="ch" hint-placeholder-count="3">
+                    <button type="button" aria-pressed="{{ ch.active }}" style="{{ ch.style }}" onClick="{{ ch.onClick }}"><sc-if value="{{ ch.hasDot }}" hint-placeholder-val="{{ false }}"><span style="{{ ch.dot }}"></span></sc-if>{{ ch.label }}</button>
                   </sc-for>
                 </div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.1em;color:#6b7772">SORT</span>
+                <sc-for list="{{ surv.sortBtns }}" as="sb" hint-placeholder-count="3">
+                  <button type="button" aria-pressed="{{ sb.active }}" style="{{ sb.style }}" onClick="{{ sb.onClick }}">{{ sb.label }}</button>
+                </sc-for>
+              </div>
+              <div data-scroll style="display:flex;gap:7px;flex-wrap:wrap">
+                <sc-for list="{{ surv.catChips }}" as="cc" hint-placeholder-count="6">
+                  <button type="button" aria-pressed="{{ cc.active }}" style="{{ cc.style }}" onClick="{{ cc.onClick }}">{{ cc.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <!-- ── two zones: watchlist + inspector ── -->
+            <div data-twozone style="display:grid;grid-template-columns:40% 1fr;gap:22px;align-items:start">
+
+              <!-- watchlist -->
+              <div>
                 <sc-if value="{{ surv.empty }}" hint-placeholder-val="{{ false }}">
-                  <div style="padding:30px 16px;text-align:center;border:1px dashed #1B2521;border-radius:11px;color:#6b7772;font-size:12.5px">No signals match this filter.</div>
+                  <div style="padding:30px 16px;text-align:center;border:1px dashed #1B2521;border-radius:11px;color:#6b7772;font-size:12.5px">No markets match these filters.</div>
                 </sc-if>
-                <div data-scroll style="display:flex;flex-direction:column;gap:8px;max-height:680px;overflow-y:auto;padding-right:2px">
+                <div data-scroll style="display:flex;flex-direction:column;gap:9px;max-height:720px;overflow-y:auto;padding-right:3px">
                   <sc-for list="{{ surv.rows }}" as="r" hint-placeholder-count="8">
                     <div role="button" tabindex="0" aria-pressed="{{ r.selected }}" aria-label="{{ r.aria }}" style="{{ r.rowStyle }}" onClick="{{ r.onSelect }}" onKeyDown="{{ r.onKey }}">
-                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+                      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                        <span style="{{ r.platTagStyle }}">{{ r.platLabel }}</span>
+                        <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.05em;color:#6b7772;text-transform:uppercase">{{ r.category }}</span>
+                        <span style="margin-left:auto;display:inline-flex;align-items:baseline;gap:3px"><span style="font-family:'JetBrains Mono', monospace;font-size:17px;font-weight:700;color:{{ r.indexColor }}">{{ r.index }}</span><span style="font-size:9px;color:#6b7772">/100</span></span>
+                      </div>
+                      <a href="{{ r.url }}" target="_blank" rel="noopener noreferrer" style="{{ r.titleStyle }}" onClick="{{ r.onLink }}"><span style="font-size:14.5px;font-weight:600;line-height:1.34;display:block">{{ r.question }}</span></a>
+                      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:9px">
                         <div style="min-width:0">
-                          <div style="font-size:14px;font-weight:600;color:#E5E7EB;line-height:1.3">{{ r.market }}</div>
-                          <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#8A938F;margin-top:4px;line-height:1.4">{{ r.metric }}</div>
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#9CA3AF;line-height:1.4">{{ r.topLine }}</div>
+                          <div style="font-size:10px;color:{{ r.labelColor }};margin-top:3px;font-weight:600">{{ r.label }}</div>
                         </div>
                         {{ r.sparkEl }}
                       </div>
-                      <div style="display:flex;align-items:center;gap:9px;margin-top:9px">
-                        <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:#8A938F;padding:2px 7px;border-radius:5px;border:1px solid #1B2521">{{ r.platformLabel }}</span>
-                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.sevColor }}"></span><span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:{{ r.sevColor }}">{{ r.sevLabel }}</span></span>
-                      </div>
                     </div>
                   </sc-for>
                 </div>
               </div>
 
-              <!-- ZONE 2 :: INSPECTOR -->
+              <!-- inspector -->
               <div data-zone="inspector" style="background:#0F1513;border:1px solid #1B2521;border-radius:13px;padding:26px 28px">
-                <!-- headline -->
-                <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap">
-                  <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:#8A938F;padding:2px 8px;border-radius:5px;border:1px solid #1B2521">{{ surv.sel.platformLabel }}</span>
-                  <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.06em;color:#6b7772;text-transform:uppercase">{{ surv.sel.category }}</span>
-                  <span style="display:inline-flex;align-items:center;gap:5px;margin-left:auto"><span style="width:7px;height:7px;border-radius:50%;background:{{ surv.sel.sevColor }}"></span><span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.04em;color:{{ surv.sel.sevColor }}">{{ surv.sel.sevLine }}</span></span>
-                </div>
-                <h2 style="margin:0 0 13px;font-size:25px;font-weight:700;letter-spacing:-.01em;line-height:1.16;color:#E5E7EB">{{ surv.sel.market }}</h2>
-                <p style="margin:0 0 26px;font-size:15px;line-height:1.6;color:#cdd3d0;max-width:62ch">{{ surv.sel.plain }}</p>
-
-                <!-- chart -->
-                <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:10px">IMPLIED PROBABILITY OVER TIME</div>
-                <div style="background:#0A0E0D;border:1px solid #1B2521;border-radius:11px;padding:22px 16px 10px;margin-bottom:28px">{{ surv.sel.chartEl }}</div>
-
-                <!-- what the detector saw -->
-                <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:14px">WHICH METHODS FIRED</div>
-                <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px">
-                  <sc-for list="{{ surv.sel.readings }}" as="rd" hint-placeholder-count="3">
-                    <div style="display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:baseline">
-                      <div style="min-width:0">
-                        <div style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.07em;color:#34D399;line-height:1.4">{{ rd.tag }}</div>
-                        <div style="font-family:'JetBrains Mono', monospace;font-size:13px;color:#E5E7EB;line-height:1.45;margin-top:3px">{{ rd.m }}</div>
-                      </div>
-                      <span style="font-size:13.5px;color:#cdd3d0;line-height:1.55">{{ rd.e }}</span>
+                <sc-if value="{{ surv.sel.has }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <!-- headline -->
+                    <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap">
+                      <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:{{ surv.sel.platColor }};padding:2px 8px;border-radius:5px;border:1px solid {{ surv.sel.platBd }};background:{{ surv.sel.platSoft }}">{{ surv.sel.platLabel }}</span>
+                      <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.06em;color:#6b7772;text-transform:uppercase">{{ surv.sel.category }}</span>
+                      <span style="margin-left:auto;display:inline-flex;align-items:baseline;gap:4px"><span style="font-family:'JetBrains Mono', monospace;font-size:24px;font-weight:700;color:{{ surv.sel.indexColor }}">{{ surv.sel.index }}</span><span style="font-size:10px;color:#6b7772">/100</span></span>
                     </div>
-                  </sc-for>
-                </div>
+                    <a href="{{ surv.sel.url }}" target="_blank" rel="noopener noreferrer" style="{{ surv.sel.titleStyle }}"><h2 style="margin:0 0 6px;font-size:23px;font-weight:700;letter-spacing:-.01em;line-height:1.2">{{ surv.sel.question }} &nearr;</h2></a>
+                    <div style="display:inline-block;font-size:12px;font-weight:600;color:{{ surv.sel.labelColor }};margin-bottom:14px">{{ surv.sel.label }}</div>
+                    <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#cdd3d0;max-width:64ch">{{ surv.sel.summary }}</p>
 
-                <!-- why it's flagged -->
-                <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:11px">WHY IT'S FLAGGED</div>
-                <p style="margin:0 0 28px;font-size:14px;line-height:1.65;color:#cdd3d0;max-width:64ch">{{ surv.sel.why }}</p>
+                    <!-- chart -->
+                    <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:10px">IMPLIED PROBABILITY OVER TIME</div>
+                    <div style="background:#0A0E0D;border:1px solid #1B2521;border-radius:11px;padding:18px 14px 8px;margin-bottom:26px">{{ surv.sel.chartEl }}</div>
 
-                <!-- legal gap -->
-                <div style="padding:19px 22px;border-radius:12px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.3)">
-                  <div style="font-size:16px;font-weight:700;color:#FBBF24;margin-bottom:9px;letter-spacing:-.01em">Anomalous &ne; illegal</div>
-                  <p style="margin:0 0 8px;font-size:13.5px;line-height:1.65;color:#E5E7EB">{{ surv.sel.gap }}</p>
-                  <p style="margin:0;font-size:12.5px;line-height:1.6;color:#9CA3AF">A violation would still require misappropriated material nonpublic information or a breach of a duty. The trading pattern alone proves neither, and the trader is presumed innocent.</p>
-                  <button type="button" style="margin-top:13px;background:none;border:none;color:#34D399;font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:600;cursor:pointer;padding:0" onClick="{{ surv.onSeeRegimes }}">the regimes that would apply &rsaquo;</button>
-                </div>
+                    <!-- which methods fired -->
+                    <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:14px">WHICH METHODS FIRED</div>
+                    <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:26px">
+                      <sc-for list="{{ surv.sel.methods }}" as="md" hint-placeholder-count="4">
+                        <div style="border:1px solid #1B2521;border-radius:10px;padding:13px 15px;background:#0A0E0D">
+                          <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                            <span style="font-family:'JetBrains Mono', monospace;font-size:8.5px;letter-spacing:.06em;color:#8A938F">{{ md.tag }}</span>
+                            <span style="font-size:14px;font-weight:600;color:#E5E7EB">{{ md.name }}</span>
+                            <span style="{{ md.firedStyle }}">{{ md.firedLabel }}</span>
+                            <span style="margin-left:auto;font-family:'JetBrains Mono', monospace;font-size:14px;font-weight:700;color:#E5E7EB">{{ md.metric }}</span>
+                          </div>
+                          <p style="margin:8px 0 0;font-size:13px;line-height:1.55;color:#cdd3d0">{{ md.plain }}</p>
+                          <button type="button" aria-expanded="{{ md.mathOpen }}" style="margin-top:9px;background:none;border:none;color:#34D399;font-family:'JetBrains Mono', monospace;font-size:10.5px;font-weight:600;cursor:pointer;padding:0" onClick="{{ md.onToggleMath }}">{{ md.mathIcon }}</button>
+                          <sc-if value="{{ md.mathOpen }}" hint-placeholder-val="{{ false }}">
+                            <div style="margin-top:10px;padding:11px 13px;border-radius:8px;background:#0F1513;border:1px solid #1B2521">
+                              <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#A78BFA;line-height:1.5;margin-bottom:8px">{{ md.formula }}</div>
+                              <sc-for list="{{ md.math }}" as="ml" hint-placeholder-count="3">
+                                <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#9CA3AF;line-height:1.6">{{ ml }}</div>
+                              </sc-for>
+                            </div>
+                          </sc-if>
+                        </div>
+                      </sc-for>
+                    </div>
 
-                <!-- provenance -->
-                <div style="margin-top:22px;display:flex;gap:10px;align-items:flex-start">
-                  <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.1em;color:#6b7772;flex-shrink:0;padding-top:2px">CONTEXT</span>
-                  <span style="font-size:12px;color:#8A938F;line-height:1.55">{{ surv.sel.prov }}</span>
-                </div>
+                    <!-- on-chain panel (Polymarket) -->
+                    <sc-if value="{{ surv.sel.onchain }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-bottom:26px">
+                        <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:12px">ON-CHAIN — TOP WALLETS BY SHARE OF BUYING</div>
+                        <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px">
+                          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#A78BFA">{{ surv.sel.onchain.hhi }}</span><span style="font-size:10.5px;color:#8A938F">HHI</span></div>
+                          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#A78BFA">{{ surv.sel.onchain.top1 }}</span><span style="font-size:10.5px;color:#8A938F">top wallet</span></div>
+                          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#A78BFA">{{ surv.sel.onchain.fresh }}</span><span style="font-size:10.5px;color:#8A938F">fresh wallet</span></div>
+                          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#E5E7EB">{{ surv.sel.onchain.nWallets }}</span><span style="font-size:10.5px;color:#8A938F">wallets</span></div>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:6px">
+                          <sc-for list="{{ surv.sel.onchain.wallets }}" as="w" hint-placeholder-count="3">
+                            <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono', monospace;font-size:11.5px;padding:7px 11px;border-radius:8px;background:#0A0E0D;border:1px solid #1B2521">
+                              <span style="color:#A78BFA">{{ w.wallet }}</span>
+                              <span style="margin-left:auto;color:#E5E7EB">{{ w.share }}</span>
+                              <span style="color:#8A938F">{{ w.usd }}</span>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+                    </sc-if>
+
+                    <!-- coverage note (preliminary markets) -->
+                    <sc-if value="{{ surv.sel.coverageNote }}" hint-placeholder-val="{{ false }}">
+                      <p style="margin:0 0 22px;font-size:12px;line-height:1.55;color:#8A938F;font-style:italic">{{ surv.sel.coverageNote }}</p>
+                    </sc-if>
+
+                    <!-- legal gap -->
+                    <div style="padding:19px 22px;border-radius:12px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.3)">
+                      <div style="font-size:16px;font-weight:700;color:#FBBF24;margin-bottom:9px;letter-spacing:-.01em">Anomalous &ne; illegal</div>
+                      <p style="margin:0 0 10px;font-size:13.5px;line-height:1.65;color:#E5E7EB">{{ surv.sel.gap }}</p>
+                      <p style="margin:0;font-size:12px;line-height:1.6;color:#9CA3AF">These scores are triage estimates, not proof. This is educational analysis, not legal or investment advice.</p>
+                      <button type="button" style="margin-top:13px;background:none;border:none;color:#34D399;font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:600;cursor:pointer;padding:0" onClick="{{ surv.onSeeRegimes }}">the regimes that would apply &rsaquo;</button>
+                    </div>
+
+                    <!-- provenance -->
+                    <div style="margin-top:20px;display:flex;gap:10px;align-items:flex-start">
+                      <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.1em;color:#6b7772;flex-shrink:0;padding-top:2px">DATA</span>
+                      <span style="font-size:12px;color:#8A938F;line-height:1.55"><sc-if value="{{ surv.sel.isPoly }}" hint-placeholder-val="{{ false }}">Polymarket settles on-chain, so trade and wallet activity is publicly observable.</sc-if><sc-if value="{{ surv.sel.isKalshi }}" hint-placeholder-val="{{ false }}">Kalshi is a centralized exchange, so individual account identities are not public — detection here is market-microstructure only.</sc-if></span>
+                    </div>
+                  </div>
+                </sc-if>
               </div>
             </div>
 
-            <!-- detector glossary (collapsed reference) -->
+            <!-- ── the five methods (reference) ── -->
             <div style="margin-top:20px;border:1px solid #1B2521;border-radius:11px;background:#0F1513;overflow:hidden">
               <button type="button" aria-expanded="{{ surv.glossaryOpen }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:none;border:none;cursor:pointer;color:#E5E7EB;text-align:left" onClick="{{ surv.onToggleGlossary }}">
                 <span style="font-size:13px;font-weight:600">The five detection methods, explained</span>
@@ -245,12 +306,12 @@
               </button>
               <sc-if value="{{ surv.glossaryOpen }}" hint-placeholder-val="{{ false }}">
                 <div style="padding:4px 18px 20px;border-top:1px solid #1B2521">
-                  <div style="font-size:11.5px;color:#6b7772;line-height:1.5;margin:14px 0 16px">Every signal above is scored by these five methods working together. Each is an established market-surveillance technique; a method firing is an anomaly to examine, never a finding of wrongdoing.</div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 28px">
-                    <sc-for list="{{ surv.glossary }}" as="d" hint-placeholder-count="10">
-                      <div style="display:grid;grid-template-columns:auto;gap:3px">
-                        <span style="font-family:'JetBrains Mono', monospace;font-size:11.5px;color:#34D399">{{ d.name }}</span>
-                        <span style="font-size:12px;color:#9CA3AF;line-height:1.5">{{ d.desc }}</span>
+                  <div style="font-size:11.5px;color:#6b7772;line-height:1.5;margin:14px 0 16px">Every market is scored by these five established surveillance methods working together. A method firing is an anomaly to examine, never a finding of wrongdoing.</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 28px">
+                    <sc-for list="{{ surv.glossary }}" as="d" hint-placeholder-count="5">
+                      <div style="display:flex;flex-direction:column;gap:4px">
+                        <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#34D399">{{ d.name }}</span><span style="font-family:'JetBrains Mono', monospace;font-size:8px;letter-spacing:.05em;color:#6b7772">{{ d.tag }}</span></div>
+                        <span style="font-size:12px;color:#9CA3AF;line-height:1.55">{{ d.desc }}</span>
                       </div>
                     </sc-for>
                   </div>
@@ -474,9 +535,9 @@ class Component extends DCLogic {
       instrument:'geopolitical', venue:'polymarket', conduct:'mnpi', concealed:true,
       openRegimes:{},
       // --- Surveillance: Signal List + Inspector ---
-      survSel:'maduro', survListFilter:'all', glossaryOpen:false, clock:'00:00:00',
-      expandedSig:null, methodOpen:false,
-      survLive:null, survLiveAt:null, survSources:null,
+      survSel:null, survPlat:'all', survCat:'all', survSort:'suspicion', survSearch:'',
+      glossaryOpen:false, clock:'00:00:00', mathOpen:{},
+      survMarkets:null, survUpdatedAt:null, survCoverage:null, survSources:null, survUpdating:false,
       // --- Case files ---
       caseId:'vandyke',
       // --- Duty & materiality ---
@@ -511,14 +572,26 @@ class Component extends DCLogic {
     this.setState({ clock:this.fmtClock() });
     this._clock = setInterval(()=> this.setState({ clock:this.fmtClock() }), 1000);
   }
-  fmtClock(){ const d=new Date(); const p=n=>String(n).padStart(2,'0'); return p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds()); }
+  // Live EST clock (America/New_York via Intl, so EDT/EST flips correctly).
+  fmtClock(){
+    try {
+      const d=new Date();
+      const t=new Intl.DateTimeFormat('en-US',{ timeZone:'America/New_York', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false }).format(d);
+      const z=(new Intl.DateTimeFormat('en-US',{ timeZone:'America/New_York', timeZoneName:'short' }).formatToParts(d).find(p=>p.type==='timeZoneName')||{}).value || 'ET';
+      return t.replace(/^24/,'00')+' '+z;
+    } catch(_){ const d=new Date(); const p=n=>String(n).padStart(2,'0'); return p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds())+' ET'; }
+  }
   _survPoll(){
     try {
+      this.setState({ survUpdating:true });
       fetch('/api/surveillance/feed', { cache:'no-store' })
         .then(r=> r.ok ? r.json() : null)
-        .then(d=>{ if (d && Array.isArray(d.alerts)) this.setState({ survLive:d.alerts, survLiveAt:d.generatedAt, survSources:d.sources }); })
-        .catch(()=>{});
-    } catch(_) {}
+        .then(d=>{
+          if (d && Array.isArray(d.markets) && d.markets.length) this.setState({ survMarkets:d.markets, survUpdatedAt:d.generatedAt, survCoverage:d.coverage, survSources:d.sources, survUpdating:false });
+          else this.setState({ survUpdating:false });
+        })
+        .catch(()=> this.setState({ survUpdating:false }));
+    } catch(_) { this.setState({ survUpdating:false }); }
   }
   componentWillUnmount(){
     document.removeEventListener('mousemove', this._move);
@@ -656,166 +729,147 @@ class Component extends DCLogic {
   // real Kalshi/Polymarket flags; _liveSignals/_liveInspector remap that feed
   // into the shapes the list and inspector consume.
   SCOPE = { kalshi:'#34D399', poly:'#A78BFA', high:'#F87171', watch:'#FBBF24', ink:'#E5E7EB', mut:'#8A938F', bd:'#1B2521', panel:'#0F1513', canvas:'#0A0E0D' };
-  DETECTORS = [
-    // market-microstructure (run on both platforms)
-    { id:'lead',    name:'pre-event lead move',        group:'micro', platforms:['kalshi','poly'], desc:'Probability moves sharply in the window before the resolving event is public.' },
-    { id:'imbal',   name:'order imbalance pre-catalyst',group:'micro', platforms:['kalshi','poly'], desc:'Outsized one-sided limit orders stacked just before scheduled news or data.' },
-    { id:'volliq',  name:'volume-to-liquidity spike',  group:'micro', platforms:['kalshi','poly'], desc:'Volume vastly exceeds the market’s historical liquidity.' },
-    { id:'vacuum',  name:'liquidity-vacuum sniping',   group:'micro', platforms:['kalshi','poly'], desc:'Large marketable orders timed to a thin book to move odds with little capital.' },
-    { id:'spoof',   name:'spoofing / layering',        group:'micro', platforms:['kalshi','poly'], desc:'High order-to-cancel ratio near the touch; orders placed and pulled.' },
-    { id:'accum',   name:'one-directional accumulation',group:'micro',platforms:['kalshi','poly'], desc:'A steady one-sided position built and held into a discrete nonpublic resolution.' },
-    { id:'whale',   name:'whale odds-shove',           group:'micro', platforms:['kalshi','poly'], desc:'A single large position drastically moves the odds in an obscure market.' },
-    { id:'ramp',    name:'settlement-ramp',            group:'micro', platforms:['kalshi','poly'], desc:'Pressure building into expiry, marking the settlement reference.' },
-    { id:'diverge', name:'correlated-venue divergence',group:'micro', platforms:['kalshi','poly'], desc:'A market’s probability diverges from the same event priced elsewhere just before resolution.' },
-    // on-chain / wallet (Polymarket; cross-hit only aggregate on Kalshi)
-    { id:'crosshit',name:'cross-market hit rate',      group:'chain', platforms:['poly','kalshi'], desc:'One wallet correct across many unrelated markets in a short window. Wallet-level on Polymarket; aggregate only on Kalshi.' },
-    { id:'fresh',   name:'fresh-wallet dump',          group:'chain', platforms:['poly'],          desc:'A wallet minted hours ago drops an abnormally large bet on a niche market.' },
-    { id:'cluster', name:'wallet-cluster coordination',group:'chain', platforms:['poly'],          desc:'Groups of wallets trading in lockstep: shared funding, synchronized entries.' },
-    { id:'funding', name:'funding-trail trace',        group:'chain', platforms:['poly'],          desc:'A wallet funded minutes earlier from a bridge or mixer, then immediately oversized.' },
-    { id:'dormant', name:'dormant-then-precise',       group:'chain', platforms:['poly'],          desc:'A long-idle wallet that wakes only to hit one resolving market.' }
-  ];
-  // lead/signal drive the probability curve in the chart. The event-aligned
-  // fields (pBefore/pAfter in probability, windowH, shockSigma, volUsd/liqUsd,
-  // catalyst/leadH, explained) feed the suspiciousness score below.
-  SIGNALS = [
-    { id:'maduro', market:'Maduro out by Jan 31?', platform:'poly', detector:'accum', severity:'high', lead:6.0, signal:0.90,
-      pBefore:0.22, pAfter:0.63, windowH:6, shockSigma:5.2, volUsd:220000, liqUsd:30000, volRatio:7, catalyst:'public news of the Venezuela operation', leadH:6, explained:false,
-      desc:'A single wallet built a large one-sided YES position over six hours and held it into a discrete geopolitical resolution.',
-      gap:'A one-sided hold that resolves correctly is a strong anomaly, but holding a directional position is not itself unlawful.' },
-    { id:'search', market:'#1 searched person of the year', platform:'poly', detector:'crosshit', severity:'high', lead:5.0, signal:0.86,
-      pBefore:0.35, pAfter:0.78, windowH:8, shockSigma:4.8, volUsd:480000, liqUsd:60000, volRatio:8, catalyst:'the year-end rankings being published', leadH:5, explained:false,
-      desc:'One wallet placed correlated, correct positions across a dozen year-end ranking markets in a single window.',
-      gap:'An improbable hit rate suggests an information edge, but a lawful edge with no breached duty is not a violation.' },
-    { id:'cpi', market:'CPI above forecast (May)', platform:'kalshi', detector:'lead', severity:'high', lead:0.78, signal:0.82,
-      pBefore:0.50, pAfter:0.78, windowH:0.2, shockSigma:6.0, volUsd:95000, liqUsd:20000, volRatio:4.8, catalyst:'the scheduled CPI release', leadH:0.8, explained:false,
-      desc:'Implied probability jumped sharply well before the scheduled data-release timestamp.',
-      gap:'A pre-release move is the classic fingerprint, but the move alone does not prove the trader had misappropriated nonpublic data.' },
-    { id:'halftime', market:'Halftime guest: Lady Gaga?', platform:'poly', detector:'fresh', severity:'high', lead:3.0, signal:0.80,
-      pBefore:0.30, pAfter:0.72, windowH:24, shockSigma:4.5, volUsd:70000, liqUsd:18000, volRatio:3.9, catalyst:'the halftime lineup announcement', leadH:26, explained:false,
-      desc:'An account created roughly a day before the event bought heavily into the who-performs contracts and profited on all but one.',
-      gap:'A brand-new wallet winning big is suspicious, yet account age proves neither a nonpublic source nor a breached duty.' },
-    { id:'fed', market:'Fed cut at next meeting?', platform:'kalshi', detector:'imbal', severity:'watch', lead:2.0, signal:0.50,
-      pBefore:0.44, pAfter:0.55, windowH:2, shockSigma:2.2, volUsd:60000, liqUsd:26000, volRatio:2.3, catalyst:'the Fed rate decision', leadH:2, explained:false,
-      desc:'Stacked one-sided limit orders accumulated ahead of the scheduled rate decision.',
-      gap:'Pre-positioning ahead of a scheduled decision is ordinary trading absent a nonpublic source.' },
-    { id:'oscars', market:'Best Picture: long-shot favorite?', platform:'poly', detector:'whale', severity:'high', lead:3.5, signal:0.78,
-      pBefore:0.28, pAfter:0.50, windowH:3, shockSigma:4.6, volUsd:180000, liqUsd:25000, volRatio:7.2, catalyst:null, leadH:null, explained:false,
-      desc:'A single large position pushed the odds sharply in a thin, obscure market.',
-      gap:'Moving odds with size is not manipulation unless paired with intent to deceive or a misused nonpublic edge.' },
-    { id:'gdp', market:'GDP print beats consensus?', platform:'kalshi', detector:'volliq', severity:'watch', lead:1.2, signal:0.60,
-      pBefore:0.46, pAfter:0.58, windowH:2, shockSigma:2.3, volUsd:60000, liqUsd:22000, volRatio:2.7, catalyst:'the GDP release', leadH:1.2, explained:false,
-      desc:'Volume spiked far beyond the market’s historical liquidity ahead of the print.',
-      gap:'A volume spike flags attention, not wrongdoing; many spikes are lawful momentum.' },
-    { id:'senate', market:'Surprise committee vote passes?', platform:'poly', detector:'funding', severity:'high', lead:4.5, signal:0.80,
-      pBefore:0.31, pAfter:0.62, windowH:4, shockSigma:4.4, volUsd:90000, liqUsd:18000, volRatio:5, catalyst:'the committee vote', leadH:4.5, explained:false,
-      desc:'A wallet funded from a bridge minutes before placing an abnormally large position.',
-      gap:'Fast funding then an oversized bet looks orchestrated, but the trail alone is not proof of misappropriation.' },
-    { id:'tencup', market:'Niche award winner revealed?', platform:'poly', detector:'dormant', severity:'watch', lead:5.5, signal:0.58,
-      pBefore:0.40, pAfter:0.58, windowH:5, shockSigma:2.4, volUsd:75000, liqUsd:20000, volRatio:3.8, catalyst:null, leadH:null, explained:false,
-      desc:'A long-dormant wallet woke only to take one resolving market, then went quiet.',
-      gap:'A precise one-off wake-up is a pattern of interest, not evidence of a duty breached.' },
-    { id:'divg', market:'Rate path vs offshore venue', platform:'kalshi', detector:'diverge', severity:'watch', lead:2.2, signal:0.52,
-      pBefore:0.44, pAfter:0.56, windowH:2, shockSigma:2.0, volUsd:50000, liqUsd:50000, volRatio:1, catalyst:null, leadH:null, explained:true,
-      desc:'This market’s probability diverged from the same event priced on another venue just before resolution.',
-      gap:'Cross-venue divergence can be arbitrage or latency, not necessarily information misuse.' },
-    { id:'settle', market:'Index closes above strike?', platform:'kalshi', detector:'ramp', severity:'watch', lead:0.4, signal:0.50,
-      pBefore:0.47, pAfter:0.57, windowH:0.5, shockSigma:2.2, volUsd:45000, liqUsd:38000, volRatio:1.2, catalyst:'contract expiry', leadH:0.4, explained:false,
-      desc:'Buying concentrated in the final minutes, pressing the settlement reference.',
-      gap:'A late ramp raises a manipulation question that turns on intent, which the chart cannot establish.' },
-    { id:'vac', market:'Obscure ruling goes plaintiff?', platform:'poly', detector:'vacuum', severity:'high', lead:2.8, signal:0.74,
-      pBefore:0.25, pAfter:0.55, windowH:3, shockSigma:4.2, volUsd:110000, liqUsd:14000, volRatio:7.9, catalyst:null, leadH:null, explained:false,
-      desc:'A marketable order timed to a thin book moved the odds with little capital.',
-      gap:'Exploiting a thin book is aggressive trading; it becomes unlawful only with deception or a misused nonpublic edge.' },
-    { id:'spf', market:'Playoff upset: underdog wins?', platform:'kalshi', detector:'spoof', severity:'watch', lead:1.5, signal:0.48,
-      pBefore:0.45, pAfter:0.52, windowH:1.5, shockSigma:1.8, volUsd:12000, liqUsd:9000, volRatio:1.3, catalyst:null, leadH:null, explained:false,
-      desc:'Large displayed orders repeatedly placed and pulled near the best price.',
-      gap:'A high cancel ratio suggests spoofing, an order-flow theory that still requires proof of intent to cancel.' },
-    { id:'clus', market:'Local election called early?', platform:'poly', detector:'cluster', severity:'watch', lead:4.0, signal:0.55,
-      pBefore:0.35, pAfter:0.58, windowH:4, shockSigma:3.2, volUsd:130000, liqUsd:26000, volRatio:5, catalyst:'the race being called', leadH:4, explained:false,
-      desc:'A group of wallets with shared funding entered the same contract within minutes.',
-      gap:'Coordinated wallets imply one actor, but coordination is not itself the crime of insider trading.' }
-  ];
+  // ============ SURVEILLANCE :: live full-market scanner ============
+  // The serverless collector (/api/surveillance/feed) enumerates every open
+  // market on Kalshi + Polymarket, scores each with the pure detectors in
+  // api/surveillance/detectors.js, and returns them ranked by a 0–100 suspicion
+  // index. This UI reads that feed; the SAMPLE_MARKETS below (same shape) keep
+  // the tab populated before the live feed answers or when it is unreachable.
+  //
+  // Platform colour economy: Kalshi = green (#34D399), Polymarket = purple
+  // (#A78BFA). Severity is the suspicion number + a red accent at the top tier.
 
-  // ============ SURVEILLANCE :: 5-METHOD DETECTION STACK ============
-  // Five established market-surveillance methods scored together (each 0–100):
-  //   1. Pre-event run-up    — abnormal price move before the catalyst, standardised
-  //        by the market's own volatility (Keown & Pinkerton 1981; FINRA SONAR).
-  //   2. Order-flow imbalance (VPIN) — one-sidedness of trading, the real-time
-  //        probability-of-informed-trading measure (Easley, López de Prado, O'Hara).
-  //   3. Price impact (Kyle's λ) — odds moved per unit of capital / book depth; a big
-  //        move on a thin book is the liquidity-vacuum fingerprint (Kyle 1985).
-  //   4. Trader concentration (Herfindahl) — buying dominated by one wallet rather
-  //        than the crowd (the on-chain method Polymarket/Chainalysis use).
-  //   5. News-context gap    — a sharp move with no public-news explanation (SONAR).
-  // Price is read in LOG-ODDS space; the move vs the market's own volatility is the
-  // shock σ. The composite is the strongest firing method, discounted hard when
-  // public news explains the move, and held to "watch" when the book is near-empty.
-  logit(p){ p=Math.max(0.001,Math.min(0.999,p)); return Math.log(p/(1-p)); }
-  _k(n){ n=Math.abs(n||0); return n>=1e6 ? (n/1e6).toFixed(1).replace(/\.0$/,'')+'M' : n>=1000 ? Math.round(n/1000)+'k' : String(Math.round(n)); }
-  survScore(g){
-    if(!g) return { suspicion:0, severity:'watch', sig:0, vol:0, liq:0 };
-    const lm = (g.pAfter!=null && g.pBefore!=null) ? Math.abs(this.logit(g.pAfter)-this.logit(g.pBefore)) : (g.logitMove||0);
-    const sig = g.shockSigma!=null ? g.shockSigma : 0;
-    const vol = g.volUsd||0, liq = g.liqUsd||0, ratio = g.volRatio||0;
-    const runup  = Math.round( Math.min(100, lm*55) * (sig ? Math.min(1, sig/2) : 0.7) );
-    const vpin   = g.imbalance!=null ? Math.round(g.imbalance*100) : null;
-    let impact;
-    if (liq>0) impact = Math.round(Math.min(100, lm*30 * Math.min(2.2, 100000/Math.max(5000,liq))));
-    else impact = ratio ? Math.round(Math.min(100, Math.log2(Math.max(1,ratio))*16)) : 0;
-    const hasConc = (g.herfindahl!=null || g.topShare!=null || g.recentZ);
-    const conc = hasConc ? Math.round(Math.min(100, Math.max(
-      g.herfindahl!=null ? g.herfindahl*140 : 0,
-      g.topShare!=null ? g.topShare*130 : 0,
-      g.recentZ ? g.recentZ*6 : 0))) : null;
-    // VPIN: one-sided flow is only suspicious when ALSO concentrated — prediction
-    // markets are naturally one-sided as consensus forms, so a crowd all buying
-    // YES is not informed trading; one wallet doing so is.
-    const concFactor = Math.min(1, (g.topShare||0)*3 + (g.herfindahl||0)*2);
-    const vpinSig = (vpin!=null) ? Math.round(vpin*concFactor) : 0;
-    const anomaly = Math.max(runup, impact, vpinSig, (conc!=null?conc*0.9:0));
-    const lowLiq = g.lowLiq===true || (vol>0 && vol<15000);
-    const explained = g.explained===true;
-    const suspicion = Math.max(0, Math.round(explained ? anomaly*0.3 : anomaly));
-    let severity, verdict;
-    if (lowLiq || explained){ severity='watch'; verdict='Worth watching'; }
-    else if (suspicion>=55){ severity='high'; verdict='High-signal anomaly'; }
-    else { severity='watch'; verdict='Worth watching'; }
-    return { runup, vpin, vpinSig, impact, conc, anomaly:Math.round(anomaly), suspicion, severity, verdict, lm, sig, vol, liq, ratio, lowLiq, explained };
+  _k(n){ n=Math.abs(Number(n)||0); return n>=1e6 ? (n/1e6).toFixed(1).replace(/\.0$/,'')+'M' : n>=1000 ? Math.round(n/1000)+'k' : String(Math.round(n)); }
+  platMeta(p){
+    return p==='kalshi'
+      ? { id:'kalshi', label:'Kalshi', color:'#34D399', soft:'rgba(52,211,153,.10)', bd:'rgba(52,211,153,.42)' }
+      : { id:'polymarket', label:'Polymarket', color:'#A78BFA', soft:'rgba(167,139,250,.10)', bd:'rgba(167,139,250,.42)' };
   }
-  // "what the detector saw" — readings tagged with the method that fired:
-  //   [ method label, mono metric, plain-English explanation ]
-  survReadings(g){
-    const sc=this.survScore(g); const R=[]; const pc=x=>Math.round(x*100)+'%';
-    const win = g.windowH>=24 ? (Math.round(g.windowH/24)+(Math.round(g.windowH/24)===1?' day':' days')) : (g.windowH? (g.windowH+'h'):'a short window');
-    if (g.pAfter!=null && g.pBefore!=null && Math.abs(g.pAfter-g.pBefore)>=0.02){
-      R.push(['PRE-EVENT RUN-UP', (g.pAfter>=g.pBefore?'+':'')+Math.round((g.pAfter-g.pBefore)*100)+'c over '+win, 'the implied probability moved '+pc(g.pBefore)+' → '+pc(g.pAfter)+', a '+sc.sig.toFixed(1)+'σ run-up against this market’s normal swings (Keown–Pinkerton)']);
-    } else if (sc.sig>=2){
-      R.push(['PRE-EVENT RUN-UP', sc.sig.toFixed(1)+'σ', 'the price moved well beyond this market’s normal volatility before the event']);
+  idxColor(i){ return i>=70 ? '#F87171' : i>=40 ? '#FBBF24' : '#8A938F'; }   // red high / amber mid / muted low
+  labelMeta(label){
+    if (label==='Unexplained')          return { color:'#F87171', text:'Unexplained' };
+    if (label==='Partially explained')  return { color:'#FBBF24', text:'Partially explained' };
+    if (label==='Explained')            return { color:'#34D399', text:'Explained' };
+    if (label==='Low-liquidity artifact')return { color:'#8A938F', text:'Low-liquidity artifact' };
+    return { color:'#8A938F', text: label||'—' };
+  }
+
+  // detector key -> display name, tag, and the formula (shown in "show the math")
+  METHODS = {
+    runUp:        { name:'Pre-event run-up',          tag:'KEOWN–PINKERTON',   formula:'CAR* = Σ(r_t − μ)/σ  ÷ √n ,  sub-score = min(1, |CAR*| / 4)' },
+    vpin:         { name:'Order-flow toxicity (VPIN)', tag:'EASLEY–LdP–O’HARA', formula:'VPIN = (1/N) · Σ |V_sell − V_buy| / V  over the last N volume buckets' },
+    priceImpact:  { name:'Liquidity vacuum (Kyle’s λ)',tag:'KYLE 1985 · AMIHUD', formula:'λ = slope of Δp ~ OFI ;  Amihud = |r| / $vol ;  sub-score from the ratio to its own median' },
+    concentration:{ name:'Trader concentration (HHI)', tag:'HERFINDAHL · ON-CHAIN', formula:'HHI = Σ s_i²  over per-wallet buy shares ,  blended with top-1 share + fresh-wallet' },
+    news:         { name:'News-context gap',          tag:'SONAR',             formula:'E = credibility × time-proximity × direction ;  pre-event ⇒ E = 0 ;  Index ×= (1 − 0.6·E)' },
+  };
+
+  methodMetric(key, d){
+    if (!d) return null;
+    if (key==='runUp')        return (d.sigma_move!=null ? d.sigma_move : (d.carStar!=null ? Math.abs(d.carStar) : '—')) + 'σ';
+    if (key==='vpin')         return d.vpin!=null ? d.vpin.toFixed(2) : '—';
+    if (key==='priceImpact')  return d.impactRatio!=null ? d.impactRatio.toFixed(1) + '×' : '—';
+    if (key==='concentration')return d.top1!=null ? Math.round(d.top1*100) + '%' : '—';
+    if (key==='news')         return d.E!=null ? ('E ' + (+d.E).toFixed(2)) : '—';
+    return '—';
+  }
+  methodMath(key, d){
+    if (!d) return [];
+    if (key==='runUp'){
+      if (d.proxy) return ['Preliminary read from the 24h price change: ~' + d.sigma_move + 'σ vs a normal daily swing.', 'Full Keown–Pinkerton CAR* is computed from price history when this market is deep-scanned.'];
+      return ['CAR* = ' + d.carStar + '  (over ' + d.n + ' steps in the event window)', 'estimation μ = ' + d.mu + ',  σ = ' + d.sigma, 'sub-score = min(1, |CAR*| / 4) = ' + (d.score!=null ? d.score.toFixed(2) : '—')];
     }
-    if (sc.vpinSig>=30) R.push(['ORDER IMBALANCE · VPIN', sc.vpin+'% one-sided', sc.vpin+'% of trading pushed a single direction, and from few accounts — the order-flow imbalance that flags informed trading']);
-    if (sc.impact>=45) R.push(['PRICE IMPACT · KYLE’S λ', g.backing || 'large move, thin book', 'a large move achieved on little resting liquidity — high price impact, the liquidity-vacuum fingerprint']);
-    if (sc.conc!=null && sc.conc>=45 && g.topShare!=null) R.push(['TRADER CONCENTRATION', Math.round(g.topShare*100)+'% one wallet', 'one account was '+Math.round(g.topShare*100)+'% of recent buying'+(g.recentZ?(' ('+(+g.recentZ).toFixed(1)+'σ above the field)'):'')+' — concentrated, not crowd-driven']);
-    if (g.explained===true && g.headline) R.push(['NEWS CONTEXT', 'headline found', 'a public headline around this move plausibly explains it: “'+g.headline+'”'+(g.newsSource?(' — '+g.newsSource):'')]);
-    if (!R.length) R.push(['ANOMALY', g.metric||'unusual activity', 'market activity unusual relative to this market’s own history']);
-    return R;
+    if (key==='vpin')         return ['VPIN = ' + d.vpin + '  over ' + d.nBuckets + ' volume buckets', 'from ' + d.nTrades + ' on-chain trades, buy/sell split by bulk-volume classification'];
+    if (key==='priceImpact')  return ["Kyle's λ = " + d.lambda, 'Amihud illiquidity = ' + d.amihud, 'recent impact ratio = ' + d.impactRatio + '× this market’s own median'];
+    if (key==='concentration')return ['HHI = ' + d.hhi + '  (1.0 = a single wallet)', 'top-1 wallet share = ' + Math.round((d.top1||0)*100) + '%  of ' + d.nWallets + ' wallets', 'fresh wallet (first active hours before the move): ' + (d.fresh ? 'yes' : 'no')];
+    if (key==='news')         return ['E = ' + (+d.E).toFixed(2) + '  (' + (d.credibility||'no') + ' source)', d.headline ? ('headline: “' + d.headline + '”' + (d.source ? ' — ' + d.source : '')) : 'no matching public headline found', d.preEvent ? 'timing: the move PRECEDED the first public headline (pre-event gap)' : 'timing: a public headline sits around the move'];
+    return [];
   }
-  survWhy(g){
-    const sc=this.survScore(g);
-    if (sc.lowLiq) return 'The book here is near-empty, so the move may be a low-liquidity artifact rather than informed trading. It is logged for completeness, not escalated.';
-    if (sc.explained) return 'A public headline around this move plausibly explains it, so the run-up has a public cause. A surveillance desk would clear it unless other signals persist.';
-    return 'The price moved sharply relative to this market’s normal swings, with no public-news explanation around the move. That combination — an unexplained pre-event move — is exactly what a surveillance system escalates for a closer look.';
+  // which methods fired for a market, fired-first; news is always shown as context
+  methodRows(m){
+    const det = m.detectors || {};
+    const cw = {}; (m.contributions || []).forEach((c) => { cw[c.key] = c.weight; });
+    const rows = [];
+    ['runUp','vpin','priceImpact','concentration','news'].forEach((key)=>{
+      const d = det[key]; if (!d) return;
+      const meta = this.METHODS[key];
+      const score = (key==='news') ? (d.E!=null ? d.E : 0) : (typeof d.score==='number' ? d.score : 0);
+      const fired = (key==='news') ? (d.preEvent===true || d.E>=0.4) : score>=0.25;
+      rows.push({ key, name:meta.name, tag:meta.tag, formula:meta.formula,
+        metric:this.methodMetric(key, d), plain:d.explain||'', math:this.methodMath(key, d),
+        score, fired, context:key==='news', weight:cw[key]!=null ? cw[key] : null });
+    });
+    rows.sort((a,b)=> (Number(b.fired)-Number(a.fired)) || (b.score-a.score));
+    return rows;
   }
-  survProv(g){
-    if (g.platform==='kalshi') return 'Kalshi is a centralized exchange, so individual account identities aren’t public — this flag is based on market activity only.';
-    if (g.onchain && g.onchain.wallet) return 'On-chain: Polymarket settles on-chain, so trades are public. One wallet ('+g.onchain.wallet+') was '+Math.round((g.onchain.topShare||0)*100)+'% of recent buying.';
-    return 'On-chain: Polymarket settles on-chain, so trade and wallet activity is publicly observable.';
+  topMethods(m){
+    const fired = this.methodRows(m).filter((r)=> r.fired && !r.context);
+    if (fired.length) return fired.slice(0,2).map((r)=>({ name:r.name, metric:r.metric }));
+    const ru = m.detectors && m.detectors.runUp;
+    return ru ? [{ name:this.METHODS.runUp.name, metric:this.methodMetric('runUp', ru) }] : [];
   }
 
-  detName(id){ const d=this.DETECTORS.find(x=>x.id===id); return d?d.name:id; }
-  sevColor(sev){ return sev==='high'?'#F87171':'#FBBF24'; }   // high = red, watch = amber
-  platLabel(p){ return p==='poly'?'Polymarket':'Kalshi'; }
-  prettyCat(c){ const m={political:'Politics',geopolitical:'Geopolitics',econ:'Economics',corporate:'Corporate',sports:'Sports',cryptoprice:'Crypto',other:'Trending'}; return m[c]||String(c||'Market'); }
-  catLabel(x){ if(x.category) return this.prettyCat(x.category); const M={maduro:'Geopolitics',search:'Culture',cpi:'Economics',halftime:'Entertainment',fed:'Economics',oscars:'Entertainment',gdp:'Economics',senate:'Politics',tencup:'Culture',divg:'Financials',settle:'Financials',vac:'Politics',spf:'Sports',clus:'Politics'}; return M[x.id]||'Market'; }
+  // small probability sparkline from the real series (falls back to a flat line)
+  survSpark(m, color){
+    const h=React.createElement, W=82, H=26;
+    let pts = (m.series && m.series.length>=3) ? m.series.map((x)=>x.p) : null;
+    if (!pts){ const p = m.prob!=null ? m.prob : 0.5; pts = [p,p,p,p]; }
+    const n = pts.length, lo=Math.min(...pts), hi=Math.max(...pts), rng=(hi-lo)||0.001;
+    const xy = pts.map((p,i)=>[4 + (i/(n-1))*(W-8), H-3 - ((p-lo)/rng)*(H-6)]);
+    const d = xy.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+    return h('svg',{ width:W, height:H, viewBox:`0 0 ${W} ${H}`, 'aria-hidden':'true', style:{ display:'block', flexShrink:0 } },
+      h('path',{ d, fill:'none', stroke:color||'#8A938F', strokeWidth:1.4, opacity:0.9 }));
+  }
+
+  // big annotated probability chart from the real series: expected-range band the
+  // line breaks out of, shaded event (suspicious) window, labelled catalyst marker.
+  survChart(m){
+    const h=React.createElement, C=this.SCOPE, col=this.platMeta(m.platform).color;
+    const W=620,H=280, padL=50,padR=20,padT=26,padB=46, iw=W-padL-padR, ih=H-padT-padB;
+    const Y = (p)=> padT + (1-Math.max(0,Math.min(1,p)))*ih;
+    const yGrid = [0,0.25,0.5,0.75,1].map((v,i)=> h('g',{ key:'y'+i },
+      h('line',{ x1:padL, x2:padL+iw, y1:Y(v), y2:Y(v), stroke:C.bd, strokeWidth:1, opacity:i===0?1:0.5 }),
+      h('text',{ x:padL-8, y:Y(v)+3, textAnchor:'end', fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, Math.round(v*100)) ));
+    const yLabel = h('text',{ x:14, y:padT+ih/2, fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace', transform:`rotate(-90 14 ${padT+ih/2})`, textAnchor:'middle' }, 'implied probability %');
+
+    const ser = (m.series && m.series.length>=4) ? m.series : null;
+    if (!ser){
+      // no deep price history yet — show the current level honestly, no fake curve
+      const p = m.prob!=null ? m.prob : 0.5;
+      return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Current implied probability ${Math.round(p*100)} percent`, style:{ display:'block' } },
+        yGrid, yLabel,
+        h('line',{ x1:padL, x2:padL+iw, y1:Y(p), y2:Y(p), stroke:col, strokeWidth:2.4 }),
+        h('text',{ x:padL+iw, y:Y(p)-8, textAnchor:'end', fontSize:12, fontWeight:700, fill:col, fontFamily:'JetBrains Mono, monospace' }, Math.round(p*100)+'%'),
+        h('text',{ x:padL+iw/2, y:padT+ih/2+4, textAnchor:'middle', fontSize:11, fill:C.mut }, 'Full price history loads when this market is deep-scanned'));
+    }
+    const n = ser.length, X = (i)=> padL + (i/(n-1))*iw;
+    const ps = ser.map((x)=>x.p);
+    const estN = Math.max(3, Math.floor(n*0.6));
+    const est = ps.slice(0, estN);
+    const mu = est.reduce((a,b)=>a+b,0)/est.length;
+    const sd = Math.sqrt(est.reduce((a,b)=>a+(b-mu)*(b-mu),0)/est.length) || 0.02;
+    const bandLo = Math.max(0, mu-2*sd), bandHi = Math.min(1, mu+2*sd);
+    const w0i = estN-1;   // event/suspicious window starts where estimation ends
+    const band = h('g',null,
+      h('rect',{ x:padL, y:Y(bandHi), width:iw, height:Math.max(2,Y(bandLo)-Y(bandHi)), fill:'rgba(138,147,143,.08)', stroke:'rgba(138,147,143,.28)', strokeWidth:1, strokeDasharray:'3 3' }),
+      h('text',{ x:padL+6, y:Y(bandHi)-5, fontSize:9, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, 'expected range'));
+    const suspBand = h('g',null,
+      h('rect',{ x:X(w0i), y:padT, width:(padL+iw)-X(w0i), height:ih, fill:'rgba(248,113,113,.05)', stroke:'rgba(248,113,113,.22)', strokeWidth:1 }),
+      h('text',{ x:(X(w0i)+padL+iw)/2, y:padT-8, textAnchor:'middle', fontSize:9.5, fill:'#cdb3b3', fontFamily:'JetBrains Mono, monospace' }, 'suspicious window'));
+    const xy = ser.map((pt,i)=>[X(i),Y(pt.p)]);
+    const line = xy.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+    const area = line + ` L${X(n-1).toFixed(1)} ${(padT+ih).toFixed(1)} L${padL.toFixed(1)} ${(padT+ih).toFixed(1)} Z`;
+    const news = m.detectors && m.detectors.news;
+    const marker = h('g',null,
+      h('line',{ x1:X(n-1), x2:X(n-1), y1:padT-2, y2:padT+ih, stroke:'#8A938F', strokeWidth:1.3, strokeDasharray:'4 4' }),
+      h('text',{ x:X(n-1)-6, y:padT+10, textAnchor:'end', fontSize:9.5, fill:'#cdd3d0', fontFamily:'JetBrains Mono, monospace' }, (news && news.headline) ? 'headline' : 'latest'));
+    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Implied probability over time for ${m.question}. Expected range, suspicious window, and latest point marked.`, style:{ display:'block' } },
+      yGrid, yLabel, band, suspBand,
+      h('path',{ d:area, fill:'rgba(167,139,250,.05)' }),
+      h('path',{ d:line, fill:'none', stroke:col, strokeWidth:2.4 }),
+      h('text',{ x:padL, y:H-12, fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, 'earlier'),
+      h('text',{ x:padL+iw, y:H-12, textAnchor:'end', fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, 'now'),
+      marker);
+  }
 
   selectSignal(id){
     this.setState({ survSel:id });
@@ -824,210 +878,31 @@ class Component extends DCLogic {
     }
   }
 
-  // plain-English inspector content per sample signal (readings translate every
-  // number; why = surveillance rationale; prov = context line)
-  INSPECTOR_DATA = {
-    maduro:{ discLabel:'event resolved',
-      readings:[['+0.41 over 6h','the price of Yes rose 41 cents in six hours, far faster than the prior week'],['one-sided position','the account only bought Yes and never hedged or sold'],['held to resolution','the stake was kept until the event settled, not traded around']],
-      why:'A single account moved early, in one direction, and held through a discrete geopolitical outcome that was not yet public. Surveillance flags the combination of timing, size, and conviction, which is hard to explain by ordinary research.',
-      prov:'On-chain: the wallet was created several months earlier and funded from an exchange before the position was built.' },
-    search:{ discLabel:'results published',
-      readings:[['11 of 12 correct','the account won eleven of twelve related bets in one window'],['correlated markets','the bets spanned a dozen year-end ranking markets that move together'],['single window','all positions were placed in a short period before results']],
-      why:'Being right once is luck. Being right across a dozen correlated markets in a single window suggests the account knew the rankings before they were published.',
-      prov:'On-chain: the positions trace to one wallet with shared funding to two related addresses.' },
-    cpi:{ discLabel:'data released',
-      readings:[['+0.28 in 9 min','the Yes price jumped 28 cents in nine minutes'],['47 min pre-release','the move landed almost an hour before the scheduled data release'],['scheduled event','CPI releases at a fixed, publicly known time']],
-      why:'The sharp move landed well before the data was public and before any legitimate reaction could occur. A surveillance system notices price discovery that precedes the information.',
-      prov:'Kalshi is a centralized exchange, so individual account identities are not public. This flag is based on market activity only.' },
-    halftime:{ discLabel:'lineup announced',
-      readings:[['$70k position','the account staked about seventy thousand dollars'],['26h-old wallet','the wallet was created roughly a day before the event'],['won all but one','nearly every contract it bought paid out']],
-      why:'A brand-new, well-funded account that bets heavily on an obscure outcome and wins almost everything is a classic surveillance pattern. The account age and timing are the flags, not the win itself.',
-      prov:'On-chain: the wallet was created about 26 hours before the trade and funded shortly beforehand.' },
-    fed:{ discLabel:'decision announced',
-      readings:[['one-sided book','resting orders were stacked on one side of the market'],['2h pre-decision','the imbalance built two hours before the rate decision'],['modest size','the drift was small relative to the high-signal cases']],
-      why:'Pre-positioning ahead of a scheduled decision is common and often innocent. It is logged as worth watching, not as a strong signal.',
-      prov:'Kalshi is a centralized exchange, so account identities are not public. This flag is based on market activity only.' },
-    oscars:{ discLabel:'winner announced',
-      readings:[['$180k shove','a single large order of about 180 thousand dollars'],['+0.22 odds','that order moved the implied odds by 22 points'],['thin market','little standing liquidity to absorb it']],
-      why:'One large order moved an obscure market sharply. Size alone is not misconduct, but a concentrated shove in a thin, low-attention market is worth examining.',
-      prov:'On-chain: the position traces to an established wallet funded from an exchange.' },
-    gdp:{ discLabel:'data released',
-      readings:[['8x liquidity','traded volume was eight times the recent average'],['pre-print','the surge came before the GDP release'],['no identity','exchange-level data only']],
-      why:'A large volume spike ahead of a scheduled release draws attention. Much of the time it is lawful momentum, so it is filed as watch.',
-      prov:'Kalshi is a centralized exchange, so account identities are not public. This flag is based on market activity only.' },
-    senate:{ discLabel:'vote held',
-      readings:[['funded 8 min before','the wallet received money eight minutes before trading'],['9x normal size','the position was nine times the account’s usual size'],['bridge source','the funds arrived through a bridge']],
-      why:'Money arriving minutes before an outsized, well-timed bet suggests the trade was set up in advance. The funding trail is the flag.',
-      prov:'On-chain: the wallet was funded from a bridge minutes before the position was opened.' },
-    tencup:{ discLabel:'winner revealed',
-      readings:[['idle 9 months','the wallet had not traded in about nine months'],['one precise hit','it woke only to take a single resolving market'],['then quiet','it returned to inactivity afterward']],
-      why:'A long-dormant wallet that wakes for exactly one resolving market is an unusual pattern, though a single instance is only worth watching.',
-      prov:'On-chain: the wallet had been inactive for roughly two years before this trade.' },
-    divg:{ discLabel:'event resolved',
-      readings:[['0.12 gap','this market priced the event 12 points away from another venue'],['pre-resolution','the gap appeared just before the outcome'],['cross-venue','the same event traded elsewhere']],
-      why:'A probability gap versus another venue can be ordinary arbitrage or latency. It is logged as watch unless it persists or pairs with other signals.',
-      prov:'Kalshi is a centralized exchange, so account identities are not public. This flag is based on market activity only.' },
-    settle:{ discLabel:'contract settled',
-      readings:[['late buying','purchases concentrated in the final minutes'],['into expiry','the pressure built as the contract settled'],['thin counter-flow','little opposing liquidity']],
-      why:'Buying that clusters into settlement can press the reference price. Whether it is manipulation turns on intent, which the chart cannot show, so it is watch.',
-      prov:'Kalshi is a centralized exchange, so account identities are not public. This flag is based on market activity only.' },
-    vac:{ discLabel:'ruling issued',
-      readings:[['thin book','the order book was unusually shallow'],['+0.30 on small size','a small order moved the odds by 30 points'],['well timed','the order hit when liquidity was lowest']],
-      why:'Moving the odds sharply with little capital by timing a thin book is aggressive and precise. It draws scrutiny when paired with a discrete, soon-to-resolve outcome.',
-      prov:'On-chain: the position traces to a wallet funded from an exchange a few months earlier.' },
-    spf:{ discLabel:'game resolved',
-      readings:[['14:1 cancels','fourteen orders were canceled for every one filled'],['near the touch','the orders sat at the best price, then vanished'],['small fills','little real volume executed']],
-      why:'A high cancel ratio near the best price is the classic spoofing fingerprint. Proving it requires showing intent to cancel, so it is logged as watch.',
-      prov:'Kalshi is a centralized exchange, so account identities are not public. This flag is based on market activity only.' },
-    clus:{ discLabel:'race called',
-      readings:[['6 wallets','six accounts acted together'],['synchronized','they entered within minutes of each other'],['shared funding','the wallets trace to a common source']],
-      why:'Several wallets entering the same contract in lockstep suggests one actor behind many accounts. Coordination is notable, though not by itself unlawful.',
-      prov:'On-chain: the wallets share a common funding source and entered within minutes.' }
-  };
-
-  // ---- live feed remap: serverless alerts -> SIGNALS + INSPECTOR shapes ----
-  // The live alert shape is { id, ts, platform, market, detector, sev, metric,
-  // note, gap }. We keep every word of that real data; lead/signal/fireT only
-  // drive the illustrative chart curves.
-  _detDesc(id){ const d=this.DETECTORS.find(x=>x.id===id || x.id===String(id||'').replace(/_/g,'')); return d?d.desc:'the detector reading that triggered this flag.'; }
-  _liveSignals(alerts){
-    const n = Math.max(1, alerts.length);
-    return alerts.map((a,i)=>{
-      const poly = a.platform==='polymarket';
-      const M = a.metrics || {};
-      const oc = (a.signals && a.signals.computed) ? a.signals : null;
-      const pA = (M.pAfter!=null) ? M.pAfter : null;
-      const pB = (M.pBefore!=null) ? M.pBefore : null;
-      const haveMove = pA!=null && pB!=null;
-      // liquidity, platform-aware (Polymarket = USD book; Kalshi = open interest)
-      let volForQ=0, liqForImpact=null, lowLiq=false, backing=null;
-      if (poly){
-        volForQ = M.volUsd||0; liqForImpact = M.liqUsd||null; lowLiq = M.volUsd!=null && M.volUsd<15000;
-        backing = (M.volUsd!=null) ? ('$'+this._k(M.volUsd)+(M.liqUsd?(' on a $'+this._k(M.liqUsd)+' book'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(0)+'×)'):'')) : null;
-      } else {
-        const c=M.contracts||0, oi=M.oi||0; volForQ = Math.max(c,oi)*20; lowLiq = oi>0 && oi<200;
-        backing = c ? (c.toLocaleString()+' contracts'+(oi?(' on '+oi.toLocaleString()+' OI'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(1)+'×)'):'')) : null;
-      }
-      const ocShow = !!(oc && (oc.recentZ>=2 || oc.topShare>=0.05 || (oc.herfindahl!=null && oc.herfindahl>=0.1)));
-      const g = {
-        id:a.id, market:a.market, platform: poly?'poly':'kalshi', category:M.category||null,
-        detector:a.detector,
-        onchain: ocShow ? { wallet:oc.wallet, topShare:oc.topShare, recentZ:oc.recentZ, nWallets:oc.nWallets } : null,
-        lead: 0.5 + (i%6), backing,
-        pBefore:pB, pAfter:pA, windowH: M.windowH || (haveMove?1:null),
-        shockSigma: (M.shockSigma!=null) ? M.shockSigma : null,
-        volUsd:volForQ, liqUsd: liqForImpact, volRatio: M.volRatio||null, lowLiq,
-        imbalance: (oc && oc.imbalance!=null) ? oc.imbalance : null,
-        herfindahl: (oc && oc.herfindahl!=null) ? oc.herfindahl : null,
-        topShare: (oc && oc.topShare!=null) ? oc.topShare : null,
-        recentZ: (oc && oc.recentZ!=null) ? oc.recentZ : null,
-        catalyst: M.catalyst||null, leadH: (M.leadH!=null) ? M.leadH : null,
-        explained: (M.explained===true) ? true : (M.explained===false ? false : null),
-        headline: M.headline||null, newsSource: M.newsSource||null,
-        metric:a.metric, desc:a.note, gap:a.gap, fireT: 1 - i/n
-      };
-      const sc = this.survScore(g);
-      g.severity = sc.severity;
-      g.signal = sc.severity==='high' ? 0.85 : 0.55;   // chart curve amplitude
-      g._readings = this.survReadings(g);
-      g._why = this.survWhy(g);
-      g._prov = this.survProv(g);
-      return g;
-    });
-  }
-  _liveInspector(alerts){
-    const map={};
-    alerts.forEach(a=>{
-      const poly = a.platform==='polymarket';
-      const prov = poly
-        ? ('Polymarket settles on-chain, so trade and wallet activity is publicly observable. Flag captured at '+(a.ts||'—')+'.')
-        : ('Kalshi is a centralized exchange, so individual account identities are not public. This flag is based on market activity only, captured at '+(a.ts||'—')+'.');
-      map[a.id]={
-        discLabel: poly?'event':'data point',
-        readings:[[ a.metric || '—', this._detDesc(a.detector) ]],
-        why:'Surveillance flags this on live market data because the pattern matches a known fingerprint. A pattern firing is a reason to look closer, never a finding of wrongdoing.',
-        prov:prov
-      };
-    });
-    return map;
-  }
-
-  // monochrome row sparkline
-  buildMiniSpark(g){
-    const h=React.createElement, W=78,H=26;
-    const pts=[]; for(let i=0;i<22;i++){ const t=i/21; let p=0.42+0.05*Math.sin(t*7+g.lead); if(t>0.55) p+=(t-0.55)/0.45*g.signal*0.4; pts.push([4+t*(W-8), H-3-Math.max(0.03,Math.min(0.97,p))*(H-6)]); }
-    const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
-    return h('svg',{ width:W, height:H, viewBox:`0 0 ${W} ${H}`, 'aria-hidden':'true', style:{ display:'block', flexShrink:0, marginTop:'2px' } },
-      h('path',{ d, fill:'none', stroke:'#8A938F', strokeWidth:1.3, opacity:0.85 }));
-  }
-
-  // tiered composite-score gauge (40 .. 500+ with marker)
-  buildScoreGauge(score){
-    const h=React.createElement, C=this.SCOPE;
-    const W=600,H=66, x0=8,x1=W-8, tw=x1-x0, y=30, bh=15;
-    const D0=40,D1=520;
-    const X=v=> x0 + (Math.max(D0,Math.min(D1,v))-D0)/(D1-D0)*tw;
-    const segs=[[40,100,'#34D399'],[100,200,'#FBBF24'],[200,500,'#FB923C'],[500,520,'#F87171']];
-    const segEls=segs.map((sg,i)=> h('rect',{ key:'g'+i, x:X(sg[0]), y, width:Math.max(2,X(sg[1])-X(sg[0])), height:bh, fill:sg[2], opacity:0.5 }));
-    const ticks=[100,200,500].map((tk,i)=> h('g',{ key:'t'+i },
-      h('line',{ x1:X(tk), x2:X(tk), y1:y, y2:y+bh, stroke:C.canvas, strokeWidth:1.5 }),
-      h('text',{ x:X(tk), y:y+bh+12, textAnchor:'middle', fontSize:9, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, tk===500?'500+':String(tk)) ));
-    const mx=X(score);
-    const marker=h('g',null,
-      h('line',{ x1:mx, x2:mx, y1:y-7, y2:y+bh+3, stroke:'#E5E7EB', strokeWidth:2 }),
-      h('path',{ d:`M${mx-5} ${y-7} L${mx+5} ${y-7} L${mx} ${y-1} Z`, fill:'#E5E7EB' }),
-      h('text',{ x:Math.min(W-26, Math.max(22, mx)), y:y-12, textAnchor:'middle', fontSize:13, fontWeight:700, fill:'#E5E7EB', fontFamily:'JetBrains Mono, monospace' }, Math.round(score) ));
-    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Composite suspicion score ${Math.round(score)} of 500+`, style:{ display:'block' } },
-      h('defs',null, h('clipPath',{ id:'gaugeclip' }, h('rect',{ x:x0, y, width:tw, height:bh, rx:7 }))),
-      h('rect',{ x:x0, y, width:tw, height:bh, rx:7, fill:'#0A0E0D', stroke:C.bd, strokeWidth:1 }),
-      h('g',{ clipPath:'url(#gaugeclip)' }, segEls),
-      h('rect',{ x:x0, y, width:tw, height:bh, rx:7, fill:'none', stroke:C.bd, strokeWidth:1 }),
-      ticks, marker,
-      h('text',{ x:x0, y:y-12, fontSize:8.5, fill:'#6b7772', fontFamily:'JetBrains Mono, monospace' }, 'less suspicious'),
-      h('text',{ x:x1, y:y-12, textAnchor:'end', fontSize:8.5, fill:'#6b7772', fontFamily:'JetBrains Mono, monospace' }, 'more suspicious'));
-  }
-
-  // large annotated inspector chart with the final-48h pre-event window shaded
-  buildInspectorChart(g, info){
-    const h=React.createElement, C=this.SCOPE;
-    info = info || this.INSPECTOR_DATA[g.id] || {};
-    const lateFrac = g.lateFrac==null ? 0.5 : g.lateFrac;
-    const W=600,H=270, padL=52,padR=18,padT=30,padB=44;
-    const iw=W-padL-padR, ih=H-padT-padB;
-    const X=t=> padL + t*iw;
-    const Y=p=> padT + (1-Math.max(0,Math.min(1,p)))*ih;
-    const lateStart=0.80, disc=0.92;             // final-48h window + resolution marker
-    const w0=Math.max(0.08,disc-0.40);
-    const N=70, series=[];
-    for(let i=0;i<N;i++){ const t=i/(N-1); let p=0.40+0.035*Math.sin(t*9+g.lead*1.3);
-      if(t>=w0 && t<=disc) p+=(t-w0)/(disc-w0)*g.signal*0.44;
-      if(t>disc) p+=g.signal*0.44; series.push([t,Math.max(0.03,Math.min(0.97,p))]); }
-    const line=series.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join(' ');
-    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const len=1400;
-    const yt=[0,0.25,0.5,0.75,1].map((v,i)=> h('g',{ key:'y'+i },
-      h('line',{ x1:padL, x2:padL+iw, y1:Y(v), y2:Y(v), stroke:C.bd, strokeWidth:1, opacity:i===0?1:.55 }),
-      h('text',{ x:padL-8, y:Y(v)+3, textAnchor:'end', fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, Math.round(v*100)) ));
-    // suspicious window (where the unusual buying happened) — soft neutral band
-    const band=h('g',null,
-      h('rect',{ x:X(w0), y:padT, width:X(disc)-X(w0), height:ih, fill:'rgba(138,147,143,.07)', stroke:'rgba(138,147,143,.30)', strokeWidth:1, strokeDasharray:'3 3' }),
-      h('text',{ x:(X(w0)+X(disc))/2, y:padT-9, textAnchor:'middle', fontSize:10, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, '← unusual buying here'));
-    // a few flagged trades as discrete dots inside the window (muted)
-    const dots=[w0+0.06,(w0+disc)/2,disc-0.05].map((mt,i)=>{ const seg=series.reduce((a,b)=> Math.abs(b[0]-mt)<Math.abs(a[0]-mt)?b:a, series[0]); return h('circle',{ key:'d'+i, cx:X(mt), cy:Y(seg[1]), r:3.5, fill:'#C9D1CE', stroke:C.canvas, strokeWidth:1.2 }); });
-    // disclosure marker (muted neutral), where the information became public
-    const discG=h('g',null,
-      h('line',{ x1:X(disc), x2:X(disc), y1:padT-2, y2:padT+ih, stroke:'#8A938F', strokeWidth:1.3, strokeDasharray:'4 4' }),
-      h('text',{ x:X(disc)+5, y:padT+10, fontSize:9.5, fill:'#cdd3d0', fontFamily:'JetBrains Mono, monospace' }, info.discLabel||'news public'));
-    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Implied probability over time for ${g.market}. Suspicious window and ${info.discLabel||'disclosure'} marked.`, style:{ display:'block' } },
-      yt, band,
-      h('text',{ x:14, y:padT+ih/2, fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace', transform:`rotate(-90 14 ${padT+ih/2})`, textAnchor:'middle' }, 'implied probability %'),
-      h('path',{ d:line+` L${X(1)} ${padT+ih} L${X(0)} ${padT+ih} Z`, fill:'rgba(52,211,153,.05)' }),
-      h('path',{ d:line, fill:'none', stroke:C.kalshi, strokeWidth:2.4, style: reduce?{ filter:'drop-shadow(0 0 5px rgba(52,211,153,.4))' }:{ filter:'drop-shadow(0 0 5px rgba(52,211,153,.4))', strokeDasharray:len, strokeDashoffset:0, animation:'drawin 1.1s ease both', '--len':len } }),
-      dots, discG,
-      h('text',{ x:padL, y:H-12, fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, 'market opens'),
-      h('text',{ x:padL+iw, y:H-12, textAnchor:'end', fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, 'resolution'),
-      h('text',{ x:padL+iw/2, y:H-12, textAnchor:'middle', fontSize:9, fill:'#6b7772', fontFamily:'JetBrains Mono, monospace' }, 'time →'));
-  }
+  // sample markets (same shape as the live feed) so the tab is never empty
+  SAMPLE_MARKETS = [
+    { id:'s-maduro', platform:'polymarket', category:'World', question:'Will Nicolás Maduro leave the Venezuelan presidency before July 2026?', url:'https://polymarket.com/markets', prob:0.62, change24h:0.41, volume24h:840000, liquidity:120000, index:94, raw:0.94, E:0, Q:0.82, label:'Unexplained', deep:true,
+      contributions:[{key:'runUp',weight:0.30,score:0.95},{key:'concentration',weight:0.25,score:0.9},{key:'vpin',weight:0.25,score:0.8},{key:'priceImpact',weight:0.2,score:0.6}],
+      detectors:{ runUp:{ score:0.95, carStar:3.9, car:12.1, n:9, mu:0.001, sigma:0.18, sigma_move:3.9, dir:'up', explain:'Implied probability drifted up 3.9σ beyond this market’s normal swings over the pre-event window (Keown–Pinkerton).' },
+        vpin:{ score:0.8, vpin:0.80, nBuckets:50, nTrades:610, explain:'80% of recent volume pushed one direction — the order-flow imbalance (VPIN) that flags informed trading.' },
+        priceImpact:{ score:0.6, lambda:0.014, amihud:'3.1e-5', impactRatio:5.2, explain:'A large move on little resting capital — a 5.2× liquidity vacuum vs this market’s normal price impact (Kyle’s λ, Amihud).' },
+        concentration:{ score:0.9, hhi:0.41, top1:0.62, nWallets:38, fresh:true, topWallet:'0x9f…4a2c', explain:'One account was 62% of recent buying (HHI 0.41, from a wallet first active hours before the move) — concentrated, not crowd-driven.' },
+        news:{ E:0, explained:false, preEvent:true, explain:'The sharp move PRECEDED the first public headline — a pre-event gap (unexplained).' } },
+      series:[{t:1,p:0.20},{t:2,p:0.19},{t:3,p:0.21},{t:4,p:0.20},{t:5,p:0.22},{t:6,p:0.21},{t:7,p:0.34},{t:8,p:0.46},{t:9,p:0.55},{t:10,p:0.60},{t:11,p:0.62}],
+      onchain:{ hhi:0.41, top1:0.62, fresh:true, nWallets:38, topWallets:[{wallet:'0x9f…4a2c',share:0.62,usd:520000},{wallet:'0x3a…9b11',share:0.11,usd:92000},{wallet:'0x77…02de',share:0.06,usd:50000}] },
+      movedAt:Date.now()-6*3600000 },
+    { id:'s-cpi', platform:'kalshi', category:'Economics', question:'Will the May CPI report show year-over-year inflation above 3.4%?', url:'https://kalshi.com/markets', prob:0.58, change24h:0.28, volume24h:210000, liquidity:60000, index:71, raw:0.71, E:0, Q:0.74, label:'Unexplained', deep:true,
+      contributions:[{key:'runUp',weight:0.40,score:0.82},{key:'priceImpact',weight:0.27,score:0.55},{key:'vpin',weight:0.33,score:0.4}],
+      detectors:{ runUp:{ score:0.82, carStar:3.3, car:7.4, n:5, mu:0.0, sigma:0.12, sigma_move:3.3, dir:'up', explain:'Implied probability drifted up 3.3σ beyond this market’s normal swings before the scheduled release (Keown–Pinkerton).' },
+        priceImpact:{ score:0.55, lambda:0.009, amihud:'1.8e-5', impactRatio:3.1, explain:'A sharp move on modest volume — 3.1× this market’s normal price impact (Kyle’s λ, Amihud).' },
+        news:{ E:0, explained:false, preEvent:true, explain:'The move landed before the data was public — a pre-event gap (unexplained).' } },
+      series:[{t:1,p:0.30},{t:2,p:0.31},{t:3,p:0.30},{t:4,p:0.32},{t:5,p:0.31},{t:6,p:0.33},{t:7,p:0.44},{t:8,p:0.52},{t:9,p:0.58}],
+      movedAt:Date.now()-9*3600000 },
+    { id:'s-fed', platform:'kalshi', category:'Economics', question:'Will the Federal Reserve cut rates at its June 2026 meeting?', url:'https://kalshi.com/markets', prob:0.41, change24h:0.06, volume24h:480000, liquidity:140000, index:24, raw:0.24, E:0.62, Q:0.86, label:'Partially explained', deep:true,
+      contributions:[{key:'runUp',weight:0.55,score:0.34},{key:'priceImpact',weight:0.45,score:0.2}],
+      detectors:{ runUp:{ score:0.34, carStar:1.4, car:3.1, n:5, mu:0.0, sigma:0.1, sigma_move:1.4, dir:'up', explain:'A modest move, within this market’s usual range.' },
+        news:{ E:0.62, explained:true, preEvent:false, credibility:'news', headline:'Officials signal patience on rate path, minutes show', source:'Reuters', explain:'A credible public headline around this move plausibly explains it (explained).' } },
+      series:[{t:1,p:0.36},{t:2,p:0.37},{t:3,p:0.38},{t:4,p:0.37},{t:5,p:0.39},{t:6,p:0.40},{t:7,p:0.41}],
+      movedAt:Date.now()-3*3600000 } ];
 
   ENGINE_CONTROLS = [
     { key:'who', label:'Who traded', helper:'identity of the trader',
@@ -1494,72 +1369,127 @@ class Component extends DCLogic {
       onReset:()=> this.setState({ who:'private', source:'public', duty:'none', instrument:'sports', venue:'kalshi', conduct:'none', concealed:false })
     };
 
-    // ---- surveillance :: Signal List + Inspector (two zones) ----
-    const SC = this.SCOPE, AC = '#34D399';   // emerald is the single accent
-    const listFilter = s.survListFilter || 'all';
-    const isLive = !!(s.survLive && s.survLive.length);
-    const sigList = isLive ? this._liveSignals(s.survLive) : this.SIGNALS;
-    const sevC = sev => sev==='high' ? '#F87171' : '#FBBF24';
-    const activeCount = sigList.length;
-    const highCount = sigList.filter(x=> x.severity==='high').length;
-    // filter chips
-    const chips = [['all','All'],['kalshi','Kalshi'],['poly','Polymarket'],['high','High signal']].map(([id,label])=>{
-      const on = listFilter===id;
+    // ---- surveillance :: live full-market scanner (control bar + filters + watchlist + inspector) ----
+    const SC = this.SCOPE;
+    const isLive = !!(s.survMarkets && s.survMarkets.length);
+    const source = isLive ? s.survMarkets : this.SAMPLE_MARKETS;
+    const fPlat = s.survPlat || 'all', fCat = s.survCat || 'all', fSort = s.survSort || 'suspicion';
+    const fQ = (s.survSearch || '').trim().toLowerCase();
+
+    // category chips are DERIVED from the live data, not hardcoded
+    const catCounts = {}; source.forEach((m)=>{ catCounts[m.category] = (catCounts[m.category]||0)+1; });
+    const catNames = Object.keys(catCounts).sort((a,b)=> catCounts[b]-catCounts[a] || a.localeCompare(b));
+
+    let vis = source.filter((m)=>{
+      if (fPlat!=='all' && m.platform!==fPlat) return false;
+      if (fCat!=='all' && m.category!==fCat) return false;
+      if (fQ && !((m.question||'').toLowerCase().includes(fQ))) return false;
+      return true;
+    });
+    const sorters = { suspicion:(a,b)=> b.index-a.index, volume:(a,b)=> (b.volume24h||0)-(a.volume24h||0), recent:(a,b)=> (b.movedAt||0)-(a.movedAt||0) };
+    vis = vis.slice().sort(sorters[fSort] || sorters.suspicion);
+
+    const selId = vis.find((m)=>m.id===s.survSel) ? s.survSel : (vis[0] && vis[0].id);
+    const g = vis.find((m)=>m.id===selId) || vis[0] || null;
+
+    // platform filter chips (with the platform's colour dot)
+    const platChips = [['all','All'],['kalshi','Kalshi'],['polymarket','Polymarket']].map(([id,label])=>{
+      const on = fPlat===id; const pm = id==='all' ? null : this.platMeta(id); const ac = pm ? pm.color : '#E5E7EB';
+      return { id, label, active:on, hasDot:!!pm, dot: pm ? `width:7px;height:7px;border-radius:50%;background:${pm.color};box-shadow:0 0 6px ${pm.color}` : '',
+        style:`display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid ${on?ac:SC.bd};background:${on?(pm?pm.soft:'rgba(229,231,235,.06)'):'#0F1513'};color:${on?ac:SC.mut};transition:all .15s`,
+        onClick:()=> this.setState({ survPlat:id, survSel:null }) };
+    });
+    // category chips (All + every category the feed returned)
+    const catChips = [{ id:'all', label:'All' }].concat(catNames.map((c)=>({ id:c, label:c }))).map((c)=>{
+      const on = fCat===c.id;
+      return { id:c.id, label: c.label + (c.id!=='all' ? (' · ' + catCounts[c.id]) : ''), active:on,
+        style:`padding:5px 11px;border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;cursor:pointer;border:1px solid ${on?'rgba(229,231,235,.4)':SC.bd};background:${on?'rgba(229,231,235,.06)':'#0F1513'};color:${on?SC.ink:SC.mut};transition:all .15s`,
+        onClick:()=> this.setState({ survCat:c.id, survSel:null }) };
+    });
+    // sort buttons
+    const sortBtns = [['suspicion','Suspicion'],['recent','Most recent'],['volume','Volume']].map(([id,label])=>{
+      const on = fSort===id;
       return { id, label, active:on,
-        style:`padding:6px 13px;border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid ${on?'rgba(52,211,153,.5)':SC.bd};background:${on?'rgba(52,211,153,.1)':'#0F1513'};color:${on?AC:SC.mut};transition:all .15s`,
-        onClick:()=> this.setState({ survListFilter:id }) };
+        style:`padding:5px 11px;border-radius:7px;font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;cursor:pointer;border:1px solid ${on?'rgba(52,211,153,.4)':SC.bd};background:${on?'rgba(52,211,153,.08)':'#0F1513'};color:${on?'#34D399':SC.mut};transition:all .15s`,
+        onClick:()=> this.setState({ survSort:id }) };
     });
-    // rows (newest first; High-signal filter shows only high)
-    const rowSig = sigList.filter(x=> listFilter==='all' ? true
-        : (listFilter==='high' ? x.severity==='high' : x.platform===(listFilter==='poly'?'poly':'kalshi')));
-    const defSel = (sigList.find(x=>x.id===s.survSel) ? s.survSel : (rowSig[0]&&rowSig[0].id) || (sigList[0]&&sigList[0].id));
-    const rowMetric = (g)=>{ const insp=this.INSPECTOR_DATA[g.id]; if(insp&&insp.readings&&insp.readings[0]) return insp.readings[0][0]; const r=this.survReadings(g); return (r&&r[0])?(r[0].length===3?r[0][1]:r[0][0]):(g.metric||''); };
-    const rows = rowSig.map(x=>{
-      const seld = defSel===x.id; const sc=sevC(x.severity);
-      return { id:x.id, market:x.market, metric:rowMetric(x), platformLabel:this.platLabel(x.platform),
-        sevColor:sc, sevLabel: x.severity==='high'?'high':'watch', selected:seld,
-        aria:`${x.market}. ${this.platLabel(x.platform)}. ${x.severity==='high'?'High signal':'Worth watching'}. ${rowMetric(x)}.`,
-        sparkEl:this.buildMiniSpark(x),
-        rowStyle:`text-align:left;cursor:pointer;border-radius:10px;padding:13px 14px;border:1px solid ${seld?'rgba(52,211,153,.35)':SC.bd};border-left:${seld?'3px solid '+AC:'1px solid '+SC.bd};background:${seld?'rgba(52,211,153,.05)':'#0F1513'};transition:background .15s,border-color .15s`,
-        onSelect:()=> this.selectSignal(x.id),
-        onKey:(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.selectSignal(x.id); } } };
+
+    // ranked watchlist cards
+    const rows = vis.map((m)=>{
+      const pm = this.platMeta(m.platform); const seld = !!(g && g.id===m.id);
+      const ic = this.idxColor(m.index); const lm = this.labelMeta(m.label); const tops = this.topMethods(m);
+      return { id:m.id, question:m.question, url:m.url || '#', platLabel:pm.label, platColor:pm.color, platSoft:pm.soft,
+        category:m.category, index:String(m.index), indexColor:ic, label:lm.text, labelColor:lm.color,
+        topLine: tops.length ? tops.map((t)=> t.name + ' · ' + t.metric).join('     ') : 'preliminary scan',
+        sparkEl:this.survSpark(m, pm.color), selected:seld,
+        platTagStyle:`font-family:'JetBrains Mono', monospace;font-size:9.5px;color:${pm.color};padding:2px 8px;border-radius:5px;border:1px solid ${pm.bd};background:${pm.soft}`,
+        titleStyle:`color:${pm.color};text-decoration:none`,
+        rowStyle:`cursor:pointer;border-radius:11px;padding:14px 15px;border:1px solid ${seld?pm.bd:SC.bd};border-left:${seld?'3px solid '+pm.color:'1px solid '+SC.bd};background:${seld?pm.soft:'#0F1513'};transition:background .15s,border-color .15s`,
+        aria:`${m.question}. ${pm.label}. ${m.category}. Suspicion ${m.index} of 100. ${lm.text}.`,
+        onSelect:()=> this.selectSignal(m.id),
+        onKey:(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.selectSignal(m.id); } },
+        onLink:(e)=> e.stopPropagation() };
     });
-    // selected signal -> Inspector. Readings are always method-tagged; the
-    // curated why/prov come from INSPECTOR_DATA for samples, generated for live.
-    const g = sigList.find(x=>x.id===defSel) || sigList[0];
-    const insp = g ? (this.INSPECTOR_DATA[g.id] || {}) : {};
-    const readings = g ? this.survReadings(g) : [];
-    const sel = g ? {
-      market:g.market, platformLabel:this.platLabel(g.platform), category:this.catLabel(g),
-      sevColor:sevC(g.severity), sevLine: g.severity==='high'?'High-signal anomaly':'Worth watching',
-      plain:g.desc || (readings[0]?readings[0][2]:''),
-      chartEl:this.buildInspectorChart(g, { discLabel: g.catalyst || (g.platform==='kalshi'?'event resolves':'news public') }),
-      readings: readings.map(r=> r.length===3 ? ({ tag:r[0], m:r[1], e:r[2] }) : ({ tag:'', m:r[0], e:r[1] })),
-      why: insp.why || g._why || '', gap:g.gap||'A violation still requires misappropriated material nonpublic information or a breach of a duty.',
-      prov: insp.prov || g._prov || ''
-    } : { readings:[] };
-    // live heartbeat
-    let feedLabel = 'SAMPLE FEED · LIVE WIRING PENDING';
-    if (isLive){
-      const sec = Math.max(0, Math.round((Date.now()-(s.survLiveAt?Date.parse(s.survLiveAt):Date.now()))/1000));
-      feedLabel = 'LIVE FEED · ' + (sec<5?'just now':sec<90?(sec+'s ago'):(Math.round(sec/60)+'m ago'));
+
+    // inspector for the selected market
+    const summarize = (m)=>{
+      const t = this.topMethods(m)[0];
+      const base = t ? (t.name.toLowerCase() + ' (' + t.metric + ')') : 'an unusual move';
+      if (m.label==='Low-liquidity artifact') return 'A swing on a thin book — small trades can move the price here, so this is flagged as a possible low-liquidity artifact rather than informed trading.';
+      if (m.label==='Explained') return 'A sharp move that lines up with a credible public headline around the same time, so it most likely has a public cause.';
+      if (m.label==='Unexplained') return 'A ' + base + ' with no public news to explain it around the move — the pre-event pattern a surveillance desk escalates for a closer look.';
+      return 'A ' + base + ', partially explained by public context near the move.';
+    };
+    let sel = { has:false, methods:[], onchain:null };
+    if (g){
+      const pm = this.platMeta(g.platform); const ic = this.idxColor(g.index); const lm = this.labelMeta(g.label);
+      const mOpen = s.mathOpen || {};
+      sel = { has:true, question:g.question, url:g.url || '#', platLabel:pm.label, platColor:pm.color, platSoft:pm.soft, platBd:pm.bd,
+        category:g.category, index:String(g.index), indexColor:ic, label:lm.text, labelColor:lm.color,
+        summary:summarize(g), chartEl:this.survChart(g),
+        titleStyle:`color:${pm.color};text-decoration:none`,
+        methods:this.methodRows(g).map((r)=>({ key:r.key, name:r.name, tag:r.tag, metric:r.metric||'—', plain:r.plain, formula:r.formula,
+          math:r.math||[], fired:r.fired, context:r.context, firedLabel:r.context?'context':(r.fired?'fired':'quiet'),
+          firedStyle:`font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.04em;padding:1px 7px;border-radius:5px;color:${r.fired?pm.color:SC.mut};border:1px solid ${r.fired?pm.bd:SC.bd}`,
+          mathOpen:!!mOpen[r.key], mathIcon:mOpen[r.key]?'hide the math −':'show the math +',
+          onToggleMath:()=> this.setState((st)=>{ const o=Object.assign({},st.mathOpen); o[r.key]=!o[r.key]; return { mathOpen:o }; }) })),
+        isPoly:g.platform==='polymarket', isKalshi:g.platform==='kalshi',
+        onchain:(g.platform==='polymarket' && g.onchain) ? {
+          hhi:g.onchain.hhi!=null?(+g.onchain.hhi).toFixed(2):'—', top1:g.onchain.top1!=null?Math.round(g.onchain.top1*100)+'%':'—',
+          fresh:g.onchain.fresh?'yes':'no', nWallets:String(g.onchain.nWallets||0),
+          wallets:(g.onchain.topWallets||[]).map((w)=>({ wallet:w.wallet, share:Math.round((w.share||0)*100)+'%', usd:'$'+this._k(w.usd||0) })) } : null,
+        gap:'A violation would still require misappropriated material nonpublic information or a breached duty. The trading pattern alone proves neither, and the trader is presumed innocent.',
+        coverageNote: g.deep ? null : 'Preliminary score from the market listing; the full price-history detectors run when this market reaches the deep-scan set.' };
     }
+
+    // coverage + heartbeat
+    const cov = (isLive && s.survCoverage) ? s.survCoverage : null;
+    const scanCount = cov ? (cov.scanned||source.length) : source.length;
+    const flaggedCount = cov ? (cov.flagged||0) : source.filter((m)=>m.index>=40).length;
+    const highCount = cov ? (cov.high||0) : source.filter((m)=>m.index>=70).length;
+    let updated = 'sample data';
+    if (isLive){ const sec = Math.max(0, Math.round((Date.now()-(s.survUpdatedAt?Date.parse(s.survUpdatedAt):Date.now()))/1000));
+      updated = sec<5 ? 'updated just now' : sec<90 ? ('updated '+sec+'s ago') : ('updated '+Math.round(sec/60)+'m ago'); }
+
     const surv = {
-      clock:s.clock, activeCount:String(activeCount), highCount:String(highCount),
-      isLive, feedLabel,
+      clock:s.clock, updating:!!s.survUpdating, isLive,
+      scanCount:String(scanCount), flaggedCount:String(flaggedCount), highCount:String(highCount), updated,
+      feedText: isLive ? 'LIVE' : 'SAMPLE',
       feedStyle: isLive
-        ? `font-family:'JetBrains Mono', monospace;font-size:10px;color:#34D399;padding:4px 10px;border-radius:999px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.07);white-space:nowrap`
-        : `font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F;padding:4px 10px;border-radius:999px;border:1px solid #1B2521;background:#0F1513;white-space:nowrap`,
-      chips, rows, sel, empty: rows.length===0,
-      glossary: [
-        { name:'1 · Pre-event run-up', desc:'Did the price drift toward the outcome before any news? We measure the move in σ against this market’s own normal swings, so a quiet market needs only a small move to flag. (Keown & Pinkerton 1981; FINRA SONAR.)' },
-        { name:'2 · Order imbalance — VPIN', desc:'When informed money trades, buying and selling stop balancing out. We compute the one-sided share of volume — the “toxicity” of the order flow — and only count it when it comes from few accounts. (Easley, López de Prado & O’Hara.)' },
-        { name:'3 · Price impact — Kyle’s λ', desc:'How much did the price move per dollar traded? A large move on a thin book is the liquidity-vacuum fingerprint of someone trading on conviction. (Kyle 1985.)' },
-        { name:'4 · Trader concentration', desc:'Is the move one wallet or a crowd? We use the Herfindahl index and the top wallet’s share of recent buying — concentrated buying reads very differently from a hundred small bettors. (Chainalysis; Polymarket on-chain data.)' },
-        { name:'5 · News-context gap', desc:'Every flagged move is checked against a public-headline search around the same time. A move with a matching headline has a public cause and is cleared; an unexplained move stays escalated. (SONAR-style news fusion.)' }
+        ? `font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;color:#34D399;padding:4px 10px;border-radius:999px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.07);white-space:nowrap`
+        : `font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;color:#8A938F;padding:4px 10px;border-radius:999px;border:1px solid #1B2521;background:#0F1513;white-space:nowrap`,
+      platChips, catChips, sortBtns, search:s.survSearch||'',
+      onSearch:(e)=> this.setState({ survSearch:e.target.value, survSel:null }),
+      rows, empty: rows.length===0, sel,
+      glossary:[
+        { name:'1 · Pre-event run-up', tag:'KEOWN–PINKERTON', desc:'Did the price drift toward the outcome before any news? We standardise the move in σ against this market’s own normal swings (an event-study CAR*), so a quiet market needs only a small move to flag. (Keown & Pinkerton 1981; FINRA SONAR.)' },
+        { name:'2 · Order-flow toxicity (VPIN)', tag:'EASLEY–LdP–O’HARA', desc:'When informed money trades, buys and sells stop balancing. VPIN measures the one-sided share of volume — the order-flow imbalance that precedes informed moves. (Easley, López de Prado & O’Hara.)' },
+        { name:'3 · Liquidity vacuum (Kyle’s λ)', tag:'KYLE 1985 · AMIHUD', desc:'How far did the price move per dollar traded? A big move on a thin book — high Kyle’s λ / Amihud illiquidity — is the fingerprint of someone trading on conviction. (Kyle 1985; Amihud 2002.)' },
+        { name:'4 · Trader concentration (HHI)', tag:'HERFINDAHL · ON-CHAIN', desc:'One wallet or a crowd? The Herfindahl index over per-wallet buying, plus the top wallet’s share and a fresh-wallet flag. Polymarket only — Kalshi trades are anonymous. (Chainalysis; on-chain data.)' },
+        { name:'5 · News-context gap', tag:'SONAR', desc:'Every flagged move is checked against a public-headline search around the same time. A credible headline near the move explains it (lower score); an unexplained pre-event move stays escalated. (SONAR-style fusion.)' }
       ],
       glossaryOpen:!!s.glossaryOpen, glossaryIcon: s.glossaryOpen?'−':'+',
-      onToggleGlossary:()=> this.setState(st=>({ glossaryOpen:!st.glossaryOpen })),
+      onToggleGlossary:()=> this.setState((st)=>({ glossaryOpen:!st.glossaryOpen })),
       onSeeRegimes:()=> this.setState({ activeTab:'engine' })
     };
 
