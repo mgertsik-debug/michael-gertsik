@@ -158,27 +158,39 @@ async function tradesForMarket(cond, opts) {
 }
 
 // On-demand resolution: given conditionIds, return a catalog {cond:{w,q,s,c,r}}
-// for the ones that are settled binary markets. Lets the "score any wallet"
-// lookup resolve a wallet's markets live, without waiting for the scan catalog.
+// for the ones that are settled binary markets. Uses the CLOB per-market endpoint
+// (clob.polymarket.com/markets/<conditionId>), which returns each token with a
+// `winner` flag once resolved — reliable per-condition, unlike a Gamma bulk
+// filter. Small bounded concurrency so a heavy wallet resolves within budget.
 async function marketsByConds(conds, opts) {
-  const o = Object.assign({ chunk: 20, maxConds: 240, pageDelayMs: 60 }, opts);
+  const o = Object.assign({ maxConds: 150, concurrency: 6, pageDelayMs: 25 }, opts);
   const out = {};
-  const list = (conds || []).filter(Boolean).slice(0, o.maxConds);
-  for (let i = 0; i < list.length; i += o.chunk) {
-    const slice = list.slice(i, i + o.chunk);
-    const qs = slice.map((c) => "condition_ids=" + encodeURIComponent(c)).join("&");
-    const d = await getJSON(GAMMA + "/markets?" + qs + "&limit=" + o.chunk, { timeout: 9000 }).catch(() => null);
-    const arr = Array.isArray(d) ? d : (d && (d.data || d.markets)) || [];
-    for (const m of arr) {
-      const cond = m.conditionId || m.condition_id; if (!cond) continue;
-      if (!isBinary(m.outcomes)) continue;
-      const winner = resolvedWinner(m); if (winner == null) continue;
-      const closed = m.closed === true || (m.endDate && Date.parse(m.endDate) < Date.now());
-      if (!closed) continue;
-      const q = String(m.question || m.groupItemTitle || "").trim();
-      const r = Math.round((Date.parse(m.closedTime || m.endDate || 0) || 0) / 1000) || null;
-      out[cond] = { w: winner, q, s: m.slug || "", c: category([], q) || categoryFallback(q), r };
+  const list = Array.from(new Set((conds || []).filter(Boolean))).slice(0, o.maxConds);
+  const one = async (cond) => {
+    // try CLOB first, then Gamma's single-market filter as a backstop
+    let m = await getJSON(CLOB + "/markets/" + encodeURIComponent(cond), { timeout: 7000 }).catch(() => null);
+    let winner = null, q = "", slug = "", endIso = null;
+    if (m && Array.isArray(m.tokens) && m.tokens.length === 2) {
+      const set = m.tokens.map((t) => String(t.outcome || "").trim().toLowerCase());
+      if (set.includes("yes") && set.includes("no")) {
+        const win = m.tokens.find((t) => t.winner === true || t.winner === "true");
+        if (win && (m.closed === true || m.closed === "true" || win)) {
+          winner = String(win.outcome).trim().toLowerCase() === "yes" ? "YES" : "NO";
+          q = String(m.question || "").trim(); slug = m.market_slug || m.slug || ""; endIso = m.end_date_iso || m.endDate;
+        }
+      }
     }
+    if (winner == null) {                                   // Gamma backstop
+      const g = await getJSON(GAMMA + "/markets?condition_ids=" + encodeURIComponent(cond), { timeout: 7000 }).catch(() => null);
+      const arr = Array.isArray(g) ? g : (g && (g.data || g.markets)) || [];
+      const gm = arr[0];
+      if (gm && isBinary(gm.outcomes)) { const w = resolvedWinner(gm); if (w != null) { winner = w; q = String(gm.question || "").trim(); slug = gm.slug || ""; endIso = gm.closedTime || gm.endDate; } }
+    }
+    if (winner == null) return;
+    out[cond] = { w: winner, q, s: slug, c: category([], q) || categoryFallback(q), r: Math.round((Date.parse(endIso || 0) || 0) / 1000) || null };
+  };
+  for (let i = 0; i < list.length; i += o.concurrency) {
+    await Promise.all(list.slice(i, i + o.concurrency).map(one));
     await sleep(o.pageDelayMs);
   }
   return out;

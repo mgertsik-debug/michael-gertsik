@@ -37,10 +37,13 @@ const DEFAULTS = {
   freshAgeDays: 14,
   // concealment
   concealMinTactics: 2, splitTau: 0.5, decoyTau: 0.3, cashoutFastHours: 24,
+  // single high-conviction bet (the lone insider bet the binomial can't see):
+  // a large stake (≥$10k) on a DEEP long-shot (≤15% implied) that won + was held.
+  convictionUsd: 10000, convictionTau: 0.15,
   // cluster linkage weights (w1 funder, w2 co-spend, w3 sync-entry, w4 create-prox)
   clusterW: [0.40, 0.25, 0.20, 0.15], clusterTau: 0.80,
-  // fusion contribution weights (artifact contributionMap)
-  contribW: { won: 34, cluster: 24, conceal: 16, longshot: 12, fresh: 8, held: 6 },
+  // fusion contribution weights (artifact contributionMap + conviction)
+  contribW: { won: 34, cluster: 24, conviction: 22, conceal: 16, longshot: 12, fresh: 8, held: 6 },
   agreeSub: 0.45,                  // a detector "agrees" when its sub-score >= this
   minAgree: 2,                     // High/Extreme needs >= 2 independent detectors
   // win-rate baselines on <=35%-implied bets, by category (ACDC-derived)
@@ -215,6 +218,39 @@ function concealment(x, opts) {
 }
 
 /* ============================================================================
+ *  8. CONVICTION — a single high-stakes long-shot win (the LONE insider bet).
+ *  The binomial needs >=5 bets, so it can't see a one-shot insider like the
+ *  Van Dyke / Maduro case ($32k at ~8% → ~$400k). One bet isn't statistically
+ *  "improbable" (it's the market's own odds), so this NEVER flags alone — it's a
+ *  strengthening signal that, with fresh / conceal / category-risk corroboration,
+ *  surfaces the single-bet insider archetype. bets: same shape as won().
+ *  resolution time is the bet's; held defaults true unless explicitly false. */
+function conviction(bets, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  const odds = (b) => (isNum(b.entryPrice) ? b.entryPrice : b.impliedProb);  // accept either field
+  const resolved = (bets || []).filter((b) => b && isNum(odds(b)) && typeof b.won === "boolean");
+  const wins = resolved.filter((b) => b.won && odds(b) <= o.convictionTau && b.held !== false);
+  if (!wins.length) return { key: "conviction", hasData: false };
+  const top = wins.slice().sort((a, b) => (Number(b.stakeUsd) || 0) - (Number(a.stakeUsd) || 0))[0];
+  const stake = Number(top.stakeUsd) || 0;
+  const p = clip(odds(top), 1e-4, 1 - 1e-4);
+  const payout = stake > 0 ? Math.round(stake / p) : 0;
+  const fires = stake >= o.convictionUsd && p <= o.convictionTau;
+  const score = fires
+    ? clip(0.45 + 0.18 * Math.log10(Math.max(1, stake / o.convictionUsd)) + (o.convictionTau - top.entryPrice), 0, 1)
+    : clip((stake / o.convictionUsd) * 0.3, 0, 0.39);
+  const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+  return {
+    key: "conviction", hasData: true, score, fires,
+    stake, entryPrice: +p.toFixed(4), payout, market: top.question || "",
+    explain: fires
+      ? "A single " + usd(stake) + " bet at ~" + Math.round(p * 100) + "% that paid ~" + usd(payout) +
+        " — a lone high-conviction long-shot, the single-bet insider signature (improbability needs ≥5 bets; this is the confluence path)."
+      : "Largest single long-shot win " + usd(stake) + " at ~" + Math.round(p * 100) + "% — below the high-conviction threshold (" + usd(o.convictionUsd) + ").",
+  };
+}
+
+/* ============================================================================
  *  7. CLUSTER — pairwise linkage + cluster build (Meiklejohn-style).
  *  link(a,b) = w1·shared_funder + w2·co_spend + w3·sync_entry + w4·create_prox,
  *  each signal in [0,1]. cluster if mean pairwise link >= τ (0.80). */
@@ -267,15 +303,23 @@ function fuse(dets, opts) {
   const agreeing = firedKeys.filter((k) => {
     const d = dets[k]; return isNum(d.score) ? d.score >= o.agreeSub : true;
   }).length;
+  const convFires = !!(dets.conviction && dets.conviction.hasData && dets.conviction.fires);
 
+  // Two paths to a flag:
+  //  (1) the RECORD path — binomial improbability over >=5 bets (→ up to Extreme).
+  //  (2) the SINGLE-BET path — a lone high-conviction long-shot win CORROBORATED
+  //      by >=2 agreeing detectors (fresh/conceal/held/cluster/category). A single
+  //      bet can't be statistically "extreme", so this path caps at High — it's
+  //      the confluence, not the math, that flags it. This is what catches the
+  //      one-shot insider (Van Dyke / Maduro) the binomial cannot see.
   let tier = "unflagged";
   if (P != null && agreeing >= o.minAgree && P <= o.pExtreme) tier = "extreme";
   else if (P != null && agreeing >= o.minAgree && P <= o.pHigh) tier = "high";
+  else if (convFires && agreeing >= o.minAgree) tier = "high";
   else if (firedKeys.length && (P == null || P <= o.pNotable)) tier = "notable";
-  // a cluster that clears the binomial counts the cluster detector toward agreement
 
   return {
-    tier, fired: firedKeys, contributions, agreeing,
+    tier, fired: firedKeys, contributions, agreeing, convictionPath: convFires && tier === "high" && (P == null || P > o.pHigh),
     P, improbDenom: dets.won && dets.won.improbDenom, improbText: dets.won && dets.won.improbText,
     full: firedKeys.length >= 3,
   };
@@ -283,6 +327,6 @@ function fuse(dets, opts) {
 
 module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
-  decorrelate, won, longshot, held, fresh, baseline, concealment,
+  decorrelate, won, longshot, held, fresh, baseline, concealment, conviction,
   clusterLink, clusterScore, fuse, winBaseline, categoryRisk,
 };

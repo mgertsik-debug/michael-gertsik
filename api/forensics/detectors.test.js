@@ -128,6 +128,34 @@ test("fuse: skilled-but-legit (one detector, modest edge) is NOT Extreme/High", 
   assert.notEqual(f.tier, "high");   // <2 agreeing detectors -> capped at notable
 });
 
+test("conviction: a lone large deep-longshot win fires; small/shallow bets don't", () => {
+  // Van Dyke shape: one $32k bet at ~8% that won, held
+  const vd = D.conviction([{ impliedProb: 0.08, won: true, held: true, stakeUsd: 32000, question: "Maduro captured?" }]);
+  assert.equal(vd.hasData, true);
+  assert.equal(vd.fires, true);
+  assert.ok(vd.payout > 300000, "≈$400k payout: " + vd.payout);
+  // too small
+  assert.ok(!D.conviction([{ impliedProb: 0.08, won: true, held: true, stakeUsd: 500 }]).fires);
+  // not deep enough (favorite-ish)
+  assert.ok(!D.conviction([{ impliedProb: 0.40, won: true, held: true, stakeUsd: 50000 }]).fires);
+  // a loss never counts
+  assert.equal(D.conviction([{ impliedProb: 0.08, won: false, held: true, stakeUsd: 32000 }]).hasData, false);
+});
+
+test("SINGLE-BET INSIDER (Van Dyke): 1 bet -> binomial can't score, conviction path -> High (not Extreme)", () => {
+  const bets = [{ impliedProb: 0.08, won: true, held: true, stakeUsd: 32000 }];
+  const wonD = D.won(bets);                              // 1 bet < 5 -> excluded
+  assert.equal(wonD.hasData, false);
+  const conv = D.conviction(bets);
+  const ls = D.longshot([0.08]);
+  const hd = D.held({ heldToResolution: 1, total: 1 });
+  const f = D.fuse({ won: wonD, conviction: conv, longshot: ls, held: hd });
+  assert.equal(f.tier, "high", "single high-conviction insider bet should reach High via the confluence path");
+  assert.notEqual(f.tier, "extreme");                   // one bet can't be statistically extreme
+  assert.ok(f.fired.includes("conviction"));
+  assert.equal(f.convictionPath, true);
+});
+
 test("RECONSTRUCTED Iran-ring cluster (9 wallets, ~98% win, fresh, held) -> Extreme", () => {
   const ring = D.won(bets([[30, 0.09, true], [1, 0.09, false]]));   // 30/31 at 9%
   const cluster = D.clusterScore(Array.from({ length: 10 }, () => ({ link: 0.88 })), 9);
