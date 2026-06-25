@@ -1207,8 +1207,11 @@ class Component extends DCLogic {
     const applicable=order.length; let wsum=0, weighted=0; const rows=[];
     order.forEach(k=>{ const v=subs01[k]; if(v!=null){ wsum+=W[k]; weighted+=W[k]*v; rows.push({k,v}); } });
     if(!rows.length) return { index:0, contributions:[], coverageRan:0, coverageTotal:applicable, fullCoverage:false, agreeing:0, tier:'Insufficient data' };
-    const raw=weighted/wsum, disc=Math.max(0,Math.min(1.5,(1-0.6*(opts.E||0))*(opts.categoryMult||1))), index=Math.round(100*Math.max(0,Math.min(1,raw*disc)));
-    const contributions=rows.map(r=>({ key:r.k, points:Math.round(100*(W[r.k]*r.v/wsum)*Math.max(0,Math.min(1,disc))) }));
+    const raw=weighted/wsum, disc=Math.max(0,Math.min(1.5,(1-0.6*(opts.E||0))*(opts.categoryMult||1))), finalRaw=Math.max(0,Math.min(1,raw*disc)), index=Math.round(100*finalRaw);
+    // points partition the score (Σ points == index): scale each check by the
+    // realised discount finalRaw/raw, not a separately-clipped disc.
+    const effDisc = raw>0 ? finalRaw/raw : 0;
+    const contributions=rows.map(r=>({ key:r.k, points:Math.round(100*(W[r.k]*r.v/wsum)*effDisc) }));
     const agreeing=rows.filter(r=>r.v>=0.45).length, fullCoverage=rows.length===applicable;
     const tier=this.survTier({ score:index, agreeing, fullCoverage, Q:opts.Q });
     return { index, contributions, coverageRan:rows.length, coverageTotal:applicable, fullCoverage, agreeing, tier };

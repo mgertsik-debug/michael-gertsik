@@ -381,7 +381,13 @@ function fuse(dets, ctx, opts) {
   const E = isNum(ctx.E) ? ctx.E : (ctx.news && isNum(ctx.news.E) ? ctx.news.E : 0);
   const mult = isNum(ctx.categoryMult) ? ctx.categoryMult : 1;
   const disc = clip((1 - o.gamma * E) * mult, 0, 1.5);
-  const score = Math.round(100 * clip(raw * disc, 0, 1));
+  const finalRaw = clip(raw * disc, 0, 1);            // the actual 0..1 the score is built from
+  const score = Math.round(100 * finalRaw);
+  // Per-check points must PARTITION the score: distribute the final (clipped,
+  // multiplier-adjusted) total proportionally to each check's renormalised
+  // weighted sub-score, so Σ points == score (no under/over-count when the
+  // category multiplier scales up or the total saturates at 100).
+  const effDisc = raw > 0 ? finalRaw / raw : 0;
   const agreeing = ran.filter((d) => d.sub >= o.agreeSub).length;
   const fullCoverage = ran.length === total && total > 0;
   const tier = tierOf({ score, agreeing, fullCoverage, Q: ctx.Q }, o);
@@ -391,7 +397,7 @@ function fuse(dets, ctx, opts) {
     coverageRan: ran.length, coverageTotal: total, fullCoverage, agreeing, tier, label,
     contributions: ran.map((p) => ({
       key: p.key, score: +p.sub.toFixed(3), weight: +(p.weight / wsum).toFixed(3),
-      points: Math.round(100 * (p.weight * p.sub / wsum) * clip(disc, 0, 1)),
+      points: Math.round(100 * (p.weight * p.sub / wsum) * effDisc),
     })),
   };
 }
