@@ -886,27 +886,32 @@ class Component extends DCLogic {
       const pB = (M.pBefore!=null) ? M.pBefore : null;
       const haveMove = pA!=null && pB!=null;
       const logitMove = haveMove ? Math.abs(this.logit(pA)-this.logit(pB)) : 0;
-      // shock σ: a measured price-history value if present, else from the logit
-      // move, else from the volume/liquidity ratio (a big spike is its own anomaly)
-      const shock = (M.shockSigma!=null) ? M.shockSigma
-        : (logitMove>0 ? logitMove/0.06
-        : (M.volRatio ? Math.min(6, log2(M.volRatio)) : (high?3:1.8)));
-      // liquidity backing, platform-aware (Polymarket = USD; Kalshi = contracts)
+      // shock σ: the largest of (a) a real price move in log-odds, (b) a measured
+      // single-wallet concentration from the on-chain readout, or (c) a volume /
+      // liquidity spike. Volume alone is a weak insider signal, so it is capped;
+      // a measured wallet that towers over the field counts for more.
+      const priceShock = logitMove>0 ? logitMove/0.06 : 0;
+      const volShock   = M.volRatio ? Math.min(3.2, log2(M.volRatio)) : 0;
+      const ocShock    = (oc && oc.recentZ) ? Math.min(5, oc.recentZ/3) : 0;
+      let shock = (M.shockSigma!=null) ? M.shockSigma : Math.max(priceShock, volShock, ocShock);
+      if (!shock) shock = high?2.5:1.5;
+      // liquidity backing, platform-aware (Polymarket = USD; Kalshi = open interest)
       let backing=null, lowLiq=false, volForQ=0;
       if (poly){
         volForQ = M.volUsd||0;
         lowLiq = M.volUsd!=null && M.volUsd<15000;
         backing = (M.volUsd!=null) ? ('$'+this._k(M.volUsd)+' traded'+(M.liqUsd?(' against a $'+this._k(M.liqUsd)+' resting book'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(0)+'× vol/liq)'):'')) : null;
       } else {
-        const c = M.contracts||0;
-        volForQ = c*20; lowLiq = c>0 && c<750;
-        backing = c ? (c.toLocaleString()+' contracts traded'+(M.volRatio?(' ('+(+M.volRatio).toFixed(1)+'× vol/OI)'):'')) : null;
+        const c = M.contracts||0, oi = M.oi||0;
+        volForQ = Math.max(c,oi)*20; lowLiq = oi>0 && oi<200;   // a near-empty book is an artifact, not a signal
+        backing = c ? (c.toLocaleString()+' contracts traded'+(oi?(' on '+oi.toLocaleString()+' open interest'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(1)+'× vol/OI)'):'')) : null;
       }
+      const ocShow = !!(oc && (oc.recentZ>=2 || oc.topShare>=0.05));
       // Live runs no public-news / pre-event check, so those stay unknown.
       return {
         id:a.id, market:a.market, platform: poly?'poly':'kalshi',
         detector:a.detector, severity: high?'high':'watch', estimated:true,
-        onchain: oc ? { nTrades:oc.nTrades, nWallets:oc.nWallets, wallet:oc.wallet, recentZ:oc.recentZ, topShare:oc.topShare } : null,
+        onchain: ocShow ? { nTrades:oc.nTrades, nWallets:oc.nWallets, wallet:oc.wallet, recentZ:oc.recentZ, topShare:oc.topShare } : null,
         lead: 0.5 + (i%6), signal: high?0.85:0.52,
         pBefore:pB, pAfter:pA, windowH: M.windowH || (haveMove?1:null), shockSigma:shock,
         volUsd:volForQ, liqUsd: poly?(M.liqUsd||null):null, volRatio:M.volRatio||null, backing, lowLiq,
