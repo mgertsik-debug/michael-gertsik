@@ -87,8 +87,7 @@ function binomTailGE(n, k, p) {
 // "1 in N" formatting for a probability.
 function improbDenom(P) { return P > 0 ? Math.round(1 / P) : Infinity; }
 function improbText(denom) {
-  if (!isFinite(denom)) return "1 in >1T";
-  if (denom >= 1e12) return "1 in " + (denom / 1e12).toFixed(1).replace(/\.0$/, "") + "T";
+  if (!isFinite(denom) || denom >= 1e12) return "1 in >1T";   // beyond ~1-in-a-trillion: astronomically improbable
   if (denom >= 1e9) return "1 in " + (denom / 1e9).toFixed(1).replace(/\.0$/, "") + "B";
   if (denom >= 1e6) return "1 in " + (denom / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
   if (denom >= 1e3) return "1 in " + (denom / 1e3).toFixed(1).replace(/\.0$/, "") + "K";

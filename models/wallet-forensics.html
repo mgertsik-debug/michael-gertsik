@@ -176,6 +176,12 @@
                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                   <span style="font-size: 13.5px; font-weight: 600; color: {{ s.whoColor }};">{{ s.whoGlyph }}{{ s.whoLabel }}</span>
                   <span style="{{ s.badgeStyle }}">{{ s.concernLabel }}</span>
+                  <sc-if value="{{ s.newlyFlagged }}" hint-placeholder-val="{{ false }}">
+                    <span title="newly flagged in the latest snapshot" style="display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:0.1em;color:#34D399;border:1px solid rgba(52,211,153,0.45);border-radius:999px;padding:2px 7px;background:rgba(52,211,153,0.08);"><span style="width:5px;height:5px;border-radius:50%;background:#34D399;box-shadow:0 0 7px #34d399;"></span>NEW</span>
+                  </sc-if>
+                  <sc-if value="{{ s.archived }}" hint-placeholder-val="{{ false }}">
+                    <span title="aged past the active lookback window — still queryable" style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.1em;color:#6B756F;border:1px solid #1F2A25;border-radius:999px;padding:2px 7px;">ARCHIVE</span>
+                  </sc-if>
                 </div>
                 <div style="font-size: 12px; color: #949C98; margin-top: 7px; line-height: 1.45; max-width: 280px;">{{ s.why }}</div>
               </div>
@@ -1208,6 +1214,7 @@ class Component extends DCLogic {
         improbText: s.improbText, concernColor: th.color, concernGlow: th.glow,
         concernLabel: th.label,
         badgeStyle: "display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.07em;padding:2px 8px;border-radius:999px;color:" + th.color + ";border:1px solid " + th.border + ";background:" + th.bg + ";",
+        newlyFlagged: !!s.newlyFlagged, archived: !!s.archived,
       };
     });
 

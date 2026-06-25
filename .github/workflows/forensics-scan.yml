@@ -38,6 +38,11 @@ jobs:
           MARKETS_PER_RUN: "120"
           ENRICH_BATCH: "200"
           SCREEN_USD: "2500"
+          # Optional: a Polygonscan/Etherscan key gives reliable funding traces
+          # (fresh-wallet, cluster funder, cash-out). Without it the job falls
+          # back to the public Polygon RPC (POLYGON_RPC) and degrades honestly.
+          POLYGONSCAN_API_KEY: ${{ secrets.POLYGONSCAN_API_KEY }}
+          POLYGON_RPC: ${{ secrets.POLYGON_RPC }}
         run: node scripts/forensics/scan.js
 
       - name: Commit store + state if anything changed

@@ -1,0 +1,174 @@
+/* ============================================================================
+ *  forensics/chain.js — Polygon on-chain layer for the wallet-forensics job.
+ *  ---------------------------------------------------------------------------
+ *  Polymarket settles in USDC.e on Polygon. The funding trace behind each
+ *  proxy wallet is what powers three detectors the Data API alone can't feed:
+ *    • fresh   — funding block → first-bet block (wallet age) + prior_tx = 0
+ *    • cluster — shared funder address across wallets (Meiklejohn linkage)
+ *    • conceal — rapid post-resolution cash-out to an exchange deposit address
+ *
+ *  Two backends, picked at runtime, both behind one interface:
+ *    1. Etherscan v2 multichain API (chainid=137) when POLYGONSCAN_API_KEY /
+ *       ETHERSCAN_API_KEY is set — reliable full ERC-20 history with timestamps.
+ *    2. Public JSON-RPC (POLYGON_RPC, default https://polygon-rpc.com) via
+ *       eth_getLogs over a bounded window — keyless fallback.
+ *
+ *  HONESTY: every call is guarded and returns null / hasData-style emptiness on
+ *  failure or when a public RPC caps the range. A missing funding trace means
+ *  the fresh / conceal / cluster-funder inputs are EXCLUDED, never fabricated.
+ *  We never invent a funder, an exchange label, or a timestamp.
+ * ========================================================================== */
+"use strict";
+
+const USDC = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";              // USDC.e on Polygon
+const USDC_NATIVE = "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359";       // native USDC on Polygon
+const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
+const RPC = process.env.POLYGON_RPC || "https://polygon-rpc.com";
+const SCAN_KEY = process.env.POLYGONSCAN_API_KEY || process.env.ETHERSCAN_API_KEY || "";
+const SCAN_BASE = "https://api.etherscan.io/v2/api?chainid=137";
+
+const num = (x) => { const n = Number(x); return isFinite(n) ? n : 0; };
+const lc = (a) => String(a || "").toLowerCase();
+
+/* Known Polygon exchange withdrawal/hot wallets. ONLY these get an exchange
+ * label; any other funder is shown as its raw address (never guessed). This set
+ * is deliberately small and conservative — wrong labels are worse than none. */
+const EXCHANGE_LABELS = {
+  "0xe7804c37c13166ff0b37f5ae0bb07a3aebb6e245": "Binance",
+  "0xf977814e90da44bfa03b6295a0616a897441acec": "Binance",
+  "0x290275e3db66394c52272398959845170e4dcb88": "Binance",
+  "0x9696f59e4d72e237be84ffd425dcad154bf96976": "Binance",
+  "0x0d0707963952f2fba59dd06f2b425ace40b492fe": "Gate.io",
+  "0x1fbe9c1f93b0bc81934b2b41e2bd0e0a09b7d391": "Bybit",
+  "0xf89d7b9c864f589bbf53a82105107622b35eaa40": "Bybit",
+  "0x8894e0a0c962cb723c1976a4421c95949be2d4e3": "Bybit",
+  "0x4b4e14a3773ee558b6597070797fd51eb48606e5": "OKX",
+  "0x06959153b974d0d5fdfd87d561db6d8d4fa0bb0b": "OKX",
+  "0xa910f92acdaf488fa6ef02174fb86208ad7722ba": "Kraken",
+  "0x267be1c1d684f78cb4f6a176c4911b741e4ffdc0": "Kraken",
+  "0x46340b20830761efd32832a74d7169b29feb9758": "Crypto.com",
+  "0xe93685f3bba03016f02bd1828badd6195988d950": "Crypto.com",
+};
+function exchangeLabel(addr) { return EXCHANGE_LABELS[lc(addr)] || null; }
+
+/* ----------------------------------------------------------------- fetch -- */
+function withTimeout(ms) { const c = new AbortController(); const t = setTimeout(() => c.abort(), ms); return { signal: c.signal, done: () => clearTimeout(t) }; }
+async function getJSON(url, opts) {
+  const to = withTimeout((opts && opts.timeout) || 9000);
+  try {
+    const r = await fetch(url, { method: (opts && opts.method) || "GET", headers: (opts && opts.headers) || {}, body: opts && opts.body, signal: to.signal });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return await r.json();
+  } finally { to.done(); }
+}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/* ---------------------------------------------------------- pure helpers -- */
+const padAddr = (a) => "0x000000000000000000000000" + lc(a).replace(/^0x/, "");
+const unpadAddr = (topic) => "0x" + String(topic || "").slice(-40);
+const hexToNum = (h) => { try { return parseInt(h, 16); } catch (_) { return 0; } }
+const usdcAmount = (hexData) => { try { return parseInt(hexData, 16) / 1e6; } catch (_) { return 0; } };
+
+/* ------------------------------------------------- Etherscan v2 (preferred) */
+async function scanTokenTx(wallet) {
+  if (!SCAN_KEY) return null;
+  const url = SCAN_BASE + "&module=account&action=tokentx&address=" + wallet +
+    "&page=1&offset=300&sort=asc&apikey=" + SCAN_KEY;
+  const d = await getJSON(url, { timeout: 9000 }).catch(() => null);
+  if (!d || d.status === "0" || !Array.isArray(d.result)) return null;
+  return d.result
+    .filter((t) => lc(t.contractAddress) === USDC || lc(t.contractAddress) === USDC_NATIVE)
+    .map((t) => ({ from: lc(t.from), to: lc(t.to), value: num(t.value) / Math.pow(10, num(t.tokenDecimal) || 6), ts: num(t.timeStamp), block: num(t.blockNumber), hash: t.hash }));
+}
+async function scanTxCount(wallet, beforeTs) {
+  if (!SCAN_KEY) return null;
+  const url = SCAN_BASE + "&module=account&action=txlist&address=" + wallet +
+    "&startblock=0&endblock=99999999&page=1&offset=50&sort=asc&apikey=" + SCAN_KEY;
+  const d = await getJSON(url, { timeout: 9000 }).catch(() => null);
+  if (!d || !Array.isArray(d.result)) return null;
+  const before = d.result.filter((t) => !beforeTs || num(t.timeStamp) < beforeTs && lc(t.from) === lc(wallet));
+  return before.length;
+}
+
+/* ----------------------------------------------------- JSON-RPC fallback -- */
+let _rpcId = 1;
+async function rpc(method, params) {
+  const body = JSON.stringify({ jsonrpc: "2.0", id: _rpcId++, method, params });
+  const d = await getJSON(RPC, { method: "POST", headers: { "content-type": "application/json" }, body, timeout: 9000 }).catch(() => null);
+  if (!d || d.error) return null;
+  return d.result;
+}
+async function latestBlock() { const r = await rpc("eth_blockNumber", []); return r ? hexToNum(r) : null; }
+async function blockTime(block) {
+  const r = await rpc("eth_getBlockByNumber", ["0x" + Number(block).toString(16), false]);
+  return r && r.timestamp ? hexToNum(r.timestamp) : null;
+}
+// inbound USDC transfers to `wallet` within [fromBlock,toBlock]. Public RPCs cap
+// ranges/result size; on failure we return null so the caller excludes the input.
+async function inboundLogs(wallet, fromBlock, toBlock) {
+  const params = [{
+    fromBlock: "0x" + Number(Math.max(0, fromBlock)).toString(16),
+    toBlock: toBlock ? "0x" + Number(toBlock).toString(16) : "latest",
+    address: [USDC, USDC_NATIVE],
+    topics: [TRANSFER_TOPIC, null, padAddr(wallet)],
+  }];
+  const r = await rpc("eth_getLogs", params);
+  if (!Array.isArray(r)) return null;
+  return r.map((l) => ({ from: unpadAddr(l.topics[1]), to: unpadAddr(l.topics[2]), value: usdcAmount(l.data), block: hexToNum(l.blockNumber), hash: l.transactionHash }));
+}
+
+/* ============================================================================
+ *  PUBLIC INTERFACE — all guarded, all degrade to null.
+ * ========================================================================== */
+
+// Earliest USDC funding of a proxy wallet: { funder, block, ts, label, inboundCount }.
+// firstBetTs bounds the RPC window so a public node isn't asked for full history.
+async function walletFunding(wallet, firstBetTs, firstBetBlock) {
+  if (!wallet) return null;
+  // 1. preferred: full token history with timestamps
+  const hist = await scanTokenTx(wallet).catch(() => null);
+  if (hist && hist.length) {
+    const inbound = hist.filter((t) => t.to === lc(wallet) && t.value > 0).sort((a, b) => a.ts - b.ts);
+    if (inbound.length) {
+      const f = inbound[0];
+      return { funder: f.from, block: f.block, ts: f.ts, label: exchangeLabel(f.from), inboundCount: inbound.length, source: "etherscan" };
+    }
+  }
+  // 2. fallback: windowed eth_getLogs ending at the first bet
+  if (firstBetBlock) {
+    const WINDOW = 700000;                                  // ~14d of Polygon blocks
+    const logs = await inboundLogs(wallet, firstBetBlock - WINDOW, firstBetBlock).catch(() => null);
+    if (logs && logs.length) {
+      const first = logs.slice().sort((a, b) => a.block - b.block)[0];
+      const ts = await blockTime(first.block).catch(() => null);
+      return { funder: first.from, block: first.block, ts, label: exchangeLabel(first.from), inboundCount: logs.length, source: "rpc" };
+    }
+  }
+  return null;
+}
+
+// prior on-chain tx count for the wallet before its first bet (0 ⇒ purpose-built).
+async function priorTxCount(wallet, firstBetTs) {
+  const c = await scanTxCount(wallet, firstBetTs).catch(() => null);
+  return c == null ? null : c;
+}
+
+// outbound USDC after `sinceTs` (post-resolution cash-out). Returns the fastest
+// transfer to a known exchange: { ts, to, label, latencyHours } or null.
+async function cashoutAfter(wallet, sinceTs) {
+  const hist = await scanTokenTx(wallet).catch(() => null);
+  if (!hist || !hist.length || !sinceTs) return null;
+  const out = hist.filter((t) => t.from === lc(wallet) && t.ts >= sinceTs && t.value > 0)
+    .map((t) => ({ ts: t.ts, to: t.to, label: exchangeLabel(t.to) }))
+    .sort((a, b) => a.ts - b.ts);
+  const toCex = out.find((t) => t.label) || out[0] || null;
+  if (!toCex) return null;
+  return { ts: toCex.ts, to: toCex.to, label: toCex.label, latencyHours: +((toCex.ts - sinceTs) / 3600).toFixed(1) };
+}
+
+module.exports = {
+  walletFunding, priorTxCount, cashoutAfter, exchangeLabel,
+  // exposed for tests / reuse
+  padAddr, unpadAddr, usdcAmount, hexToNum, EXCHANGE_LABELS, latestBlock, blockTime,
+  USDC, RPC, hasScanKey: () => !!SCAN_KEY,
+};

@@ -32,6 +32,8 @@ const fs = require("fs");
 const path = require("path");
 const poly = require("../../api/forensics/poly.js");
 const build = require("../../api/forensics/build.js");
+const chain = require("../../api/forensics/chain.js");
+const cluster = require("../../api/forensics/cluster.js");
 
 const DIR = path.resolve(__dirname, "../../data/forensics");
 const STATE = path.join(DIR, "state.json");
@@ -68,13 +70,18 @@ function mergeMarket(state, market, positions) {
     const clears = bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED;
     let w = screened[addr];
     if (!w && !clears) continue;                              // not yet interesting
-    if (!w) { w = screened[addr] = { address: addr, bets: [], firstSeenTs: null, fundingTs: null, priorTx: null, lastEnrichedTs: 0, lastTs: 0 }; }
+    if (!w) { w = screened[addr] = { address: addr, bets: [], firstSeenTs: null, fundingTs: null, funder: null, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: 0, lastResolvedMs: 0, entryByEvent: {} }; }
+    bet.resolvedMs = market.resolvedMs || null;
     // dedup bets by (cond,outcome): keep the larger-stake record
     const key = bet.cond + "|" + bet.outcome;
     const existing = w.bets.find((b) => (b.cond + "|" + b.outcome) === key);
     if (existing) { if (bet.stakeUsd > existing.stakeUsd) Object.assign(existing, bet); }
     else w.bets.push(bet);
     if (bet.ts && bet.ts > (w.lastTs || 0)) w.lastTs = bet.ts;
+    if (market.resolvedMs && market.resolvedMs > (w.lastResolvedMs || 0)) w.lastResolvedMs = market.resolvedMs;
+    // synchronized-entry index: earliest entry per underlying event (for clustering)
+    const ev = bet.eventGroup || bet.cond;
+    if (ev && bet.ts && (w.entryByEvent[ev] == null || bet.ts < w.entryByEvent[ev])) w.entryByEvent[ev] = bet.ts;
   }
 }
 
@@ -113,16 +120,31 @@ async function run() {
   const stale = Object.values(state.screened)
     .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0))
     .slice(0, ENRICH_BATCH);
+  let funded = 0;
   for (const w of stale) {
     try {
       const fs0 = await poly.firstSeen(w.address);
-      if (fs0) { w.firstSeenTs = fs0; }
-      // funding/prior-tx need a Polygon RPC trace we don't have here; left null so
-      // the fresh-wallet detector is EXCLUDED (hasData=false), never scored 0.
+      if (fs0) w.firstSeenTs = fs0;
+      const firstBetTs = (w.bets || []).reduce((m, b) => (b.ts && b.ts < m ? b.ts : m), Infinity);
+      // on-chain funding trace -> wallet age + prior-tx (fresh) + funder (cluster)
+      const fund = await chain.walletFunding(w.address, isFinite(firstBetTs) ? firstBetTs : null, null);
+      if (fund) {
+        if (fund.ts) w.fundingTs = fund.ts;
+        w.funder = fund.funder || null; w.funderLabel = fund.label || null;
+        funded++;
+      }
+      const ptx = await chain.priorTxCount(w.address, isFinite(firstBetTs) ? firstBetTs : null);
+      if (ptx != null) w.priorTx = ptx;
+      // post-resolution cash-out latency (conceal tactic) for a real exchange hop
+      if (w.lastResolvedMs) {
+        const co = await chain.cashoutAfter(w.address, Math.round(w.lastResolvedMs / 1000));
+        if (co) w.cashoutLatencyHours = co.latencyHours;
+      }
       w.lastEnrichedTs = NOW_S;
     } catch (_) { /* leave stale; retry next run */ }
     await poly.sleep(40);
   }
+  log("deep-enriched " + stale.length + " wallets · " + funded + " funding traces resolved" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
 
   // 6. rolling-coverage invariant
   const ages = Object.values(state.screened).map((w) => (NOW_S - (w.lastEnrichedTs || 0)) / 86400);
@@ -132,21 +154,59 @@ async function run() {
   finalize(state, state.snapshotTs);
 }
 
-// 5. score + persist the flagged subjects, then write durable state.
+// per-wallet concealment inputs from the bet record + chain cash-out. split_ratio
+// only applies to clusters (one bet spread across linked wallets), so a lone
+// wallet needs decoy + fast cash-out to fire (>=2 tactics) — never alone.
+function walletConceal(w) {
+  const stakes = (w.bets || []).map((b) => Number(b.stakeUsd) || 0).filter((x) => x > 0);
+  const big = stakes.filter((s) => s >= 10000).length;
+  const tiny = stakes.filter((s) => s > 0 && s < 200).length;
+  const decoyRatio = big ? tiny / Math.max(big, 1) : 0;
+  if (decoyRatio <= 0 && w.cashoutLatencyHours == null) return null;
+  return { decoyRatio: +decoyRatio.toFixed(3), cashoutLatencyHours: w.cashoutLatencyHours != null ? w.cashoutLatencyHours : null };
+}
+
+// 5. cluster pass → score singles + clusters → lifecycle → persist.
 function finalize(state, snapshotTs) {
-  const aggregates = Object.values(state.screened || {}).map((w) => ({
+  const wallets = Object.values(state.screened || {});
+
+  // ---- cluster pass: discover linked rings over the screened set ----
+  const enrichedForCluster = wallets.filter((w) => (w.bets || []).length);
+  let clusters = [];
+  try { clusters = cluster.buildClusters(enrichedForCluster); }
+  catch (e) { log("cluster pass failed (continuing single-wallet):", e && e.message); }
+  const clustered = new Set();
+  const clusterAggs = clusters.map((cl, i) => { cl.members.forEach((m) => clustered.add(m.address)); return cluster.clusterAggregate(cl, i); });
+  if (clusters.length) log("cluster pass: " + clusters.length + " ring(s) merged, covering " + clustered.size + " wallets");
+
+  // ---- single-wallet aggregates (excluding wallets folded into a cluster) ----
+  const singleAggs = wallets.filter((w) => !clustered.has(w.address)).map((w) => ({
     address: w.address, firstSeenTs: w.firstSeenTs, fundingTs: w.fundingTs, priorTx: w.priorTx,
-    bets: w.bets, _lastTs: w.lastTs,
+    conceal: walletConceal(w), bets: w.bets, _lastTs: w.lastTs,
   }));
+
   const meta = {
     reviewed: state.reviewed || 0,
-    screened: Object.keys(state.screened || {}).length,
-    block: "",                                   // no honest on-chain block w/o an RPC; date-stamped instead
+    screened: wallets.length,
+    block: "",                                   // date-stamped snapshot (no fabricated block)
     snapshot: monthDay(snapshotTs),
     recomputed: monthDay(NOW_S),
   };
-  const payload = build.buildPayload(aggregates, meta);
-  log("flagged " + payload.subjects.length + " subjects (" + payload.subjects.filter((s) => s.tier === "extreme").length + " extreme) from " + meta.reviewed + " reviewed");
+  const payload = build.buildPayload(singleAggs.concat(clusterAggs), meta);
+
+  // ---- lifecycle: persist first-flagged time; mark newly-flagged + archive ----
+  state.flaggedHistory = state.flaggedHistory || {};
+  payload.subjects.forEach((s) => {
+    if (!state.flaggedHistory[s.id]) state.flaggedHistory[s.id] = NOW_S;
+    s.firstFlaggedAt = state.flaggedHistory[s.id];
+    s.newlyFlagged = (NOW_S - s.firstFlaggedAt) <= 86400;          // flagged within 24h
+    s.archived = s.activityDays != null && s.activityDays > LOOKBACK_DAYS; // aged past the window
+  });
+  payload.clusters = clusterAggs.length;
+
+  log("flagged " + payload.subjects.length + " subjects (" +
+    payload.subjects.filter((s) => s.tier === "extreme").length + " extreme · " +
+    clusterAggs.length + " clusters · " + payload.subjects.filter((s) => s.newlyFlagged).length + " newly) from " + meta.reviewed + " reviewed");
 
   delete state._reviewedThisRun;
   write(STATE, state);
