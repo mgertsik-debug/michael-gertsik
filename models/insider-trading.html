@@ -966,6 +966,9 @@ class Component extends DCLogic {
       };
       // INSIDER 4: ACDC longshot + win-rate-vs-implied screen
       mk.longshot=(d)=>{
+        if(d&&d.naReason) return { key:'longshot', name:'Bet against the odds', sub:0, points:0, available:false, boundary:true,
+          chip:'n/a · anonymous', sentence:d.naReason,
+          how:'The longshot win-screen needs per-wallet positions plus the resolved outcome. Polymarket settles on-chain so positions are public; Kalshi is anonymous, so this check is not applicable there (it is excluded from coverage, not scored 0).' };
         const ip=(d&&d.impliedProb!=null)?Math.round(d.impliedProb*100):null, base=(d&&d.baseline!=null)?Math.round(d.baseline*100):null;
         let sentence, chip='—';
         if(!d) sentence='We don’t have the resolved-position data for this market yet.';
@@ -998,6 +1001,9 @@ class Component extends DCLogic {
       };
       // MANIPULATION 1: wash / self-trading
       mk.washTrade=(d)=>{
+        if(d&&d.naReason) return { key:'washTrade', name:'Trading with itself', sub:0, points:0, available:false, boundary:true,
+          chip:'n/a · anonymous', sentence:d.naReason,
+          how:'Detecting self/linked-wallet trading needs a public per-trade wallet, which only Polymarket has. Kalshi is anonymous, so this check is not applicable there (excluded from coverage, not scored 0).' };
         const sf=(d&&d.selfFrac!=null)?Math.round(d.selfFrac*100):null;
         return { key:'washTrade', name:'Trading with itself', sub:sub(d), points:cw.washTrade||0, available:!!d,
           chip: sf!=null?(sf+'% self-matched'):'—',
@@ -1200,14 +1206,22 @@ class Component extends DCLogic {
   tierMeta(t){ return t==='High-signal'?{label:'HIGH-SIGNAL',color:'#F87171',rank:3}:t==='Elevated'?{label:'ELEVATED',color:'#FBBF24',rank:2}:t==='Watch'?{label:'WATCH',color:'#8A938F',rank:1}:{label:String(t||'—').toUpperCase(),color:'#5d6864',rank:0}; }
   _fuseSample(subs01, opts){
     opts=opts||{};
-    const W = opts.mode==='manipulation'
+    let W = opts.mode==='manipulation'
       ? {washTrade:0.30,ramp:0.25,vpin:0.20,priceImpact:0.25}
       : {runUp:0.30,accumulation:0.25,concentration:0.25,longshot:0.20};
+    // platform-aware APPLICABLE set: Kalshi is anonymous, so the wallet-only
+    // checks (insider longshot, manipulation wash) are excluded from coverage
+    // there — not counted as a permanent missing check (mirrors feed.js).
+    if(opts.platform==='kalshi'){ W=Object.assign({},W); delete W.longshot; delete W.washTrade; }
     const order=Object.keys(W);
     const applicable=order.length; let wsum=0, weighted=0; const rows=[];
     order.forEach(k=>{ const v=subs01[k]; if(v!=null){ wsum+=W[k]; weighted+=W[k]*v; rows.push({k,v}); } });
     if(!rows.length) return { index:0, contributions:[], coverageRan:0, coverageTotal:applicable, fullCoverage:false, agreeing:0, tier:'Insufficient data' };
-    const raw=weighted/wsum, disc=Math.max(0,Math.min(1.5,(1-0.6*(opts.E||0))*(opts.categoryMult||1))), finalRaw=Math.max(0,Math.min(1,raw*disc)), index=Math.round(100*finalRaw);
+    const raw=weighted/wsum, disc=Math.max(0,Math.min(1.5,(1-0.6*(opts.E||0))*(opts.categoryMult||1)));
+    // coverage-confidence: damp by how much of the applicable evidence ran, so a
+    // 1-of-N market can't read ~100 (mirrors fuse() in detectors.js).
+    const covConf = applicable>0 ? rows.length/applicable : 0;
+    const finalRaw=Math.max(0,Math.min(1,raw*disc))*covConf, index=Math.round(100*finalRaw);
     // points partition the score (Σ points == index): scale each check by the
     // realised discount finalRaw/raw, not a separately-clipped disc.
     const effDisc = raw>0 ? finalRaw/raw : 0;
@@ -1255,9 +1269,10 @@ class Component extends DCLogic {
         const missing = R()<0.22 ? (R()<0.5?'vpin':'priceImpact') : null;
         const washOk = platform==='polymarket';   // wash needs wallets -> PM only
         subs={ washTrade: washOk?jc():null, ramp:jc(), vpin: missing==='vpin'?null:jc(), priceImpact: missing==='priceImpact'?null:jc() };
-        fused=this._fuseSample(subs, { mode:'manipulation', Q, categoryMult:1 });
+        fused=this._fuseSample(subs, { mode:'manipulation', platform, Q, categoryMult:1 });
         detectors={
-          washTrade: subs.washTrade==null?null:{ score:subs.washTrade, selfFrac:+(0.15+subs.washTrade*0.6).toFixed(2), linkedPairs:Math.round(R()*4) },
+          washTrade: washOk ? { score:subs.washTrade, selfFrac:+(0.15+subs.washTrade*0.6).toFixed(2), linkedPairs:Math.round(R()*4) }
+                            : { naReason:'Kalshi trades are anonymous — no wallet ledger to trace self-dealing.' },
           ramp: subs.ramp==null?null:{ score:subs.ramp, closeVolFrac:+(0.2+subs.ramp*0.55).toFixed(2) },
           vpin: subs.vpin==null?null:{ score:subs.vpin, vpin:+(0.5+subs.vpin*0.45).toFixed(2), nBuckets:50, nTrades:Math.round(120+R()*900) },
           priceImpact: subs.priceImpact==null?null:{ score:subs.priceImpact, impactRatio:+(2+subs.priceImpact*16).toFixed(1), lambda:+(0.004+subs.priceImpact*0.02).toFixed(4), amihud:'2e-5' },
@@ -1271,10 +1286,11 @@ class Component extends DCLogic {
         label= fused.index>=55?'Unexplained':fused.index>=28?'Partially explained':'Low-liquidity artifact';
       } else {
         // INSIDER engine sample: runUp / accumulation|volumeRunup / concentration / longshot
-        const missing = R()<0.24 ? (R()<0.5?'accumulation':'longshot') : null;
-        subs={ runUp:jc(), accumulation: missing==='accumulation'?null:jc(), concentration: jc(), longshot: missing==='longshot'?null:jc() };
+        const lsOk = platform==='polymarket';   // longshot win-screen needs wallet positions -> PM only
+        const missing = R()<0.24 ? (R()<0.5?'accumulation':(lsOk?'longshot':'accumulation')) : null;
+        subs={ runUp:jc(), accumulation: missing==='accumulation'?null:jc(), concentration: jc(), longshot: (lsOk && missing!=='longshot')?jc():null };
         const explained = R()<0.25, E = explained?(0.55+R()*0.4):0;
-        fused=this._fuseSample(subs, { mode:'insider', E, Q, categoryMult:this.catMult(cat) });
+        fused=this._fuseSample(subs, { mode:'insider', platform, E, Q, categoryMult:this.catMult(cat) });
         const won = R()<0.62;
         detectors={
           runUp:{ score:subs.runUp, sigma_move:+(subs.runUp*7+0.5).toFixed(1), dir:dir>0?'up':'down', preMoveFraction:+(0.4+subs.runUp*0.5).toFixed(2) },
@@ -1284,7 +1300,8 @@ class Component extends DCLogic {
           concentration: platform==='polymarket'
             ? { score:subs.concentration, top1:+(0.25+subs.concentration*0.55).toFixed(2), nWallets:Math.round(8+R()*60), fresh:R()<0.5, hhi:+(0.1+subs.concentration*0.4).toFixed(2) }
             : { score:subs.concentration, kind:'orderbook', imbalance:+(0.2+subs.concentration*0.6).toFixed(2), side:R()<0.5?'buy':'sell', depthUsd:Math.round(5000+R()*80000), bestBid:+(0.2+R()*0.5).toFixed(2), bestAsk:+(0.25+R()*0.5).toFixed(2) },
-          longshot: subs.longshot==null?null:{ score:subs.longshot, isLongshot:true, won, impliedProb:+(0.08+R()*0.24).toFixed(2), baseline:this.catMult(cat)>1?0.14:0.2 },
+          longshot: platform!=='polymarket' ? { naReason:'Kalshi trades are anonymous — no wallet positions to run the longshot win-screen.' }
+                    : (subs.longshot==null?null:{ score:subs.longshot, isLongshot:true, won, impliedProb:+(0.08+R()*0.24).toFixed(2), baseline:this.catMult(cat)>1?0.14:0.2 }),
           news: explained?{ E, explained:true, preEvent:false, headline:'Officials comment on the matter, agencies report', source:'Reuters' }:{ E:0, explained:false, preEvent:true, leadH:Math.round(3+R()*18) },
         };
         if(platform==='polymarket'){
