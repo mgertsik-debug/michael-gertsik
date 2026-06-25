@@ -207,10 +207,11 @@ async function kalshiCandles(series, ticker) {
   const cs = d && (d.candlesticks || d.data);
   if (!Array.isArray(cs)) return null;
   const pts = cs.map((c) => {
-    let raw = c.price && (c.price.mean != null ? c.price.mean : c.price.close);
-    if (raw == null) raw = c.yes_bid != null ? c.yes_bid : (c.close != null ? c.close : c.mean);
-    let p = num(raw); if (p > 1) p = p / 100;   // cents -> probability
-    return { t: num(c.end_period_ts || c.ts || c.end_ts), p };
+    const pr = c.price || {};
+    let raw = pr.mean_dollars != null ? pr.mean_dollars
+      : (pr.close_dollars != null ? pr.close_dollars : (c.yes_bid && c.yes_bid.close_dollars));
+    let p = num(raw); if (p > 1) p = p / 100;   // values are already dollars (0..1); guard if cents
+    return { t: num(c.end_period_ts || c.ts), p };
   });
   return logitShockFromSeries(pts);
 }
