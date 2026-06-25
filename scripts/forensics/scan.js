@@ -45,6 +45,7 @@ const MARKETS_PER_RUN = +ENV.MARKETS_PER_RUN || 120;
 const ENRICH_BATCH = +ENV.ENRICH_BATCH || 200;
 const SCREEN_USD = +ENV.SCREEN_USD || 2500;
 const SCREEN_IMPLIED = 0.35;
+const SCREEN_CAP = +ENV.SCREEN_CAP || 600;      // max wallets queued for enrichment (bounds state.json)
 const MAX_STALENESS_DAYS = +ENV.MAX_STALENESS_DAYS || 3;
 const NOW = Date.now();
 const NOW_S = Math.round(NOW / 1000);
@@ -64,15 +65,18 @@ function monthDay(ts) {
 function mergeMarket(state, market, positions) {
   const screened = state.screened;
   const reviewedSet = state._reviewedThisRun;
+  const atCap = Object.keys(screened).length >= SCREEN_CAP;
   for (const addr of Object.keys(positions)) {
     const bet = positions[addr];
     reviewedSet.add(addr);
-    // Cheap screen (§4): a real long-shot position by size, OR a won long-shot at
-    // deep odds with a meaningful stake (the "abnormal win" arm). Tight enough to
-    // keep the ledger bounded; once in, the wallet accrues its whole record.
-    const clears = (bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED) ||
-                   (bet.won && bet.entryPrice <= 0.22 && bet.stakeUsd >= 500);
+    // Cheap screen (§4) — we want the WINNERS (the anomaly), so the won-long-shot
+    // arm is the primary net: any WON long-shot at ≤20% implied of meaningful size.
+    // The big-position arm catches whales regardless of outcome. Their FULL record
+    // (pulled at enrichment) is the real filter; the binomial decides honestly.
+    const clears = (bet.won && bet.entryPrice <= 0.20 && bet.stakeUsd >= 200) ||
+                   (bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED);
     let w = screened[addr];
+    if (!w && atCap) continue;                                // queue full this tick; catch it next sweep
     if (!w && !clears) continue;                              // not yet interesting
     if (!w) { w = screened[addr] = { address: addr, bets: [], firstSeenTs: null, fundingTs: null, funder: null, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: 0, lastResolvedMs: 0, entryByEvent: {} }; }
     bet.resolvedMs = market.resolvedMs || null;
