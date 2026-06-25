@@ -47,6 +47,21 @@ async function getJSON(url, opts) {
     return await r.json();
   } finally { to.done(); }
 }
+async function getText(url, opts) {
+  const to = withTimeout((opts && opts.timeout) || 6000);
+  try {
+    const r = await fetch(url, { headers: (opts && opts.headers) || {}, signal: to.signal });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return await r.text();
+  } finally { to.done(); }
+}
+function decodeEntities(s) {
+  return String(s || "")
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n))
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/<[^>]+>/g, "").trim();
+}
 const num = (x) => { const n = Number(x); return isFinite(n) ? n : 0; };
 function alert(o) {
   return {
@@ -109,7 +124,7 @@ async function enrichMarket(cond) {
     const arr = Array.isArray(d) ? d : (d && (d.data || d.trades)) || [];
     if (!arr.length) break;
     trades.push(...arr); offset += arr.length; pages++;
-  } while (trades.length < 1500 && pages < 3);
+  } while (trades.length < 1000 && pages < 2);
   if (trades.length < 25) return null;
 
   // BUY USDC per wallet (aggregate fills -> one figure per wallet)
@@ -140,8 +155,89 @@ async function enrichMarket(cond) {
   };
 }
 
+/* ---------------------------------------- price-history shock σ (Polymarket)
+ * Pull the market's CLOB price series, read it in LOG-ODDS space, and compute
+ * the biggest single-step move as a z-score against the series' own volatility
+ * — the lightweight "rolling z-score" multi-scale shock the event-aligned model
+ * calls for. Returns true before/after prices and the move's timestamp too. */
+async function priceHistory(tokenId) {
+  if (!tokenId) return null;
+  const d = await getJSON(
+    "https://clob.polymarket.com/prices-history?market=" + encodeURIComponent(tokenId) + "&interval=1w&fidelity=60",
+    { timeout: 6000 }
+  ).catch(() => null);
+  const hist = d && (d.history || d.data || (Array.isArray(d) ? d : null));
+  if (!Array.isArray(hist) || hist.length < 6) return null;
+  const pts = hist.map((x) => ({ t: num(x.t || x.timestamp), p: num(x.p || x.price) }))
+    .filter((x) => x.p > 0 && x.p < 1 && x.t > 0);
+  if (pts.length < 6) return null;
+  const lg = pts.map((x) => Math.log(clip(x.p, 0.001, 0.999) / (1 - clip(x.p, 0.001, 0.999))));
+  const r = []; for (let i = 1; i < lg.length; i++) r.push(lg[i] - lg[i - 1]);
+  if (r.length < 4) return null;
+  const mean = r.reduce((a, b) => a + b, 0) / r.length;
+  const sd = Math.sqrt(r.reduce((a, b) => a + (b - mean) * (b - mean), 0) / r.length);
+  if (!(sd > 0)) return null;
+  let bi = 0, bz = 0;
+  for (let i = 0; i < r.length; i++) { const z = Math.abs(r[i] - mean) / sd; if (z > bz) { bz = z; bi = i; } }
+  return {
+    shockSigma: +clip(bz, 0, 12).toFixed(2),
+    pBefore: +pts[bi].p.toFixed(3), pAfter: +pts[bi + 1].p.toFixed(3),
+    windowH: Math.max(1, Math.round((pts[bi + 1].t - pts[bi].t) / 3600)),
+    moveMs: pts[bi + 1].t * 1000,
+  };
+}
+
+/* ------------------------------------------------ public-news explanation (E)
+ * Keyless: query Google News RSS for the market's subject, then compare the
+ * timing of relevant headlines to the price move. News AROUND the move →
+ * "explained" (less suspicious). The move BEFORE the first relevant headline →
+ * pre-event (front-running the wire). Nothing relevant → unknown (not cleared). */
+function newsQuery(t) {
+  let s = String(t || "").replace(/[?]+/g, " ").trim();
+  s = s.replace(/^(will|does|is|are|can|did|has|have|the|a|an)\s+/i, "");
+  s = s.replace(/\s+(by|in|before|on|this|next)\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|q[1-4]|20\d\d|\d).*$/i, "");
+  return s.replace(/\s+/g, " ").trim();
+}
+async function newsCheck(query, moveMs) {
+  if (!query || query.length < 3) return null;
+  const xml = await getText(
+    "https://news.google.com/rss/search?q=" + encodeURIComponent(query) + "&hl=en-US&gl=US&ceid=US:en",
+    { headers: { "user-agent": "Mozilla/5.0 (compatible; surveillance/1.0)" }, timeout: 6000 }
+  ).catch(() => null);
+  if (!xml) return null;
+  const items = []; const re = /<item>([\s\S]*?)<\/item>/g; let m;
+  while ((m = re.exec(xml)) && items.length < 14) {
+    const blk = m[1];
+    const title = decodeEntities((blk.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "");
+    const pub = (blk.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || "";
+    const src = decodeEntities((blk.match(/<source[^>]*>([\s\S]*?)<\/source>/) || [])[1] || "");
+    const ts = pub ? Date.parse(pub) : NaN;
+    if (title) items.push({ title, src, ts });
+  }
+  if (!items.length) return { explained: null };
+  const qwords = query.toLowerCase().split(/\W+/).filter((w) => w.length >= 4);
+  const rel = items.filter((it) => { const h = it.title.toLowerCase(); return qwords.some((w) => h.includes(w)); }).filter((it) => isFinite(it.ts));
+  if (!rel.length) return { explained: null };
+  rel.sort((a, b) => a.ts - b.ts);
+  const mv = moveMs || Date.now();
+  const near = rel.filter((it) => Math.abs(it.ts - mv) <= 24 * 3600 * 1000);
+  if (near.length) {
+    const top = near.slice().sort((a, b) => Math.abs(a.ts - mv) - Math.abs(b.ts - mv))[0];
+    return { explained: true, headline: top.title.slice(0, 140), source: top.src || "news", catalyst: top.title.slice(0, 80), leadH: null };
+  }
+  const after = rel.filter((it) => it.ts > mv);
+  if (after.length) {
+    const first = after[0]; const leadH = Math.round((first.ts - mv) / 3600000);
+    if (leadH >= 1 && leadH <= 240) {
+      return { explained: false, headline: first.title.slice(0, 140), source: first.src || "news", catalyst: first.title.slice(0, 80), leadH };
+    }
+  }
+  return { explained: null };
+}
+
 async function polymarket() {
   const out = [];   // { cond, a } so we can attach measured signals after
+  const condMeta = {};   // cond -> { tokenId, title } for price-history + news
   // Active markets ranked by 24h volume (Gamma API, public).
   const markets = await getJSON(
     "https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=250&order=volume24hr&ascending=false"
@@ -154,6 +250,12 @@ async function polymarket() {
     if (!INSIDER_TOPICS.has(tp)) return;          // skip sports / crypto-price / other
     if (vol < 50000) return;                       // needs real money behind it
     const cond = m.conditionId || null;
+    // YES CLOB token id (for price history) + title (for news), keyed by market
+    if (cond && !condMeta[cond]) {
+      let tokenId = null;
+      if (m.clobTokenIds) { try { const ct = typeof m.clobTokenIds === "string" ? JSON.parse(m.clobTokenIds) : m.clobTokenIds; tokenId = ct && ct[0]; } catch (_) {} }
+      condMeta[cond] = { tokenId, title: q };
+    }
     // current YES price -> before/after for the event-aligned score
     let price = num(m.lastTradePrice);
     if (!price && m.outcomePrices) { try { const op = typeof m.outcomePrices === "string" ? JSON.parse(m.outcomePrices) : m.outcomePrices; price = num(op && op[0]); } catch (_) {} }
@@ -205,17 +307,33 @@ async function polymarket() {
     metrics: { volUsd: Math.round(w.usd) },
   }) }));
 
-  // ---- measured z-score enrichment on the flagged markets ----
-  // Cap at 6 markets (high-severity first) to stay inside the time budget; each
-  // pulls real fills and computes the screen's z-scores from them.
+  // ---- enrichment on the flagged markets (cap 6, high-severity first) ----
+  // Each market gets: measured on-chain concentration, a real price-history
+  // shock σ in log-odds, and a public-news check (E / pre-event timing).
   const order = out.slice().sort((a, b) => (b.a.sev === "high" ? 1 : 0) - (a.a.sev === "high" ? 1 : 0));
   const conds = [];
   order.forEach((o) => { if (o.cond && conds.indexOf(o.cond) === -1 && conds.length < 6) conds.push(o.cond); });
-  const measured = {};
+  const enrich = {};
   await Promise.all(conds.map(async (cond) => {
-    try { const sig = await enrichMarket(cond); if (sig) measured[cond] = sig; } catch (_) {}
+    const meta = condMeta[cond] || {};
+    try {
+      const [sig, ph] = await Promise.all([
+        enrichMarket(cond).catch(() => null),
+        priceHistory(meta.tokenId).catch(() => null),
+      ]);
+      const news = await newsCheck(newsQuery(meta.title || ""), ph && ph.moveMs).catch(() => null);
+      enrich[cond] = { sig, ph, news };
+    } catch (_) {}
   }));
-  out.forEach((o) => { if (o.cond && measured[o.cond]) o.a.signals = measured[o.cond]; });
+  out.forEach((o) => {
+    const e = o.cond && enrich[o.cond]; if (!e) return;
+    if (e.sig) o.a.signals = e.sig;
+    if (e.ph) o.a.metrics = Object.assign({}, o.a.metrics, { shockSigma: e.ph.shockSigma, pBefore: e.ph.pBefore, pAfter: e.ph.pAfter, windowH: e.ph.windowH });
+    if (e.news) o.a.metrics = Object.assign({}, o.a.metrics, {
+      explained: e.news.explained, catalyst: e.news.catalyst || null,
+      leadH: e.news.leadH != null ? e.news.leadH : null, headline: e.news.headline || null, newsSource: e.news.source || null,
+    });
+  });
 
   return out.map((o) => o.a).slice(0, 50);
 }
@@ -312,6 +430,17 @@ async function diagnose() {
     const arr = Array.isArray(d) ? d : (d.data || d.trades || []);
     o.pmTrades = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], sample: arr[0] || null };
   } catch (e) { o.pmTrades = { ok: false, error: e.message }; }
+  // price-history + news probes (the two new enrichment sources)
+  try {
+    const d = await getJSON("https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=5&order=volume24hr&ascending=false");
+    const arr = Array.isArray(d) ? d : (d.data || []); const m0 = arr[0] || {};
+    let tok = null; if (m0.clobTokenIds) { try { const ct = typeof m0.clobTokenIds === "string" ? JSON.parse(m0.clobTokenIds) : m0.clobTokenIds; tok = ct && ct[0]; } catch (_) {} }
+    const ph = await priceHistory(tok).catch((e) => ({ error: String(e && e.message || e) }));
+    const nq = newsQuery(m0.question || m0.title || "");
+    const news = await newsCheck(nq, ph && ph.moveMs).catch((e) => ({ error: String(e && e.message || e) }));
+    o.priceHistory = { tokenSeen: !!tok, result: ph };
+    o.news = { query: nq, result: news };
+  } catch (e) { o.enrichProbe = { error: e.message }; }
   return o;
 }
 
