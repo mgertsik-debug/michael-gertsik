@@ -122,21 +122,29 @@ test("liquidityQ: thin book -> low Q (artifact), deep book -> high Q", () => {
   assert.ok(deep.Q > 0.7, `deep Q ${deep.Q}`);
 });
 
-test("fuse: renormalises weights, omits concentration for Kalshi, applies news discount", () => {
+test("fuse: bounded by full available weight, omits concentration for Kalshi, news discount", () => {
   const all = { runUp: 1, vpin: 1, priceImpact: 1, concentration: 1 };
   const poly = D.fuse(all, { platform: "polymarket", E: 0, Q: 1 });
-  assert.equal(poly.index, 100);
+  assert.equal(poly.index, 100);                 // every check maxed -> 100
   assert.equal(poly.label, "Unexplained");
 
-  // E=0.5, gamma 0.6 -> 100*(1-0.3) = 70
-  const discounted = D.fuse(all, { platform: "polymarket", E: 0.5, Q: 1 });
-  assert.equal(discounted.index, 70);
+  // a single check firing CANNOT inflate the score: denom stays the full 1.0
+  const onlyRun = D.fuse({ runUp: 1 }, { platform: "polymarket", E: 0, Q: 1 });
+  assert.equal(onlyRun.index, 30);               // 0.30 weight / 1.0 denom
+  assert.equal(onlyRun.contributions[0].points, 30);
 
-  // kalshi omits concentration: only 3 detectors, weights renormalised over 0.75
-  const k = D.fuse({ runUp: 1, vpin: 0, priceImpact: 0 }, { platform: "kalshi", E: 0, Q: 1 });
-  approx(k.contributions.find((c) => c.key === "runUp").weight, 0.40, 1e-9);
-  assert.equal(k.contributions.some((c) => c.key === "concentration"), false);
-  assert.equal(k.index, 40);   // 0.40 * 1.0
+  // E=0.5, gamma 0.6 -> 100*(1-0.3) = 70
+  assert.equal(D.fuse(all, { platform: "polymarket", E: 0.5, Q: 1 }).index, 70);
+
+  // kalshi: concentration unavailable, denom = 0.30+0.25+0.20 = 0.75
+  const kAll = D.fuse({ runUp: 1, vpin: 1, priceImpact: 1 }, { platform: "kalshi", E: 0, Q: 1 });
+  assert.equal(kAll.index, 100);                 // all available checks maxed -> 100
+  assert.equal(kAll.contributions.some((c) => c.key === "concentration"), false);
+  const kRun = D.fuse({ runUp: 1 }, { platform: "kalshi", E: 0, Q: 1 });
+  assert.equal(kRun.index, 40);                  // 0.30 / 0.75
+  // points sum to the index
+  const mid = D.fuse({ runUp: 0.8, vpin: 0.6, priceImpact: 0.4, concentration: 0.2 }, { platform: "polymarket", E: 0, Q: 1 });
+  assert.equal(mid.contributions.reduce((s, c) => s + c.points, 0), mid.index);
 
   assert.equal(D.fuse({}, { platform: "kalshi" }).label, "Insufficient data");
 });

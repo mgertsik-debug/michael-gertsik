@@ -312,31 +312,44 @@ function liquidityQ(inputs) {
 
 /* ============================================================================
  *  FUSION  ->  suspicion index (0-100) + label
- *  Raw = renormalised weighted sum of the AVAILABLE detectors (concentration is
- *  omitted for Kalshi). Index = round(100 * clip(Raw * (1 - gamma*E), 0, 1)).
- *  subs: { runUp?, vpin?, priceImpact?, concentration? } each {score} or number.
+ *  The index is a weighted sum of the detector sub-scores, divided by the FULL
+ *  weight of the detectors AVAILABLE for that platform (concentration is omitted
+ *  for anonymous Kalshi). Crucially we do NOT renormalise over only the
+ *  detectors that happened to compute: a detector with no data counts as 0, so a
+ *  market where we have measured only one of several checks cannot score high.
+ *  That makes the number honest and bounded — reaching 100 requires every
+ *  available check to be maxed at once.
+ *    Index = round(100 * clip(Raw * (1 - gamma*E), 0, 1))
+ *  Each contribution carries `points` = its share of the final 0-100 index, so
+ *  the UI can show "run-up +18, one-sided buying +22, ... = 72".
  * ========================================================================== */
 function fuse(subs, ctx, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   ctx = ctx || {};
   const sval = (s) => (s == null ? null : (typeof s === "number" ? s : (isNum(s.score) ? s.score : null)));
   const order = ["runUp", "vpin", "priceImpact", "concentration"];
-  const present = [];
+  let denom = 0, weighted = 0, present = 0;
+  const rows = [];
   order.forEach((key, idx) => {
-    if (key === "concentration" && ctx.platform === "kalshi") return;   // anonymous -> omit
+    if (key === "concentration" && ctx.platform === "kalshi") return;   // not available (anonymous)
+    const w = o.w[idx];
+    denom += w;                                  // available weight (present or not)
     const v = sval(subs[key]);
-    if (v != null) present.push({ key, v, w: o.w[idx] });
+    if (v != null) { weighted += w * v; present++; rows.push({ key, w, v }); }
   });
-  if (!present.length) return { index: 0, raw: 0, label: "Insufficient data", contributions: [] };
+  if (denom <= 0 || !present) return { index: 0, raw: 0, E: 0, label: "Insufficient data", contributions: [] };
 
-  const wsum = present.reduce((s, p) => s + p.w, 0);
-  const raw = present.reduce((s, p) => s + (p.w / wsum) * p.v, 0);
+  const raw = weighted / denom;
   const E = isNum(ctx.E) ? ctx.E : (ctx.news && isNum(ctx.news.E) ? ctx.news.E : 0);
-  const index = Math.round(100 * clip(raw * (1 - o.gamma * E), 0, 1));
+  const discount = 1 - o.gamma * E;
+  const index = Math.round(100 * clip(raw * discount, 0, 1));
   const label = classify({ raw, E, Q: ctx.Q, preEvent: ctx.preEvent, tauQ: o.tauQ });
   return {
-    index, raw: +raw.toFixed(3), E: +E.toFixed(3), label,
-    contributions: present.map((p) => ({ key: p.key, weight: +(p.w / wsum).toFixed(2), score: +p.v.toFixed(3) })),
+    index, raw: +raw.toFixed(3), E: +E.toFixed(3), label, denom: +denom.toFixed(3),
+    contributions: rows.map((p) => ({
+      key: p.key, score: +p.v.toFixed(3), weight: +(p.w / denom).toFixed(3),
+      points: Math.round(100 * (p.w * p.v / denom) * clip(discount, 0, 1)),
+    })),
   };
 }
 
