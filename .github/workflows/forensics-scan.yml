@@ -8,12 +8,12 @@
 #
 # Polymarket's public Gamma/Data/CLOB endpoints need no credentials, so no
 # secret is required here. Each new flagged-subject commit triggers a Vercel
-# deploy; the 30-min cadence keeps that modest.
+# deploy; the 15-min cadence stays well within the API rate limits.
 name: forensics-scan
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # every 30 minutes
+    - cron: "*/15 * * * *"   # every 15 minutes
   workflow_dispatch:
 
 permissions:
