@@ -1,0 +1,58 @@
+# Wallet-forensics scheduled job
+# -----------------------------------------------------------------------------
+# Retrospective Polymarket wallet forensics on the static stack. Each tick
+# advances the durable queue: enumerate a batch of RESOLVED markets, aggregate
+# trades BY WALLET, cheap-screen, deep-enrich the stalest screened wallets, score
+# with the unit-tested detector suite, and persist the flagged subjects to
+# data/forensics/store.json (the read API the Wallet Forensics tab polls).
+#
+# Polymarket's public Gamma/Data/CLOB endpoints need no credentials, so no
+# secret is required here. Each new flagged-subject commit triggers a Vercel
+# deploy; the 30-min cadence keeps that modest.
+name: forensics-scan
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # every 30 minutes
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: forensics-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Advance the forensic ledger (enumerate → aggregate → screen → score)
+        env:
+          LOOKBACK_DAYS: "90"
+          MARKETS_PER_RUN: "120"
+          ENRICH_BATCH: "200"
+          SCREEN_USD: "2500"
+          # Optional: a Polygonscan/Etherscan key gives reliable funding traces
+          # (fresh-wallet, cluster funder, cash-out). Without it the job falls
+          # back to the public Polygon RPC (POLYGON_RPC) and degrades honestly.
+          POLYGONSCAN_API_KEY: ${{ secrets.POLYGONSCAN_API_KEY }}
+          POLYGON_RPC: ${{ secrets.POLYGON_RPC }}
+        run: node scripts/forensics/scan.js
+
+      - name: Commit store + state if anything changed
+        run: |
+          if git diff --quiet -- data/forensics/store.json data/forensics/state.json; then
+            echo "No change this tick."
+            exit 0
+          fi
+          git config user.email "noreply@anthropic.com"
+          git config user.name  "forensics-scan"
+          git add data/forensics/store.json data/forensics/state.json
+          git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)"
+          git push origin HEAD:"${GITHUB_REF_NAME}"

@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/models/forensics/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #0A0E0D; }
+  @keyframes wf-fadeup { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes wf-glow { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+  @keyframes wf-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes wf-spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+  @keyframes wf-halo { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: .8; } 50% { transform: translate(-50%,-50%) scale(1.07); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+  .wf-scroll::-webkit-scrollbar { width: 9px; height: 9px; }
+  .wf-scroll::-webkit-scrollbar-thumb { background: #1E2823; border-radius: 5px; }
+  .wf-scroll::-webkit-scrollbar-track { background: transparent; }
+  .wf-card:focus-visible { outline: 2px solid #34D399; outline-offset: 2px; }
+</style>
+</helmet>
+<div style="position: relative; overflow: hidden; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #ECEFED; background: #0A0E0D; line-height: 1.55; -webkit-font-smoothing: antialiased; padding: 2px 0 44px;">
+
+  <!-- AMBIENT TEXTURE -->
+  <sc-if value="{{ showAmbient }}" hint-placeholder-val="{{ true }}">
+    <div style="position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(48% 40% at 0% 0%, rgba(52,211,153,0.08), transparent 60%), radial-gradient(48% 40% at 100% 0%, rgba(52,211,153,0.06), transparent 60%);"></div>
+  </sc-if>
+
+  <div style="position: relative; z-index: 1;">
+
+  <!-- ZONE 1 — HEADER BAND -->
+  <div style="position: relative; overflow: hidden; background: #0E1512; border: 1px solid #1F2A25; border-radius: 16px; box-shadow: 0 0 34px -18px rgba(52,211,153,0.2), 0 10px 26px -18px rgba(0,0,0,0.5); padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+    <div style="min-width: 240px;">
+      <div style="display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: #A78BFA;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #A78BFA; box-shadow: 0 0 12px 3px rgba(167,139,250,0.7);"></span>
+        WALLET FORENSICS · POLYMARKET
+      </div>
+      <div style="font-size: 16px; color: #ECEFED; margin-top: 10px; max-width: 460px; font-weight: 500;">Bettors whose winning records are too unlikely to be chance.</div>
+      <div style="display: flex; align-items: center; gap: 4px; margin-top: 14px; flex-wrap: wrap;">
+        <sc-for list="{{ funnelSteps }}" as="step" hint-placeholder-count="4">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3A433E; margin: 0 2px;">{{ step.arrow }}</span>
+          <span style="display: inline-flex; align-items: baseline; gap: 5px; background: #090D0C; border: 1px solid #1F2A25; border-radius: 7px; padding: 4px 9px;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; color: {{ step.color }};">{{ step.val }}</span>
+            <span style="font-family: Inter; font-size: 10.5px; color: #6B756F;">{{ step.label }}</span>
+          </span>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #949C98; text-align: right;">Reviewed <span style="color: #ECEFED;">{{ corpus.wallets }}</span> bettors · <span style="color: #FBBF24;">{{ corpus.flagged }}</span> flagged<br><span style="color: #5C6661;">{{ corpus.asOf }}</span></div>
+      <sc-if value="{{ isSample }}" hint-placeholder-val="{{ true }}">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #34D399; border: 1px solid rgba(52,211,153,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(52,211,153,0.07); box-shadow: 0 0 18px -6px rgba(52,211,153,0.4);">SAMPLE DATA</span>
+      </sc-if>
+      <sc-if value="{{ notSample }}" hint-placeholder-val="{{ false }}">
+        <span title="{{ snapshotTitle }}" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #A78BFA; border: 1px solid rgba(167,139,250,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(167,139,250,0.07); box-shadow: 0 0 18px -6px rgba(167,139,250,0.4);">{{ snapshotLabel }}</span>
+      </sc-if>
+      <div style="display: flex; align-items: center; gap: 9px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 10px; padding: 10px 13px; min-width: 230px; box-shadow: inset 0 0 16px -8px rgba(52,211,153,0.18);">
+        <span style="color: #5C6661; font-size: 13px;">⌕</span>
+        <input value="{{ search }}" onInput="{{ onSearch }}" placeholder="Search a wallet, person, or market" style="background: transparent; border: none; outline: none; color: #ECEFED; font-family: 'JetBrains Mono', monospace; font-size: 12px; width: 100%;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE 2 — TWO PANE -->
+  <div style="display: grid; grid-template-columns: {{ gridCols }}; gap: 20px; align-items: start;">
+
+    <!-- LEFT: FLAGGED BETTORS -->
+    <div>
+      <!-- CONTROL SURFACE -->
+      <div style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> FLAGGED BETTORS</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B756F;">{{ resultReadout }}</span>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 7px;">
+          <sc-for list="{{ typeOptions }}" as="o" hint-placeholder-count="3">
+            <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+          </sc-for>
+          <span style="width: 1px; height: 18px; background: #1F2A25; margin: 0 2px;"></span>
+          <sc-for list="{{ concernOptions }}" as="o" hint-placeholder-count="4">
+            <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+          </sc-for>
+          <span style="width: 1px; height: 18px; background: #1F2A25; margin: 0 2px;"></span>
+          <select onChange="{{ onSort }}" value="{{ sortValue }}" style="font-family: Inter; font-size: 12px; padding: 6px 9px; border-radius: 8px; border: 1px solid #1F2A25; background: #0E1512; color: #C4CAC6; cursor: pointer; outline: none;">
+            <sc-for list="{{ sortOptions }}" as="o" hint-placeholder-count="5">
+              <option value="{{ o.value }}">sort: {{ o.label }}</option>
+            </sc-for>
+          </select>
+          <button onClick="{{ toggleAdvanced }}" style="{{ advancedBtnStyle }}" style-hover="border-color:#34A382;color:#ECEFED;">{{ advancedCaret }} Advanced filters</button>
+        </div>
+
+        <sc-if value="{{ advancedOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top: 10px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 14px; padding: 16px; box-shadow: 0 18px 44px -26px rgba(0,0,0,0.7); animation: wf-fadeup 0.18s ease;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 8px;">ACTIVITY DATE <span style="color:#3A433E;">· when the betting happened</span></div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+              <sc-for list="{{ timeOptions }}" as="o" hint-placeholder-count="4">
+                <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ isCustom }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; gap: 8px; align-items: center; margin: 2px 0 14px;">
+                <input type="date" value="{{ customFrom }}" onChange="{{ onCustomFrom }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #090D0C; border: 1px solid #1F2A25; border-radius: 7px; color: #C4CAC6; padding: 6px 8px; color-scheme: dark; outline: none;" />
+                <span style="color: #6B756F;">→</span>
+                <input type="date" value="{{ customTo }}" onChange="{{ onCustomTo }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #090D0C; border: 1px solid #1F2A25; border-radius: 7px; color: #C4CAC6; padding: 6px 8px; color-scheme: dark; outline: none;" />
+              </div>
+            </sc-if>
+            <div style="height: 6px;"></div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 8px;">CATEGORY</div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+              <sc-for list="{{ categoryChips }}" as="c" hint-placeholder-count="8">
+                <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}<span style="opacity:0.5; margin-left:5px;">{{ c.count }}</span></button>
+              </sc-for>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 10px;">THRESHOLDS</div>
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px;">
+              <div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 6px;">
+                  <span style="font-size: 12px; color: #C4CAC6;">minimum improbability</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #34D399;">show ≥ {{ minImprobLabel }}</span>
+                </div>
+                <input type="range" min="0" max="{{ minImprobMax }}" step="100000" value="{{ minImprob }}" onChange="{{ onMinImprob }}" style="width: 100%; accent-color: #34D399; background: transparent; cursor: pointer;" />
+              </div>
+              <div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 6px;">
+                  <span style="font-size: 12px; color: #C4CAC6;">minimum profit</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #34D399;">show ≥ {{ minProfitLabel }}</span>
+                </div>
+                <input type="range" min="0" max="{{ minProfitMax }}" step="10000" value="{{ minProfit }}" onChange="{{ onMinProfit }}" style="width: 100%; accent-color: #34D399; background: transparent; cursor: pointer;" />
+              </div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 8px;">SIGNATURE FILTERS</div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <sc-for list="{{ sigToggles }}" as="o" hint-placeholder-count="4">
+                <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F;">ACTIVE</span>
+            <sc-for list="{{ activeChips }}" as="c" hint-placeholder-count="2">
+              <button onClick="{{ c.clear }}" style="{{ c.style }}" style-hover="background:rgba(52,211,153,0.18);">{{ c.label }} <span style="opacity:0.65;">✕</span></button>
+            </sc-for>
+            <button onClick="{{ clearAll }}" style="font-family: Inter; font-size: 11px; color: #6B756F; background: transparent; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 2px;" style-hover="color:#34D399;">clear all</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <div class="wf-scroll" style="display: flex; flex-direction: column; gap: {{ listGap }}; max-height: {{ listMaxH }}; overflow-y: {{ listOverflow }}; padding-right: 4px;">
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="position: relative; overflow: hidden; border: 1px solid #1F2A25; border-radius: 16px; padding: 34px 24px; text-align: center; background: #0E1512;">
+            <div style="position: absolute; left: 50%; top: 30%; transform: translate(-50%,-50%); width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(52,211,153,0.1), transparent 70%); filter: blur(6px);"></div>
+            <div style="position: relative;">
+              <div style="font-family: 'JetBrains Mono', monospace; color: #34D399; font-size: 13px; margin-bottom: 10px;">No bettors meet this threshold</div>
+              <div style="font-size: 13.5px; color: #949C98; max-width: 300px; margin: 0 auto; line-height: 1.6;">The bar here is statistical impossibility, not mere suspicion. Loosen the filters to see more.</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-for list="{{ subjects }}" as="s" hint-placeholder-count="6">
+          <div class="wf-card" tabindex="0" onClick="{{ s.onClick }}" onKeyDown="{{ s.onKeyDown }}" style="{{ s.cardStyle }}" style-hover="transform:translateY(-2px);border-color:#34D399;box-shadow:0 0 0 1px rgba(52,211,153,0.22),0 0 24px -12px rgba(52,211,153,0.3),0 10px 26px -18px rgba(0,0,0,0.5);">
+            <div style="{{ s.accentStyle }}"></div>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;">
+              <div style="min-width: 0;">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-size: 13.5px; font-weight: 600; color: {{ s.whoColor }};">{{ s.whoGlyph }}{{ s.whoLabel }}</span>
+                  <span style="{{ s.badgeStyle }}">{{ s.concernLabel }}</span>
+                  <sc-if value="{{ s.newlyFlagged }}" hint-placeholder-val="{{ false }}">
+                    <span title="newly flagged in the latest snapshot" style="display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:0.1em;color:#34D399;border:1px solid rgba(52,211,153,0.45);border-radius:999px;padding:2px 7px;background:rgba(52,211,153,0.08);"><span style="width:5px;height:5px;border-radius:50%;background:#34D399;box-shadow:0 0 7px #34d399;"></span>NEW</span>
+                  </sc-if>
+                  <sc-if value="{{ s.archived }}" hint-placeholder-val="{{ false }}">
+                    <span title="aged past the active lookback window — still queryable" style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.1em;color:#6B756F;border:1px solid #1F2A25;border-radius:999px;padding:2px 7px;">ARCHIVE</span>
+                  </sc-if>
+                </div>
+                <div style="font-size: 12px; color: #949C98; margin-top: 7px; line-height: 1.45; max-width: 280px;">{{ s.why }}</div>
+              </div>
+              <div style="text-align: right; flex-shrink: 0;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 19px; color: {{ s.concernColor }}; letter-spacing: -0.02em; text-shadow: 0 0 18px {{ s.concernGlow }};">{{ s.improbText }}</div>
+                <div style="font-size: 9.5px; color: #6B756F; margin-top: 3px; max-width: 116px; line-height: 1.35;">chance this record is luck</div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- RIGHT: EVIDENCE FILE -->
+    <div data-dossier="1" style="position: relative; background: #0E1512; border: 1px solid #1F2A25; border-radius: 18px; min-width: 0; overflow: hidden; box-shadow: 0 0 44px -20px rgba(52,211,153,0.2), 0 14px 34px -22px rgba(0,0,0,0.5);">
+
+      <!-- ACTION BAR -->
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 16px 22px; border-bottom: 1px solid #1B2521;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-right: auto;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> EVIDENCE FILE · {{ sel.refId }}</div>
+        <button onClick="{{ act.exportPdf }}" style="display:flex;align-items:center;gap:6px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);color:#34D399;font-family:Inter;font-size:12px;font-weight:600;padding:9px 13px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(52,211,153,0.18);box-shadow:0 0 20px -6px rgba(52,211,153,0.5);">↧ Download evidence file</button>
+        <button onClick="{{ act.exportCsv }}" style="display:flex;align-items:center;gap:6px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);color:#34D399;font-family:Inter;font-size:12px;font-weight:600;padding:9px 13px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(52,211,153,0.18);box-shadow:0 0 20px -6px rgba(52,211,153,0.5);">↧ Bet list</button>
+        <button onClick="{{ act.referral }}" style="display:flex;align-items:center;gap:6px;background:#34D399;border:1px solid #34D399;color:#06120D;font-family:Inter;font-size:12px;font-weight:700;padding:9px 14px;border-radius:9px;cursor:pointer;box-shadow:0 0 24px -8px rgba(52,211,153,0.7);" style-hover="background:#4CE0AC;">⊞ Build referral packet</button>
+        <button onClick="{{ act.save }}" style="{{ saveStyle }}">{{ saveIcon }} {{ saveLabel }}</button>
+        <button onClick="{{ act.permalink }}" style="display:flex;align-items:center;gap:6px;background:transparent;border:1px solid #1F2A25;color:#949C98;font-family:Inter;font-size:12px;padding:9px 12px;border-radius:9px;cursor:pointer;" style-hover="border-color:#34D399;color:#ECEFED;">{{ permalinkLabel }}</button>
+      </div>
+
+      <div class="wf-scroll" style="max-height: {{ dossierMaxH }}; overflow-y: {{ dossierOverflow }};">
+
+        <!-- 1 · WHO THIS IS -->
+        <div style="padding: 24px 24px 20px; border-bottom: 1px solid #18211D; animation: wf-fadeup 0.4s ease both;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-bottom: 12px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> WHO THIS IS</div>
+          <div style="font-size: 19px; font-weight: 600; color: {{ sel.whoColor }};">{{ sel.whoGlyph }}{{ sel.whoLabel }}</div>
+          <div style="font-size: 13.5px; color: #949C98; margin-top: 8px;">First active {{ sel.firstSeen }}.</div>
+          <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size: 13.5px; color: #949C98; margin-top: 8px; line-height: 1.6; max-width: 620px;">These wallets appear to be controlled by one person or group. See the connection evidence below.</div>
+          </sc-if>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B756F;">linked funding</span>
+            <sc-for list="{{ sel.depositChips }}" as="d" hint-placeholder-count="2">
+              <span title="{{ d.addr }}" style="font-family: Inter; font-size: 12px; color: #C4CAC6; background: #0E1512; border: 1px solid #1F2A25; border-radius: 7px; padding: 5px 10px;">{{ d.label }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- 2 · THE HEADLINE (SIGNATURE) -->
+        <div style="position: relative; padding: 46px 24px 40px; text-align: center; border-bottom: 1px solid #18211D; overflow: hidden;">
+          <div style="position: absolute; left: 50%; top: 44%; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, {{ sel.concernGlow }}, transparent 66%); filter: blur(10px); animation: wf-halo 4.5s ease-in-out infinite; pointer-events: none;"></div>
+          <svg viewBox="0 0 320 320" style="position: absolute; left: 50%; top: 44%; transform: translate(-50%,-50%); width: 320px; height: 320px; pointer-events: none;">
+            <circle cx="160" cy="160" r="128" fill="none" stroke="{{ sel.concernColor }}" stroke-width="1" stroke-dasharray="2 12" opacity="0.45" style="transform-origin: 160px 160px; animation: wf-spin 26s linear infinite;"></circle>
+            <circle cx="160" cy="160" r="104" fill="none" stroke="{{ sel.concernColor }}" stroke-width="1" stroke-dasharray="1 16" opacity="0.3" style="transform-origin: 160px 160px; animation: wf-spin-rev 34s linear infinite;"></circle>
+          </svg>
+          <div style="position: relative;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #949C98;">WHY IT IS FLAGGED</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 68px; line-height: 1; color: {{ sel.concernColor }}; margin: 16px 0 6px; letter-spacing: -0.03em; text-shadow: 0 0 36px {{ sel.concernGlow }};">{{ heroDisplay }}</div>
+            <div style="font-size: 13px; color: #949C98;">chance this winning record is luck</div>
+            <div style="display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; border: 1px solid {{ sel.concernBorder }}; background: {{ sel.concernBg }}; color: {{ sel.concernColor }}; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; padding: 7px 15px; border-radius: 999px; box-shadow: 0 0 26px -8px {{ sel.concernGlow }};">{{ sel.concernLabel }}</div>
+            <p style="font-family: Inter; font-size: 16px; color: #D7DCD9; max-width: 580px; margin: 22px auto 0; line-height: 1.65;">{{ sel.heroSentence }}</p>
+            <sc-if value="{{ sel.full }}" hint-placeholder-val="{{ true }}">
+              <div style="max-width: 640px; margin: 26px auto 0; text-align: left; display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 7px;">WHERE THIS SITS AMONG ALL REVIEWED BETTORS</div>
+                  {{ percentileStripNode }}
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{ sel.concernColor }}; margin-top: 8px;">{{ sel.percentileText }}</div>
+                </div>
+                {{ confidenceMeterNode }}
+              </div>
+            </sc-if>
+          </div>
+        </div>
+
+        <sc-if value="{{ sel.full }}" hint-placeholder-val="{{ true }}">
+
+        <!-- 3 · WHAT WE FOUND -->
+        <div style="padding: 24px; border-bottom: 1px solid #18211D;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-bottom: 6px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> WHAT WE FOUND</div>
+          <div style="font-size: 13px; color: #949C98; margin-bottom: 14px;">Each item is a separate detector. The summary is plain English; open <span style="color:#C4CAC6;">show the math</span> for the formula, the exact inputs, and the baseline it is measured against.</div>
+
+          <div style="margin-bottom: 18px; background: #090D0C; border: 1px solid #1F2A25; border-radius: 12px; padding: 14px 16px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 11px; flex-wrap: wrap;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F;">HOW THE FLAG BREAKS DOWN</span>
+              <span style="font-size: 11.5px; color: #6B756F;">share each signal contributes to the overall flag</span>
+            </div>
+            {{ contributionNode }}
+          </div>
+
+          <sc-for list="{{ findings }}" as="f" hint-placeholder-count="5">
+            <div style="border-bottom: 1px solid #141C18; padding: 16px 0;">
+              <div style="display: flex; align-items: flex-start; gap: 14px; justify-content: space-between;">
+                <div style="min-width: 0;">
+                  <div style="display: flex; align-items: center; gap: 9px; flex-wrap: wrap;">
+                    <span style="font-size: 15px; color: #ECEFED; font-weight: 600;">{{ f.name }}</span>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #6FE3B6; border: 1px solid #1F2A25; border-radius: 999px; padding: 2px 8px;">{{ f.contribPct }}</span>
+                  </div>
+                  <div style="font-size: 13.5px; color: #949C98; margin-top: 5px; line-height: 1.55; max-width: 460px;">{{ f.explanation }}</div>
+                </div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 15px; color: {{ f.metricColor }}; flex-shrink: 0; text-align: right;">{{ f.metric }}</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; margin-top: 12px;">
+                <div style="flex: 1; height: 6px; border-radius: 4px; background: #16201B; position: relative; overflow: hidden;">
+                  <div style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ f.barPct }}; border-radius: 4px; background: linear-gradient(90deg, rgba(148,163,184,0.5), {{ f.metricColor }}); box-shadow: 0 0 14px -2px {{ f.metricColor }};"></div>
+                </div>
+                <button onClick="{{ f.onToggle }}" style="background: transparent; border: none; color: #6B756F; font-family: 'JetBrains Mono', monospace; font-size: 11px; cursor: pointer; white-space: nowrap; flex-shrink: 0;" style-hover="color:#34D399;">{{ f.caret }}</button>
+              </div>
+              <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+                <div style="margin: 13px 0 2px; background: #090D0C; border: 1px solid #1B2521; border-radius: 10px; padding: 16px 16px 14px;">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #34D399;">METHOD · {{ f.method }}</div>
+                  <div style="font-size: 11.5px; color: #6B756F; margin-top: 4px;">{{ f.citation }}</div>
+
+                  <div style="margin-top: 13px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 8px; padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #D7DCD9; overflow-x: auto; white-space: nowrap;">{{ f.formula }}</div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 5px 18px; margin-top: 9px;">
+                    <sc-for list="{{ f.symbols }}" as="sym" hint-placeholder-count="3">
+                      <span style="font-family: Inter; font-size: 11.5px; color: #949C98;"><span style="font-family: 'JetBrains Mono', monospace; color: #6FE3B6; font-weight: 600;">{{ sym.sym }}</span> = {{ sym.def }}</span>
+                    </sc-for>
+                  </div>
+
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin: 15px 0 8px;">INPUTS USED</div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <sc-for list="{{ f.inputs }}" as="inp" hint-placeholder-count="4">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #C4CAC6; background: #0E1512; border: 1px solid #1F2A25; border-radius: 6px; padding: 4px 9px;"><span style="color:#6B756F;">{{ inp.k }}</span> = {{ inp.v }}</span>
+                    </sc-for>
+                  </div>
+
+                  <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 9px;">
+                    <div style="display: flex; gap: 10px;">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: #34D399; flex-shrink: 0; width: 74px; padding-top: 1px;">RESULT</span>
+                      <span style="font-size: 12.5px; color: #D7DCD9; line-height: 1.55;"><span style="font-family: 'JetBrains Mono', monospace; color: #ECEFED;">{{ f.result }}</span> — {{ f.interpretation }}</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: #6B756F; flex-shrink: 0; width: 74px; padding-top: 1px;">BASELINE</span>
+                      <span style="font-size: 12.5px; color: #949C98; line-height: 1.55;">{{ f.baseline }}</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: #FBBF24; flex-shrink: 0; width: 74px; padding-top: 1px;">LIMITS</span>
+                      <span style="font-size: 12.5px; color: #949C98; line-height: 1.55;">{{ f.confidenceNote }}</span>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #18211D; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6B756F; line-height: 1.7;">threshold: {{ f.threshold }}<br>source: {{ f.source }} · calibration: {{ f.calibration }}</div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- 4 · THE BETS -->
+        <div style="padding: 24px; border-bottom: 1px solid #18211D;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> THE BETS THEMSELVES</div>
+            <div style="font-size: 11px; color: #6B756F;">click a column to sort</div>
+          </div>
+          <div class="wf-scroll" style="overflow-x: auto; border: 1px solid #1B2521; border-radius: 12px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 620px;">
+              <thead>
+                <tr style="background: #090D0C;">
+                  <sc-for list="{{ ledgerCols }}" as="col" hint-placeholder-count="6">
+                    <th onClick="{{ col.onClick }}" style="{{ col.style }}">{{ col.label }}{{ col.arrow }}</th>
+                  </sc-for>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ ledgerRows }}" as="row" hint-placeholder-count="7">
+                  <tr style="border-top: 1px solid #141C18;" style-hover="background:rgba(52,211,153,0.05);">
+                    <td style="padding: 11px 13px; color: #ECEFED; max-width: 290px; white-space: normal; line-height: 1.45;">
+                      <a href="#" onClick="{{ row.prevent }}" style="color: #ECEFED; text-decoration: none; border-bottom: 1px solid rgba(52,211,153,0.4);" style-hover="color:#34D399;">{{ row.market }} <span style="color:#34D399;">↗</span></a>
+                    </td>
+                    <td style="padding: 11px 13px; color: #949C98; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.entryTime }}</td>
+                    <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.odds }}%</td>
+                    <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.stake }}</td>
+                    <td style="padding: 11px 13px; text-align: center; white-space: nowrap;"><span style="{{ row.outcomeStyle }}">{{ row.outcome }}</span></td>
+                    <td style="padding: 11px 13px; text-align: right; white-space: nowrap; color: {{ row.plColor }}; font-weight: 600; font-family: 'JetBrains Mono', monospace;">{{ row.pl }}</td>
+                    <td style="padding: 11px 13px; text-align: right; white-space: nowrap;"><a href="#" onClick="{{ row.prevent }}" style="color: #34D399; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px;" style-hover="text-decoration:underline;">verify ↗</a></td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C4CAC6; margin-top: 14px; text-align: right;">{{ sel.summaryLine }}</div>
+        </div>
+
+        <!-- 5 · CONNECTION EVIDENCE (groups) -->
+        <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 24px; border-bottom: 1px solid #18211D;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-bottom: 12px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> THE CONNECTION EVIDENCE</div>
+            <p style="font-size: 14.5px; color: #D7DCD9; line-height: 1.65; margin: 0 0 16px; max-width: 640px;">{{ sel.connectionSentence }}</p>
+            {{ clusterGraphNode }}
+          </div>
+        </sc-if>
+
+        <!-- 6 · TIMELINE -->
+        <div style="padding: 24px; border-bottom: 1px solid #18211D;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> A TIMELINE OF WHAT HAPPENED</div>
+            <button onClick="{{ toggleCandidates }}" style="{{ candidatesStyle }}">
+              <span style="width: 7px; height: 7px; border-radius: 50%; background: {{ candidatesDot }};"></span>
+              possible related news
+            </button>
+          </div>
+          <div style="font-size: 13px; color: #949C98; margin-bottom: 14px; max-width: 640px;">This shows the window an investigator would examine. We do not claim to know when information became public.</div>
+          {{ timelineNode }}
+        </div>
+
+        </sc-if>
+
+        <!-- SUMMARY (light subjects) -->
+        <sc-if value="{{ sel.notFull }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 24px; border-bottom: 1px solid #18211D;">
+            <div style="background: #090D0C; border: 1px solid #1B2521; border-radius: 14px; padding: 22px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 16px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> SNAPSHOT</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 22px 34px; margin-bottom: 18px;">
+                <sc-for list="{{ sel.summaryFacts }}" as="f" hint-placeholder-count="4">
+                  <div>
+                    <div style="font-size: 11px; color: #6B756F;">{{ f.k }}</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 17px; color: #ECEFED; font-weight: 600; margin-top: 3px;">{{ f.v }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="font-size: 13.5px; color: #949C98; line-height: 1.65; margin: 0;">A full evidence file — findings, the bet list, connection diagram, and timeline — is compiled for the most extreme cases. Select one of the top-ranked bettors to open a complete file.</p>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- 7 · WHAT THIS MEANS -->
+        <div style="padding: 24px;">
+          <div style="position: relative; overflow: hidden; border: 1px solid #2C3A33; background: linear-gradient(165deg, rgba(52,211,153,0.05), rgba(11,16,14,0.4)); border-radius: 14px; padding: 22px 24px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #34D399; margin-bottom: 12px;">A PATTERN, NOT A VERDICT</div>
+            <p style="font-size: 14.5px; color: #D7DCD9; line-height: 1.75; margin: 0;">This shows a winning record extraordinarily unlikely to be luck. It does not prove who these people are, what they knew, or that they broke the law. Confirming that requires records only the exchange or a regulator can obtain. Everyone is presumed innocent. This is an investigative lead, not legal advice.</p>
+          </div>
+        </div>
+
+        <!-- 8 · METHODOLOGY & SOURCES (appendix drawer) -->
+        <div style="padding: 0 24px 4px;">
+          <button onClick="{{ toggleMethodology }}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #090D0C; border: 1px solid #1F2A25; border-radius: 12px; padding: 14px 16px; cursor: pointer;" style-hover="border-color:#2C3A33;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> METHODOLOGY &amp; SOURCES <span style="color:#3A433E;">· every detector, formula, threshold &amp; calibration</span></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #34D399;">{{ methodologyCaret }}</span>
+          </button>
+          <sc-if value="{{ methodologyOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: 10px; border: 1px solid #1F2A25; border-radius: 12px; overflow: hidden;">
+              <sc-for list="{{ methods }}" as="m" hint-placeholder-count="6">
+                <div style="padding: 14px 16px; border-bottom: 1px solid #141C18; background: #0B100E;">
+                  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+                    <span style="font-size: 13.5px; color: #ECEFED; font-weight: 600;">{{ m.name }}</span>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6B756F;">{{ m.citation }}</span>
+                  </div>
+                  <div style="margin-top: 9px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 7px; padding: 9px 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C4CAC6; overflow-x: auto; white-space: nowrap;">{{ m.formula }}</div>
+                  <div style="display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+                    <span style="color: #6B756F;">threshold</span><span style="color: #C4CAC6;">{{ m.threshold }}</span>
+                    <span style="color: #6B756F;">source</span><span style="color: #C4CAC6;">{{ m.source }}</span>
+                    <span style="color: #6B756F;">calibration</span><span style="color: #C4CAC6;">{{ m.calibration }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- DATA PROVENANCE STRIP -->
+        <div style="padding: 14px 24px 24px;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; background: #090D0C; border: 1px solid #1F2A25; border-radius: 12px; padding: 13px 16px;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #34D399;">DATA PROVENANCE</span>
+            <sc-for list="{{ sel.provSources }}" as="src" hint-placeholder-count="4">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #C4CAC6; background: #0E1512; border: 1px solid #1F2A25; border-radius: 6px; padding: 3px 8px;">{{ src }}</span>
+            </sc-for>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6B756F; margin-left: auto;">snapshot block {{ sel.provBlock }} · {{ sel.provSnapshot }} · recomputed {{ sel.provRecomputed }}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- ACTION MODAL -->
+  <sc-if value="{{ modal.open }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ act.close }}" style="position: fixed; inset: 0; background: rgba(5,8,7,0.82); backdrop-filter: blur(4px); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 24px; animation: wf-fadeup 0.2s ease;">
+      <div onClick="{{ stop }}" class="wf-scroll" style="background: #0E1512; border: 1px solid #1F2A25; border-radius: 16px; max-width: 620px; width: 100%; max-height: 84vh; overflow-y: auto; box-shadow: 0 30px 70px -30px rgba(0,0,0,0.8);">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid #1B2521;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #34D399;">{{ modal.eyebrow }}</div>
+          <button onClick="{{ act.close }}" style="background: transparent; border: none; color: #949C98; font-size: 18px; cursor: pointer; line-height: 1;">✕</button>
+        </div>
+        <div style="padding: 20px;">{{ modalBody }}</div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;ambientGlow&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot; },
+  &quot;animateCounts&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot; },
+  &quot;startConcern&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;all&quot;, &quot;options&quot;: [&quot;all&quot;, &quot;extreme&quot;, &quot;elevated&quot;, &quot;watch&quot;], &quot;tsType&quot;: &quot;'all'|'extreme'|'elevated'|'watch'&quot; },
+  &quot;listDensity&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;comfortable&quot;, &quot;options&quot;: [&quot;comfortable&quot;, &quot;compact&quot;], &quot;tsType&quot;: &quot;'comfortable'|'compact'&quot; }
+}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.h = React.createElement;
+    // Honest-by-default: until the read API returns a real snapshot we serve
+    // the seeded sample and flag it. applyRealData() flips isSample to false.
+    this.isSample = true;
+    this.meta = this.sampleMeta();
+    this.subjects = this.buildSubjects();
+    this.state = {
+      search: "",
+      type: "all",
+      tier: (props && props.startConcern) || "all",
+      cats: [],
+      sort: "improbability",
+      filterOpen: false,
+      advancedOpen: false,
+      timeWindow: "all",
+      customFrom: "",
+      customTo: "",
+      minImprob: 0,
+      minProfit: 0,
+      sig: { conceal: false, fresh: false, cluster: false, held: false },
+      methodologyOpen: false,
+      selectedId: this.subjects[0].id,
+      ledgerSort: "entryIdx",
+      ledgerDir: 1,
+      measure: {},
+      hoverEdge: null,
+      showCandidates: false,
+      saved: {},
+      modal: { open: false },
+      permalinkCopied: false,
+      heroProg: 0,
+      corpusProg: 0,
+      reduce: false,
+      vw: (typeof window !== "undefined" ? window.innerWidth : 1280),
+    };
+  }
+
+  componentDidMount() {
+    this._onResize = () => { clearTimeout(this._rz); this._rz = setTimeout(() => this.setState({ vw: window.innerWidth }), 120); };
+    window.addEventListener("resize", this._onResize);
+    this.state.reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.loadReal();
+    if (this.state.reduce || this.props.animateCounts === false) { this.setState({ heroProg: 1, corpusProg: 1 }); return; }
+    this.animate("corpusProg", 1100);
+    this.animate("heroProg", 1300);
+  }
+
+  // ---------- REAL DATA ----------
+  // Sample-mode metadata (overridden by a real snapshot from the read API).
+  sampleMeta() {
+    return {
+      reviewed: 41206, screened: 312,
+      block: "71,402,331", snapshot: "Jun 25 2026", recomputed: "Jun 25 2026",
+    };
+  }
+
+  // Pull the live forensic snapshot from the scheduled job's store. On any
+  // failure (or an empty store) we stay in sample mode — we never blank the
+  // tool and never present seed data as if it were real.
+  loadReal() {
+    if (typeof fetch !== "function") return;
+    fetch("/api/forensics/subjects", { cache: "no-store" })
+      .then((r) => (r && r.ok ? r.json() : null))
+      .then((data) => {
+        if (!data || !Array.isArray(data.subjects) || data.subjects.length === 0) return;
+        this.applyRealData(data);
+      })
+      .catch(() => {});
+  }
+
+  applyRealData(data) {
+    this.subjects = data.subjects;
+    this.isSample = false;
+    this.meta = {
+      reviewed: data.reviewed != null ? data.reviewed : (data.meta && data.meta.reviewed) || this.subjects.length,
+      screened: data.screened != null ? data.screened : (data.meta && data.meta.screened) || 0,
+      block: (data.meta && data.meta.block) || data.block || "",
+      snapshot: (data.meta && data.meta.snapshot) || data.snapshot || "",
+      recomputed: (data.meta && data.meta.recomputed) || data.recomputed || (data.meta && data.meta.snapshot) || "",
+    };
+    const first = this.subjects[0];
+    this.setState({ selectedId: first ? first.id : null, measure: {}, hoverEdge: null });
+  }
+
+  componentWillUnmount() { if (this._onResize) window.removeEventListener("resize", this._onResize); }
+
+  animate(key, dur) {
+    const start = performance.now();
+    const step = () => {
+      const t = Math.min(1, (performance.now() - start) / dur);
+      const e = 1 - Math.pow(1 - t, 3);
+      this.setState({ [key]: e });
+      if (t < 1) { this._timers = (this._timers || []); this._timers.push(setTimeout(step, 16)); }
+    };
+    step();
+  }
+
+  select(id) {
+    this.setState({ selectedId: id, heroProg: this.state.reduce ? 1 : 0, measure: {}, hoverEdge: null, permalinkCopied: false });
+    if (!this.state.reduce) setTimeout(() => this.animate("heroProg", 1100), 0);
+    if (window.innerWidth < 760) {
+      setTimeout(() => {
+        const el = document.querySelector('[data-dossier="1"]');
+        if (el) { const top = el.getBoundingClientRect().top + window.pageYOffset - 12; window.scrollTo({ top, behavior: this.state.reduce ? "auto" : "smooth" }); }
+      }, 0);
+    }
+  }
+
+  // ---------- DATA ----------
+  buildSubjects() {
+    const mk = (o) => ({ ...o });
+
+    const s1 = mk({
+      id: "w1", type: "wallet", idLabel: "0x4e\u2026a91c", username: "saffron",
+      firstSeen: "Apr 02 2026", category: "Military & Defense", marketsCount: 16,
+      tier: "extreme", improbText: "1 in 4.2M", improbDenom: 4200000, improbFull: "1 in 4.2 million", full: true,
+      winRate: 94, avgImplied: 11, profit: "$409K", fired: ["fresh", "longshot", "held", "won", "conceal"],
+      refId: "WF-2026-0041", cexChips: ["0x9a\u2026 Binance", "0xd2\u2026 OKX"],
+      heroSentence: "This account won 14 of 16 long-shot bets that the market gave roughly an 11 percent chance. By luck you would expect about 2 wins. A record this strong is what you would see if the bettor already knew the outcomes.",
+      scorecard: [
+        { key: "fresh", metric: "4 days old", method: "account-age check", formula: "age = first bet block \u2212 funding block", numbers: "funded @ block 70,981,402 \u2192 first bet @ block 71,002,889 (\u2248 4.0 days). Prior transactions: 0." },
+        { key: "longshot", metric: "11% avg", method: "average odds", formula: "average of the market's odds at entry", numbers: "entries: 8%, 9%, 12%, 7%, 14%, 11% \u2026 average 11.2% across 16 markets." },
+        { key: "held", metric: "16 of 16", method: "exit check", formula: "bets held to the end / total bets", numbers: "16 / 16 held to resolution; never sold early or hedged." },
+        { key: "won", metric: "94% vs 11%", method: "luck probability", formula: "chance of \u2265 14 wins in 16 tries at 11% each", numbers: "expected wins \u2248 1.8; actual 14. Probability by luck \u2248 1 in 4.2 million." },
+        { key: "conceal", metric: "cashed out in hours", method: "cash-out timing", formula: "time between each win and moving the money off-platform", numbers: "median 3.1 hours; 12 of 14 wins withdrawn the same day to two exchanges." },
+      ],
+      ledger: [
+        { market: "Will the US conduct a named airstrike in the region before May 1?", odds: 8, stake: "$25,000", outcome: "Won", pl: "+$287,500", tx: "0x71a4\u2026" },
+        { market: "Will a defense supplemental exceed $40B this session?", odds: 14, stake: "$18,000", outcome: "Won", pl: "+$110,571", tx: "0x3c0f\u2026" },
+        { market: "Will the carrier group reposition before the summit?", odds: 11, stake: "$12,000", outcome: "Won", pl: "+$97,090", tx: "0x9b22\u2026" },
+        { market: "Will sanctions on the listed entity expand in Q2?", odds: 9, stake: "$9,000", outcome: "Won", pl: "+$91,000", tx: "0xa7d1\u2026" },
+        { market: "Will the basing agreement be announced this quarter?", odds: 7, stake: "$15,000", outcome: "Won", pl: "+$199,285", tx: "0x55e8\u2026" },
+        { market: "Will the joint exercise be postponed?", odds: 22, stake: "$6,000", outcome: "Lost", pl: "\u2212$6,000", tx: "0x12ab\u2026" },
+        { market: "Will the procurement contract be awarded to the incumbent?", odds: 13, stake: "$8,500", outcome: "Won", pl: "+$56,884", tx: "0xc903\u2026" },
+        { market: "Will the no-fly directive be issued before month end?", odds: 6, stake: "$10,000", outcome: "Won", pl: "+$156,666", tx: "0x44f7\u2026" },
+      ],
+      ledgerSummary: { markets: 16, winRate: 94, realized: "+$409K" },
+      timeline: { market: "Named airstrike before May 1", priceStart: 0.08, priceEnd: 0.97, entries: [0.18, 0.34], resolution: 0.92, candidates: [{ x: 0.62, label: "wire-service report (unverified)" }, { x: 0.78, label: "official statement (unverified)" }] },
+    });
+
+    const s2 = mk({
+      id: "c1", type: "cluster", idLabel: "Cluster of 9 wallets", username: null,
+      firstSeen: "Feb 18 2026", category: "Military & Defense", marketsCount: 31,
+      tier: "extreme", improbText: "1 in 9.1M", improbDenom: 9100000, improbFull: "1 in 9.1 million", full: true,
+      winRate: 98, avgImplied: 9, profit: "$2.4M", fired: ["cluster", "longshot", "held", "won", "conceal"],
+      refId: "WF-2026-0009", cexChips: ["0x9a\u2026 Binance", "0x7f\u2026 Bybit"],
+      heroSentence: "These nine linked accounts won 30 of 31 long-shot bets the market gave about a 9 percent chance. A record this strong essentially cannot happen by chance. It is the pattern you would expect if the bettor already knew the outcomes.",
+      scorecard: [
+        { key: "cluster", metric: "9 accounts, 1 source", method: "shared-funding link", formula: "accounts funded by the same address, then betting together", numbers: "all nine funded from one Binance deposit address within 6 days; they bet the same questions minutes apart." },
+        { key: "longshot", metric: "9% avg", method: "average odds", formula: "average of the market's odds at entry", numbers: "average 9.0% across 31 bets; lowest 4%, highest 19%." },
+        { key: "held", metric: "31 of 31", method: "exit check", formula: "bets held to the end / total bets", numbers: "31 / 31 held to resolution across the whole group; no early exits." },
+        { key: "won", metric: "98% vs 9%", method: "luck probability", formula: "chance of \u2265 30 wins in 31 tries at 9% each", numbers: "expected wins \u2248 2.8; actual 30. Probability by luck \u2248 1 in 9.1 million." },
+        { key: "conceal", metric: "split across accounts", method: "stake-splitting check", formula: "how stakes were spread across accounts in each entry window", numbers: "the same bet split across 9 accounts within 11 minutes, in laddered sizes $4K\u2013$60K, to stay under the radar." },
+      ],
+      ledger: [
+        { market: "Will the joint operation be authorized before the recess?", odds: 6, stake: "$60,000", outcome: "Won", pl: "+$940,000", tx: "0x8821\u2026" },
+        { market: "Will the troop drawdown be paused this quarter?", odds: 12, stake: "$22,000", outcome: "Won", pl: "+$161,333", tx: "0x44a0\u2026" },
+        { market: "Will the new basing pact be signed before June?", odds: 8, stake: "$30,000", outcome: "Won", pl: "+$345,000", tx: "0x2f6c\u2026" },
+        { market: "Will the missile-defense order be expanded?", odds: 9, stake: "$18,000", outcome: "Won", pl: "+$182,000", tx: "0x9d51\u2026" },
+        { market: "Will the embargo list add the named firm?", odds: 5, stake: "$14,000", outcome: "Won", pl: "+$266,000", tx: "0x77be\u2026" },
+        { market: "Will the summit be relocated for security reasons?", odds: 19, stake: "$9,000", outcome: "Lost", pl: "\u2212$9,000", tx: "0x10dd\u2026" },
+        { market: "Will the reconnaissance budget line be approved?", odds: 11, stake: "$16,000", outcome: "Won", pl: "+$129,454", tx: "0x6e02\u2026" },
+      ],
+      ledgerSummary: { markets: 31, winRate: 98, realized: "+$2.4M" },
+      timeline: { market: "Joint operation authorization", priceStart: 0.06, priceEnd: 0.95, entries: [0.12, 0.16, 0.21], resolution: 0.9, candidates: [{ x: 0.55, label: "committee leak (unverified)" }, { x: 0.74, label: "press briefing (unverified)" }] },
+      cluster: {
+        ringValue: "$2.4M", size: 9,
+        nodes: [
+          { id: "a", x: 0.5, y: 0.5, vol: 1.0, label: "0x9a\u2026" },
+          { id: "b", x: 0.22, y: 0.28, vol: 0.7, label: "0x4e\u2026" },
+          { id: "c", x: 0.78, y: 0.26, vol: 0.65, label: "0x71\u2026" },
+          { id: "d", x: 0.84, y: 0.6, vol: 0.55, label: "0x3c\u2026" },
+          { id: "e", x: 0.66, y: 0.82, vol: 0.6, label: "0xa7\u2026" },
+          { id: "f", x: 0.34, y: 0.84, vol: 0.5, label: "0x55\u2026" },
+          { id: "g", x: 0.14, y: 0.6, vol: 0.45, label: "0xc9\u2026" },
+          { id: "h", x: 0.5, y: 0.14, vol: 0.5, label: "0x44\u2026" },
+          { id: "i", x: 0.9, y: 0.4, vol: 0.4, label: "0x6e\u2026" },
+        ],
+        edges: [
+          { from: "a", to: "b", type: "fund", evidence: "shared Binance deposit address 0x9a3f\u20264c21 funded both" },
+          { from: "a", to: "c", type: "fund", evidence: "funded from the same address within 40 minutes" },
+          { from: "a", to: "d", type: "fund", evidence: "funded from the same address 0x9a3f\u20264c21" },
+          { from: "a", to: "h", type: "cofund", evidence: "funded in the same transaction block 70,994,118" },
+          { from: "a", to: "i", type: "fund", evidence: "shared funding source 0x9a3f\u20264c21" },
+          { from: "b", to: "g", type: "sync", evidence: "bet the same question within 4 minutes" },
+          { from: "c", to: "d", type: "sync", evidence: "bet the same question within 7 minutes" },
+          { from: "e", to: "f", type: "create", evidence: "accounts created 9 minutes apart in sequence" },
+          { from: "h", to: "e", type: "sync", evidence: "bet the same question within 11 minutes" },
+          { from: "d", to: "i", type: "cofund", evidence: "funded together twice" },
+        ],
+      },
+    });
+
+    const s3 = mk({
+      id: "c2", type: "cluster", idLabel: "Cluster of 11 wallets", username: null,
+      firstSeen: "Mar 09 2026", category: "Elections", marketsCount: 44,
+      tier: "extreme", improbText: "1 in 1.8M", improbDenom: 1800000, improbFull: "1 in 1.8 million", full: true,
+      winRate: 88, avgImplied: 14, profit: "$1.1M", fired: ["cluster", "longshot", "won", "conceal"],
+      refId: "WF-2026-0023", cexChips: ["0xb1\u2026 Kraken", "0x2e\u2026 Binance"],
+      heroSentence: "These eleven linked accounts mixed very large and very small bets, then won 39 of 44 election bets the market gave about a 14 percent chance. The size-mixing is itself a way to hide. A record this strong is the pattern you would expect from foreknowledge, not luck.",
+      scorecard: [
+        { key: "cluster", metric: "11 accounts, 2 sources", method: "shared-funding link", formula: "accounts funded by the same two addresses, with money moving between them", numbers: "two funding addresses 0xb1\u2026 and 0x2e\u2026; 6 transfers between the accounts; they bet the same questions together." },
+        { key: "longshot", metric: "14% avg", method: "average odds", formula: "average of the market's odds at entry", numbers: "average 14.1% across 44 bets." },
+        { key: "won", metric: "88% vs 14%", method: "luck probability", formula: "chance of \u2265 39 wins in 44 tries at 14% each", numbers: "expected wins \u2248 6.2; actual 39. Probability by luck \u2248 1 in 1.8 million." },
+        { key: "conceal", metric: "decoy small bets", method: "stake-mixing check", formula: "spread of bet sizes around the real positions", numbers: "18 tiny bets under $200 placed alongside 6 large bets to blur which ones mattered." },
+      ],
+      ledger: [
+        { market: "Will the challenger win the regional runoff?", odds: 13, stake: "$72,000", outcome: "Won", pl: "+$481,846", tx: "0xb1c2\u2026" },
+        { market: "Will turnout exceed the 60% threshold?", odds: 18, stake: "$140", outcome: "Won", pl: "+$637", tx: "0x9012\u2026" },
+        { market: "Will the incumbent concede before the recount?", odds: 9, stake: "$54,000", outcome: "Won", pl: "+$546,000", tx: "0x33aa\u2026" },
+        { market: "Will the coalition hold after the vote?", odds: 22, stake: "$80", outcome: "Lost", pl: "\u2212$80", tx: "0x77c1\u2026" },
+        { market: "Will the by-election be called this quarter?", odds: 11, stake: "$48,000", outcome: "Won", pl: "+$388,363", tx: "0xe5d4\u2026" },
+        { market: "Will the ballot measure pass?", odds: 16, stake: "$120", outcome: "Won", pl: "+$630", tx: "0x2bb9\u2026" },
+      ],
+      ledgerSummary: { markets: 44, winRate: 88, realized: "+$1.1M" },
+      timeline: { market: "Regional runoff outcome", priceStart: 0.13, priceEnd: 0.9, entries: [0.2, 0.31, 0.44], resolution: 0.88, candidates: [{ x: 0.6, label: "internal poll leak (unverified)" }] },
+      cluster: {
+        ringValue: "$1.1M", size: 11,
+        nodes: [
+          { id: "h1", x: 0.36, y: 0.5, vol: 0.9, label: "0xb1\u2026" },
+          { id: "h2", x: 0.68, y: 0.5, vol: 0.85, label: "0x2e\u2026" },
+          { id: "n1", x: 0.18, y: 0.26, vol: 0.5, label: "0x4a\u2026" },
+          { id: "n2", x: 0.2, y: 0.72, vol: 0.45, label: "0x90\u2026" },
+          { id: "n3", x: 0.38, y: 0.86, vol: 0.4, label: "0x33\u2026" },
+          { id: "n4", x: 0.5, y: 0.18, vol: 0.4, label: "0x77\u2026" },
+          { id: "n5", x: 0.82, y: 0.26, vol: 0.45, label: "0xe5\u2026" },
+          { id: "n6", x: 0.86, y: 0.72, vol: 0.4, label: "0x2b\u2026" },
+          { id: "n7", x: 0.66, y: 0.86, vol: 0.35, label: "0x5c\u2026" },
+          { id: "n8", x: 0.5, y: 0.5, vol: 0.3, label: "0x88\u2026" },
+          { id: "n9", x: 0.92, y: 0.5, vol: 0.3, label: "0xd1\u2026" },
+        ],
+        edges: [
+          { from: "h1", to: "n1", type: "fund", evidence: "funded from Kraken deposit 0xb1\u2026" },
+          { from: "h1", to: "n2", type: "fund", evidence: "funded from Kraken deposit 0xb1\u2026" },
+          { from: "h1", to: "n3", type: "fund", evidence: "funded from 0xb1\u2026" },
+          { from: "h1", to: "n8", type: "cofund", evidence: "funded in the same block" },
+          { from: "h2", to: "n5", type: "fund", evidence: "funded from Binance deposit 0x2e\u2026" },
+          { from: "h2", to: "n6", type: "fund", evidence: "funded from 0x2e\u2026" },
+          { from: "h2", to: "n9", type: "fund", evidence: "funded from 0x2e\u2026" },
+          { from: "h1", to: "h2", type: "transfer", evidence: "6 transfers of money between the two groups" },
+          { from: "n4", to: "n8", type: "sync", evidence: "bet the same question within 5 minutes" },
+          { from: "n7", to: "h2", type: "sync", evidence: "bet the same question within 9 minutes" },
+          { from: "n3", to: "n7", type: "create", evidence: "created 12 minutes apart in sequence" },
+        ],
+      },
+    });
+
+    const light = [
+      { id: "w4", type: "wallet", idLabel: "0x55\u2026c107", username: "delta_one", category: "World", marketsCount: 22, tier: "extreme", improbText: "1 in 3.0M", improbDenom: 3000000, winRate: 91, avgImplied: 12, profit: "$330K", fired: ["fresh", "longshot", "won", "held", "conceal"] },
+      { id: "w8", type: "wallet", idLabel: "0xe2\u2026 09ab", username: "harborlight", category: "Military & Defense", marketsCount: 17, tier: "elevated", improbText: "1 in 380K", improbDenom: 380000, winRate: 85, avgImplied: 17, profit: "$255K", fired: ["fresh", "longshot", "won"] },
+      { id: "w5", type: "wallet", idLabel: "0x90\u2026a3f1", username: null, category: "Elections", marketsCount: 18, tier: "elevated", improbText: "1 in 210K", improbDenom: 210000, winRate: 83, avgImplied: 20, profit: "$142K", fired: ["longshot", "won", "conceal"] },
+      { id: "c4", type: "cluster", idLabel: "Cluster of 6 wallets", username: null, category: "Economics", marketsCount: 23, tier: "elevated", improbText: "1 in 156K", improbDenom: 156000, winRate: 80, avgImplied: 21, profit: "$210K", fired: ["cluster", "won", "conceal"] },
+      { id: "w2", type: "wallet", idLabel: "0x7c\u2026f0d2", username: "polestar", category: "Politics", marketsCount: 27, tier: "elevated", improbText: "1 in 120K", improbDenom: 120000, winRate: 81, avgImplied: 22, profit: "$180K", fired: ["longshot", "won", "held"] },
+      { id: "w3", type: "wallet", idLabel: "0x1f\u2026b8e4", username: null, category: "Economics", marketsCount: 19, tier: "elevated", improbText: "1 in 64K", improbDenom: 64000, winRate: 76, avgImplied: 28, profit: "$96K", fired: ["won", "held"] },
+      { id: "c3", type: "cluster", idLabel: "Cluster of 4 wallets", username: null, category: "Sports", marketsCount: 15, tier: "elevated", improbText: "1 in 88K", improbDenom: 88000, winRate: 79, avgImplied: 26, profit: "$74K", fired: ["cluster", "won"] },
+      { id: "w6", type: "wallet", idLabel: "0xab\u2026 7720", username: "nightjar", category: "Crypto", marketsCount: 14, tier: "watch", improbText: "1 in 9.4K", improbDenom: 9400, winRate: 71, avgImplied: 33, profit: "$41K", fired: ["won"] },
+      { id: "w7", type: "wallet", idLabel: "0x3d\u2026 11c9", username: null, category: "Politics", marketsCount: 12, tier: "watch", improbText: "1 in 6.1K", improbDenom: 6100, winRate: 68, avgImplied: 35, profit: "$28K", fired: ["longshot"] },
+    ].map((o) => mk(o));
+
+    const all = [s2, s1, s3, ...light];
+    const actByIdx = [11, 5, 26, 70, 130, 190, 240, 300, 18, 45, 95, 160];
+    all.forEach((s, idx) => {
+      s.wins = Math.round(s.marketsCount * s.winRate / 100);
+      s.expectedWins = Math.round(s.marketsCount * s.avgImplied) / 100;
+      const lg = Math.log10(s.improbDenom);
+      s.percentile = s.percentile != null ? s.percentile : Math.min(99.999, +(99 + Math.min(0.999, lg / 7)).toFixed(3));
+      let vol = 0;
+      if (s.ledger) s.ledger.forEach((r) => { vol += parseFloat(r.stake.replace(/[^0-9.]/g, "")) || 0; });
+      if (!vol) { const pn = parseFloat(String(s.profit).replace(/[^0-9.]/g, "")) * (String(s.profit).includes("M") ? 1e6 : 1e3); vol = Math.round(pn * 3.5); }
+      s.volumeNum = vol;
+      s.volume = vol >= 1e6 ? "$" + (vol / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : "$" + Math.round(vol / 1e3) + "K";
+      s.profitNum = parseFloat(String(s.profit).replace(/[^0-9.]/g, "")) * (String(s.profit).includes("M") ? 1e6 : 1e3);
+      s.activityDays = s.activityDays != null ? s.activityDays : (actByIdx[idx] != null ? actByIdx[idx] : 30 + idx * 17);
+      s.lastActivity = s.activityDays <= 1 ? "today" : s.activityDays + " days ago";
+      s.confidenceLimiter = s.confidenceLimiter || (s.type === "cluster"
+        ? "common-ownership is inferred from funding heuristics, not confirmed identity"
+        : "the binomial test assumes each bet is an independent event");
+    });
+    return all;
+  }
+
+  // ---------- METHODOLOGY LIBRARY (real, defined methods) ----------
+  methodLib() {
+    return {
+      won: {
+        name: "Binomial improbability", citation: "Keown\u2013Pinkerton event-study basis \u00b7 binomial tail test",
+        formula: "P(X \u2265 k) = \u03a3 C(n,i) \u00b7 p\u2071 \u00b7 (1\u2212p)\u207f\u207b\u2071",
+        symbols: [["n", "bets placed"], ["k", "bets won"], ["p", "avg implied probability at entry"], ["E[X]", "expected wins = n\u00b7p"]],
+        threshold: "Extreme if P \u2264 1\u00d710\u207b\u2076 \u00b7 High if P \u2264 1\u00d710\u207b\u2074",
+        source: "Polymarket CLOB price history \u00b7 resolved-market outcomes",
+        calibration: "calibrated against the documented Iran-ring defense cluster",
+        confidenceNote: "Assumes bets are independent; correlated events (one underlying outcome) would weaken this \u2014 see limitations.",
+      },
+      longshot: {
+        name: "Long-shot selection", citation: "favourite\u2013longshot bias literature (Thaler\u2013Ziemba)",
+        formula: "p\u0304 = (1/n) \u00b7 \u03a3 p\u1d62  ,  flag if p\u0304 \u2264 \u03c4",
+        symbols: [["p\u1d62", "implied probability of bet i"], ["n", "bets"], ["\u03c4", "long-shot threshold = 0.20"]],
+        threshold: "contributes if p\u0304 \u2264 0.20",
+        source: "Polymarket CLOB entry-price snapshots",
+        calibration: "threshold set at the 10th percentile of reviewed entry odds",
+        confidenceNote: "Low average odds alone are not suspicious; weighted only alongside win-rate.",
+      },
+      held: {
+        name: "Hold-to-resolution rate", citation: "disposition-effect inversion (Odean 1998)",
+        formula: "h = held_to_resolution / total_positions",
+        symbols: [["h", "hold rate"], ["held", "positions kept to close"], ["total", "positions"]],
+        threshold: "contributes if h \u2265 0.90",
+        source: "on-chain position + settlement events",
+        calibration: "baseline drawn from full reviewed population",
+        confidenceNote: "High conviction is legal; informative only with an abnormal win-rate.",
+      },
+      fresh: {
+        name: "Wallet-age / funding recency", citation: "fresh-wallet heuristic (Chainalysis-style)",
+        formula: "age = first_bet_block \u2212 funding_block",
+        symbols: [["age", "blocks from funding to first bet"], ["prior_tx", "transactions before first bet"]],
+        threshold: "contributes if age \u2264 14 days and prior_tx = 0",
+        source: "on-chain funding trace",
+        calibration: "matches the Iran-ring fresh-wallet pattern",
+        confidenceNote: "A new wallet is not wrongdoing; it raises the prior on a purpose-built account.",
+      },
+      conceal: {
+        name: "Concealment-signature detector", citation: "structuring / order-splitting analysis",
+        formula: "score = f(split_ratio, decoy_ratio, cashout_latency)",
+        symbols: [["split_ratio", "one bet spread across linked wallets"], ["decoy_ratio", "tiny orders / real orders"], ["cashout_latency", "resolution \u2192 off-platform time"]],
+        threshold: "contributes if \u2265 2 tactics co-occur",
+        source: "on-chain transfer graph + exchange deposit tags",
+        calibration: "tactics drawn from documented evasion cases",
+        confidenceNote: "Each tactic has innocent explanations; the detector fires only on combinations.",
+      },
+      cluster: {
+        name: "Wallet-cluster linkage", citation: "common-input + shared-funding heuristics (Meiklejohn et al.)",
+        formula: "link(a,b) = w\u2081\u00b7shared_funder + w\u2082\u00b7co_spend + w\u2083\u00b7sync_entry + w\u2084\u00b7create_prox",
+        symbols: [["link", "0\u20131 link confidence"], ["w\u2081\u208b\u2084", "detector weights"]],
+        threshold: "cluster if mean pairwise link \u2265 0.80",
+        source: "on-chain funding + co-spend graph",
+        calibration: "weights tuned on the documented multi-wallet defense ring",
+        confidenceNote: "Links are probabilistic inferences, not confirmed common ownership.",
+      },
+    };
+  }
+
+  findingName(key) { return { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group" }[key] || key; }
+
+  baselineFor(key, s) {
+    if (key === "won") {
+      const b = { "Military & Defense": "52% on military markets", "Politics": "25% on political markets", "Elections": "25% on political markets" }[s.category] || "14% across all categories";
+      return "Normal win rate on bets at \u2264 35% implied odds: " + b + ". This subject: " + s.winRate + "%.";
+    }
+    return this.methodLib()[key] ? ({
+      longshot: "Median entry odds across reviewed bettors: 41%. This subject: " + s.avgImplied + "%.",
+      held: "Average hold-to-resolution across reviewed: 38%.",
+      fresh: "Median wallet age at first flagged bet across reviewed: 214 days.",
+      conceal: "Median post-resolution cash-out across reviewed: 9.4 days.",
+      cluster: "Links above 0.80 are treated as probable common ownership.",
+    }[key] || "") : "";
+  }
+
+  inputsFor(key, s) {
+    if (key === "won") return [["n", String(s.marketsCount) + " bets"], ["k", String(s.wins) + " wins"], ["p", (s.avgImplied / 100).toFixed(2)], ["E[X]", s.expectedWins + " expected wins"], ["P", s.improbText]];
+    if (key === "longshot") return [["p\u0304", (s.avgImplied / 100).toFixed(2)], ["n", String(s.marketsCount)], ["\u03c4", "0.20"]];
+    if (key === "held") { const k = s.wins; return [["held", String(s.marketsCount)], ["total", String(s.marketsCount)], ["h", "1.00"]]; }
+    if (key === "fresh") return [["age", "\u2248 4 days"], ["prior_tx", "0"]];
+    if (key === "conceal") return [["tactics", "2\u20133 co-occurring"], ["cashout_latency", "\u2248 3 h"]];
+    if (key === "cluster") return [["wallets", String(this.clusterSize(s))], ["mean link", "0.88"], ["funders", s.cexChips ? String(s.cexChips.length) : "1"]];
+    return [];
+  }
+
+  contributionMap(s) {
+    const weight = { won: 34, cluster: 24, conceal: 16, longshot: 12, fresh: 8, held: 6 };
+    const fired = (s.fired || []).filter((k) => weight[k] != null);
+    const total = fired.reduce((a, k) => a + weight[k], 0) || 1;
+    const out = {};
+    fired.forEach((k) => { out[k] = Math.round((weight[k] / total) * 100); });
+    return out;
+  }
+
+  enrichFinding(s, entry) {
+    const lib = this.methodLib()[entry.key] || {};
+    return {
+      method: lib.name || entry.method, citation: lib.citation || "",
+      formula: lib.formula || entry.formula, symbols: lib.symbols || [],
+      inputs: this.inputsFor(entry.key, s),
+      result: entry.metric, interpretation: entry.numbers,
+      baseline: this.baselineFor(entry.key, s),
+      confidenceNote: lib.confidenceNote || "",
+      threshold: lib.threshold || "", source: lib.source || "", calibration: lib.calibration || "",
+    };
+  }
+
+  funnel() { return { reviewed: this.meta.reviewed, screened: this.meta.screened, flagged: this.subjects.length, extreme: this.subjects.filter((x) => x.tier === "extreme").length }; }
+
+  provenance(s) {
+    return {
+      sources: ["Polymarket Data API", "CLOB price history", "on-chain funding trace", "exchange deposit tags"],
+      block: this.meta.block, snapshot: this.meta.snapshot, recomputed: this.meta.recomputed,
+      ref: s.refId || "",
+    };
+  }
+
+  // ---------- DERIVED ----------
+  catCounts() {
+    const cats = ["Military & Defense", "Politics", "Elections", "Economics", "Crypto", "Culture", "Sports", "World"];
+    const counts = {};
+    cats.forEach((c) => (counts[c] = 0));
+    this.subjects.forEach((s) => { if (counts[s.category] != null) counts[s.category]++; });
+    return cats.filter((c) => counts[c] > 0).map((c) => ({ name: c, count: counts[c] }));
+  }
+
+  timeWindowDays() {
+    const st = this.state;
+    if (st.timeWindow === "90d") return 90;
+    if (st.timeWindow === "12mo") return 365;
+    return Infinity;
+  }
+
+  filtered() {
+    const st = this.state;
+    const q = st.search.trim().toLowerCase();
+    const winDays = this.timeWindowDays();
+    const sigKeys = Object.keys(st.sig).filter((k) => st.sig[k]);
+    let list = this.subjects.filter((s) => {
+      if (st.type === "wallets" && s.type !== "wallet") return false;
+      if (st.type === "clusters" && s.type !== "cluster") return false;
+      if (st.tier !== "all" && s.tier !== st.tier) return false;
+      if (st.cats.length && !st.cats.includes(s.category)) return false;
+      if (winDays !== Infinity && s.activityDays > winDays) return false;
+      if (st.minImprob > 0 && s.improbDenom < st.minImprob) return false;
+      if (st.minProfit > 0 && s.profitNum < st.minProfit) return false;
+      for (const k of sigKeys) { if (!(s.fired || []).includes(k)) return false; }
+      if (q) {
+        const hay = (s.idLabel + " " + (s.username || "") + " " + s.category + " " + s.type).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    const key = {
+      improbability: (s) => s.improbDenom,
+      profit: (s) => s.profitNum,
+      winrate: (s) => s.winRate - s.avgImplied,
+      volume: (s) => s.volumeNum,
+      recent: (s) => -s.activityDays,
+    }[st.sort] || ((s) => s.improbDenom);
+    list = list.slice().sort((a, b) => key(b) - key(a));
+    return list;
+  }
+
+  selSubject() {
+    return this.subjects.find((s) => s.id === this.state.selectedId) || this.subjects[0];
+  }
+
+  concernTheme(tier) {
+    if (tier === "extreme") return { color: "#F87171", label: "Extreme", glow: "rgba(248,113,113,0.22)", border: "rgba(248,113,113,0.45)", bg: "rgba(248,113,113,0.08)" };
+    if (tier === "elevated") return { color: "#FBBF24", label: "High", glow: "rgba(251,191,36,0.2)", border: "rgba(251,191,36,0.45)", bg: "rgba(251,191,36,0.08)" };
+    return { color: "#94A3B8", label: "Notable", glow: "rgba(148,163,184,0.16)", border: "rgba(148,163,184,0.4)", bg: "rgba(148,163,184,0.08)" };
+  }
+
+  clusterSize(s) { const m = String(s.idLabel).match(/\d+/); return m ? parseInt(m[0], 10) : (s.cluster ? s.cluster.size : "several"); }
+
+  whoLabel(s) {
+    if (s.type === "cluster") return "A group of " + this.clusterSize(s) + " linked accounts";
+    return "Wallet " + s.idLabel + (s.username ? " · @" + s.username : "");
+  }
+
+  whyLine(s) {
+    const phrase = { "Military & Defense": "military events", "Politics": "political events", "Elections": "elections", "Economics": "economic events", "Crypto": "crypto events", "Culture": "culture markets", "Sports": "sports markets", "World": "world events" }[s.category] || "these markets";
+    return "Won " + s.winRate + "% of long-shot bets on " + phrase + " — about " + s.profit + ".";
+  }
+
+  depositChips(s) {
+    return (s.cexChips || []).map((c) => { const parts = c.trim().split(/\s+/); return { label: "Funded via " + parts[parts.length - 1], addr: c }; });
+  }
+
+  connectionSentence(s) {
+    const n = this.clusterSize(s);
+    return "These " + n + " accounts are connected because they were funded from the same exchange deposit address, were created within days of each other, and bet on the same outcomes within minutes.";
+  }
+
+  // ---------- CHARTS ----------
+  clusterGraphNode(s) {
+    if (!s.cluster) return null;
+    const h = this.h;
+    const W = 720, H = 380;
+    const c = s.cluster;
+    const edgeColor = { fund: "#A78BFA", cofund: "#C4B5FD", sync: "#FBBF24", create: "#34D399", transfer: "#F87171" };
+    const edgeLabel = { fund: "same funding source", cofund: "funded together", sync: "bet at the same time", create: "created together", transfer: "money moved between them" };
+    const edgeShort = { fund: "shared deposit", cofund: "co-funding", sync: "synchronized entry", create: "creation proximity", transfer: "internal transfer" };
+    const weightByType = { fund: 0.9, cofund: 0.85, transfer: 0.8, sync: 0.7, create: 0.6 };
+    const wOf = (e) => (e.w != null ? e.w : weightByType[e.type]);
+    const meanLink = (c.edges.reduce((a, e) => a + wOf(e), 0) / c.edges.length).toFixed(2);
+    const pos = {}; c.nodes.forEach((nd) => (pos[nd.id] = [40 + nd.x * (W - 80), 30 + nd.y * (H - 60)]));
+    const hov = this.state.hoverEdge;
+    const prog = this.state.heroProg;
+    const edges = c.edges.map((e, i) => {
+      const a = pos[e.from], b = pos[e.to];
+      const active = hov && hov.from === e.from && hov.to === e.to;
+      const mx = a[0] + (b[0] - a[0]) * prog, my = a[1] + (b[1] - a[1]) * prog;
+      return h("line", {
+        key: "e" + i, x1: a[0], y1: a[1], x2: mx, y2: my,
+        stroke: edgeColor[e.type], strokeWidth: active ? 2.6 : 1.3, strokeOpacity: active ? 0.95 : 0.4,
+        strokeDasharray: e.type === "sync" || e.type === "create" ? "5 4" : "none",
+        style: { cursor: "pointer", transition: "stroke-opacity .15s, stroke-width .15s" },
+        onMouseEnter: () => this.setState({ hoverEdge: { from: e.from, to: e.to, evidence: e.evidence, type: e.type, w: wOf(e) } }),
+        onMouseLeave: () => this.setState({ hoverEdge: null }),
+      });
+    });
+    const edgeWtLabels = c.edges.map((e, i) => {
+      const a = pos[e.from], b = pos[e.to];
+      const active = hov && hov.from === e.from && hov.to === e.to;
+      if (!active) return null;
+      return h("text", { key: "w" + i, x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 - 4, fill: edgeColor[e.type], fontSize: 9.5, fontFamily: "'JetBrains Mono', monospace", textAnchor: "middle" }, edgeShort[e.type] + " \u00b7 " + wOf(e).toFixed(2));
+    });
+    const nodes = c.nodes.map((nd, i) => {
+      const p = pos[nd.id];
+      const r = (9 + nd.vol * 15) * (0.55 + 0.45 * prog);
+      return h("g", { key: "n" + i },
+        h("circle", { cx: p[0], cy: p[1], r: r + 8, fill: "#A78BFA", fillOpacity: 0.1 }),
+        h("circle", { cx: p[0], cy: p[1], r: r, fill: "rgba(167,139,250,0.18)", stroke: "#A78BFA", strokeWidth: 1.4, style: { filter: "drop-shadow(0 0 9px rgba(167,139,250,0.55))" } }),
+        h("text", { x: p[0], y: p[1] + r + 13, fill: "#949C98", fontSize: 9, fontFamily: "'JetBrains Mono', monospace", textAnchor: "middle" }, nd.label)
+      );
+    });
+    const legendTypes = Array.from(new Set(c.edges.map((e) => e.type)));
+    const legend = h("div", { style: { display: "flex", flexWrap: "wrap", gap: "12px 16px", marginTop: "12px" } },
+      legendTypes.map((t) => h("div", { key: t, style: { display: "flex", alignItems: "center", gap: "7px", fontFamily: "Inter", fontSize: "11.5px", color: "#949C98" } },
+        h("span", { style: { width: "18px", height: "0", borderTop: "2px " + (t === "sync" || t === "create" ? "dashed " : "solid ") + edgeColor[t] } }),
+        edgeLabel[t], h("span", { style: { fontFamily: "'JetBrains Mono', monospace", color: "#6B756F", fontSize: "10.5px" } }, "w=" + weightByType[t].toFixed(2))
+      ))
+    );
+    const summary = h("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 14px", marginTop: "12px", padding: "10px 13px", background: "#090D0C", border: "1px solid #1F2A25", borderRadius: "10px" } },
+      h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#34D399" } }, "LINK STRENGTH"),
+      h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "12.5px", color: "#ECEFED" } }, "mean pairwise link " + meanLink),
+      h("span", { style: { fontFamily: "Inter", fontSize: "12px", color: "#6B756F" } }, c.edges.length + " links \u00b7 " + c.nodes.length + " wallets \u00b7 cluster threshold 0.80"),
+      h("span", { style: { fontFamily: "Inter", fontSize: "11.5px", color: meanLink >= 0.8 ? "#34D399" : "#FBBF24" } }, meanLink >= 0.8 ? "above threshold \u2014 probable common ownership" : "below threshold \u2014 weak linkage")
+    );
+    const tip = hov ? h("div", { style: { marginTop: "12px", background: "#090D0C", border: "1px solid " + edgeColor[hov.type], borderRadius: "10px", padding: "11px 13px" } },
+      h("div", { style: { display: "flex", justifyContent: "space-between", gap: "10px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: edgeColor[hov.type], marginBottom: "5px", letterSpacing: "0.08em" } },
+        h("span", null, edgeShort[hov.type].toUpperCase()), h("span", null, "confidence " + hov.w.toFixed(2))),
+      h("div", { style: { fontFamily: "Inter", fontSize: "13px", color: "#D7DCD9" } }, hov.evidence)
+    ) : h("div", { style: { marginTop: "12px", fontFamily: "Inter", fontSize: "12.5px", color: "#6B756F" } }, "Hover a connection to see its evidence and confidence weight. Links are inferred, not confirmed.");
+    return h("div", null,
+      h("div", { style: { width: "100%", overflowX: "auto", border: "1px solid #1B2521", borderRadius: "14px", background: "#090D0C" } },
+        h("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { minWidth: 540, display: "block" } }, edges, edgeWtLabels, nodes)
+      ),
+      summary, legend, tip
+    );
+  }
+
+  percentileStripNode(s) {
+    const h = this.h;
+    const W = 720, H = 116, padX = 22, padTop = 18, padBot = 30;
+    const ct = this.concernTheme(s.tier);
+    const prog = this.state.heroProg;
+    const cx = (f) => padX + f * (W - 2 * padX);
+    const base = H - padBot;
+    const mu = 0.3, sg = 0.12, N = 80, pts = [];
+    for (let i = 0; i <= N; i++) { const f = i / N; const v = Math.exp(-Math.pow((f - mu) / sg, 2) / 2); pts.push([cx(f), base - v * (base - padTop)]); }
+    const area = "M" + cx(0).toFixed(1) + " " + base + " " + pts.map((p) => "L" + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ") + " L" + cx(1).toFixed(1) + " " + base + " Z";
+    const mf = Math.min(0.965, 0.55 + ((s.percentile - 99) / 1) * 0.42);
+    const mx = cx(mf);
+    return h("div", { style: { width: "100%", overflowX: "auto", border: "1px solid #1F2A25", borderRadius: "12px", background: "#090D0C" } },
+      h("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { minWidth: 460, display: "block" } },
+        h("path", { d: area, fill: "#34D399", fillOpacity: 0.07 }),
+        h("path", { d: pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" "), fill: "none", stroke: "#7E8C86", strokeWidth: 1.4, strokeOpacity: 0.6 }),
+        h("line", { x1: padX, y1: base, x2: W - padX, y2: base, stroke: "#1F2A25", strokeWidth: 1 }),
+        h("text", { x: cx(mu), y: base + 16, fill: "#5C6661", fontSize: 9, fontFamily: "Inter", textAnchor: "middle" }, "typical reviewed bettor"),
+        h("g", { opacity: prog, style: { transition: "opacity .4s" } },
+          h("line", { x1: mx, y1: padTop - 6, x2: mx, y2: base, stroke: ct.color, strokeWidth: 1.6 }),
+          h("circle", { cx: mx, cy: padTop - 6, r: 4.5, fill: ct.color, style: { filter: "drop-shadow(0 0 7px " + ct.glow + ")" } }),
+          h("text", { x: Math.min(mx, W - padX - 4), y: base + 16, fill: ct.color, fontSize: 9.5, fontFamily: "'JetBrains Mono', monospace", textAnchor: "end" }, "this subject")
+        )
+      )
+    );
+  }
+
+  confidenceMeterNode(s) {
+    const h = this.h;
+    const fired = (s.fired || []).length, total = 6;
+    const level = s.tier === "extreme" ? "High confidence" : s.tier === "elevated" ? "Moderate\u2013high" : "Moderate";
+    const segs = [];
+    for (let i = 0; i < total; i++) segs.push(h("div", { key: i, style: { flex: 1, height: "9px", borderRadius: "3px", background: i < fired ? "#34D399" : "#16201B", boxShadow: i < fired ? "0 0 10px -2px rgba(52,211,153,0.6)" : "none", transition: "background .3s" } }));
+    return h("div", { style: { background: "#090D0C", border: "1px solid #1F2A25", borderRadius: "12px", padding: "14px 16px" } },
+      h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "10px" } },
+        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F" } }, "DETECTOR AGREEMENT"),
+        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#34D399", fontWeight: 600 } }, fired + " of " + total)),
+      h("div", { style: { display: "flex", gap: "5px", marginBottom: "10px" } }, segs),
+      h("div", { style: { display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" } },
+        h("span", { style: { fontFamily: "Inter", fontSize: "12.5px", color: "#ECEFED", fontWeight: 600 } }, level),
+        h("span", { style: { fontFamily: "Inter", fontSize: "12px", color: "#6B756F" } }, "\u2014 " + fired + " independent detectors agree")),
+      h("div", { style: { fontFamily: "Inter", fontSize: "11.5px", color: "#8A938F", marginTop: "7px", lineHeight: 1.5 } }, "Limiting factor: " + (s.confidenceLimiter || "\u2014"))
+    );
+  }
+
+  contributionNode(s) {
+    const h = this.h;
+    const contrib = this.contributionMap(s);
+    const palette = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86" };
+    const order = ["won", "cluster", "conceal", "longshot", "fresh", "held"].filter((k) => contrib[k] != null);
+    const bar = order.map((k, i) => h("div", { key: k, title: this.findingName(k) + " · " + contrib[k] + "%", style: { width: contrib[k] + "%", background: palette[k], height: "100%", borderRight: i < order.length - 1 ? "1px solid #090D0C" : "none" } }));
+    const legend = order.map((k) => h("div", { key: k, style: { display: "flex", alignItems: "center", gap: "7px", fontFamily: "Inter", fontSize: "11.5px", color: "#949C98" } },
+      h("span", { style: { width: "9px", height: "9px", borderRadius: "2px", background: palette[k] } }),
+      this.findingName(k), h("span", { style: { fontFamily: "'JetBrains Mono', monospace", color: "#ECEFED" } }, contrib[k] + "%")));
+    return h("div", null,
+      h("div", { style: { display: "flex", height: "14px", borderRadius: "5px", overflow: "hidden", border: "1px solid #1F2A25", background: "#16201B" } }, bar),
+      h("div", { style: { display: "flex", flexWrap: "wrap", gap: "8px 16px", marginTop: "11px" } }, legend)
+    );
+  }
+
+  timelineNode(s) {
+    if (!s.timeline || !s.timeline.entries) return null;
+    const h = this.h;
+    const W = 720, H = 248, padX = 36, padTop = 34, padBot = 78;
+    const tl = s.timeline;
+    const prog = this.state.heroProg;
+    const baseY = H - padBot;
+    const x = (f) => padX + f * (W - padX * 2);
+    const y = (v) => padTop + (1 - v) * (baseY - padTop);
+    const anchorAt = (px) => (px < padX + 34 ? "start" : px > W - padX - 34 ? "end" : "middle");
+    const clampX = (px) => Math.max(padX + 2, Math.min(W - padX - 2, px));
+    const curve = [];
+    const N = 40;
+    for (let i = 0; i <= N; i++) {
+      const f = i / N;
+      let v;
+      if (f < tl.resolution) { const k = f / tl.resolution; v = tl.priceStart + (tl.priceEnd - tl.priceStart) * Math.pow(k, 2.4); }
+      else v = tl.priceEnd;
+      curve.push([x(f), y(v)]);
+    }
+    const visN = Math.floor(N * prog);
+    const path = curve.slice(0, Math.max(2, visN)).map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+    const gridY = [0, 0.5, 1].map((g, i) => h("line", { key: "g" + i, x1: padX, y1: y(g), x2: W - padX, y2: y(g), stroke: "#ECEFED", strokeOpacity: 0.05 }));
+
+    // greedy row-packing so adjacent entry labels never overlap
+    const rowRight = [];
+    const entries = tl.entries.map((f, i) => {
+      const cx = x(f);
+      const vAt = tl.priceStart + (tl.priceEnd - tl.priceStart) * Math.pow(f / tl.resolution, 2.4);
+      const a = anchorAt(cx);
+      const halfW = 34;
+      const left = a === "start" ? cx : a === "end" ? cx - 2 * halfW : cx - halfW;
+      const right = left + 2 * halfW;
+      let row = 0;
+      while (rowRight[row] != null && left - 8 < rowRight[row]) row++;
+      rowRight[row] = right;
+      const labelY = baseY + 16 + row * 14;
+      return h("g", { key: "en" + i, opacity: prog > f ? 1 : 0, style: { transition: "opacity .3s" } },
+        h("line", { x1: cx, y1: y(vAt), x2: cx, y2: labelY - 10, stroke: "#A78BFA", strokeWidth: 1, strokeDasharray: "3 3", strokeOpacity: 0.55 }),
+        h("circle", { cx: cx, cy: y(vAt), r: 4.5, fill: "#A78BFA", style: { filter: "drop-shadow(0 0 6px rgba(167,139,250,0.85))" } }),
+        h("text", { x: clampX(cx), y: labelY, fill: "#B9AEF0", fontSize: 9.5, fontFamily: "Inter", textAnchor: a }, "bet " + (i + 1) + " placed")
+      );
+    });
+
+    const resX = x(tl.resolution);
+    const res = h("g", null,
+      h("line", { x1: resX, y1: padTop - 2, x2: resX, y2: baseY, stroke: "#34D399", strokeWidth: 1.4 }),
+      h("circle", { cx: resX, cy: y(tl.priceEnd), r: 5, fill: "#34D399", style: { filter: "drop-shadow(0 0 7px rgba(52,211,153,0.8))" } }),
+      h("text", { x: clampX(resX), y: padTop - 12, fill: "#34D399", fontSize: 9.5, fontFamily: "Inter", textAnchor: anchorAt(resX) }, "outcome decided")
+    );
+
+    const candidates = this.state.showCandidates ? tl.candidates.map((cc, i) => {
+      const ccx = x(cc.x);
+      return h("g", { key: "c" + i },
+        h("line", { x1: ccx, y1: padTop + 6, x2: ccx, y2: baseY, stroke: "#949C98", strokeWidth: 1, strokeDasharray: "2 4", strokeOpacity: 0.7 }),
+        h("text", { x: clampX(ccx), y: padTop + 6 + i * 13, fill: "#949C98", fontSize: 9, fontFamily: "Inter", textAnchor: anchorAt(ccx) }, cc.label)
+      );
+    }) : null;
+
+    return h("div", { style: { width: "100%", overflowX: "auto", border: "1px solid #1B2521", borderRadius: "14px", background: "#090D0C" } },
+      h("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { minWidth: 560, display: "block" } },
+        gridY,
+        h("path", { d: path, fill: "none", stroke: "#7E8C86", strokeWidth: 1.8, strokeOpacity: 0.55 }),
+        candidates, entries, res,
+        h("text", { x: padX, y: H - 10, fill: "#5C6661", fontSize: 9, fontFamily: "Inter" }, "how likely the market thought the outcome was, over time")
+      )
+    );
+  }
+
+  // ---------- LEDGER ----------
+  ledgerRows(s) {
+    const st = this.state;
+    if (!s.ledger) return [];
+    const rows = s.ledger.map((r, i) => ({ ...r, entryIdx: i, plNum: parseFloat(r.pl.replace(/[^0-9.\-\u2212]/g, "").replace("\u2212", "-")), entryTime: this.entryTime(s, i) }));
+    const key = st.ledgerSort;
+    const accessor = { entryIdx: (r) => r.entryIdx, entryTime: (r) => r.entryIdx, odds: (r) => r.odds, stake: (r) => parseFloat(r.stake.replace(/[^0-9.]/g, "")), outcome: (r) => (r.outcome === "Won" ? 1 : 0), pl: (r) => r.plNum, market: (r) => r.market };
+    const acc = accessor[key] || accessor.entryIdx;
+    rows.sort((a, b) => (acc(a) < acc(b) ? -1 : acc(a) > acc(b) ? 1 : 0) * st.ledgerDir);
+    return rows.map((r) => ({
+      market: r.market, entryTime: r.entryTime, odds: r.odds, stake: r.stake, outcome: r.outcome, pl: r.pl,
+      tx: r.tx, plColor: r.plNum >= 0 ? "#34D399" : "#F87171",
+      outcomeStyle: r.outcome === "Won"
+        ? "font-family:Inter;font-size:11px;font-weight:600;color:#34D399;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.35);border-radius:5px;padding:3px 9px;box-shadow:0 0 12px -4px rgba(52,211,153,0.5);"
+        : "font-family:Inter;font-size:11px;font-weight:600;color:#949C98;background:rgba(148,148,148,0.07);border:1px solid #243029;border-radius:5px;padding:3px 9px;",
+      prevent: (e) => { e.preventDefault(); },
+    }));
+  }
+
+  entryTime(s, i) {
+    const days = ["Apr 04", "Apr 07", "Apr 09", "Apr 12", "Apr 15", "Apr 18", "Apr 21", "Apr 24"];
+    const t = ["09:14", "22:41", "14:02", "07:58", "19:33", "11:20", "16:47", "03:09"];
+    return days[i % days.length] + " " + t[i % t.length];
+  }
+
+  // ---------- RENDER ----------
+  renderVals() {
+    const st = this.state;
+    const sel = this.selSubject();
+    const ct = this.concernTheme(sel.tier);
+    const list = this.filtered();
+    const cc = this.catCounts();
+    const narrow = st.vw < 760;
+    const showAmbient = this.props.ambientGlow !== false;
+    const compact = this.props.listDensity === "compact";
+    const cardPad = compact ? "10px 14px 10px 16px" : "13px 15px 13px 17px";
+    const listGap = compact ? "7px" : "9px";
+
+    const GLASS = "background:#0E1512;border:1px solid #1F2A25;box-shadow:0 8px 24px -18px rgba(0,0,0,0.55);";
+
+    const seg = (active) => "font-family:Inter;font-size:12px;padding:6px 11px;border-radius:8px;cursor:pointer;border:1px solid " + (active ? "#34D399" : "#1F2A25") + ";color:" + (active ? "#34D399" : "#949C98") + ";background:" + (active ? "rgba(52,211,153,0.12)" : "#0E1512") + ";";
+    const typeOptions = [["all", "Everyone"], ["wallets", "Single wallets"], ["clusters", "Groups"]].map(([v, l]) => ({ label: l, style: seg(st.type === v), onClick: () => this.setState({ type: v }) }));
+    const concernOptions = [["all", "All"], ["extreme", "Extreme"], ["elevated", "High"], ["watch", "Notable"]].map(([v, l]) => ({ label: l, style: seg(st.tier === v), onClick: () => this.setState({ tier: v }) }));
+    const categoryChips = cc.map((c) => ({
+      label: c.name, count: c.count, onClick: () => this.toggleCat(c.name),
+      style: "font-family:Inter;font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;border:1px solid " + (st.cats.includes(c.name) ? "#34D399" : "#1F2A25") + ";color:" + (st.cats.includes(c.name) ? "#34D399" : "#949C98") + ";background:" + (st.cats.includes(c.name) ? "rgba(52,211,153,0.12)" : "transparent") + ";",
+    }));
+
+    const subjects = list.map((s) => {
+      const th = this.concernTheme(s.tier);
+      const isSel = s.id === sel.id;
+      return {
+        onClick: () => this.select(s.id),
+        onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.select(s.id); } },
+        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;transition:transform .18s,border-color .18s,box-shadow .18s;" + GLASS + (isSel ? "border-color:#34D399;box-shadow:0 0 0 1px rgba(52,211,153,0.3),0 0 26px -12px rgba(52,211,153,0.35),0 10px 26px -18px rgba(0,0,0,0.55);" : ""),
+        accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 12px 1px rgba(52,211,153,0.7);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
+        whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
+        whoLabel: this.whoLabel(s), why: this.whyLine(s),
+        improbText: s.improbText, concernColor: th.color, concernGlow: th.glow,
+        concernLabel: th.label,
+        badgeStyle: "display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.07em;padding:2px 8px;border-radius:999px;color:" + th.color + ";border:1px solid " + th.border + ";background:" + th.bg + ";",
+        newlyFlagged: !!s.newlyFlagged, archived: !!s.archived,
+      };
+    });
+
+    // findings
+    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group" };
+    const explainMap = {
+      fresh: "Created just days before the bets, with no prior history.",
+      longshot: "Targeted unlikely outcomes priced around " + sel.avgImplied + "%, where an informed bet pays the most.",
+      held: "Never cashed out early or hedged — total conviction in every bet.",
+      won: "Won " + sel.winRate + "% of bets the market priced at about " + sel.avgImplied + "%.",
+      conceal: "Used tactics that hide the size or the trail of the bets — splitting stakes, decoys, or fast cash-outs.",
+      cluster: "Many accounts that were funded together and bet in lockstep, acting as one.",
+    };
+    const barMap = { fresh: 0.92, longshot: 0.84, held: 1.0, won: 0.97, conceal: 0.78, cluster: 0.9 };
+    const contrib = this.contributionMap(sel);
+    const findings = (sel.scorecard || []).map((r) => {
+      const open = !!st.measure[r.key];
+      const en = this.enrichFinding(sel, r);
+      return {
+        name: nameMap[r.key] || r.key, explanation: explainMap[r.key] || "", metric: r.metric, metricColor: ct.color,
+        barPct: Math.round((barMap[r.key] || 0.8) * 100) + "%",
+        contribPct: (contrib[r.key] != null ? contrib[r.key] : 0) + "% of flag",
+        open, caret: open ? "\u2212 hide the math" : "+ show the math",
+        method: en.method, citation: en.citation, formula: en.formula,
+        symbols: en.symbols.map((p) => ({ sym: p[0], def: p[1] })),
+        inputs: en.inputs.map((p) => ({ k: p[0], v: p[1] })),
+        result: en.result, interpretation: en.interpretation, baseline: en.baseline,
+        confidenceNote: en.confidenceNote, threshold: en.threshold, source: en.source, calibration: en.calibration,
+        onToggle: () => this.setState({ measure: { ...st.measure, [r.key]: !open } }),
+      };
+    });
+    const contributionNode = this.contributionNode(sel);
+
+    const colDef = [["market", "MARKET", "left"], ["entryTime", "WHEN", "left"], ["odds", "ODDS", "right"], ["stake", "AMOUNT", "right"], ["outcome", "RESULT", "center"], ["pl", "PROFIT", "right"], ["tx", "ON-CHAIN", "right"]];
+    const ledgerCols = colDef.map(([k, l, al]) => ({
+      label: l, arrow: st.ledgerSort === k ? (st.ledgerDir > 0 ? " \u2191" : " \u2193") : "",
+      onClick: () => this.sortLedger(k),
+      style: "padding:11px 13px;text-align:" + al + ";font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.1em;color:#6B756F;cursor:pointer;white-space:nowrap;font-weight:600;" + (st.ledgerSort === k ? "color:#34D399;" : ""),
+    }));
+
+    const denom = sel.improbDenom * st.heroProg;
+    const heroDisplay = "1 in " + this.fmtBig(Math.max(1, denom));
+
+    const corpus = { wallets: this.fmtInt(Math.round(this.meta.reviewed * st.corpusProg)), flagged: Math.round(this.subjects.length * st.corpusProg),
+      asOf: this.meta.snapshot ? ("as of " + this.meta.snapshot) : "as of —" };
+
+    const saved = !!st.saved[sel.id];
+    const ls = sel.ledgerSummary || {};
+    const summaryLine = ls.markets ? (ls.markets + " bets · " + ls.winRate + "% won · " + sel.profit + " profit") : "";
+
+    // ---------- FILTER CONTROL SURFACE ----------
+    const chipOn = (on) => "font-family:Inter;font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;border:1px solid " + (on ? "#34D399" : "#1F2A25") + ";color:" + (on ? "#34D399" : "#949C98") + ";background:" + (on ? "rgba(52,211,153,0.12)" : "#0E1512") + ";";
+    const sortOptions = [["improbability", "Improbability"], ["profit", "Profit"], ["winrate", "Win-rate vs implied"], ["volume", "Volume"], ["recent", "Most recent activity"]];
+    const timeOptions = [["all", "All time"], ["90d", "Last 90 days"], ["12mo", "Last 12 months"], ["custom", "Custom range"]].map(([v, l]) => ({ label: l, value: v, style: chipOn(st.timeWindow === v), onClick: () => this.setState({ timeWindow: v }) }));
+    const sigDefs = [["conceal", "has concealment signatures"], ["fresh", "fresh wallets only"], ["cluster", "linked clusters only"], ["held", "held to resolution"]];
+    const sigToggles = sigDefs.map(([k, l]) => ({ label: l, style: chipOn(!!st.sig[k]), onClick: () => this.setState({ sig: { ...st.sig, [k]: !st.sig[k] } }) }));
+
+    const active = [];
+    if (st.type !== "all") active.push({ label: (st.type === "wallets" ? "Wallets" : "Groups"), clear: () => this.setState({ type: "all" }) });
+    if (st.tier !== "all") active.push({ label: this.concernTheme(st.tier).label + " tier", clear: () => this.setState({ tier: "all" }) });
+    st.cats.forEach((c) => active.push({ label: c, clear: () => this.toggleCat(c) }));
+    if (st.timeWindow !== "all") active.push({ label: ({ "90d": "last 90 days", "12mo": "last 12 months", custom: "custom range" })[st.timeWindow], clear: () => this.setState({ timeWindow: "all" }) });
+    if (st.minImprob > 0) active.push({ label: "\u2265 1 in " + this.fmtBig(st.minImprob), clear: () => this.setState({ minImprob: 0 }) });
+    if (st.minProfit > 0) active.push({ label: "\u2265 " + this.fmtMoney(st.minProfit) + " profit", clear: () => this.setState({ minProfit: 0 }) });
+    sigDefs.forEach(([k, l]) => { if (st.sig[k]) active.push({ label: l, clear: () => this.setState({ sig: { ...st.sig, [k]: false } }) }); });
+    if (st.search.trim()) active.push({ label: "\u201c" + st.search.trim() + "\u201d", clear: () => this.setState({ search: "" }) });
+    const activeChips = active.map((a) => ({ label: a.label, clear: a.clear, style: "display:inline-flex;align-items:center;gap:7px;font-family:Inter;font-size:11px;padding:4px 9px;border-radius:999px;cursor:pointer;border:1px solid rgba(52,211,153,0.4);color:#34D399;background:rgba(52,211,153,0.1);" }));
+    const hasActive = active.length > 0;
+    const resultReadout = "showing " + list.length + " of " + this.subjects.length + " flagged \u00b7 filtered from " + this.fmtInt(this.meta.reviewed) + " reviewed";
+
+    const fn = this.funnel();
+    const funnelSteps = [
+      { k: "reviewed", label: "reviewed", val: this.fmtInt(fn.reviewed), color: "#7E8C86", arrow: "" },
+      { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", arrow: "\u2192" },
+      { k: "flagged", label: "flagged", val: String(fn.flagged), color: "#34D399", arrow: "\u2192" },
+      { k: "extreme", label: "extreme", val: String(fn.extreme), color: "#F87171", arrow: "\u2192" },
+    ];
+
+    const ml = this.methodLib();
+    const methods = Object.keys(ml).map((k) => ({ name: ml[k].name, citation: ml[k].citation, formula: ml[k].formula, threshold: ml[k].threshold, source: ml[k].source, calibration: ml[k].calibration }));
+    const prov = this.provenance(sel);
+
+    return {
+      corpus,
+      isSample: this.isSample, notSample: !this.isSample,
+      snapshotLabel: this.meta.block ? ("data as of block " + this.meta.block) : ("data as of " + (this.meta.snapshot || "—")),
+      snapshotTitle: "Retrospective snapshot — not live. Block " + (this.meta.block || "—") + " · " + (this.meta.snapshot || "—") + ". Recomputed " + (this.meta.recomputed || "—") + ".",
+      search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
+      typeOptions, concernOptions, categoryChips, sigToggles, timeOptions,
+      sortValue: st.sort, onSort: (e) => this.setState({ sort: e.target.value }),
+      sortOptions: sortOptions.map(([v, l]) => ({ value: v, label: l })),
+      toggleAdvanced: () => this.setState({ advancedOpen: !st.advancedOpen }), advancedOpen: st.advancedOpen,
+      advancedBtnStyle: "display:flex;align-items:center;gap:7px;font-family:Inter;font-size:12px;padding:8px 13px;border-radius:9px;cursor:pointer;border:1px solid " + (st.advancedOpen || hasActive ? "#34D399" : "#1F2A25") + ";color:" + (st.advancedOpen || hasActive ? "#34D399" : "#949C98") + ";background:#0E1512;",
+      advancedCaret: st.advancedOpen ? "\u2212" : "+",
+      timeWindow: st.timeWindow, isCustom: st.timeWindow === "custom",
+      customFrom: st.customFrom, customTo: st.customTo,
+      onCustomFrom: (e) => this.setState({ customFrom: e.target.value }), onCustomTo: (e) => this.setState({ customTo: e.target.value }),
+      minImprob: st.minImprob, minProfit: st.minProfit,
+      minImprobMax: 9100000, minProfitMax: 2400000,
+      onMinImprob: (e) => this.setState({ minImprob: +e.target.value }), onMinProfit: (e) => this.setState({ minProfit: +e.target.value }),
+      minImprobLabel: st.minImprob > 0 ? "1 in " + this.fmtBig(st.minImprob) : "any",
+      minProfitLabel: st.minProfit > 0 ? this.fmtMoney(st.minProfit) : "any",
+      activeChips, hasActive, clearAll: () => this.clearAllFilters(), resultReadout,
+      funnelSteps,
+
+      showAmbient, listGap,
+      gridCols: narrow ? "1fr" : "minmax(300px, 0.54fr) minmax(0, 1fr)",
+      listMaxH: narrow ? "none" : "1240px", listOverflow: narrow ? "visible" : "auto",
+      dossierMaxH: narrow ? "none" : "1180px", dossierOverflow: narrow ? "visible" : "auto",
+      filteredCount: list.length, isEmpty: list.length === 0, subjects,
+
+      sel: {
+        refId: sel.refId || ("WF-2026-" + String(this.subjects.indexOf(sel) + 100)),
+        whoLabel: this.whoLabel(sel), whoGlyph: sel.type === "cluster" ? "\u25c7 " : "", whoColor: sel.type === "cluster" ? "#C4B5FD" : "#ECEFED",
+        firstSeen: sel.firstSeen || "an unrecorded date", isCluster: sel.type === "cluster" && !!sel.cluster,
+        depositChips: this.depositChips(sel),
+        concernColor: ct.color, concernGlow: ct.glow, concernBorder: ct.border, concernBg: ct.bg, concernLabel: ct.label,
+        heroSentence: sel.heroSentence || ("This " + (sel.type === "cluster" ? "group" : "account") + " won " + sel.winRate + "% of " + sel.marketsCount + " long-shot bets priced near " + sel.avgImplied + "%. A record this strong is very hard to explain by luck. A full evidence file has not yet been compiled for this subject."),
+        full: !!sel.full, notFull: !sel.full,
+        summaryFacts: [
+          { k: "win rate", v: sel.winRate + "%" }, { k: "typical odds", v: sel.avgImplied + "%" },
+          { k: "profit", v: sel.profit }, { k: "bets", v: String(sel.marketsCount) }, { k: "category", v: sel.category },
+        ],
+        summaryLine, connectionSentence: this.connectionSentence(sel),
+        ledger: sel.ledger || [], timeline: sel.timeline || {},
+        percentile: sel.percentile, percentileText: sel.percentile.toFixed(3) + "th percentile of " + this.fmtInt(this.meta.reviewed) + " reviewed bettors",
+        volume: sel.volume, lastActivity: sel.lastActivity,
+        provSources: prov.sources, provBlock: prov.block, provSnapshot: prov.snapshot, provRecomputed: prov.recomputed,
+      },
+
+      heroDisplay, findings, contributionNode,
+      percentileStripNode: this.percentileStripNode(sel),
+      confidenceMeterNode: this.confidenceMeterNode(sel),
+      methods,
+      toggleMethodology: () => this.setState({ methodologyOpen: !st.methodologyOpen }), methodologyOpen: st.methodologyOpen,
+      methodologyCaret: st.methodologyOpen ? "\u2212 collapse" : "+ expand",
+      clusterGraphNode: sel.cluster ? this.clusterGraphNode(sel) : null,
+      timelineNode: this.timelineNode(sel),
+
+      ledgerCols, ledgerRows: this.ledgerRows(sel),
+
+      toggleCandidates: () => this.setState({ showCandidates: !st.showCandidates }),
+      candidatesStyle: "display:flex;align-items:center;gap:7px;font-family:Inter;font-size:11.5px;padding:6px 11px;border-radius:8px;cursor:pointer;border:1px solid " + (st.showCandidates ? "rgba(148,163,184,0.5)" : "#1F2A25") + ";color:" + (st.showCandidates ? "#C4CAC6" : "#6B756F") + ";background:transparent;",
+      candidatesDot: st.showCandidates ? "#949C98" : "#3A433E",
+
+      noop: (e) => e.preventDefault(), stop: (e) => e.stopPropagation(),
+
+      act: {
+        exportPdf: () => this.openModal("pdf"), exportCsv: () => this.openModal("csv"),
+        referral: () => this.openModal("referral"), permalink: () => this.copyPermalink(),
+        save: () => this.setState({ saved: { ...st.saved, [sel.id]: !saved } }),
+        close: () => this.setState({ modal: { open: false } }),
+      },
+      saveStyle: "display:flex;align-items:center;gap:6px;background:" + (saved ? "rgba(52,211,153,0.18)" : "transparent") + ";border:1px solid " + (saved ? "#34D399" : "#243029") + ";color:" + (saved ? "#34D399" : "#949C98") + ";font-family:Inter;font-size:12px;padding:9px 12px;border-radius:9px;cursor:pointer;" + (saved ? "box-shadow:0 0 18px -6px rgba(52,211,153,0.5);" : ""),
+      saveIcon: saved ? "\u2605" : "\u2606", saveLabel: saved ? "Saved" : "Save",
+      permalinkLabel: st.permalinkCopied ? "\u2713 copied" : "\u29c9 Copy link",
+
+      modal: st.modal, modalBody: this.modalBody(sel),
+    };
+  }
+
+  modalBody(sel) {
+    const st = this.state;
+    if (!st.modal.open) return null;
+    const h = this.h;
+    const kind = st.modal.kind;
+    if (kind === "csv") {
+      const head = "market,when,odds,amount,result,profit,tx";
+      const lines = (sel.ledger || []).slice(0, 6).map((r, i) => '"' + r.market.slice(0, 30) + '\u2026",' + this.entryTime(sel, i) + "," + r.odds + "%," + r.stake.replace(/[$,]/g, "") + "," + r.outcome + "," + r.pl.replace(/[$,\u2212]/g, (m) => (m === "\u2212" ? "-" : "")) + "," + r.tx);
+      return h("div", null,
+        h("p", { style: { fontSize: "14px", color: "#D7DCD9", marginTop: 0, lineHeight: 1.6 } }, "The full bet list for " + this.whoLabel(sel) + " is ready as a spreadsheet (" + (sel.ledger || []).length + " rows). Preview:"),
+        h("pre", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#949C98", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "13px", overflowX: "auto", lineHeight: 1.7 } }, [head, ...lines].join("\n")),
+        this.dlBtn("Download bet list (.csv)", "csv")
+      );
+    }
+    if (kind === "pdf") {
+      return h("div", null,
+        h("p", { style: { fontSize: "14px", color: "#D7DCD9", marginTop: 0, lineHeight: 1.6 } }, "A clean, print-ready evidence file has been assembled for " + this.whoLabel(sel) + "."),
+        h("div", { style: { background: "#090D0C", border: "1px solid #1B2521", borderRadius: "12px", padding: "18px" } },
+          h("div", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.12em", color: "#34D399" } }, "EVIDENCE FILE · " + (sel.refId || "")),
+          h("div", { style: { fontSize: "20px", fontWeight: 700, color: "#ECEFED", margin: "8px 0" } }, this.whoLabel(sel)),
+          h("div", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "30px", fontWeight: 700, color: this.concernTheme(sel.tier).color } }, sel.improbFull || sel.improbText),
+          h("p", { style: { fontSize: "13px", color: "#949C98", lineHeight: 1.6 } }, sel.heroSentence || ""),
+          h("div", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#5C6661", marginTop: "8px" } }, "includes: the headline · what we found · the bet list · the timeline · what this means")
+        ),
+        this.dlBtn("Download evidence file (.pdf)", "pdf")
+      );
+    }
+    if (kind === "referral") {
+      const items = ["Cover summary (auto-drafted)", "The evidence file (PDF)", "How every finding was measured", "The full bet list (spreadsheet)", "On-chain links for every bet"];
+      return h("div", null,
+        h("div", { style: { display: "inline-flex", alignItems: "center", gap: "7px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#34D399", border: "1px solid rgba(52,211,153,0.4)", borderRadius: "999px", padding: "5px 11px", marginBottom: "14px", boxShadow: "0 0 18px -6px rgba(52,211,153,0.6)" } }, "\u2713 PACKET READY"),
+        h("div", { style: { background: "#090D0C", border: "1px solid #1B2521", borderRadius: "12px", padding: "15px 17px", marginBottom: "13px" } },
+          items.map((it, i) => h("div", { key: i, style: { display: "flex", alignItems: "center", gap: "11px", padding: "8px 0", borderBottom: i < items.length - 1 ? "1px solid #141C18" : "none" } },
+            h("span", { style: { color: "#34D399", fontSize: "13px" } }, "\u2713"),
+            h("span", { style: { fontSize: "13.5px", color: "#D7DCD9" } }, it)
+          ))
+        ),
+        h("div", { style: { background: "#090D0C", border: "1px solid #1B2521", borderRadius: "12px", padding: "15px 17px" } },
+          h("div", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F", marginBottom: "8px" } }, "COVER SUMMARY · DRAFT"),
+          h("p", { style: { fontSize: "13.5px", color: "#D7DCD9", lineHeight: 1.7, margin: 0 } }, "Re: " + this.whoLabel(sel) + " (" + sel.category + "). On-chain analysis of " + sel.marketsCount + " resolved Polymarket bets finds a winning record (" + sel.winRate + "% at about " + sel.avgImplied + "% odds) whose chance of happening by luck is " + (sel.improbFull || sel.improbText) + ". This is offered as an investigative lead, not a legal conclusion. The full evidence and methods are attached.")
+        ),
+        this.dlBtn("Download referral packet (.zip)", "referral")
+      );
+    }
+    return null;
+  }
+
+  dlBtn(label, kind) {
+    const sel = this.selSubject();
+    return this.h("button", { onClick: () => this.doExport(kind, sel), style: { marginTop: "16px", width: "100%", background: "#34D399", color: "#06120D", border: "none", borderRadius: "10px", padding: "12px", fontFamily: "Inter", fontSize: "13px", fontWeight: 700, cursor: "pointer", boxShadow: "0 0 24px -8px rgba(52,211,153,0.7)" } }, label);
+  }
+
+  // ---------- REAL EXPORTS (no deps; genuine files from the dossier data) ----------
+  slugFor(sel) { return (sel.refId || (sel.idLabel || "subject")).replace(/[^A-Za-z0-9_-]+/g, "_"); }
+
+  download(filename, mime, data) {
+    try {
+      const blob = (data instanceof Uint8Array) ? new Blob([data], { type: mime }) : new Blob([String(data)], { type: mime + ";charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 400);
+    } catch (e) { /* sandbox may block; the preview in the modal still shows the content */ }
+  }
+
+  // full bet ledger as CSV (every real position, not the 6-row preview).
+  csvFor(sel) {
+    const head = "market,when,odds,amount,result,profit,tx";
+    const rows = (sel.ledger || []).map((r, i) => [
+      '"' + String(r.market).replace(/"/g, '""') + '"',
+      this.entryTime(sel, i),
+      r.odds + "%",
+      String(r.stake).replace(/[$,]/g, ""),
+      r.outcome,
+      String(r.pl).replace(/[$,]/g, "").replace(/−/g, "-"),
+      (r.txFull || r.tx || ""),
+    ].join(","));
+    return [head, ...rows].join("\n");
+  }
+
+  methodologyText() {
+    const ml = this.methodLib();
+    const lines = ["WALLET FORENSICS — METHODOLOGY APPENDIX", "Polymarket on-chain data · pattern consistent with informed trading, not proof.", ""];
+    Object.keys(ml).forEach((k) => {
+      const m = ml[k];
+      lines.push("• " + m.name, "    formula:    " + m.formula, "    threshold:  " + m.threshold, "    source:     " + m.source, "    calibration:" + m.calibration, "    note:       " + m.confidenceNote, "");
+    });
+    lines.push("Framing: CEA §6(c)(1) / CFTC Reg 180.1 + platform terms — not SEC insider trading (no security).");
+    return lines.join("\n");
+  }
+
+  onchainIndex(sel) {
+    const lines = ["ON-CHAIN SOURCE INDEX — " + (sel.refId || ""), "Subject: " + this.whoLabel(sel), ""];
+    (sel.ledger || []).forEach((r) => { lines.push((r.txFull || r.tx || "(tx)") + "   " + r.market); });
+    return lines.join("\n");
+  }
+
+  coverMemo(sel) {
+    return ["RE: " + this.whoLabel(sel) + " (" + sel.category + ")", "REF: " + (sel.refId || ""), "",
+      "On-chain analysis of " + sel.marketsCount + " resolved Polymarket bets finds a winning record (" +
+      sel.winRate + "% at about " + sel.avgImplied + "% implied odds) whose chance of occurring by luck is " +
+      (sel.improbFull || sel.improbText) + ".", "",
+      sel.heroSentence || "", "",
+      "This is offered as an investigative lead, not a legal conclusion. The subject is presumed innocent. " +
+      "Cluster links, where present, are probabilistic inferences from funding heuristics, not confirmed common ownership. " +
+      "Detectors lacking inputs were excluded, not scored zero.", "",
+      "Attached: evidence file (PDF), methodology appendix, full bet list (CSV), on-chain source index."].join("\n");
+  }
+
+  // dossier as plain text lines for the PDF.
+  dossierLines(sel) {
+    const L = [];
+    L.push(["EVIDENCE FILE · " + (sel.refId || ""), 9, false]);
+    L.push([this.whoLabel(sel), 18, true]);
+    L.push([(sel.improbFull || sel.improbText), 22, true]);
+    L.push(["", 6, false]);
+    (sel.heroSentence || "").match(/.{1,92}(\s|$)/g)?.forEach((s) => L.push([s.trim(), 11, false]));
+    L.push(["", 6, false]);
+    L.push(["WHAT WE FOUND", 11, true]);
+    (sel.scorecard || []).forEach((c) => { L.push(["• " + (this.findingName ? this.findingName(c.key) : c.key) + " — " + c.metric, 10, false]); (c.numbers || "").match(/.{1,88}(\s|$)/g)?.forEach((s) => L.push(["    " + s.trim(), 9, false])); });
+    L.push(["", 6, false]);
+    L.push(["BET LEDGER (" + (sel.ledger || []).length + " positions)", 11, true]);
+    (sel.ledger || []).forEach((r) => L.push(["  " + (r.odds + "%").padEnd(5) + " " + String(r.stake).padEnd(8) + " " + String(r.outcome).padEnd(5) + " " + String(r.pl).padEnd(11) + " " + String(r.market).slice(0, 54), 9, false]));
+    L.push(["", 8, false]);
+    L.push(["Pattern consistent with informed trading — not proof. Presumed innocent.", 8, false]);
+    L.push(["CEA §6(c)(1) / CFTC Reg 180.1 + platform terms. " + ((sel.confidenceLimiter) || ""), 8, false]);
+    return L;
+  }
+
+  // minimal, valid single-font PDF writer (Helvetica, paginated). Returns Uint8Array.
+  buildPdf(lines) {
+    const enc = (s) => { const o = []; for (let i = 0; i < s.length; i++) o.push(s.charCodeAt(i) & 0xff); return o; };
+    const esc = (s) => String(s).replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+    const PH = 792, PW = 612, MX = 54, TOP = 740, BOT = 54;
+    const pages = []; let cur = []; let y = TOP;
+    for (const [text, size, bold] of lines) {
+      const adv = (size || 10) + 4;
+      if (y - adv < BOT) { pages.push(cur); cur = []; y = TOP; }
+      cur.push({ text: text || " ", size: size || 10, bold: !!bold, y });
+      y -= adv;
+    }
+    if (cur.length) pages.push(cur);
+    const objs = []; const add = (s) => { objs.push(s); return objs.length; };
+    // 1 catalog, 2 pages, fonts 3/4, then per-page [content,page]
+    const fontReg = 3, fontBold = 4;
+    const pageObjNums = []; const contentObjNums = [];
+    let n = 4; // objects 1..4 reserved (catalog, pages, 2 fonts)
+    pages.forEach(() => { contentObjNums.push(++n); pageObjNums.push(++n); });
+    const parts = [];
+    const xref = []; let offset = 0;
+    const out = [];
+    const pushStr = (s) => { const b = enc(s); for (const c of b) out.push(c); offset += b.length; };
+    pushStr("%PDF-1.4\n");
+    const writeObj = (num, body) => { xref[num] = offset; pushStr(num + " 0 obj\n" + body + "\nendobj\n"); };
+    writeObj(1, "<< /Type /Catalog /Pages 2 0 R >>");
+    writeObj(2, "<< /Type /Pages /Kids [" + pageObjNums.map((p) => p + " 0 R").join(" ") + "] /Count " + pageObjNums.length + " >>");
+    writeObj(3, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+    writeObj(4, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>");
+    pages.forEach((pg, i) => {
+      let stream = "BT\n";
+      pg.forEach((ln) => { stream += "/" + (ln.bold ? "F2" : "F1") + " " + ln.size + " Tf\n1 0 0 1 " + MX + " " + ln.y + " Tm\n(" + esc(ln.text) + ") Tj\n"; });
+      stream += "ET";
+      writeObj(contentObjNums[i], "<< /Length " + enc(stream).length + " >>\nstream\n" + stream + "\nendstream");
+      writeObj(pageObjNums[i], "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 " + PW + " " + PH + "] /Resources << /Font << /F1 " + fontReg + " 0 R /F2 " + fontBold + " 0 R >> >> /Contents " + contentObjNums[i] + " 0 R >>");
+    });
+    const xrefStart = offset;
+    const total = objs.length + 1; // include obj 0
+    let xs = "xref\n0 " + total + "\n0000000000 65535 f \n";
+    for (let i = 1; i < total; i++) { xs += String(xref[i] || 0).padStart(10, "0") + " 00000 n \n"; }
+    xs += "trailer\n<< /Size " + total + " /Root 1 0 R >>\nstartxref\n" + xrefStart + "\n%%EOF";
+    pushStr(xs);
+    return new Uint8Array(out);
+  }
+
+  // store-only (no compression) ZIP writer with CRC32 — a genuine .zip archive.
+  buildZip(files) {
+    const enc = (s) => { const o = []; for (let i = 0; i < s.length; i++) o.push(s.charCodeAt(i) & 0xff); return o; };
+    const table = (() => { const t = []; for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); t[n] = c >>> 0; } return t; })();
+    const crc32 = (bytes) => { let c = 0xFFFFFFFF; for (let i = 0; i < bytes.length; i++) c = table[(c ^ bytes[i]) & 0xff] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+    const u16 = (v) => [v & 0xff, (v >>> 8) & 0xff];
+    const u32 = (v) => [v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, (v >>> 24) & 0xff];
+    const out = []; const central = []; let offset = 0;
+    files.forEach((f) => {
+      const nameB = enc(f.name);
+      const dataB = (f.data instanceof Uint8Array) ? Array.from(f.data) : enc(String(f.data));
+      const crc = crc32(dataB);
+      const local = [].concat(u32(0x04034b50), u16(20), u16(0), u16(0), u16(0), u16(0), u32(crc), u32(dataB.length), u32(dataB.length), u16(nameB.length), u16(0), nameB, dataB);
+      const localOffset = offset; for (const b of local) out.push(b); offset += local.length;
+      central.push([].concat(u32(0x02014b50), u16(20), u16(20), u16(0), u16(0), u16(0), u16(0), u32(crc), u32(dataB.length), u32(dataB.length), u16(nameB.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(localOffset), nameB));
+    });
+    const centralStart = offset; let centralSize = 0;
+    central.forEach((c) => { for (const b of c) out.push(b); centralSize += c.length; offset += c.length; });
+    const end = [].concat(u32(0x06054b50), u16(0), u16(0), u16(files.length), u16(files.length), u32(centralSize), u32(centralStart), u16(0));
+    for (const b of end) out.push(b);
+    return new Uint8Array(out);
+  }
+
+  doExport(kind, sel) {
+    const slug = this.slugFor(sel);
+    if (kind === "csv") { this.download(slug + "_bets.csv", "text/csv", this.csvFor(sel)); return; }
+    if (kind === "pdf") { this.download(slug + "_evidence.pdf", "application/pdf", this.buildPdf(this.dossierLines(sel))); return; }
+    if (kind === "referral") {
+      const files = [
+        { name: "cover_memo.txt", data: this.coverMemo(sel) },
+        { name: "evidence_file.pdf", data: this.buildPdf(this.dossierLines(sel)) },
+        { name: "methodology_appendix.txt", data: this.methodologyText() },
+        { name: "bet_list.csv", data: this.csvFor(sel) },
+        { name: "onchain_source_index.txt", data: this.onchainIndex(sel) },
+      ];
+      this.download(slug + "_referral_packet.zip", "application/zip", this.buildZip(files));
+    }
+  }
+
+  openModal(kind) {
+    const eyebrow = { pdf: "DOWNLOAD EVIDENCE FILE · PDF", csv: "DOWNLOAD BET LIST · SPREADSHEET", referral: "BUILD REFERRAL PACKET" }[kind];
+    this.setState({ modal: { open: true, kind, eyebrow } });
+  }
+
+  copyPermalink() { this.setState({ permalinkCopied: true }); setTimeout(() => this.setState({ permalinkCopied: false }), 1800); }
+  toggleCat(name) { const cats = this.state.cats.includes(name) ? this.state.cats.filter((c) => c !== name) : [...this.state.cats, name]; this.setState({ cats }); }
+  sortLedger(k) { if (this.state.ledgerSort === k) this.setState({ ledgerDir: this.state.ledgerDir * -1 }); else this.setState({ ledgerSort: k, ledgerDir: 1 }); }
+  clearAllFilters() { this.setState({ type: "all", tier: "all", cats: [], timeWindow: "all", customFrom: "", customTo: "", minImprob: 0, minProfit: 0, sig: { conceal: false, fresh: false, cluster: false, held: false }, search: "" }); }
+  fmtMoney(n) { return n >= 1e6 ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : "$" + Math.round(n / 1e3) + "K"; }
+  fmtInt(n) { return n.toLocaleString("en-US"); }
+  fmtBig(n) {
+    if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
+    if (n >= 1e3) return (n / 1e3).toFixed(n >= 1e4 ? 0 : 1).replace(/\.0$/, "") + "K";
+    return Math.round(n).toLocaleString("en-US");
+  }
+}
+</script>
+</body>
+</html>
