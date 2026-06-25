@@ -160,20 +160,13 @@ async function enrichMarket(cond) {
  * the biggest single-step move as a z-score against the series' own volatility
  * — the lightweight "rolling z-score" multi-scale shock the event-aligned model
  * calls for. Returns true before/after prices and the move's timestamp too. */
-async function priceHistory(tokenId) {
-  if (!tokenId) return null;
-  const d = await getJSON(
-    "https://clob.polymarket.com/prices-history?market=" + encodeURIComponent(tokenId) + "&interval=1w&fidelity=60",
-    { timeout: 6000 }
-  ).catch(() => null);
-  const hist = d && (d.history || d.data || (Array.isArray(d) ? d : null));
-  if (!Array.isArray(hist) || hist.length < 6) return null;
-  const pts = hist.map((x) => ({ t: num(x.t || x.timestamp), p: num(x.p || x.price) }))
-    .filter((x) => x.p > 0 && x.p < 1 && x.t > 0);
+// Shared: a price series [{t (unix s), p (0..1)}] -> the biggest single-step
+// move as a z-score against the series' own volatility, read in log-odds.
+function logitShockFromSeries(pts) {
+  if (!Array.isArray(pts)) return null;
+  pts = pts.filter((x) => x && x.p > 0 && x.p < 1 && x.t > 0);
   if (pts.length < 6) return null;
-  // clamp to [0.03,0.97] before log-odds: near 0/1 a one-tick wiggle would
-  // otherwise explode into a huge (fake) logit move on deep-longshot markets.
-  const clp = (p) => clip(p, 0.03, 0.97);
+  const clp = (p) => clip(p, 0.03, 0.97);   // near 0/1 a one-tick wiggle would otherwise explode the logit
   const lg = pts.map((x) => Math.log(clp(x.p) / (1 - clp(x.p))));
   const r = []; for (let i = 1; i < lg.length; i++) r.push(lg[i] - lg[i - 1]);
   if (r.length < 4) return null;
@@ -191,6 +184,35 @@ async function priceHistory(tokenId) {
     windowH: Math.max(1, Math.round((pts[bi + 1].t - pts[bi].t) / 3600)),
     moveMs: pts[bi + 1].t * 1000,
   };
+}
+async function priceHistory(tokenId) {
+  if (!tokenId) return null;
+  const d = await getJSON(
+    "https://clob.polymarket.com/prices-history?market=" + encodeURIComponent(tokenId) + "&interval=1w&fidelity=60",
+    { timeout: 6000 }
+  ).catch(() => null);
+  const hist = d && (d.history || d.data || (Array.isArray(d) ? d : null));
+  if (!Array.isArray(hist)) return null;
+  return logitShockFromSeries(hist.map((x) => ({ t: num(x.t || x.timestamp), p: num(x.p || x.price) })));
+}
+// Kalshi price anomaly from authenticated candlesticks (prices in cents or dollars).
+async function kalshiCandles(series, ticker) {
+  if (!series || !ticker) return null;
+  const end = Math.floor(Date.now() / 1000), start = end - 7 * 86400;
+  const path = "/trade-api/v2/series/" + series + "/markets/" + ticker + "/candlesticks";
+  const d = await getJSON(
+    "https://api.elections.kalshi.com" + path + "?start_ts=" + start + "&end_ts=" + end + "&period_interval=60",
+    { headers: kalshiHeaders("GET", path), timeout: 6000 }
+  ).catch(() => null);
+  const cs = d && (d.candlesticks || d.data);
+  if (!Array.isArray(cs)) return null;
+  const pts = cs.map((c) => {
+    let raw = c.price && (c.price.mean != null ? c.price.mean : c.price.close);
+    if (raw == null) raw = c.yes_bid != null ? c.yes_bid : (c.close != null ? c.close : c.mean);
+    let p = num(raw); if (p > 1) p = p / 100;   // cents -> probability
+    return { t: num(c.end_period_ts || c.ts || c.end_ts), p };
+  });
+  return logitShockFromSeries(pts);
 }
 
 /* ------------------------------------------------ public-news explanation (E)
@@ -253,8 +275,8 @@ async function polymarket() {
     const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
     const q = (m.question || m.title || m.slug || "Market").toString().slice(0, 90);
     const tp = topic(q);
-    if (!INSIDER_TOPICS.has(tp)) return;          // skip sports / crypto-price / other
-    if (vol < 50000) return;                       // needs real money behind it
+    if (tp === "cryptoprice") return;             // pure price-level markets are noise, not insider signals
+    if (vol < 75000) return;                       // real money behind it — every category is in scope
     const cond = m.conditionId || null;
     // YES CLOB token id (for price history) + title (for news), keyed by market
     if (cond && !condMeta[cond]) {
@@ -277,7 +299,7 @@ async function polymarket() {
         id: "pm-move-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
         detector: "lead", sev: Math.abs(ch) >= 0.30 ? "high" : "med",
         metric: (ch >= 0 ? "+" : "") + Math.round(ch * 100) + "c in 24h  ($" + Math.round(vol / 1000) + "k vol)  [" + tp + "]",
-        metrics: { pBefore: pB, pAfter: pA, windowH: 24, volUsd: Math.round(vol), liqUsd: liq ? Math.round(liq) : null, volRatio: liq ? +(vol / liq).toFixed(1) : null },
+        metrics: { category: tp, pBefore: pB, pAfter: pA, windowH: 24, volUsd: Math.round(vol), liqUsd: liq ? Math.round(liq) : null, volRatio: liq ? +(vol / liq).toFixed(1) : null },
       }) });
     }
     // Volume-to-liquidity spike on a thin niche book.
@@ -288,7 +310,7 @@ async function polymarket() {
           id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
           detector: "vol_liq", sev: (ratio >= 15 || (vol >= 400000 && liq < 30000)) ? "high" : "med",
           metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k / $" + Math.round(liq / 1000) + "k)  [" + tp + "]",
-          metrics: { volUsd: Math.round(vol), liqUsd: Math.round(liq), volRatio: +ratio.toFixed(1) },
+          metrics: { category: tp, volUsd: Math.round(vol), liqUsd: Math.round(liq), volRatio: +ratio.toFixed(1) },
         }) });
       }
     }
@@ -301,7 +323,7 @@ async function polymarket() {
     const usd = num(t.size) * num(t.price);
     const title = (t.title || t.eventSlug || t.slug || "Market").toString().slice(0, 90);
     const tp = topic(title);
-    if (usd >= 10000 && INSIDER_TOPICS.has(tp)) {
+    if (usd >= 12000 && tp !== "cryptoprice") {
       const key = title + "|" + (t.side || "");
       if (!whales[key] || usd > whales[key].usd) {
         whales[key] = { usd, title, tp, side: t.side, hash: t.transactionHash || i, cond: t.conditionId || null };
@@ -312,7 +334,7 @@ async function polymarket() {
     id: "pm-whale-" + w.hash, ts: hhmm(), platform: "polymarket", market: w.title,
     detector: "vacuum", sev: w.usd >= 50000 ? "high" : "med",
     metric: "$" + Math.round(w.usd / 1000) + "k fill" + (w.side ? " (" + String(w.side).toLowerCase() + ")" : "") + "  [" + w.tp + "]",
-    metrics: { volUsd: Math.round(w.usd) },
+    metrics: { category: w.tp, volUsd: Math.round(w.usd) },
   }) }));
 
   // ---- enrichment on the flagged markets (cap 6, high-severity first) ----
@@ -360,12 +382,8 @@ function kalshiHeaders(method, path) {
   } catch (_) { return {}; }
 }
 async function kalshi() {
-  const alerts = [];
   const base = "https://api.elections.kalshi.com";
-  // Kalshi can't sort markets by activity, so page through events in the
-  // insider-relevant categories, collect every nested market, then rank by
-  // 24h volume ourselves and surface the most active.
-  const CATS = /econom|politic|world|financ|elect|climate|company|companies|social/i;
+  // Page through open events across EVERY category, collect nested markets.
   const collected = [];
   let cursor = null, pages = 0;
   do {
@@ -373,35 +391,45 @@ async function kalshi() {
     const d = await getJSON(url, { headers: kalshiHeaders("GET", "/trade-api/v2/events") }).catch(() => null);
     if (!d) break;
     (d.events || d.data || []).forEach((ev) => {
-      const cat = String(ev.category || "");
-      if (!CATS.test(cat)) return;
+      const cat = String(ev.category || "Other");
+      if (/crypto/i.test(cat)) return;           // pure price-level noise, no insider angle
+      const series = ev.series_ticker || "";
       const evTitle = String(ev.title || ev.sub_title || "");
       (ev.markets || []).forEach((m) => {
         const vol = num(m.volume_24h_fp || m.volume_24h);
-        if (vol < 200) return;
-        collected.push({ vol, oi: num(m.open_interest_fp || m.open_interest), ticker: m.ticker, cat, title: (evTitle || m.title || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 90) });
+        const oi = num(m.open_interest_fp || m.open_interest);
+        if (vol < 1000 || oi < 200) return;      // real activity + a standing book
+        collected.push({ vol, oi, ratio: vol / oi, ticker: m.ticker, series, cat,
+          title: (evTitle || m.title || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 100) });
       });
     });
     cursor = d.cursor; pages++;
-  } while (cursor && pages < 3);
+  } while (cursor && pages < 4);
 
-  // Flag on CHURN (24h volume relative to standing open interest), not raw
-  // volume — a popular market with huge OI and modest daily turnover is calm,
-  // not suspicious. A high vol/OI ratio is the unusual-burst signal.
-  collected.forEach((m, i) => {
-    if (m.oi <= 0 || m.vol < 1000) return;     // need standing positions + real activity
-    const ratio = m.vol / m.oi;
-    if (ratio < 1.5) return;                    // only genuine churn spikes
-    const sev = ratio >= 3 ? "high" : "med";
-    alerts.push(alert({
+  // Rank by churn (24h volume / standing open interest) across all categories;
+  // enrich the top movers with a real price-history shock σ (candlesticks) and
+  // a public-news check, the same event-aligned signals as Polymarket.
+  const top = collected.filter((m) => m.ratio >= 1.3).sort((a, b) => b.ratio - a.ratio).slice(0, 12);
+  await Promise.all(top.map(async (m) => {
+    try {
+      const cd = await kalshiCandles(m.series, m.ticker).catch(() => null);
+      const nw = await newsCheck(newsQuery(m.title), cd && cd.moveMs).catch(() => null);
+      m._cd = cd; m._nw = nw;
+    } catch (_) {}
+  }));
+
+  return top.map((m, i) => {
+    const sev = m.ratio >= 3 ? "high" : "med";
+    const metrics = { category: m.cat, contracts: Math.round(m.vol), oi: Math.round(m.oi), volRatio: +m.ratio.toFixed(1) };
+    if (m._cd) { metrics.shockSigma = m._cd.shockSigma; metrics.pBefore = m._cd.pBefore; metrics.pAfter = m._cd.pAfter; metrics.windowH = m._cd.windowH; }
+    if (m._nw) { metrics.explained = m._nw.explained; metrics.catalyst = m._nw.catalyst || null; metrics.leadH = m._nw.leadH != null ? m._nw.leadH : null; metrics.headline = m._nw.headline || null; metrics.newsSource = m._nw.source || null; }
+    return alert({
       id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: m.title,
       detector: "vol_liq", sev,
-      metric: "vol/OI " + ratio.toFixed(1) + "x  (" + Math.round(m.vol).toLocaleString() + " / " + Math.round(m.oi).toLocaleString() + " contracts)  [" + m.cat + "]",
-      metrics: { contracts: Math.round(m.vol), oi: Math.round(m.oi), volRatio: +ratio.toFixed(1) },
-    }));
+      metric: "vol/OI " + m.ratio.toFixed(1) + "x  (" + Math.round(m.vol).toLocaleString() + " / " + Math.round(m.oi).toLocaleString() + " contracts)  [" + m.cat + "]",
+      metrics,
+    });
   });
-  alerts.sort((a, b) => (b.sev === "high" ? 1 : 0) - (a.sev === "high" ? 1 : 0));
-  return alerts.slice(0, 15);
 }
 
 /* ------------------------------------------------------------------ debug -- */
@@ -466,9 +494,12 @@ module.exports = async (req, res) => {
   }
 
   const sources = { polymarket: "ok", kalshi: process.env.KALSHI_KEY_ID ? "ok(auth)" : "ok(public)" };
-  let pm = [], k = [];
-  try { pm = await polymarket(); } catch (e) { sources.polymarket = "error: " + e.message; }
-  try { k = await kalshi(); } catch (e) { sources.kalshi = "error: " + e.message; }
+  // Run both collectors in parallel so the added price-history + news fetches
+  // stay inside the function's time budget.
+  const [pm, k] = await Promise.all([
+    polymarket().catch((e) => { sources.polymarket = "error: " + e.message; return []; }),
+    kalshi().catch((e) => { sources.kalshi = "error: " + e.message; return []; }),
+  ]);
 
   const alerts = [...k, ...pm].sort((a, b) => (a.sev === b.sev ? 0 : a.sev === "high" ? -1 : 1));
   const enriched = alerts.filter((a) => a.signals && a.signals.computed).length;
