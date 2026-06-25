@@ -58,9 +58,17 @@
     <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #949C98; text-align: right;">Observed <span style="color: #ECEFED;">{{ corpus.observed }}</span> wallets · <span style="color: #FBBF24;">{{ corpus.flagged }}</span> flagged<br><span style="color: #5C6661;">{{ corpus.asOf }}</span></div>
       <span title="{{ snapshotTitle }}" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #A78BFA; border: 1px solid rgba(167,139,250,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(167,139,250,0.07); box-shadow: 0 0 18px -6px rgba(167,139,250,0.4);">{{ snapshotLabel }}</span>
-      <div style="display: flex; align-items: center; gap: 9px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 10px; padding: 10px 13px; min-width: 230px; box-shadow: inset 0 0 16px -8px rgba(52,211,153,0.18);">
-        <span style="color: #5C6661; font-size: 13px;">⌕</span>
-        <input value="{{ search }}" onInput="{{ onSearch }}" placeholder="Search a wallet, person, or market" style="background: transparent; border: none; outline: none; color: #ECEFED; font-family: 'JetBrains Mono', monospace; font-size: 12px; width: 100%;" />
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="display: flex; align-items: center; gap: 9px; background: #0E1512; border: 1px solid {{ searchBorder }}; border-radius: 10px; padding: 10px 13px; min-width: 280px; box-shadow: inset 0 0 16px -8px rgba(52,211,153,0.18);">
+          <span style="color: #5C6661; font-size: 13px;">⌕</span>
+          <input value="{{ search }}" onInput="{{ onSearch }}" onKeyDown="{{ onSearchKey }}" placeholder="Paste a 0x wallet to score it, or filter the list" style="background: transparent; border: none; outline: none; color: #ECEFED; font-family: 'JetBrains Mono', monospace; font-size: 12px; width: 100%;" />
+          <sc-if value="{{ isAddressQuery }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ runLookup }}" style="flex-shrink:0; background:#34D399; color:#06120D; border:none; border-radius:7px; padding:5px 10px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:0.05em; cursor:pointer;">SCORE ↵</button>
+          </sc-if>
+        </div>
+        <sc-if value="{{ isAddressQuery }}" hint-placeholder-val="{{ false }}">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:#6B756F; padding-left:2px;">press Score to run the full engine on this wallet live</div>
+        </sc-if>
       </div>
     </div>
   </div>
@@ -463,6 +471,19 @@
 
   </div>
 
+  <!-- SCORE-ANY-WALLET LOOKUP -->
+  <sc-if value="{{ lookup.open }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLookup }}" style="position: fixed; inset: 0; background: rgba(5,8,7,0.82); backdrop-filter: blur(4px); z-index: 50; display: flex; align-items: flex-start; justify-content: center; padding: 40px 24px; overflow-y: auto; animation: wf-fadeup 0.2s ease;">
+      <div onClick="{{ stop }}" class="wf-scroll" style="background: #0E1512; border: 1px solid #1F2A25; border-radius: 16px; max-width: 640px; width: 100%; box-shadow: 0 30px 70px -30px rgba(0,0,0,0.8);">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #1B2521;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #34D399;">SCORE ANY WALLET · LIVE</div>
+          <button onClick="{{ closeLookup }}" style="background: transparent; border: none; color: #949C98; font-size: 18px; cursor: pointer; line-height: 1;">✕</button>
+        </div>
+        <div style="padding: 20px;">{{ lookupBody }}</div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- ACTION MODAL -->
   <sc-if value="{{ modal.open }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ act.close }}" style="position: fixed; inset: 0; background: rgba(5,8,7,0.82); backdrop-filter: blur(4px); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 24px; animation: wf-fadeup 0.2s ease;">
@@ -517,6 +538,7 @@ class Component extends DCLogic {
       showCandidates: false,
       saved: {},
       modal: { open: false },
+      lookup: { open: false, loading: false, error: null, data: null, addr: "" },
       permalinkCopied: false,
       heroProg: 0,
       corpusProg: 0,
@@ -570,6 +592,72 @@ class Component extends DCLogic {
     };
     const first = this.subjects[0];
     this.setState({ selectedId: first ? first.id : null, measure: {}, hoverEdge: null, _v: (this.state._v || 0) + 1 });
+  }
+
+  // ---------- SCORE ANY WALLET (live lookup) ----------
+  isAddr(s) { return /^0x[0-9a-fA-F]{40}$/.test(String(s || "").trim()); }
+
+  onSearchKey(e) {
+    if (e.key === "Enter" && this.isAddr(this.state.search)) { e.preventDefault(); this.runLookup(); }
+  }
+
+  runLookup() {
+    const addr = String(this.state.search || "").trim().toLowerCase();
+    if (!this.isAddr(addr)) return;
+    this.setState({ lookup: { open: true, loading: true, error: null, data: null, addr } });
+    if (typeof fetch !== "function") return;
+    fetch("/api/forensics/diagnose?user=" + encodeURIComponent(addr), { cache: "no-store" })
+      .then((r) => (r && r.ok ? r.json() : Promise.reject(new Error("request failed"))))
+      .then((data) => this.setState({ lookup: { open: true, loading: false, error: null, data, addr } }))
+      .catch((err) => this.setState({ lookup: { open: true, loading: false, error: String(err && err.message || err), data: null, addr } }));
+  }
+
+  closeLookup() { this.setState({ lookup: { open: false, loading: false, error: null, data: null, addr: "" } }); }
+
+  lookupTierColor(t) { return ({ extreme: "#F87171", high: "#FBBF24", notable: "#94A3B8" })[t] || "#6B756F"; }
+
+  lookupNode() {
+    const h = this.h, lk = this.state.lookup;
+    if (!lk.open) return null;
+    const short = (a) => (a && a.length > 12 ? a.slice(0, 6) + "…" + a.slice(-4) : a);
+    const mono = "'JetBrains Mono', monospace";
+    if (lk.loading) return h("div", { style: { padding: "30px", textAlign: "center", color: "#949C98", fontFamily: mono, fontSize: "13px" } }, "Pulling " + short(lk.addr) + "'s full trade history and scoring…");
+    if (lk.error || !lk.data) return h("div", { style: { padding: "24px", color: "#F87171", fontFamily: mono, fontSize: "12.5px" } }, "Lookup failed: " + (lk.error || "no data") + ". The wallet may have no resolved bets, or the API was unreachable.");
+    const d = lk.data;
+    const det = d.detectors || {}, fz = d.fused || {}, src = d.sources || {};
+    const tier = fz.tier || "unflagged";
+    const tc = this.lookupTierColor(tier);
+    const flagged = tier !== "unflagged";
+    const won = det.won || {};
+    const row = (label, val, color) => h("div", { style: { display: "flex", flexDirection: "column", gap: "3px" } },
+      h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.1em", color: "#6B756F" } }, label),
+      h("div", { style: { fontFamily: mono, fontSize: "15px", fontWeight: 600, color: color || "#ECEFED" } }, val));
+    const fired = (fz.fired || []);
+    const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", conceal: "concealment", cluster: "group" };
+    return h("div", null,
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" } },
+        h("div", { style: { fontFamily: mono, fontSize: "13px", color: "#ECEFED" } }, short(d.user)),
+        h("span", { style: { fontFamily: mono, fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: tc, border: "1px solid " + tc + "66", background: tc + "14", borderRadius: "999px", padding: "4px 11px" } }, flagged ? tier.toUpperCase() : "NOT FLAGGED")),
+      h("p", { style: { fontSize: "14px", lineHeight: 1.6, color: "#D7DCD9", margin: "14px 0 16px" } }, d.verdict || ""),
+      won.hasData === false
+        ? h("div", { style: { fontFamily: mono, fontSize: "12px", color: "#949C98", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "13px" } }, "Reason: " + (won.reason || "fewer than 5 resolved long-shot bets") + ".")
+        : h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(110px,1fr))", gap: "14px", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "15px 16px" } },
+            row("CHANCE BY LUCK", won.improbText || "—", tc),
+            row("LONG-SHOT WINS", (won.k != null ? won.k + " / " + won.n : "—")),
+            row("WIN RATE", won.winRate || "—"),
+            row("AVG ODDS", (won.p != null ? Math.round(won.p * 100) + "%" : "—")),
+            row("DETECTORS", String((fz.agreeing != null ? fz.agreeing : fired.length)))),
+      fired.length ? h("div", { style: { display: "flex", flexWrap: "wrap", gap: "7px", marginTop: "13px" } },
+        fired.map((k, i) => h("span", { key: i, style: { fontFamily: mono, fontSize: "10px", color: "#34D399", border: "1px solid rgba(52,211,153,0.35)", background: "rgba(52,211,153,0.08)", borderRadius: "999px", padding: "3px 9px" } }, "✓ " + (nameMap[k] || k)))) : null,
+      (d.sampleBets && d.sampleBets.length) ? h("div", { style: { marginTop: "16px" } },
+        h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#6B756F", marginBottom: "8px" } }, "SAMPLE LONG-SHOT BETS (" + d.longShotBets + " total)"),
+        h("div", { style: { display: "flex", flexDirection: "column", gap: "4px" } },
+          d.sampleBets.map((b, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: "10px", fontFamily: mono, fontSize: "11px", color: "#C4CAC6", padding: "6px 0", borderBottom: "1px solid #141C18" } },
+            h("span", { style: { color: "#949C98", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%" } }, b.market),
+            h("span", null, b.entryOdds + " · " + b.stake + " · "),
+            h("span", { style: { color: b.won ? "#34D399" : "#F87171", fontWeight: 600 } }, b.won ? "Won" : "Lost"))))) : null,
+      h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#5C6661", marginTop: "16px", lineHeight: 1.6 } },
+        "data: " + (src.trades || 0) + " trades · " + (src.tradesResolvable || 0) + " resolvable (" + (src.resolvedOnDemand || 0) + " resolved on-demand, " + (src.catalogSize || 0) + " in catalog) · pattern consistent with informed trading, not proof"));
   }
 
   componentWillUnmount() { if (this._onResize) window.removeEventListener("resize", this._onResize); }
@@ -785,6 +873,10 @@ class Component extends DCLogic {
       snapshotTitle: "Retrospective snapshot — not live. Recomputed " + (this.meta.recomputed || "—") + ".",
       showAmbient: this.props.ambientGlow !== false,
       search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
+      isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
+      onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),
+      lookup: st.lookup, lookupBody: this.lookupNode(), closeLookup: () => this.closeLookup(),
+      stop: (e) => e.stopPropagation(),
       corpus: {
         observed: this.fmtInt(this.meta.observed || 0),
         wallets: this.fmtInt(this.meta.reviewed || 0), flagged: 0,
@@ -1179,6 +1271,9 @@ class Component extends DCLogic {
       corpus,
       hasSubjects: true, emptyState: false,
       isSample: this.isSample, notSample: !this.isSample,
+      isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
+      onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),
+      lookup: st.lookup, lookupBody: this.lookupNode(), closeLookup: () => this.closeLookup(),
       snapshotLabel: this.meta.block ? ("data as of block " + this.meta.block) : ("data as of " + (this.meta.snapshot || "—")),
       snapshotTitle: "Retrospective snapshot — not live. Block " + (this.meta.block || "—") + " · " + (this.meta.snapshot || "—") + ". Recomputed " + (this.meta.recomputed || "—") + ".",
       search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),

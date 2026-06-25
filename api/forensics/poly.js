@@ -157,6 +157,33 @@ async function tradesForMarket(cond, opts) {
   return trades;
 }
 
+// On-demand resolution: given conditionIds, return a catalog {cond:{w,q,s,c,r}}
+// for the ones that are settled binary markets. Lets the "score any wallet"
+// lookup resolve a wallet's markets live, without waiting for the scan catalog.
+async function marketsByConds(conds, opts) {
+  const o = Object.assign({ chunk: 20, maxConds: 240, pageDelayMs: 60 }, opts);
+  const out = {};
+  const list = (conds || []).filter(Boolean).slice(0, o.maxConds);
+  for (let i = 0; i < list.length; i += o.chunk) {
+    const slice = list.slice(i, i + o.chunk);
+    const qs = slice.map((c) => "condition_ids=" + encodeURIComponent(c)).join("&");
+    const d = await getJSON(GAMMA + "/markets?" + qs + "&limit=" + o.chunk, { timeout: 9000 }).catch(() => null);
+    const arr = Array.isArray(d) ? d : (d && (d.data || d.markets)) || [];
+    for (const m of arr) {
+      const cond = m.conditionId || m.condition_id; if (!cond) continue;
+      if (!isBinary(m.outcomes)) continue;
+      const winner = resolvedWinner(m); if (winner == null) continue;
+      const closed = m.closed === true || (m.endDate && Date.parse(m.endDate) < Date.now());
+      if (!closed) continue;
+      const q = String(m.question || m.groupItemTitle || "").trim();
+      const r = Math.round((Date.parse(m.closedTime || m.endDate || 0) || 0) / 1000) || null;
+      out[cond] = { w: winner, q, s: m.slug || "", c: category([], q) || categoryFallback(q), r };
+    }
+    await sleep(o.pageDelayMs);
+  }
+  return out;
+}
+
 // EVERY trade a wallet ever made (same row shape as tradesForMarket, by user).
 // This is the complete, authoritative history — joined to the resolved-market
 // catalog it yields the wallet's whole long-shot record in one pass.
@@ -339,6 +366,6 @@ function aggregateMarket(market, trades) {
 
 module.exports = {
   getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket,
-  userPositions, positionToBet, userTrades, buildUserRecord, category, resolvedWinner, isBinary, tradeOutcome,
+  userPositions, positionToBet, userTrades, buildUserRecord, marketsByConds, category, resolvedWinner, isBinary, tradeOutcome,
   GAMMA, DATA, CLOB,
 };
