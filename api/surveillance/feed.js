@@ -127,13 +127,13 @@ async function enrichMarket(cond) {
   } while (trades.length < 1000 && pages < 2);
   if (trades.length < 25) return null;
 
-  // BUY USDC per wallet (aggregate fills -> one figure per wallet)
-  const buyByWallet = {};
+  // BUY and SELL USDC per wallet (aggregate fills -> one figure per wallet)
+  const buyByWallet = {}; let totalBuy = 0, totalSell = 0;
   trades.forEach((t) => {
     const w = t.proxyWallet; if (!w) return;
-    if (String(t.side || "").toUpperCase() === "SELL") return;
     const usd = num(t.size) * num(t.price); if (!usd) return;
-    buyByWallet[w] = (buyByWallet[w] || 0) + usd;
+    if (String(t.side || "").toUpperCase() === "SELL") { totalSell += usd; return; }
+    buyByWallet[w] = (buyByWallet[w] || 0) + usd; totalBuy += usd;
   });
   const wallets = Object.keys(buyByWallet);
   const buys = wallets.map((w) => buyByWallet[w]).filter((v) => v > 0);
@@ -147,11 +147,17 @@ async function enrichMarket(cond) {
 
   const recentZ = clamp((bestBuy - st.mean) / st.sd, 0, 20);   // windowed cross-sectional z
   const topShare = total > 0 ? clamp(bestBuy / total, 0, 1) : 0;
+  // VPIN-style order-flow imbalance: |buy-sell| / (buy+sell) over the window
+  const flow = totalBuy + totalSell;
+  const imbalance = flow > 0 ? clamp(Math.abs(totalBuy - totalSell) / flow, 0, 1) : 0;
+  // Herfindahl concentration of buying across wallets (1 = one wallet, ~0 = diffuse)
+  const herfindahl = total > 0 ? clamp(buys.reduce((a, b) => a + (b / total) * (b / total), 0), 0, 1) : 0;
   return {
     computed: true, windowed: true, nTrades: trades.length, nWallets: buys.length,
     wallet: best.slice(0, 6) + "…" + best.slice(-4),
     topBuyUsd: Math.round(bestBuy),
     recentZ: +recentZ.toFixed(2), topShare: +topShare.toFixed(3),
+    imbalance: +imbalance.toFixed(3), herfindahl: +herfindahl.toFixed(3),
   };
 }
 

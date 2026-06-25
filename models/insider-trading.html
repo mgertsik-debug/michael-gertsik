@@ -138,106 +138,119 @@
 
         <!-- ============ TAB 2: SURVEILLANCE ============ -->
         <sc-if value="{{ isSurv }}" hint-placeholder-val="{{ false }}">
-          <div style="max-width:760px;margin:0 auto">
-            <!-- live header -->
-            <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-bottom:6px">
-              <span style="width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:blink 2s ease-in-out infinite"></span>
-              <span style="font-family:'JetBrains Mono', monospace;font-size:12px;font-weight:600;letter-spacing:.06em;color:#E5E7EB">LIVE SURVEILLANCE</span>
-              <span style="font-size:12px;color:#6b7772">scanning Kalshi + Polymarket · {{ surv.agoTxt }}</span>
-            </div>
-            <div style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:16px">
-              <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'JetBrains Mono', monospace;font-size:26px;font-weight:700;color:#E5E7EB;line-height:1">{{ surv.activeCount }}</span><span style="font-size:12px;color:#8A938F">markets flagged</span></div>
-              <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'JetBrains Mono', monospace;font-size:26px;font-weight:700;color:#F87171;line-height:1">{{ surv.unexpCount }}</span><span style="font-size:12px;color:#8A938F">unexplained</span></div>
-            </div>
-            <p style="margin:0 0 16px;font-size:12.5px;line-height:1.6;color:#8A938F;max-width:70ch">Every market on both venues is scored for one thing: a sharp probability move that public news can&rsquo;t explain. Highest-suspicion first. Tap any card for the breakdown.</p>
-
-            <!-- filter pills -->
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-              <sc-for list="{{ surv.chips }}" as="ch" hint-placeholder-count="4">
-                <button type="button" aria-pressed="{{ ch.active }}" style="{{ ch.style }}" onClick="{{ ch.onClick }}">{{ ch.label }}</button>
-              </sc-for>
+          <div>
+            <!-- status strip -->
+            <div data-statbar style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:11px 16px;border-radius:11px;border:1px solid #1B2521;background:#0F1513;margin-bottom:18px">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 8px #34D399;animation:blink 2.2s ease-in-out infinite"></span>
+                <span style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#E5E7EB;letter-spacing:.04em">{{ surv.clock }}</span>
+                <span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F">UTC</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#E5E7EB">{{ surv.activeCount }}</span><span style="font-size:11px;color:#8A938F">active signals</span></div>
+                <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#F87171">{{ surv.highCount }}</span><span style="font-size:11px;color:#8A938F">high-signal</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;margin-left:auto">
+                <span style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#8A938F">Kalshi &middot; Polymarket</span>
+                <span style="{{ surv.feedStyle }}">{{ surv.feedLabel }}</span>
+              </div>
             </div>
 
-            <!-- empty state -->
-            <sc-if value="{{ surv.empty }}" hint-placeholder-val="{{ false }}">
-              <div style="padding:40px 20px;text-align:center;border:1px dashed #1B2521;border-radius:13px;color:#6b7772;font-size:13px">No markets match this filter right now.</div>
-            </sc-if>
+            <!-- two zones -->
+            <div data-twozone style="display:grid;grid-template-columns:38% 1fr;gap:22px;align-items:start">
 
-            <!-- feed -->
-            <div style="display:flex;flex-direction:column;gap:11px">
-              <sc-for list="{{ surv.feed }}" as="c" hint-placeholder-count="8">
-                <div role="button" tabindex="0" aria-expanded="{{ c.open }}" style="{{ c.cardStyle }}" onClick="{{ c.onToggle }}" onKeyDown="{{ c.onKey }}">
-                  <!-- card head -->
-                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
-                    <div style="min-width:0">
-                      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:{{ c.platDot }}"></span><span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#9CA3AF">{{ c.platform }}</span></span>
-                        <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.06em;color:#6b7772;text-transform:uppercase">{{ c.category }}</span>
-                      </div>
-                      <div style="font-size:15.5px;font-weight:600;color:#E5E7EB;line-height:1.32">{{ c.market }}</div>
-                    </div>
-                    <div style="text-align:right;flex-shrink:0">
-                      <div style="font-family:'JetBrains Mono', monospace;font-size:26px;font-weight:700;line-height:1;color:{{ c.scoreColor }}">{{ c.scoreNum }}</div>
-                      <div style="font-family:'JetBrains Mono', monospace;font-size:8px;letter-spacing:.1em;color:#6b7772;margin-top:2px">/100</div>
-                    </div>
-                  </div>
-                  <!-- meter -->
-                  <div style="margin-top:12px;height:4px;border-radius:3px;background:#11201b;overflow:hidden"><div style="{{ c.meterStyle }}"></div></div>
-                  <!-- verdict + reason -->
-                  <div style="display:flex;align-items:center;gap:10px;margin-top:11px">
-                    <span style="{{ c.labelChipStyle }}">{{ c.label }}</span>
-                    <span style="font-size:12.5px;color:#9CA3AF;line-height:1.45;min-width:0">{{ c.reason }}</span>
-                    <span style="margin-left:auto;font-family:'JetBrains Mono', monospace;font-size:11px;color:#6b7772;flex-shrink:0">{{ c.caret }}</span>
-                  </div>
-
-                  <!-- expanded -->
-                  <sc-if value="{{ c.open }}" hint-placeholder-val="{{ false }}">
-                    <div style="margin-top:18px;padding-top:16px;border-top:1px solid #1B2521">
-                      <div style="background:#0A0E0D;border:1px solid #1B2521;border-radius:10px;padding:18px 12px 6px;margin-bottom:18px">{{ c.chartEl }}</div>
-                      <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:16px">
-                        <sc-for list="{{ c.factors }}" as="f" hint-placeholder-count="4">
-                          <div style="display:flex;gap:11px;align-items:flex-start">
-                            <span style="{{ f.signStyle }}">{{ f.sign }}</span>
-                            <div style="min-width:0">
-                              <div style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.08em;color:#8A938F;margin-bottom:3px">{{ f.label }}</div>
-                              <div style="font-size:12.5px;line-height:1.55;color:#cdd3d0">{{ f.text }}</div>
-                            </div>
-                          </div>
-                        </sc-for>
-                      </div>
-                      <sc-if value="{{ c.hasOnchain }}" hint-placeholder-val="{{ false }}">
-                        <div style="margin-bottom:16px;padding:10px 12px;border-radius:9px;background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.25);display:flex;gap:9px;align-items:flex-start">
-                          <span style="font-family:'JetBrains Mono', monospace;font-size:8.5px;letter-spacing:.1em;color:#34D399;flex-shrink:0;padding-top:2px">ON-CHAIN</span>
-                          <span style="font-size:11.5px;color:#9CA3AF;line-height:1.55">{{ c.onchainLine }}</span>
-                        </div>
-                      </sc-if>
-                      <div style="padding:14px 16px;border-radius:10px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.28)">
-                        <div style="font-size:13.5px;font-weight:700;color:#FBBF24;margin-bottom:6px">Anomalous &ne; illegal</div>
-                        <p style="margin:0;font-size:12px;line-height:1.6;color:#9CA3AF">{{ c.gap }} A high score flags a market to look at, not a person — a violation still needs nonpublic information used in breach of a duty, and the trader is presumed innocent.</p>
-                      </div>
-                    </div>
-                  </sc-if>
+              <!-- ZONE 1 :: SIGNAL LIST -->
+              <div>
+                <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px">
+                  <sc-for list="{{ surv.chips }}" as="ch" hint-placeholder-count="4">
+                    <button type="button" aria-pressed="{{ ch.active }}" style="{{ ch.style }}" onClick="{{ ch.onClick }}">{{ ch.label }}</button>
+                  </sc-for>
                 </div>
-              </sc-for>
+                <sc-if value="{{ surv.empty }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:30px 16px;text-align:center;border:1px dashed #1B2521;border-radius:11px;color:#6b7772;font-size:12.5px">No signals match this filter.</div>
+                </sc-if>
+                <div data-scroll style="display:flex;flex-direction:column;gap:8px;max-height:680px;overflow-y:auto;padding-right:2px">
+                  <sc-for list="{{ surv.rows }}" as="r" hint-placeholder-count="8">
+                    <div role="button" tabindex="0" aria-pressed="{{ r.selected }}" aria-label="{{ r.aria }}" style="{{ r.rowStyle }}" onClick="{{ r.onSelect }}" onKeyDown="{{ r.onKey }}">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+                        <div style="min-width:0">
+                          <div style="font-size:14px;font-weight:600;color:#E5E7EB;line-height:1.3">{{ r.market }}</div>
+                          <div style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:#8A938F;margin-top:4px;line-height:1.4">{{ r.metric }}</div>
+                        </div>
+                        {{ r.sparkEl }}
+                      </div>
+                      <div style="display:flex;align-items:center;gap:9px;margin-top:9px">
+                        <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:#8A938F;padding:2px 7px;border-radius:5px;border:1px solid #1B2521">{{ r.platformLabel }}</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.sevColor }}"></span><span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:{{ r.sevColor }}">{{ r.sevLabel }}</span></span>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <!-- ZONE 2 :: INSPECTOR -->
+              <div data-zone="inspector" style="background:#0F1513;border:1px solid #1B2521;border-radius:13px;padding:26px 28px">
+                <!-- headline -->
+                <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap">
+                  <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:#8A938F;padding:2px 8px;border-radius:5px;border:1px solid #1B2521">{{ surv.sel.platformLabel }}</span>
+                  <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.06em;color:#6b7772;text-transform:uppercase">{{ surv.sel.category }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:5px;margin-left:auto"><span style="width:7px;height:7px;border-radius:50%;background:{{ surv.sel.sevColor }}"></span><span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.04em;color:{{ surv.sel.sevColor }}">{{ surv.sel.sevLine }}</span></span>
+                </div>
+                <h2 style="margin:0 0 13px;font-size:25px;font-weight:700;letter-spacing:-.01em;line-height:1.16;color:#E5E7EB">{{ surv.sel.market }}</h2>
+                <p style="margin:0 0 26px;font-size:15px;line-height:1.6;color:#cdd3d0;max-width:62ch">{{ surv.sel.plain }}</p>
+
+                <!-- chart -->
+                <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:10px">IMPLIED PROBABILITY OVER TIME</div>
+                <div style="background:#0A0E0D;border:1px solid #1B2521;border-radius:11px;padding:22px 16px 10px;margin-bottom:28px">{{ surv.sel.chartEl }}</div>
+
+                <!-- what the detector saw -->
+                <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:14px">WHAT THE DETECTOR SAW</div>
+                <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px">
+                  <sc-for list="{{ surv.sel.readings }}" as="rd" hint-placeholder-count="3">
+                    <div style="display:grid;grid-template-columns:170px 1fr;gap:16px;align-items:baseline">
+                      <span style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#34D399;line-height:1.4">{{ rd.m }}</span>
+                      <span style="font-size:13.5px;color:#cdd3d0;line-height:1.55">{{ rd.e }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <!-- why it's flagged -->
+                <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:11px">WHY IT'S FLAGGED</div>
+                <p style="margin:0 0 28px;font-size:14px;line-height:1.65;color:#cdd3d0;max-width:64ch">{{ surv.sel.why }}</p>
+
+                <!-- legal gap -->
+                <div style="padding:19px 22px;border-radius:12px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.3)">
+                  <div style="font-size:16px;font-weight:700;color:#FBBF24;margin-bottom:9px;letter-spacing:-.01em">Anomalous &ne; illegal</div>
+                  <p style="margin:0 0 8px;font-size:13.5px;line-height:1.65;color:#E5E7EB">{{ surv.sel.gap }}</p>
+                  <p style="margin:0;font-size:12.5px;line-height:1.6;color:#9CA3AF">A violation would still require misappropriated material nonpublic information or a breach of a duty. The trading pattern alone proves neither, and the trader is presumed innocent.</p>
+                  <button type="button" style="margin-top:13px;background:none;border:none;color:#34D399;font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:600;cursor:pointer;padding:0" onClick="{{ surv.onSeeRegimes }}">the regimes that would apply &rsaquo;</button>
+                </div>
+
+                <!-- provenance -->
+                <div style="margin-top:22px;display:flex;gap:10px;align-items:flex-start">
+                  <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.1em;color:#6b7772;flex-shrink:0;padding-top:2px">CONTEXT</span>
+                  <span style="font-size:12px;color:#8A938F;line-height:1.55">{{ surv.sel.prov }}</span>
+                </div>
+              </div>
             </div>
 
-            <!-- how scoring works -->
-            <div style="margin-top:18px;border:1px solid #1B2521;border-radius:11px;background:#0F1513;overflow:hidden">
-              <button type="button" aria-expanded="{{ surv.scoreOpen }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:none;border:none;cursor:pointer;color:#E5E7EB;text-align:left" onClick="{{ surv.onToggleScore }}">
-                <span style="font-size:13px;font-weight:600">How is the score calculated?</span>
-                <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#8A938F">{{ surv.scoreIcon }}</span>
+            <!-- detector glossary (collapsed reference) -->
+            <div style="margin-top:20px;border:1px solid #1B2521;border-radius:11px;background:#0F1513;overflow:hidden">
+              <button type="button" aria-expanded="{{ surv.glossaryOpen }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:none;border:none;cursor:pointer;color:#E5E7EB;text-align:left" onClick="{{ surv.onToggleGlossary }}">
+                <span style="font-size:13px;font-weight:600">What do these patterns mean?</span>
+                <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#8A938F">{{ surv.glossaryIcon }}</span>
               </button>
-              <sc-if value="{{ surv.scoreOpen }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ surv.glossaryOpen }}" hint-placeholder-val="{{ false }}">
                 <div style="padding:4px 18px 20px;border-top:1px solid #1B2521">
-                  <div style="font-size:12.5px;color:#9CA3AF;line-height:1.65;margin:14px 0 14px;max-width:80ch">One 0&ndash;100 score from an <b style="color:#E5E7EB">event-aligned anomaly model</b>: a price move is only suspicious if it is hard to explain with public information and lands before the news.</div>
-                  <div style="display:flex;flex-direction:column;gap:10px">
-                    <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#34D399;font-family:'JetBrains Mono', monospace;font-size:12px;flex-shrink:0;width:64px">+ MOVE</span><span style="font-size:12.5px;color:#9CA3AF;line-height:1.55">How sharp the probability jump was in <b style="color:#cdd3d0">log-odds</b> versus the market&rsquo;s own normal volatility.</span></div>
-                    <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#FBBF24;font-family:'JetBrains Mono', monospace;font-size:12px;flex-shrink:0;width:64px">+ TIMING</span><span style="font-size:12.5px;color:#9CA3AF;line-height:1.55">Extra weight when the move <b style="color:#cdd3d0">precedes</b> the public news that would explain it.</span></div>
-                    <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#34D399;font-family:'JetBrains Mono', monospace;font-size:12px;flex-shrink:0;width:64px">&minus; NEWS</span><span style="font-size:12.5px;color:#9CA3AF;line-height:1.55">Weight <b style="color:#cdd3d0">removed</b> when a news headline around that time plausibly explains the move.</span></div>
-                    <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#A78BFA;font-family:'JetBrains Mono', monospace;font-size:12px;flex-shrink:0;width:64px">+ WALLET</span><span style="font-size:12.5px;color:#9CA3AF;line-height:1.55">On Polymarket, a single wallet <b style="color:#cdd3d0">towering over the field</b> raises the score (on-chain).</span></div>
-                    <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#8A938F;font-family:'JetBrains Mono', monospace;font-size:12px;flex-shrink:0;width:64px">&divide; LIQUIDITY</span><span style="font-size:12.5px;color:#9CA3AF;line-height:1.55">Near-empty order books are flagged as <b style="color:#cdd3d0">artifacts</b>, not signals.</span></div>
+                  <div style="font-size:11.5px;color:#6b7772;line-height:1.5;margin:14px 0 16px">Reference definitions for the surveillance patterns. A pattern firing is an anomaly to examine, never a finding of wrongdoing.</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 28px">
+                    <sc-for list="{{ surv.glossary }}" as="d" hint-placeholder-count="10">
+                      <div style="display:grid;grid-template-columns:auto;gap:3px">
+                        <span style="font-family:'JetBrains Mono', monospace;font-size:11.5px;color:#34D399">{{ d.name }}</span>
+                        <span style="font-size:12px;color:#9CA3AF;line-height:1.5">{{ d.desc }}</span>
+                      </div>
+                    </sc-for>
                   </div>
-                  <div style="font-size:11px;color:#6b7772;line-height:1.6;margin-top:14px;max-width:80ch">Markets are labelled <b style="color:#34D399">Explained</b>, <b style="color:#FBBF24">Partially explained</b>, <b style="color:#FB923C">Unexplained</b>, or <b style="color:#F87171">Unexplained pre-event</b>. Adapted from event-aligned multi-scale anomaly detection for prediction markets.</div>
                 </div>
               </sc-if>
             </div>
@@ -720,95 +733,76 @@ class Component extends DCLogic {
       gap:'Coordinated wallets imply one actor, but coordination is not itself the crime of insider trading.' }
   ];
 
-  // ============ EVENT-ALIGNED SUSPICIOUSNESS SCORE ============
-  // Adapted from event-aligned multi-scale anomaly detection for prediction
-  // markets. Price is read in LOG-ODDS space (a move 50%→62% is smaller than
-  // 85%→97%); the move's size vs the market's own volatility is the shock σ.
-  //   S = market-move anomaly (M)  +  pre-event timing (P)  −  public explanation (E)
-  // gated by liquidity (thin books are flagged as possible artifacts).
+  // ============ SURVEILLANCE :: 5-METHOD DETECTION STACK ============
+  // Five established market-surveillance methods scored together (each 0–100):
+  //   1. Pre-event run-up    — abnormal price move before the catalyst, standardised
+  //        by the market's own volatility (Keown & Pinkerton 1981; FINRA SONAR).
+  //   2. Order-flow imbalance (VPIN) — one-sidedness of trading, the real-time
+  //        probability-of-informed-trading measure (Easley, López de Prado, O'Hara).
+  //   3. Price impact (Kyle's λ) — odds moved per unit of capital / book depth; a big
+  //        move on a thin book is the liquidity-vacuum fingerprint (Kyle 1985).
+  //   4. Trader concentration (Herfindahl) — buying dominated by one wallet rather
+  //        than the crowd (the on-chain method Polymarket/Chainalysis use).
+  //   5. News-context gap    — a sharp move with no public-news explanation (SONAR).
+  // Price is read in LOG-ODDS space; the move vs the market's own volatility is the
+  // shock σ. The composite is the strongest firing method, discounted hard when
+  // public news explains the move, and held to "watch" when the book is near-empty.
   logit(p){ p=Math.max(0.001,Math.min(0.999,p)); return Math.log(p/(1-p)); }
   _k(n){ n=Math.abs(n||0); return n>=1e6 ? (n/1e6).toFixed(1).replace(/\.0$/,'')+'M' : n>=1000 ? Math.round(n/1000)+'k' : String(Math.round(n)); }
-  EV = { unexpPre:'#F87171', unexp:'#FB923C', partial:'#FBBF24', explained:'#34D399', lowliq:'#8A938F' };
-  evMetrics(g){
-    if(!g) return { S:0, M:0, label:'—', color:'#8A938F', key:'none' };
-    const haveP = (g.pAfter!=null && g.pBefore!=null);
-    const logitMove = haveP ? Math.abs(this.logit(g.pAfter)-this.logit(g.pBefore)) : (g.logitMove||0);
-    // M (0..100): the SIZE of the move in log-odds, gated by how unusual it is —
-    // so a 5c wiggle on a flat market can't saturate just because its σ is high.
-    // The on-chain wallet concentration and the volume spike map independently;
-    // the score is the strongest of the three.
-    const psig = g.shockSigma!=null ? g.shockSigma : (logitMove>0 ? logitMove/0.06 : 0);
-    const ocS = g.ocShock||0, volS = g.volShock||0;
-    const moveM = Math.min(100, logitMove*60) * Math.min(1, psig/2);
-    const ocM   = Math.min(95, ocS*19);
-    const volM  = Math.min(38, volS*12);   // churn alone tops out at "worth watching", not "unexplained"
-    const M = Math.max(0, Math.round(Math.max(moveM, ocM, volM)));
-    const shock = Math.max(psig, ocS, volS);   // dominant σ, for the explanation text
-    const vol = g.volUsd||0;
-    const lowLiq = g.lowLiq!=null ? !!g.lowLiq : (vol>0 && vol<15000);
-    const Q = vol<=0 ? 0.5 : Math.max(0.15, Math.min(1, vol/120000));
-    const preEvent = !!g.catalyst && g.leadH!=null && g.leadH>0;
-    const P = preEvent ? Math.max(0, Math.min(1, g.leadH/48)) : 0;
-    const explainedKnown = g.explained===true;
-    const E = explainedKnown ? 0.9 : 0;
-    let S = Math.max(0, Math.min(100, Math.round(M + 15*P - 50*E)));
-    let label, color, key;
-    if (lowLiq){ label='Low-liquidity artifact'; color=this.EV.lowliq; key='lowliq'; }
-    else if (explainedKnown){ label='Explained'; color=this.EV.explained; key='explained'; }
-    else if (M>=40 && preEvent){ label='Unexplained pre-event'; color=this.EV.unexpPre; key='unexpPre'; }
-    else if (M>=40){ label='Unexplained'; color=this.EV.unexp; key='unexp'; }
-    else { label='Partially explained'; color=this.EV.partial; key='partial'; }
-    return { S, M, Q, P, E, label, color, key, logitMove, shock, vol, lowLiq, preEvent,
-      leadH:g.leadH, catalyst:g.catalyst, explainedKnown, pA:g.pAfter, pB:g.pBefore, windowH:g.windowH, liqUsd:g.liqUsd, volRatio:g.volRatio, backing:g.backing, headline:g.headline, source:g.newsSource };
+  survScore(g){
+    if(!g) return { suspicion:0, severity:'watch', sig:0, vol:0, liq:0 };
+    const lm = (g.pAfter!=null && g.pBefore!=null) ? Math.abs(this.logit(g.pAfter)-this.logit(g.pBefore)) : (g.logitMove||0);
+    const sig = g.shockSigma!=null ? g.shockSigma : 0;
+    const vol = g.volUsd||0, liq = g.liqUsd||0, ratio = g.volRatio||0;
+    const runup  = Math.round( Math.min(100, lm*55) * (sig ? Math.min(1, sig/2) : 0.7) );
+    const vpin   = g.imbalance!=null ? Math.round(g.imbalance*100) : null;
+    let impact;
+    if (liq>0) impact = Math.round(Math.min(100, lm*30 * Math.min(2.2, 100000/Math.max(5000,liq))));
+    else impact = ratio ? Math.round(Math.min(100, Math.log2(Math.max(1,ratio))*16)) : 0;
+    const conc = g.herfindahl!=null ? Math.round(Math.min(100, g.herfindahl*140))
+               : (g.topShare!=null ? Math.round(Math.min(100, g.topShare*130)) : null);
+    const anomaly = Math.max(runup, impact, (vpin!=null?vpin*0.85:0), (conc!=null?conc*0.9:0));
+    const lowLiq = g.lowLiq===true || (vol>0 && vol<15000);
+    const explained = g.explained===true;
+    const suspicion = Math.max(0, Math.round(explained ? anomaly*0.3 : anomaly));
+    let severity, verdict;
+    if (lowLiq || explained){ severity='watch'; verdict='Worth watching'; }
+    else if (suspicion>=55){ severity='high'; verdict='High-signal anomaly'; }
+    else { severity='watch'; verdict='Worth watching'; }
+    return { runup, vpin, impact, conc, anomaly:Math.round(anomaly), suspicion, severity, verdict, lm, sig, vol, liq, ratio, lowLiq, explained };
   }
-  evExplain(g){
-    const m=this.evMetrics(g); const pc=x=>Math.round(x*100)+'%'; const f=[];
-    if(m.pA!=null && m.pB!=null){
-      f.push({ label:'MARKET MOVE', sign:'▲', color:'#34D399',
-        text:'Implied probability moved '+pc(m.pB)+' → '+pc(m.pA)+(m.windowH?(' in '+m.windowH+'h'):'')+' — a '+m.logitMove.toFixed(2)+' swing in log-odds, about '+m.shock.toFixed(1)+'× this market’s normal move (a '+m.shock.toFixed(1)+'σ shock). Sharper, larger moves score higher.' });
-    } else {
-      f.push({ label:'MARKET MOVE', sign:'▲', color:'#34D399', text:'A '+m.shock.toFixed(1)+'σ price shock versus this market’s normal volatility, measured in log-odds space.' });
+  // "what the detector saw" — plain-English readings, one per firing method
+  survReadings(g){
+    const sc=this.survScore(g); const R=[]; const pc=x=>Math.round(x*100)+'%';
+    const win = g.windowH>=24 ? (Math.round(g.windowH/24)+(Math.round(g.windowH/24)===1?' day':' days')) : (g.windowH? (g.windowH+'h'):'a short window');
+    if (g.pAfter!=null && g.pBefore!=null && Math.abs(g.pAfter-g.pBefore)>=0.02){
+      R.push([(g.pAfter>=g.pBefore?'+':'')+Math.round((g.pAfter-g.pBefore)*100)+'c over '+win, 'the implied probability moved '+pc(g.pBefore)+' → '+pc(g.pAfter)+', a '+sc.sig.toFixed(1)+'σ pre-event run-up against this market’s normal swings']);
+    } else if (sc.sig>=2){
+      R.push([sc.sig.toFixed(1)+'σ price run-up', 'the price moved well beyond this market’s normal volatility before the event']);
     }
-    f.push({ label:'LIQUIDITY BACKING', sign:m.lowLiq?'▼':'•', color:m.lowLiq?'#8A938F':'#22D3EE',
-      text: m.backing ? (m.backing+(m.lowLiq?' — a thin book, so the move may be an artifact.':' — real volume behind the move, not a thin-book artifact.'))
-        : (m.vol>0 ? ('$'+this._k(m.vol)+' traded'+(m.liqUsd?(' against a $'+this._k(m.liqUsd)+' resting book'):'')+(m.volRatio?(' ('+m.volRatio+'× vol/liq)'):'')+' — '+(m.lowLiq?'a thin book, so the move may be an artifact':'real volume behind the move, not a thin-book artifact')+'.') : 'Volume backing is unavailable for this market.') });
-    if(m.catalyst){
-      f.push({ label:'PRE-EVENT TIMING', sign:m.preEvent?'▲':'•', color:m.preEvent?'#FBBF24':'#8A938F',
-        text: m.preEvent ? ('The move came ~'+m.leadH+'h before '+m.catalyst+' — it precedes its public catalyst, when time-sensitive information is most valuable.') : ('Aligned with '+m.catalyst+'.') });
-    } else {
-      f.push({ label:'PRE-EVENT TIMING', sign:'•', color:'#8A938F', text:'No scheduled public catalyst is known for this market, so timing cannot be scored.' });
-    }
-    let exText;
-    if (m.explainedKnown) exText = 'Public news around this time plausibly explains the move, so its suspiciousness is reduced.';
-    else if (m.headline && m.preEvent) exText = 'The move precedes the first related news we found — front-running the wire.';
-    else exText = 'No public-news explanation has been recorded — the move has not been cleared. Treat it as a lead, not a finding.';
-    if (m.headline) exText += ' News: “'+m.headline+'”'+(m.source?' — '+m.source:'')+'.';
-    f.push({ label:'PUBLIC EXPLANATION', sign: m.explainedKnown?'▼':(m.headline&&m.preEvent?'▲':'•'),
-      color: m.explainedKnown?'#34D399':(m.headline&&m.preEvent?'#F87171':'#8A938F'), text: exText });
-    const verb = (m.pA!=null&&m.pB!=null&&m.pA>=m.pB)?'jump':'move';
-    const summary = 'Scored '+m.S+'/100 ('+m.label+'): a '+m.shock.toFixed(1)+'σ '+verb+(m.preEvent?(' ~'+m.leadH+'h before '+m.catalyst):'')+(m.explainedKnown?', though public news may explain it':(m.lowLiq?', on a thin book':', with no public explanation on record'))+'.';
-    return { factors:f, summary, m };
+    if (sc.vpin!=null && sc.vpin>=55) R.push([sc.vpin+'% one-sided flow', sc.vpin+'% of trading pushed a single direction — the order-flow imbalance (VPIN) that flags informed trading']);
+    if (sc.impact>=45) R.push(['$'+this._k(sc.vol)+' on a $'+this._k(sc.liq)+' book', 'a large move achieved on little resting liquidity — high price impact, the liquidity-vacuum fingerprint']);
+    if (sc.conc!=null && sc.conc>=45 && g.topShare!=null) R.push([Math.round(g.topShare*100)+'% one wallet', 'one account was '+Math.round(g.topShare*100)+'% of recent buying — concentrated, not crowd-driven']);
+    if (!R.length) R.push([g.metric||'unusual activity', 'market activity unusual relative to this market’s own history']);
+    return R;
+  }
+  survWhy(g){
+    const sc=this.survScore(g);
+    if (sc.lowLiq) return 'The book here is near-empty, so the move may be a low-liquidity artifact rather than informed trading. It is logged for completeness, not escalated.';
+    if (sc.explained) return 'A public headline around this move plausibly explains it, so the run-up has a public cause. A surveillance desk would clear it unless other signals persist.';
+    return 'The price moved sharply relative to this market’s normal swings, with no public-news explanation around the move. That combination — an unexplained pre-event move — is exactly what a surveillance system escalates for a closer look.';
+  }
+  survProv(g){
+    if (g.platform==='kalshi') return 'Kalshi is a centralized exchange, so individual account identities aren’t public — this flag is based on market activity only.';
+    if (g.onchain && g.onchain.wallet) return 'On-chain: Polymarket settles on-chain, so trades are public. One wallet ('+g.onchain.wallet+') was '+Math.round((g.onchain.topShare||0)*100)+'% of recent buying.';
+    return 'On-chain: Polymarket settles on-chain, so trade and wallet activity is publicly observable.';
   }
 
   detName(id){ const d=this.DETECTORS.find(x=>x.id===id); return d?d.name:id; }
-  sevColor(sev){ return sev==='high'?this.SCOPE.high:this.SCOPE.watch; }
-  platColor(p){ return p==='poly'?this.SCOPE.poly:this.SCOPE.kalshi; }
+  sevColor(sev){ return sev==='high'?'#F87171':'#FBBF24'; }   // high = red, watch = amber
   platLabel(p){ return p==='poly'?'Polymarket':'Kalshi'; }
   prettyCat(c){ const m={political:'Politics',geopolitical:'Geopolitics',econ:'Economics',corporate:'Corporate',sports:'Sports',cryptoprice:'Crypto',other:'Trending'}; return m[c]||String(c||'Market'); }
   catLabel(x){ if(x.category) return this.prettyCat(x.category); const M={maduro:'Geopolitics',search:'Culture',cpi:'Economics',halftime:'Entertainment',fed:'Economics',oscars:'Entertainment',gdp:'Economics',senate:'Politics',tencup:'Culture',divg:'Financials',settle:'Financials',vac:'Politics',spf:'Sports',clus:'Politics'}; return M[x.id]||'Market'; }
-  // one-line, average-person reason for the feed card
-  evReason(m){
-    const pc=x=>Math.round(x*100)+'%';
-    if(m.lowLiq) return 'Churning on a near-empty order book — likely an artifact, not a signal.';
-    const win = m.windowH>=24 ? (Math.round(m.windowH/24)+'d') : (m.windowH? (m.windowH+'h'):'recently');
-    const move = (m.pA!=null&&m.pB!=null&&Math.abs(m.pA-m.pB)>=0.02)
-      ? ('Moved '+pc(m.pB)+'→'+pc(m.pA)+' in '+win)
-      : ('A '+m.shock.toFixed(1)+'σ price shock');
-    const tail = m.explainedKnown ? ' — public news explains it'
-      : (m.preEvent&&m.headline ? ' before the news broke'
-      : ' with no public news found');
-    return move + tail + '.';
-  }
 
   selectSignal(id){
     this.setState({ survSel:id });
@@ -884,54 +878,42 @@ class Component extends DCLogic {
   // drive the illustrative chart curves.
   _detDesc(id){ const d=this.DETECTORS.find(x=>x.id===id || x.id===String(id||'').replace(/_/g,'')); return d?d.desc:'the detector reading that triggered this flag.'; }
   _liveSignals(alerts){
-    const log2=x=> Math.log(Math.max(1,x))/Math.LN2;
+    const n = Math.max(1, alerts.length);
     return alerts.map((a,i)=>{
-      const high = a.sev==='high';
       const poly = a.platform==='polymarket';
       const M = a.metrics || {};
       const oc = (a.signals && a.signals.computed) ? a.signals : null;
-      // probabilities (Polymarket price-move alerts carry before/after price)
       const pA = (M.pAfter!=null) ? M.pAfter : null;
       const pB = (M.pBefore!=null) ? M.pBefore : null;
       const haveMove = pA!=null && pB!=null;
-      const logitMove = haveMove ? Math.abs(this.logit(pA)-this.logit(pB)) : 0;
-      // shock σ: the largest of (a) a real price move in log-odds, (b) a measured
-      // single-wallet concentration from the on-chain readout, or (c) a volume /
-      // liquidity spike. Volume alone is a weak insider signal, so it is capped;
-      // a measured wallet that towers over the field counts for more.
-      const measuredShock = (M.shockSigma!=null) ? M.shockSigma : 0;             // z of the biggest log-odds step, from price history
-      const fallbackPrice = (!measuredShock && haveMove) ? Math.min(6, logitMove/(M.windowH>=24?0.15:0.06)) : 0;
-      const volShock = M.volRatio ? Math.min(3.2, log2(M.volRatio)) : 0;         // volume alone is weak — capped
-      const ocShock  = (oc && oc.recentZ) ? Math.min(5, oc.recentZ/3) : 0;       // a wallet towering over the field
-      // price-move σ stays separate from volume / on-chain so the score can weigh each
-      let psig = Math.max(measuredShock, fallbackPrice);
-      if (!psig && !volShock && !ocShock) psig = high?2.0:1.4;
-      // liquidity backing, platform-aware (Polymarket = USD; Kalshi = open interest)
-      let backing=null, lowLiq=false, volForQ=0;
-      if (poly){
-        volForQ = M.volUsd||0;
-        lowLiq = M.volUsd!=null && M.volUsd<15000;
-        backing = (M.volUsd!=null) ? ('$'+this._k(M.volUsd)+' traded'+(M.liqUsd?(' against a $'+this._k(M.liqUsd)+' resting book'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(0)+'× vol/liq)'):'')) : null;
-      } else {
-        const c = M.contracts||0, oi = M.oi||0;
-        volForQ = Math.max(c,oi)*20; lowLiq = oi>0 && oi<200;   // a near-empty book is an artifact, not a signal
-        backing = c ? (c.toLocaleString()+' contracts traded'+(oi?(' on '+oi.toLocaleString()+' open interest'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(1)+'× vol/OI)'):'')) : null;
-      }
-      const ocShow = !!(oc && (oc.recentZ>=2 || oc.topShare>=0.05));
-      // catalyst / leadH / explained come from the collector's news check (E layer).
-      return {
-        id:a.id, market:a.market, platform: poly?'poly':'kalshi',
-        detector:a.detector, severity: high?'high':'watch', estimated:true,
-        onchain: ocShow ? { nTrades:oc.nTrades, nWallets:oc.nWallets, wallet:oc.wallet, recentZ:oc.recentZ, topShare:oc.topShare } : null,
-        lead: 0.5 + (i%6), signal: high?0.85:0.52,
-        pBefore:pB, pAfter:pA, windowH: M.windowH || (haveMove?1:null), shockSigma:psig, ocShock:ocShock||0, volShock:volShock||0,
-        volUsd:volForQ, liqUsd: poly?(M.liqUsd||null):null, volRatio:M.volRatio||null, backing, lowLiq,
-        catalyst: M.catalyst || null,
-        leadH: (M.leadH!=null) ? M.leadH : null,
+      // liquidity, platform-aware (Polymarket = USD book; Kalshi = open interest)
+      let volForQ=0, liqForImpact=null, lowLiq=false;
+      if (poly){ volForQ = M.volUsd||0; liqForImpact = M.liqUsd||null; lowLiq = M.volUsd!=null && M.volUsd<15000; }
+      else { const c=M.contracts||0, oi=M.oi||0; volForQ = Math.max(c,oi)*20; lowLiq = oi>0 && oi<200; }
+      const ocShow = !!(oc && (oc.recentZ>=2 || oc.topShare>=0.05 || (oc.herfindahl!=null && oc.herfindahl>=0.1)));
+      const g = {
+        id:a.id, market:a.market, platform: poly?'poly':'kalshi', category:M.category||null,
+        detector:a.detector,
+        onchain: ocShow ? { wallet:oc.wallet, topShare:oc.topShare, recentZ:oc.recentZ, nWallets:oc.nWallets } : null,
+        lead: 0.5 + (i%6),
+        pBefore:pB, pAfter:pA, windowH: M.windowH || (haveMove?1:null),
+        shockSigma: (M.shockSigma!=null) ? M.shockSigma : null,
+        volUsd:volForQ, liqUsd: liqForImpact, volRatio: M.volRatio||null, lowLiq,
+        imbalance: (oc && oc.imbalance!=null) ? oc.imbalance : null,
+        herfindahl: (oc && oc.herfindahl!=null) ? oc.herfindahl : null,
+        topShare: (oc && oc.topShare!=null) ? oc.topShare : null,
+        catalyst: M.catalyst||null, leadH: (M.leadH!=null) ? M.leadH : null,
         explained: (M.explained===true) ? true : (M.explained===false ? false : null),
-        headline: M.headline || null, newsSource: M.newsSource || null,
-        desc:a.note, gap:a.gap
+        headline: M.headline||null, newsSource: M.newsSource||null,
+        metric:a.metric, desc:a.note, gap:a.gap, fireT: 1 - i/n
       };
+      const sc = this.survScore(g);
+      g.severity = sc.severity;
+      g.signal = sc.severity==='high' ? 0.85 : 0.55;   // chart curve amplitude
+      g._readings = this.survReadings(g);
+      g._why = this.survWhy(g);
+      g._prov = this.survProv(g);
+      return g;
     });
   }
   _liveInspector(alerts){
@@ -1007,20 +989,17 @@ class Component extends DCLogic {
     const yt=[0,0.25,0.5,0.75,1].map((v,i)=> h('g',{ key:'y'+i },
       h('line',{ x1:padL, x2:padL+iw, y1:Y(v), y2:Y(v), stroke:C.bd, strokeWidth:1, opacity:i===0?1:.55 }),
       h('text',{ x:padL-8, y:Y(v)+3, textAnchor:'end', fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, Math.round(v*100)) ));
-    // final-48h window, shaded; opacity scales with how much buying landed there
+    // suspicious window (where the unusual buying happened) — soft neutral band
     const band=h('g',null,
-      h('rect',{ x:X(lateStart), y:padT, width:X(1)-X(lateStart), height:ih, fill:`rgba(251,191,36,${(0.05+0.12*lateFrac).toFixed(3)})`, stroke:'rgba(251,191,36,.4)', strokeWidth:1, strokeDasharray:'3 3' }),
-      h('text',{ x:(X(lateStart)+X(1))/2, y:padT-17, textAnchor:'middle', fontSize:9.5, fill:'#FBBF24', fontFamily:'JetBrains Mono, monospace' }, 'final 48h'),
-      h('text',{ x:(X(lateStart)+X(1))/2, y:padT-6, textAnchor:'middle', fontSize:9, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, Math.round(lateFrac*100)+'% of buying'));
-    // buy markers: density in the late window tracks lateFrac
-    const nLate=Math.max(1,Math.round(lateFrac*5)), nEarly=Math.max(0,5-nLate), buys=[];
-    for(let i=0;i<nEarly;i++) buys.push(0.12+i*(0.62/Math.max(1,nEarly)));
-    for(let i=0;i<nLate;i++)  buys.push(lateStart+0.02+i*((disc-lateStart-0.02)/Math.max(1,nLate)));
-    const dots=buys.map((mt,i)=>{ const seg=series.reduce((a,b)=> Math.abs(b[0]-mt)<Math.abs(a[0]-mt)?b:a, series[0]); const late=mt>=lateStart; return h('circle',{ key:'d'+i, cx:X(mt), cy:Y(seg[1]), r:late?4:3, fill:late?'#FBBF24':'#C9D1CE', stroke:C.canvas, strokeWidth:1.2 }); });
+      h('rect',{ x:X(w0), y:padT, width:X(disc)-X(w0), height:ih, fill:'rgba(138,147,143,.07)', stroke:'rgba(138,147,143,.30)', strokeWidth:1, strokeDasharray:'3 3' }),
+      h('text',{ x:(X(w0)+X(disc))/2, y:padT-9, textAnchor:'middle', fontSize:10, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, '← unusual buying here'));
+    // a few flagged trades as discrete dots inside the window (muted)
+    const dots=[w0+0.06,(w0+disc)/2,disc-0.05].map((mt,i)=>{ const seg=series.reduce((a,b)=> Math.abs(b[0]-mt)<Math.abs(a[0]-mt)?b:a, series[0]); return h('circle',{ key:'d'+i, cx:X(mt), cy:Y(seg[1]), r:3.5, fill:'#C9D1CE', stroke:C.canvas, strokeWidth:1.2 }); });
+    // disclosure marker (muted neutral), where the information became public
     const discG=h('g',null,
-      h('line',{ x1:X(disc), x2:X(disc), y1:padT-2, y2:padT+ih, stroke:C.kalshi, strokeWidth:1.4, strokeDasharray:'4 4' }),
-      h('text',{ x:X(disc)+5, y:padT+10, fontSize:9.5, fill:C.kalshi, fontFamily:'JetBrains Mono, monospace' }, info.discLabel||'event resolves'));
-    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Implied probability over time for ${g.market}. ${Math.round(lateFrac*100)} percent of buying fell in the final 48 hours; ${info.discLabel||'resolution'} marked.`, style:{ display:'block' } },
+      h('line',{ x1:X(disc), x2:X(disc), y1:padT-2, y2:padT+ih, stroke:'#8A938F', strokeWidth:1.3, strokeDasharray:'4 4' }),
+      h('text',{ x:X(disc)+5, y:padT+10, fontSize:9.5, fill:'#cdd3d0', fontFamily:'JetBrains Mono, monospace' }, info.discLabel||'news public'));
+    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Implied probability over time for ${g.market}. Suspicious window and ${info.discLabel||'disclosure'} marked.`, style:{ display:'block' } },
       yt, band,
       h('text',{ x:14, y:padT+ih/2, fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace', transform:`rotate(-90 14 ${padT+ih/2})`, textAnchor:'middle' }, 'implied probability %'),
       h('path',{ d:line+` L${X(1)} ${padT+ih} L${X(0)} ${padT+ih} Z`, fill:'rgba(52,211,153,.05)' }),
@@ -1496,58 +1475,64 @@ class Component extends DCLogic {
       onReset:()=> this.setState({ who:'private', source:'public', duty:'none', instrument:'sports', venue:'kalshi', conduct:'none', concealed:false })
     };
 
-    // ---- surveillance :: live anomaly feed (single column) ----
-    const SC = this.SCOPE;
+    // ---- surveillance :: Signal List + Inspector (two zones) ----
+    const SC = this.SCOPE, AC = '#34D399';   // emerald is the single accent
     const listFilter = s.survListFilter || 'all';
     const isLive = !!(s.survLive && s.survLive.length);
     const sigList = isLive ? this._liveSignals(s.survLive) : this.SIGNALS;
-    const scored = sigList.map(x=>({ x, m:this.evMetrics(x) }));
-    const activeCount = scored.length;
-    const unexpCount = scored.filter(o=> o.m.key==='unexpPre' || o.m.key==='unexp').length;
-    // filter pills
-    const chips = [['all','All'],['kalshi','Kalshi'],['poly','Polymarket'],['unexp','Unexplained']].map(([id,label])=>{
+    const sevC = sev => sev==='high' ? '#F87171' : '#FBBF24';
+    const activeCount = sigList.length;
+    const highCount = sigList.filter(x=> x.severity==='high').length;
+    // filter chips
+    const chips = [['all','All'],['kalshi','Kalshi'],['poly','Polymarket'],['high','High signal']].map(([id,label])=>{
       const on = listFilter===id;
       return { id, label, active:on,
-        style:`padding:7px 14px;border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:600;cursor:pointer;border:1px solid ${on?'rgba(52,211,153,.5)':SC.bd};background:${on?'rgba(52,211,153,.1)':'#0F1513'};color:${on?SC.kalshi:SC.mut};transition:all .15s`,
+        style:`padding:6px 13px;border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid ${on?'rgba(52,211,153,.5)':SC.bd};background:${on?'rgba(52,211,153,.1)':'#0F1513'};color:${on?AC:SC.mut};transition:all .15s`,
         onClick:()=> this.setState({ survListFilter:id }) };
     });
-    // feed cards, ranked by suspiciousness
-    const filtered = scored.filter(o=> listFilter==='all' ? true
-        : (listFilter==='unexp' ? (o.m.key==='unexpPre'||o.m.key==='unexp') : o.x.platform===listFilter))
-      .slice().sort((a,b)=> b.m.S-a.m.S);
-    const expandedId = s.survSel;
-    const feed = filtered.map(({x,m})=>{
-      const open = expandedId===x.id;
-      const ex = open ? this.evExplain(x) : null;
-      return { id:x.id, market:x.market,
-        platform:this.platLabel(x.platform), platDot:this.platColor(x.platform), category:this.catLabel(x),
-        scoreNum:String(m.S), scoreColor:m.color, label:m.label, reason:this.evReason(m),
-        meterStyle:`height:4px;border-radius:3px;width:${m.S}%;background:${m.color};box-shadow:0 0 7px ${m.color}88;transition:width .4s ease`,
-        labelChipStyle:`font-family:'JetBrains Mono', monospace;font-size:9.5px;font-weight:700;letter-spacing:.02em;color:${m.color};padding:3px 9px;border-radius:6px;border:1px solid ${m.color}88;background:${m.color}1a;white-space:nowrap`,
-        open, caret: open?'▲':'▼',
-        cardStyle:`text-align:left;width:100%;cursor:pointer;border-radius:13px;padding:16px 18px;border:1px solid ${open?m.color+'55':SC.bd};background:${open?'rgba(255,255,255,.02)':'#0F1513'};transition:border-color .2s,background .2s`,
-        onToggle:()=> this.setState(st=>({ survSel: st.survSel===x.id?null:x.id })),
-        onKey:(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.setState(st=>({ survSel: st.survSel===x.id?null:x.id })); } },
-        // expanded detail
-        chartEl: open ? this.buildInspectorChart(x, { discLabel: x.catalyst || 'event resolves' }) : null,
-        factors: open ? ex.factors.map(f=>({ label:f.label, text:f.text, sign:f.sign,
-          signStyle:`font-family:'JetBrains Mono', monospace;font-size:13px;color:${f.color};flex-shrink:0;width:15px;text-align:center;padding-top:1px` })) : [],
-        gap:x.gap,
-        hasOnchain: open && !!x.onchain,
-        onchainLine: x.onchain ? ('On-chain: one wallet is '+Math.round(x.onchain.topShare*100)+'% of recent buying ('+x.onchain.recentZ+'σ above the field).') : '' };
+    // rows (newest first; High-signal filter shows only high)
+    const rowSig = sigList.filter(x=> listFilter==='all' ? true
+        : (listFilter==='high' ? x.severity==='high' : x.platform===(listFilter==='poly'?'poly':'kalshi')));
+    const defSel = (sigList.find(x=>x.id===s.survSel) ? s.survSel : (rowSig[0]&&rowSig[0].id) || (sigList[0]&&sigList[0].id));
+    const rowMetric = (g)=>{ if(g.metric) return g.metric; const insp=this.INSPECTOR_DATA[g.id]; if(insp&&insp.readings&&insp.readings[0]) return insp.readings[0][0]; const r=g._readings; return (r&&r[0])?r[0][0]:''; };
+    const rows = rowSig.map(x=>{
+      const seld = defSel===x.id; const sc=sevC(x.severity);
+      return { id:x.id, market:x.market, metric:rowMetric(x), platformLabel:this.platLabel(x.platform),
+        sevColor:sc, sevLabel: x.severity==='high'?'high':'watch', selected:seld,
+        aria:`${x.market}. ${this.platLabel(x.platform)}. ${x.severity==='high'?'High signal':'Worth watching'}. ${rowMetric(x)}.`,
+        sparkEl:this.buildMiniSpark(x),
+        rowStyle:`text-align:left;cursor:pointer;border-radius:10px;padding:13px 14px;border:1px solid ${seld?'rgba(52,211,153,.35)':SC.bd};border-left:${seld?'3px solid '+AC:'1px solid '+SC.bd};background:${seld?'rgba(52,211,153,.05)':'#0F1513'};transition:background .15s,border-color .15s`,
+        onSelect:()=> this.selectSignal(x.id),
+        onKey:(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.selectSignal(x.id); } } };
     });
-    // live heartbeat ("updated Ns ago")
-    let agoTxt = 'sample data';
+    // selected signal -> Inspector
+    const g = sigList.find(x=>x.id===defSel) || sigList[0];
+    const insp = g ? (this.INSPECTOR_DATA[g.id] || { readings:g._readings||[], why:g._why||'', prov:g._prov||'' }) : { readings:[] };
+    const sel = g ? {
+      market:g.market, platformLabel:this.platLabel(g.platform), category:this.catLabel(g),
+      sevColor:sevC(g.severity), sevLine: g.severity==='high'?'High-signal anomaly':'Worth watching',
+      plain:g.desc || (g._readings&&g._readings[0]?g._readings[0][1]:''),
+      chartEl:this.buildInspectorChart(g, { discLabel: g.catalyst || (g.platform==='kalshi'?'event resolves':'news public') }),
+      readings:(insp.readings||[]).map(([m,e])=>({ m, e })),
+      why:insp.why||'', gap:g.gap||'A violation still requires misappropriated material nonpublic information or a breach of a duty.',
+      isPoly: g.platform==='poly', prov:insp.prov||''
+    } : { readings:[] };
+    // live heartbeat
+    let feedLabel = 'SAMPLE FEED · LIVE WIRING PENDING';
     if (isLive){
-      const ms = s.survLiveAt ? (Date.now()-Date.parse(s.survLiveAt)) : 0;
-      const sec = Math.max(0, Math.round(ms/1000));
-      agoTxt = sec<5 ? 'updated just now' : sec<90 ? ('updated '+sec+'s ago') : ('updated '+Math.round(sec/60)+'m ago');
+      const sec = Math.max(0, Math.round((Date.now()-(s.survLiveAt?Date.parse(s.survLiveAt):Date.now()))/1000));
+      feedLabel = 'LIVE FEED · ' + (sec<5?'just now':sec<90?(sec+'s ago'):(Math.round(sec/60)+'m ago'));
     }
     const surv = {
-      activeCount:String(activeCount), unexpCount:String(unexpCount),
-      isLive, agoTxt, chips, feed, empty: feed.length===0,
-      scoreOpen:!!s.methodOpen, scoreIcon: s.methodOpen?'−':'+',
-      onToggleScore:()=> this.setState(st=>({ methodOpen:!st.methodOpen })),
+      clock:s.clock, activeCount:String(activeCount), highCount:String(highCount),
+      isLive, feedLabel,
+      feedStyle: isLive
+        ? `font-family:'JetBrains Mono', monospace;font-size:10px;color:#34D399;padding:4px 10px;border-radius:999px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.07);white-space:nowrap`
+        : `font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F;padding:4px 10px;border-radius:999px;border:1px solid #1B2521;background:#0F1513;white-space:nowrap`,
+      chips, rows, sel, empty: rows.length===0,
+      glossary: this.DETECTORS.map(d=>({ name:d.name, desc:d.desc })),
+      glossaryOpen:!!s.glossaryOpen, glossaryIcon: s.glossaryOpen?'−':'+',
+      onToggleGlossary:()=> this.setState(st=>({ glossaryOpen:!st.glossaryOpen })),
       onSeeRegimes:()=> this.setState({ activeTab:'engine' })
     };
 
