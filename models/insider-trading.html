@@ -736,18 +736,26 @@ class Component extends DCLogic {
       const qs = new URLSearchParams({ mode, platform:r.platform||m.platform,
         cond:r.cond||'', token:r.token||'', series:r.series||'', ticker:r.ticker||'',
         category:m.category||'', prob:String(m.prob||''), volume:String(m.volume24h||''),
+        question:m.question||'', url:m.url||'',
         won:String(r.won), resolved:r.resolved?'1':'', id:m.id });
       fetch('/api/surveillance/market?'+qs.toString(), { cache:'no-store' })
         .then(res=> res.ok ? res.json() : null)
         .then(d=>{
           if (!d || !d.market) return;
-          const det = d.market; det._detail = true;
+          const det = d.market;
           this.setState(st=>{
             const arr = (st.survMarkets||[]).slice();
             const i = arr.findIndex(x=>x.id===m.id);
-            // merge the real series/detectors/onchain over the enumeration-tier row
-            if (i>=0) arr[i] = Object.assign({}, arr[i], det, { _detail:true });
-            else return {};
+            if (i<0) return {};
+            // Merge the real series/detectors/on-chain over the enumeration-tier
+            // row, but NEVER let the detail clobber the row's identity fields
+            // (question, url, category, platform, ids) — keep what the feed gave.
+            const keep = arr[i];
+            arr[i] = Object.assign({}, keep, det, {
+              question: keep.question, url: keep.url, category: keep.category,
+              platform: keep.platform, ref: keep.ref, ws: keep.ws,
+              volume24h: keep.volume24h, _detail:true,
+            });
             return { survMarkets:arr };
           });
         }).catch(()=>{});
