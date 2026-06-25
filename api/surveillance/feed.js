@@ -220,19 +220,22 @@ async function enumKalshi(maxPages) {
         // Kalshi gives a clean event.category; fall back to the question text.
         const cat = classifyMarket([ev.category, ev.sub_title].filter(Boolean), question + " " + evTitle);
         if (!cat) continue;
-        const vol = num(m.volume_24h_fp || m.volume_24h);
+        const vol = num(m.volume_24h_fp || m.volume_24h || m.volume_fp);
         const oi = num(m.open_interest_fp || m.open_interest);
-        // probability from the yes bid/ask midpoint or last price (cents -> 0..1)
-        let cents = num(m.last_price);
-        if (!cents) { const b = num(m.yes_bid), a = num(m.yes_ask); if (b || a) cents = (b + a) / 2; }
-        const prob = cents > 1 ? cents / 100 : cents;
+        const liqD = num(m.liquidity_dollars);
+        // Kalshi quotes prices in DOLLARS (0..1): last_price_dollars, yes_bid/ask_dollars.
+        let prob = num(m.last_price_dollars != null ? m.last_price_dollars : m.last_price);
+        if (!(prob > 0)) { const b = num(m.yes_bid_dollars), a = num(m.yes_ask_dollars); if (b || a) prob = (b + a) / 2; }
+        if (prob > 1) prob = prob / 100;                 // guard if a cents field slips in
         if (!(prob > 0 && prob < 1)) continue;
+        const prev = num(m.previous_price_dollars);
+        const change24h = (prev > 0 && prev < 1) ? (prob - prev) : 0;
         rows.push(scoreMarket({
           id: "k-" + (m.ticker || question.slice(0, 24)),
           platform: "kalshi", category: cat, question, url: url2,
           prob: +prob.toFixed(4),
-          change24h: num(m.last_price_change) ? num(m.last_price_change) / 100 : 0,
-          volume24h: Math.round(vol), liquidity: Math.round(oi),
+          change24h: +change24h.toFixed(4),
+          volume24h: Math.round(vol), liquidity: Math.round(liqD || oi),
           _series: series, _ticker: m.ticker,
         }));
       }
@@ -509,6 +512,25 @@ async function diagnose() {
       marketKeys: arr[0] && arr[0].markets && arr[0].markets[0] ? Object.keys(arr[0].markets[0]) : [],
       sample: arr[0] && arr[0].markets && arr[0].markets[0] ? { ticker: arr[0].markets[0].ticker, title: arr[0].markets[0].title, last_price: arr[0].markets[0].last_price } : null };
   } catch (e) { o.kalshiEvents = { ok: false, error: e.message }; }
+  // end-to-end: what the enumerators actually parse (confirms field-mapping +
+  // category filtering, and that Kalshi markets now survive)
+  try {
+    const [pm, k] = await Promise.all([enumPoly(2).catch(() => []), enumKalshi(2).catch(() => [])]);
+    const cats = {}; [...pm, ...k].forEach((m) => { cats[m.category] = (cats[m.category] || 0) + 1; });
+    const samp = (m) => ({ platform: m.platform, category: m.category, prob: m.prob, index: m.index, label: m.label, q: m.question.slice(0, 60) });
+    o.enumerated = {
+      polymarket: pm.length, kalshi: k.length, categories: cats,
+      kalshiSample: k.slice(0, 5).map(samp), polymarketSample: pm.slice(0, 5).map(samp),
+    };
+  } catch (e) { o.enumerated = { error: e.message }; }
+  // deep-tier shapes for one Kalshi market (candlesticks) + one PM book
+  try {
+    const k = await enumKalshi(1).catch(() => []);
+    const km = k[0];
+    if (km) o.kalshiDeep = { ticker: km._ticker, series: km._series,
+      candles: await kalshiCandleSeries(km._series, km._ticker).then((s) => s ? { points: s.length, last: s[s.length - 1] } : null).catch((e) => ({ error: String(e && e.message) })),
+      book: await fetchBook(km).catch((e) => ({ error: String(e && e.message) })) };
+  } catch (e) { o.kalshiDeep = { error: e.message }; }
   return o;
 }
 
