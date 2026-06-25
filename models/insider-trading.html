@@ -722,6 +722,33 @@ class Component extends DCLogic {
     const src = this.state.survMarkets || [];
     const m = src.find(x=>x.id===id);
     if (m) this._survSubscribe(m); else this._survWsClose();
+    // Fetch the REAL price history + full detector set for this one market so
+    // the inspector chart mirrors the platform's own chart (even for markets the
+    // rolling deep-scan batch hasn't reached). Merge it in place when it lands.
+    if (m && m.ref && !m._detail) this._survDetail(m);
+  }
+  _survDetail(m){
+    try {
+      const r = m.ref || {}; const mode = this.state.survMode || 'insider';
+      const qs = new URLSearchParams({ mode, platform:r.platform||m.platform,
+        cond:r.cond||'', token:r.token||'', series:r.series||'', ticker:r.ticker||'',
+        category:m.category||'', prob:String(m.prob||''), volume:String(m.volume24h||''),
+        won:String(r.won), resolved:r.resolved?'1':'', id:m.id });
+      fetch('/api/surveillance/market?'+qs.toString(), { cache:'no-store' })
+        .then(res=> res.ok ? res.json() : null)
+        .then(d=>{
+          if (!d || !d.market) return;
+          const det = d.market; det._detail = true;
+          this.setState(st=>{
+            const arr = (st.survMarkets||[]).slice();
+            const i = arr.findIndex(x=>x.id===m.id);
+            // merge the real series/detectors/onchain over the enumeration-tier row
+            if (i>=0) arr[i] = Object.assign({}, arr[i], det, { _detail:true });
+            else return {};
+            return { survMarkets:arr };
+          });
+        }).catch(()=>{});
+    } catch(_){}
   }
   _survWsClose(){ try { if (this._ws){ this._ws.onmessage=null; this._ws.onerror=null; this._ws.close(); } } catch(_){} this._ws=null; }
   _survSubscribe(m){
@@ -923,8 +950,9 @@ class Component extends DCLogic {
 
       // price series + the market's OWN usual range (10th–90th pct of the calm window)
       let prob=(m.series&&m.series.length>=6)?m.series.map(x=>x.p):null;
+      let times=(m.series&&m.series.length>=6)?m.series.map(x=>x.t):null;   // real unix-sec stamps for the date axis
       const deepSeries=!!prob;
-      if(!prob){ const p=clamp(m.prob||0.5,0.02,0.98); prob=Array.from({length:24},(_,i)=>clamp(p+Math.sin(i/3)*0.004,0.02,0.98)); }
+      if(!prob){ const p=clamp(m.prob||0.5,0.02,0.98); prob=Array.from({length:24},(_,i)=>clamp(p+Math.sin(i/3)*0.004,0.02,0.98)); times=null; }
       const N=prob.length, estN=Math.max(3,Math.floor(N*0.6)), est=prob.slice(0,estN).slice().sort((a,b)=>a-b);
       const nLoF=this._q(est,0.1), nHiF=this._q(est,0.9), preF=this._q(est,0.5);
       const nLo=pct(nLoF), nHi=pct(nHiF), preLvl=pct(preF), curLvl=pct(prob[N-1]);
@@ -1087,7 +1115,8 @@ class Component extends DCLogic {
       return { id:m.id, question:m.question, platform:plat, category:m.category||'Other', score, label:m.label||'—', summary, engine:eng,
         resolved:!!m.resolved, resolvedAt:m.resolvedAt||null,
         tier, coverageRan:cRan, coverageTotal:cTot,
-        prob, nLoF, nHiF, surgeStart:estN, curLvl, nLo, nHi, deepSeries, dir,
+        prob, times, resolvedAt:m.resolvedAt||null, preview:!deepSeries,
+        nLoF, nHiF, surgeStart:estN, curLvl, nLo, nHi, deepSeries, dir,
         checks, news:newsCtx, topChips:top, wallets, hhi, clusters, book:m.book||null, wsCoords:m.ws||null,
         url:m.url||'#', updatedAgo, recencyMins: m.movedAt?Math.round((Date.now()-m.movedAt)/60000):idx, volume:m.volume24h||0, deep:!!m.deep };
     });
@@ -1118,6 +1147,20 @@ class Component extends DCLogic {
     [0,0.25,0.5,0.75,1].forEach((g,i)=>{ const y=Y(g);
       els.push(h('line',{key:'g'+i,x1:pl,y1:y,x2:pl+plotW,y2:y,stroke:'#19211d',strokeWidth:1}));
       els.push(h('text',{key:'gt'+i,x:pl-8,y:y+3,textAnchor:'end',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},Math.round(g*100)+'%')); });
+    // the real price line (mirrors the platform's own chart shape)
+    const pts=S.map((p,i)=>[X(i),Y(p)]);
+    const lp='M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+
+    // PREVIEW: this market hasn't been deep-scanned, so we have no real history
+    // yet — show an honest placeholder, NOT a fabricated flat line with a bogus
+    // "unusual move" arrow. (Opening the market fetches the real history.)
+    if(m.preview){
+      els.push(h('rect',{key:'pvbg',x:pl,y:pt,width:plotW,height:plotH,fill:'#0c1110',opacity:0.5}));
+      els.push(h('text',{key:'pv1',x:pl+plotW/2,y:pt+plotH/2-6,textAnchor:'middle',fill:'#8A938F',style:{font:'600 12px Inter, sans-serif'}},'Loading live price history from '+(m.platform==='kalshi'?'Kalshi':'Polymarket')+'…'));
+      els.push(h('text',{key:'pv2',x:pl+plotW/2,y:pt+plotH/2+13,textAnchor:'middle',fill:'#5d6864',style:{font:'500 10px JetBrains Mono, monospace'}},'this market is being scored on open'));
+      return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',style:{display:'block',maxWidth:'100%'},preserveAspectRatio:'xMidYMid meet'},els);
+    }
+
     // the market's usual range (shaded + labelled) — what the price normally does
     const yHi=Y(m.nHiF), yLo=Y(m.nLoF);
     els.push(h('rect',{key:'band',x:pl,y:yHi,width:plotW,height:Math.max(2,yLo-yHi),fill:'#8A938F',opacity:0.14}));
@@ -1125,25 +1168,35 @@ class Component extends DCLogic {
     els.push(h('line',{key:'bb',x1:pl,y1:yLo,x2:pl+plotW,y2:yLo,stroke:'#8A938F',strokeWidth:1,strokeDasharray:'4 4',opacity:0.55}));
     els.push(h('text',{key:'bl1',x:pl+plotW+7,y:(yHi+yLo)/2-2,fill:'#9aa39e',style:{font:'600 9.5px JetBrains Mono, monospace'}},'usual'));
     els.push(h('text',{key:'bl2',x:pl+plotW+7,y:(yHi+yLo)/2+11,fill:'#6b746f',style:{font:'500 9px JetBrains Mono, monospace'}},m.nLo+'–'+m.nHi+'%'));
-    // the unusual-move window
+    // the pre-event / unusual-move window (the days we trace for the run-up)
     const sx=X(m.surgeStart);
     els.push(h('rect',{key:'surge',x:sx,y:pt,width:(pl+plotW)-sx,height:plotH,fill:'#F87171',opacity:0.05}));
-    els.push(h('text',{key:'surgel',x:sx+6,y:pt+13,fill:'#d98a8a',style:{font:'600 9.5px JetBrains Mono, monospace'}},'← unusual move'));
+    els.push(h('text',{key:'surgel',x:sx+6,y:pt+13,fill:'#d98a8a',style:{font:'600 9.5px JetBrains Mono, monospace'}},'← pre-event window'));
     // price line
-    const pts=S.map((p,i)=>[X(i),Y(p)]);
-    const lp='M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
     const len=1600, anim=this.state.survReduce?{}:{strokeDasharray:len,strokeDashoffset:0,animation:'drawLine 1.1s ease','--len':len};
     els.push(h('path',{key:'line'+m.id,d:lp,fill:'none',stroke:color,strokeWidth:2.6,strokeLinejoin:'round',strokeLinecap:'round',style:Object.assign({filter:'drop-shadow(0 0 5px '+color+'66)'},anim)}));
-    // current level callout
+    // current / resolution level callout
     const ex=X(N-1), ey=Y(S[N-1]);
     els.push(h('circle',{key:'dot',cx:ex,cy:ey,r:3.6,fill:color,style:{filter:'drop-shadow(0 0 5px '+color+')'}}));
     const bx=Math.min(pl+plotW-44,ex+7);
     els.push(h('rect',{key:'cb',x:bx,y:ey-11,width:42,height:20,rx:5,fill:'#0a0f0d',stroke:color,strokeOpacity:0.6}));
     els.push(h('text',{key:'ct',x:bx+21,y:ey+3,textAnchor:'middle',fill:color,style:{font:'700 11px JetBrains Mono, monospace'}},m.curLvl+'%'));
+    // RESOLUTION marker (retrospective insider): the series ends at settlement
+    if(m.resolvedAt){
+      els.push(h('line',{key:'rv',x1:ex,y1:pt,x2:ex,y2:pt+plotH,stroke:color,strokeWidth:1,strokeDasharray:'3 3',opacity:0.5}));
+      els.push(h('text',{key:'rvt',x:Math.min(pl+plotW,ex),y:pt-7,textAnchor:'end',fill:color,style:{font:'600 9px JetBrains Mono, monospace'}},'resolved'));
+    }
     // news marker when a public headline sits around the move
     if(m.news&&m.news.has&&m.news.explained){ els.push(h('line',{key:'nw',x1:sx,y1:pt,x2:sx,y2:pt+plotH,stroke:'#8A938F',strokeWidth:1,strokeDasharray:'2 4',opacity:0.7})); els.push(h('text',{key:'nwt',x:sx,y:pt-7,textAnchor:'middle',fill:'#8A938F',style:{font:'500 9px JetBrains Mono, monospace'}},'news')); }
-    els.push(h('text',{key:'xl',x:pl,y:H-12,fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},'earlier'));
-    els.push(h('text',{key:'xr',x:pl+plotW,y:H-12,textAnchor:'end',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},'now'));
+    // x-axis: REAL dates from the series timestamps (mirrors the platform chart)
+    const fmtD=(ts)=>{ try { return new Date(ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}); } catch(e){ return ''; } };
+    const T=m.times;
+    const xl = (T&&T.length)?fmtD(T[0]):'earlier';
+    const xr = (T&&T.length)?fmtD(T[T.length-1]):'now';
+    const xm = (T&&T.length>2)?fmtD(T[Math.floor(T.length/2)]):'';
+    els.push(h('text',{key:'xl',x:pl,y:H-12,fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},xl));
+    if(xm) els.push(h('text',{key:'xm',x:pl+plotW/2,y:H-12,textAnchor:'middle',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},xm));
+    els.push(h('text',{key:'xr',x:pl+plotW,y:H-12,textAnchor:'end',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},xr));
     return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',style:{display:'block',maxWidth:'100%'},preserveAspectRatio:'xMidYMid meet'},els);
   }
   // a small horizontal bar (0-100) used in the score breakdown + each check

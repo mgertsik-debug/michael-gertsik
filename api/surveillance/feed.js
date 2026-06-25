@@ -946,6 +946,13 @@ module.exports = async (req, res) => {
     pub.ws = m.platform === "polymarket"
       ? { platform: "polymarket", token: _tokenId || null, cond: _cond || null }
       : { platform: "kalshi", ticker: _ticker || null };
+    // identifiers the on-demand /market detail endpoint needs to re-fetch the
+    // REAL price history + detectors for this one market when the user opens it.
+    pub.ref = m.platform === "polymarket"
+      ? { platform: "polymarket", cond: _cond || null, token: _tokenId || null }
+      : { platform: "kalshi", series: _series || null, ticker: _ticker || null };
+    pub.ref.won = _won != null ? _won : null;
+    pub.ref.resolved = !!_resolved;
     return pub;
   });
 
@@ -981,3 +988,29 @@ module.exports = async (req, res) => {
     alerts,
   });
 };
+
+/* ----------------------------------------------------- on-demand detail ----
+ * Enrich ONE market on request (the /api/surveillance/market endpoint): fetch
+ * its REAL price history + trades/holders/book and run the full detector set,
+ * so the inspector chart mirrors the platform exactly even for markets outside
+ * the current deep-enrich batch (e.g. thin markets the rolling scan skipped).
+ * `ref` carries the identifiers the feed exposed in each market's `ref` field. */
+async function enrichOne(ref, mode) {
+  ref = ref || {};
+  const platform = ref.platform === "kalshi" ? "kalshi" : "polymarket";
+  const m = {
+    id: ref.id || (platform === "kalshi" ? ("k-" + (ref.ticker || "")) : ("pm-" + (ref.cond || ""))),
+    platform, category: ref.category || "Other", question: ref.question || "", url: ref.url || "#",
+    prob: clip(num(ref.prob) || 0.5, 0.001, 0.999), change24h: num(ref.change24h) || 0,
+    volume24h: num(ref.volume) || 0, liquidity: num(ref.liquidity) || 0,
+    _cond: ref.cond || null, _tokenId: ref.token || null, _series: ref.series || null, _ticker: ref.ticker || null,
+    _won: ref.won === true || ref.won === "true" ? true : (ref.won === false || ref.won === "false" ? false : null),
+    _resolved: ref.resolved === true || ref.resolved === "1" || ref.resolved === "true",
+  };
+  scoreMarket(m, mode);               // preliminary (Q + run-up proxy)
+  await deepEnrich(m, mode);          // real history + full detector set
+  const { _cond, _tokenId, _series, _ticker, _det, _won, _resolved, _resolvedAt, ...pub } = m;
+  pub.resolved = !!_resolved; if (_resolvedAt) pub.resolvedAt = new Date(_resolvedAt).toISOString();
+  return pub;
+}
+module.exports.enrichOne = enrichOne;
