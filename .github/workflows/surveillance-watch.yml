@@ -30,20 +30,26 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Pull the live surveillance feed
+      - name: Pull both engines + advance the rolling-coverage queue
         run: |
-          curl -fsS --max-time 30 "https://www.michael-gertsik.com/api/surveillance/feed" -o feed.json \
-            || echo '{"alerts":[]}' > feed.json
-          node scripts/surveillance/append.js feed.json
+          # Enumerate-light each tick: pull the insider AND manipulation feeds
+          # (the endpoint holds the Kalshi key + rotates the deep-enrich batch).
+          curl -fsS --max-time 40 "https://www.michael-gertsik.com/api/surveillance/feed?mode=insider" -o feed-insider.json \
+            || echo '{"engine":"insider","markets":[],"alerts":[]}' > feed-insider.json
+          curl -fsS --max-time 40 "https://www.michael-gertsik.com/api/surveillance/feed?mode=manipulation" -o feed-manipulation.json \
+            || echo '{"engine":"manipulation","markets":[],"alerts":[]}' > feed-manipulation.json
+          # Upsert into the durable queue, run lifecycle, assert the staleness
+          # invariant, and append flagged alerts to the rolling history.
+          node scripts/surveillance/scan.js feed-insider.json feed-manipulation.json
 
-      - name: Commit history if new flags appeared
+      - name: Commit store + history if anything changed
         run: |
-          if git diff --quiet -- data/surveillance/history.json; then
-            echo "No new flags."
+          if git diff --quiet -- data/surveillance/store.json data/surveillance/history.json; then
+            echo "No change this tick."
             exit 0
           fi
           git config user.email "noreply@anthropic.com"
           git config user.name  "surveillance-watch"
-          git add data/surveillance/history.json
-          git commit -m "surveillance: append new flag(s) to history"
+          git add data/surveillance/store.json data/surveillance/history.json
+          git commit -m "surveillance: advance rolling-coverage queue + history"
           git push origin HEAD:"${GITHUB_REF_NAME}"

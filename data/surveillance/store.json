@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "updatedAt": null,
+  "watermark": null,
+  "config": {
+    "ENRICH_BATCH": 250,
+    "MAX_STALENESS_H": 6,
+    "CRON_INTERVAL_MIN": 15,
+    "GRACE_DAYS": 14,
+    "PUBLISH_THRESHOLD": "High-signal"
+  },
+  "counts": {
+    "watching": 0,
+    "evaluatedWithin": 0,
+    "evaluatedWindowH": 6,
+    "highSignal": 0,
+    "elevated": 0,
+    "watch": 0,
+    "retired": 0,
+    "oldestUnscannedAgeH": 0,
+    "stalenessOk": true
+  },
+  "queue": {},
+  "audit": []
+}

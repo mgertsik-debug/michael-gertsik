@@ -156,6 +156,15 @@
                 <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(19px,2.3vw,27px);font-weight:600;letter-spacing:.04em;line-height:1;color:#F3F5F4;">{{ surv.clockText }}<span style="font-size:.5em;color:#8A938F;margin-left:8px;letter-spacing:.12em;">{{ surv.tzLabel }}</span></div>
                 <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#5d6864;">NEW YORK · LIVE</div>
               </div>
+              <!-- ── ENGINE TOGGLE: Insider (retrospective) ⇄ Manipulation (microstructure) ── -->
+              <div style="display:flex;flex-direction:column;gap:6px;z-index:1;flex:1 1 300px;min-width:260px;">
+                <div role="tablist" aria-label="Surveillance engine" style="display:flex;background:#0a0f0d;border:1px solid #1B2521;border-radius:10px;padding:4px;gap:4px;">
+                  <sc-for list="{{ surv.engineBtns }}" as="e" hint-placeholder-count="2">
+                    <button role="tab" aria-selected="{{ e.active }}" onClick="{{ e.onClick }}" style="{{ e.style }}">{{ e.label }}</button>
+                  </sc-for>
+                </div>
+                <div style="font-size:11px;line-height:1.4;color:#8A938F;letter-spacing:.01em;padding:0 2px;text-wrap:pretty;">{{ surv.engineSubtitle }}</div>
+              </div>
               <div style="display:flex;flex-direction:column;gap:6px;z-index:1;">
                 <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#cfd6d2;letter-spacing:.01em;">watching <span style="color:#F3F5F4;font-weight:600;">{{ surv.scannedStr }}</span> markets<span style="color:#3b4641;margin:0 8px;">·</span><span style="color:#A78BFA;font-weight:600;">{{ surv.flaggedStr }}</span> deep-evaluated<span style="color:#3b4641;margin:0 8px;">·</span><span style="color:#F87171;font-weight:600;">{{ surv.highStr }}</span> high-signal</div>
                 <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
@@ -206,6 +215,14 @@
               </div>
               <button onClick="{{ surv.onOverview }}" style="{{ surv.overviewBtnStyle }}">◧ Overview</button>
             </div>
+
+            <!-- ── streaming-only capability boundary (manipulation engine, §0A.1) ── -->
+            <sc-if value="{{ surv.streamingBoundary }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:flex-start;gap:11px;margin:12px 4px 0;padding:11px 14px;border:1px solid #2a2440;background:#14101f;border-radius:10px;">
+                <span style="font-size:14px;line-height:1.3;color:#A78BFA;flex-shrink:0;">◑</span>
+                <div style="font-size:11.5px;line-height:1.5;color:#b3aacb;text-wrap:pretty;"><span style="color:#cbb8ff;font-weight:600;">Spoofing &amp; layering are out of scope on this deployment.</span> {{ surv.streamingBoundary }}</div>
+              </div>
+            </sc-if>
 
             <!-- ── watchlist + inspector ── -->
             <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:14px;padding:14px 4px 8px;flex:1;">
@@ -274,6 +291,7 @@
                         <span style="{{ surv.insp.tierStyle }}">{{ surv.insp.tierLabel }}</span>
                         <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#6b746f;">{{ surv.insp.category }}</span>
                         <span style="{{ surv.insp.labelStyle }}">{{ surv.insp.label }}</span>
+                        <sc-if value="{{ surv.insp.retro }}" hint-placeholder-val="{{ false }}"><span style="{{ surv.insp.retroStyle }}">{{ surv.insp.retroLabel }}</span></sc-if>
                         <span style="display:flex;align-items:center;gap:7px;margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7e8782;">{{ surv.insp.coverage }} {{ surv.insp.coverageBar }}</span>
                         <sc-if value="{{ surv.insp.live }}" hint-placeholder-val="{{ false }}"><span style="{{ surv.insp.liveStyle }}">● LIVE</span></sc-if>
                       </div>
@@ -622,7 +640,7 @@ class Component extends DCLogic {
       // --- Surveillance: Signal List + Inspector ---
       // --- Surveillance scanner (ported reference UI) ---
       survSel:null, survPlatform:'all', survCats:[], survSort:'suspicion', survThreshold:0, survSearch:'',
-      survOverview:false, survProbView:'pct', survMath:{}, survReduce:false, survView:'high',
+      survOverview:false, survProbView:'pct', survMath:{}, survReduce:false, survView:'high', survMode:'insider',
       survNow:Date.now(), survStatT:0, survUpdatedAt:Date.now(), survPulse:0,
       survMarkets:null, survFeedAt:null, survCoverage:null, survSources:null, survWs:null,
       // --- Case files ---
@@ -665,11 +683,12 @@ class Component extends DCLogic {
   }
   _survPoll(){
     try {
-      fetch('/api/surveillance/feed', { cache:'no-store' })
+      const mode=this.state.survMode||'insider';
+      fetch('/api/surveillance/feed?mode='+mode, { cache:'no-store' })
         .then(r=> r.ok ? r.json() : null)
         .then(d=>{
           if (d && Array.isArray(d.markets) && d.markets.length){
-            this.setState(st=>({ survMarkets:d.markets, survFeedAt:d.generatedAt, survCoverage:d.coverage, survSources:d.sources, survPulse:(st.survPulse||0)+1 }));
+            this.setState(st=>({ survMarkets:d.markets, survFeedAt:d.generatedAt, survCoverage:d.coverage, survSources:d.sources, survStreaming:d.streamingBoundary||null, survPulse:(st.survPulse||0)+1 }));
             // keep the open market's live websocket pointed at fresh coordinates
             const sel = d.markets.find(m=>m.id===this.state.survSel);
             if (sel) this._survSubscribe(sel);
@@ -677,6 +696,13 @@ class Component extends DCLogic {
         })
         .catch(()=>{});
     } catch(_) {}
+  }
+  // Top-level engine toggle: INSIDER (retrospective) <-> MANIPULATION (microstructure).
+  // Clears the open selection + stale feed, regenerates the right sample, re-polls.
+  setSurvMode(mode){
+    if ((this.state.survMode||'insider')===mode) return;
+    this._survRaw=null; this._survRawManip=null; this._survWsClose();
+    this.setState({ survMode:mode, survMarkets:null, survSel:null, survWs:null, survCoverage:null, survStreaming:null }, ()=> this._survPoll());
   }
   // Select a market and (Phase 2) open a PUBLIC market-data websocket for it so
   // its price ticks live in the inspector. Only the open market is subscribed.
@@ -875,15 +901,14 @@ class Component extends DCLogic {
   // live feed markets -> the card shape the watchlist/inspector render.
   // Every "check" carries a plain-English sentence with concrete numbers (no
   // jargon, no σ), the points it added to the 0-100 score, and the raw math.
-  survLiveCards(markets){
-    const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)), pct=x=>Math.round(clamp(x,0,1)*100);
+  survLiveCards(markets, mode){
+    const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)), pct=x=>Math.round(clamp(x,0,1)*100), _k=(n)=>this._k(n);
     return markets.map((m,idx)=>{
       const plat=m.platform, D=m.detectors||{}, score=Math.round(m.index||0);
-      const ru=D.runUp,vp=D.vpin,ky=D.priceImpact,co=D.concentration,nw=D.news;
+      const eng=m.engine||mode||'insider', isManip=eng==='manipulation';
       const sub=(d)=> d&&typeof d.score==='number'?Math.round(clamp(d.score*100,0,100)):0;
       // points each check contributed to the final score (from the fusion)
       const cw={}; (m.contributions||[]).forEach(c=>{ cw[c.key]=c.points; });
-      const pts={ runup:cw.runUp||0, vpin:cw.vpin||0, kyle:cw.priceImpact||0, conc:cw.concentration||0 };
 
       // price series + the market's OWN usual range (10th–90th pct of the calm window)
       let prob=(m.series&&m.series.length>=6)?m.series.map(x=>x.p):null;
@@ -893,50 +918,122 @@ class Component extends DCLogic {
       const nLoF=this._q(est,0.1), nHiF=this._q(est,0.9), preF=this._q(est,0.5);
       const nLo=pct(nLoF), nHi=pct(nHiF), preLvl=pct(preF), curLvl=pct(prob[N-1]);
       const usualWidth=Math.max(2, nHi-nLo), movePts=Math.abs(curLvl-preLvl), moveRatio=Math.max(1,Math.round(movePts/usualWidth));
-      const dir=(ru&&ru.dir==='down')?-1:(prob[N-1]>=prob[0]?1:-1);
+      const dirD=D.runUp;
+      const dir=(dirD&&dirD.dir==='down')?-1:(prob[N-1]>=prob[0]?1:-1);
       const chPts=Math.round((m.change24h||0)*100);
 
-      // plain-English numbers per check
-      const vpinPct = (vp&&vp.vpin!=null)?Math.round(vp.vpin*100):null;
-      const kyleX   = (ky&&ky.impactRatio!=null)?Math.round(ky.impactRatio):null;
-      const top1Pct = (m.onchain&&m.onchain.top1!=null)?Math.round(m.onchain.top1*100):((co&&co.top1!=null)?Math.round(co.top1*100):null);
-      const nWal    = (m.onchain&&m.onchain.nWallets)|| (co&&co.nWallets) || null;
-      const leadH   = nw&&nw.leadH!=null?nw.leadH:null, headline=nw&&nw.headline?nw.headline:null;
-
-      const runSentence = !ru ? 'Not enough price history yet to measure how unusual the recent move is.'
-        : (deepSeries
-          ? ('This market normally trades between '+nLo+'% and '+nHi+'%. The YES price has moved to '+curLvl+'% — about '+movePts+' points outside that usual range, roughly '+moveRatio+'× a normal swing. A jump this size before any public news is what you would expect if someone were trading on information the public did not have yet.')
-          : ('Over the last 24 hours the YES price moved '+(chPts>=0?'+':'')+chPts+' points, to '+curLvl+'% — a larger swing than this market usually makes in a day. (Full price history and the other checks load when you open the market.)'));
-      const checks=[
-        { key:'runup', name:'Unusual early move', sub:sub(ru), points:pts.runup, available:!!ru,
+      // ---- per-detector "check" builders (one code path, both engines) --------
+      const mk={};
+      // INSIDER 1 / shared: Keown–Pinkerton run-up
+      mk.runUp=(d)=>{
+        const frac=(d&&d.preMoveFraction!=null)?Math.round(d.preMoveFraction*100):null;
+        const runSentence = !d ? 'Not enough price history yet to measure how unusual the recent move is.'
+          : (deepSeries
+            ? ('This market normally trades between '+nLo+'% and '+nHi+'%. The YES price has moved to '+curLvl+'% — about '+movePts+' points outside that usual range, roughly '+moveRatio+'× a normal swing.'+(frac!=null&&frac>=50?(' About '+frac+'% of the whole move happened BEFORE the outcome was public'):'')+' — what you would expect if someone were trading on information the public did not have yet.')
+            : ('Over the last 24 hours the YES price moved '+(chPts>=0?'+':'')+chPts+' points, to '+curLvl+'% — a larger swing than this market usually makes in a day. (Full price history and the other checks load when you open the market.)'));
+        return { key:'runUp', name:'Unusual early move', sub:sub(d), points:cw.runUp||0, available:!!d,
           chip:'Move '+movePts+'pts', sentence:runSentence,
-          how:'We compare the recent move with this market’s own day-to-day wiggle (its usual range was '+nLo+'%–'+nHi+'%). A move many times bigger than normal, before any news, scores high. Method: Keown–Pinkerton event study.' },
-        { key:'vpin', name:'One-sided buying', sub:sub(vp), points:pts.vpin, available:!!vp,
+          how:'We compare the recent move with this market’s own day-to-day wiggle (its usual range was '+nLo+'%–'+nHi+'%)'+(frac!=null?(', and measure how much of the move landed before the public catalyst ('+frac+'%)'):'')+'. A move many times bigger than normal, before any news, scores high. Method: Keown–Pinkerton event study.' };
+      };
+      // INSIDER 2: pre-event accumulation (PM wallets) OR volume run-up (Kalshi)
+      mk.accumulation=(d)=>{
+        const isVol = d && d.ratio!=null && d.netPreUsd==null;
+        if(isVol){
+          const r=d.ratio;
+          return { key:'accumulation', name:'Abnormal pre-event volume', sub:sub(d), points:cw.accumulation||0, available:!!d,
+            chip:r+'× normal',
+            sentence:'In the run-up to the outcome, trading volume here was about '+r+'× this market’s normal level — a surge of interest building before the result was public.',
+            how:'Kalshi traders are anonymous, so instead of wallets we compare pre-event volume with this market’s own baseline ('+r+'× normal). Method: pre-event volume run-up.' };
+        }
+        const net=d?Math.abs(d.netPreUsd||0):0, held=d&&d.held;
+        return { key:'accumulation', name:'Built a big position early', sub:sub(d), points:cw.accumulation||0, available:!!d,
+          chip: d?('$'+_k(net)+(held?' · held':'')):'—',
+          sentence: d
+            ? ('A single account built a one-directional position worth about $'+_k(net)+' before the outcome was known, and '+(held?'held it all the way to resolution':'mostly held it into resolution')+'. Building big and holding through the event is the conviction signature of someone who already knew how it would resolve.')
+            : 'We don’t have the on-chain positions for this market yet, so we can’t measure pre-event accumulation.',
+          how:'On Polymarket every position is public. We measure the largest one-directional stake built before resolution and whether it was held through settlement (selling under 3% before the result = full conviction). Method: hold-to-resolution accumulation (Van Dyke / ACDC).' };
+      };
+      // INSIDER 4: ACDC longshot + win-rate-vs-implied screen
+      mk.longshot=(d)=>{
+        const ip=(d&&d.impliedProb!=null)?Math.round(d.impliedProb*100):null, base=(d&&d.baseline!=null)?Math.round(d.baseline*100):null;
+        let sentence, chip='—';
+        if(!d) sentence='We don’t have the resolved-position data for this market yet.';
+        else if(!d.isLongshot){ sentence='No unusually large bet on a low-priced outcome to flag here.'; chip='no longshot'; }
+        else if(d.won===true){ chip='Won at '+ip+'%'; sentence='A large bet was placed on an outcome the market gave only '+ip+'% — and it paid off. Bets like this win about '+base+'% of the time, so winning anyway is the longshot fingerprint regulators look for.'; }
+        else if(d.won===false){ chip='Lost @ '+ip+'%'; sentence='A large bet sat on a '+ip+'% outcome that did not pay out — a big swing against the odds, but it lost.'; }
+        else { chip='Big bet @ '+ip+'%'; sentence='A large position sits on an outcome priced at only '+ip+'% — a heavy bet against the odds. We can only confirm the longshot fingerprint once the market resolves.'; }
+        return { key:'longshot', name:'Bet against the odds', sub:sub(d), points:cw.longshot||0, available:!!d,
+          chip, sentence,
+          how:'We flag bets of $2,500+ placed at 35% implied odds or lower, then (once resolved) compare the win rate with the category baseline'+(base!=null?(' ('+base+'%)'):'')+'. Method: ACDC longshot screen.' };
+      };
+      // SHARED concentration (PM wallets) / order-book imbalance (Kalshi)
+      mk.concentration=(d)=>{
+        const ob = d&&d.kind==='orderbook';
+        const imbPct = ob?Math.round((d.imbalance||0)*100):null;
+        const top1Pct = (m.onchain&&m.onchain.top1!=null)?Math.round(m.onchain.top1*100):((d&&d.top1!=null)?Math.round(d.top1*100):null);
+        const nWal = (m.onchain&&m.onchain.nWallets)|| (d&&d.nWallets) || null;
+        return { key:'concentration', name: ob?'Lopsided order book':'A few accounts dominated', sub:sub(d), points:cw.concentration||0, available:!!d,
+          chip: ob?(imbPct+'% '+d.side+'-side'):(top1Pct!=null?(top1Pct+'% one wallet'):(plat==='kalshi'?'order book':'—')),
+          sentence: d
+            ? (ob
+              ? ('The resting orders are lopsided: roughly '+imbPct+'% more money is stacked on the '+d.side+' side of the order book than the other. A heavily one-sided book means traders are leaning hard one way — often before an outcome is public.')
+              : ('Most of the buying came from just a few accounts. The single biggest wallet was '+top1Pct+'% of all the buying, out of '+nWal+' accounts. One account loading up looks very different from a crowd of small bettors.'+(m.onchain&&m.onchain.fresh?' The top wallet only appeared right before the move.':'')))
+            : (plat==='kalshi'
+              ? 'We could not read this market’s order book just now, so we can’t score how lopsided the resting orders are.'
+              : 'We don’t have the on-chain trades for this market yet.'),
+          how: ob
+            ? ('Kalshi traders are anonymous, so instead of wallets we read the order book directly and measure how much more resting volume sits on one side ('+imbPct+'% imbalance toward '+d.side+', about $'+_k(d.depthUsd||0)+' on the book).')
+            : ('On Polymarket every trade carries a public wallet, so we measure how concentrated the buying is — top wallet '+(top1Pct!=null?top1Pct+'%':'—')+' across '+(nWal||'—')+' accounts. Method: Herfindahl index. On Kalshi, traders are anonymous, so we read the order book instead.') };
+      };
+      // MANIPULATION 1: wash / self-trading
+      mk.washTrade=(d)=>{
+        const sf=(d&&d.selfFrac!=null)?Math.round(d.selfFrac*100):null;
+        return { key:'washTrade', name:'Trading with itself', sub:sub(d), points:cw.washTrade||0, available:!!d,
+          chip: sf!=null?(sf+'% self-matched'):'—',
+          sentence: d
+            ? ('About '+sf+'% of the volume here traces back to the same or linked accounts trading with themselves. Wash trading inflates how busy a market looks and can nudge the price without anyone taking real risk.')
+            : (plat==='kalshi'?'Kalshi traders are anonymous, so we can’t trace trades back to wallets to detect self-dealing here.':'We don’t have the on-chain trades for this market yet.'),
+          how:'On Polymarket every trade carries a public wallet, so we match buys and sells back to the same or linked wallets and measure how much volume is self-matched ('+(sf!=null?sf+'%':'—')+'). Method: self-trade / wash detection. (Kalshi is anonymous, so this cannot run there.)' };
+      };
+      // MANIPULATION 2: ramp / marking-the-close
+      mk.ramp=(d)=>{
+        const cf=(d&&d.closeVolFrac!=null)?Math.round(d.closeVolFrac*100):null;
+        return { key:'ramp', name:'Marking the close', sub:sub(d), points:cw.ramp||0, available:!!d,
+          chip: cf!=null?(cf+'% into close'):'—',
+          sentence: d
+            ? ('About '+cf+'% of the period’s trading hit right at the close, pushing the price into where it settled. Packing volume into the final window to set the settlement price is the classic marking-the-close / ramp footprint.')
+            : 'Not enough price-and-volume history yet to measure pressure into the close.',
+          how:'We measure how much of the period’s volume and price move is concentrated in the final window before settlement ('+(cf!=null?cf+'%':'—')+'). Method: marking-the-close / settlement-ramp.' };
+      };
+      // MANIPULATION 3: VPIN one-sided flow
+      mk.vpin=(d)=>{
+        const vpinPct=(d&&d.vpin!=null)?Math.round(d.vpin*100):null;
+        return { key:'vpin', name:'One-sided buying', sub:sub(d), points:cw.vpin||0, available:!!d,
           chip: vpinPct!=null?(vpinPct+'% one-sided'):'—',
-          sentence: vp?('In a calm market, buying and selling stay close to 50/50. Here, '+vpinPct+'% of recent trading pushed the SAME direction — heavily lopsided, the kind of imbalance that appears when informed money is quietly building a position.'):'We don’t have the individual trades for this market yet, so we can’t measure how one-sided the buying was.',
-          how:'We split recent volume into buys vs sells and measure how lopsided it is ('+(vpinPct!=null?vpinPct+'% one-sided':'—')+'). Method: VPIN (order-flow toxicity).' },
-        { key:'kyle', name:'Big swing on little money', sub:sub(ky), points:pts.kyle, available:!!ky,
+          sentence: d?('In a calm market, buying and selling stay close to 50/50. Here, '+vpinPct+'% of recent trading pushed the SAME direction — heavily lopsided, the kind of imbalance that appears when informed money is quietly building a position.'):'We don’t have the individual trades for this market yet, so we can’t measure how one-sided the buying was.',
+          how:'We split recent volume into buys vs sells and measure how lopsided it is ('+(vpinPct!=null?vpinPct+'% one-sided':'—')+'). Method: VPIN (order-flow toxicity).' };
+      };
+      // MANIPULATION 4: price impact (Kyle's λ + Amihud)
+      mk.priceImpact=(d)=>{
+        const kyleX=(d&&d.impactRatio!=null)?Math.round(d.impactRatio):null;
+        return { key:'priceImpact', name:'Big swing on little money', sub:sub(d), points:cw.priceImpact||0, available:!!d,
           chip: kyleX!=null?(kyleX+'× impact'):'—',
-          sentence: ky?('It took only a small amount of money to move this price a lot — about '+kyleX+'× the impact a normal trade has here. When a few dollars swing the odds this much, it can mean someone is betting with unusual conviction on a thin market.'):'We can’t measure price impact for this market yet.',
-          how:'We measure how far the price moves per dollar traded, versus this market’s normal liquidity ('+(kyleX!=null?kyleX+'× normal':'—')+'). Method: Kyle’s λ + Amihud illiquidity.' },
-        (function(){
-          const ob = co&&co.kind==='orderbook';
-          const imbPct = ob?Math.round((co.imbalance||0)*100):null;
-          return { key:'conc', name: ob?'Lopsided order book':'A few accounts dominated', sub:sub(co), points:pts.conc, available:!!co,
-            chip: ob?(imbPct+'% '+co.side+'-side'):(top1Pct!=null?(top1Pct+'% one wallet'):(plat==='kalshi'?'order book':'—')),
-            sentence: co
-              ? (ob
-                ? ('The resting orders are lopsided: roughly '+imbPct+'% more money is stacked on the '+co.side+' side of the order book than the other. A heavily one-sided book means traders are leaning hard one way — often before an outcome is public.')
-                : ('Most of the buying came from just a few accounts. The single biggest wallet was '+top1Pct+'% of all the buying, out of '+nWal+' accounts. One account loading up looks very different from a crowd of small bettors.'+(m.onchain&&m.onchain.fresh?' The top wallet only appeared right before the move.':'')))
-              : (plat==='kalshi'
-                ? 'We could not read this market’s order book just now, so we can’t score how lopsided the resting orders are.'
-                : 'We don’t have the on-chain trades for this market yet.'),
-            how: ob
-              ? ('Kalshi traders are anonymous, so instead of wallets we read the order book directly and measure how much more resting volume sits on one side ('+imbPct+'% imbalance toward '+co.side+', about $'+this._k(co.depthUsd||0)+' on the book).')
-              : ('On Polymarket every trade carries a public wallet, so we measure how concentrated the buying is — top wallet '+(top1Pct!=null?top1Pct+'%':'—')+' across '+(nWal||'—')+' accounts. Method: Herfindahl index. On Kalshi, traders are anonymous, so we read the order book instead.') };
-        }).call(this),
-      ];
-      const newsCtx = !nw ? { has:false } : {
+          sentence: d?('It took only a small amount of money to move this price a lot — about '+kyleX+'× the impact a normal trade has here. When a few dollars swing the odds this much, it can mean someone is pushing the price rather than trading on value.'):'We can’t measure price impact for this market yet.',
+          how:'We measure how far the price moves per dollar traded, versus this market’s normal liquidity ('+(kyleX!=null?kyleX+'× normal':'—')+'). Method: Kyle’s λ + Amihud illiquidity.' };
+      };
+      // MANIPULATION 5: spoofing/layering — honest capability boundary (§0A.1)
+      mk.spoofing=(d)=> ({ key:'spoofing', name:'Spoofing & layering', sub:0, points:0, available:false, boundary:true,
+        chip:'requires streaming', isBoundary:true,
+        sentence:(d&&d.reason)||'Spoofing is placing orders you intend to cancel — visible only in a live order stream. This serverless + cron build has no always-on recorder, so it is shown here as an honest capability boundary, never scored 0.',
+        how:'Detecting spoofing needs a continuous record of every order placed AND cancelled, which only an always-on websocket capture provides. This deployment is a 45-second serverless function on a 15-minute cron, so order-cancel patterns are out of scope by design — reported here rather than silently zeroed.' });
+
+      // engine-specific ordered detector set
+      const order = isManip ? ['washTrade','ramp','vpin','priceImpact','spoofing'] : ['runUp','accumulation','concentration','longshot'];
+      const checks = order.map(k=> mk[k] ? mk[k](D[k]) : null).filter(Boolean);
+
+      // news context (insider engine only; manipulation has no news gate)
+      const nw=D.news, leadH=nw&&nw.leadH!=null?nw.leadH:null, headline=nw&&nw.headline?nw.headline:null;
+      const newsCtx = (isManip||!nw) ? { has:false } : {
         has:true, preEvent:!!nw.preEvent, explained:!!nw.explained,
         sentence: nw.preEvent
           ? ('The big move happened about '+(leadH||'several')+' hours BEFORE any public news that could explain it. A price that moves first and only gets explained later is a classic red flag — so this does not lower the score.')
@@ -953,16 +1050,25 @@ class Component extends DCLogic {
       }
       const clusters=(m.onchain&&m.onchain.clusters)||[];
       const dirWord=dir>0?'“Yes”':'“No”';
+      const firedNames=checks.filter(c=>c.available&&c.points>0).sort((a,b)=>b.points-a.points).map(c=>c.name.toLowerCase());
+      const firedList=firedNames.slice(0,2).join(' and ');
       let summary;
-      if(m.label==='Low-liquidity artifact') summary='Barely any money trades here, so a single small bet can swing the price. The reading is more likely a quirk of a thin market than informed trading.';
-      else if(m.label==='Explained') summary='The price moved sharply, but a public headline around the same time most likely explains it — so this is probably ordinary trading, not an information leak.';
-      else if(m.label==='Unexplained') summary='The price jumped toward '+dirWord+' and outside its usual range with no public news to explain it — the pattern of someone trading ahead of information. That is why it ranks high.';
-      else summary='The price made an unusual move toward '+dirWord+'; it is partly explained by public context, so it is worth watching rather than alarming.';
+      if(isManip){
+        if(m.tier==='High-signal') summary='The trade history here shows the footprints of market manipulation — '+(firedList||'self-dealing, a ramp into settlement, or one-sided pressure')+' — with several checks agreeing. That is why it ranks high.';
+        else if(score>=50) summary='Some manipulation checks fired ('+(firedList||'order-flow and trade-pattern signals')+'), but coverage or agreement is incomplete, so this is worth watching rather than alarming.';
+        else summary='A manipulation check or two registered here, but the pattern is weak and largely unconfirmed.';
+      } else {
+        if(m.label==='Low-liquidity artifact') summary='Barely any money trades here, so a single small bet can swing the price. The reading is more likely a quirk of a thin market than informed trading.';
+        else if(m.label==='Explained') summary='The price moved sharply, but a public headline around the same time most likely explains it — so this is probably ordinary trading, not an information leak.';
+        else if(m.label==='Unexplained') summary='The price jumped toward '+dirWord+' and outside its usual range with no public news to explain it — the pattern of someone trading ahead of information. That is why it ranks high.';
+        else summary='The price made an unusual move toward '+dirWord+'; it is partly explained by public context, so it is worth watching rather than alarming.';
+      }
 
       const updatedAgo= m.movedAt?Math.max(3,Math.round((Date.now()-m.movedAt)/1000)):(8+(idx%9)*11);
-      const cRan=m.coverageRan!=null?m.coverageRan:checks.filter(c=>c.available).length, cTot=m.coverageTotal!=null?m.coverageTotal:4;
+      const cRan=m.coverageRan!=null?m.coverageRan:checks.filter(c=>c.available).length, cTot=m.coverageTotal!=null?m.coverageTotal:(isManip?4:4);
       const tier=m.tier||(m.label==='Low-liquidity artifact'?'Watch':(score>=70&&cRan===cTot?'High-signal':score>=50?'Elevated':score>=30?'Watch':'Clear'));
-      return { id:m.id, question:m.question, platform:plat, category:m.category||'Other', score, label:m.label||'—', summary,
+      return { id:m.id, question:m.question, platform:plat, category:m.category||'Other', score, label:m.label||'—', summary, engine:eng,
+        resolved:!!m.resolved, resolvedAt:m.resolvedAt||null,
         tier, coverageRan:cRan, coverageTotal:cTot,
         prob, nLoF, nHiF, surgeStart:estN, curLvl, nLo, nHi, deepSeries, dir,
         checks, news:newsCtx, topChips:top, wallets, hhi, clusters, book:m.book||null, wsCoords:m.ws||null,
@@ -1082,8 +1188,11 @@ class Component extends DCLogic {
   survTier(x){ if(x.Q!=null&&x.Q<=0.25) return 'Watch'; if(x.fullCoverage&&x.agreeing>=2&&x.score>=70) return 'High-signal'; if(x.score>=50&&x.agreeing>=1) return 'Elevated'; if(x.score>=30) return 'Watch'; return 'Clear'; }
   tierMeta(t){ return t==='High-signal'?{label:'HIGH-SIGNAL',color:'#F87171',rank:3}:t==='Elevated'?{label:'ELEVATED',color:'#FBBF24',rank:2}:t==='Watch'?{label:'WATCH',color:'#8A938F',rank:1}:{label:String(t||'—').toUpperCase(),color:'#5d6864',rank:0}; }
   _fuseSample(subs01, opts){
-    opts=opts||{}; const W={runUp:0.30,vpin:0.25,priceImpact:0.20,concentration:0.25};
-    const order=['runUp','vpin','priceImpact','concentration'];
+    opts=opts||{};
+    const W = opts.mode==='manipulation'
+      ? {washTrade:0.30,ramp:0.25,vpin:0.20,priceImpact:0.25}
+      : {runUp:0.30,accumulation:0.25,concentration:0.25,longshot:0.20};
+    const order=Object.keys(W);
     const applicable=order.length; let wsum=0, weighted=0; const rows=[];
     order.forEach(k=>{ const v=subs01[k]; if(v!=null){ wsum+=W[k]; weighted+=W[k]*v; rows.push({k,v}); } });
     if(!rows.length) return { index:0, contributions:[], coverageRan:0, coverageTotal:applicable, fullCoverage:false, agreeing:0, tier:'Insufficient data' };
@@ -1095,7 +1204,8 @@ class Component extends DCLogic {
   }
   // sample markets in the LIVE FEED shape, so they flow through survLiveCards()
   // exactly like real data (one code path for all the plain-English explanations)
-  survSampleRaw(){
+  survSampleRaw(mode){
+    const isManip = mode==='manipulation';
     const cats=['Politics','Elections','Economy','Finance','Business','World','Tech & Science','Culture','Health'];
     const POOL={
       'Politics':['Will a US federal government shutdown begin before October 2026?','Will the pending bipartisan trade bill be signed into law before August 2026?','Will a new cabinet secretary be confirmed before September 2026?'],
@@ -1115,13 +1225,7 @@ class Component extends DCLogic {
       const s01= idx<5?(0.74+R()*0.22):(0.12+R()*0.62);     // base suspicion 0..1
       // detector sub-scores (0..1), jittered around the base
       const jc=()=>Math.max(0.05,Math.min(0.99,s01+(R()-0.5)*0.28));
-      // vary coverage: ~1 in 4 markets is missing a check (no per-trade data etc.)
-      const missing = R()<0.28 ? (R()<0.5?'vpin':'priceImpact') : null;
-      const subs={ runUp:jc(), vpin: missing==='vpin'?null:jc(), priceImpact: missing==='priceImpact'?null:jc(), concentration: jc() };
-      // news: most are pre-event gaps; ~1 in 4 is explained by a headline
-      const explained = R()<0.25, E = explained?(0.55+R()*0.4):0;
       const Q = 0.45+R()*0.5;
-      const fused=this._fuseSample(subs, { E, Q, categoryMult:this.catMult(cat) });
       // build a price series: calm range, then a surge of size ~ s01
       const N=56, b0=0.30+R()*0.34, amp=0.03+R()*0.03, ph=R()*6, dir=R()<0.5?1:-1, target=dir>0?0.92:0.08, strength=0.4+s01*0.6;
       const series=[], ws=N-20, we=N-7;
@@ -1131,27 +1235,55 @@ class Component extends DCLogic {
         else { const t=(i-we)/((N-1)-we); const ev=startWin+(target-startWin)*strength; p=ev+(target-ev)*t; }
         series.push({ t: Math.floor((now-(N-i)*3600000)/1000), p:this.clamp(p,0.02,0.98) }); }
       const cur=series[N-1].p, prev=series[Math.max(0,ws-2)].p;
-      // detector objects with realistic raw metrics derived from the sub-scores
-      const detectors={
-        runUp:{ score:subs.runUp, sigma_move:+(subs.runUp*7+0.5).toFixed(1), dir:dir>0?'up':'down' },
-        vpin: subs.vpin==null?null:{ score:subs.vpin, vpin:+(0.5+subs.vpin*0.45).toFixed(2), nBuckets:50, nTrades:Math.round(120+R()*900) },
-        priceImpact: subs.priceImpact==null?null:{ score:subs.priceImpact, impactRatio:+(2+subs.priceImpact*16).toFixed(1), lambda:+(0.004+subs.priceImpact*0.02).toFixed(4), amihud:'2e-5' },
-        concentration: platform==='polymarket'
-          ? { score:subs.concentration, top1:+(0.25+subs.concentration*0.55).toFixed(2), nWallets:Math.round(8+R()*60), fresh:R()<0.5, hhi:+(0.1+subs.concentration*0.4).toFixed(2) }
-          : { score:subs.concentration, kind:'orderbook', imbalance:+(0.2+subs.concentration*0.6).toFixed(2), side:R()<0.5?'buy':'sell', depthUsd:Math.round(5000+R()*80000), bestBid:+(0.2+R()*0.5).toFixed(2), bestAsk:+(0.25+R()*0.5).toFixed(2) },
-        news: explained?{ E, explained:true, preEvent:false, headline:'Officials comment on the matter, agencies report', source:'Reuters' }:{ E:0, explained:false, preEvent:true, leadH:Math.round(3+R()*18) },
-      };
-      let onchain=null;
-      if(platform==='polymarket'){
-        const raw=[1,0.62,0.4,0.24,0.13].map(x=>x*(0.4+subs.concentration)); const sum=raw.reduce((a,b)=>a+b,0); let hh=0;
-        const tw=raw.map((r,i)=>{ const share=r/sum; hh+=share*share; const full='0x'+Array.from({length:40},()=>Math.floor(R()*16).toString(16)).join(''); return { wallet:full.slice(0,6)+'…'+full.slice(-4), full, share:+share.toFixed(3), usd:Math.round((1-i*0.15)*(20000+R()*400000)), fresh:(i===0&&R()<0.55)||(i>0&&R()<0.22) }; });
-        const clusters= (fused.index>=70 && R()<0.5)?[{ size:3, share:+(0.18+R()*0.2).toFixed(2), windowMin:15, wallets:tw.slice(1,4).map(w=>w.wallet), spanSec:480 }]:[];
-        onchain={ hhi:+hh.toFixed(2), top1:tw[0].share, fresh:tw[0].fresh, nWallets:tw.length+Math.round(R()*40), clusters, topWallets:tw };
+      let detectors, subs, fused, label, onchain=null;
+      if(isManip){
+        // MANIPULATION engine sample: wash/ramp/vpin/impact (+ spoofing boundary)
+        const missing = R()<0.22 ? (R()<0.5?'vpin':'priceImpact') : null;
+        const washOk = platform==='polymarket';   // wash needs wallets -> PM only
+        subs={ washTrade: washOk?jc():null, ramp:jc(), vpin: missing==='vpin'?null:jc(), priceImpact: missing==='priceImpact'?null:jc() };
+        fused=this._fuseSample(subs, { mode:'manipulation', Q, categoryMult:1 });
+        detectors={
+          washTrade: subs.washTrade==null?null:{ score:subs.washTrade, selfFrac:+(0.15+subs.washTrade*0.6).toFixed(2), linkedPairs:Math.round(R()*4) },
+          ramp: subs.ramp==null?null:{ score:subs.ramp, closeVolFrac:+(0.2+subs.ramp*0.55).toFixed(2) },
+          vpin: subs.vpin==null?null:{ score:subs.vpin, vpin:+(0.5+subs.vpin*0.45).toFixed(2), nBuckets:50, nTrades:Math.round(120+R()*900) },
+          priceImpact: subs.priceImpact==null?null:{ score:subs.priceImpact, impactRatio:+(2+subs.priceImpact*16).toFixed(1), lambda:+(0.004+subs.priceImpact*0.02).toFixed(4), amihud:'2e-5' },
+          spoofing:{ available:false, reason:'Spoofing & layering are defined by order cancels, which exist only in a live websocket stream. This build is serverless + cron (no always-on recorder), so these are out of scope and shown here honestly rather than scored 0.' },
+        };
+        if(platform==='polymarket'){
+          const raw=[1,0.62,0.4,0.24,0.13].map(x=>x*(0.4+(subs.washTrade||0.3))); const sum=raw.reduce((a,b)=>a+b,0); let hh=0;
+          const tw=raw.map((r,i)=>{ const share=r/sum; hh+=share*share; const full='0x'+Array.from({length:40},()=>Math.floor(R()*16).toString(16)).join(''); return { wallet:full.slice(0,6)+'…'+full.slice(-4), full, share:+share.toFixed(3), usd:Math.round((1-i*0.15)*(20000+R()*400000)), fresh:false }; });
+          onchain={ hhi:+hh.toFixed(2), top1:tw[0].share, fresh:false, nWallets:tw.length+Math.round(R()*40), clusters:[], topWallets:tw };
+        }
+        label= fused.index>=55?'Unexplained':fused.index>=28?'Partially explained':'Low-liquidity artifact';
+      } else {
+        // INSIDER engine sample: runUp / accumulation|volumeRunup / concentration / longshot
+        const missing = R()<0.24 ? (R()<0.5?'accumulation':'longshot') : null;
+        subs={ runUp:jc(), accumulation: missing==='accumulation'?null:jc(), concentration: jc(), longshot: missing==='longshot'?null:jc() };
+        const explained = R()<0.25, E = explained?(0.55+R()*0.4):0;
+        fused=this._fuseSample(subs, { mode:'insider', E, Q, categoryMult:this.catMult(cat) });
+        const won = R()<0.62;
+        detectors={
+          runUp:{ score:subs.runUp, sigma_move:+(subs.runUp*7+0.5).toFixed(1), dir:dir>0?'up':'down', preMoveFraction:+(0.4+subs.runUp*0.5).toFixed(2) },
+          accumulation: subs.accumulation==null?null:(platform==='polymarket'
+            ? { score:subs.accumulation, netPreUsd:Math.round((1+subs.accumulation*9)*12000), soldFracPre:R()<0.6?0.01:0.12, held:R()<0.6 }
+            : { score:subs.accumulation, ratio:+(1.5+subs.accumulation*7).toFixed(1) }),
+          concentration: platform==='polymarket'
+            ? { score:subs.concentration, top1:+(0.25+subs.concentration*0.55).toFixed(2), nWallets:Math.round(8+R()*60), fresh:R()<0.5, hhi:+(0.1+subs.concentration*0.4).toFixed(2) }
+            : { score:subs.concentration, kind:'orderbook', imbalance:+(0.2+subs.concentration*0.6).toFixed(2), side:R()<0.5?'buy':'sell', depthUsd:Math.round(5000+R()*80000), bestBid:+(0.2+R()*0.5).toFixed(2), bestAsk:+(0.25+R()*0.5).toFixed(2) },
+          longshot: subs.longshot==null?null:{ score:subs.longshot, isLongshot:true, won, impliedProb:+(0.08+R()*0.24).toFixed(2), baseline:this.catMult(cat)>1?0.14:0.2 },
+          news: explained?{ E, explained:true, preEvent:false, headline:'Officials comment on the matter, agencies report', source:'Reuters' }:{ E:0, explained:false, preEvent:true, leadH:Math.round(3+R()*18) },
+        };
+        if(platform==='polymarket'){
+          const raw=[1,0.62,0.4,0.24,0.13].map(x=>x*(0.4+subs.concentration)); const sum=raw.reduce((a,b)=>a+b,0); let hh=0;
+          const tw=raw.map((r,i)=>{ const share=r/sum; hh+=share*share; const full='0x'+Array.from({length:40},()=>Math.floor(R()*16).toString(16)).join(''); return { wallet:full.slice(0,6)+'…'+full.slice(-4), full, share:+share.toFixed(3), usd:Math.round((1-i*0.15)*(20000+R()*400000)), fresh:(i===0&&R()<0.55)||(i>0&&R()<0.22) }; });
+          const clusters= (fused.index>=70 && R()<0.5)?[{ size:3, share:+(0.18+R()*0.2).toFixed(2), windowMin:15, wallets:tw.slice(1,4).map(w=>w.wallet), spanSec:480 }]:[];
+          onchain={ hhi:+hh.toFixed(2), top1:tw[0].share, fresh:tw[0].fresh, nWallets:tw.length+Math.round(R()*40), clusters, topWallets:tw };
+        }
+        const E2=detectors.news.E;
+        label= (E2>=0.5&&!detectors.news.preEvent)?'Explained':fused.index>=55?'Unexplained':fused.index>=28?'Partially explained':'Low-liquidity artifact';
       }
-      const E2=detectors.news.E;
-      let label; if(E2>=0.5&&!detectors.news.preEvent) label='Explained'; else if(fused.index>=55) label='Unexplained'; else if(fused.index>=28) label='Partially explained'; else label='Low-liquidity artifact';
       out.push({ id:'sm'+idx, platform, category:cat, question, prob:+cur.toFixed(4), change24h:+(cur-prev).toFixed(4),
-        volume24h:Math.round(20000+R()*1800000), index:fused.index, label, tier:fused.tier,
+        volume24h:Math.round(20000+R()*1800000), index:fused.index, label, tier:fused.tier, engine:isManip?'manipulation':'insider',
         coverageRan:fused.coverageRan, coverageTotal:fused.coverageTotal, fullCoverage:fused.fullCoverage, agreeing:fused.agreeing,
         deep:true, movedAt: now-Math.round((5+R()*280))*1000,
         detectors, contributions:fused.contributions, series, onchain, ws:null,
@@ -1161,6 +1293,7 @@ class Component extends DCLogic {
     return out;
   }
 
+  STREAMING_NOTE = 'Detecting them needs a live record of every order placed and cancelled, which only an always-on websocket capture provides. This build is a 45-second serverless function on a 15-minute cron, so order-cancel patterns are shown here as an honest capability boundary rather than scored 0.';
   ENGINE_CONTROLS = [
     { key:'who', label:'Who traded', helper:'identity of the trader',
       opts:[['private','Private individual'],['corporate','Corporate insider / employee'],['government','Govt employee / service member'],['congress','Member of Congress / staff'],['cftc','CFTC or DCM employee'],['candidate','Candidate (own race)']] },
@@ -1627,8 +1760,11 @@ class Component extends DCLogic {
     };
 
     // ---- surveillance :: live full-market scanner (ported reference UI) ----
+    const mode = s.survMode || 'insider', isManip = mode==='manipulation';
     const isLive = !!(s.survMarkets && s.survMarkets.length);
-    const all = this.survLiveCards(isLive ? s.survMarkets : (this._survRaw || (this._survRaw = this.survSampleRaw())));
+    const sampleRaw = isManip ? (this._survRawManip || (this._survRawManip = this.survSampleRaw('manipulation')))
+                              : (this._survRaw || (this._survRaw = this.survSampleRaw('insider')));
+    const all = this.survLiveCards(isLive ? s.survMarkets : sampleRaw, mode);
     // websocket live tick: overlay the open market's latest price onto its series
     if (s.survWs && s.survWs.id && s.survWs.p != null){
       const lm = all.find(x=>x.id===s.survWs.id);
@@ -1704,7 +1840,9 @@ class Component extends DCLogic {
       // score breakdown: each check's POINTS contribution (sums to the index)
       const fired=selM.checks.filter(c=>c.available && c.points>0);
       const breakdown=fired.slice().sort((a,b)=>b.points-a.points).map(c=>({ name:c.name, points:'+'+c.points, bar:this.bar(c.points,this.sev(c.sub),130) }));
-      const scoreSentence='This market scores '+selM.score+' out of 100. Four checks each add points when they spot something unusual (below), and a fifth — whether public news can explain the move — can pull the score back down. A market only scores high when several checks agree. Here is exactly how this one adds up:';
+      const scoreSentence = (selM.engine==='manipulation')
+        ? ('This market scores '+selM.score+' out of 100. Four manipulation checks — wash trading, marking the close, one-sided flow and price impact — each add points when they spot something off (a fifth, spoofing, needs a live order stream this build can’t run, so it’s shown as a boundary, never scored 0). The score is renormalised over only the checks that could run, and a market only reaches High-signal with full coverage and several checks agreeing. Here is exactly how this one adds up:')
+        : ('This market scores '+selM.score+' out of 100. Four checks — the early move, pre-event accumulation, account concentration and the longshot screen — each add points when they spot something unusual, and a fifth — whether public news can explain the move — can pull the score back down. The score is renormalised over only the checks that ran, and a market only reaches High-signal with full coverage and several checks agreeing. Here is exactly how this one adds up:');
       // the checks (plain-English, with bars + expandable "how we measured it")
       const checks=selM.checks.map(c=>({ name:c.name, sentence:c.sentence, how:c.how, available:c.available,
         points: c.available?(c.points>0?('+'+c.points):'0'):'n/a', pointsColor: c.points>0?this.sev(c.sub):'#5d6864',
@@ -1715,7 +1853,11 @@ class Component extends DCLogic {
       const wallets=selM.wallets.map(w=>({ addr:w.addr, pct:w.pct, barW:Math.round((w.share||0)*100)+'%', fresh:w.fresh, url:w.url }));
       const clusters=(selM.clusters||[]).map(c=>({ text:c.size+' different wallets all started buying within about '+c.windowMin+' minutes of each other — together '+Math.round(c.share*100)+'% of the buying. Coordinated timing like this can mean the accounts are linked.' }));
       const tmI=this.tierMeta(selM.tier);
+      const retro = selM.engine!=='manipulation';
+      const retroLabel = selM.resolved ? '◍ RESOLVED — outcome known' : '⧖ PENDING — outcome not yet final';
+      const retroColor = selM.resolved ? '#34D399' : '#8A938F';
       insp={ question:selM.question, url:selM.url, category:selM.category, platformLabel:selM.platform==='kalshi'?'Kalshi':'Polymarket', platformColor:color,
+        retro, retroLabel, retroStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9px;font-weight:600;letter-spacing:.05em;color:'+retroColor+';border:1px solid '+retroColor+'44;background:'+retroColor+'12;border-radius:6px;padding:3px 9px;',
         scoreStr:String(selM.score), scoreColor:sevc, meterW:selM.score+'%', meterColor:sevc, meterGlow:sevc+'77', label:selM.label, summary:selM.summary,
         tierLabel:tmI.label, tierStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:'+tmI.color+';border:1px solid '+tmI.color+'66;background:'+tmI.color+'1a;border-radius:6px;padding:3px 9px;',
         coverage:(selM.coverageRan!=null?selM.coverageRan:'—')+' of '+(selM.coverageTotal||4)+' checks ran',
@@ -1733,8 +1875,21 @@ class Component extends DCLogic {
         live:!!(s.survWs&&s.survWs.id===selM.id&&s.survWs.p!=null), liveStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.1em;color:#34D399;border:1px solid #2e5546;background:#10231b;border-radius:5px;padding:2px 7px;' };
     }
 
+    // engine toggle (top-level): swaps the detector set, status, inspector + copy
+    const engineBtns=[
+      { key:'insider', label:'◐ INSIDER TRADING' },
+      { key:'manipulation', label:'⚡ MARKET MANIPULATION' },
+    ].map(e=>({ label:e.label, active:mode===e.key, onClick:()=>this.setSurvMode(e.key),
+      style:'flex:1;border:none;border-radius:7px;padding:8px 10px;font-family:\'JetBrains Mono\',monospace;font-size:11px;font-weight:600;letter-spacing:.03em;cursor:pointer;transition:all .18s;white-space:nowrap;'+
+        (mode===e.key?('background:'+(e.key==='manipulation'?'#F8717122':'#A78BFA22')+';color:'+(e.key==='manipulation'?'#F87171':'#A78BFA')+';box-shadow:0 0 10px '+(e.key==='manipulation'?'#f8717133':'#a78bfa33')+';'):'background:transparent;color:#7e8782;') }));
+    const engineSubtitle = isManip
+      ? 'Live watch of order books and trades for in-market manipulation — wash trading, marking-the-close, and one-sided pressure.'
+      : 'Retrospective scan of resolved and near-resolution markets for trading ahead of the outcome.';
+
     const surv = {
-      showScan: !s.survReduce, isLive,
+      showScan: !s.survReduce, isLive, mode, isManip,
+      engineBtns, engineSubtitle,
+      streamingBoundary: isManip ? ((s.survStreaming && s.survStreaming.reason) || this.STREAMING_NOTE) : null,
       clockText, tzLabel, scannedStr, flaggedStr, highStr, updatedAgo, pulseKey:s.survPulse||0,
       feedText: isLive?'LIVE FEED':'SAMPLE FEED · LIVE WIRING PENDING',
       feedStyle: isLive
@@ -1748,8 +1903,12 @@ class Component extends DCLogic {
       viewBtns:[['high','High-signal'],['elevated','+ Elevated'],['all','All flagged']].map(v=>({ label:v[1], onClick:()=>this.setState({survView:v[0]}), style:this.segStyle(view===v[0], v[0]==='high'?'#F87171':v[0]==='elevated'?'#FBBF24':'#34D399') })),
       visibleCount:list.length, sortLabel: ssort==='suspicion'?'suspicion':ssort==='recent'?'most recent':'volume',
       rows, noResults:list.length===0,
-      emptyTitle: view==='high'?'No markets currently clear the high-signal threshold.':'No markets match these filters.',
-      emptyBody: 'The scanner is watching '+Math.round(watchingN).toLocaleString('en-US')+' markets across both platforms. High-signal events are rare by design — an empty list here is a healthy, expected state. Switch to “+ Elevated” or “All flagged” to see lower-confidence signals.',
+      emptyTitle: view==='high'
+        ? (isManip?'No markets currently clear the manipulation high-signal threshold.':'No markets currently clear the insider high-signal threshold.')
+        : 'No markets match these filters.',
+      emptyBody: 'The '+(isManip?'manipulation':'insider')+' engine is watching '+Math.round(watchingN).toLocaleString('en-US')+' markets across both platforms. '+
+        (isManip?'Confirmed manipulation footprints are rare by design':'High-signal pre-event leakage is rare by design')+
+        ' — an empty list here is a healthy, expected state. Switch to “+ Elevated” or “All flagged” to see lower-confidence signals.',
       hasSel:!!insp, insp,
     };
 
