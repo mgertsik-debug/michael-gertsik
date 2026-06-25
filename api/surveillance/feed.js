@@ -707,6 +707,21 @@ async function newsCheck(query, moveMs) {
   return null;
 }
 
+// Drop the trailing SETTLEMENT SNAP from a resolved market's series: the run of
+// final points pinned within eps of the settled extreme (0 or 1). A market always
+// snaps to 0/1 at resolution, and that move is enormous in log-odds — scoring it
+// would make every resolved market a spurious "run-up". What remains is the real
+// pre-resolution trading window the detectors should judge.
+function trimSettlement(series) {
+  if (!Array.isArray(series) || series.length < 3) return series;
+  const v = series[series.length - 1].p;
+  const ext = v <= 0.5 ? 0 : 1;
+  const eps = 0.03;
+  let end = series.length;
+  while (end > 0 && Math.abs(series[end - 1].p - ext) <= eps) end--;
+  return series.slice(0, end);
+}
+
 /* ===================================================== DEEP: enrich one row */
 async function deepEnrich(m, mode) {
   try {
@@ -729,17 +744,38 @@ async function deepEnrich(m, mode) {
     }
     if (!series || series.length < 8) { m.deep = true; m.deepNote = "insufficient price history"; return m; }
 
-    const runUp = D.runUp(series);
-    const moveMs = series[series.length - 1].t * 1000;
-    // For a RESOLVED market the live price has settled to ~0/1, so the real
-    // "implied odds the bet was placed at" is the calm PRE-event level — the
-    // median of the estimation window before any run-up. This is what the
-    // longshot screen compares against the known outcome.
+    // a downsampled FULL series for the chart (so it still mirrors the platform,
+    // settlement snap and all, with the resolution marker)
+    const dsFull = () => { const step = Math.max(1, Math.floor(series.length / 120)); return series.filter((_, i) => i % step === 0).map((x) => ({ t: x.t, p: +x.p.toFixed(4) })); };
+
+    // SCORE on the pre-resolution window: for a resolved market, trim the
+    // mechanical settlement snap so the run-up reflects real pre-event trading.
+    const scoreSeries = m._resolved ? trimSettlement(series) : series;
+    if (!scoreSeries || scoreSeries.length < 8) {
+      // nothing but the settlement move / a flat extreme-longshot body -> there
+      // is no analyzable pre-event window. Keep the chart, mark it a thin/extreme
+      // artifact, and don't flag it.
+      m.series = dsFull();
+      m.movedAt = series[series.length - 1].t * 1000;
+      m.Q = Math.min(m.Q == null ? 1 : m.Q, 0.2);   // -> Low-liquidity / extreme artifact (capped at Watch)
+      m._det = { runUp: null };
+      scoreForMode(m, mode);
+      m.deep = true; m.deepNote = "no pre-event window (settlement-only / flat extreme longshot)";
+      return m;
+    }
+
+    const runUp = D.runUp(scoreSeries);
+    const moveMs = scoreSeries[scoreSeries.length - 1].t * 1000;
+    // For a RESOLVED market the real "implied odds the bet was placed at" is the
+    // calm PRE-event level — the median of the estimation window (pre-snap).
     let impliedPre = null;
     if (m._resolved) {
-      const ps = series.map((x) => x.p);
+      const ps = scoreSeries.map((x) => x.p);
       impliedPre = D.median(ps.slice(0, Math.max(3, Math.floor(ps.length * D.DEFAULTS.estFrac))));
       if (impliedPre > 0 && impliedPre < 1) m.prob = +impliedPre.toFixed(4);
+      // extreme-longshot guard: a pre-event level pinned <3% / >97% is dominated
+      // by log-odds noise (tiny cent moves look huge) -> treat as an artifact.
+      if (impliedPre < 0.03 || impliedPre > 0.97) m.Q = Math.min(m.Q == null ? 1 : m.Q, 0.2);
     }
     // Phase 2: order book (spread/depth/OFI), in parallel with the news check.
     const [news, book] = await Promise.all([
