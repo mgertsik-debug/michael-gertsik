@@ -264,15 +264,73 @@ async function pmTrades(cond) {
   return trades;
 }
 function buildWalletVolumes(trades) {
-  const buyByWallet = {};
+  const byW = {};
   for (const t of trades) {
     const w = t.proxyWallet; if (!w) continue;
     if (String(t.side || "").toUpperCase() === "SELL") continue;
     const usd = num(t.size) * num(t.price); if (!usd) continue;
-    buyByWallet[w] = (buyByWallet[w] || 0) + usd;
+    const ts = num(t.timestamp || t.matchTime || t.time);
+    const e = byW[w] || (byW[w] = { full: w, buyUsd: 0, firstTs: Infinity, lastTs: 0, nTrades: 0 });
+    e.buyUsd += usd; e.nTrades++;
+    if (ts) { if (ts < e.firstTs) e.firstTs = ts; if (ts > e.lastTs) e.lastTs = ts; }
   }
-  return Object.keys(buyByWallet).map((w) => ({ wallet: w.slice(0, 6) + "…" + w.slice(-4), full: w, buyUsd: buyByWallet[w] }))
-    .sort((a, b) => b.buyUsd - a.buyUsd);
+  return Object.keys(byW).map((w) => {
+    const e = byW[w];
+    return { wallet: w.slice(0, 6) + "…" + w.slice(-4), full: w, buyUsd: e.buyUsd,
+      firstTs: isFinite(e.firstTs) ? e.firstTs : null, lastTs: e.lastTs || null, nTrades: e.nTrades };
+  }).sort((a, b) => b.buyUsd - a.buyUsd);
+}
+// PHASE 3: synchronized-entry clustering. Wallets whose first buy in this market
+// lands inside the same short window (and that each took a real position) look
+// coordinated — shared funding / lockstep entry. We report the largest such
+// cluster by combined share. This is a pattern flag, never proof of collusion.
+function detectClusters(wallets, total) {
+  const sized = wallets.filter((w) => w.firstTs && w.buyUsd / total >= 0.03);
+  if (sized.length < 3) return [];
+  const sorted = sized.slice().sort((a, b) => a.firstTs - b.firstTs);
+  const WIN = 15 * 60;   // 15-minute synchronized-entry window
+  let best = null;
+  for (let i = 0; i < sorted.length; i++) {
+    const grp = [sorted[i]];
+    for (let j = i + 1; j < sorted.length && sorted[j].firstTs - sorted[i].firstTs <= WIN; j++) grp.push(sorted[j]);
+    if (grp.length >= 3) {
+      const share = grp.reduce((s, w) => s + w.buyUsd, 0) / total;
+      if (!best || share > best.share) best = { size: grp.length, share: +share.toFixed(3), windowMin: 15,
+        wallets: grp.map((w) => w.wallet), spanSec: grp[grp.length - 1].firstTs - grp[0].firstTs };
+    }
+  }
+  return best ? [best] : [];
+}
+// PHASE 2: order book -> spread, depth, and order-flow imbalance (OFI).
+async function fetchBook(m) {
+  try {
+    if (m.platform === "polymarket" && m._tokenId) {
+      const d = await getJSON("https://clob.polymarket.com/book?token_id=" + encodeURIComponent(m._tokenId), { timeout: 5000 }).catch(() => null);
+      if (!d) return null;
+      const bids = (d.bids || []).map((b) => ({ p: num(b.price), s: num(b.size) }));
+      const asks = (d.asks || []).map((a) => ({ p: num(a.price), s: num(a.size) }));
+      if (!bids.length && !asks.length) return null;
+      const bidUsd = bids.reduce((x, b) => x + b.p * b.s, 0), askUsd = asks.reduce((x, a) => x + a.p * a.s, 0);
+      const bestBid = bids.reduce((mx, b) => Math.max(mx, b.p), 0), bestAsk = asks.reduce((mn, a) => Math.min(mn, a.p), 1);
+      const flow = bidUsd + askUsd;
+      return { spread: Math.max(0, +(bestAsk - bestBid).toFixed(3)), depthUsd: Math.round(bidUsd + askUsd),
+        imbalance: flow > 0 ? +((bidUsd - askUsd) / flow).toFixed(3) : 0, bestBid: +bestBid.toFixed(3), bestAsk: +bestAsk.toFixed(3) };
+    }
+    if (m.platform === "kalshi" && m._ticker) {
+      const path = "/trade-api/v2/markets/" + m._ticker + "/orderbook";
+      const d = await getJSON("https://api.elections.kalshi.com" + path, { headers: kalshiHeaders("GET", path), timeout: 5000 }).catch(() => null);
+      const ob = d && (d.orderbook || d);
+      if (!ob) return null;
+      const lv = (a) => (Array.isArray(a) ? a : []).map((x) => ({ p: num(x[0]) / 100, s: num(x[1]) }));
+      const yes = lv(ob.yes), no = lv(ob.no);
+      const yesUsd = yes.reduce((x, l) => x + l.p * l.s, 0), noUsd = no.reduce((x, l) => x + l.p * l.s, 0);
+      const flow = yesUsd + noUsd;
+      const bestYes = yes.reduce((mx, l) => Math.max(mx, l.p), 0), bestNo = no.reduce((mx, l) => Math.max(mx, l.p), 0);
+      return { spread: Math.max(0, +(1 - bestYes - bestNo).toFixed(3)), depthUsd: Math.round(flow),
+        imbalance: flow > 0 ? +((yesUsd - noUsd) / flow).toFixed(3) : 0, bestBid: +bestYes.toFixed(3), bestAsk: +(1 - bestNo).toFixed(3) };
+    }
+  } catch (_) {}
+  return null;
 }
 function tradesToBarsAndList(trades) {
   // time-sorted trade list (price = probability, size, ts) + 5-min volume bars
@@ -354,8 +412,15 @@ async function deepEnrich(m) {
 
     const runUp = D.runUp(series);
     const moveMs = series[series.length - 1].t * 1000;
-    const news = await newsCheck(newsQuery(m.question), moveMs).catch(() => null);
+    // Phase 2: order book (spread/depth/OFI), in parallel with the news check.
+    const [news, book] = await Promise.all([
+      newsCheck(newsQuery(m.question), moveMs).catch(() => null),
+      fetchBook(m).catch(() => null),
+    ]);
     const newsGap = D.newsGap(news ? news.ctx : null);
+
+    // a real spread/depth from the book sharpens the liquidity gate Q
+    if (book) m.Q = D.liquidityQ({ volumeUsd: m.volume24h, depthUsd: book.depthUsd, spread: book.spread, tradeCount: tradeList ? tradeList.length : null }).Q;
 
     let priceImpact = null, vpin = null, concentration = null;
     if (bars && bars.length >= 6) priceImpact = D.priceImpact(bars);
@@ -371,17 +436,27 @@ async function deepEnrich(m) {
       runUp: runUp || m.detectors.runUp, priceImpact, vpin, concentration,
       news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null } : {}),
     };
+    if (book) m.book = { spread: book.spread, depthUsd: book.depthUsd, imbalance: book.imbalance, bestBid: book.bestBid, bestAsk: book.bestAsk };
     m.movedAt = moveMs;
     // a downsampled probability series for the inspector chart (cap ~120 points)
     const step = Math.max(1, Math.floor(series.length / 120));
     m.series = series.filter((_, i) => i % step === 0).map((x) => ({ t: x.t, p: +x.p.toFixed(4) }));
     if (m.platform === "polymarket" && wallets && wallets.length) {
       const total = wallets.reduce((s, w) => s + w.buyUsd, 0) || 1;
+      // Phase 3: per-wallet "fresh" = first appeared in this market inside the
+      // event/move window (showed up only for the move), and synchronized-entry
+      // clusters. The move window starts at ~75% through the observed series.
+      const moveStart = series[Math.floor(series.length * 0.75)].t;
+      const clusters = detectClusters(wallets, total);
       m.onchain = {
         hhi: concentration ? concentration.hhi : null,
         top1: concentration ? concentration.top1 : null,
         fresh: concentration ? concentration.fresh : false,
-        topWallets: wallets.slice(0, 5).map((w) => ({ wallet: w.wallet, share: +(w.buyUsd / total).toFixed(3), usd: Math.round(w.buyUsd) })),
+        clusters,
+        topWallets: wallets.slice(0, 5).map((w) => ({
+          wallet: w.wallet, full: w.full, share: +(w.buyUsd / total).toFixed(3), usd: Math.round(w.buyUsd),
+          fresh: !!(w.firstTs && w.firstTs >= moveStart && w.buyUsd / total >= 0.04), nTrades: w.nTrades,
+        })),
         nWallets: wallets.length,
       };
     }
@@ -450,7 +525,12 @@ module.exports = async (req, res) => {
   // re-rank with the refined indices and trim the payload
   all.sort((a, b) => b.index - a.index);
   const markets = all.slice(0, limit).map((m) => {
-    const { _cond, _tokenId, _series, _ticker, ...pub } = m;   // strip internal ids
+    const { _cond, _tokenId, _series, _ticker, ...pub } = m;
+    // expose the PUBLIC market-data websocket coordinates so the browser can
+    // live-subscribe the open market (token_id / ticker are public, not secret).
+    pub.ws = m.platform === "polymarket"
+      ? { platform: "polymarket", token: _tokenId || null, cond: _cond || null }
+      : { platform: "kalshi", ticker: _ticker || null };
     return pub;
   });
 
