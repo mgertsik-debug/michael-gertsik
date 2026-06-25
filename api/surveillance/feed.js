@@ -450,13 +450,28 @@ async function enumKalshiResolved(maxPages, mode, lookbackDays) {
 }
 
 /* ======================================================= DEEP: price series */
-async function pmPriceSeries(tokenId) {
+// Price-history window for the chart + run-up: a fixed span ending at the
+// market's resolution (retrospective) or now, so it mirrors the platform's own
+// chart over that period AND covers the pre-event window. Hourly resolution.
+const CHART_WINDOW_DAYS = 30;
+async function pmPriceSeries(tokenId, endMs) {
   if (!tokenId) return null;
+  const endSec = Math.floor((endMs || Date.now()) / 1000);
+  const startSec = endSec - CHART_WINDOW_DAYS * 86400;
   const d = await getJSON(
-    "https://clob.polymarket.com/prices-history?market=" + encodeURIComponent(tokenId) + "&interval=1w&fidelity=60",
+    "https://clob.polymarket.com/prices-history?market=" + encodeURIComponent(tokenId) +
+    "&startTs=" + startSec + "&endTs=" + endSec + "&fidelity=60",
     { timeout: 6000 }
   ).catch(() => null);
-  const hist = d && (d.history || d.data || (Array.isArray(d) ? d : null));
+  let hist = d && (d.history || d.data || (Array.isArray(d) ? d : null));
+  // fallback to the coarse interval form if the windowed query returns nothing
+  if (!Array.isArray(hist) || !hist.length) {
+    const d2 = await getJSON(
+      "https://clob.polymarket.com/prices-history?market=" + encodeURIComponent(tokenId) + "&interval=1m&fidelity=60",
+      { timeout: 6000 }
+    ).catch(() => null);
+    hist = d2 && (d2.history || d2.data || (Array.isArray(d2) ? d2 : null));
+  }
   if (!Array.isArray(hist)) return null;
   return hist.map((x) => ({ t: num(x.t || x.timestamp), p: num(x.p || x.price) })).filter((x) => x.t && x.p > 0 && x.p < 1);
 }
@@ -490,9 +505,9 @@ function kalshiTradeRows(trades) {
   if (cur) bars.push(cur);
   return { tradeList: tl, bars };
 }
-async function kalshiCandleSeries(series, ticker) {
+async function kalshiCandleSeries(series, ticker, endMs) {
   if (!series || !ticker) return null;
-  const end = Math.floor(Date.now() / 1000), start = end - 7 * 86400;
+  const end = Math.floor((endMs || Date.now()) / 1000), start = end - CHART_WINDOW_DAYS * 86400;
   const path = "/trade-api/v2/series/" + series + "/markets/" + ticker + "/candlesticks";
   const d = await getJSON(
     "https://api.elections.kalshi.com" + path + "?start_ts=" + start + "&end_ts=" + end + "&period_interval=60",
@@ -696,9 +711,10 @@ async function newsCheck(query, moveMs) {
 async function deepEnrich(m, mode) {
   try {
     let series = null, tradeList = null, bars = null, wallets = null, holders = null, rawTrades = null;
+    const chartEnd = m._resolved && m._resolvedAt ? m._resolvedAt : Date.now();   // anchor the window at resolution for retrospective markets
     if (m.platform === "polymarket") {
       const [ps, tr, hd] = await Promise.all([
-        pmPriceSeries(m._tokenId),
+        pmPriceSeries(m._tokenId, chartEnd),
         m._cond ? pmTrades(m._cond) : Promise.resolve([]),
         m._cond ? pmHolders(m._cond) : Promise.resolve([]),
       ]);
@@ -706,7 +722,7 @@ async function deepEnrich(m, mode) {
       if (tr && tr.length) { const x = tradesToBarsAndList(tr); tradeList = x.tradeList; bars = x.bars; wallets = buildWalletVolumes(tr); }
     } else {
       // Kalshi: candlesticks for the price series + PUBLIC trades for order-flow.
-      const [cs, tr] = await Promise.all([kalshiCandleSeries(m._series, m._ticker), kalshiTrades(m._ticker)]);
+      const [cs, tr] = await Promise.all([kalshiCandleSeries(m._series, m._ticker, chartEnd), kalshiTrades(m._ticker)]);
       series = cs; rawTrades = tr;
       if (tr && tr.length) { const x = kalshiTradeRows(tr); tradeList = x.tradeList; bars = x.bars; }
       if ((!bars || bars.length < 6) && series) bars = series.filter((x) => isFinite(x.volume) && x.volume > 0);

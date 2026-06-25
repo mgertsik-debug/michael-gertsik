@@ -328,7 +328,10 @@
 
                     <!-- how the odds moved -->
                     <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
-                      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:6px;">HOW THE ODDS MOVED</div>
+                      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;">HOW THE ODDS MOVED</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.04em;color:#6b746f;">{{ surv.insp.chartPeriod }}</div>
+                      </div>
                       <p style="margin:0 0 12px;font-size:12.5px;line-height:1.5;color:#9aa39e;">The line is the chance of “Yes” over time. The grey band is where this market <span style="color:#cfd6d2;">normally trades ({{ surv.insp.normalRange }})</span>. When the line breaks out of that band — especially before any news — that is the move we flag.</p>
                       <div style="width:100%;">{{ surv.insp.chart }}</div>
                     </div>
@@ -1943,7 +1946,17 @@ class Component extends DCLogic {
       const retro = selM.engine!=='manipulation';
       const retroLabel = selM.resolved ? '◍ RESOLVED — outcome known' : '⧖ PENDING — outcome not yet final';
       const retroColor = selM.resolved ? '#34D399' : '#8A938F';
-      insp={ question:selM.question, url:selM.url, category:selM.category, platformLabel:selM.platform==='kalshi'?'Kalshi':'Polymarket', platformColor:color,
+      // explicit x-axis time period + data source, so the chart is verifiable
+      // against the platform's own chart for the same window.
+      const srcLabel = selM.platform==='kalshi' ? 'Kalshi candlesticks' : 'Polymarket price history';
+      let chartPeriod;
+      if(selM.preview){ chartPeriod = 'loading '+srcLabel+'…'; }
+      else if(selM.times && selM.times.length){
+        const fmt=(ts)=>{ try{ return new Date(ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }catch(e){ return ''; } };
+        const t0=selM.times[0], t1=selM.times[selM.times.length-1], days=Math.max(1,Math.round((t1-t0)/86400));
+        chartPeriod = srcLabel+' · '+fmt(t0)+' → '+fmt(t1)+' · '+days+' day'+(days===1?'':'s')+' · hourly';
+      } else { chartPeriod = srcLabel+' · recent window'; }
+      insp={ question:selM.question, url:selM.url, category:selM.category, platformLabel:selM.platform==='kalshi'?'Kalshi':'Polymarket', platformColor:color, chartPeriod,
         retro, retroLabel, retroStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9px;font-weight:600;letter-spacing:.05em;color:'+retroColor+';border:1px solid '+retroColor+'44;background:'+retroColor+'12;border-radius:6px;padding:3px 9px;',
         scoreStr:String(selM.score), scoreColor:sevc, meterW:selM.score+'%', meterColor:sevc, meterGlow:sevc+'77', label:selM.label, summary:selM.summary,
         tierLabel:tmI.label, tierStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:'+tmI.color+';border:1px solid '+tmI.color+'66;background:'+tmI.color+'1a;border-radius:6px;padding:3px 9px;',
