@@ -65,14 +65,32 @@ async function scoreWallet(addr) {
   // Authoritative record: full trade history joined to the (merged) resolved-market catalog.
   const bets = poly.buildUserRecord(utrades, merged);
   o.resolvedBetsParsed = bets.length;
-  const longshots = bets.filter((b) => b.entryPrice <= 0.35);
-  o.longShotBets = longshots.length;
-  o.sampleBets = longshots.slice(0, 8).map((b) => ({
-    market: String(b.question).slice(0, 60), category: b.category,
-    entryOdds: Math.round(b.entryPrice * 100) + "%", stake: "$" + b.stakeUsd, outcome: b.outcome, won: b.won,
-  }));
 
-  // run the real detector suite + fusion on the parsed record
+  // ---- ALWAYS-ON PROFILE: any wallet's full resolved record, all odds ----
+  // So you can look up literally anyone and see their score, not just long-shot
+  // specialists. This is descriptive (their actual record), never a flag.
+  const wins = bets.filter((b) => b.won).length;
+  const profit = bets.reduce((a, b) => a + build.betPL(b), 0);
+  const avgOdds = bets.length ? bets.reduce((a, b) => a + b.entryPrice, 0) / bets.length : 0;
+  const longshots = bets.filter((b) => b.entryPrice <= 0.35);
+  const lsWins = longshots.filter((b) => b.won).length;
+  o.longShotBets = longshots.length;
+  o.profile = {
+    resolvedBets: bets.length,
+    wins, winRate: bets.length ? Math.round((wins / bets.length) * 100) + "%" : "—",
+    profit: build.signedMoney(profit), profitNum: Math.round(profit),
+    avgOdds: bets.length ? Math.round(avgOdds * 100) + "%" : "—",
+    longShotBets: longshots.length,
+    longShotWinRate: longshots.length ? Math.round((lsWins / longshots.length) * 100) + "%" : "—",
+  };
+  // sample: long-shots first (the interesting ones), else any resolved bets
+  o.sampleBets = (longshots.length ? longshots : bets).slice(0, 10)
+    .sort((a, b) => b.stakeUsd - a.stakeUsd).slice(0, 8).map((b) => ({
+      market: String(b.question).slice(0, 60), category: b.category,
+      entryOdds: Math.round(b.entryPrice * 100) + "%", stake: "$" + b.stakeUsd, outcome: b.outcome, won: b.won,
+    }));
+
+  // ---- FORENSIC LAYER: the long-shot improbability flag, when computable ----
   const agg = { address: addr, bets, firstSeenTs: null, fundingTs: null, priorTx: null };
   const { dets, f } = build.scoreAggregate(agg);
   o.detectors = {
@@ -82,19 +100,25 @@ async function scoreWallet(addr) {
     baseline: dets.baseline.hasData ? { winRate: dets.baseline.winRate + "%", baseline: dets.baseline.baseline + "%" } : { hasData: false },
   };
   o.fused = { tier: f.tier || "unflagged", fired: f.fired, agreeing: f.agreeing, improbText: f.improbText };
-  o.verdict = !dets.won.hasData
-    ? ("Not scoreable: " + (dets.won.reason || "fewer than 5 resolved long-shot bets") + " (parsed " + longshots.length + " long-shot bets).")
-    : (f.tier && f.tier !== "unflagged"
-        ? ("FLAGGED " + f.tier.toUpperCase() + " — won " + dets.won.k + " of " + dets.won.n + " long-shots (~" + Math.round(dets.won.p * 100) + "% implied); chance by luck " + dets.won.improbText + "; " + f.fired.length + " detectors fired.")
-        : ("Not flagged — won " + dets.won.k + " of " + dets.won.n + " long-shots; chance by luck " + dets.won.improbText + " does not clear the bar (or <2 detectors agree)."));
 
-  // Full dossier subject (same shape the tab renders for flagged wallets) so the
-  // lookup can show a real evidence file, flagged or not.
+  const p = o.profile;
+  if (bets.length === 0) {
+    o.verdict = "No resolved bets found for this wallet (" + utrades.length + " trades pulled, " + o.sources.tradesResolvable +
+      " in resolved markets). It may be new, trade only still-open markets, or trade non-binary markets.";
+  } else if (!dets.won.hasData) {
+    o.verdict = "Record: " + p.resolvedBets + " resolved bets · " + p.winRate + " win rate · " + p.profit + " profit · avg odds " + p.avgOdds + ". " +
+      "Only " + longshots.length + " long-shot bet" + (longshots.length === 1 ? "" : "s") + " (need 5+) — so no improbability flag, but the full record is shown.";
+  } else if (f.tier && f.tier !== "unflagged") {
+    o.verdict = "FLAGGED " + f.tier.toUpperCase() + " — won " + dets.won.k + " of " + dets.won.n + " long-shots (~" + Math.round(dets.won.p * 100) +
+      "% implied); chance by luck " + dets.won.improbText + "; " + f.fired.length + " detectors fired. (" + p.resolvedBets + " total bets · " + p.profit + " profit.)";
+  } else {
+    o.verdict = "Not flagged — " + p.resolvedBets + " resolved bets · " + p.winRate + " win rate · " + p.profit + " profit. Won " + dets.won.k + " of " +
+      dets.won.n + " long-shots; chance by luck " + dets.won.improbText + " does not clear the bar.";
+  }
+
+  // Full dossier subject (the tab's flagged shape) when it clears the bar.
   if (dets.won.hasData) {
-    try {
-      const subj = build.buildSubject(agg, 0, {});
-      if (subj) { build.derive([subj]); o.subject = subj; }
-    } catch (_) {}
+    try { const subj = build.buildSubject(agg, 0, {}); if (subj) { build.derive([subj]); o.subject = subj; } } catch (_) {}
   }
   return o;
 }
