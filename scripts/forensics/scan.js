@@ -70,11 +70,12 @@ function mergeMarket(state, market, positions) {
   for (const addr of Object.keys(positions)) {
     const bet = positions[addr];
     reviewedSet.add(addr);
-    // Cheap screen (§4) — we want the WINNERS (the anomaly), so the won-long-shot
-    // arm is the primary net: any WON long-shot at ≤20% implied of meaningful size.
-    // The big-position arm catches whales regardless of outcome. Their FULL record
-    // (pulled at enrichment) is the real filter; the binomial decides honestly.
-    const clears = (bet.won && bet.entryPrice <= 0.20 && bet.stakeUsd >= 200) ||
+    // Cheap screen (§4) — the screen's only job is to bound /positions calls; the
+    // binomial + ≥2-detector gate is the real, false-positive-proof filter, so cast
+    // a WIDE net: ANY won long-shot (≤30% implied, any stake) — that's the whole
+    // population of potential informed bettors — plus the big-position whale arm.
+    // Every admitted wallet's FULL record is pulled and the math decides honestly.
+    const clears = (bet.won && bet.entryPrice <= 0.30) ||
                    (bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED);
     let w = screened[addr];
     if (!w && atCap) continue;                                // queue full this tick; catch it next sweep
