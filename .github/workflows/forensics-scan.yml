@@ -34,9 +34,13 @@ jobs:
 
       - name: Advance the forensic ledger (enumerate → aggregate → screen → score)
         env:
-          LOOKBACK_DAYS: "90"
-          MARKETS_PER_RUN: "120"
-          ENRICH_BATCH: "200"
+          # Coverage: a full year of resolved markets, swept ~400 markets/tick so
+          # the whole resolved universe is covered in well under a day. (Dune's
+          # ~300k figure is ALL-TIME, ALL-market traders; this tool's scope is the
+          # forensically-relevant set — wallets in RESOLVED markets over LOOKBACK.)
+          LOOKBACK_DAYS: "365"
+          MARKETS_PER_RUN: "400"
+          ENRICH_BATCH: "300"
           SCREEN_USD: "2500"
           # Optional: a Polygonscan/Etherscan key gives reliable funding traces
           # (fresh-wallet, cluster funder, cash-out). Without it the job falls
