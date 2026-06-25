@@ -42,7 +42,7 @@ jobs:
           MARKETS_PER_RUN: "400"
           ENRICH_BATCH: "400"
           SCREEN_USD: "2500"
-          SCREEN_CAP: "1500"
+          SCREEN_CAP: "800"
           # Optional: a Polygonscan/Etherscan key gives reliable funding traces
           # (fresh-wallet, cluster funder, cash-out). Without it the job falls
           # back to the public Polygon RPC (POLYGON_RPC) and degrades honestly.
