@@ -987,7 +987,7 @@ class Component extends DCLogic {
   }
   buildOverview(all){
     const h=React.createElement;
-    const cats=['Politics','Elections','Economics','Finance','Crypto','Commodities','Climate','Culture','Mentions','Tech & Science','Sports','World'];
+    const cats=['Politics','Elections','Economy','Finance','Business','World','Tech & Science','Culture','Health'];
     const top=all.slice().sort((a,b)=>b.score-a.score).slice(0,5);
     const lead=h('div',{key:'lead'},
       h('div',{style:{font:'500 10px JetBrains Mono, monospace',letterSpacing:'.16em',color:'#8A938F',marginBottom:'10px'}},'MOST SUSPICIOUS RIGHT NOW'),
@@ -1020,20 +1020,17 @@ class Component extends DCLogic {
 
   // sample markets (identical shape) for the offline / pre-deploy fallback
   survBuildSample(){
-    const cats=['Politics','Elections','Economics','Finance','Crypto','Commodities','Climate','Culture','Mentions','Tech & Science','Sports','World'];
+    const cats=['Politics','Elections','Economy','Finance','Business','World','Tech & Science','Culture','Health'];
     const POOL={
       'Politics':['Will a US federal government shutdown begin before October 2026?','Will the pending bipartisan trade bill be signed into law before August 2026?','Will a new cabinet secretary be confirmed before September 2026?'],
       'Elections':['Will national turnout exceed 62% in the 2026 midterm elections?','Will control of the Senate be decided on election night 2026?','Will mail-in ballots exceed 40% of total votes this cycle?'],
-      'Economics':['Will headline CPI inflation print above 3.2% for May 2026?','Will the Fed cut its policy rate at the July 2026 FOMC meeting?','Will US Q2 2026 GDP growth come in above 2.5%?'],
-      'Finance':['Will the S&P 500 close above 6,200 by July 4, 2026?','Will the 10-year Treasury yield exceed 4.75% in June 2026?','Will the VIX close above 25 at any point in June 2026?'],
-      'Crypto':['Will Bitcoin close above $120,000 on June 30, 2026?','Will Ethereum trade above $5,000 before July 2026?','Will a spot Solana ETF begin trading before Q4 2026?'],
-      'Commodities':['Will WTI crude oil close above $85 a barrel in July 2026?','Will gold trade above $2,600 an ounce before Q4 2026?','Will US natural gas close above $4.00/MMBtu in July 2026?'],
-      'Climate':['Will July 2026 rank as the hottest July on record globally?','Will an Atlantic hurricane reach Category 4 before September 2026?','Will US summer 2026 set a new peak electricity-demand record?'],
-      'Culture':['Will the front-running film win Best Picture at the 2027 ceremony?','Will the announced album debut at number one in its release week?','Will the new series top the global streaming chart on premiere?'],
-      'Mentions':['Will the next central-bank statement include the word “patient”?','Will the keyword appear in the next scheduled policy address?','Will the upcoming earnings call mention “guidance cut”?'],
-      'Tech & Science':['Will a frontier lab release a new flagship model before September 2026?','Will a crewed lunar flyby launch before 2027?','Will a fusion startup announce net-energy gain before Q4 2026?'],
-      'Sports':['Will the favorite advance past the conference semifinal round?','Will the single-season scoring record fall before the playoffs?','Will the underdog reach the championship final this year?'],
+      'Economy':['Will headline CPI inflation print above 3.2% for May 2026?','Will the Fed cut its policy rate at the July 2026 FOMC meeting?','Will US Q2 2026 GDP growth come in above 2.5%?'],
+      'Finance':['Will the S&P 500 close above 6,200 by July 4, 2026?','Will the 10-year Treasury yield exceed 4.75% in June 2026?','Will a major bank pre-announce results before earnings day?'],
+      'Business':['Will the pending tech merger clear antitrust review before Q4 2026?','Will a Fortune 500 CEO step down before September 2026?','Will the chipmaker cut its quarterly guidance before the next call?'],
       'World':['Will a new ceasefire agreement be signed before August 2026?','Will the upcoming summit produce a joint communiqué?','Will a new trade-corridor agreement be announced before Q4 2026?'],
+      'Tech & Science':['Will a frontier lab release a new flagship model before September 2026?','Will a crewed lunar flyby launch before 2027?','Will a fusion startup announce net-energy gain before Q4 2026?'],
+      'Culture':['Will the front-running film win Best Picture at the 2027 ceremony?','Will the announced album debut at number one in its release week?','Will the new series top the global streaming chart on premiere?'],
+      'Health':['Will the FDA approve the new therapy before Q4 2026?','Will the WHO declare a public-health emergency before September 2026?','Will the pending drug trial report positive top-line results?'],
     };
     const R=this.rng(424242), markets=[]; let idx=0;
     for(const cat of cats){ for(let q=0;q<3;q++){
@@ -1548,9 +1545,12 @@ class Component extends DCLogic {
       const lm = all.find(x=>x.id===s.survWs.id);
       if (lm && lm.prob && lm.prob.length){ const p=Math.max(0.01,Math.min(0.99,s.survWs.p)); lm.prob=lm.prob.slice(); lm.prob[lm.prob.length-1]=p; }
     }
-    const ORDER = ['Politics','Elections','Economics','Finance','Crypto','Commodities','Climate','Culture','Mentions','Tech & Science','Sports','World'];
-    const present = [...new Set(all.map(m=>m.category))];
-    const allCats = present.slice().sort((a,b)=>{ const ia=ORDER.indexOf(a), ib=ORDER.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib) || a.localeCompare(b); });
+    const ORDER = ['Politics','Elections','Economy','Finance','Business','World','Tech & Science','Culture','Health'];
+    // always show the full canonical taxonomy so every category is filterable
+    // across both platforms, even when one currently has no markets in it; append
+    // any unexpected live category after the canonical ones.
+    const extra = [...new Set(all.map(m=>m.category))].filter(c=>ORDER.indexOf(c)<0).sort();
+    const allCats = ORDER.concat(extra);
 
     const sp = s.survPlatform||'all', scat = s.survCats||[], ssort=s.survSort||'suspicion', sthr=s.survThreshold||0, sq=(s.survSearch||'').trim().toLowerCase();
     let list = all.filter(m =>

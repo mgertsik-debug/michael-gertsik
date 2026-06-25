@@ -58,25 +58,48 @@ function decodeEntities(s) {
 const num = (x) => { const n = Number(x); return isFinite(n) ? n : 0; };
 const clip = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
-/* ------------------------------------------------------------- categories -- */
-// Categories are DERIVED from the live APIs: Polymarket tags and Kalshi's
-// event.category. We normalise only casing/aliases so chips stay tidy; we never
-// hardcode the allowed set.
-const CAT_ALIAS = {
-  "us-politics": "Politics", "politics": "Politics", "elections": "Elections",
-  "geopolitics": "World", "world": "World", "economy": "Economics",
-  "economics": "Economics", "finance": "Finance", "financials": "Finance",
-  "crypto": "Crypto", "business": "Business", "tech": "Tech & Science",
-  "science": "Tech & Science", "pop-culture": "Culture", "culture": "Culture",
-  "entertainment": "Culture", "sports": "Sports", "climate": "Climate",
-  "weather": "Climate", "health": "Health", "mentions": "Mentions",
-};
-function normCat(raw) {
-  if (!raw) return null;
-  const k = String(raw).trim().toLowerCase().replace(/\s+/g, "-");
-  if (CAT_ALIAS[k]) return CAT_ALIAS[k];
-  // Title-case an unknown tag/category rather than dropping it.
-  return String(raw).trim().replace(/\b\w/g, (c) => c.toUpperCase()).slice(0, 22);
+/* ------------------------------------------------------------- categories --
+ * Both platforms are mapped into ONE canonical taxonomy of categories where an
+ * insider-information edge is plausible (a party can hold material nonpublic
+ * information about the outcome). Categories whose outcomes are decided in
+ * public / on the field / by efficient price discovery — Sports, Crypto price
+ * levels, Commodities, Climate & Weather, day-to-day index price bets, and
+ * "mentions" — are EXCLUDED, because a trading anomaly there is noise, not a
+ * leak. canonCat() reads a raw tag / Kalshi category / the question text and
+ * returns { c: canonicalName, ex: true|false } or null when nothing matches. */
+const DETECTABLE = ["Politics", "Elections", "Economy", "Finance", "Business", "World", "Tech & Science", "Culture", "Health"];
+function canonCat(raw) {
+  const s = String(raw || "").toLowerCase();
+  if (!s) return null;
+  // --- excluded (efficient / public / physical outcomes) ---
+  if (/\bsport|nfl|nba|wnba|mlb|nhl|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|golf|\bf1\b|grand prix|\bmatch\b|\bgame\b|league|playoff|champions|\bcup\b|olympic|medal|goalscorer|moneyline|over\/under|to score/.test(s)) return { c: "Sports", ex: true };
+  if (/crypto|bitcoin|\bbtc\b|ethereum|\beth\b|solana|\bsol\b|\bxrp\b|dogecoin|\bdefi\b|memecoin|\$?\bnft\b|token price|coin price/.test(s)) return { c: "Crypto", ex: true };
+  if (/commodit|crude|\boil\b|\bwti\b|\bbrent\b|\bgold\b|silver|natural gas|\bgasoline\b|wheat|corn|copper/.test(s)) return { c: "Commodities", ex: true };
+  if (/climate|weather|temperature|hottest|hurricane|rainfall|snowfall|\bel ni|drought/.test(s)) return { c: "Climate", ex: true };
+  if (/\bmention|say the word|include the word|keyword/.test(s)) return { c: "Mentions", ex: true };
+  // --- detectable (outcome can turn on nonpublic information) ---
+  if (/election|midterm|primary|\bballot|electoral|turnout|swing state|popular vote/.test(s)) return { c: "Elections", ex: false };
+  if (/econom|inflation|\bcpi\b|\bpce\b|\bfed\b|fomc|\bgdp\b|jobs report|payroll|unemploy|jobless|rate (cut|hike|decision)|interest rate|recession/.test(s)) return { c: "Economy", ex: false };
+  if (/financ|s&p|\bspx\b|nasdaq|\bdow\b|treasury|\byield\b|\bvix\b|stock market|equit|\bbond\b|credit/.test(s)) return { c: "Finance", ex: false };
+  if (/business|\bcompan|corporate|earnings|merger|acquisition|\bipo\b|\bceo\b|bankruptc|layoff|antitrust|guidance/.test(s)) return { c: "Business", ex: false };
+  if (/\btech\b|technolog|\bai\b|artificial intelligence|\bllm\b|\bgpt\b|science|\bnasa\b|space|rocket|satellite|fusion|semiconductor|\bchip\b|frontier (lab|model)/.test(s)) return { c: "Tech & Science", ex: false };
+  if (/health|\bfda\b|vaccine|pandemic|outbreak|disease|\bdrug\b|clinical|medic|\bcdc\b|\bwho\b/.test(s)) return { c: "Health", ex: false };
+  if (/culture|entertain|\bmovie|\bfilm\b|box office|oscar|academy award|grammy|emmy|\balbum\b|\bmusic\b|\btv\b|series|celebrit|streaming chart/.test(s)) return { c: "Culture", ex: false };
+  if (/world|geopolit|\bwar\b|ukraine|russia|israel|gaza|\biran\b|china|taiwan|north korea|\bnato\b|ceasefire|sanction|\bcoup\b|nuclear|missile|airstrike|hostage|treaty|summit|foreign|border/.test(s)) return { c: "World", ex: false };
+  if (/politic|president|congress|senate|\bhouse\b|governor|cabinet|supreme court|shutdown|impeach|nominee|confirm|government|parliament|prime minister|chancellor|resign|appoint/.test(s)) return { c: "Politics", ex: false };
+  return null;
+}
+// Classify a market from its raw category/tags plus the question text. Prefers a
+// detectable category; if only excluded ones match (or nothing detectable does),
+// the market is dropped. Returns a canonical name or null (skip this market).
+function classifyMarket(rawList, question) {
+  const seen = [];
+  for (const r of (rawList || [])) { const m = canonCat(r); if (m) seen.push(m); }
+  const det = seen.find((m) => !m.ex);
+  if (det) return det.c;                       // a real, detectable category wins
+  if (seen.some((m) => m.ex)) return null;     // only sports/crypto/etc. -> drop
+  const q = canonCat(question);                // fall back to the question text
+  return q && !q.ex ? q.c : null;              // unclassifiable or excluded -> drop
 }
 
 /* ----------------------------------------------------- preliminary scoring -
@@ -113,16 +136,13 @@ function pmUrl(ev, m) {
   const slug = (ev && ev.slug) || (m && m.slug) || (m && Array.isArray(m.events) && m.events[0] && m.events[0].slug);
   return slug ? "https://polymarket.com/event/" + slug : "https://polymarket.com/markets";
 }
-function pmCategory(ev, m) {
+function pmTagList(ev, m) {
   const tags = (ev && ev.tags) || (m && m.tags) || [];
-  if (Array.isArray(tags)) {
-    for (const t of tags) {
-      const label = t && (t.label || t.slug || (typeof t === "string" ? t : null));
-      const c = normCat(label);
-      if (c && c !== "All") return c;
-    }
-  }
-  return normCat(m && m.category) || "Other";
+  const out = [];
+  if (Array.isArray(tags)) for (const t of tags) { const l = t && (t.label || t.slug || (typeof t === "string" ? t : null)); if (l) out.push(l); }
+  if (m && m.category) out.push(m.category);
+  if (ev && ev.category) out.push(ev.category);
+  return out;
 }
 async function enumPoly(maxPages) {
   const rows = [];
@@ -134,12 +154,15 @@ async function enumPoly(maxPages) {
     const arr = Array.isArray(evs) ? evs : (evs && (evs.data || evs.events)) || [];
     if (!arr.length) break;
     for (const ev of arr) {
-      const cat = pmCategory(ev, null);
+      const evTags = pmTagList(ev, null);
       const url2 = pmUrl(ev, null);
       for (const m of (ev.markets || [])) {
         if (m.closed === true || m.active === false) continue;
         const question = String(m.question || m.groupItemTitle || ev.title || "").trim();
         if (!question) continue;
+        // canonical, detectable category or skip (sports / crypto / etc.)
+        const cat = classifyMarket(evTags.concat(pmTagList(null, m)), question);
+        if (!cat) continue;
         const vol = num(m.volume24hr || m.volume_24hr || m.volume24Hr);
         const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
         let prob = num(m.lastTradePrice);
@@ -186,12 +209,17 @@ async function enumKalshi(maxPages) {
     const d = await getJSON(url, { headers: kalshiHeaders("GET", "/trade-api/v2/events"), timeout: 8000 }).catch(() => null);
     if (!d) break;
     for (const ev of (d.events || d.data || [])) {
-      const cat = normCat(ev.category) || "Other";
       const series = ev.series_ticker || "";
       const url2 = kUrl(ev);
       const evTitle = String(ev.title || ev.sub_title || "");
       for (const m of (ev.markets || [])) {
         if (m.status && m.status !== "active" && m.status !== "open") continue;
+        const question = String(m.title || m.yes_sub_title || evTitle || m.ticker || "").trim();
+        if (!question) continue;
+        // canonical, detectable category or skip (sports / crypto / etc.).
+        // Kalshi gives a clean event.category; fall back to the question text.
+        const cat = classifyMarket([ev.category, ev.sub_title].filter(Boolean), question + " " + evTitle);
+        if (!cat) continue;
         const vol = num(m.volume_24h_fp || m.volume_24h);
         const oi = num(m.open_interest_fp || m.open_interest);
         // probability from the yes bid/ask midpoint or last price (cents -> 0..1)
@@ -199,8 +227,6 @@ async function enumKalshi(maxPages) {
         if (!cents) { const b = num(m.yes_bid), a = num(m.yes_ask); if (b || a) cents = (b + a) / 2; }
         const prob = cents > 1 ? cents / 100 : cents;
         if (!(prob > 0 && prob < 1)) continue;
-        const question = String(m.title || m.yes_sub_title || evTitle || m.ticker || "").trim();
-        if (!question) continue;
         rows.push(scoreMarket({
           id: "k-" + (m.ticker || question.slice(0, 24)),
           platform: "kalshi", category: cat, question, url: url2,
