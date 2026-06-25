@@ -695,25 +695,28 @@ async function newsCheck(query, moveMs) {
   const mv = moveMs || Date.now();
   const cred = (src) => /reuters|associated press|\bap\b|bloomberg|official|\.gov|federal|white house|department/i.test(src || "") ? "official"
     : /twitter|x\.com|reddit|telegram|truth social/i.test(src || "") ? "social" : "news";
-  // `mv` is the SPIKE time (when the price actually jumped). Credible public news
-  // within [-96h, +36h] of the spike is CONCURRENT — it explains the move (the
-  // market reacted to the news, possibly with a reporting lag of up to ~a day).
-  // Only news that breaks well AFTER the spike (>36h) is the leakage signature.
-  const GRACE = 36 * 3600 * 1000;         // news up to 36h after the spike ≈ concurrent (same-day reaction)
-  const BEFORE_WIN = 96 * 3600 * 1000;    // explanatory news within ~4 days before the spike, not stale background
+  // `mv` is the SPIKE time (when the price actually jumped), at hourly precision.
+  // The catalyst is the EARLIEST credible report around the move — when the
+  // information FIRST became public, at its exact published time (not the day).
+  // Several outlets publish the same story minutes/hours apart; only the first
+  // one matters for "did the price move before the public knew."
+  const GRACE = 36 * 3600 * 1000;         // earliest report up to 36h after the spike ≈ concurrent
+  const NEIGH_BEFORE = 48 * 3600 * 1000;  // a report up to 48h before the spike is the catalyst (news led price)
+  rel.sort((a, b) => a.ts - b.ts);        // chronological, so [0] of any slice is the earliest
   const fmtArticle = (it) => ({ title: it.title.slice(0, 160), source: it.src || "news", ts: it.ts, url: it.url || null, when: it.ts <= mv + GRACE ? "before" : "after" });
-  // evidence list for the UI, nearest-to-the-move first (always returned)
-  const articles = rel.slice().sort((a, b) => Math.abs(a.ts - mv) - Math.abs(b.ts - mv)).slice(0, 4).map(fmtArticle);
-  // EXPLANATORY catalyst: credible news AT or shortly BEFORE the move (news leads
-  // price). Background news older than the window does not count.
-  const before = rel.filter((it) => it.ts <= mv + GRACE && it.ts >= mv - BEFORE_WIN);
-  if (before.length) {
-    const top = before.slice().sort((a, b) => (mv - a.ts) - (mv - b.ts))[0];   // closest before
-    return { ctx: { credibility: cred(top.src), hoursFromMove: Math.max(0, (mv - top.ts) / 3600000), preEvent: false, directionMatch: true },
-      headline: top.title.slice(0, 160), source: top.src || "news", atMs: top.ts, articles };
+  // evidence list for the UI, EARLIEST-first (the first public disclosure leads)
+  const articles = rel.slice(0, 4).map(fmtArticle);
+  // The earliest credible report in the neighbourhood of the move. If the price
+  // moved AT or AFTER this (the news was already public), it's explained.
+  const around = rel.filter((it) => it.ts >= mv - NEIGH_BEFORE && it.ts <= mv + GRACE);
+  if (around.length) {
+    const catalyst = around[0];           // EARLIEST exact time the info hit the wire
+    return { ctx: { credibility: cred(catalyst.src), hoursFromMove: Math.max(0, (mv - catalyst.ts) / 3600000), preEvent: false, directionMatch: true },
+      headline: catalyst.title.slice(0, 160), source: catalyst.src || "news", atMs: catalyst.ts, articles };
   }
-  // LEAKAGE signature: the price moved, and the public headline only broke AFTER.
-  const after = rel.filter((it) => it.ts > mv + GRACE).sort((a, b) => a.ts - b.ts);
+  // LEAKAGE: the price moved and the EARLIEST public report only broke clearly
+  // after it (more than 36h later) — the move ran ahead of all public info.
+  const after = rel.filter((it) => it.ts > mv + GRACE);
   if (after.length) {
     const first = after[0]; const leadH = Math.round((first.ts - mv) / 3600000);
     if (leadH >= 1 && leadH <= 21 * 24) {
