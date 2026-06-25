@@ -695,8 +695,12 @@ async function newsCheck(query, moveMs) {
   const mv = moveMs || Date.now();
   const cred = (src) => /reuters|associated press|\bap\b|bloomberg|official|\.gov|federal|white house|department/i.test(src || "") ? "official"
     : /twitter|x\.com|reddit|telegram|truth social/i.test(src || "") ? "social" : "news";
-  const GRACE = 3 * 3600 * 1000;          // news up to 3h after the move ≈ concurrent
-  const BEFORE_WIN = 72 * 3600 * 1000;    // explanatory news must be a recent catalyst, not background
+  // `mv` is the SPIKE time (when the price actually jumped). Credible public news
+  // within [-96h, +36h] of the spike is CONCURRENT — it explains the move (the
+  // market reacted to the news, possibly with a reporting lag of up to ~a day).
+  // Only news that breaks well AFTER the spike (>36h) is the leakage signature.
+  const GRACE = 36 * 3600 * 1000;         // news up to 36h after the spike ≈ concurrent (same-day reaction)
+  const BEFORE_WIN = 96 * 3600 * 1000;    // explanatory news within ~4 days before the spike, not stale background
   const fmtArticle = (it) => ({ title: it.title.slice(0, 160), source: it.src || "news", ts: it.ts, url: it.url || null, when: it.ts <= mv + GRACE ? "before" : "after" });
   // evidence list for the UI, nearest-to-the-move first (always returned)
   const articles = rel.slice().sort((a, b) => Math.abs(a.ts - mv) - Math.abs(b.ts - mv)).slice(0, 4).map(fmtArticle);
@@ -780,7 +784,16 @@ async function deepEnrich(m, mode) {
     }
 
     const runUp = D.runUp(scoreSeries);
-    const moveMs = scoreSeries[scoreSeries.length - 1].t * 1000;
+    // The "move time" is WHEN THE PRICE ACTUALLY SPIKED (the largest single
+    // log-odds jump), not the end of the window. The news gate compares the
+    // public-headline time to THIS, so a spike that coincides with the news is
+    // judged explained and only a spike that clearly precedes the news is leakage.
+    let spikeIdx = scoreSeries.length - 1, spikeBest = -1;
+    for (let i = 1; i < scoreSeries.length; i++) {
+      const d = Math.abs(D.logit(scoreSeries[i].p) - D.logit(scoreSeries[i - 1].p));
+      if (d > spikeBest) { spikeBest = d; spikeIdx = i; }
+    }
+    const moveMs = scoreSeries[spikeIdx].t * 1000;
     // For a RESOLVED market the real "implied odds the bet was placed at" is the
     // calm PRE-event level — the median of the estimation window (pre-snap).
     let impliedPre = null;
@@ -797,31 +810,18 @@ async function deepEnrich(m, mode) {
       newsCheck(newsQuery(m.question), moveMs).catch(() => null),
       fetchBook(m).catch(() => null),
     ]);
-    let newsGap = D.newsGap(news ? news.ctx : null);
+    const newsGap = D.newsGap(news ? news.ctx : null);
 
-    // LEAKAGE TEST (the honest one): what fraction of the price move happened
-    // BEFORE the public news? Measure it directly from the series rather than a
-    // crude before/after-a-point flag. If the move mostly happened AT/AFTER the
-    // news, the news explains it (NOT suspicious). If it mostly preceded the
-    // news, that's the leakage signature. This is the Keown-Pinkerton
-    // "fraction-of-move-pre-catalyst" with the catalyst = the actual news time.
-    let preNewsFraction = null;
+    // Display-only: what fraction of the move (in log-odds) happened before the
+    // public-news time. The VERDICT itself comes from newsCheck (spike-anchored);
+    // this just lets the UI state the timing in plain numbers.
     if (news && news.atMs && scoreSeries.length >= 4) {
       const nSec = news.atMs / 1000;
       const zStart = D.logit(scoreSeries[0].p), zEnd = D.logit(scoreSeries[scoreSeries.length - 1].p);
       let pAtNews = scoreSeries[0].p;
       for (const pt of scoreSeries) { if (pt.t <= nSec) pAtNews = pt.p; else break; }
       const total = Math.abs(zEnd - zStart);
-      preNewsFraction = total > 0 ? clip(Math.abs(D.logit(pAtNews) - zStart) / total, 0, 1) : 0;
-      // re-derive the verdict from the fraction:
-      if (preNewsFraction >= 0.5) {
-        // most of the move came BEFORE the news -> leakage / unexplained
-        newsGap = D.newsGap(Object.assign({}, news.ctx, { preEvent: true }));
-      } else if (preNewsFraction <= 0.35 && news.ctx) {
-        // the move happened AT/AFTER the news -> the news explains it
-        newsGap = D.newsGap(Object.assign({}, news.ctx, { preEvent: false }));
-      }
-      if (news) news.preNewsFraction = +preNewsFraction.toFixed(2);
+      news.preNewsFraction = +(total > 0 ? clip(Math.abs(D.logit(pAtNews) - zStart) / total, 0, 1) : 0).toFixed(2);
     }
 
     // a real spread/depth from the book sharpens the liquidity gate Q
