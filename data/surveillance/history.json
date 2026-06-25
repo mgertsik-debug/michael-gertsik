@@ -1,10 +1,49 @@
 {
-  "updatedAt": "2026-06-25T16:04:45.630Z",
+  "updatedAt": "2026-06-25T18:25:54.118Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-2176270",
+      "ts": "18:25 UTC",
+      "platform": "polymarket",
+      "market": "Strait of Hormuz traffic returns to normal by December 31?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "52 · Elevated",
+      "index": 52,
+      "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-december-31",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-25T18:25:54.118Z"
+    },
+    {
+      "id": "pm-1962237",
+      "ts": "18:25 UTC",
+      "platform": "polymarket",
+      "market": "US x Iran permanent peace deal by June 30, 2026?",
+      "detector": "runUp",
+      "sev": "med",
+      "metric": "51 · Elevated",
+      "index": 51,
+      "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+      "engine": "insider",
+      "firstSeen": "2026-06-25T18:25:54.118Z"
+    },
+    {
+      "id": "pm-2270330",
+      "ts": "18:25 UTC",
+      "platform": "polymarket",
+      "market": "US x Iran permanent peace deal by June 15, 2026?",
+      "detector": "runUp",
+      "sev": "med",
+      "metric": "52 · Elevated",
+      "index": 52,
+      "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+      "engine": "insider",
+      "firstSeen": "2026-06-25T18:25:54.118Z"
+    },
     {
       "id": "pm-601822",
       "ts": "16:04 UTC",
