@@ -120,14 +120,26 @@ function proxyRunUp(prob, change24h) {
       "refined from full price history when this market is inspected.",
   };
 }
+// the four insider checks, as the coverage-aware fuse() expects: each carries a
+// weight and a sub-score (null = the check could not run for this market).
+const DET_W = { runUp: 0.30, vpin: 0.25, priceImpact: 0.20, concentration: 0.25 };
+function detsArray(d) {
+  return ["runUp", "vpin", "priceImpact", "concentration"].map((k) => ({ key: k, weight: DET_W[k], sub: d[k] != null ? d[k] : null }));
+}
+function applyFusion(m, dets, ctx) {
+  const fused = D.fuse(dets, Object.assign({ categoryMult: D.categoryMult(m.category) }, ctx));
+  m.index = fused.score; m.raw = fused.raw; m.label = fused.label; m.tier = fused.tier;
+  m.coverageRan = fused.coverageRan; m.coverageTotal = fused.coverageTotal;
+  m.fullCoverage = fused.fullCoverage; m.agreeing = fused.agreeing;
+  m.contributions = fused.contributions;
+  return fused;
+}
 function scoreMarket(m) {
   const q = D.liquidityQ({ volumeUsd: m.volume24h, depthUsd: m.liquidity });
   const runUp = proxyRunUp(m.prob, m.change24h);
-  const subs = { runUp: runUp };
-  const fused = D.fuse(subs, { platform: m.platform, E: 0, Q: q.Q });
-  m.Q = q.Q; m.E = 0; m.raw = fused.raw; m.index = fused.index; m.label = fused.label;
+  m.Q = q.Q; m.E = 0;
+  applyFusion(m, detsArray({ runUp }), { E: 0, Q: q.Q });
   m.detectors = { runUp, priceImpact: null, vpin: null, concentration: null, news: null };
-  m.contributions = fused.contributions;
   return m;
 }
 
@@ -578,11 +590,8 @@ async function deepEnrich(m) {
         bestBid: book.bestBid, bestAsk: book.bestAsk };
     }
 
-    const subs = { runUp, vpin, priceImpact, concentration };
-    const fused = D.fuse(subs, { platform: m.platform, E: newsGap.E, Q: m.Q, preEvent: newsGap.preEvent });
-
-    m.index = fused.index; m.raw = fused.raw; m.E = newsGap.E; m.label = fused.label;
-    m.contributions = fused.contributions;
+    m.E = newsGap.E;
+    applyFusion(m, detsArray({ runUp, vpin, priceImpact, concentration }), { E: newsGap.E, Q: m.Q, preEvent: newsGap.preEvent });
     m.detectors = {
       runUp: runUp || m.detectors.runUp, priceImpact, vpin, concentration,
       news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null } : {}),
@@ -718,23 +727,30 @@ module.exports = async (req, res) => {
     return pub;
   });
 
-  const flagged = all.filter((m) => m.index >= 40).length;
-  const high = all.filter((m) => m.index >= 70).length;
+  // honest tier counts (High-signal requires full coverage + >=2 agreeing checks)
+  const highSignal = all.filter((m) => m.tier === "High-signal").length;
+  const elevated = all.filter((m) => m.tier === "Elevated").length;
+  const watch = all.filter((m) => m.tier === "Watch").length;
   const byPlat = { polymarket: pm.length, kalshi: k.length };
   const cats = {}; markets.forEach((m) => { cats[m.category] = (cats[m.category] || 0) + 1; });
 
   // back-compat compact "alerts" for the cron (the flagged subset)
-  const alerts = markets.filter((m) => m.index >= 50).map((m) => ({
+  const alerts = markets.filter((m) => m.tier === "High-signal" || m.tier === "Elevated").map((m) => ({
     id: m.id, ts: new Date().toISOString().slice(11, 16) + " UTC", platform: m.platform,
     market: m.question, detector: (m.contributions && m.contributions[0] && m.contributions[0].key) || "runUp",
-    sev: m.index >= 70 ? "high" : "med", metric: m.index + " · " + m.label, index: m.index, url: m.url,
+    sev: m.tier === "High-signal" ? "high" : "med", metric: m.index + " · " + m.tier, index: m.index, url: m.url,
   }));
 
   res.status(200).json({
     generatedAt: new Date().toISOString(),
     live: markets.length > 0,
-    cadence: "near-real-time · enumeration every scan, deep-enrich top markets",
-    coverage: { scanned, returned: markets.length, flagged, high, byPlatform: byPlat, categories: cats, deepEnriched: deepTargets.length },
+    cadence: "rotating scan · enumerate all, deep-enrich the stalest/most-screened batch each run",
+    coverage: {
+      // "watching" = the full enumerated universe reached this run; "evaluated" =
+      // the bounded batch that got the deep (multi-check) scoring this run.
+      watching: scanned, evaluated: deepTargets.length, returned: markets.length,
+      highSignal, elevated, watch, byPlatform: byPlat, categories: cats,
+    },
     sources,
     markets,
     alerts,
