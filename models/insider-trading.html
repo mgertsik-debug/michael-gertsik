@@ -904,10 +904,22 @@ class Component extends DCLogic {
           chip: kyleX!=null?(kyleX+'× impact'):'—',
           sentence: ky?('It took only a small amount of money to move this price a lot — about '+kyleX+'× the impact a normal trade has here. When a few dollars swing the odds this much, it can mean someone is betting with unusual conviction on a thin market.'):'We can’t measure price impact for this market yet.',
           how:'We measure how far the price moves per dollar traded, versus this market’s normal liquidity ('+(kyleX!=null?kyleX+'× normal':'—')+'). Method: Kyle’s λ + Amihud illiquidity.' },
-        { key:'conc', name:'A few accounts dominated', sub:sub(co), points:pts.conc, available:(plat==='polymarket'),
-          chip: top1Pct!=null?(top1Pct+'% one wallet'):(plat==='kalshi'?'n/a (anonymous)':'—'),
-          sentence: co?('Most of the buying came from just a few accounts. The single biggest wallet was '+top1Pct+'% of all the buying, out of '+nWal+' accounts. One account loading up looks very different from a crowd of small bettors.'+(m.onchain&&m.onchain.fresh?' The top wallet only appeared right before the move.':'')):(plat==='kalshi'?'Kalshi is a regular exchange where traders are anonymous, so there is no public wallet list to check who was buying. This check only runs on Polymarket.':'We don’t have the on-chain trades for this market yet.'),
-          how:'On Polymarket every trade has a public wallet, so we measure how concentrated the buying is (top wallet '+(top1Pct!=null?top1Pct+'%':'—')+', '+(nWal||'—')+' accounts). Method: Herfindahl index.' },
+        (function(){
+          const ob = co&&co.kind==='orderbook';
+          const imbPct = ob?Math.round((co.imbalance||0)*100):null;
+          return { key:'conc', name: ob?'Lopsided order book':'A few accounts dominated', sub:sub(co), points:pts.conc, available:!!co,
+            chip: ob?(imbPct+'% '+co.side+'-side'):(top1Pct!=null?(top1Pct+'% one wallet'):(plat==='kalshi'?'order book':'—')),
+            sentence: co
+              ? (ob
+                ? ('The resting orders are lopsided: roughly '+imbPct+'% more money is stacked on the '+co.side+' side of the order book than the other. A heavily one-sided book means traders are leaning hard one way — often before an outcome is public.')
+                : ('Most of the buying came from just a few accounts. The single biggest wallet was '+top1Pct+'% of all the buying, out of '+nWal+' accounts. One account loading up looks very different from a crowd of small bettors.'+(m.onchain&&m.onchain.fresh?' The top wallet only appeared right before the move.':'')))
+              : (plat==='kalshi'
+                ? 'We could not read this market’s order book just now, so we can’t score how lopsided the resting orders are.'
+                : 'We don’t have the on-chain trades for this market yet.'),
+            how: ob
+              ? ('Kalshi traders are anonymous, so instead of wallets we read the order book directly and measure how much more resting volume sits on one side ('+imbPct+'% imbalance toward '+co.side+', about $'+this._k(co.depthUsd||0)+' on the book).')
+              : ('On Polymarket every trade carries a public wallet, so we measure how concentrated the buying is — top wallet '+(top1Pct!=null?top1Pct+'%':'—')+' across '+(nWal||'—')+' accounts. Method: Herfindahl index. On Kalshi, traders are anonymous, so we read the order book instead.') };
+        }).call(this),
       ];
       const newsCtx = !nw ? { has:false } : {
         has:true, preEvent:!!nw.preEvent, explained:!!nw.explained,
@@ -1050,7 +1062,7 @@ class Component extends DCLogic {
     const W={runUp:0.30,vpin:0.25,priceImpact:0.20,concentration:0.25};
     const order=['runUp','vpin','priceImpact','concentration'];
     let denom=0, weighted=0; const rows=[];
-    order.forEach(k=>{ if(k==='concentration'&&platform==='kalshi') return; denom+=W[k]; const v=subs01[k]; if(v!=null){ weighted+=W[k]*v; rows.push({k,v}); } });
+    order.forEach(k=>{ denom+=W[k]; const v=subs01[k]; if(v!=null){ weighted+=W[k]*v; rows.push({k,v}); } });
     const raw=denom>0?weighted/denom:0, disc=1-0.6*(E||0), index=Math.round(100*Math.max(0,Math.min(1,raw*disc)));
     const contributions=rows.map(r=>({ key:r.k, points:Math.round(100*(W[r.k]*r.v/denom)*Math.max(0,Math.min(1,disc))) }));
     return { index, contributions };
@@ -1077,7 +1089,7 @@ class Component extends DCLogic {
       const s01= idx<5?(0.74+R()*0.22):(0.12+R()*0.62);     // base suspicion 0..1
       // detector sub-scores (0..1), jittered around the base
       const jc=()=>Math.max(0.05,Math.min(0.99,s01+(R()-0.5)*0.28));
-      const subs={ runUp:jc(), vpin:jc(), priceImpact:jc(), concentration: platform==='polymarket'?jc():null };
+      const subs={ runUp:jc(), vpin:jc(), priceImpact:jc(), concentration: jc() };
       // news: most are pre-event gaps; ~1 in 4 is explained by a headline
       const explained = R()<0.25, E = explained?(0.55+R()*0.4):0;
       const fused=this._fuseSample(subs, platform, E);
@@ -1095,13 +1107,15 @@ class Component extends DCLogic {
         runUp:{ score:subs.runUp, sigma_move:+(subs.runUp*7+0.5).toFixed(1), dir:dir>0?'up':'down' },
         vpin:{ score:subs.vpin, vpin:+(0.5+subs.vpin*0.45).toFixed(2), nBuckets:50, nTrades:Math.round(120+R()*900) },
         priceImpact:{ score:subs.priceImpact, impactRatio:+(2+subs.priceImpact*16).toFixed(1), lambda:+(0.004+subs.priceImpact*0.02).toFixed(4), amihud:'2e-5' },
-        concentration: subs.concentration!=null?{ score:subs.concentration, top1:+(0.25+subs.concentration*0.55).toFixed(2), nWallets:Math.round(8+R()*60), fresh:R()<0.5, hhi:+(0.1+subs.concentration*0.4).toFixed(2) }:null,
+        concentration: platform==='polymarket'
+          ? { score:subs.concentration, top1:+(0.25+subs.concentration*0.55).toFixed(2), nWallets:Math.round(8+R()*60), fresh:R()<0.5, hhi:+(0.1+subs.concentration*0.4).toFixed(2) }
+          : { score:subs.concentration, kind:'orderbook', imbalance:+(0.2+subs.concentration*0.6).toFixed(2), side:R()<0.5?'buy':'sell', depthUsd:Math.round(5000+R()*80000), bestBid:+(0.2+R()*0.5).toFixed(2), bestAsk:+(0.25+R()*0.5).toFixed(2) },
         news: explained?{ E, explained:true, preEvent:false, headline:'Officials comment on the matter, agencies report', source:'Reuters' }:{ E:0, explained:false, preEvent:true, leadH:Math.round(3+R()*18) },
       };
       let onchain=null;
       if(platform==='polymarket'){
         const raw=[1,0.62,0.4,0.24,0.13].map(x=>x*(0.4+subs.concentration)); const sum=raw.reduce((a,b)=>a+b,0); let hh=0;
-        const tw=raw.map((r,i)=>{ const share=r/sum; hh+=share*share; const hex=Math.floor(R()*0xffffff).toString(16).padStart(6,'0'); return { wallet:'0x'+hex.slice(0,4)+'…'+hex.slice(4,6), full:'0x'+hex+hex.slice(0,8), share:+share.toFixed(3), usd:Math.round((1-i*0.15)*(20000+R()*400000)), fresh:(i===0&&R()<0.55)||(i>0&&R()<0.22) }; });
+        const tw=raw.map((r,i)=>{ const share=r/sum; hh+=share*share; const full='0x'+Array.from({length:40},()=>Math.floor(R()*16).toString(16)).join(''); return { wallet:full.slice(0,6)+'…'+full.slice(-4), full, share:+share.toFixed(3), usd:Math.round((1-i*0.15)*(20000+R()*400000)), fresh:(i===0&&R()<0.55)||(i>0&&R()<0.22) }; });
         const clusters= (fused.index>=70 && R()<0.5)?[{ size:3, share:+(0.18+R()*0.2).toFixed(2), windowMin:15, wallets:tw.slice(1,4).map(w=>w.wallet), spanSec:480 }]:[];
         onchain={ hhi:+hh.toFixed(2), top1:tw[0].share, fresh:tw[0].fresh, nWallets:tw.length+Math.round(R()*40), clusters, topWallets:tw };
       }
@@ -1648,7 +1662,7 @@ class Component extends DCLogic {
       // score breakdown: each check's POINTS contribution (sums to the index)
       const fired=selM.checks.filter(c=>c.available && c.points>0);
       const breakdown=fired.slice().sort((a,b)=>b.points-a.points).map(c=>({ name:c.name, points:'+'+c.points, bar:this.bar(c.points,this.sev(c.sub),130) }));
-      const scoreSentence='This market scores '+selM.score+' out of 100. The score adds up '+(selM.platform==='kalshi'?'four':'five')+' independent checks for signs of trading on private information — the higher each one, the more they agree something looks off. Here is exactly how this market’s score adds up:';
+      const scoreSentence='This market scores '+selM.score+' out of 100. Four checks each add points when they spot something unusual (below), and a fifth — whether public news can explain the move — can pull the score back down. A market only scores high when several checks agree. Here is exactly how this one adds up:';
       // the checks (plain-English, with bars + expandable "how we measured it")
       const checks=selM.checks.map(c=>({ name:c.name, sentence:c.sentence, how:c.how, available:c.available,
         points: c.available?(c.points>0?('+'+c.points):'0'):'n/a', pointsColor: c.points>0?this.sev(c.sub):'#5d6864',
