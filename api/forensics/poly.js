@@ -39,16 +39,20 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
  * where a betting edge is noise, not information — those are not scored. */
 function category(tags, question) {
   const s = (tags.join(" ") + " " + question).toLowerCase();
-  if (/\bsport|nfl|nba|mlb|nhl|ufc|soccer|football|basketball|tennis|golf|\bf1\b|match|league|playoff/.test(s)) return null;
-  if (/crypto|bitcoin|\bbtc\b|ethereum|\beth\b|solana|token price|coin price/.test(s)) return "Crypto";
-  if (/weather|temperature|hurricane|rainfall|climate/.test(s)) return null;
-  if (/military|defense|defence|airstrike|troop|missile|war\b|nato|sanction|basing|carrier|drone strike/.test(s)) return "Military & Defense";
+  // EXCLUDE outcomes decided in public / on the field / by price discovery — an
+  // "edge" there is noise, not information.
+  if (/\bsport|nfl|nba|wnba|mlb|nhl|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|golf|\bf1\b|grand prix|\bmatch\b|\bgame\b|league|playoff|super ?bowl|world cup|lakers|celtics|yankees|warriors|chiefs|win game|moneyline|to score|goalscorer/.test(s)) return null;
+  if (/crypto|bitcoin|\bbtc\b|ethereum|\beth\b|solana|\bsol\b|\bxrp\b|dogecoin|token price|coin price|price of|hit \$|reach \$/.test(s)) return null;
+  if (/weather|temperature|hottest|hurricane|rainfall|snowfall|climate|\bel ni/.test(s)) return null;
+  if (/\bmention|say the word|tweet|number of posts/.test(s)) return null;
+  // INCLUDE only markets whose outcome can turn on nonpublic information.
+  if (/military|defense|defence|airstrike|troop|missile|\bwar\b|nato|sanction|basing|carrier|drone strike|nuclear|ceasefire|hostage/.test(s)) return "Military & Defense";
   if (/election|midterm|primary|ballot|electoral|turnout|runoff/.test(s)) return "Elections";
-  if (/econom|inflation|\bcpi\b|\bfed\b|fomc|\bgdp\b|jobs report|payroll|unemploy|rate (cut|hike|decision)|interest rate|recession/.test(s)) return "Economics";
-  if (/politic|president|senate|congress|governor|cabinet|nominee|impeach|resign|pardon|executive order|supreme court/.test(s)) return "Politics";
-  if (/culture|entertain|movie|film|box office|oscar|grammy|award|album|streaming/.test(s)) return "Culture";
-  if (/\bworld\b|geopolit|treaty|summit|ceasefire|peace deal|coup|foreign|diplomat/.test(s)) return "World";
-  return "World";
+  if (/econom|inflation|\bcpi\b|\bpce\b|\bfed\b|fomc|\bgdp\b|jobs report|payroll|unemploy|jobless|rate (cut|hike|decision)|interest rate|recession/.test(s)) return "Economics";
+  if (/politic|president|senate|congress|governor|cabinet|nominee|confirm|impeach|resign|pardon|executive order|supreme court|indict|cabinet/.test(s)) return "Politics";
+  if (/culture|entertain|\bmovie|\bfilm\b|box office|oscar|grammy|emmy|\baward|\balbum\b|streaming chart/.test(s)) return "Culture";
+  if (/geopolit|treaty|summit|peace deal|coup|foreign|diplomat|sanction|annex|invade|border/.test(s)) return "World";
+  return null;                                            // unmatched ⇒ not a detectable-edge market ⇒ excluded
 }
 
 function tagList(ev, m) {
@@ -143,6 +147,57 @@ async function tradesForMarket(cond, opts) {
   return trades;
 }
 
+const clip = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+// A wallet's FULL position record (Data API /positions). This is the wallet
+// pivot done right: one call returns every market the wallet took a position in,
+// with entry price, size, and the settled outcome — so a screened wallet is
+// scored on its WHOLE resolved record in one pass, not only the markets the
+// market-sweep has reached. Paginated, guarded, returns [] on failure.
+async function userPositions(wallet, opts) {
+  const o = Object.assign({ maxPositions: 1500, pageDelayMs: 80 }, opts);
+  if (!wallet) return [];
+  const out = [];
+  let offset = 0, pages = 0;
+  do {
+    const d = await getJSON(DATA + "/positions?user=" + encodeURIComponent(wallet) + "&limit=500&offset=" + offset, { timeout: 8000 }).catch(() => null);
+    const arr = Array.isArray(d) ? d : (d && (d.data || d.positions)) || [];
+    if (!arr.length) break;
+    out.push(...arr); offset += arr.length; pages++;
+    if (arr.length < 500) break;
+    await sleep(o.pageDelayMs);
+  } while (out.length < o.maxPositions && pages < 4);
+  return out;
+}
+
+// Convert a /positions row into a resolved BET, or null if it is not a settled,
+// binary, detectable-category long-shot we can score. A market is settled when
+// its price has snapped to 0/1 (or it is redeemable / past its end date). Won
+// when the held outcome settled to ~1. Entry odds = avgPrice (size-weighted).
+function positionToBet(p) {
+  if (!p) return null;
+  const cond = p.conditionId || p.condition_id || p.market || p.asset || null;
+  const avg = num(p.avgPrice != null ? p.avgPrice : p.avg_price);
+  const cur = num(p.curPrice != null ? p.curPrice : p.cur_price);
+  const size = num(p.size != null ? p.size : p.shares);
+  const totalBought = num(p.totalBought != null ? p.totalBought : (p.initialValue != null ? p.initialValue : size * avg));
+  const title = String(p.title || p.question || "").trim();
+  const endMs = Date.parse(p.endDate || p.end_date || 0) || 0;
+  const settled = cur <= 0.02 || cur >= 0.98 || p.redeemable === true || (endMs && endMs < Date.now());
+  if (!cond || !settled) return null;
+  if (!(avg > 0.0001 && avg < 0.9999)) return null;            // need a real entry odds
+  const cat = category([], title);
+  if (!cat) return null;                                        // skip sports/crypto-price/weather (edge = noise)
+  const won = cur >= 0.5;
+  return {
+    cond, eventGroup: p.slug || cond, question: title || "(market)",
+    url: p.slug ? "https://polymarket.com/event/" + p.slug : "https://polymarket.com/markets",
+    category: cat, entryPrice: clip(avg, 1e-4, 0.9999), stakeUsd: Math.round(totalBought || size * avg),
+    outcome: (String(p.outcome || "").toUpperCase()) || "YES", won, held: true,
+    ts: endMs ? Math.round(endMs / 1000) : null, tx: null, resolvedMs: endMs || null,
+  };
+}
+
 // a wallet's first-ever Polymarket activity timestamp (seconds).
 async function firstSeen(wallet) {
   if (!wallet) return null;
@@ -211,6 +266,6 @@ function aggregateMarket(market, trades) {
 
 module.exports = {
   getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket,
-  category, resolvedWinner, isBinary, tradeOutcome,
+  userPositions, positionToBet, category, resolvedWinner, isBinary, tradeOutcome,
   GAMMA, DATA, CLOB,
 };
