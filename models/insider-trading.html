@@ -160,7 +160,7 @@
               <div style="display:flex;flex-direction:column;gap:6px;z-index:1;flex:1 1 300px;min-width:260px;">
                 <div role="tablist" aria-label="Surveillance engine" style="display:flex;background:#0a0f0d;border:1px solid #1B2521;border-radius:10px;padding:4px;gap:4px;">
                   <sc-for list="{{ surv.engineBtns }}" as="e" hint-placeholder-count="2">
-                    <button role="tab" aria-selected="{{ e.active }}" onClick="{{ e.onClick }}" style="{{ e.style }}">{{ e.label }}</button>
+                    <button role="tab" aria-selected="{{ e.active }}" onClick="{{ e.onClick }}" style="{{ e.style }}" style-hover="{{ e.styleHover }}">{{ e.label }}</button>
                   </sc-for>
                 </div>
                 <div style="font-size:11px;line-height:1.4;color:#8A938F;letter-spacing:.01em;padding:0 2px;text-wrap:pretty;">{{ surv.engineSubtitle }}</div>
@@ -688,6 +688,9 @@ class Component extends DCLogic {
         .then(r=> r.ok ? r.json() : null)
         .then(d=>{
           if (d && Array.isArray(d.markets) && d.markets.length){
+            // cache per mode so flipping the toggle is instant (no sample-feed flash)
+            this._feedByMode = this._feedByMode || {}; this._feedByMode[mode] = d;
+            if ((this.state.survMode||'insider') !== mode) return;   // mode changed mid-flight
             this.setState(st=>({ survMarkets:d.markets, survFeedAt:d.generatedAt, survCoverage:d.coverage, survSources:d.sources, survStreaming:d.streamingBoundary||null, survPulse:(st.survPulse||0)+1 }));
             // keep the open market's live websocket pointed at fresh coordinates
             const sel = d.markets.find(m=>m.id===this.state.survSel);
@@ -698,11 +701,19 @@ class Component extends DCLogic {
     } catch(_) {}
   }
   // Top-level engine toggle: INSIDER (retrospective) <-> MANIPULATION (microstructure).
-  // Clears the open selection + stale feed, regenerates the right sample, re-polls.
+  // Swaps to the cached feed for the target mode immediately (no blink), then
+  // refreshes it in the background. Falls back to that mode's sample if not yet loaded.
   setSurvMode(mode){
     if ((this.state.survMode||'insider')===mode) return;
-    this._survRaw=null; this._survRawManip=null; this._survWsClose();
-    this.setState({ survMode:mode, survMarkets:null, survSel:null, survWs:null, survCoverage:null, survStreaming:null }, ()=> this._survPoll());
+    this._survWsClose();
+    const cached = (this._feedByMode||{})[mode];
+    this.setState({
+      survMode:mode, survSel:null, survWs:null,
+      survMarkets: cached ? cached.markets : null,
+      survCoverage: cached ? cached.coverage : null,
+      survFeedAt:   cached ? cached.generatedAt : null,
+      survStreaming: cached ? (cached.streamingBoundary||null) : null,
+    }, ()=> this._survPoll());
   }
   // Select a market and (Phase 2) open a PUBLIC market-data websocket for it so
   // its price ticks live in the inspector. Only the open market is subscribed.
@@ -1877,11 +1888,20 @@ class Component extends DCLogic {
 
     // engine toggle (top-level): swaps the detector set, status, inspector + copy
     const engineBtns=[
-      { key:'insider', label:'◐ INSIDER TRADING' },
-      { key:'manipulation', label:'⚡ MARKET MANIPULATION' },
-    ].map(e=>({ label:e.label, active:mode===e.key, onClick:()=>this.setSurvMode(e.key),
-      style:'flex:1;border:none;border-radius:7px;padding:8px 10px;font-family:\'JetBrains Mono\',monospace;font-size:11px;font-weight:600;letter-spacing:.03em;cursor:pointer;transition:all .18s;white-space:nowrap;'+
-        (mode===e.key?('background:'+(e.key==='manipulation'?'#F8717122':'#A78BFA22')+';color:'+(e.key==='manipulation'?'#F87171':'#A78BFA')+';box-shadow:0 0 10px '+(e.key==='manipulation'?'#f8717133':'#a78bfa33')+';'):'background:transparent;color:#7e8782;') }));
+      { key:'insider', label:'◐ INSIDER TRADING', c:'#A78BFA' },
+      { key:'manipulation', label:'⚡ MARKET MANIPULATION', c:'#F87171' },
+    ].map(e=>{ const on=mode===e.key; const c=e.c;
+      // both sides glow (so each reads as a live, tappable engine); the active one
+      // glows brighter + fills. outline:none kills the focus-ring flash on click.
+      return { label:e.label, active:on, onClick:()=>this.setSurvMode(e.key),
+        style:'flex:1;outline:none;-webkit-tap-highlight-color:transparent;border:1px solid '+c+(on?'88':'33')+';'+
+          'border-radius:8px;padding:9px 10px;font-family:\'JetBrains Mono\',monospace;font-size:11px;font-weight:600;letter-spacing:.03em;cursor:pointer;white-space:nowrap;'+
+          'transition:background .28s ease, color .28s ease, box-shadow .28s ease, border-color .28s ease;'+
+          (on
+            ? ('background:'+c+'26;color:'+c+';box-shadow:0 0 16px '+c+'55, inset 0 0 12px '+c+'1f;')
+            : ('background:'+c+'0c;color:'+c+'b3;box-shadow:0 0 8px '+c+'22;')),
+        styleHover:'background:'+c+'1a;color:'+c+';box-shadow:0 0 13px '+c+'44;border-color:'+c+'66;' };
+    });
     const engineSubtitle = isManip
       ? 'Live watch of order books and trades for in-market manipulation — wash trading, marking-the-close, and one-sided pressure.'
       : 'Retrospective scan of resolved and near-resolution markets for trading ahead of the outcome.';
