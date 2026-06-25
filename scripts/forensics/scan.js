@@ -34,6 +34,7 @@ const poly = require("../../api/forensics/poly.js");
 const build = require("../../api/forensics/build.js");
 const chain = require("../../api/forensics/chain.js");
 const cluster = require("../../api/forensics/cluster.js");
+const hll = require("../../api/forensics/hll.js");
 
 const DIR = path.resolve(__dirname, "../../data/forensics");
 const STATE = path.join(DIR, "state.json");
@@ -126,9 +127,17 @@ async function run() {
     processed++;
     await poly.sleep(60);
   }
-  // `reviewed` is the distinct wallets seen across ONE sweep of the universe, not
+  // `observed` = ALL-TIME distinct wallets ever seen (HyperLogLog sketch, ~4 KB),
+  // the wide top-of-funnel that closes the gap to public dashboards. Every wallet
+  // touched this run is folded in; the sketch persists in state across sweeps.
+  const sketch = hll.fromB64(state.hllB64);
+  for (const a of state._reviewedThisRun) hll.add(sketch, a);
+  state.hllB64 = hll.toB64(sketch);
+  state.observed = hll.estimate(sketch);
+
+  // `reviewed` is the distinct wallets SCORED across ONE sweep of the universe, not
   // an ever-growing sum — accumulate within the sweep, snapshot it on wrap, and
-  // reset, so the funnel's top number stays an honest count, not a re-touch tally.
+  // reset, so the funnel's scored number stays an honest count, not a re-touch tally.
   state.reviewedSweep = (state.reviewedSweep || 0) + state._reviewedThisRun.size;
   if (exhausted) { state.reviewedFull = state.reviewedSweep; state.reviewedSweep = 0; }
   state.reviewed = Math.max(state.reviewedFull || 0, state.reviewedSweep || 0);
@@ -224,7 +233,8 @@ function finalize(state, snapshotTs) {
   }));
 
   const meta = {
-    reviewed: state.reviewed || 0,
+    observed: state.observed || 0,               // all-time distinct wallets seen (HLL)
+    reviewed: state.reviewed || 0,               // distinct wallets scored this sweep
     screened: wallets.length,
     block: "",                                   // date-stamped snapshot (no fabricated block)
     snapshot: monthDay(snapshotTs),

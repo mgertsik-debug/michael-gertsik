@@ -56,7 +56,7 @@
       </div>
     </div>
     <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #949C98; text-align: right;">Reviewed <span style="color: #ECEFED;">{{ corpus.wallets }}</span> bettors · <span style="color: #FBBF24;">{{ corpus.flagged }}</span> flagged<br><span style="color: #5C6661;">{{ corpus.asOf }}</span></div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #949C98; text-align: right;">Observed <span style="color: #ECEFED;">{{ corpus.observed }}</span> wallets · scored <span style="color: #ECEFED;">{{ corpus.wallets }}</span> · <span style="color: #FBBF24;">{{ corpus.flagged }}</span> flagged<br><span style="color: #5C6661;">{{ corpus.asOf }}</span></div>
       <span title="{{ snapshotTitle }}" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #A78BFA; border: 1px solid rgba(167,139,250,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(167,139,250,0.07); box-shadow: 0 0 18px -6px rgba(167,139,250,0.4);">{{ snapshotLabel }}</span>
       <div style="display: flex; align-items: center; gap: 9px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 10px; padding: 10px 13px; min-width: 230px; box-shadow: inset 0 0 16px -8px rgba(52,211,153,0.18);">
         <span style="color: #5C6661; font-size: 13px;">⌕</span>
@@ -538,7 +538,7 @@ class Component extends DCLogic {
   // ---------- REAL DATA ----------
   // Pre-snapshot metadata (zeros until the scheduled job has run at least once).
   emptyMeta() {
-    return { reviewed: 0, screened: 0, block: "", snapshot: "", recomputed: "" };
+    return { observed: 0, reviewed: 0, screened: 0, block: "", snapshot: "", recomputed: "" };
   }
 
   // Pull the live forensic snapshot from the scheduled job's store. On any
@@ -561,6 +561,7 @@ class Component extends DCLogic {
     this.subjects = Array.isArray(data.subjects) ? data.subjects : [];
     this.isSample = false;
     this.meta = {
+      observed: data.observed != null ? data.observed : (data.meta && data.meta.observed) || 0,
       reviewed: data.reviewed != null ? data.reviewed : (data.meta && data.meta.reviewed) || this.subjects.length,
       screened: data.screened != null ? data.screened : (data.meta && data.meta.screened) || 0,
       block: (data.meta && data.meta.block) || data.block || "",
@@ -711,7 +712,7 @@ class Component extends DCLogic {
     };
   }
 
-  funnel() { return { reviewed: this.meta.reviewed, screened: this.meta.screened, flagged: this.subjects.length, extreme: this.subjects.filter((x) => x.tier === "extreme").length }; }
+  funnel() { return { observed: this.meta.observed || 0, reviewed: this.meta.reviewed, screened: this.meta.screened, flagged: this.subjects.length, extreme: this.subjects.filter((x) => x.tier === "extreme").length }; }
 
   provenance(s) {
     return {
@@ -785,11 +786,13 @@ class Component extends DCLogic {
       showAmbient: this.props.ambientGlow !== false,
       search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
       corpus: {
+        observed: this.fmtInt(this.meta.observed || 0),
         wallets: this.fmtInt(this.meta.reviewed || 0), flagged: 0,
         asOf: haveSnap ? ("as of " + this.meta.snapshot) : "scan in progress",
       },
       funnelSteps: [
-        { k: "reviewed", label: "reviewed", val: this.fmtInt(fn.reviewed), color: "#7E8C86", arrow: "" },
+        { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", arrow: "" },
+        { k: "reviewed", label: "scored", val: this.fmtInt(fn.reviewed), color: "#9AA39E", arrow: "→" },
         { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", arrow: "→" },
         { k: "flagged", label: "flagged", val: "0", color: "#34D399", arrow: "→" },
         { k: "extreme", label: "extreme", val: "0", color: "#F87171", arrow: "→" },
@@ -1133,7 +1136,8 @@ class Component extends DCLogic {
     const denom = sel.improbDenom * st.heroProg;
     const heroDisplay = "1 in " + this.fmtBig(Math.max(1, denom));
 
-    const corpus = { wallets: this.fmtInt(Math.round(this.meta.reviewed * st.corpusProg)), flagged: Math.round(this.subjects.length * st.corpusProg),
+    const corpus = { observed: this.fmtInt(Math.round((this.meta.observed || 0) * st.corpusProg)),
+      wallets: this.fmtInt(Math.round(this.meta.reviewed * st.corpusProg)), flagged: Math.round(this.subjects.length * st.corpusProg),
       asOf: this.meta.snapshot ? ("as of " + this.meta.snapshot) : "as of —" };
 
     const saved = !!st.saved[sel.id];
@@ -1162,7 +1166,8 @@ class Component extends DCLogic {
 
     const fn = this.funnel();
     const funnelSteps = [
-      { k: "reviewed", label: "reviewed", val: this.fmtInt(fn.reviewed), color: "#7E8C86", arrow: "" },
+      { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", arrow: "" },
+      { k: "reviewed", label: "scored", val: this.fmtInt(fn.reviewed), color: "#9AA39E", arrow: "\u2192" },
       { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", arrow: "\u2192" },
       { k: "flagged", label: "flagged", val: String(fn.flagged), color: "#34D399", arrow: "\u2192" },
       { k: "extreme", label: "extreme", val: String(fn.extreme), color: "#F87171", arrow: "\u2192" },

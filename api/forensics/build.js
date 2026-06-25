@@ -216,9 +216,13 @@ function buildPayload(aggregates, meta) {
   derive(subjects);
   return {
     subjects,
+    observed: (meta && meta.observed) || 0,
     reviewed: (meta && meta.reviewed) || 0,
     screened: (meta && meta.screened) || 0,
     meta: {
+      observed: (meta && meta.observed) || 0,
+      reviewed: (meta && meta.reviewed) || 0,
+      screened: (meta && meta.screened) || 0,
       block: (meta && meta.block) || "",
       snapshot: (meta && meta.snapshot) || "",
       recomputed: (meta && meta.recomputed) || (meta && meta.snapshot) || "",
