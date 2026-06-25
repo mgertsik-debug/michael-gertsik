@@ -22,9 +22,49 @@
 "use strict";
 const poly = require("./poly.js");
 const build = require("./build.js");
+const D = require("./detectors.js");
 
 const short = (a) => (a && a.length > 10 ? a.slice(0, 6) + "…" + a.slice(-4) : (a || null));
 const ADDRESS_FIELDS = ["proxyWallet", "user", "maker", "taker", "wallet", "address", "trader"];
+
+// Score ANY Polymarket wallet's full record live — the engine made inspectable.
+// GET /api/forensics/diagnose?user=0x...  → the parsed long-shot record + every
+// detector's verdict + the fused tier. Lets anyone point the engine at a wallet
+// they suspect and see exactly what it computes (real data, no store needed).
+async function scoreWallet(addr) {
+  const o = { user: addr, checkedAt: new Date().toISOString() };
+  let positions = [];
+  try { positions = await poly.userPositions(addr); }
+  catch (e) { return Object.assign(o, { error: "positions fetch failed: " + (e && e.message) }); }
+  o.positionsReturned = positions.length;
+  if (positions.length) o.samplePositionKeys = Object.keys(positions[0]);
+
+  const bets = positions.map(poly.positionToBet).filter(Boolean);
+  o.resolvedBetsParsed = bets.length;
+  const longshots = bets.filter((b) => b.entryPrice <= 0.35);
+  o.longShotBets = longshots.length;
+  o.sampleBets = longshots.slice(0, 8).map((b) => ({
+    market: String(b.question).slice(0, 60), category: b.category,
+    entryOdds: Math.round(b.entryPrice * 100) + "%", stake: "$" + b.stakeUsd, outcome: b.outcome, won: b.won,
+  }));
+
+  // run the real detector suite + fusion on the parsed record
+  const agg = { address: addr, bets, firstSeenTs: null, fundingTs: null, priorTx: null };
+  const { dets, f } = build.scoreAggregate(agg);
+  o.detectors = {
+    won: dets.won.hasData ? { n: dets.won.n, k: dets.won.k, p: dets.won.p, P: dets.won.P, improbText: dets.won.improbText, winRate: dets.won.winRate + "%" } : { hasData: false, reason: dets.won.reason },
+    longshot: dets.longshot.hasData ? { meanOdds: Math.round(dets.longshot.mean * 100) + "%", fires: dets.longshot.fires } : { hasData: false },
+    held: dets.held.hasData ? { rate: dets.held.h, fires: dets.held.fires } : { hasData: false },
+    baseline: dets.baseline.hasData ? { winRate: dets.baseline.winRate + "%", baseline: dets.baseline.baseline + "%" } : { hasData: false },
+  };
+  o.fused = { tier: f.tier || "unflagged", fired: f.fired, agreeing: f.agreeing, improbText: f.improbText };
+  o.verdict = !dets.won.hasData
+    ? ("Not scoreable: " + (dets.won.reason || "fewer than 5 resolved long-shot bets") + " (parsed " + longshots.length + " long-shot bets).")
+    : (f.tier && f.tier !== "unflagged"
+        ? ("FLAGGED " + f.tier.toUpperCase() + " — won " + dets.won.k + " of " + dets.won.n + " long-shots (~" + Math.round(dets.won.p * 100) + "% implied); chance by luck " + dets.won.improbText + "; " + f.fired.length + " detectors fired.")
+        : ("Not flagged — won " + dets.won.k + " of " + dets.won.n + " long-shots; chance by luck " + dets.won.improbText + " does not clear the bar (or <2 detectors agree)."));
+  return o;
+}
 
 async function diagnose() {
   const o = { endpoint: "data-api.polymarket.com/trades", checkedAt: new Date().toISOString() };
@@ -111,7 +151,11 @@ module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Cache-Control", "no-store");
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
-  try { res.status(200).json(await diagnose()); }
-  catch (e) { res.status(200).json({ verdict: "diagnose failed", error: String(e && e.message) }); }
+  const q = req.query || {};
+  const user = q.user || (String(req.url || "").match(/[?&]user=([^&]+)/) || [])[1];
+  try {
+    if (user) { res.status(200).json(await scoreWallet(decodeURIComponent(String(user)).toLowerCase())); return; }
+    res.status(200).json(await diagnose());
+  } catch (e) { res.status(200).json({ verdict: "diagnose failed", error: String(e && e.message) }); }
 };
 module.exports.diagnose = diagnose;
