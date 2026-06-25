@@ -155,6 +155,8 @@ function buildSubject(agg, idx, opts) {
   return {
     id: agg.id || (isCluster ? "c" + (idx + 1) : "w" + (idx + 1)),
     type: isCluster ? "cluster" : "wallet",
+    address: agg.address || null,
+    memberAddresses: isCluster ? (agg.members || []) : [agg.address],
     idLabel: isCluster ? ("Cluster of " + ((agg.members || []).length) + " wallets") : short(agg.address),
     username: agg.pseudonym || null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",

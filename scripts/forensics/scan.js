@@ -71,7 +71,7 @@ function mergeMarket(state, market, positions) {
     // deep odds with a meaningful stake (the "abnormal win" arm). Tight enough to
     // keep the ledger bounded; once in, the wallet accrues its whole record.
     const clears = (bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED) ||
-                   (bet.won && bet.entryPrice <= 0.20 && bet.stakeUsd >= 1000);
+                   (bet.won && bet.entryPrice <= 0.22 && bet.stakeUsd >= 500);
     let w = screened[addr];
     if (!w && !clears) continue;                              // not yet interesting
     if (!w) { w = screened[addr] = { address: addr, bets: [], firstSeenTs: null, fundingTs: null, funder: null, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: 0, lastResolvedMs: 0, entryByEvent: {} }; }
@@ -241,6 +241,20 @@ function finalize(state, snapshotTs) {
   log("flagged " + payload.subjects.length + " subjects (" +
     payload.subjects.filter((s) => s.tier === "extreme").length + " extreme · " +
     clusterAggs.length + " clusters · " + payload.subjects.filter((s) => s.newlyFlagged).length + " newly) from " + meta.reviewed + " reviewed");
+
+  // ---- keep state.json small: a screened wallet whose FULL record we have
+  // already pulled (lastEnrichedTs set) and that did NOT flag is captured and
+  // uninteresting — drop it. Keep un-enriched candidates (still queued) and any
+  // wallet currently flagged (so its record stays for recompute/dilution). This
+  // bounds the committed state to the queue + the flagged set, not every wallet.
+  const flaggedAddrs = new Set();
+  payload.subjects.forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && flaggedAddrs.add(a)));
+  let pruned = 0;
+  for (const addr of Object.keys(state.screened)) {
+    const w = state.screened[addr];
+    if (w.lastEnrichedTs && !flaggedAddrs.has(addr)) { delete state.screened[addr]; pruned++; }
+  }
+  if (pruned) log("pruned " + pruned + " enriched-but-unflagged wallets · " + Object.keys(state.screened).length + " retained");
 
   delete state._reviewedThisRun;
   write(STATE, state);
