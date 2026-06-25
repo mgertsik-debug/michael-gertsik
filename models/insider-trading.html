@@ -25,6 +25,13 @@
   @keyframes mpulse{0%{transform:scale(1);opacity:.5}70%{transform:scale(2.4);opacity:0}100%{opacity:0}}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
   @keyframes drawin{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+  @keyframes scanDrift{0%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+  @keyframes drawLine{from{stroke-dashoffset:var(--len,1400)}to{stroke-dashoffset:0}}
+  @keyframes glowPulse{0%,100%{opacity:.4}50%{opacity:1}}
+  @keyframes fadeUp{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:4px;background:#1B2521;outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#34D399;box-shadow:0 0 9px #34d399aa}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;border-radius:50%;background:#34D399;box-shadow:0 0 9px #34d399aa}
   @media (max-width:900px){ [data-split]{grid-template-columns:1fr !important} [data-board]{grid-template-columns:1fr !important} }
   @media (max-width:760px){ [data-twozone]{grid-template-columns:1fr !important} }
   @media (max-width:560px){ [data-tabbar]{overflow-x:auto !important} [data-dutysplit]{grid-template-columns:1fr !important} }
@@ -138,185 +145,240 @@
 
         <!-- ============ TAB 2: SURVEILLANCE ============ -->
         <sc-if value="{{ isSurv }}" hint-placeholder-val="{{ false }}">
-          <div>
+          <div style="display:flex;flex-direction:column;">
+
             <!-- ── control bar ── -->
-            <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:11px 16px;border-radius:11px;border:1px solid #1B2521;background:#0F1513;margin-bottom:14px">
-              <div style="display:flex;align-items:center;gap:9px">
-                <span style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 8px #34D399;animation:blink 2.2s ease-in-out infinite"></span>
-                <span style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#E5E7EB;letter-spacing:.04em">{{ surv.clock }}</span>
+            <div style="position:relative;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;padding:15px 18px;border-bottom:1px solid #1B2521;background:linear-gradient(180deg,#0f1513,#0b100e);border-radius:12px 12px 0 0;">
+              <sc-if value="{{ surv.showScan }}" hint-placeholder-val="{{ true }}">
+                <div style="position:absolute;top:0;left:0;height:100%;width:160px;pointer-events:none;background:linear-gradient(90deg,transparent,#34d39914,transparent);animation:scanDrift 7s linear infinite;"></div>
+              </sc-if>
+              <div style="display:flex;flex-direction:column;gap:2px;z-index:1;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(19px,2.3vw,27px);font-weight:600;letter-spacing:.04em;line-height:1;color:#F3F5F4;">{{ surv.clockText }}<span style="font-size:.5em;color:#8A938F;margin-left:8px;letter-spacing:.12em;">{{ surv.tzLabel }}</span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#5d6864;">NEW YORK · LIVE</div>
               </div>
-              <div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap">
-                <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#E5E7EB">{{ surv.scanCount }}</span><span style="font-size:11px;color:#8A938F">markets scanned</span></div>
-                <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#FBBF24">{{ surv.flaggedCount }}</span><span style="font-size:11px;color:#8A938F">flagged</span></div>
-                <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#F87171">{{ surv.highCount }}</span><span style="font-size:11px;color:#8A938F">high-signal</span></div>
+              <div style="display:flex;flex-direction:column;gap:6px;z-index:1;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#cfd6d2;letter-spacing:.01em;">scanning <span style="color:#F3F5F4;font-weight:600;">{{ surv.scannedStr }}</span> markets<span style="color:#3b4641;margin:0 8px;">·</span><span style="color:#FBBF24;font-weight:600;">{{ surv.flaggedStr }}</span> flagged<span style="color:#3b4641;margin:0 8px;">·</span><span style="color:#F87171;font-weight:600;">{{ surv.highStr }}</span> high-signal</div>
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                  <div style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#8A938F;">
+                    <span key="{{ surv.pulseKey }}" style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 7px #34d399;animation:glowPulse 1.8s ease-in-out infinite;"></span>
+                    updated {{ surv.updatedAgo }}s ago
+                  </div>
+                  <div style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#8A938F;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 6px #34d39988;"></span>Kalshi
+                    <span style="width:8px;height:8px;border-radius:50%;background:#A78BFA;box-shadow:0 0 6px #a78bfa88;margin-left:6px;"></span>Polymarket
+                  </div>
+                </div>
               </div>
-              <div style="display:flex;align-items:center;gap:14px;margin-left:auto;flex-wrap:wrap">
-                <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F"><span style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 6px #34D399"></span>Kalshi</span>
-                <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F"><span style="width:7px;height:7px;border-radius:50%;background:#A78BFA;box-shadow:0 0 6px #A78BFA"></span>Polymarket</span>
-                <span style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#6b7772">{{ surv.updated }}</span>
-                <span style="{{ surv.feedStyle }}">{{ surv.feedText }}</span>
+              <div style="flex:1 1 220px;min-width:180px;display:flex;align-items:center;gap:9px;background:#0a0f0d;border:1px solid #1B2521;border-radius:9px;padding:9px 12px;z-index:1;">
+                <span style="color:#5d6864;font-size:14px;line-height:1;">⌕</span>
+                <input type="text" value="{{ surv.searchVal }}" onChange="{{ surv.onSearch }}" placeholder="search any market, category, or ticker…" style="flex:1;background:transparent;border:none;outline:none;color:#E5E7EB;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.01em;" />
               </div>
+              <div style="{{ surv.feedStyle }}"><span style="{{ surv.feedDot }}"></span>{{ surv.feedText }}</div>
             </div>
 
-            <!-- ── filters ── -->
-            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
-              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-                <input type="text" value="{{ surv.search }}" onChange="{{ surv.onSearch }}" placeholder="Search market questions…" aria-label="Search market questions" style="flex:1;min-width:200px;padding:9px 13px;border-radius:9px;border:1px solid #1B2521;background:#0A0E0D;color:#E5E7EB;font-size:13px;outline:none" />
-                <div style="display:flex;gap:7px;flex-wrap:wrap">
-                  <sc-for list="{{ surv.platChips }}" as="ch" hint-placeholder-count="3">
-                    <button type="button" aria-pressed="{{ ch.active }}" style="{{ ch.style }}" onClick="{{ ch.onClick }}"><sc-if value="{{ ch.hasDot }}" hint-placeholder-val="{{ false }}"><span style="{{ ch.dot }}"></span></sc-if>{{ ch.label }}</button>
+            <!-- ── filter bar ── -->
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:12px 18px;border-bottom:1px solid #1B2521;background:#0a0f0d;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:#5d6864;margin-right:2px;">PLATFORM</span>
+                <div style="display:flex;background:#0c1110;border:1px solid #1B2521;border-radius:8px;padding:3px;gap:3px;">
+                  <sc-for list="{{ surv.platformBtns }}" as="b" hint-placeholder-count="3">
+                    <button onClick="{{ b.onClick }}" style="{{ b.style }}">{{ b.label }}</button>
                   </sc-for>
                 </div>
               </div>
-              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-                <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.1em;color:#6b7772">SORT</span>
-                <sc-for list="{{ surv.sortBtns }}" as="sb" hint-placeholder-count="3">
-                  <button type="button" aria-pressed="{{ sb.active }}" style="{{ sb.style }}" onClick="{{ sb.onClick }}">{{ sb.label }}</button>
+              <div style="width:1px;height:22px;background:#1B2521;"></div>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1 1 320px;">
+                <sc-for list="{{ surv.cats }}" as="c" hint-placeholder-count="12">
+                  <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.name }}<span style="{{ c.countStyle }}">{{ c.count }}</span></button>
                 </sc-for>
               </div>
-              <div data-scroll style="display:flex;gap:7px;flex-wrap:wrap">
-                <sc-for list="{{ surv.catChips }}" as="cc" hint-placeholder-count="6">
-                  <button type="button" aria-pressed="{{ cc.active }}" style="{{ cc.style }}" onClick="{{ cc.onClick }}">{{ cc.label }}</button>
-                </sc-for>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:#5d6864;">SORT</span>
+                <div style="display:flex;background:#0c1110;border:1px solid #1B2521;border-radius:8px;padding:3px;gap:3px;">
+                  <sc-for list="{{ surv.sortBtns }}" as="so" hint-placeholder-count="3">
+                    <button onClick="{{ so.onClick }}" style="{{ so.style }}">{{ so.label }}</button>
+                  </sc-for>
+                </div>
               </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.05em;color:#8A938F;white-space:nowrap;">show ≥ <span style="color:#E5E7EB;font-weight:600;">{{ surv.threshold }}</span></span>
+                <input type="range" min="0" max="90" value="{{ surv.threshold }}" onChange="{{ surv.onThreshold }}" style="width:96px;" />
+              </div>
+              <button onClick="{{ surv.onOverview }}" style="{{ surv.overviewBtnStyle }}">◧ Overview</button>
             </div>
 
-            <!-- ── two zones: watchlist + inspector ── -->
-            <div data-twozone style="display:grid;grid-template-columns:40% 1fr;gap:22px;align-items:start">
+            <!-- ── watchlist + inspector ── -->
+            <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:14px;padding:14px 4px 8px;flex:1;">
 
-              <!-- watchlist -->
-              <div>
-                <sc-if value="{{ surv.empty }}" hint-placeholder-val="{{ false }}">
-                  <div style="padding:30px 16px;text-align:center;border:1px dashed #1B2521;border-radius:11px;color:#6b7772;font-size:12.5px">No markets match these filters.</div>
+              <div style="flex:40 1 360px;min-width:300px;display:flex;flex-direction:column;gap:12px;">
+                <sc-if value="{{ surv.overview }}" hint-placeholder-val="{{ false }}">
+                  <div style="border:1px solid #1B2521;background:#0F1513;border-radius:12px;padding:15px 16px;animation:fadeUp .35s ease;">{{ surv.overviewEl }}</div>
                 </sc-if>
-                <div data-scroll style="display:flex;flex-direction:column;gap:9px;max-height:720px;overflow-y:auto;padding-right:3px">
-                  <sc-for list="{{ surv.rows }}" as="r" hint-placeholder-count="8">
-                    <div role="button" tabindex="0" aria-pressed="{{ r.selected }}" aria-label="{{ r.aria }}" style="{{ r.rowStyle }}" onClick="{{ r.onSelect }}" onKeyDown="{{ r.onKey }}">
-                      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-                        <span style="{{ r.platTagStyle }}">{{ r.platLabel }}</span>
-                        <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.05em;color:#6b7772;text-transform:uppercase">{{ r.category }}</span>
-                        <span style="margin-left:auto;display:inline-flex;align-items:baseline;gap:3px"><span style="font-family:'JetBrains Mono', monospace;font-size:17px;font-weight:700;color:{{ r.indexColor }}">{{ r.index }}</span><span style="font-size:9px;color:#6b7772">/100</span></span>
-                      </div>
-                      <a href="{{ r.url }}" target="_blank" rel="noopener noreferrer" style="{{ r.titleStyle }}" onClick="{{ r.onLink }}"><span style="font-size:14.5px;font-weight:600;line-height:1.34;display:block">{{ r.question }}</span></a>
-                      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:9px">
-                        <div style="min-width:0">
-                          <div style="font-family:'JetBrains Mono', monospace;font-size:10px;color:#9CA3AF;line-height:1.4">{{ r.topLine }}</div>
-                          <div style="font-size:10px;color:{{ r.labelColor }};margin-top:3px;font-weight:600">{{ r.label }}</div>
-                        </div>
-                        {{ r.sparkEl }}
-                      </div>
-                    </div>
-                  </sc-for>
+                <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 4px;">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:#8A938F;">WATCHLIST</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#5d6864;">{{ surv.visibleCount }} markets · sorted by {{ surv.sortLabel }}</div>
                 </div>
-              </div>
-
-              <!-- inspector -->
-              <div data-zone="inspector" style="background:#0F1513;border:1px solid #1B2521;border-radius:13px;padding:26px 28px">
-                <sc-if value="{{ surv.sel.has }}" hint-placeholder-val="{{ false }}">
-                  <div>
-                    <!-- headline -->
-                    <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap">
-                      <span style="font-family:'JetBrains Mono', monospace;font-size:9.5px;color:{{ surv.sel.platColor }};padding:2px 8px;border-radius:5px;border:1px solid {{ surv.sel.platBd }};background:{{ surv.sel.platSoft }}">{{ surv.sel.platLabel }}</span>
-                      <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.06em;color:#6b7772;text-transform:uppercase">{{ surv.sel.category }}</span>
-                      <span style="margin-left:auto;display:inline-flex;align-items:baseline;gap:4px"><span style="font-family:'JetBrains Mono', monospace;font-size:24px;font-weight:700;color:{{ surv.sel.indexColor }}">{{ surv.sel.index }}</span><span style="font-size:10px;color:#6b7772">/100</span></span>
-                    </div>
-                    <a href="{{ surv.sel.url }}" target="_blank" rel="noopener noreferrer" style="{{ surv.sel.titleStyle }}"><h2 style="margin:0 0 6px;font-size:23px;font-weight:700;letter-spacing:-.01em;line-height:1.2">{{ surv.sel.question }} &nearr;</h2></a>
-                    <div style="display:inline-block;font-size:12px;font-weight:600;color:{{ surv.sel.labelColor }};margin-bottom:14px">{{ surv.sel.label }}</div>
-                    <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#cdd3d0;max-width:64ch">{{ surv.sel.summary }}</p>
-
-                    <!-- chart -->
-                    <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:10px">IMPLIED PROBABILITY OVER TIME</div>
-                    <div style="background:#0A0E0D;border:1px solid #1B2521;border-radius:11px;padding:18px 14px 8px;margin-bottom:26px">{{ surv.sel.chartEl }}</div>
-
-                    <!-- which methods fired -->
-                    <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:14px">WHICH METHODS FIRED</div>
-                    <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:26px">
-                      <sc-for list="{{ surv.sel.methods }}" as="md" hint-placeholder-count="4">
-                        <div style="border:1px solid #1B2521;border-radius:10px;padding:13px 15px;background:#0A0E0D">
-                          <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
-                            <span style="font-family:'JetBrains Mono', monospace;font-size:8.5px;letter-spacing:.06em;color:#8A938F">{{ md.tag }}</span>
-                            <span style="font-size:14px;font-weight:600;color:#E5E7EB">{{ md.name }}</span>
-                            <span style="{{ md.firedStyle }}">{{ md.firedLabel }}</span>
-                            <span style="margin-left:auto;font-family:'JetBrains Mono', monospace;font-size:14px;font-weight:700;color:#E5E7EB">{{ md.metric }}</span>
-                          </div>
-                          <p style="margin:8px 0 0;font-size:13px;line-height:1.55;color:#cdd3d0">{{ md.plain }}</p>
-                          <button type="button" aria-expanded="{{ md.mathOpen }}" style="margin-top:9px;background:none;border:none;color:#34D399;font-family:'JetBrains Mono', monospace;font-size:10.5px;font-weight:600;cursor:pointer;padding:0" onClick="{{ md.onToggleMath }}">{{ md.mathIcon }}</button>
-                          <sc-if value="{{ md.mathOpen }}" hint-placeholder-val="{{ false }}">
-                            <div style="margin-top:10px;padding:11px 13px;border-radius:8px;background:#0F1513;border:1px solid #1B2521">
-                              <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#A78BFA;line-height:1.5;margin-bottom:8px">{{ md.formula }}</div>
-                              <sc-for list="{{ md.math }}" as="ml" hint-placeholder-count="3">
-                                <div style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#9CA3AF;line-height:1.6">{{ ml }}</div>
-                              </sc-for>
-                            </div>
-                          </sc-if>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <sc-for list="{{ surv.rows }}" as="m" hint-placeholder-count="6">
+                    <div onClick="{{ m.onSelect }}" style="{{ m.rowStyle }}" style-hover="border-color:#2a3a33;background:#121b17;">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+                        <a href="{{ m.url }}" target="_blank" rel="noopener" onClick="{{ m.stop }}" style="{{ m.linkStyle }}">{{ m.question }}</a>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;line-height:1;color:{{ m.scoreColor }};flex-shrink:0;">{{ m.scoreStr }}</div>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                        <span style="{{ m.tagStyle }}">{{ m.platformLabel }}</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:#6b746f;">{{ m.category }}</span>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <div style="flex:1;height:6px;border-radius:4px;background:#16201c;overflow:hidden;">
+                          <div style="height:100%;width:{{ m.meterW }};border-radius:4px;background:{{ m.meterColor }};box-shadow:0 0 8px {{ m.meterGlow }};transition:width .5s ease;"></div>
                         </div>
-                      </sc-for>
-                    </div>
-
-                    <!-- on-chain panel (Polymarket) -->
-                    <sc-if value="{{ surv.sel.onchain }}" hint-placeholder-val="{{ false }}">
-                      <div style="margin-bottom:26px">
-                        <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:12px">ON-CHAIN — TOP WALLETS BY SHARE OF BUYING</div>
-                        <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px">
-                          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#A78BFA">{{ surv.sel.onchain.hhi }}</span><span style="font-size:10.5px;color:#8A938F">HHI</span></div>
-                          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#A78BFA">{{ surv.sel.onchain.top1 }}</span><span style="font-size:10.5px;color:#8A938F">top wallet</span></div>
-                          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#A78BFA">{{ surv.sel.onchain.fresh }}</span><span style="font-size:10.5px;color:#8A938F">fresh wallet</span></div>
-                          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono', monospace;font-size:15px;font-weight:600;color:#E5E7EB">{{ surv.sel.onchain.nWallets }}</span><span style="font-size:10.5px;color:#8A938F">wallets</span></div>
-                        </div>
-                        <div style="display:flex;flex-direction:column;gap:6px">
-                          <sc-for list="{{ surv.sel.onchain.wallets }}" as="w" hint-placeholder-count="3">
-                            <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono', monospace;font-size:11.5px;padding:7px 11px;border-radius:8px;background:#0A0E0D;border:1px solid #1B2521">
-                              <span style="color:#A78BFA">{{ w.wallet }}</span>
-                              <span style="margin-left:auto;color:#E5E7EB">{{ w.share }}</span>
-                              <span style="color:#8A938F">{{ w.usd }}</span>
-                            </div>
+                        <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;">
+                          <sc-for list="{{ m.chips }}" as="c" hint-placeholder-count="2">
+                            <span style="{{ c.style }}">{{ c.text }}</span>
                           </sc-for>
                         </div>
                       </div>
-                    </sc-if>
+                      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;">
+                        <div style="opacity:.9;">{{ m.spark }}</div>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#4f5854;white-space:nowrap;">{{ m.updatedAgo }}s ago</span>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ surv.noResults }}" hint-placeholder-val="{{ false }}">
+                    <div style="border:1px dashed #1B2521;border-radius:12px;padding:30px;text-align:center;color:#5d6864;font-family:'JetBrains Mono',monospace;font-size:12px;">No markets match these filters.</div>
+                  </sc-if>
+                </div>
+              </div>
 
-                    <!-- coverage note (preliminary markets) -->
-                    <sc-if value="{{ surv.sel.coverageNote }}" hint-placeholder-val="{{ false }}">
-                      <p style="margin:0 0 22px;font-size:12px;line-height:1.55;color:#8A938F;font-style:italic">{{ surv.sel.coverageNote }}</p>
-                    </sc-if>
+              <div style="flex:60 1 460px;min-width:300px;display:flex;flex-direction:column;">
+                <sc-if value="{{ surv.hasSel }}" hint-placeholder-val="{{ true }}">
+                  <div style="border:1px solid #1B2521;background:#0F1513;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;">
 
-                    <!-- legal gap -->
-                    <div style="padding:19px 22px;border-radius:12px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.3)">
-                      <div style="font-size:16px;font-weight:700;color:#FBBF24;margin-bottom:9px;letter-spacing:-.01em">Anomalous &ne; illegal</div>
-                      <p style="margin:0 0 10px;font-size:13.5px;line-height:1.65;color:#E5E7EB">{{ surv.sel.gap }}</p>
-                      <p style="margin:0;font-size:12px;line-height:1.6;color:#9CA3AF">These scores are triage estimates, not proof. This is educational analysis, not legal or investment advice.</p>
-                      <button type="button" style="margin-top:13px;background:none;border:none;color:#34D399;font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:600;cursor:pointer;padding:0" onClick="{{ surv.onSeeRegimes }}">the regimes that would apply &rsaquo;</button>
+                    <div style="padding:20px 22px 18px;border-bottom:1px solid #161e1b;background:{{ surv.insp.headBg }};">
+                      <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap;">
+                        <span style="{{ surv.insp.tagStyle }}">{{ surv.insp.platformLabel }}</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#6b746f;">{{ surv.insp.category }}</span>
+                        <span style="{{ surv.insp.labelStyle }}">{{ surv.insp.label }}</span>
+                        <sc-if value="{{ surv.insp.live }}" hint-placeholder-val="{{ false }}"><span style="{{ surv.insp.liveStyle }}">● LIVE</span></sc-if>
+                      </div>
+                      <a href="{{ surv.insp.url }}" target="_blank" rel="noopener" style="display:block;font-size:clamp(18px,2.3vw,24px);font-weight:600;line-height:1.28;color:#F3F5F4;text-decoration:none;letter-spacing:-.01em;text-wrap:pretty;" style-hover="text-decoration:underline;">{{ surv.insp.question }} <span style="font-size:13px;color:{{ surv.insp.platformColor }};vertical-align:middle;">↗</span></a>
+                      <div style="display:flex;align-items:center;gap:16px;margin-top:16px;flex-wrap:wrap;">
+                        <div style="display:flex;align-items:baseline;gap:9px;">
+                          <span style="font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;line-height:1;color:{{ surv.insp.scoreColor }};">{{ surv.insp.scoreStr }}</span>
+                          <div style="display:flex;flex-direction:column;gap:1px;">
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#5d6864;">SUSPICION</span>
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#5d6864;">INDEX / 100</span>
+                          </div>
+                        </div>
+                        <div style="flex:1;min-width:160px;height:8px;border-radius:5px;background:#16201c;overflow:hidden;">
+                          <div style="height:100%;width:{{ surv.insp.meterW }};border-radius:5px;background:{{ surv.insp.meterColor }};box-shadow:0 0 12px {{ surv.insp.meterGlow }};transition:width .6s ease;"></div>
+                        </div>
+                      </div>
+                      <p style="margin:15px 0 0;font-size:14.5px;line-height:1.55;color:#c3cbc6;max-width:62ch;text-wrap:pretty;">{{ surv.insp.summary }}</p>
                     </div>
 
-                    <!-- provenance -->
-                    <div style="margin-top:20px;display:flex;gap:10px;align-items:flex-start">
-                      <span style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.1em;color:#6b7772;flex-shrink:0;padding-top:2px">DATA</span>
-                      <span style="font-size:12px;color:#8A938F;line-height:1.55"><sc-if value="{{ surv.sel.isPoly }}" hint-placeholder-val="{{ false }}">Polymarket settles on-chain, so trade and wallet activity is publicly observable.</sc-if><sc-if value="{{ surv.sel.isKalshi }}" hint-placeholder-val="{{ false }}">Kalshi is a centralized exchange, so individual account identities are not public — detection here is market-microstructure only.</sc-if></span>
+                    <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;">PROBABILITY OVER TIME</span>
+                        <div style="display:flex;background:#0c1110;border:1px solid #1B2521;border-radius:7px;padding:3px;gap:3px;">
+                          <sc-for list="{{ surv.insp.probViewBtns }}" as="v" hint-placeholder-count="2">
+                            <button onClick="{{ v.onClick }}" style="{{ v.style }}">{{ v.label }}</button>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <div style="width:100%;">{{ surv.insp.probChart }}</div>
+                      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;">
+                        <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7e8782;"><span style="width:14px;height:3px;border-radius:2px;background:{{ surv.insp.platformColor }};"></span>price</span>
+                        <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7e8782;"><span style="width:14px;height:9px;border-radius:2px;background:{{ surv.insp.bandColor }};"></span>expected range</span>
+                        <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7e8782;"><span style="width:14px;height:9px;border-radius:2px;background:#fbbf2422;"></span>flagged window</span>
+                      </div>
                     </div>
+
+                    <div style="padding:18px 22px;border-bottom:1px solid #161e1b;display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+                      <div style="flex:0 0 auto;">{{ surv.insp.radar }}</div>
+                      <div style="flex:1;min-width:200px;">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:8px;">DETECTOR PROFILE</div>
+                        <p style="margin:0;font-size:13px;line-height:1.55;color:#9aa39e;max-width:42ch;text-wrap:pretty;">Each axis is one detector's sub-score. The shape is this market's fingerprint — a spike on a single axis reads differently from a broadly elevated profile.</p>
+                      </div>
+                    </div>
+
+                    <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
+                      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:13px;">WHICH METHODS FIRED</div>
+                      <div style="display:flex;flex-direction:column;gap:9px;">
+                        <sc-for list="{{ surv.insp.detectors }}" as="d" hint-placeholder-count="5">
+                          <div style="{{ d.cardStyle }}">
+                            <div onClick="{{ d.onToggle }}" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+                              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#cfd6d2;font-weight:500;min-width:108px;">{{ d.name }}</span>
+                              <span style="flex:1;font-size:12.5px;line-height:1.45;color:#9aa39e;text-wrap:pretty;">{{ d.sentence }}</span>
+                              <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:{{ d.valColor }};white-space:nowrap;">{{ d.valueStr }}</span>
+                              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5d6864;transition:transform .2s;transform:{{ d.chevron }};">▸</span>
+                            </div>
+                            <sc-if value="{{ d.mathOpen }}" hint-placeholder-val="{{ false }}">
+                              <div style="margin-top:11px;padding:11px 13px;background:#0a0f0d;border:1px solid #161e1b;border-radius:8px;animation:fadeUp .25s ease;">
+                                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#7e8782;letter-spacing:.02em;margin-bottom:6px;">{{ d.formula }}</div>
+                                <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ d.valColor }};letter-spacing:.01em;">{{ d.plugged }}</div>
+                              </div>
+                            </sc-if>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+
+                    <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
+                      <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;">ON-CHAIN CONCENTRATION</span>
+                        <sc-if value="{{ surv.insp.isPoly }}" hint-placeholder-val="{{ true }}"><span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#A78BFA;border:1px solid #2d2747;background:#150f24;border-radius:5px;padding:2px 7px;">POLYMARKET</span></sc-if>
+                      </div>
+                      <sc-if value="{{ surv.insp.isPoly }}" hint-placeholder-val="{{ true }}">
+                        <div>
+                          <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;">
+                            <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                              {{ surv.insp.gauge }}
+                              <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#5d6864;">WALLET HHI</span>
+                            </div>
+                            <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:9px;">
+                              <sc-for list="{{ surv.insp.wallets }}" as="w" hint-placeholder-count="5">
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                  <a href="{{ w.url }}" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9aa39e;text-decoration:none;min-width:96px;" style-hover="color:#A78BFA;text-decoration:underline;">{{ w.addr }}</a>
+                                  <div style="flex:1;height:14px;border-radius:4px;background:#16201c;overflow:hidden;">
+                                    <div style="height:100%;width:{{ w.barW }};border-radius:4px;background:linear-gradient(90deg,#7c5cf0,#A78BFA);box-shadow:0 0 8px #a78bfa55;transition:width .5s ease;"></div>
+                                  </div>
+                                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#cfd6d2;min-width:38px;text-align:right;">{{ w.pct }}</span>
+                                  <sc-if value="{{ w.fresh }}" hint-placeholder-val="{{ false }}"><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.06em;color:#FBBF24;border:1px solid #3a3320;background:#19150a;border-radius:4px;padding:2px 5px;white-space:nowrap;">FRESH</span></sc-if>
+                                </div>
+                              </sc-for>
+                              <sc-if value="{{ surv.insp.hasClusters }}" hint-placeholder-val="{{ false }}">
+                                <div style="margin-top:6px;border-top:1px solid #161e1b;padding-top:9px;">
+                                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:#A78BFA;margin-bottom:6px;">⚇ SYNCHRONIZED-ENTRY CLUSTER</div>
+                                  <sc-for list="{{ surv.insp.clusters }}" as="cl" hint-placeholder-count="1">
+                                    <div style="font-size:12px;line-height:1.5;color:#9aa39e;">{{ cl.text }}</div>
+                                  </sc-for>
+                                </div>
+                              </sc-if>
+                            </div>
+                          </div>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ surv.insp.isKalshi }}" hint-placeholder-val="{{ false }}">
+                        <p style="margin:0;font-size:13px;line-height:1.6;color:#9aa39e;max-width:60ch;text-wrap:pretty;border-left:2px solid #1f2a26;padding-left:14px;">Kalshi is a centralized exchange. Individual trader identities are not public, so there is no wallet ledger to inspect. Detection here is <span style="color:#cfd6d2;">market-microstructure only</span> — price, volume, and order-flow patterns. We surface this asymmetry rather than fabricate wallet data.</p>
+                      </sc-if>
+                    </div>
+
+                    <div style="padding:18px 22px;">
+                      <div style="border:1px solid #2a2320;background:linear-gradient(180deg,#16100c,#120d0a);border-radius:11px;padding:16px 18px;">
+                        <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px;">
+                          <span style="font-size:14px;">⚖</span>
+                          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#FBBF24;font-weight:600;">ANOMALOUS ≠ ILLEGAL</span>
+                        </div>
+                        <p style="margin:0 0 12px;font-size:13px;line-height:1.62;color:#bcae9f;text-wrap:pretty;">A statistical anomaly is a reason to look closer, not proof of wrongdoing. A securities-style violation would still require <span style="color:#e8dcc9;">misappropriated material nonpublic information or a breached duty</span> — the trading pattern alone establishes neither. Every market here is presumed innocent. This is educational triage, not legal or investment advice.</p>
+                        <button type="button" style="background:none;border:none;color:#34D399;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;cursor:pointer;padding:0;" onClick="{{ surv.insp.onRegimes }}">see the regimes that would apply ›</button>
+                      </div>
+                    </div>
+
                   </div>
                 </sc-if>
               </div>
-            </div>
-
-            <!-- ── the five methods (reference) ── -->
-            <div style="margin-top:20px;border:1px solid #1B2521;border-radius:11px;background:#0F1513;overflow:hidden">
-              <button type="button" aria-expanded="{{ surv.glossaryOpen }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:none;border:none;cursor:pointer;color:#E5E7EB;text-align:left" onClick="{{ surv.onToggleGlossary }}">
-                <span style="font-size:13px;font-weight:600">The five detection methods, explained</span>
-                <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#8A938F">{{ surv.glossaryIcon }}</span>
-              </button>
-              <sc-if value="{{ surv.glossaryOpen }}" hint-placeholder-val="{{ false }}">
-                <div style="padding:4px 18px 20px;border-top:1px solid #1B2521">
-                  <div style="font-size:11.5px;color:#6b7772;line-height:1.5;margin:14px 0 16px">Every market is scored by these five established surveillance methods working together. A method firing is an anomaly to examine, never a finding of wrongdoing.</div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 28px">
-                    <sc-for list="{{ surv.glossary }}" as="d" hint-placeholder-count="5">
-                      <div style="display:flex;flex-direction:column;gap:4px">
-                        <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#34D399">{{ d.name }}</span><span style="font-family:'JetBrains Mono', monospace;font-size:8px;letter-spacing:.05em;color:#6b7772">{{ d.tag }}</span></div>
-                        <span style="font-size:12px;color:#9CA3AF;line-height:1.55">{{ d.desc }}</span>
-                      </div>
-                    </sc-for>
-                  </div>
-                </div>
-              </sc-if>
             </div>
           </div>
         </sc-if>
@@ -535,9 +597,11 @@ class Component extends DCLogic {
       instrument:'geopolitical', venue:'polymarket', conduct:'mnpi', concealed:true,
       openRegimes:{},
       // --- Surveillance: Signal List + Inspector ---
-      survSel:null, survPlat:'all', survCat:'all', survSort:'suspicion', survSearch:'',
-      glossaryOpen:false, clock:'00:00:00', mathOpen:{},
-      survMarkets:null, survUpdatedAt:null, survCoverage:null, survSources:null, survUpdating:false,
+      // --- Surveillance scanner (ported reference UI) ---
+      survSel:null, survPlatform:'all', survCats:[], survSort:'suspicion', survThreshold:0, survSearch:'',
+      survOverview:false, survProbView:'pct', survMath:{}, survReduce:false,
+      survNow:Date.now(), survStatT:0, survUpdatedAt:Date.now(), survPulse:0,
+      survMarkets:null, survFeedAt:null, survCoverage:null, survSources:null, survWs:null,
       // --- Case files ---
       caseId:'vandyke',
       // --- Duty & materiality ---
@@ -564,34 +628,72 @@ class Component extends DCLogic {
     document.addEventListener('mouseup', this._up);
     document.addEventListener('touchmove', this._move, { passive:false });
     document.addEventListener('touchend', this._up);
-    // Live surveillance feed: poll the serverless collector; fall back to the
-    // embedded sample if it is unreachable. Refreshes every 45s.
+    // reduced-motion + the stat count-up animation
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.setState({ survReduce: reduce });
+    this._t0 = (typeof performance!=='undefined' ? performance.now() : Date.now());
+    const anim = (t)=>{ const p = Math.min(1, ((typeof performance!=='undefined'?performance.now():Date.now()) - this._t0)/900); this.setState({ survStatT: reduce?1:p }); if (p<1 && !reduce) requestAnimationFrame(anim); };
+    if (reduce) this.setState({ survStatT:1 }); else requestAnimationFrame(anim);
+    // 1s ticker drives the live ET clock + the "updated Ns ago" counter
+    this._clock = setInterval(()=> this.setState({ survNow: Date.now() }), 1000);
+    // Live surveillance feed: poll the serverless collector; sample fallback.
     this._survPoll();
     this._survTimer = setInterval(()=> this._survPoll(), 30000);
-    // status-strip clock (UTC, ticks every second)
-    this.setState({ clock:this.fmtClock() });
-    this._clock = setInterval(()=> this.setState({ clock:this.fmtClock() }), 1000);
-  }
-  // Live EST clock (America/New_York via Intl, so EDT/EST flips correctly).
-  fmtClock(){
-    try {
-      const d=new Date();
-      const t=new Intl.DateTimeFormat('en-US',{ timeZone:'America/New_York', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false }).format(d);
-      const z=(new Intl.DateTimeFormat('en-US',{ timeZone:'America/New_York', timeZoneName:'short' }).formatToParts(d).find(p=>p.type==='timeZoneName')||{}).value || 'ET';
-      return t.replace(/^24/,'00')+' '+z;
-    } catch(_){ const d=new Date(); const p=n=>String(n).padStart(2,'0'); return p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds())+' ET'; }
   }
   _survPoll(){
     try {
-      this.setState({ survUpdating:true });
       fetch('/api/surveillance/feed', { cache:'no-store' })
         .then(r=> r.ok ? r.json() : null)
         .then(d=>{
-          if (d && Array.isArray(d.markets) && d.markets.length) this.setState({ survMarkets:d.markets, survUpdatedAt:d.generatedAt, survCoverage:d.coverage, survSources:d.sources, survUpdating:false });
-          else this.setState({ survUpdating:false });
+          if (d && Array.isArray(d.markets) && d.markets.length){
+            this.setState(st=>({ survMarkets:d.markets, survFeedAt:d.generatedAt, survCoverage:d.coverage, survSources:d.sources, survPulse:(st.survPulse||0)+1 }));
+            // keep the open market's live websocket pointed at fresh coordinates
+            const sel = d.markets.find(m=>m.id===this.state.survSel);
+            if (sel) this._survSubscribe(sel);
+          }
         })
-        .catch(()=> this.setState({ survUpdating:false }));
-    } catch(_) { this.setState({ survUpdating:false }); }
+        .catch(()=>{});
+    } catch(_) {}
+  }
+  // Select a market and (Phase 2) open a PUBLIC market-data websocket for it so
+  // its price ticks live in the inspector. Only the open market is subscribed.
+  selectSurv(id){
+    this.setState({ survSel:id, survWs:null });
+    const src = this.state.survMarkets || [];
+    const m = src.find(x=>x.id===id);
+    if (m) this._survSubscribe(m); else this._survWsClose();
+  }
+  _survWsClose(){ try { if (this._ws){ this._ws.onmessage=null; this._ws.onerror=null; this._ws.close(); } } catch(_){} this._ws=null; }
+  _survSubscribe(m){
+    this._survWsClose();
+    if (typeof WebSocket==='undefined' || !m || !m.ws) return;
+    try {
+      if (m.ws.platform==='polymarket' && m.ws.token){
+        const ws = new WebSocket('wss://ws-subscriptions-clob.polymarket.com/ws/market');
+        this._ws = ws; const id = m.id, token = String(m.ws.token);
+        ws.onopen = ()=>{ try { ws.send(JSON.stringify({ assets_ids:[token], type:'market' })); } catch(_){} };
+        ws.onmessage = (ev)=>{ try {
+          const data = JSON.parse(ev.data); const arr = Array.isArray(data)?data:[data];
+          for (const msg of arr){
+            let p=null;
+            if (msg.event_type==='last_trade_price' && msg.price!=null) p=Number(msg.price);
+            else if ((msg.event_type==='book'||msg.bids||msg.asks)){ const b=msg.bids&&msg.bids[0]; const a=msg.asks&&msg.asks[0]; if(b&&a) p=(Number(b.price)+Number(a.price))/2; }
+            if (p!=null && isFinite(p) && this.state.survSel===id) this.setState({ survWs:{ id, p, at:Date.now() } });
+          }
+        } catch(_){} };
+        ws.onerror = ()=> this._survWsClose();
+      } else if (m.ws.platform==='kalshi' && m.ws.ticker){
+        const ws = new WebSocket('wss://api.elections.kalshi.com/trade-api/ws/v2');
+        this._ws = ws; const id = m.id, ticker = m.ws.ticker;
+        ws.onopen = ()=>{ try { ws.send(JSON.stringify({ id:1, cmd:'subscribe', params:{ channels:['ticker_v2'], market_tickers:[ticker] } })); } catch(_){} };
+        ws.onmessage = (ev)=>{ try {
+          const msg = JSON.parse(ev.data); const d = msg && msg.msg;
+          let cents = d && (d.price!=null ? d.price : (d.yes_bid!=null && d.yes_ask!=null ? (d.yes_bid+d.yes_ask)/2 : null));
+          if (cents!=null && this.state.survSel===id) this.setState({ survWs:{ id, p: cents>1?cents/100:cents, at:Date.now() } });
+        } catch(_){} };
+        ws.onerror = ()=> this._survWsClose();
+      }
+    } catch(_) { this._survWsClose(); }
   }
   componentWillUnmount(){
     document.removeEventListener('mousemove', this._move);
@@ -600,6 +702,7 @@ class Component extends DCLogic {
     document.removeEventListener('touchend', this._up);
     if (this._survTimer) clearInterval(this._survTimer);
     if (this._clock) clearInterval(this._clock);
+    this._survWsClose();
   }
 
   // ----- palette -----
@@ -730,179 +833,247 @@ class Component extends DCLogic {
   // into the shapes the list and inspector consume.
   SCOPE = { kalshi:'#34D399', poly:'#A78BFA', high:'#F87171', watch:'#FBBF24', ink:'#E5E7EB', mut:'#8A938F', bd:'#1B2521', panel:'#0F1513', canvas:'#0A0E0D' };
   // ============ SURVEILLANCE :: live full-market scanner ============
-  // The serverless collector (/api/surveillance/feed) enumerates every open
-  // market on Kalshi + Polymarket, scores each with the pure detectors in
-  // api/surveillance/detectors.js, and returns them ranked by a 0–100 suspicion
-  // index. This UI reads that feed; the SAMPLE_MARKETS below (same shape) keep
-  // the tab populated before the live feed answers or when it is unreachable.
-  //
-  // Platform colour economy: Kalshi = green (#34D399), Polymarket = purple
-  // (#A78BFA). Severity is the suspicion number + a red accent at the top tier.
-
+  // Ported from the reference design: gradient meters, detector chips, a radar
+  // "detector profile", a %/log-odds probability chart, an on-chain wallet-HHI
+  // gauge, and a category overview. The watchlist is driven by the live feed
+  // (/api/surveillance/feed) via survLiveCards(); survBuildSample() is the
+  // offline/sample fallback in the identical card shape. Kalshi = green,
+  // Polymarket = purple; severity rides a slate→amber→red gradient.
   _k(n){ n=Math.abs(Number(n)||0); return n>=1e6 ? (n/1e6).toFixed(1).replace(/\.0$/,'')+'M' : n>=1000 ? Math.round(n/1000)+'k' : String(Math.round(n)); }
-  platMeta(p){
-    return p==='kalshi'
-      ? { id:'kalshi', label:'Kalshi', color:'#34D399', soft:'rgba(52,211,153,.10)', bd:'rgba(52,211,153,.42)' }
-      : { id:'polymarket', label:'Polymarket', color:'#A78BFA', soft:'rgba(167,139,250,.10)', bd:'rgba(167,139,250,.42)' };
-  }
-  idxColor(i){ return i>=70 ? '#F87171' : i>=40 ? '#FBBF24' : '#8A938F'; }   // red high / amber mid / muted low
-  labelMeta(label){
-    if (label==='Unexplained')          return { color:'#F87171', text:'Unexplained' };
-    if (label==='Partially explained')  return { color:'#FBBF24', text:'Partially explained' };
-    if (label==='Explained')            return { color:'#34D399', text:'Explained' };
-    if (label==='Low-liquidity artifact')return { color:'#8A938F', text:'Low-liquidity artifact' };
-    return { color:'#8A938F', text: label||'—' };
+  rng(seed){ let s=seed>>>0; return ()=>{ s=(s+0x6D2B79F5)|0; let t=Math.imul(s^(s>>>15),1|s); t=(t+Math.imul(t^(t>>>7),61|t))^t; return ((t^(t>>>14))>>>0)/4294967296; }; }
+  clamp(x,a,b){ return Math.max(a,Math.min(b,x)); }
+  lerpHex(a,b,t){ const pa=[parseInt(a.slice(1,3),16),parseInt(a.slice(3,5),16),parseInt(a.slice(5,7),16)]; const pb=[parseInt(b.slice(1,3),16),parseInt(b.slice(3,5),16),parseInt(b.slice(5,7),16)]; const c=pa.map((v,i)=>Math.round(v+(pb[i]-v)*t)); return '#'+c.map(v=>v.toString(16).padStart(2,'0')).join(''); }
+  sev(score){ const t=this.clamp(score,0,100)/100; if(t<0.5) return this.lerpHex('#64748B','#FBBF24',t/0.5); return this.lerpHex('#FBBF24','#F87171',(t-0.5)/0.5); }
+  slug(q){ return String(q||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,48); }
+
+  // one-line plain-English summary for a card
+  survSummary(m, detectors, dir){
+    const dirWord = dir>0 ? 'toward “Yes”' : 'toward “No”';
+    if (m.label==='Low-liquidity artifact') return 'Price stayed close to its expected range on a thin book; the elevated reading most likely reflects a low-liquidity artifact rather than informed trading.';
+    const top = (detectors||[]).slice().sort((a,b)=>b.sub-a.sub)[0];
+    const base = top ? (top.name.toLowerCase()+' ('+top.valueStr+')') : 'an unusual move';
+    if (m.label==='Explained') return 'A sharp move that lines up with a credible public headline around the same time, so it most likely has a public cause.';
+    if (m.label==='Unexplained') return 'A '+base+' pushed the price '+dirWord+' and outside its expected range with no public news to explain the shift — the pre-event pattern a surveillance desk escalates.';
+    return 'A '+base+' moved the price '+dirWord+', partially explained by public context near the move.';
   }
 
-  // detector key -> display name, tag, and the formula (shown in "show the math")
-  METHODS = {
-    runUp:        { name:'Pre-event run-up',          tag:'KEOWN–PINKERTON',   formula:'CAR* = Σ(r_t − μ)/σ  ÷ √n ,  sub-score = min(1, |CAR*| / 4)' },
-    vpin:         { name:'Order-flow toxicity (VPIN)', tag:'EASLEY–LdP–O’HARA', formula:'VPIN = (1/N) · Σ |V_sell − V_buy| / V  over the last N volume buckets' },
-    priceImpact:  { name:'Liquidity vacuum (Kyle’s λ)',tag:'KYLE 1985 · AMIHUD', formula:'λ = slope of Δp ~ OFI ;  Amihud = |r| / $vol ;  sub-score from the ratio to its own median' },
-    concentration:{ name:'Trader concentration (HHI)', tag:'HERFINDAHL · ON-CHAIN', formula:'HHI = Σ s_i²  over per-wallet buy shares ,  blended with top-1 share + fresh-wallet' },
-    news:         { name:'News-context gap',          tag:'SONAR',             formula:'E = credibility × time-proximity × direction ;  pre-event ⇒ E = 0 ;  Index ×= (1 − 0.6·E)' },
-  };
-
-  methodMetric(key, d){
-    if (!d) return null;
-    if (key==='runUp')        return (d.sigma_move!=null ? d.sigma_move : (d.carStar!=null ? Math.abs(d.carStar) : '—')) + 'σ';
-    if (key==='vpin')         return d.vpin!=null ? d.vpin.toFixed(2) : '—';
-    if (key==='priceImpact')  return d.impactRatio!=null ? d.impactRatio.toFixed(1) + '×' : '—';
-    if (key==='concentration')return d.top1!=null ? Math.round(d.top1*100) + '%' : '—';
-    if (key==='news')         return d.E!=null ? ('E ' + (+d.E).toFixed(2)) : '—';
-    return '—';
-  }
-  methodMath(key, d){
-    if (!d) return [];
-    if (key==='runUp'){
-      if (d.proxy) return ['Preliminary read from the 24h price change: ~' + d.sigma_move + 'σ vs a normal daily swing.', 'Full Keown–Pinkerton CAR* is computed from price history when this market is deep-scanned.'];
-      return ['CAR* = ' + d.carStar + '  (over ' + d.n + ' steps in the event window)', 'estimation μ = ' + d.mu + ',  σ = ' + d.sigma, 'sub-score = min(1, |CAR*| / 4) = ' + (d.score!=null ? d.score.toFixed(2) : '—')];
-    }
-    if (key==='vpin')         return ['VPIN = ' + d.vpin + '  over ' + d.nBuckets + ' volume buckets', 'from ' + d.nTrades + ' on-chain trades, buy/sell split by bulk-volume classification'];
-    if (key==='priceImpact')  return ["Kyle's λ = " + d.lambda, 'Amihud illiquidity = ' + d.amihud, 'recent impact ratio = ' + d.impactRatio + '× this market’s own median'];
-    if (key==='concentration')return ['HHI = ' + d.hhi + '  (1.0 = a single wallet)', 'top-1 wallet share = ' + Math.round((d.top1||0)*100) + '%  of ' + d.nWallets + ' wallets', 'fresh wallet (first active hours before the move): ' + (d.fresh ? 'yes' : 'no')];
-    if (key==='news')         return ['E = ' + (+d.E).toFixed(2) + '  (' + (d.credibility||'no') + ' source)', d.headline ? ('headline: “' + d.headline + '”' + (d.source ? ' — ' + d.source : '')) : 'no matching public headline found', d.preEvent ? 'timing: the move PRECEDED the first public headline (pre-event gap)' : 'timing: a public headline sits around the move'];
-    return [];
-  }
-  // which methods fired for a market, fired-first; news is always shown as context
-  methodRows(m){
-    const det = m.detectors || {};
-    const cw = {}; (m.contributions || []).forEach((c) => { cw[c.key] = c.weight; });
-    const rows = [];
-    ['runUp','vpin','priceImpact','concentration','news'].forEach((key)=>{
-      const d = det[key]; if (!d) return;
-      const meta = this.METHODS[key];
-      const score = (key==='news') ? (d.E!=null ? d.E : 0) : (typeof d.score==='number' ? d.score : 0);
-      const fired = (key==='news') ? (d.preEvent===true || d.E>=0.4) : score>=0.25;
-      rows.push({ key, name:meta.name, tag:meta.tag, formula:meta.formula,
-        metric:this.methodMetric(key, d), plain:d.explain||'', math:this.methodMath(key, d),
-        score, fired, context:key==='news', weight:cw[key]!=null ? cw[key] : null });
+  // live feed markets -> the card shape the watchlist/inspector render
+  survLiveCards(markets){
+    const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+    return markets.map((m,idx)=>{
+      const plat=m.platform, D=m.detectors||{}, score=Math.round(m.index||0);
+      let prob=(m.series&&m.series.length>=6)?m.series.map(x=>x.p):null;
+      if(!prob){ const p=clamp(m.prob||0.5,0.02,0.98); prob=Array.from({length:24},(_,i)=>clamp(p+Math.sin(i/3)*0.004,0.02,0.98)); }
+      const N=prob.length, estN=Math.max(3,Math.floor(N*0.6)), est=prob.slice(0,estN);
+      const mu=est.reduce((a,b)=>a+b,0)/est.length;
+      const sd=Math.sqrt(est.reduce((a,b)=>a+(b-mu)*(b-mu),0)/est.length)||0.03;
+      const bw=Math.max(0.04,2*sd);
+      const lo=prob.map(()=>clamp(mu-bw,0.01,0.99)), hi=prob.map(()=>clamp(mu+bw,0.01,0.99)), baseline=prob.map(()=>mu);
+      const ws=Math.min(N-2,estN), we=N-1, newsIdx=Math.max(estN,N-3), ce=N-1;
+      const dir=(D.runUp&&D.runUp.dir==='down')?-1:(prob[N-1]>=prob[0]?1:-1);
+      const sub=(d)=> d&&typeof d.score==='number'?Math.round(clamp(d.score*100,0,100)):0;
+      const ru=D.runUp,vp=D.vpin,ky=D.priceImpact,co=D.concentration,nw=D.news;
+      const newsSub= nw?Math.round(clamp((nw.preEvent?(0.55+Math.min(0.45,(nw.leadH||6)/48)):(1-(nw.E||0))*0.6)*100,0,99)):0;
+      const v={
+        runup: ru?((ru.sigma_move!=null?ru.sigma_move:Math.abs(ru.carStar||0)).toFixed(1)+'σ'):'—',
+        vpin: (vp&&vp.vpin!=null)?vp.vpin.toFixed(2):'—',
+        kyle: (ky&&ky.impactRatio!=null)?(Math.round(ky.impactRatio)+'×'):'—',
+        conc: (m.onchain&&m.onchain.hhi!=null)?(+m.onchain.hhi).toFixed(2):((co&&co.hhi!=null)?co.hhi.toFixed(2):'—'),
+        news: nw?(nw.leadH?(nw.leadH+'h'):(nw.E!=null?('E '+(+nw.E).toFixed(2)):'—')):'—',
+      };
+      const detectors=[
+        { key:'runup', name:'Run-up', sub:sub(ru), valueStr:v.runup, chip:'Run-up',
+          sentence: ru?'Price ran up far faster than its own recent volatility, well before the outcome was known.':'Not enough price history to measure a run-up yet.',
+          formula:'σ-score = (price move − average move) ÷ volatility', plugged: ru?('= '+v.runup+' beyond this market’s own normal range'):'—' },
+        { key:'vpin', name:'VPIN', sub:sub(vp), valueStr:v.vpin, chip:'VPIN',
+          sentence: vp?'Order flow turned heavily one-sided, a signature of informed buying pressure.':'Per-trade order flow is not available for this market yet.',
+          formula:'VPIN = Σ|buy − sell| ÷ Σ(buy + sell)', plugged: vp?('= '+v.vpin+' of flow one-sided across '+(vp.nBuckets||50)+' volume buckets'):'—' },
+        { key:'kyle', name:'Kyle’s λ', sub:sub(ky), valueStr:v.kyle, chip:'Kyle’s λ',
+          sentence: ky?'Each dollar traded moved the price far more than this market’s usual liquidity implies.':'Liquidity / price-impact is not available for this market yet.',
+          formula:'λ = price impact ÷ √(signed volume)', plugged: ky?('= '+v.kyle+' the impact a normal-liquidity trade would cause'):'—' },
+        { key:'conc', name:'Concentration', sub:sub(co), valueStr:v.conc, chip:'Whale HHI',
+          sentence: co?'A small number of accounts drove most of the directional buying.':(plat==='kalshi'?'Kalshi trades are anonymous — there is no wallet ledger to measure concentration.':'On-chain concentration is not available for this market yet.'),
+          formula:'HHI = Σ (account shareᵢ)²', plugged: co?('= HHI '+(co.hhi!=null?co.hhi.toFixed(2):'—')+' across '+(co.nWallets||0)+' wallets'):'—' },
+        { key:'news', name:'News-gap', sub:newsSub, valueStr:v.news, chip:'News-gap',
+          sentence:(nw&&nw.preEvent)?'The move opened a wide gap ahead of any public news that could explain it.':((nw&&nw.explained)?'A credible public headline sits around this move — it likely has a public cause.':'No clear public catalyst was found around the move.'),
+          formula:'gap = time(price move) − time(public news)', plugged: nw?(nw.headline?('= “'+nw.headline+'”'+(nw.source?(' — '+nw.source):'')):('= '+v.news+' from the nearest public catalyst')):'—' },
+      ];
+      let wallets=[]; const hhi=(m.onchain&&m.onchain.hhi!=null)?m.onchain.hhi:0;
+      if(plat==='polymarket'&&m.onchain&&m.onchain.topWallets){
+        wallets=m.onchain.topWallets.map(w=>({ addr:w.wallet, share:w.share, pct:Math.round((w.share||0)*100)+'%', fresh:!!w.fresh,
+          url: w.full?('https://polygonscan.com/address/'+w.full):'https://polymarket.com' }));
+      }
+      const clusters=(m.onchain&&m.onchain.clusters)||[];
+      const summary=this.survSummary(m,detectors,dir);
+      const updatedAgo= m.movedAt?Math.max(3,Math.round((Date.now()-m.movedAt)/1000)):(8+(idx%9)*11);
+      return { id:m.id, question:m.question, platform:plat, category:m.category||'Other', score, label:m.label||'—', summary,
+        prob, baseline, lo, hi, ws, we, newsIdx, ce, dir, detectors, wallets, hhi, clusters, book:m.book||null, wsCoords:m.ws||null,
+        url:m.url||'#', updatedAgo, recencyMins: m.movedAt?Math.round((Date.now()-m.movedAt)/60000):idx, volume:m.volume24h||0, deep:!!m.deep };
     });
-    rows.sort((a,b)=> (Number(b.fired)-Number(a.fired)) || (b.score-a.score));
-    return rows;
-  }
-  topMethods(m){
-    const fired = this.methodRows(m).filter((r)=> r.fired && !r.context);
-    if (fired.length) return fired.slice(0,2).map((r)=>({ name:r.name, metric:r.metric }));
-    const ru = m.detectors && m.detectors.runUp;
-    return ru ? [{ name:this.METHODS.runUp.name, metric:this.methodMetric('runUp', ru) }] : [];
   }
 
-  // small probability sparkline from the real series (falls back to a flat line)
-  survSpark(m, color){
-    const h=React.createElement, W=82, H=26;
-    let pts = (m.series && m.series.length>=3) ? m.series.map((x)=>x.p) : null;
-    if (!pts){ const p = m.prob!=null ? m.prob : 0.5; pts = [p,p,p,p]; }
-    const n = pts.length, lo=Math.min(...pts), hi=Math.max(...pts), rng=(hi-lo)||0.001;
-    const xy = pts.map((p,i)=>[4 + (i/(n-1))*(W-8), H-3 - ((p-lo)/rng)*(H-6)]);
-    const d = xy.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
-    return h('svg',{ width:W, height:H, viewBox:`0 0 ${W} ${H}`, 'aria-hidden':'true', style:{ display:'block', flexShrink:0 } },
-      h('path',{ d, fill:'none', stroke:color||'#8A938F', strokeWidth:1.4, opacity:0.9 }));
+  // ---------- charts ----------
+  spark(m){
+    const h=React.createElement, s=m.prob, w=138, ht=34, pad=3;
+    const color=m.platform==='kalshi'?'#34D399':'#A78BFA';
+    let mn=Math.min(...s), mx=Math.max(...s); const rg=(mx-mn)||1;
+    const X=i=>pad+i/(s.length-1)*(w-2*pad), Y=v=>pad+(1-(v-mn)/rg)*(ht-2*pad);
+    const pts=s.map((v,i)=>[X(i),Y(v)]);
+    const line='M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+    const area=line+' L'+X(s.length-1).toFixed(1)+','+(ht-pad)+' L'+pad+','+(ht-pad)+' Z';
+    return h('svg',{viewBox:`0 0 ${w} ${ht}`,width:w,height:ht,style:{display:'block'}},
+      h('path',{key:'a',d:area,fill:color,opacity:0.08}),
+      h('path',{key:'l',d:line,fill:'none',stroke:color,strokeWidth:1.5,strokeLinejoin:'round',strokeLinecap:'round'}),
+      h('circle',{key:'c',cx:X(s.length-1),cy:Y(s[s.length-1]),r:2,fill:color}));
+  }
+  probChart(m, view){
+    const h=React.createElement;
+    const W=760,H=290,pl=50,pr=18,pt=26,pb=34, plotW=W-pl-pr, plotH=H-pt-pb, N=m.prob.length;
+    const color=m.platform==='kalshi'?'#34D399':'#A78BFA';
+    const logit=p=>Math.log(p/(1-p)), clampP=p=>Math.min(0.985,Math.max(0.015,p)), Lmax=logit(0.985);
+    const X=i=>pl+i/(N-1)*plotW;
+    const Y=p=>{ if(view==='pct') return pt+(1-this.clamp(p,0,1))*plotH; const L=logit(clampP(p)); return pt+(1-(L+Lmax)/(2*Lmax))*plotH; };
+    const grid= view==='pct'?[[1,'100%'],[0.75,'75%'],[0.5,'50%'],[0.25,'25%'],[0,'0%']]:[[0.95,'95%'],[0.8,'80%'],[0.5,'50%'],[0.2,'20%'],[0.05,'5%']];
+    const els=[];
+    grid.forEach((g,i)=>{ const y=Y(g[0]);
+      els.push(h('line',{key:'g'+i,x1:pl,y1:y,x2:W-pr,y2:y,stroke:'#19211d',strokeWidth:1}));
+      els.push(h('text',{key:'gt'+i,x:pl-8,y:y+3,textAnchor:'end',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},g[1])); });
+    [0,0.5,0.85,1].forEach((f,i)=>{ const x=pl+f*plotW; const lbl=['earlier','','','now'][i];
+      els.push(h('text',{key:'xt'+i,x:x,y:H-12,textAnchor:i===3?'end':'middle',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},lbl)); });
+    const top=m.hi.map((v,i)=>[X(i),Y(v)]), bot=m.lo.map((v,i)=>[X(i),Y(v)]);
+    const bandPath='M'+top.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L')+' L'+bot.slice().reverse().map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L')+' Z';
+    els.push(h('path',{key:'band',d:bandPath,fill:color,opacity:0.08}));
+    els.push(h('rect',{key:'win',x:X(m.ws),y:pt,width:Math.max(2,X(m.we)-X(m.ws)),height:plotH,fill:'#FBBF24',opacity:0.06}));
+    els.push(h('text',{key:'winlbl',x:(X(m.ws)+X(m.we))/2,y:pt+13,textAnchor:'middle',fill:'#d8a93a',style:{font:'500 9.5px JetBrains Mono, monospace'}},'← unusual buying'));
+    [[m.newsIdx,'news public','#8A938F'],[m.ce,'resolves','#cfd6d2']].forEach((mk,i)=>{ const x=X(mk[0]);
+      els.push(h('line',{key:'mk'+i,x1:x,y1:pt,x2:x,y2:pt+plotH,stroke:mk[2],strokeWidth:1,strokeDasharray:'3 4',opacity:0.6}));
+      els.push(h('text',{key:'mkt'+i,x:x,y:pt-8,textAnchor:'middle',fill:mk[2],style:{font:'500 9px JetBrains Mono, monospace'}},mk[1])); });
+    const lpts=m.prob.map((v,i)=>[X(i),Y(v)]);
+    const lp='M'+lpts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+    const len=1500;
+    const anim=this.state.survReduce?{}:{ strokeDasharray:len, strokeDashoffset:0, animation:'drawLine 1.1s ease', '--len':len };
+    els.push(h('path',{key:'line'+view+m.id,d:lp,fill:'none',stroke:color,strokeWidth:2.4,strokeLinejoin:'round',strokeLinecap:'round',style:Object.assign({filter:'drop-shadow(0 0 5px '+color+'66)'},anim)}));
+    els.push(h('circle',{key:'end',cx:X(N-1),cy:Y(m.prob[N-1]),r:3.2,fill:color,style:{filter:'drop-shadow(0 0 5px '+color+')'}}));
+    return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',style:{display:'block',maxWidth:'100%'},preserveAspectRatio:'xMidYMid meet'},els);
+  }
+  radar(m){
+    const h=React.createElement, cx=110, cy=104, R=72;
+    const axes=[['Run-up','runup'],['VPIN','vpin'],['Kyle’s λ','kyle'],['Concentr.','conc'],['News-gap','news']];
+    const sub={}; m.detectors.forEach(d=>sub[d.key]=d.sub);
+    const ang=i=>(-90+i*72)*Math.PI/180, els=[];
+    [0.25,0.5,0.75,1].forEach((r,ri)=>{ const pts=axes.map((a,i)=>[cx+Math.cos(ang(i))*R*r,cy+Math.sin(ang(i))*R*r]);
+      els.push(h('polygon',{key:'ring'+ri,points:pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' '),fill:'none',stroke:'#1a231f',strokeWidth:1})); });
+    axes.forEach((a,i)=>{ const ex=cx+Math.cos(ang(i))*R, ey=cy+Math.sin(ang(i))*R;
+      els.push(h('line',{key:'ax'+i,x1:cx,y1:cy,x2:ex,y2:ey,stroke:'#1a231f',strokeWidth:1}));
+      const lx=cx+Math.cos(ang(i))*(R+17), ly=cy+Math.sin(ang(i))*(R+15);
+      els.push(h('text',{key:'axl'+i,x:lx,y:ly+3,textAnchor:Math.abs(Math.cos(ang(i)))<0.3?'middle':(Math.cos(ang(i))>0?'start':'end'),fill:'#7e8782',style:{font:'500 8.5px JetBrains Mono, monospace'}},a[0])); });
+    const dpts=axes.map((a,i)=>{ const r=R*((sub[a[1]]||0)/100); return [cx+Math.cos(ang(i))*r,cy+Math.sin(ang(i))*r]; });
+    const col=this.sev(m.score);
+    els.push(h('polygon',{key:'data',points:dpts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' '),fill:col,fillOpacity:0.22,stroke:col,strokeWidth:1.8,style:{filter:'drop-shadow(0 0 5px '+col+'55)'}}));
+    dpts.forEach((p,i)=>els.push(h('circle',{key:'dp'+i,cx:p[0],cy:p[1],r:2.4,fill:col})));
+    return h('svg',{viewBox:'0 0 220 208',width:200,height:189,style:{display:'block'}},els);
+  }
+  gauge(value){
+    const h=React.createElement, W=164,H=98,cx=82,cy=88,R=64, a0=Math.PI,a1=0;
+    const pol=a=>[cx+Math.cos(a)*R,cy+Math.sin(a)*R];
+    const arc=(s,e)=>{ const p0=pol(s),p1=pol(e); const large=Math.abs(e-s)>Math.PI?1:0; return `M${p0[0].toFixed(1)},${p0[1].toFixed(1)} A${R},${R} 0 ${large} 1 ${p1[0].toFixed(1)},${p1[1].toFixed(1)}`; };
+    const va=a0+(a1-a0)*this.clamp(value,0,1), col=this.sev(value*100);
+    return h('svg',{viewBox:`0 0 ${W} ${H}`,width:W,height:H,style:{display:'block'}},
+      h('path',{key:'bg',d:arc(a0,a1),fill:'none',stroke:'#16201c',strokeWidth:9,strokeLinecap:'round'}),
+      h('path',{key:'v',d:arc(a0,va),fill:'none',stroke:col,strokeWidth:9,strokeLinecap:'round',style:{filter:'drop-shadow(0 0 5px '+col+'66)'}}),
+      h('text',{key:'n',x:cx,y:cy-12,textAnchor:'middle',fill:col,style:{font:'700 26px JetBrains Mono, monospace'}},Number(value).toFixed(2)),
+      h('text',{key:'z',x:cx-R,y:cy+15,textAnchor:'middle',fill:'#4f5854',style:{font:'500 8px JetBrains Mono, monospace'}},'0'),
+      h('text',{key:'o',x:cx+R,y:cy+15,textAnchor:'middle',fill:'#4f5854',style:{font:'500 8px JetBrains Mono, monospace'}},'1'));
+  }
+  buildOverview(all){
+    const h=React.createElement;
+    const cats=['Politics','Elections','Economics','Finance','Crypto','Commodities','Climate','Culture','Mentions','Tech & Science','Sports','World'];
+    const top=all.slice().sort((a,b)=>b.score-a.score).slice(0,5);
+    const lead=h('div',{key:'lead'},
+      h('div',{style:{font:'500 10px JetBrains Mono, monospace',letterSpacing:'.16em',color:'#8A938F',marginBottom:'10px'}},'MOST SUSPICIOUS RIGHT NOW'),
+      h('div',{style:{display:'flex',flexDirection:'column',gap:'7px'}},
+        top.map((m,i)=>{ const col=this.sev(m.score), pc=m.platform==='kalshi'?'#34D399':'#A78BFA';
+          return h('div',{key:m.id,onClick:()=>this.setState({survSel:m.id}),style:{display:'flex',alignItems:'center',gap:'10px',cursor:'pointer',padding:'4px 2px'}},
+            h('span',{style:{font:'600 11px JetBrains Mono, monospace',color:'#5d6864',width:'16px'}},String(i+1)),
+            h('span',{style:{width:'7px',height:'7px',borderRadius:'50%',background:pc,boxShadow:'0 0 6px '+pc+'88',flexShrink:0}}),
+            h('span',{style:{flex:1,fontSize:'12px',color:'#c3cbc6',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},m.question),
+            h('span',{style:{font:'700 13px JetBrains Mono, monospace',color:col}},String(m.score))); })));
+    const head=h('div',{key:'hh',style:{display:'grid',gridTemplateColumns:'1fr 34px 34px',gap:'6px',alignItems:'center',marginBottom:'6px',marginTop:'16px'}},
+      h('span',{style:{font:'500 10px JetBrains Mono, monospace',letterSpacing:'.16em',color:'#8A938F'}},'SUSPICION BY CATEGORY'),
+      h('span',{style:{textAlign:'center'}},h('span',{style:{width:'9px',height:'9px',borderRadius:'50%',background:'#34D399',display:'inline-block',boxShadow:'0 0 5px #34d39988'}})),
+      h('span',{style:{textAlign:'center'}},h('span',{style:{width:'9px',height:'9px',borderRadius:'50%',background:'#A78BFA',display:'inline-block',boxShadow:'0 0 5px #a78bfa88'}})));
+    const cell=(ms,glow)=>{ if(!ms.length) return h('div',{style:{height:'22px',borderRadius:'5px',background:'#0c1110',border:'1px solid #161e1b',display:'flex',alignItems:'center',justifyContent:'center',color:'#3b4641',font:'500 10px JetBrains Mono, monospace'}},'–');
+      const avg=Math.round(ms.reduce((a,b)=>a+b.score,0)/ms.length), col=this.sev(avg);
+      return h('div',{style:{height:'22px',borderRadius:'5px',background:col+'2e',border:'1px solid '+col+'55',boxShadow:'inset 0 0 8px '+glow+'22',display:'flex',alignItems:'center',justifyContent:'center',color:col,font:'600 11px JetBrains Mono, monospace'}},String(avg)); };
+    const grid=h('div',{key:'grid',style:{display:'flex',flexDirection:'column',gap:'4px'}},
+      cats.map(cat=>{ const ms=all.filter(m=>m.category===cat);
+        return h('div',{key:cat,style:{display:'grid',gridTemplateColumns:'1fr 34px 34px',gap:'6px',alignItems:'center'}},
+          h('span',{style:{font:'500 10.5px JetBrains Mono, monospace',color:'#8A938F',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},cat),
+          cell(ms.filter(m=>m.platform==='kalshi'),'#34D399'),
+          cell(ms.filter(m=>m.platform==='polymarket'),'#A78BFA')); }));
+    return h('div',{},lead,head,grid);
+  }
+  segStyle(active,color){
+    return 'border:none;border-radius:6px;padding:6px 12px;font-family:\'JetBrains Mono\',monospace;font-size:11px;font-weight:500;letter-spacing:.02em;cursor:pointer;transition:all .18s;'+
+      (active?('background:'+color+'1f;color:'+color+';box-shadow:0 0 10px '+color+'33;'):'background:transparent;color:#7e8782;');
   }
 
-  // big annotated probability chart from the real series: expected-range band the
-  // line breaks out of, shaded event (suspicious) window, labelled catalyst marker.
-  survChart(m){
-    const h=React.createElement, C=this.SCOPE, col=this.platMeta(m.platform).color;
-    const W=620,H=280, padL=50,padR=20,padT=26,padB=46, iw=W-padL-padR, ih=H-padT-padB;
-    const Y = (p)=> padT + (1-Math.max(0,Math.min(1,p)))*ih;
-    const yGrid = [0,0.25,0.5,0.75,1].map((v,i)=> h('g',{ key:'y'+i },
-      h('line',{ x1:padL, x2:padL+iw, y1:Y(v), y2:Y(v), stroke:C.bd, strokeWidth:1, opacity:i===0?1:0.5 }),
-      h('text',{ x:padL-8, y:Y(v)+3, textAnchor:'end', fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, Math.round(v*100)) ));
-    const yLabel = h('text',{ x:14, y:padT+ih/2, fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace', transform:`rotate(-90 14 ${padT+ih/2})`, textAnchor:'middle' }, 'implied probability %');
-
-    const ser = (m.series && m.series.length>=4) ? m.series : null;
-    if (!ser){
-      // no deep price history yet — show the current level honestly, no fake curve
-      const p = m.prob!=null ? m.prob : 0.5;
-      return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Current implied probability ${Math.round(p*100)} percent`, style:{ display:'block' } },
-        yGrid, yLabel,
-        h('line',{ x1:padL, x2:padL+iw, y1:Y(p), y2:Y(p), stroke:col, strokeWidth:2.4 }),
-        h('text',{ x:padL+iw, y:Y(p)-8, textAnchor:'end', fontSize:12, fontWeight:700, fill:col, fontFamily:'JetBrains Mono, monospace' }, Math.round(p*100)+'%'),
-        h('text',{ x:padL+iw/2, y:padT+ih/2+4, textAnchor:'middle', fontSize:11, fill:C.mut }, 'Full price history loads when this market is deep-scanned'));
-    }
-    const n = ser.length, X = (i)=> padL + (i/(n-1))*iw;
-    const ps = ser.map((x)=>x.p);
-    const estN = Math.max(3, Math.floor(n*0.6));
-    const est = ps.slice(0, estN);
-    const mu = est.reduce((a,b)=>a+b,0)/est.length;
-    const sd = Math.sqrt(est.reduce((a,b)=>a+(b-mu)*(b-mu),0)/est.length) || 0.02;
-    const bandLo = Math.max(0, mu-2*sd), bandHi = Math.min(1, mu+2*sd);
-    const w0i = estN-1;   // event/suspicious window starts where estimation ends
-    const band = h('g',null,
-      h('rect',{ x:padL, y:Y(bandHi), width:iw, height:Math.max(2,Y(bandLo)-Y(bandHi)), fill:'rgba(138,147,143,.08)', stroke:'rgba(138,147,143,.28)', strokeWidth:1, strokeDasharray:'3 3' }),
-      h('text',{ x:padL+6, y:Y(bandHi)-5, fontSize:9, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, 'expected range'));
-    const suspBand = h('g',null,
-      h('rect',{ x:X(w0i), y:padT, width:(padL+iw)-X(w0i), height:ih, fill:'rgba(248,113,113,.05)', stroke:'rgba(248,113,113,.22)', strokeWidth:1 }),
-      h('text',{ x:(X(w0i)+padL+iw)/2, y:padT-8, textAnchor:'middle', fontSize:9.5, fill:'#cdb3b3', fontFamily:'JetBrains Mono, monospace' }, 'suspicious window'));
-    const xy = ser.map((pt,i)=>[X(i),Y(pt.p)]);
-    const line = xy.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
-    const area = line + ` L${X(n-1).toFixed(1)} ${(padT+ih).toFixed(1)} L${padL.toFixed(1)} ${(padT+ih).toFixed(1)} Z`;
-    const news = m.detectors && m.detectors.news;
-    const marker = h('g',null,
-      h('line',{ x1:X(n-1), x2:X(n-1), y1:padT-2, y2:padT+ih, stroke:'#8A938F', strokeWidth:1.3, strokeDasharray:'4 4' }),
-      h('text',{ x:X(n-1)-6, y:padT+10, textAnchor:'end', fontSize:9.5, fill:'#cdd3d0', fontFamily:'JetBrains Mono, monospace' }, (news && news.headline) ? 'headline' : 'latest'));
-    return h('svg',{ width:'100%', viewBox:`0 0 ${W} ${H}`, role:'img', 'aria-label':`Implied probability over time for ${m.question}. Expected range, suspicious window, and latest point marked.`, style:{ display:'block' } },
-      yGrid, yLabel, band, suspBand,
-      h('path',{ d:area, fill:'rgba(167,139,250,.05)' }),
-      h('path',{ d:line, fill:'none', stroke:col, strokeWidth:2.4 }),
-      h('text',{ x:padL, y:H-12, fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, 'earlier'),
-      h('text',{ x:padL+iw, y:H-12, textAnchor:'end', fontSize:9.5, fill:C.mut, fontFamily:'JetBrains Mono, monospace' }, 'now'),
-      marker);
+  // sample markets (identical shape) for the offline / pre-deploy fallback
+  survBuildSample(){
+    const cats=['Politics','Elections','Economics','Finance','Crypto','Commodities','Climate','Culture','Mentions','Tech & Science','Sports','World'];
+    const POOL={
+      'Politics':['Will a US federal government shutdown begin before October 2026?','Will the pending bipartisan trade bill be signed into law before August 2026?','Will a new cabinet secretary be confirmed before September 2026?'],
+      'Elections':['Will national turnout exceed 62% in the 2026 midterm elections?','Will control of the Senate be decided on election night 2026?','Will mail-in ballots exceed 40% of total votes this cycle?'],
+      'Economics':['Will headline CPI inflation print above 3.2% for May 2026?','Will the Fed cut its policy rate at the July 2026 FOMC meeting?','Will US Q2 2026 GDP growth come in above 2.5%?'],
+      'Finance':['Will the S&P 500 close above 6,200 by July 4, 2026?','Will the 10-year Treasury yield exceed 4.75% in June 2026?','Will the VIX close above 25 at any point in June 2026?'],
+      'Crypto':['Will Bitcoin close above $120,000 on June 30, 2026?','Will Ethereum trade above $5,000 before July 2026?','Will a spot Solana ETF begin trading before Q4 2026?'],
+      'Commodities':['Will WTI crude oil close above $85 a barrel in July 2026?','Will gold trade above $2,600 an ounce before Q4 2026?','Will US natural gas close above $4.00/MMBtu in July 2026?'],
+      'Climate':['Will July 2026 rank as the hottest July on record globally?','Will an Atlantic hurricane reach Category 4 before September 2026?','Will US summer 2026 set a new peak electricity-demand record?'],
+      'Culture':['Will the front-running film win Best Picture at the 2027 ceremony?','Will the announced album debut at number one in its release week?','Will the new series top the global streaming chart on premiere?'],
+      'Mentions':['Will the next central-bank statement include the word “patient”?','Will the keyword appear in the next scheduled policy address?','Will the upcoming earnings call mention “guidance cut”?'],
+      'Tech & Science':['Will a frontier lab release a new flagship model before September 2026?','Will a crewed lunar flyby launch before 2027?','Will a fusion startup announce net-energy gain before Q4 2026?'],
+      'Sports':['Will the favorite advance past the conference semifinal round?','Will the single-season scoring record fall before the playoffs?','Will the underdog reach the championship final this year?'],
+      'World':['Will a new ceasefire agreement be signed before August 2026?','Will the upcoming summit produce a joint communiqué?','Will a new trade-corridor agreement be announced before Q4 2026?'],
+    };
+    const R=this.rng(424242), markets=[]; let idx=0;
+    for(const cat of cats){ for(let q=0;q<3;q++){
+      const id='sm'+idx;
+      const platform=((idx%5===0)?(idx%2===1):(idx%2===0))?'kalshi':'polymarket';
+      const question=POOL[cat][q];
+      const score= idx<5?Math.round(74+R()*20):Math.round(20+R()*64);
+      const N=56, b0=0.32+R()*0.36, slope=(R()-0.5)*0.005, amp=0.035+R()*0.045, ph=R()*6;
+      const baseline=[],lo=[],hi=[], bw=0.07+R()*0.05;
+      for(let i=0;i<N;i++){ const vv=this.clamp(b0+slope*i+Math.sin(i/9+ph)*amp,0.05,0.95); baseline.push(vv); lo.push(this.clamp(vv-bw,0.01,0.99)); hi.push(this.clamp(vv+bw,0.01,0.99)); }
+      const ce=N-4, newsIdx=N-11, we=newsIdx, ws=we-16, dir=R()<0.5?1:-1, target=dir>0?0.94:0.06, strength=score/100, prob=[];
+      const startWin=baseline[ws], endWin=startWin+(target-startWin)*strength;
+      for(let i=0;i<N;i++){ let p; if(i<ws) p=baseline[i]+(R()-0.5)*0.022; else if(i<=we){ const t=(i-ws)/(we-ws); p=startWin+(target-startWin)*Math.pow(t,1.25)*strength+(R()-0.5)*0.018; } else { const t=(i-we)/((N-1)-we); p=endWin+(target-endWin)*t; } prob.push(this.clamp(p,0.015,0.985)); }
+      const subs={ runup:this.clamp(Math.round(score+(R()*20-10)),5,99), vpin:this.clamp(Math.round(score+(R()*24-12)),5,99), kyle:this.clamp(Math.round(score+(R()*22-11)),5,99), conc:this.clamp(Math.round(score+(R()*26-13)),5,99), news:this.clamp(Math.round(score+(R()*22-11)),5,99) };
+      const vv={ runup:(subs.runup/100*5.4+0.6).toFixed(1)+'σ', vpin:(0.45+subs.vpin/100*0.5).toFixed(2), kyle:Math.round(2+subs.kyle/100*16)+'×', conc:(0.2+subs.conc/100*0.6).toFixed(2), news:Math.round(2+subs.news/100*8)+'h' };
+      const detectors=[
+        { key:'runup',name:'Run-up',sub:subs.runup,valueStr:vv.runup,chip:'Run-up',sentence:'Price ran up far faster than its own recent volatility, well before the outcome was known.',formula:'σ-score = (price move − average move) ÷ volatility',plugged:'= '+vv.runup+' beyond this market’s own normal range' },
+        { key:'vpin',name:'VPIN',sub:subs.vpin,valueStr:vv.vpin,chip:'VPIN',sentence:'Order flow turned heavily one-sided, a signature of informed buying pressure.',formula:'VPIN = Σ|buy − sell| ÷ Σ(buy + sell)',plugged:'= '+vv.vpin+' of flow was one-sided across 50 volume buckets' },
+        { key:'kyle',name:'Kyle’s λ',sub:subs.kyle,valueStr:vv.kyle,chip:'Kyle’s λ',sentence:'Each dollar traded moved the price far more than this market’s usual liquidity implies.',formula:'λ = price impact ÷ √(signed volume)',plugged:'= '+vv.kyle+' the impact a normal-liquidity trade would cause' },
+        { key:'conc',name:'Concentration',sub:subs.conc,valueStr:vv.conc,chip:'Whale HHI',sentence:'A small number of accounts drove most of the directional buying.',formula:'HHI = Σ (account shareᵢ)²',plugged:'= '+vv.conc+' concentration across the top accounts' },
+        { key:'news',name:'News-gap',sub:subs.news,valueStr:vv.news,chip:'News-gap',sentence:'The move opened a wide gap ahead of any public news that could explain it.',formula:'gap = time(price move) − time(public news)',plugged:'= '+vv.news+' of one-sided flow before any public catalyst' },
+      ];
+      let wallets=[], hhi=parseFloat(vv.conc), clusters=[];
+      if(platform==='polymarket'){
+        const raw=[1,0.62,0.4,0.24,0.13].map(x=>x*(0.4+parseFloat(vv.conc))); const sum=raw.reduce((a,b)=>a+b,0); let hh=0;
+        wallets=raw.map((r,i)=>{ const share=r/sum; hh+=share*share; const hex=Math.floor(R()*0xffffff).toString(16).padStart(6,'0'); return { addr:'0x'+hex.slice(0,4)+'…'+hex.slice(4,6), share, pct:Math.round(share*100)+'%', fresh:(i===0&&R()<0.55)||(i>0&&R()<0.22), url:'https://polygonscan.com/address/0x'+hex }; });
+        hhi=parseFloat(hh.toFixed(2));
+        if(score>=72 && R()<0.5) clusters=[{ size:3, share:+(0.18+R()*0.2).toFixed(2), windowMin:15, wallets:wallets.slice(1,4).map(w=>w.addr), spanSec:480 }];
+      }
+      let label; if(score>=73)label='Unexplained'; else if(score>=50)label='Partially explained'; else if(score>=32)label='Explained'; else label='Low-liquidity artifact';
+      const dirWord=dir>0?'toward “Yes”':'toward “No”'; let summary;
+      if(score<32) summary='Price stayed close to its expected range; the elevated reading most likely reflects a low-liquidity artifact rather than informed trading.';
+      else { const tpl=['A large one-sided position built over several hours before this market moved '+dirWord+', with no public news to explain the shift.','Concentrated buying pushed the price '+dirWord+' and outside its expected range ahead of any public catalyst, then it resolved that way.','Order flow turned heavily one-sided well before the outcome was known, moving the price far more than this market’s usual liquidity would imply.']; summary=tpl[idx%3]; }
+      markets.push({ id, question, platform, category:cat, score, label, summary, prob, baseline, lo, hi, ws, we, newsIdx, ce, dir, detectors, wallets, hhi, clusters, book:null, wsCoords:null,
+        url: platform==='kalshi'?'https://kalshi.com/markets/'+this.slug(question):'https://polymarket.com/event/'+this.slug(question),
+        updatedAgo:Math.round(5+R()*280), recencyMins:Math.round(R()*1440), volume:Math.round(20000+R()*1800000), deep:true });
+      idx++;
+    } }
+    return markets;
   }
-
-  selectSignal(id){
-    this.setState({ survSel:id });
-    if (typeof window!=='undefined' && window.innerWidth<760){
-      setTimeout(()=>{ const el=document.querySelector('[data-zone=inspector]'); if(el){ const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; window.scrollTo({ top: el.getBoundingClientRect().top+window.scrollY-12, behavior: reduce?'auto':'smooth' }); } }, 60);
-    }
-  }
-
-  // sample markets (same shape as the live feed) so the tab is never empty
-  SAMPLE_MARKETS = [
-    { id:'s-maduro', platform:'polymarket', category:'World', question:'Will Nicolás Maduro leave the Venezuelan presidency before July 2026?', url:'https://polymarket.com/markets', prob:0.62, change24h:0.41, volume24h:840000, liquidity:120000, index:94, raw:0.94, E:0, Q:0.82, label:'Unexplained', deep:true,
-      contributions:[{key:'runUp',weight:0.30,score:0.95},{key:'concentration',weight:0.25,score:0.9},{key:'vpin',weight:0.25,score:0.8},{key:'priceImpact',weight:0.2,score:0.6}],
-      detectors:{ runUp:{ score:0.95, carStar:3.9, car:12.1, n:9, mu:0.001, sigma:0.18, sigma_move:3.9, dir:'up', explain:'Implied probability drifted up 3.9σ beyond this market’s normal swings over the pre-event window (Keown–Pinkerton).' },
-        vpin:{ score:0.8, vpin:0.80, nBuckets:50, nTrades:610, explain:'80% of recent volume pushed one direction — the order-flow imbalance (VPIN) that flags informed trading.' },
-        priceImpact:{ score:0.6, lambda:0.014, amihud:'3.1e-5', impactRatio:5.2, explain:'A large move on little resting capital — a 5.2× liquidity vacuum vs this market’s normal price impact (Kyle’s λ, Amihud).' },
-        concentration:{ score:0.9, hhi:0.41, top1:0.62, nWallets:38, fresh:true, topWallet:'0x9f…4a2c', explain:'One account was 62% of recent buying (HHI 0.41, from a wallet first active hours before the move) — concentrated, not crowd-driven.' },
-        news:{ E:0, explained:false, preEvent:true, explain:'The sharp move PRECEDED the first public headline — a pre-event gap (unexplained).' } },
-      series:[{t:1,p:0.20},{t:2,p:0.19},{t:3,p:0.21},{t:4,p:0.20},{t:5,p:0.22},{t:6,p:0.21},{t:7,p:0.34},{t:8,p:0.46},{t:9,p:0.55},{t:10,p:0.60},{t:11,p:0.62}],
-      onchain:{ hhi:0.41, top1:0.62, fresh:true, nWallets:38, topWallets:[{wallet:'0x9f…4a2c',share:0.62,usd:520000},{wallet:'0x3a…9b11',share:0.11,usd:92000},{wallet:'0x77…02de',share:0.06,usd:50000}] },
-      movedAt:Date.now()-6*3600000 },
-    { id:'s-cpi', platform:'kalshi', category:'Economics', question:'Will the May CPI report show year-over-year inflation above 3.4%?', url:'https://kalshi.com/markets', prob:0.58, change24h:0.28, volume24h:210000, liquidity:60000, index:71, raw:0.71, E:0, Q:0.74, label:'Unexplained', deep:true,
-      contributions:[{key:'runUp',weight:0.40,score:0.82},{key:'priceImpact',weight:0.27,score:0.55},{key:'vpin',weight:0.33,score:0.4}],
-      detectors:{ runUp:{ score:0.82, carStar:3.3, car:7.4, n:5, mu:0.0, sigma:0.12, sigma_move:3.3, dir:'up', explain:'Implied probability drifted up 3.3σ beyond this market’s normal swings before the scheduled release (Keown–Pinkerton).' },
-        priceImpact:{ score:0.55, lambda:0.009, amihud:'1.8e-5', impactRatio:3.1, explain:'A sharp move on modest volume — 3.1× this market’s normal price impact (Kyle’s λ, Amihud).' },
-        news:{ E:0, explained:false, preEvent:true, explain:'The move landed before the data was public — a pre-event gap (unexplained).' } },
-      series:[{t:1,p:0.30},{t:2,p:0.31},{t:3,p:0.30},{t:4,p:0.32},{t:5,p:0.31},{t:6,p:0.33},{t:7,p:0.44},{t:8,p:0.52},{t:9,p:0.58}],
-      movedAt:Date.now()-9*3600000 },
-    { id:'s-fed', platform:'kalshi', category:'Economics', question:'Will the Federal Reserve cut rates at its June 2026 meeting?', url:'https://kalshi.com/markets', prob:0.41, change24h:0.06, volume24h:480000, liquidity:140000, index:24, raw:0.24, E:0.62, Q:0.86, label:'Partially explained', deep:true,
-      contributions:[{key:'runUp',weight:0.55,score:0.34},{key:'priceImpact',weight:0.45,score:0.2}],
-      detectors:{ runUp:{ score:0.34, carStar:1.4, car:3.1, n:5, mu:0.0, sigma:0.1, sigma_move:1.4, dir:'up', explain:'A modest move, within this market’s usual range.' },
-        news:{ E:0.62, explained:true, preEvent:false, credibility:'news', headline:'Officials signal patience on rate path, minutes show', source:'Reuters', explain:'A credible public headline around this move plausibly explains it (explained).' } },
-      series:[{t:1,p:0.36},{t:2,p:0.37},{t:3,p:0.38},{t:4,p:0.37},{t:5,p:0.39},{t:6,p:0.40},{t:7,p:0.41}],
-      movedAt:Date.now()-3*3600000 } ];
 
   ENGINE_CONTROLS = [
     { key:'who', label:'Who traded', helper:'identity of the trader',
@@ -1369,128 +1540,100 @@ class Component extends DCLogic {
       onReset:()=> this.setState({ who:'private', source:'public', duty:'none', instrument:'sports', venue:'kalshi', conduct:'none', concealed:false })
     };
 
-    // ---- surveillance :: live full-market scanner (control bar + filters + watchlist + inspector) ----
-    const SC = this.SCOPE;
+    // ---- surveillance :: live full-market scanner (ported reference UI) ----
     const isLive = !!(s.survMarkets && s.survMarkets.length);
-    const source = isLive ? s.survMarkets : this.SAMPLE_MARKETS;
-    const fPlat = s.survPlat || 'all', fCat = s.survCat || 'all', fSort = s.survSort || 'suspicion';
-    const fQ = (s.survSearch || '').trim().toLowerCase();
+    const all = isLive ? this.survLiveCards(s.survMarkets) : (this._survSample || (this._survSample = this.survBuildSample()));
+    // websocket live tick: overlay the open market's latest price onto its series
+    if (s.survWs && s.survWs.id && s.survWs.p != null){
+      const lm = all.find(x=>x.id===s.survWs.id);
+      if (lm && lm.prob && lm.prob.length){ const p=Math.max(0.01,Math.min(0.99,s.survWs.p)); lm.prob=lm.prob.slice(); lm.prob[lm.prob.length-1]=p; }
+    }
+    const ORDER = ['Politics','Elections','Economics','Finance','Crypto','Commodities','Climate','Culture','Mentions','Tech & Science','Sports','World'];
+    const present = [...new Set(all.map(m=>m.category))];
+    const allCats = present.slice().sort((a,b)=>{ const ia=ORDER.indexOf(a), ib=ORDER.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib) || a.localeCompare(b); });
 
-    // category chips are DERIVED from the live data, not hardcoded
-    const catCounts = {}; source.forEach((m)=>{ catCounts[m.category] = (catCounts[m.category]||0)+1; });
-    const catNames = Object.keys(catCounts).sort((a,b)=> catCounts[b]-catCounts[a] || a.localeCompare(b));
+    const sp = s.survPlatform||'all', scat = s.survCats||[], ssort=s.survSort||'suspicion', sthr=s.survThreshold||0, sq=(s.survSearch||'').trim().toLowerCase();
+    let list = all.filter(m =>
+      (sp==='all'||m.platform===sp) && (scat.length===0||scat.includes(m.category)) && m.score>=sthr &&
+      (sq===''||m.question.toLowerCase().includes(sq)||m.category.toLowerCase().includes(sq)||m.platform.includes(sq)));
+    if (ssort==='suspicion') list.sort((a,b)=>b.score-a.score);
+    else if (ssort==='recent') list.sort((a,b)=>a.recencyMins-b.recencyMins);
+    else if (ssort==='volume') list.sort((a,b)=>b.volume-a.volume);
 
-    let vis = source.filter((m)=>{
-      if (fPlat!=='all' && m.platform!==fPlat) return false;
-      if (fCat!=='all' && m.category!==fCat) return false;
-      if (fQ && !((m.question||'').toLowerCase().includes(fQ))) return false;
-      return true;
-    });
-    const sorters = { suspicion:(a,b)=> b.index-a.index, volume:(a,b)=> (b.volume24h||0)-(a.volume24h||0), recent:(a,b)=> (b.movedAt||0)-(a.movedAt||0) };
-    vis = vis.slice().sort(sorters[fSort] || sorters.suspicion);
+    // clock
+    const now=new Date(s.survNow||Date.now());
+    let clockText='--:--:--', tzLabel='ET';
+    try { clockText=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(now); } catch(e){}
+    try { tzLabel=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',timeZoneName:'short'}).formatToParts(now).find(p=>p.type==='timeZoneName').value; } catch(e){}
 
-    const selId = vis.find((m)=>m.id===s.survSel) ? s.survSel : (vis[0] && vis[0].id);
-    const g = vis.find((m)=>m.id===selId) || vis[0] || null;
+    const cov = (isLive && s.survCoverage) ? s.survCoverage : null;
+    const T = s.survStatT!=null ? s.survStatT : 1;
+    const scannedN = cov ? (cov.scanned||all.length) : 2847;
+    const flaggedN = cov ? (cov.flagged|| all.filter(m=>m.score>=40).length) : all.length;
+    const highN = cov ? (cov.high|| all.filter(m=>m.score>70).length) : all.filter(m=>m.score>70).length;
+    const scannedStr=Math.round(scannedN*T).toLocaleString('en-US'), flaggedStr=String(Math.round(flaggedN*T)), highStr=String(Math.round(highN*T));
+    let updatedAgo;
+    if (isLive && s.survFeedAt) updatedAgo=Math.max(0,Math.floor((Date.now()-Date.parse(s.survFeedAt))/1000));
+    else updatedAgo=Math.max(0,Math.floor(((s.survNow||Date.now())-(s.survUpdatedAt||Date.now()))/1000));
 
-    // platform filter chips (with the platform's colour dot)
-    const platChips = [['all','All'],['kalshi','Kalshi'],['polymarket','Polymarket']].map(([id,label])=>{
-      const on = fPlat===id; const pm = id==='all' ? null : this.platMeta(id); const ac = pm ? pm.color : '#E5E7EB';
-      return { id, label, active:on, hasDot:!!pm, dot: pm ? `width:7px;height:7px;border-radius:50%;background:${pm.color};box-shadow:0 0 6px ${pm.color}` : '',
-        style:`display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid ${on?ac:SC.bd};background:${on?(pm?pm.soft:'rgba(229,231,235,.06)'):'#0F1513'};color:${on?ac:SC.mut};transition:all .15s`,
-        onClick:()=> this.setState({ survPlat:id, survSel:null }) };
-    });
-    // category chips (All + every category the feed returned)
-    const catChips = [{ id:'all', label:'All' }].concat(catNames.map((c)=>({ id:c, label:c }))).map((c)=>{
-      const on = fCat===c.id;
-      return { id:c.id, label: c.label + (c.id!=='all' ? (' · ' + catCounts[c.id]) : ''), active:on,
-        style:`padding:5px 11px;border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;cursor:pointer;border:1px solid ${on?'rgba(229,231,235,.4)':SC.bd};background:${on?'rgba(229,231,235,.06)':'#0F1513'};color:${on?SC.ink:SC.mut};transition:all .15s`,
-        onClick:()=> this.setState({ survCat:c.id, survSel:null }) };
-    });
-    // sort buttons
-    const sortBtns = [['suspicion','Suspicion'],['recent','Most recent'],['volume','Volume']].map(([id,label])=>{
-      const on = fSort===id;
-      return { id, label, active:on,
-        style:`padding:5px 11px;border-radius:7px;font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;cursor:pointer;border:1px solid ${on?'rgba(52,211,153,.4)':SC.bd};background:${on?'rgba(52,211,153,.08)':'#0F1513'};color:${on?'#34D399':SC.mut};transition:all .15s`,
-        onClick:()=> this.setState({ survSort:id }) };
-    });
+    const platformBtns=[{key:'all',label:'All',color:'#34D399'},{key:'kalshi',label:'Kalshi',color:'#34D399'},{key:'polymarket',label:'Polymarket',color:'#A78BFA'}]
+      .map(b=>({ label:b.label, onClick:()=>this.setState({survPlatform:b.key}), style:this.segStyle(sp===b.key,b.color) }));
+    const sortBtns=[{key:'suspicion',label:'Suspicion'},{key:'recent',label:'Recent'},{key:'volume',label:'Volume'}]
+      .map(b=>({ label:b.label, onClick:()=>this.setState({survSort:b.key}), style:this.segStyle(ssort===b.key,'#34D399') }));
+    const base=all.filter(m=>(sp==='all'||m.platform===sp)&&m.score>=sthr&&(sq===''||m.question.toLowerCase().includes(sq)||m.category.toLowerCase().includes(sq)));
+    const cats=allCats.map(c=>{ const active=scat.includes(c); const count=base.filter(m=>m.category===c).length;
+      return { name:c, count,
+        onClick:()=>this.setState(st=>{ const arr=st.survCats||[]; const has=arr.includes(c); return { survCats: has?arr.filter(x=>x!==c):arr.concat(c) }; }),
+        style:'display:flex;align-items:center;gap:6px;border:1px solid '+(active?'#2e5546':'#1B2521')+';border-radius:7px;padding:5px 9px;font-family:\'JetBrains Mono\',monospace;font-size:10.5px;cursor:pointer;transition:all .16s;background:'+(active?'#13251d':'#0c1110')+';color:'+(active?'#34D399':'#8A938F')+';'+(active?'box-shadow:0 0 9px #34d39922;':''),
+        countStyle:'font-size:9px;color:'+(active?'#34D399':'#5d6864')+';background:'+(active?'#1c3a2e':'#141b18')+';border-radius:4px;padding:1px 5px;' }; });
+    const overviewBtnStyle='border:1px solid '+(s.survOverview?'#2e5546':'#1B2521')+';border-radius:8px;padding:7px 13px;font-family:\'JetBrains Mono\',monospace;font-size:11px;cursor:pointer;transition:all .18s;background:'+(s.survOverview?'#13251d':'#0c1110')+';color:'+(s.survOverview?'#34D399':'#8A938F')+';'+(s.survOverview?'box-shadow:0 0 10px #34d39922;':'');
 
-    // ranked watchlist cards
-    const rows = vis.map((m)=>{
-      const pm = this.platMeta(m.platform); const seld = !!(g && g.id===m.id);
-      const ic = this.idxColor(m.index); const lm = this.labelMeta(m.label); const tops = this.topMethods(m);
-      return { id:m.id, question:m.question, url:m.url || '#', platLabel:pm.label, platColor:pm.color, platSoft:pm.soft,
-        category:m.category, index:String(m.index), indexColor:ic, label:lm.text, labelColor:lm.color,
-        topLine: tops.length ? tops.map((t)=> t.name + ' · ' + t.metric).join('     ') : 'preliminary scan',
-        sparkEl:this.survSpark(m, pm.color), selected:seld,
-        platTagStyle:`font-family:'JetBrains Mono', monospace;font-size:9.5px;color:${pm.color};padding:2px 8px;border-radius:5px;border:1px solid ${pm.bd};background:${pm.soft}`,
-        titleStyle:`color:${pm.color};text-decoration:none`,
-        rowStyle:`cursor:pointer;border-radius:11px;padding:14px 15px;border:1px solid ${seld?pm.bd:SC.bd};border-left:${seld?'3px solid '+pm.color:'1px solid '+SC.bd};background:${seld?pm.soft:'#0F1513'};transition:background .15s,border-color .15s`,
-        aria:`${m.question}. ${pm.label}. ${m.category}. Suspicion ${m.index} of 100. ${lm.text}.`,
-        onSelect:()=> this.selectSignal(m.id),
-        onKey:(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.selectSignal(m.id); } },
-        onLink:(e)=> e.stopPropagation() };
-    });
+    const rows=list.map(m=>{ const color=m.platform==='kalshi'?'#34D399':'#A78BFA'; const sevc=this.sev(m.score); const selected=m.id===s.survSel;
+      const tops=m.detectors.slice().sort((a,b)=>b.sub-a.sub).slice(0,2);
+      const chips=tops.map(d=>({ text:d.chip+' · '+d.valueStr, style:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;color:#9aa39e;border:1px solid #1f2a26;background:#0c1110;border-radius:5px;padding:3px 7px;white-space:nowrap;' }));
+      return { id:m.id, question:m.question, url:m.url, category:m.category, platformLabel:m.platform==='kalshi'?'Kalshi':'Polymarket',
+        scoreStr:String(m.score), scoreColor:sevc, meterW:m.score+'%', meterColor:sevc, meterGlow:sevc+'66',
+        chips, spark:this.spark(m), updatedAgo:m.updatedAgo, onSelect:()=>this.selectSurv(m.id), stop:(e)=>{ e.stopPropagation(); },
+        tagStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;font-weight:600;letter-spacing:.04em;color:'+color+';border:1px solid '+color+'44;background:'+color+'14;border-radius:5px;padding:2px 8px;',
+        linkStyle:'font-size:14.5px;font-weight:500;line-height:1.34;color:#E5E7EB;text-decoration:none;letter-spacing:-.005em;text-wrap:pretty;flex:1;',
+        rowStyle:'cursor:pointer;border:1px solid '+(selected?color+'66':'#1B2521')+';border-left:3px solid '+(selected?color:'#1B2521')+';background:'+(selected?'#121d18':'#0d1311')+';border-radius:11px;padding:13px 15px;display:flex;flex-direction:column;gap:9px;transition:all .18s;'+(selected?('box-shadow:-4px 0 22px -10px '+color+',0 0 0 1px '+color+'22;'):'') }; });
 
-    // inspector for the selected market
-    const summarize = (m)=>{
-      const t = this.topMethods(m)[0];
-      const base = t ? (t.name.toLowerCase() + ' (' + t.metric + ')') : 'an unusual move';
-      if (m.label==='Low-liquidity artifact') return 'A swing on a thin book — small trades can move the price here, so this is flagged as a possible low-liquidity artifact rather than informed trading.';
-      if (m.label==='Explained') return 'A sharp move that lines up with a credible public headline around the same time, so it most likely has a public cause.';
-      if (m.label==='Unexplained') return 'A ' + base + ' with no public news to explain it around the move — the pre-event pattern a surveillance desk escalates for a closer look.';
-      return 'A ' + base + ', partially explained by public context near the move.';
-    };
-    let sel = { has:false, methods:[], onchain:null };
-    if (g){
-      const pm = this.platMeta(g.platform); const ic = this.idxColor(g.index); const lm = this.labelMeta(g.label);
-      const mOpen = s.mathOpen || {};
-      sel = { has:true, question:g.question, url:g.url || '#', platLabel:pm.label, platColor:pm.color, platSoft:pm.soft, platBd:pm.bd,
-        category:g.category, index:String(g.index), indexColor:ic, label:lm.text, labelColor:lm.color,
-        summary:summarize(g), chartEl:this.survChart(g),
-        titleStyle:`color:${pm.color};text-decoration:none`,
-        methods:this.methodRows(g).map((r)=>({ key:r.key, name:r.name, tag:r.tag, metric:r.metric||'—', plain:r.plain, formula:r.formula,
-          math:r.math||[], fired:r.fired, context:r.context, firedLabel:r.context?'context':(r.fired?'fired':'quiet'),
-          firedStyle:`font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.04em;padding:1px 7px;border-radius:5px;color:${r.fired?pm.color:SC.mut};border:1px solid ${r.fired?pm.bd:SC.bd}`,
-          mathOpen:!!mOpen[r.key], mathIcon:mOpen[r.key]?'hide the math −':'show the math +',
-          onToggleMath:()=> this.setState((st)=>{ const o=Object.assign({},st.mathOpen); o[r.key]=!o[r.key]; return { mathOpen:o }; }) })),
-        isPoly:g.platform==='polymarket', isKalshi:g.platform==='kalshi',
-        onchain:(g.platform==='polymarket' && g.onchain) ? {
-          hhi:g.onchain.hhi!=null?(+g.onchain.hhi).toFixed(2):'—', top1:g.onchain.top1!=null?Math.round(g.onchain.top1*100)+'%':'—',
-          fresh:g.onchain.fresh?'yes':'no', nWallets:String(g.onchain.nWallets||0),
-          wallets:(g.onchain.topWallets||[]).map((w)=>({ wallet:w.wallet, share:Math.round((w.share||0)*100)+'%', usd:'$'+this._k(w.usd||0) })) } : null,
-        gap:'A violation would still require misappropriated material nonpublic information or a breached duty. The trading pattern alone proves neither, and the trader is presumed innocent.',
-        coverageNote: g.deep ? null : 'Preliminary score from the market listing; the full price-history detectors run when this market reaches the deep-scan set.' };
+    let selM=list.find(m=>m.id===s.survSel)||list[0]||all.find(m=>m.id===s.survSel)||all[0]||null;
+    let insp=null;
+    if (selM){ const color=selM.platform==='kalshi'?'#34D399':'#A78BFA'; const sevc=this.sev(selM.score);
+      const labelColor=selM.label==='Unexplained'?'#F87171':selM.label==='Partially explained'?'#FBBF24':selM.label==='Explained'?'#34D399':'#8A938F';
+      const detectors=selM.detectors.map(d=>({ name:d.name, sentence:d.sentence, valueStr:d.valueStr, formula:d.formula, plugged:d.plugged,
+        valColor:this.sev(d.sub), mathOpen:!!(s.survMath||{})[selM.id+d.key], chevron:(s.survMath||{})[selM.id+d.key]?'rotate(90deg)':'rotate(0deg)',
+        onToggle:()=>this.setState(st=>({ survMath:Object.assign({},st.survMath,{ [selM.id+d.key]:!(st.survMath||{})[selM.id+d.key] }) })),
+        cardStyle:'border:1px solid #161e1b;background:#0c1110;border-radius:9px;padding:11px 13px;' }));
+      const probViewBtns=[['pct','%'],['logodds','log-odds']].map(v=>({ label:v[1], onClick:()=>this.setState({survProbView:v[0]}), style:this.segStyle((s.survProbView||'pct')===v[0],'#34D399') }));
+      const wallets=selM.wallets.map(w=>({ addr:w.addr, pct:w.pct, barW:Math.round((w.share||0)*100)+'%', fresh:w.fresh, url:w.url }));
+      const clusters=(selM.clusters||[]).map(c=>({ text:c.size+' wallets entered within ~'+c.windowMin+' min, '+Math.round(c.share*100)+'% of buying combined' }));
+      insp={ question:selM.question, url:selM.url, category:selM.category, platformLabel:selM.platform==='kalshi'?'Kalshi':'Polymarket', platformColor:color,
+        scoreStr:String(selM.score), scoreColor:sevc, meterW:selM.score+'%', meterColor:sevc, meterGlow:sevc+'77', label:selM.label, summary:selM.summary,
+        headBg:'linear-gradient(180deg,'+color+'0b,transparent)', bandColor:color+'22',
+        tagStyle:'font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;letter-spacing:.05em;color:'+color+';border:1px solid '+color+'55;background:'+color+'1a;border-radius:6px;padding:3px 10px;',
+        labelStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;font-weight:600;letter-spacing:.06em;color:'+labelColor+';border:1px solid '+labelColor+'44;background:'+labelColor+'12;border-radius:6px;padding:3px 9px;',
+        probChart:this.probChart(selM,s.survProbView||'pct'), probViewBtns, radar:this.radar(selM), detectors,
+        isPoly:selM.platform==='polymarket', isKalshi:selM.platform==='kalshi', wallets, gauge:this.gauge(selM.hhi),
+        hasClusters:clusters.length>0, clusters, onRegimes:()=>this.setState({activeTab:'engine'}),
+        live:!!(s.survWs&&s.survWs.id===selM.id&&s.survWs.p!=null), liveStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.1em;color:#34D399;border:1px solid #2e5546;background:#10231b;border-radius:5px;padding:2px 7px;' };
     }
 
-    // coverage + heartbeat
-    const cov = (isLive && s.survCoverage) ? s.survCoverage : null;
-    const scanCount = cov ? (cov.scanned||source.length) : source.length;
-    const flaggedCount = cov ? (cov.flagged||0) : source.filter((m)=>m.index>=40).length;
-    const highCount = cov ? (cov.high||0) : source.filter((m)=>m.index>=70).length;
-    let updated = 'sample data';
-    if (isLive){ const sec = Math.max(0, Math.round((Date.now()-(s.survUpdatedAt?Date.parse(s.survUpdatedAt):Date.now()))/1000));
-      updated = sec<5 ? 'updated just now' : sec<90 ? ('updated '+sec+'s ago') : ('updated '+Math.round(sec/60)+'m ago'); }
-
     const surv = {
-      clock:s.clock, updating:!!s.survUpdating, isLive,
-      scanCount:String(scanCount), flaggedCount:String(flaggedCount), highCount:String(highCount), updated,
-      feedText: isLive ? 'LIVE' : 'SAMPLE',
+      showScan: !s.survReduce, isLive,
+      clockText, tzLabel, scannedStr, flaggedStr, highStr, updatedAgo, pulseKey:s.survPulse||0,
+      feedText: isLive?'LIVE FEED':'SAMPLE FEED · LIVE WIRING PENDING',
       feedStyle: isLive
-        ? `font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;color:#34D399;padding:4px 10px;border-radius:999px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.07);white-space:nowrap`
-        : `font-family:'JetBrains Mono', monospace;font-size:10px;font-weight:600;color:#8A938F;padding:4px 10px;border-radius:999px;border:1px solid #1B2521;background:#0F1513;white-space:nowrap`,
-      platChips, catChips, sortBtns, search:s.survSearch||'',
-      onSearch:(e)=> this.setState({ survSearch:e.target.value, survSel:null }),
-      rows, empty: rows.length===0, sel,
-      glossary:[
-        { name:'1 · Pre-event run-up', tag:'KEOWN–PINKERTON', desc:'Did the price drift toward the outcome before any news? We standardise the move in σ against this market’s own normal swings (an event-study CAR*), so a quiet market needs only a small move to flag. (Keown & Pinkerton 1981; FINRA SONAR.)' },
-        { name:'2 · Order-flow toxicity (VPIN)', tag:'EASLEY–LdP–O’HARA', desc:'When informed money trades, buys and sells stop balancing. VPIN measures the one-sided share of volume — the order-flow imbalance that precedes informed moves. (Easley, López de Prado & O’Hara.)' },
-        { name:'3 · Liquidity vacuum (Kyle’s λ)', tag:'KYLE 1985 · AMIHUD', desc:'How far did the price move per dollar traded? A big move on a thin book — high Kyle’s λ / Amihud illiquidity — is the fingerprint of someone trading on conviction. (Kyle 1985; Amihud 2002.)' },
-        { name:'4 · Trader concentration (HHI)', tag:'HERFINDAHL · ON-CHAIN', desc:'One wallet or a crowd? The Herfindahl index over per-wallet buying, plus the top wallet’s share and a fresh-wallet flag. Polymarket only — Kalshi trades are anonymous. (Chainalysis; on-chain data.)' },
-        { name:'5 · News-context gap', tag:'SONAR', desc:'Every flagged move is checked against a public-headline search around the same time. A credible headline near the move explains it (lower score); an unexplained pre-event move stays escalated. (SONAR-style fusion.)' }
-      ],
-      glossaryOpen:!!s.glossaryOpen, glossaryIcon: s.glossaryOpen?'−':'+',
-      onToggleGlossary:()=> this.setState((st)=>({ glossaryOpen:!st.glossaryOpen })),
-      onSeeRegimes:()=> this.setState({ activeTab:'engine' })
+        ? 'z-index:1;display:flex;align-items:center;gap:7px;border:1px solid #2e5546;background:#10231b;border-radius:7px;padding:6px 11px;font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:.12em;color:#34D399;'
+        : 'z-index:1;display:flex;align-items:center;gap:7px;border:1px solid #3a3320;background:#19150a;border-radius:7px;padding:6px 11px;font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:.12em;color:#FBBF24;',
+      feedDot: isLive?'width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 6px #34d399;':'width:6px;height:6px;border-radius:50%;background:#FBBF24;box-shadow:0 0 6px #fbbf24;',
+      searchVal:s.survSearch||'', onSearch:(e)=>this.setState({survSearch:e.target.value}),
+      platformBtns, sortBtns, cats, threshold:sthr, onThreshold:(e)=>this.setState({survThreshold:Number(e.target.value)}),
+      overview:!!s.survOverview, onOverview:()=>this.setState(st=>({survOverview:!st.survOverview})), overviewBtnStyle,
+      overviewEl: s.survOverview?this.buildOverview(all):null,
+      visibleCount:list.length, sortLabel: ssort==='suspicion'?'suspicion':ssort==='recent'?'most recent':'volume',
+      rows, noResults:list.length===0, hasSel:!!insp, insp,
     };
 
     // ---- case files ----
