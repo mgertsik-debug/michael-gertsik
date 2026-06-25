@@ -1,8 +1,8 @@
 {
   "watermark": {
-    "offset": 0
+    "offset": 100
   },
-  "reviewed": 4594,
+  "reviewed": 10482,
   "screened": {
     "0x55c24adf4639932a8f64752de8e3232e7700a8c7": {
       "address": "0x55c24adf4639932a8f64752de8e3232e7700a8c7",
@@ -54,6 +54,38 @@
           "ts": 1781685728,
           "tx": "0x516120146d0a1b0c8a82421e64ec839c4bb44c286bbf3e768056afb24a490fc1",
           "resolvedMs": 1781820167000
+        },
+        {
+          "cond": "0xe776a0637704c4afdc6ad5eeda3589567c338897db8adeb547dc3adee58e034d",
+          "tokenId": "102615483156438068793024350172881053527600785316489668955915562343189756655314",
+          "question": "Arcium FDV above $100M one day after launch?",
+          "url": "https://polymarket.com/event/arcium-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "arcium-fdv-above-one-day-after-launch",
+          "entryPrice": 0.029030591775325982,
+          "stakeUsd": 1,
+          "outcome": "NO",
+          "won": false,
+          "held": false,
+          "ts": 1782033050,
+          "tx": "0x0e6d4c6eacf7056bc9e5712c3a03c0ca1b96a162ddda0d1ab20f3cc44255a6a2",
+          "resolvedMs": 1782252152000
+        },
+        {
+          "cond": "0xca84e29ab9dec7ec74fedcb1c8b9565d7faa42e130a77a7c146c8ca72e03972a",
+          "tokenId": "47283120589701921732730916307441826959659527549190926551411913659513036419328",
+          "question": "Tea FDV above $80M one day after launch",
+          "url": "https://polymarket.com/event/tea-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "tea-fdv-above-one-day-after-launch",
+          "entryPrice": 0.9499999995353261,
+          "stakeUsd": 920,
+          "outcome": "NO",
+          "won": true,
+          "held": true,
+          "ts": 1780539946,
+          "tx": "0x909118314a80e18612d0526cfe32736056f52180cad878c766621a5c0dc0b0e4",
+          "resolvedMs": 1780610781000
         }
       ],
       "firstSeenTs": 1776323080,
@@ -62,12 +94,13 @@
       "funderLabel": null,
       "priorTx": null,
       "cashoutLatencyHours": null,
-      "lastEnrichedTs": 1782424055,
-      "lastTs": 1781951200,
+      "lastEnrichedTs": 1782424411,
+      "lastTs": 1782033050,
       "lastResolvedMs": 1782252152000,
       "entryByEvent": {
         "arcium-fdv-above-one-day-after-launch": 1781951200,
-        "o1-fdv-above-one-day-after-launch": 1781685649
+        "o1-fdv-above-one-day-after-launch": 1781685649,
+        "tea-fdv-above-one-day-after-launch": 1780539946
       }
     },
     "0x16351b85a6160e7a3759ec20603e7c14e4245624": {
@@ -184,6 +217,198 @@
           "ts": 1780124535,
           "tx": "0xa8e51dcf0692c46046c65ce8fbcaefe292ba92a415e88fb1176f076efea942fc",
           "resolvedMs": 1781778226000
+        },
+        {
+          "cond": "0x167b740c7a0348b56b62d26b9199e216b6b137d19bb95d51d48017b27c0251df",
+          "tokenId": "11887920330854540704550598650793365450029708835624585066609675245318594299893",
+          "question": "Will Arcium launch a token by December 31, 2027?",
+          "url": "https://polymarket.com/event/will-arcium-launch-a-token-by",
+          "category": "Crypto",
+          "eventGroup": "will-arcium-launch-a-token-by",
+          "entryPrice": 0.9799999999999999,
+          "stakeUsd": 570,
+          "outcome": "YES",
+          "won": true,
+          "held": false,
+          "ts": 1781092942,
+          "tx": "0xc90f277d9f0957c52faf041fbd7428212f055dd216c6ecabf6f5a392477f5bb7",
+          "resolvedMs": 1782130735000
+        },
+        {
+          "cond": "0x89ce5907577089f0e410323052f114304af188acd790fc5576221cdc26d952c0",
+          "tokenId": "77484303802975892606741489202292761706037197698435876344607417319857411345581",
+          "question": "Will Arcium launch a token by September 30, 2027?",
+          "url": "https://polymarket.com/event/will-arcium-launch-a-token-by",
+          "category": "Crypto",
+          "eventGroup": "will-arcium-launch-a-token-by",
+          "entryPrice": 0.8699999999999999,
+          "stakeUsd": 161,
+          "outcome": "YES",
+          "won": true,
+          "held": true,
+          "ts": 1780366742,
+          "tx": "0xcd9fc4f403b51988ab50d9c2b28af17cc8b872b9408309c1ebd20a976ef886fa",
+          "resolvedMs": 1782130735000
+        },
+        {
+          "cond": "0xbb09fb2b6723857a05c8205a62d8f197df8548ed5763d8326542740961af7342",
+          "tokenId": "46047124904390455096521479721183383725065916521299369652191616978133350715385",
+          "question": "Will Reppo launch a token by December 31, 2026?",
+          "url": "https://polymarket.com/event/will-reppo-launch-a-token-by",
+          "category": "Crypto",
+          "eventGroup": "will-reppo-launch-a-token-by",
+          "entryPrice": 0.25375845652718615,
+          "stakeUsd": 61,
+          "outcome": "YES",
+          "won": false,
+          "held": false,
+          "ts": 1780652950,
+          "tx": "0xb6237fd98a120a342bdb63f3c5a180e10c4b208d7bdeddf5fa2520f6aa5ed4d6",
+          "resolvedMs": 1781212304000
+        },
+        {
+          "cond": "0xb97711083adb39b218473a5b5c564944e0841a3cb566f5d3fe1bbddd7e5d90a6",
+          "tokenId": "17915836821995539419676313793853017320007348337432492516929024658469845877705",
+          "question": "Arcium FDV above $300M one day after launch?",
+          "url": "https://polymarket.com/event/arcium-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "arcium-fdv-above-one-day-after-launch",
+          "entryPrice": 0.5646891508149532,
+          "stakeUsd": 726,
+          "outcome": "NO",
+          "won": false,
+          "held": false,
+          "ts": 1782040622,
+          "tx": "0x5ba4a09e260b18d5d129cf352392ac8c3ace35185a86052572e839d621811395",
+          "resolvedMs": 1782252226000
+        },
+        {
+          "cond": "0xca84e29ab9dec7ec74fedcb1c8b9565d7faa42e130a77a7c146c8ca72e03972a",
+          "tokenId": "47283120589701921732730916307441826959659527549190926551411913659513036419328",
+          "question": "Tea FDV above $80M one day after launch",
+          "url": "https://polymarket.com/event/tea-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "tea-fdv-above-one-day-after-launch",
+          "entryPrice": 0.7936638686497923,
+          "stakeUsd": 2450,
+          "outcome": "NO",
+          "won": true,
+          "held": true,
+          "ts": 1779884370,
+          "tx": "0xad324fa304ec182978fc85030c0bb7f4e62d10bd1426a64785492709baf9b47f",
+          "resolvedMs": 1780610781000
+        },
+        {
+          "cond": "0x26cb781190641cf961d7a487ca4abf104ca2b5a29ea28ff884fcf8b5234534b5",
+          "tokenId": "97171989751606876999413882821895492455342601307803631173906535258009416387527",
+          "question": "Tea FDV above $100M one day after launch",
+          "url": "https://polymarket.com/event/tea-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "tea-fdv-above-one-day-after-launch",
+          "entryPrice": 0.7389212224108659,
+          "stakeUsd": 435,
+          "outcome": "NO",
+          "won": true,
+          "held": false,
+          "ts": 1779944107,
+          "tx": "0x6e66910f575f99556c2b77a49f487691da2003f65e1406bd21debdc01f538669",
+          "resolvedMs": 1780610629000
+        },
+        {
+          "cond": "0x5bcd228a5247c3d0c391c0a28018d24cda62e1af75b90c7acd88303d0c056a91",
+          "tokenId": "94632904930414020734154585993983533607182191600171748059504463612917150420559",
+          "question": "Tea FDV above $200M one day after launch",
+          "url": "https://polymarket.com/event/tea-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "tea-fdv-above-one-day-after-launch",
+          "entryPrice": 0.905258753526302,
+          "stakeUsd": 382,
+          "outcome": "NO",
+          "won": true,
+          "held": false,
+          "ts": 1779884425,
+          "tx": "0xddce2986d0d26f65c6c1905c613ab6a72d2d87ed511d50d0a3a6239442029258",
+          "resolvedMs": 1780610809000
+        },
+        {
+          "cond": "0x80063c1b1da29c927383cdcc4b2c9765d8a001ce779f4411f8c46baf754968b8",
+          "tokenId": "41345560506391642665311285334672793382971348585688620645832131792029830078458",
+          "question": "Tea FDV above $150M one day after launch",
+          "url": "https://polymarket.com/event/tea-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "tea-fdv-above-one-day-after-launch",
+          "entryPrice": 0.8543920022304536,
+          "stakeUsd": 1073,
+          "outcome": "NO",
+          "won": true,
+          "held": false,
+          "ts": 1779940253,
+          "tx": "0xcd4c75e9ea80a40b6c843e09ffc7909a41ab96cf5538f542063be7da9f2d674b",
+          "resolvedMs": 1780610836000
+        },
+        {
+          "cond": "0xcfd7c61086f6c8c4694be0ac8947506ab4466c0f466afab52bd253184ab15a90",
+          "tokenId": "41345188030766919840869253767537467616758112968530608615520232603839828287775",
+          "question": "Tea FDV above $300M one day after launch",
+          "url": "https://polymarket.com/event/tea-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "tea-fdv-above-one-day-after-launch",
+          "entryPrice": 0.9412723152632705,
+          "stakeUsd": 968,
+          "outcome": "NO",
+          "won": true,
+          "held": false,
+          "ts": 1779940272,
+          "tx": "0x0c1040a59ccd542bd76405f1cad840456088ced03e41b2a2d03a520c90c0b827",
+          "resolvedMs": 1780610757000
+        },
+        {
+          "cond": "0x8d375f75ef3a0e2958df2f4a190c989f58b6b55d75b1a0dcb0263ebd32d1f9a3",
+          "tokenId": "24868579232142745074357449345637882007761510748998987276474021168098033279834",
+          "question": "XMAQUINA FDV above $300M one day after launch?",
+          "url": "https://polymarket.com/event/xmaquina-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "xmaquina-fdv-above-one-day-after-launch",
+          "entryPrice": 0.91,
+          "stakeUsd": 109,
+          "outcome": "NO",
+          "won": true,
+          "held": true,
+          "ts": 1779520639,
+          "tx": "0xe8e013463ef14bc25f4f2fe29e7a6e6dd12cfc34f6a5236e91f53e07677c6c49",
+          "resolvedMs": 1780006207000
+        },
+        {
+          "cond": "0x8fafe6d111a69654b5d220300f1f7df49706622fd8d73332be1bf3518567cf73",
+          "tokenId": "101489072914008968023235959477422516937789039858092923790329392338008113480637",
+          "question": "XMAQUINA FDV above $20M one day after launch?",
+          "url": "https://polymarket.com/event/xmaquina-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "xmaquina-fdv-above-one-day-after-launch",
+          "entryPrice": 0.9591822992906204,
+          "stakeUsd": 85,
+          "outcome": "YES",
+          "won": true,
+          "held": true,
+          "ts": 1779940498,
+          "tx": "0xeb5244b5138ecb4f93e1380ac96febab1fbdf860793257a2d3101901d793d030",
+          "resolvedMs": 1780006674000
+        },
+        {
+          "cond": "0x6456955f4341952f0a9c8c20a52b64d57c5c72422968f23de0efe103fd32c20a",
+          "tokenId": "22373147642821894062000458419088658795742708543779799027880950321282044079535",
+          "question": "XMAQUINA FDV above $60M one day after launch?",
+          "url": "https://polymarket.com/event/xmaquina-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "xmaquina-fdv-above-one-day-after-launch",
+          "entryPrice": 0.63,
+          "stakeUsd": 38,
+          "outcome": "NO",
+          "won": true,
+          "held": true,
+          "ts": 1779940463,
+          "tx": "0xeb7b0601f19a7ca2b87fafa5ea8445ad798006d52f35700512f73d3a2cc5610b",
+          "resolvedMs": 1780007135000
         }
       ],
       "firstSeenTs": 1777873178,
@@ -192,13 +417,18 @@
       "funderLabel": null,
       "priorTx": null,
       "cashoutLatencyHours": null,
-      "lastEnrichedTs": 1782424055,
-      "lastTs": 1781710877,
-      "lastResolvedMs": 1781820212000,
+      "lastEnrichedTs": 1782424411,
+      "lastTs": 1782040622,
+      "lastResolvedMs": 1782252226000,
       "entryByEvent": {
         "o1-fdv-above-one-day-after-launch": 1780116882,
         "billions-fdv-above-one-day-after-launch": 1777882314,
-        "will-o1-launch-a-token-by": 1780124535
+        "will-o1-launch-a-token-by": 1780124535,
+        "will-arcium-launch-a-token-by": 1780366742,
+        "will-reppo-launch-a-token-by": 1780652950,
+        "arcium-fdv-above-one-day-after-launch": 1782040622,
+        "tea-fdv-above-one-day-after-launch": 1779884370,
+        "xmaquina-fdv-above-one-day-after-launch": 1779520639
       }
     },
     "0xf49ce459b52f60b70ce0fe9aa6203e6bf90f9786": {
@@ -283,6 +513,22 @@
           "ts": 1775562757,
           "tx": "0xb41115d428f2a3cc3fb01de083edfa7151430a05778857c8cf74e5f83f70702b",
           "resolvedMs": 1777159416000
+        },
+        {
+          "cond": "0x7328a2e46f547331b19cc1503e23ab07921d6ac9cc27e4b8c027af7dd644804b",
+          "tokenId": "102401122277485284925059658218291661276279076251044986949977390352135619328092",
+          "question": "Fluent FDV above $50M one day after launch?",
+          "url": "https://polymarket.com/event/fluent-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "fluent-fdv-above-one-day-after-launch",
+          "entryPrice": 0.8875841623251309,
+          "stakeUsd": 1130,
+          "outcome": "YES",
+          "won": true,
+          "held": false,
+          "ts": 1775493155,
+          "tx": "0xeb39bdb43ef92cdf264940607939c64568cbbaa415cb0d46eba4df35f6b4083d",
+          "resolvedMs": 1777159470000
         }
       ],
       "firstSeenTs": 1762589603,
@@ -291,14 +537,129 @@
       "funderLabel": null,
       "priorTx": null,
       "cashoutLatencyHours": null,
-      "lastEnrichedTs": 1782424055,
+      "lastEnrichedTs": 1782424411,
       "lastTs": 1775562777,
       "lastResolvedMs": 1777159474000,
       "entryByEvent": {
         "fluent-fdv-above-one-day-after-launch": 1775492967
       }
+    },
+    "0x9c618081ee8999a11452045bee6a579244f68984": {
+      "address": "0x9c618081ee8999a11452045bee6a579244f68984",
+      "bets": [
+        {
+          "cond": "0xa5cbe242cfc9338962b3647ee476e76f791bcce336be8cd37520fbd6f647adf4",
+          "tokenId": "10756121479102396703554505799957640781073597960792555497494078350954135345944",
+          "question": "Genius FDV above $500M one day after launch?",
+          "url": "https://polymarket.com/event/genius-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "genius-fdv-above-one-day-after-launch",
+          "entryPrice": 0.15137539303674705,
+          "stakeUsd": 1878,
+          "outcome": "YES",
+          "won": true,
+          "held": false,
+          "ts": 1775643437,
+          "tx": "0x7067c2f17dbcd56cf590c80045f2efab2e331ad8be62e80b079cd4f06a51db28",
+          "resolvedMs": 1776204480000
+        },
+        {
+          "cond": "0x2d24e4b819d58b22c3be01294a584ee099e44ab997a8fc9936ec88605aa17561",
+          "tokenId": "44451430731077246297026944035946908061838820408401038481607480634802091308066",
+          "question": "Genius FDV above $300M one day after launch?",
+          "url": "https://polymarket.com/event/genius-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "genius-fdv-above-one-day-after-launch",
+          "entryPrice": 0.285247337900218,
+          "stakeUsd": 2846,
+          "outcome": "YES",
+          "won": true,
+          "held": false,
+          "ts": 1775643475,
+          "tx": "0x291ab71d8b3bc121f729c146eae7305d45174f69c3065d047b372d785930f194",
+          "resolvedMs": 1776204386000
+        },
+        {
+          "cond": "0x48dde8e03d433a324d972b7f425b401c95bde3dec4e534667a592b7bfefde077",
+          "tokenId": "46342670494268054678566055045920038719355734536465506108400244302392473244585",
+          "question": "Genius FDV above $1B one day after launch?",
+          "url": "https://polymarket.com/event/genius-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "genius-fdv-above-one-day-after-launch",
+          "entryPrice": 0.053424247216267894,
+          "stakeUsd": 932,
+          "outcome": "YES",
+          "won": false,
+          "held": true,
+          "ts": 1775643389,
+          "tx": "0xba76410c0b5a392b174416b4aeb1453b1ae43c3cc61233a69ab519b830bc3451",
+          "resolvedMs": 1776204480000
+        }
+      ],
+      "firstSeenTs": 1775643389,
+      "fundingTs": null,
+      "funder": null,
+      "funderLabel": null,
+      "priorTx": null,
+      "cashoutLatencyHours": null,
+      "lastEnrichedTs": 1782424411,
+      "lastTs": 1775643475,
+      "lastResolvedMs": 1776204480000,
+      "entryByEvent": {
+        "genius-fdv-above-one-day-after-launch": 1775643389
+      }
+    },
+    "0x4318fd4d2085d42be27c7d6d8b8e6d6ee84db7ac": {
+      "address": "0x4318fd4d2085d42be27c7d6d8b8e6d6ee84db7ac",
+      "bets": [
+        {
+          "cond": "0x2d24e4b819d58b22c3be01294a584ee099e44ab997a8fc9936ec88605aa17561",
+          "tokenId": "44451430731077246297026944035946908061838820408401038481607480634802091308066",
+          "question": "Genius FDV above $300M one day after launch?",
+          "url": "https://polymarket.com/event/genius-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "genius-fdv-above-one-day-after-launch",
+          "entryPrice": 0.2291259511066517,
+          "stakeUsd": 6843,
+          "outcome": "YES",
+          "won": true,
+          "held": false,
+          "ts": 1775407055,
+          "tx": "0x62dd94b5668bb1f8b8eb7bf1807fba4cba69ee70487d80ba16893e5cd32c9473",
+          "resolvedMs": 1776204386000
+        },
+        {
+          "cond": "0x48dde8e03d433a324d972b7f425b401c95bde3dec4e534667a592b7bfefde077",
+          "tokenId": "46342670494268054678566055045920038719355734536465506108400244302392473244585",
+          "question": "Genius FDV above $1B one day after launch?",
+          "url": "https://polymarket.com/event/genius-fdv-above-one-day-after-launch",
+          "category": "Crypto",
+          "eventGroup": "genius-fdv-above-one-day-after-launch",
+          "entryPrice": 0.032599149446072076,
+          "stakeUsd": 1865,
+          "outcome": "YES",
+          "won": false,
+          "held": true,
+          "ts": 1775408473,
+          "tx": "0xac3df3b256e34c746765688ee2453f1b78bf492dc73d733df1658f30ea6889e1",
+          "resolvedMs": 1776204480000
+        }
+      ],
+      "firstSeenTs": 1775407055,
+      "fundingTs": null,
+      "funder": null,
+      "funderLabel": null,
+      "priorTx": null,
+      "cashoutLatencyHours": null,
+      "lastEnrichedTs": 1782424411,
+      "lastTs": 1775408473,
+      "lastResolvedMs": 1776204480000,
+      "entryByEvent": {
+        "genius-fdv-above-one-day-after-launch": 1775407055
+      }
     }
   },
   "snapshotTs": 1782252226,
-  "flaggedHistory": {}
+  "flaggedHistory": {},
+  "sweeps": 0
 }
