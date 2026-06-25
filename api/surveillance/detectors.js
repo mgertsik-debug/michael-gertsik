@@ -381,12 +381,17 @@ function fuse(dets, ctx, opts) {
   const E = isNum(ctx.E) ? ctx.E : (ctx.news && isNum(ctx.news.E) ? ctx.news.E : 0);
   const mult = isNum(ctx.categoryMult) ? ctx.categoryMult : 1;
   const disc = clip((1 - o.gamma * E) * mult, 0, 1.5);
-  const finalRaw = clip(raw * disc, 0, 1);            // the actual 0..1 the score is built from
+  // COVERAGE-CONFIDENCE: the score is only as trustworthy as how much of the
+  // applicable evidence actually ran. Renormalising over a single lonely check
+  // would let it read ~100 (the inverse of the old "everything is 30"); damping
+  // by ran/total keeps a 1-of-N market modest and makes the number agree with
+  // the "N/M checks ran" badge. Full coverage => factor 1 (no change).
+  const covConf = total > 0 ? ran.length / total : 0;
+  const finalRaw = clip(raw * disc, 0, 1) * covConf;  // the actual 0..1 the score is built from
   const score = Math.round(100 * finalRaw);
   // Per-check points must PARTITION the score: distribute the final (clipped,
-  // multiplier-adjusted) total proportionally to each check's renormalised
-  // weighted sub-score, so Σ points == score (no under/over-count when the
-  // category multiplier scales up or the total saturates at 100).
+  // multiplier-adjusted, coverage-damped) total proportionally to each check's
+  // renormalised weighted sub-score, so Σ points == score in every case.
   const effDisc = raw > 0 ? finalRaw / raw : 0;
   const agreeing = ran.filter((d) => d.sub >= o.agreeSub).length;
   const fullCoverage = ran.length === total && total > 0;

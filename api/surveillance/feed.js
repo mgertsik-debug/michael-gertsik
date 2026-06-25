@@ -125,25 +125,44 @@ function proxyRunUp(prob, change24h) {
 const INS_W = { runUp: 0.30, accumulation: 0.25, concentration: 0.25, longshot: 0.20 };
 const MAN_W = { washTrade: 0.30, ramp: 0.25, vpin: 0.20, priceImpact: 0.25 };
 const dArr = (W, picks) => Object.keys(W).map((k) => ({ key: k, weight: W[k], sub: picks[k] != null ? picks[k] : null }));
-function insiderDets(d) { return dArr(INS_W, { runUp: d.runUp, accumulation: d.accumulation || d.volumeRunup, concentration: d.concentration, longshot: d.longshot }); }
-function manipDets(d) { return dArr(MAN_W, { washTrade: d.washTrade, ramp: d.ramp, vpin: d.vpin, priceImpact: d.priceImpact }); }
+// APPLICABLE detector set is platform-aware (§2 platform asymmetry). Kalshi is
+// anonymous — no wallet ledger — so the wallet-only checks (insider longshot,
+// manipulation wash) are NOT applicable there and are excluded from coverage
+// rather than counted as a permanent missing check. That lets Kalshi reach FULL
+// coverage on the checks it can actually run (so it can be High-signal), and
+// keeps the score honest instead of capping Kalshi at 3/4 forever.
+function insiderDets(d, platform) {
+  const picks = { runUp: d.runUp, accumulation: d.accumulation || d.volumeRunup, concentration: d.concentration };
+  if (platform === "polymarket") picks.longshot = d.longshot;   // longshot win-screen needs wallet positions
+  return dArr(INS_W, picks).filter((x) => platform === "polymarket" || x.key !== "longshot");
+}
+function manipDets(d, platform) {
+  const picks = { ramp: d.ramp, vpin: d.vpin, priceImpact: d.priceImpact };
+  if (platform === "polymarket") picks.washTrade = d.washTrade;  // self/linked-wallet matching needs wallets
+  return dArr(MAN_W, picks).filter((x) => platform === "polymarket" || x.key !== "washTrade");
+}
 // fuse the active engine's detector set onto the market for the requested mode.
 function scoreForMode(m, mode) {
   const d = m._det || {};
   if (mode === "manipulation") {
-    const fused = D.fuse(manipDets(d), { Q: m.Q });
+    const fused = D.fuse(manipDets(d, m.platform), { Q: m.Q });
     Object.assign(m, { index: fused.score, raw: fused.raw, label: fused.label, tier: fused.tier,
       coverageRan: fused.coverageRan, coverageTotal: fused.coverageTotal, fullCoverage: fused.fullCoverage,
       agreeing: fused.agreeing, contributions: fused.contributions, engine: "manipulation" });
-    m.detectors = { washTrade: d.washTrade || null, ramp: d.ramp || null, vpin: d.vpin || null, priceImpact: d.priceImpact || null, spoofing: D.STREAMING_ONLY };
+    // washTrade only shown on Polymarket; on Kalshi it's a "not measurable" boundary (anonymous)
+    m.detectors = { ramp: d.ramp || null, vpin: d.vpin || null, priceImpact: d.priceImpact || null,
+      washTrade: m.platform === "polymarket" ? (d.washTrade || null) : { naReason: "Kalshi trades are anonymous — no wallet ledger to trace self-dealing." },
+      spoofing: D.STREAMING_ONLY };
   } else {
     const news = d.news || { E: 0, preEvent: true };
-    const fused = D.fuse(insiderDets(d), { E: news.E || 0, Q: m.Q, preEvent: news.preEvent, categoryMult: D.categoryMult(m.category) });
+    const fused = D.fuse(insiderDets(d, m.platform), { E: news.E || 0, Q: m.Q, preEvent: news.preEvent, categoryMult: D.categoryMult(m.category) });
     m.E = news.E || 0;
     Object.assign(m, { index: fused.score, raw: fused.raw, label: fused.label, tier: fused.tier,
       coverageRan: fused.coverageRan, coverageTotal: fused.coverageTotal, fullCoverage: fused.fullCoverage,
       agreeing: fused.agreeing, contributions: fused.contributions, engine: "insider" });
-    m.detectors = { runUp: d.runUp || null, accumulation: d.accumulation || d.volumeRunup || null, concentration: d.concentration || null, longshot: d.longshot || null, news: d.news || null };
+    m.detectors = { runUp: d.runUp || null, accumulation: d.accumulation || d.volumeRunup || null, concentration: d.concentration || null,
+      longshot: m.platform === "polymarket" ? (d.longshot || null) : { naReason: "Kalshi trades are anonymous — no wallet positions to run the longshot win-screen." },
+      news: d.news || null };
   }
   return m;
 }
@@ -899,17 +918,24 @@ module.exports = async (req, res) => {
   // manipulation has no enumeration-tier signal, so it goes by activity (volume).
   const eligible = all.filter((m) => m.label !== "Low-liquidity artifact" && m.volume24h >= 2000);
   const deepSet = new Map();
+  // Always reserve slots for BOTH platforms so neither engine becomes single-
+  // platform (manipulation isn't Polymarket-only; insider isn't Kalshi-only).
+  const takeByVol = (rows, n) => rows.slice().sort((a, b) => b.volume24h - a.volume24h).slice(0, n).forEach((m) => deepSet.set(m.id, m));
+  const takeByIdx = (rows, n) => rows.slice().sort((a, b) => b.index - a.index).slice(0, n).forEach((m) => deepSet.set(m.id, m));
+  const pmE = eligible.filter((m) => m.platform === "polymarket");
+  const kE = eligible.filter((m) => m.platform === "kalshi");
   if (mode === "manipulation") {
-    eligible.slice().sort((a, b) => b.volume24h - a.volume24h).slice(0, 18).forEach((m) => deepSet.set(m.id, m));
+    // microstructure has no enumeration-tier signal -> rank by activity (volume),
+    // but guarantee a Kalshi cohort (ramp/VPIN/λ work there) and a PM cohort.
+    takeByVol(pmE, 11); takeByVol(kE, 9);
   } else {
     // Retrospective insider: prioritise RESOLVED markets (real `won` outcome ->
-    // the longshot/accumulation screens can actually run) by activity, then fill
-    // with the highest preliminary run-up reads and a few Kalshi by volume.
-    eligible.filter((m) => m._resolved).sort((a, b) => b.volume24h - a.volume24h).slice(0, 10).forEach((m) => deepSet.set(m.id, m));
-    eligible.slice().sort((a, b) => b.index - a.index).slice(0, 8).forEach((m) => deepSet.set(m.id, m));
-    eligible.filter((m) => m.platform === "kalshi").sort((a, b) => b.volume24h - a.volume24h).slice(0, 4).forEach((m) => deepSet.set(m.id, m));
+    // longshot/accumulation can run), then the strongest preliminary run-ups,
+    // with guaranteed cohorts on BOTH platforms.
+    takeByVol(eligible.filter((m) => m._resolved), 8);
+    takeByIdx(pmE, 7); takeByIdx(kE, 7);
   }
-  const deepTargets = [...deepSet.values()].slice(0, 18);
+  const deepTargets = [...deepSet.values()].slice(0, 22);
   await Promise.all(deepTargets.map((m) => deepEnrich(m, mode)));
 
   // re-rank with the refined indices and trim the payload

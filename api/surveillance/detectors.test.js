@@ -133,18 +133,22 @@ test("fuse: renormalises over the checks that RAN, reports coverage, gates the t
   assert.equal(all.fullCoverage, true); assert.equal(all.agreeing, 4);
   assert.equal(all.tier, "High-signal");
 
-  // ONLY one check ran: renormalised so the score reflects it, but coverage is
-  // 1/4 and it can never be High-signal — this is the "everything is 30" fix.
+  // ONLY one check ran: renormalised over it, but DAMPED by coverage confidence
+  // (1/4) so it reads ~25 not 100 — fixes BOTH "everything is 30" (one strong
+  // check still ranks above noise) AND "100 from one lonely check" (it can't
+  // masquerade as a full-confidence score). Still can never be High-signal.
   const one = D.fuse(dets({ runUp: 1 }), { E: 0, Q: 1 });
-  assert.equal(one.score, 100);                 // renormalised over the one that ran
+  assert.equal(one.score, 25);                  // 100 * raw(1) * covConf(1/4)
   assert.equal(one.coverageRan, 1); assert.equal(one.coverageTotal, 4);
   assert.equal(one.fullCoverage, false);
-  assert.notEqual(one.tier, "High-signal");     // gated: <2 agreeing, partial coverage
-  assert.equal(one.tier, "Elevated");
+  assert.notEqual(one.tier, "High-signal");     // gated: partial coverage
+  assert.equal(one.tier, "Clear");              // damped to 25 -> below the Watch floor
 
-  // three agree but coverage incomplete -> Elevated, not High-signal
+  // three strong checks but coverage incomplete -> damped (×3/4) and Elevated,
+  // never High-signal (needs full coverage).
   const three = D.fuse(dets({ runUp: 0.9, vpin: 0.9, priceImpact: 0.9 }), { E: 0, Q: 1 });
   assert.equal(three.fullCoverage, false);
+  assert.equal(three.score, Math.round(100 * 0.9 * (3 / 4)));   // ≈68
   assert.equal(three.tier, "Elevated");
 
   // news discount + points sum to the score
