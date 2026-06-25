@@ -184,23 +184,47 @@ async function marketsByConds(conds, opts) {
   return out;
 }
 
-// EVERY trade a wallet ever made (same row shape as tradesForMarket, by user).
-// This is the complete, authoritative history — joined to the resolved-market
-// catalog it yields the wallet's whole long-shot record in one pass.
+// EVERY trade a wallet ever made (rows shaped like tradesForMarket). Tries the
+// /trades?user= endpoint first, then falls back to /activity?user= (TRADE
+// events) — Polymarket exposes a wallet's history under different paths, so we
+// try both and merge, deduped by tx+market, to be robust to either.
 async function userTrades(wallet, opts) {
   const o = Object.assign({ maxTrades: 6000, pageDelayMs: 80 }, opts);
   if (!wallet) return [];
-  const trades = [];
-  let offset = 0, pages = 0;
-  do {
-    const d = await getJSON(DATA + "/trades?user=" + encodeURIComponent(wallet) + "&limit=500&offset=" + offset, { timeout: 8000 }).catch(() => null);
-    const arr = Array.isArray(d) ? d : (d && (d.data || d.trades)) || [];
-    if (!arr.length) break;
-    trades.push(...arr); offset += arr.length; pages++;
-    if (arr.length < 500) break;
-    await sleep(o.pageDelayMs);
-  } while (trades.length < o.maxTrades && pages < 16);
-  return trades;
+  const norm = (t) => ({
+    conditionId: t.conditionId || t.market || t.condition_id || t.asset,
+    side: t.side, size: t.size, price: t.price,
+    outcome: t.outcome, outcomeIndex: t.outcomeIndex,
+    timestamp: t.timestamp || t.matchTime || t.time,
+    transactionHash: t.transactionHash || t.transaction_hash || t.txHash,
+  });
+  async function page(url) {
+    const rows = [];
+    let offset = 0, pages = 0;
+    do {
+      const d = await getJSON(url + "&limit=500&offset=" + offset, { timeout: 8000 }).catch(() => null);
+      const arr = Array.isArray(d) ? d : (d && (d.data || d.trades || d.activity)) || [];
+      if (!arr.length) break;
+      rows.push(...arr); offset += arr.length; pages++;
+      if (arr.length < 500) break;
+      await sleep(o.pageDelayMs);
+    } while (rows.length < o.maxTrades && pages < 16);
+    return rows;
+  }
+  let raw = await page(DATA + "/trades?user=" + encodeURIComponent(wallet) + "&takerOnly=false");
+  if (!raw.length) {
+    const act = await page(DATA + "/activity?user=" + encodeURIComponent(wallet) + "&type=TRADE");
+    raw = act.filter((a) => !a.type || String(a.type).toUpperCase() === "TRADE");
+  }
+  const seen = new Set();
+  const out = [];
+  for (const t of raw) {
+    const n = norm(t);
+    const key = (n.transactionHash || "") + "|" + (n.conditionId || "") + "|" + (n.outcome || "") + "|" + (n.size || "");
+    if (seen.has(key)) continue; seen.add(key);
+    out.push(n);
+  }
+  return out;
 }
 
 const clip = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
