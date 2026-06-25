@@ -39,6 +39,8 @@ const hll = require("../../api/forensics/hll.js");
 const DIR = path.resolve(__dirname, "../../data/forensics");
 const STATE = path.join(DIR, "state.json");
 const STORE = path.join(DIR, "store.json");
+const CATALOG = path.join(DIR, "markets.json");   // resolved-market winner catalog (cond -> {w,q,s,c,r})
+const CATALOG_MAX = +process.env.CATALOG_MAX || 20000;
 
 const ENV = process.env;
 const LOOKBACK_DAYS = +ENV.LOOKBACK_DAYS || 90;
@@ -115,6 +117,13 @@ async function run() {
   const nextOffset = markets.nextOffset != null ? markets.nextOffset : 0;
   const exhausted = !!markets.exhausted;
   markets = markets.slice(0, MARKETS_PER_RUN);
+
+  // Resolved-market WINNER CATALOG (cond -> {w,q,s,c,r}). Persists + grows across
+  // sweeps; it's what lets a wallet's full /trades history resolve to won/lost
+  // bets in one pass. Every enumerated market is cataloged here.
+  const catalog = read(CATALOG, {}) || {};
+  markets.forEach((m) => { if (m.cond) catalog[m.cond] = { w: m.winner, q: m.question, s: m.eventGroup, c: m.category, r: m.resolvedMs ? Math.round(m.resolvedMs / 1000) : null }; });
+
   let newestResolved = state.snapshotTs || 0;
   let processed = 0;
   for (const m of markets) {
@@ -128,6 +137,7 @@ async function run() {
     processed++;
     await poly.sleep(60);
   }
+  state._catalog = catalog;        // handed to deep-enrich + persisted in finalize
   // `observed` = ALL-TIME distinct wallets ever seen (HyperLogLog sketch, ~4 KB),
   // the wide top-of-funnel that closes the gap to public dashboards. Every wallet
   // touched this run is folded in; the sketch persists in state across sweeps.
@@ -158,17 +168,18 @@ async function run() {
     try {
       const fs0 = await poly.firstSeen(w.address);
       if (fs0) w.firstSeenTs = fs0;
-      // Supplement the AUTHORITATIVE market-sweep record (every bet here has a
-      // known winner because we pulled it alongside the resolved market) with the
-      // wallet's /positions — MERGE by market, never overwrite, so settled-but-
-      // redeemed positions that /positions omits aren't lost. The sweep is what
-      // makes a record complete; /positions only adds markets not yet swept.
+      // FULL record in one pass: the wallet's ENTIRE /trades history joined to the
+      // resolved-market catalog → every bet in a known-resolved market, with its
+      // true winner and entry odds. This is authoritative and complete (not the
+      // current-holdings-only /positions feed). Merge by market — never overwrite —
+      // so nothing already accumulated is lost.
       try {
         const haveConds = new Set((w.bets || []).map((b) => b.cond));
-        const posBets = (await poly.userPositions(w.address)).map(poly.positionToBet).filter(Boolean);
+        const utrades = await poly.userTrades(w.address);
+        const recBets = poly.buildUserRecord(utrades, state._catalog || {});
         let added = 0;
-        posBets.forEach((b) => {
-          if (haveConds.has(b.cond)) return;            // market-sweep bet is authoritative
+        recBets.forEach((b) => {
+          if (haveConds.has(b.cond)) return;
           haveConds.add(b.cond); w.bets.push(b); added++;
           const ev = b.eventGroup || b.cond;
           if (b.ts && (w.entryByEvent[ev] == null || b.ts < w.entryByEvent[ev])) w.entryByEvent[ev] = b.ts;
@@ -276,7 +287,20 @@ function finalize(state, snapshotTs) {
     if (toEvict.length) log("evicted " + toEvict.length + " least-active wallets (cap " + SCREEN_CAP + ") · " + Object.keys(state.screened).length + " retained");
   }
 
+  // persist the resolved-market catalog, bounded to the most-recent CATALOG_MAX
+  // (by resolution time) so the file can't grow without limit.
+  if (state._catalog) {
+    let cat = state._catalog;
+    const conds = Object.keys(cat);
+    if (conds.length > CATALOG_MAX) {
+      const keep = conds.sort((a, b) => (cat[b].r || 0) - (cat[a].r || 0)).slice(0, CATALOG_MAX);
+      const trimmed = {}; keep.forEach((c) => (trimmed[c] = cat[c])); cat = trimmed;
+    }
+    write(CATALOG, cat);
+    log("catalog: " + Object.keys(cat).length + " resolved markets cataloged");
+  }
   delete state._reviewedThisRun;
+  delete state._catalog;
   write(STATE, state);
   write(STORE, payload);
 }

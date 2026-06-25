@@ -157,7 +157,68 @@ async function tradesForMarket(cond, opts) {
   return trades;
 }
 
+// EVERY trade a wallet ever made (same row shape as tradesForMarket, by user).
+// This is the complete, authoritative history — joined to the resolved-market
+// catalog it yields the wallet's whole long-shot record in one pass.
+async function userTrades(wallet, opts) {
+  const o = Object.assign({ maxTrades: 6000, pageDelayMs: 80 }, opts);
+  if (!wallet) return [];
+  const trades = [];
+  let offset = 0, pages = 0;
+  do {
+    const d = await getJSON(DATA + "/trades?user=" + encodeURIComponent(wallet) + "&limit=500&offset=" + offset, { timeout: 8000 }).catch(() => null);
+    const arr = Array.isArray(d) ? d : (d && (d.data || d.trades)) || [];
+    if (!arr.length) break;
+    trades.push(...arr); offset += arr.length; pages++;
+    if (arr.length < 500) break;
+    await sleep(o.pageDelayMs);
+  } while (trades.length < o.maxTrades && pages < 16);
+  return trades;
+}
+
 const clip = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+// Build a wallet's resolved-bet record from its trades + a catalog of resolved
+// markets (cond -> { w:'YES'|'NO', q, s, c, r }). One bet per (cond) = the
+// wallet's net dominant-outcome position; won = that outcome matches the catalog
+// winner. Markets not in the catalog are skipped (resolution unknown). This is
+// the authoritative full record — known winners, real entry odds.
+function buildUserRecord(trades, catalog) {
+  const byKey = {};
+  for (const t of (trades || [])) {
+    const cond = t.conditionId || t.market || t.condition_id;
+    if (!cond || !catalog[cond]) continue;
+    const oc = tradeOutcome(t);
+    if (oc !== "YES" && oc !== "NO") continue;
+    const size = num(t.size), price = num(t.price), ts = num(t.timestamp || t.matchTime || t.time);
+    const side = String(t.side || "").toUpperCase();
+    if (!size) continue;
+    const key = cond + "|" + oc;
+    const e = byKey[key] || (byKey[key] = { cond, oc, bought: 0, sold: 0, cost: 0, firstTs: Infinity, tx: null });
+    if (side === "SELL") e.sold += size;
+    else { e.bought += size; e.cost += size * price; if (ts && ts < e.firstTs) { e.firstTs = ts; e.tx = t.transactionHash || t.transaction_hash || e.tx; } }
+  }
+  // pick the dominant outcome position per market
+  const byCond = {};
+  for (const k of Object.keys(byKey)) {
+    const e = byKey[k]; if (e.bought <= 0) continue;
+    if (!byCond[e.cond] || e.cost > byCond[e.cond].cost) byCond[e.cond] = e;
+  }
+  const bets = [];
+  for (const cond of Object.keys(byCond)) {
+    const e = byCond[cond], m = catalog[cond];
+    const entry = e.cost / e.bought;
+    if (!(entry > 0.0001 && entry < 0.9999)) continue;
+    bets.push({
+      cond, eventGroup: m.s || cond, question: m.q || "(market)",
+      url: m.s ? "https://polymarket.com/event/" + m.s : "https://polymarket.com/markets",
+      category: m.c || "Other", entryPrice: clip(entry, 1e-4, 0.9999), stakeUsd: Math.round(e.cost),
+      outcome: e.oc, won: e.oc === m.w, held: e.sold < 0.03 * e.bought,
+      ts: isFinite(e.firstTs) ? e.firstTs : (m.r || null), tx: e.tx || null, resolvedMs: m.r ? m.r * 1000 : null,
+    });
+  }
+  return bets;
+}
 
 // A wallet's FULL position record (Data API /positions). This is the wallet
 // pivot done right: one call returns every market the wallet took a position in,
@@ -278,6 +339,6 @@ function aggregateMarket(market, trades) {
 
 module.exports = {
   getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket,
-  userPositions, positionToBet, category, resolvedWinner, isBinary, tradeOutcome,
+  userPositions, positionToBet, userTrades, buildUserRecord, category, resolvedWinner, isBinary, tradeOutcome,
   GAMMA, DATA, CLOB,
 };

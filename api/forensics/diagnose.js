@@ -31,15 +31,30 @@ const ADDRESS_FIELDS = ["proxyWallet", "user", "maker", "taker", "wallet", "addr
 // GET /api/forensics/diagnose?user=0x...  → the parsed long-shot record + every
 // detector's verdict + the fused tier. Lets anyone point the engine at a wallet
 // they suspect and see exactly what it computes (real data, no store needed).
+function loadCatalog() {
+  try { return require("../../data/forensics/markets.json"); } catch (_) {}
+  try { return JSON.parse(require("fs").readFileSync(require("path").resolve(__dirname, "../../data/forensics/markets.json"), "utf8")); } catch (_) { return {}; }
+}
+
 async function scoreWallet(addr) {
   const o = { user: addr, checkedAt: new Date().toISOString() };
-  let positions = [];
-  try { positions = await poly.userPositions(addr); }
-  catch (e) { return Object.assign(o, { error: "positions fetch failed: " + (e && e.message) }); }
-  o.positionsReturned = positions.length;
-  if (positions.length) o.samplePositionKeys = Object.keys(positions[0]);
+  const catalog = loadCatalog();
+  o.catalogSize = Object.keys(catalog).length;
 
-  const bets = positions.map(poly.positionToBet).filter(Boolean);
+  // Data-source probe: show what each Polymarket feed returns for this wallet, so
+  // the source of truth is verifiable rather than assumed.
+  let positions = [], utrades = [];
+  try { positions = await poly.userPositions(addr); } catch (_) {}
+  try { utrades = await poly.userTrades(addr); } catch (e) { return Object.assign(o, { error: "trades fetch failed: " + (e && e.message) }); }
+  o.sources = {
+    positions: positions.length,
+    positionsResolvedParsed: positions.map(poly.positionToBet).filter(Boolean).length,
+    trades: utrades.length,
+    tradesInCatalog: utrades.filter((t) => catalog[t.conditionId || t.market || t.condition_id]).length,
+  };
+
+  // Authoritative record: full trade history joined to the resolved-market catalog.
+  const bets = poly.buildUserRecord(utrades, catalog);
   o.resolvedBetsParsed = bets.length;
   const longshots = bets.filter((b) => b.entryPrice <= 0.35);
   o.longShotBets = longshots.length;
