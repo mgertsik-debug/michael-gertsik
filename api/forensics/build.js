@@ -62,8 +62,12 @@ const TIER = { extreme: "extreme", high: "elevated", notable: "watch", unflagged
 
 /* --------------------------------------------------------------- detectors -- */
 // Run the full suite on an aggregate and return { dets, f } (f = fuse result).
+const LONGSHOT_MAX = 0.35;       // the headline is the bettor's "≤35% implied" record
 function scoreAggregate(agg) {
-  const bets = (agg.bets || []).filter((b) => b && typeof b.won === "boolean" && D.isNum(num(b.entryPrice)));
+  const valid = (agg.bets || []).filter((b) => b && typeof b.won === "boolean" && D.isNum(num(b.entryPrice)));
+  // The SUBJECT is the bettor's long-shot record: only bets entered at ≤35%
+  // implied. Favorites aren't the anomaly and would dilute the binomial.
+  const bets = valid.filter((b) => num(b.entryPrice) <= LONGSHOT_MAX);
   const betsForWon = bets.map((b) => ({ impliedProb: num(b.entryPrice), won: !!b.won, eventGroup: b.eventGroup }));
   const wonD = D.won(betsForWon);
 
