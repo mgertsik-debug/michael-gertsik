@@ -55,6 +55,16 @@ function category(tags, question) {
   return null;                                            // unmatched ⇒ not a detectable-edge market ⇒ excluded
 }
 
+// Best-effort label for a market the strict classifier didn't match, so the bet
+// still counts toward the bettor's record. Sports/Crypto carry their own (low)
+// baselines; everything else falls to "Other" (→ the global 14% baseline).
+function categoryFallback(title) {
+  const s = String(title || "").toLowerCase();
+  if (/\bsport|nfl|nba|wnba|mlb|nhl|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|golf|\bf1\b|grand prix|\bmatch\b|\bgame\b|league|playoff|lakers|celtics|yankees|warriors|chiefs/.test(s)) return "Sports";
+  if (/crypto|bitcoin|\bbtc\b|ethereum|\beth\b|solana|\bsol\b|token|coin|price of|hit \$/.test(s)) return "Crypto";
+  return "Other";
+}
+
 function tagList(ev, m) {
   const tags = (ev && ev.tags) || (m && m.tags) || [];
   const out = [];
@@ -186,8 +196,10 @@ function positionToBet(p) {
   const settled = cur <= 0.02 || cur >= 0.98 || p.redeemable === true || (endMs && endMs < Date.now());
   if (!cond || !settled) return null;
   if (!(avg > 0.0001 && avg < 0.9999)) return null;            // need a real entry odds
-  const cat = category([], title);
-  if (!cat) return null;                                        // skip sports/crypto-price/weather (edge = noise)
+  // Label every settled market (Sports/Crypto included, "Other" when unknown) —
+  // the bettor's improbability is computed over their whole long-shot record;
+  // category drives the baseline/risk weight, it is NOT a gate that shrinks n.
+  const cat = category([], title) || categoryFallback(title);
   const won = cur >= 0.5;
   return {
     cond, eventGroup: p.slug || cond, question: title || "(market)",
