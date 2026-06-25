@@ -55,4 +55,14 @@ jobs:
           git config user.name  "forensics-scan"
           git add data/forensics/store.json data/forensics/state.json
           git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)"
-          git push origin HEAD:"${GITHUB_REF_NAME}"
+          # Push with rebase+retry so a concurrent push to the branch (a merge or
+          # another job) doesn't drop this tick's results. Our commit only touches
+          # data/forensics/*.json, so rebasing onto remote is conflict-free.
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:"${GITHUB_REF_NAME}"; then echo "pushed"; exit 0; fi
+            echo "push rejected (attempt $i) — rebasing on remote and retrying"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            sleep $((i * 3))
+          done
+          echo "push still failing after retries" >&2
+          exit 1
