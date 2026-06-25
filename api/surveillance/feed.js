@@ -721,16 +721,17 @@ async function newsCheck(query, moveMs) {
   return { ctx: null, atMs: (articles[0] && articles[0].ts) || null, articles };
 }
 
-// Drop the trailing SETTLEMENT SNAP from a resolved market's series: the run of
-// final points pinned within eps of the settled extreme (0 or 1). A market always
-// snaps to 0/1 at resolution, and that move is enormous in log-odds — scoring it
-// would make every resolved market a spurious "run-up". What remains is the real
-// pre-resolution trading window the detectors should judge.
+// Drop ONLY the terminal SETTLEMENT SNAP from a resolved market's series — the
+// final move to ~exactly 0/1 at resolution. Live prediction-market prices rarely
+// sit AT 0/1 (fees/spread cap them near 0.99/0.01), so a small eps trims the true
+// settlement print without eating a legitimate high-confidence trading plateau
+// (e.g. days at 97-99% after a real catalyst). Over-trimming would push the
+// computed move-time before the news and mislabel an explained move as leakage.
 function trimSettlement(series) {
   if (!Array.isArray(series) || series.length < 3) return series;
   const v = series[series.length - 1].p;
   const ext = v <= 0.5 ? 0 : 1;
-  const eps = 0.03;
+  const eps = 0.01;                       // only ~>=0.99 / <=0.01 counts as settled
   let end = series.length;
   while (end > 0 && Math.abs(series[end - 1].p - ext) <= eps) end--;
   return series.slice(0, end);
@@ -796,7 +797,32 @@ async function deepEnrich(m, mode) {
       newsCheck(newsQuery(m.question), moveMs).catch(() => null),
       fetchBook(m).catch(() => null),
     ]);
-    const newsGap = D.newsGap(news ? news.ctx : null);
+    let newsGap = D.newsGap(news ? news.ctx : null);
+
+    // LEAKAGE TEST (the honest one): what fraction of the price move happened
+    // BEFORE the public news? Measure it directly from the series rather than a
+    // crude before/after-a-point flag. If the move mostly happened AT/AFTER the
+    // news, the news explains it (NOT suspicious). If it mostly preceded the
+    // news, that's the leakage signature. This is the Keown-Pinkerton
+    // "fraction-of-move-pre-catalyst" with the catalyst = the actual news time.
+    let preNewsFraction = null;
+    if (news && news.atMs && scoreSeries.length >= 4) {
+      const nSec = news.atMs / 1000;
+      const zStart = D.logit(scoreSeries[0].p), zEnd = D.logit(scoreSeries[scoreSeries.length - 1].p);
+      let pAtNews = scoreSeries[0].p;
+      for (const pt of scoreSeries) { if (pt.t <= nSec) pAtNews = pt.p; else break; }
+      const total = Math.abs(zEnd - zStart);
+      preNewsFraction = total > 0 ? clip(Math.abs(D.logit(pAtNews) - zStart) / total, 0, 1) : 0;
+      // re-derive the verdict from the fraction:
+      if (preNewsFraction >= 0.5) {
+        // most of the move came BEFORE the news -> leakage / unexplained
+        newsGap = D.newsGap(Object.assign({}, news.ctx, { preEvent: true }));
+      } else if (preNewsFraction <= 0.35 && news.ctx) {
+        // the move happened AT/AFTER the news -> the news explains it
+        newsGap = D.newsGap(Object.assign({}, news.ctx, { preEvent: false }));
+      }
+      if (news) news.preNewsFraction = +preNewsFraction.toFixed(2);
+    }
 
     // a real spread/depth from the book sharpens the liquidity gate Q
     if (book) m.Q = D.liquidityQ({ volumeUsd: m.volume24h, depthUsd: book.depthUsd, spread: book.spread, tradeCount: tradeList ? tradeList.length : null }).Q;
@@ -848,7 +874,7 @@ async function deepEnrich(m, mode) {
     if (bars && bars.length >= 6) ramp = computeRamp(bars);
 
     // stash every raw detector; score for the requested mode
-    m._det = { runUp, vpin, priceImpact, concentration, news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null, atMs: news.atMs || null, articles: news.articles || [] } : {}),
+    m._det = { runUp, vpin, priceImpact, concentration, news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null, atMs: news.atMs || null, preNewsFraction: news.preNewsFraction != null ? news.preNewsFraction : null, articles: news.articles || [] } : {}),
       accumulation, volumeRunup, longshot, washTrade, ramp };
     scoreForMode(m, mode);
     if (book) m.book = { spread: book.spread, depthUsd: book.depthUsd, imbalance: book.imbalance, bestBid: book.bestBid, bestAsk: book.bestAsk };

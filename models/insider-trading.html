@@ -1109,12 +1109,13 @@ class Component extends DCLogic {
         date: a.ts?fmtDay(a.ts/1000):'', url:a.url||null,
         beforeMove: a.when==='before' }));
       const newsAt = (nw&&nw.atMs)?(nw.atMs/1000):null;   // catalyst time in unix seconds (chart marker)
+      const preFrac = (nw&&nw.preNewsFraction!=null)?Math.round(nw.preNewsFraction*100):null;
       const newsCtx = (isManip||!nw) ? { has:false, articles:newsArticles } : {
-        has:true, preEvent:!!nw.preEvent, explained:!!nw.explained, articles:newsArticles, atSec:newsAt,
+        has:true, preEvent:!!nw.preEvent, explained:!!nw.explained, articles:newsArticles, atSec:newsAt, preFrac,
         sentence: nw.preEvent
-          ? ('The price moved about '+(leadH||'several')+' hours BEFORE the first public headline that could explain it — the climb started ahead of the news. A price that moves first and is only explained later is a classic leakage red flag, so this does not lower the score.')
+          ? ((preFrac!=null?('About '+preFrac+'% of the price move happened BEFORE the public news broke'):('The price moved about '+(leadH||'several')+' hours BEFORE the first public headline'))+' — the climb started ahead of the news. A price that moves first and is only explained later is the leakage signature, so this does not lower the score.')
           : (nw.explained
-            ? ('A public headline appeared at or before the move'+(headline?(': “'+headline+'”'):'')+', so the move most likely has an ordinary public cause. That is why the score is held down.')
+            ? ((preFrac!=null?('Only about '+preFrac+'% of the move happened before the public news — most of it came WITH or AFTER the headline'):('A public headline appeared at or before the move'))+(headline?(': “'+headline+'”'):'')+', so the move most likely has an ordinary public cause. That is why the score is held down.')
             : 'Related public news was found, but its timing relative to the move is inconclusive.'),
       };
 
@@ -1409,11 +1410,11 @@ class Component extends DCLogic {
                     : (subs.longshot==null?null:{ score:subs.longshot, isLongshot:true, won, impliedProb:+(0.08+R()*0.24).toFixed(2), baseline:this.catMult(cat)>1?0.14:0.2 }),
           news: (function(){
             const surgeStartMs=series[Math.max(0,N-20)].t*1000, surgeEndMs=series[Math.max(0,N-7)].t*1000;
-            if(explained) return { E, explained:true, preEvent:false, headline:'Officials confirm the outcome, agencies report', source:'Reuters', atMs:surgeStartMs-6*3600000,
+            if(explained) return { E, explained:true, preEvent:false, preNewsFraction:+(0.08+R()*0.2).toFixed(2), headline:'Officials confirm the outcome, agencies report', source:'Reuters', atMs:surgeStartMs-6*3600000,
               articles:[ {title:'Officials confirm the outcome ahead of resolution', source:'Reuters', ts:surgeStartMs-6*3600000, url:'https://news.google.com', when:'before'},
                          {title:'Analysts flagged the likely result days earlier', source:'Bloomberg', ts:surgeStartMs-30*3600000, url:'https://news.google.com', when:'before'} ] };
             const lead=Math.round(3+R()*18);
-            return { E:0, explained:false, preEvent:true, leadH:lead, atMs:surgeEndMs+lead*3600000,
+            return { E:0, explained:false, preEvent:true, leadH:lead, preNewsFraction:+(0.6+R()*0.3).toFixed(2), atMs:surgeEndMs+lead*3600000,
               articles:[ {title:'Outcome announced publicly — the price had already moved', source:'Reuters', ts:surgeEndMs+lead*3600000, url:'https://news.google.com', when:'after'},
                          {title:'Earlier reports gave no clear signal of the result', source:'AP', ts:surgeStartMs-12*3600000, url:'https://news.google.com', when:'before'} ] };
           })(),
