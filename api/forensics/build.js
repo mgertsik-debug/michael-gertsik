@@ -89,7 +89,10 @@ function scoreAggregate(agg) {
   const clusterD = (agg.type === "cluster" && agg.edges)
     ? D.clusterScore(agg.edges, (agg.members || []).length) : { key: "cluster", hasData: false };
 
-  const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, conceal: concealD, cluster: clusterD };
+  // single high-conviction bet — the lone insider bet the binomial (n>=5) misses
+  const convictionD = D.conviction(bets);
+
+  const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, conceal: concealD, cluster: clusterD, conviction: convictionD };
   const f = D.fuse(dets);
   return { dets, f, bets, ageDays };
 }
@@ -100,15 +103,24 @@ function scoreAggregate(agg) {
 // sub-5-bet wallets are excluded, never scored 0.
 function buildSubject(agg, idx, opts) {
   const { dets, f, bets } = scoreAggregate(agg);
-  if (!dets.won.hasData) return null;
   const tier = TIER[f.tier];
   if (!tier) return null;                                   // unflagged → not published
+  // Two publish paths: the binomial RECORD (won.hasData) or the single-bet
+  // CONVICTION path (a lone high-conviction insider bet + corroboration).
+  const conv = dets.conviction || {};
+  const convOnly = !dets.won.hasData;
+  if (convOnly && !conv.fires) return null;                 // not scoreable and not a conviction case
 
   const isCluster = agg.type === "cluster";
   const won = dets.won;
-  const n = won.n, k = won.k;
-  const avgImplied = Math.round(won.p * 100);
-  const winRate = Math.round(won.winRate);
+  const wins = bets.filter((b) => b.won).length;
+  const n = won.hasData ? won.n : bets.length;
+  const k = won.hasData ? won.k : wins;
+  const avgImplied = won.hasData ? Math.round(won.p * 100)
+    : (conv.entryPrice ? Math.round(conv.entryPrice * 100) : Math.round((bets.reduce((a, b) => a + num(b.entryPrice), 0) / (bets.length || 1)) * 100));
+  const winRate = won.hasData ? Math.round(won.winRate) : (n ? Math.round(100 * k / n) : 0);
+  const improbDenom = won.hasData ? won.improbDenom : (conv.entryPrice ? Math.round(1 / conv.entryPrice) : 0);
+  const improbText = won.hasData ? won.improbText : (conv.entryPrice ? D.improbText(Math.round(1 / conv.entryPrice)) : "—");
   const profitNum = bets.reduce((a, b) => a + betPL(b), 0);
   const category = dominantCategory(bets);
   const fired = f.fired.slice();
@@ -132,8 +144,12 @@ function buildSubject(agg, idx, opts) {
     dets.longshot.hasData ? dets.longshot.explain : "");
   if (fired.includes("held") && dets.held.hasData)
     push("held", dets.held.heldToResolution + " of " + dets.held.total, "exit check", "bets held to the end / total bets", dets.held.explain);
-  push("won", winRate + "% vs " + avgImplied + "%", "luck probability",
-    "chance of ≥ " + k + " wins in " + n + " tries at " + avgImplied + "% each", won.explain);
+  if (fired.includes("won") && won.hasData)
+    push("won", winRate + "% vs " + avgImplied + "%", "luck probability",
+      "chance of ≥ " + k + " wins in " + n + " tries at " + avgImplied + "% each", won.explain);
+  if (fired.includes("conviction") && conv.hasData)
+    push("conviction", money(conv.stake) + " @ " + Math.round(conv.entryPrice * 100) + "%", "single high-conviction bet",
+      "one large long-shot win held to resolution", conv.explain);
   if (fired.includes("conceal") && dets.conceal.hasData)
     push("conceal", dets.conceal.nTactics + " tactics", "concealment check", "score = f(split, decoy, cash-out)", dets.conceal.explain);
   if (fired.includes("cluster") && dets.cluster.hasData)
@@ -153,8 +169,11 @@ function buildSubject(agg, idx, opts) {
   const heroSentence = isCluster
     ? "These " + ((agg.members || []).length) + " linked accounts won " + k + " of " + n + " long-shot bets the market gave about a " + avgImplied +
       " percent chance. A record this strong is the pattern you would expect from foreknowledge, not luck — a pattern consistent with informed trading, not proof of it."
-    : "This account won " + k + " of " + n + " long-shot bets that the market gave roughly a " + avgImplied +
-      " percent chance. By luck you would expect about " + won.expectedWins + " wins. A record this strong is consistent with informed trading — not proof of it.";
+    : (convOnly
+      ? "This account placed a single " + money(conv.stake) + " bet at roughly " + avgImplied + " percent" + (conv.market ? " on “" + String(conv.market).slice(0, 70) + "”" : "") +
+        " and cashed out about " + money(conv.payout) + ". One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet insider signature. Consistent with informed trading, not proof of it."
+      : "This account won " + k + " of " + n + " long-shot bets that the market gave roughly a " + avgImplied +
+        " percent chance. By luck you would expect about " + won.expectedWins + " wins. A record this strong is consistent with informed trading — not proof of it.");
 
   return {
     id: agg.id || (isCluster ? "c" + (idx + 1) : "w" + (idx + 1)),
@@ -165,8 +184,9 @@ function buildSubject(agg, idx, opts) {
     username: agg.pseudonym || null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
     category, marketsCount: n, tier,
-    improbText: won.improbText, improbDenom: won.improbDenom,
-    improbFull: won.improbText.replace("M", " million").replace("B", " billion").replace("K", " thousand"),
+    improbText, improbDenom,
+    improbFull: String(improbText).replace("M", " million").replace("B", " billion").replace("K", " thousand"),
+    convictionFlag: convOnly,
     full: scorecard.length >= 3,
     winRate, avgImplied, profit: money(profitNum), fired,
     refId: agg.refId || ("WF-" + new Date((agg.firstSeenTs || 0) * 1000).getUTCFullYear() + "-" + String(1000 + idx).slice(1)),

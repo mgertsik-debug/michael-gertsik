@@ -8,8 +8,9 @@ const B = require("./build.js");
 function agg(address, nWin, nLoss, p, cat, opts) {
   const bets = [];
   let i = 0;
-  for (; i < nWin; i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: 10000, outcome: "YES", won: true, held: true, ts: 1700000000 + i, tx: "0xabc" + i });
-  for (let j = 0; j < nLoss; j++, i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: 5000, outcome: "YES", won: false, held: true, ts: 1700000000 + i, tx: "0xdef" + i });
+  const stake = (opts && opts.stake) || 800;                // small by default so conviction ($10k) isn't tripped
+  for (; i < nWin; i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: stake, outcome: "YES", won: true, held: true, ts: 1700000000 + i, tx: "0xabc" + i });
+  for (let j = 0; j < nLoss; j++, i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: Math.round(stake / 2), outcome: "YES", won: false, held: true, ts: 1700000000 + i, tx: "0xdef" + i });
   return Object.assign({ address, firstSeenTs: 1699000000, fundingTs: 1698900000, priorTx: 0, bets }, opts || {});
 }
 

@@ -634,7 +634,7 @@ class Component extends DCLogic {
       h("div", { style: { fontFamily: mono, fontSize: "15px", fontWeight: 600, color: color || "#ECEFED" } }, val));
     const fired = (fz.fired || []);
     const prof = d.profile || {};
-    const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", conceal: "concealment", cluster: "group" };
+    const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", conceal: "concealment", cluster: "group", conviction: "single big bet" };
     const profitColor = (prof.profitNum || 0) >= 0 ? "#34D399" : "#F87171";
     return h("div", null,
       h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" } },

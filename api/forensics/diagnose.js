@@ -55,15 +55,27 @@ async function scoreWallet(addr) {
   let onDemand = {};
   if (missing.length) { try { onDemand = await poly.marketsByConds(missing); } catch (_) {} }
   const merged = Object.assign({}, catalog, onDemand);
+
+  // Build the record from BOTH sources and merge by market (dedup by cond):
+  //  (a) /positions — self-resolving (curPrice gives the winner), no catalog needed;
+  //  (b) /trades joined to the (catalog ∪ on-demand) resolved-market map.
+  // Either alone is incomplete, together they cover redeemed + held positions.
+  let posBets = [];
+  try { posBets = (await poly.userPositions(addr)).map(poly.positionToBet).filter(Boolean); } catch (_) {}
+  const recBets = poly.buildUserRecord(utrades, merged);
+  const byCond = {};
+  recBets.forEach((b) => { byCond[b.cond] = b; });
+  posBets.forEach((b) => { if (!byCond[b.cond]) byCond[b.cond] = b; });
+  const bets = Object.values(byCond);
+
   o.sources = {
     trades: utrades.length,
     catalogSize: o.catalogSize,
     resolvedOnDemand: Object.keys(onDemand).length,
+    fromPositions: posBets.length,
+    fromTradesCatalog: recBets.length,
     tradesResolvable: utrades.filter((t) => merged[condOf(t)]).length,
   };
-
-  // Authoritative record: full trade history joined to the (merged) resolved-market catalog.
-  const bets = poly.buildUserRecord(utrades, merged);
   o.resolvedBetsParsed = bets.length;
 
   // ---- ALWAYS-ON PROFILE: any wallet's full resolved record, all odds ----
