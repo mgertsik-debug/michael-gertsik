@@ -548,15 +548,17 @@ class Component extends DCLogic {
     if (typeof fetch !== "function") return;
     fetch("/api/forensics/subjects", { cache: "no-store" })
       .then((r) => (r && r.ok ? r.json() : null))
-      .then((data) => {
-        if (!data || !Array.isArray(data.subjects) || data.subjects.length === 0) return;
-        this.applyRealData(data);
-      })
+      .then((data) => { if (data && Array.isArray(data.subjects)) this.applyRealData(data); })
       .catch(() => {});
   }
 
+  // Apply the live snapshot. IMPORTANT: update the metadata (reviewed / screened
+  // / snapshot) even when there are zero flagged subjects yet — otherwise the
+  // honest empty state shows "0 reviewed · awaiting snapshot" while the job has
+  // in fact reviewed tens of thousands of bettors. Subjects populate the list
+  // only when non-empty.
   applyRealData(data) {
-    this.subjects = data.subjects;
+    this.subjects = Array.isArray(data.subjects) ? data.subjects : [];
     this.isSample = false;
     this.meta = {
       reviewed: data.reviewed != null ? data.reviewed : (data.meta && data.meta.reviewed) || this.subjects.length,
@@ -566,7 +568,7 @@ class Component extends DCLogic {
       recomputed: (data.meta && data.meta.recomputed) || data.recomputed || (data.meta && data.meta.snapshot) || "",
     };
     const first = this.subjects[0];
-    this.setState({ selectedId: first ? first.id : null, measure: {}, hoverEdge: null });
+    this.setState({ selectedId: first ? first.id : null, measure: {}, hoverEdge: null, _v: (this.state._v || 0) + 1 });
   }
 
   componentWillUnmount() { if (this._onResize) window.removeEventListener("resize", this._onResize); }
