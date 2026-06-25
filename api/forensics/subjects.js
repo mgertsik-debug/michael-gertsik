@@ -16,7 +16,11 @@ const path = require("path");
 
 const STORE = path.resolve(__dirname, "../../data/forensics/store.json");
 
+// Read the committed store. Prefer require() — bundlers (Vercel) reliably include
+// a statically-required JSON in the function bundle, whereas a runtime fs read of
+// a repo file may be missing from the deployment. fs is the local-dev fallback.
 function readStore() {
+  try { return require("../../data/forensics/store.json"); } catch (_) {}
   try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; }
 }
 

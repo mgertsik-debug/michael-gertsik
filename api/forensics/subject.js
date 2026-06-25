@@ -9,7 +9,10 @@ const fs = require("fs");
 const path = require("path");
 
 const STORE = path.resolve(__dirname, "../../data/forensics/store.json");
-function readStore() { try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; } }
+function readStore() {
+  try { return require("../../data/forensics/store.json"); } catch (_) {}
+  try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; }
+}
 
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
