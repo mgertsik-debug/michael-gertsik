@@ -275,8 +275,11 @@ async function polymarket() {
     const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
     const q = (m.question || m.title || m.slug || "Market").toString().slice(0, 90);
     const tp = topic(q);
-    if (tp === "cryptoprice") return;             // pure price-level markets are noise, not insider signals
-    if (vol < 75000) return;                       // real money behind it — every category is in scope
+    // Scan every category EXCEPT the two that can't host insider trading: pure
+    // crypto price-levels, and individual sports game-lines (a game's result is
+    // decided on the field — there is no material nonpublic information to leak).
+    if (tp === "cryptoprice" || tp === "sports") return;
+    if (vol < 75000) return;                       // real money behind it
     const cond = m.conditionId || null;
     // YES CLOB token id (for price history) + title (for news), keyed by market
     if (cond && !condMeta[cond]) {
@@ -323,7 +326,7 @@ async function polymarket() {
     const usd = num(t.size) * num(t.price);
     const title = (t.title || t.eventSlug || t.slug || "Market").toString().slice(0, 90);
     const tp = topic(title);
-    if (usd >= 12000 && tp !== "cryptoprice") {
+    if (usd >= 12000 && tp !== "cryptoprice" && tp !== "sports") {
       const key = title + "|" + (t.side || "");
       if (!whales[key] || usd > whales[key].usd) {
         whales[key] = { usd, title, tp, side: t.side, hash: t.transactionHash || i, cond: t.conditionId || null };
@@ -392,7 +395,7 @@ async function kalshi() {
     if (!d) break;
     (d.events || d.data || []).forEach((ev) => {
       const cat = String(ev.category || "Other");
-      if (/crypto/i.test(cat)) return;           // pure price-level noise, no insider angle
+      if (/crypto|sport/i.test(cat)) return;     // price-level + game-outcome markets aren't insider-tradeable
       const series = ev.series_ticker || "";
       const evTitle = String(ev.title || ev.sub_title || "");
       (ev.markets || []).forEach((m) => {
@@ -477,6 +480,29 @@ async function diagnose() {
     o.priceHistory = { tokenSeen: !!tok, result: ph };
     o.news = { query: nq, result: news };
   } catch (e) { o.enrichProbe = { error: e.message }; }
+  // Kalshi candlestick probe: show the raw shape so the parser can be fixed.
+  try {
+    const d = await getJSON("https://api.elections.kalshi.com/trade-api/v2/events?limit=40&status=open&with_nested_markets=true",
+      { headers: kalshiHeaders("GET", "/trade-api/v2/events") });
+    const evs = (d && (d.events || d.data)) || [];
+    const ev = evs.find((e) => e.series_ticker && e.markets && e.markets.length && num(e.markets[0].open_interest_fp || e.markets[0].open_interest) > 0);
+    if (!ev) { o.kalshiCandles = { note: "no eligible event found" }; }
+    else {
+      const tk = ev.markets[0].ticker;
+      const path = "/trade-api/v2/series/" + ev.series_ticker + "/markets/" + tk + "/candlesticks";
+      const end = Math.floor(Date.now() / 1000), start = end - 7 * 86400;
+      const raw = await getJSON("https://api.elections.kalshi.com" + path + "?start_ts=" + start + "&end_ts=" + end + "&period_interval=60",
+        { headers: kalshiHeaders("GET", path) }).catch((e) => ({ error: String(e && e.message || e) }));
+      o.kalshiCandles = {
+        series: ev.series_ticker, ticker: tk,
+        rawError: raw && raw.error || null,
+        rawKeys: raw && !raw.error ? Object.keys(raw) : null,
+        count: raw && raw.candlesticks ? raw.candlesticks.length : null,
+        sampleCandle: raw && raw.candlesticks ? raw.candlesticks[Math.max(0, raw.candlesticks.length - 1)] : null,
+        parsed: await kalshiCandles(ev.series_ticker, tk).catch(() => null),
+      };
+    }
+  } catch (e) { o.kalshiCandles = { error: e.message }; }
   return o;
 }
 
