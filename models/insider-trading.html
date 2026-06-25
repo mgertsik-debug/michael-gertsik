@@ -770,7 +770,7 @@ class Component extends DCLogic {
     else if (M>=40){ label='Unexplained'; color=this.EV.unexp; key='unexp'; }
     else { label='Partially explained'; color=this.EV.partial; key='partial'; }
     return { S, M, Q, P, E, label, color, key, logitMove, shock, vol, lowLiq, preEvent,
-      leadH:g.leadH, catalyst:g.catalyst, explainedKnown, pA:g.pAfter, pB:g.pBefore, windowH:g.windowH, liqUsd:g.liqUsd, volRatio:g.volRatio, backing:g.backing };
+      leadH:g.leadH, catalyst:g.catalyst, explainedKnown, pA:g.pAfter, pB:g.pBefore, windowH:g.windowH, liqUsd:g.liqUsd, volRatio:g.volRatio, backing:g.backing, headline:g.headline, source:g.newsSource };
   }
   evExplain(g){
     const m=this.evMetrics(g); const pc=x=>Math.round(x*100)+'%'; const f=[];
@@ -789,8 +789,13 @@ class Component extends DCLogic {
     } else {
       f.push({ label:'PRE-EVENT TIMING', sign:'•', color:'#8A938F', text:'No scheduled public catalyst is known for this market, so timing cannot be scored.' });
     }
-    f.push({ label:'PUBLIC EXPLANATION', sign:m.explainedKnown?'▼':'•', color:m.explainedKnown?'#34D399':'#8A938F',
-      text: m.explainedKnown ? 'Public news around this time plausibly explains the move, so its suspiciousness is reduced.' : 'No public-news explanation has been recorded — the move has not been cleared. Treat it as a lead, not a finding.' });
+    let exText;
+    if (m.explainedKnown) exText = 'Public news around this time plausibly explains the move, so its suspiciousness is reduced.';
+    else if (m.headline && m.preEvent) exText = 'The move precedes the first related news we found — front-running the wire.';
+    else exText = 'No public-news explanation has been recorded — the move has not been cleared. Treat it as a lead, not a finding.';
+    if (m.headline) exText += ' News: “'+m.headline+'”'+(m.source?' — '+m.source:'')+'.';
+    f.push({ label:'PUBLIC EXPLANATION', sign: m.explainedKnown?'▼':(m.headline&&m.preEvent?'▲':'•'),
+      color: m.explainedKnown?'#34D399':(m.headline&&m.preEvent?'#F87171':'#8A938F'), text: exText });
     const verb = (m.pA!=null&&m.pB!=null&&m.pA>=m.pB)?'jump':'move';
     const summary = 'Scored '+m.S+'/100 ('+m.label+'): a '+m.shock.toFixed(1)+'σ '+verb+(m.preEvent?(' ~'+m.leadH+'h before '+m.catalyst):'')+(m.explainedKnown?', though public news may explain it':(m.lowLiq?', on a thin book':', with no public explanation on record'))+'.';
     return { factors:f, summary, m };
@@ -907,7 +912,7 @@ class Component extends DCLogic {
         backing = c ? (c.toLocaleString()+' contracts traded'+(oi?(' on '+oi.toLocaleString()+' open interest'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(1)+'× vol/OI)'):'')) : null;
       }
       const ocShow = !!(oc && (oc.recentZ>=2 || oc.topShare>=0.05));
-      // Live runs no public-news / pre-event check, so those stay unknown.
+      // catalyst / leadH / explained come from the collector's news check (E layer).
       return {
         id:a.id, market:a.market, platform: poly?'poly':'kalshi',
         detector:a.detector, severity: high?'high':'watch', estimated:true,
@@ -915,7 +920,10 @@ class Component extends DCLogic {
         lead: 0.5 + (i%6), signal: high?0.85:0.52,
         pBefore:pB, pAfter:pA, windowH: M.windowH || (haveMove?1:null), shockSigma:shock,
         volUsd:volForQ, liqUsd: poly?(M.liqUsd||null):null, volRatio:M.volRatio||null, backing, lowLiq,
-        catalyst:null, leadH:null, explained:null,
+        catalyst: M.catalyst || null,
+        leadH: (M.leadH!=null) ? M.leadH : null,
+        explained: (M.explained===true) ? true : (M.explained===false ? false : null),
+        headline: M.headline || null, newsSource: M.newsSource || null,
         desc:a.note, gap:a.gap
       };
     });
