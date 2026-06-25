@@ -59,17 +59,37 @@ function normCdf(x) {
   return x >= 0 ? 0.5 * (1 + y) : 0.5 * (1 - y);
 }
 
-/* ---- tuning constants (one exported home, exposed for tuning) ------------- */
+/* ---- tuning constants (one exported home, exposed for tuning) -------------
+ * Severity thresholds + the empirical baselines from the real-case calibration:
+ * the ACDC longshot screen (>= $2,500 at <= 0.35 implied) and the observed
+ * win-rate baselines by category (14% all / 25% political / 52% military). */
 const DEFAULTS = {
   w: [0.30, 0.25, 0.20, 0.25],   // [runUp, vpin, priceImpact, concentration]
-  gamma: 0.6,                    // news discount: Index = 100*clip(Raw*(1-gamma*E))
-  tauQ: 0.25,                    // Q at/below this => "Low-liquidity artifact"
+  gamma: 0.6,                    // news discount: Score = 100*clip(Raw*(1-gamma*E)*categoryMult)
+  tauQ: 0.25,                    // Q at/below this => capped at Watch (low-liquidity artifact)
   kRunUp: 4,                     // CAR* divisor; |CAR*| >= k saturates the sub-score
   estFrac: 0.6,                  // fraction of the series used as the estimation window
-  vpinN: 50,                     // VPIN window: last N volume buckets
-  vpinBuckets: 50,               // bucket count ~= total volume / 50
-  freshWalletHours: 24,          // a wallet first active within N hours of the move is "fresh"
+  vpinN: 50, vpinBuckets: 50,
+  freshWalletHours: 48,          // wallet first active within N hours of the move is "fresh"
+  // severity banding (a market reaches High-signal ONLY with full coverage + >=2 agreeing detectors)
+  agreeSub: 0.45,                // a detector "agrees" when its sub-score is at/above this
+  tierHigh: 70, tierElevated: 50, tierWatch: 30,
+  // ACDC longshot screen + win-rate baselines
+  longshotUsd: 2500, longshotImplied: 0.35,
+  winBaseline: { all: 0.14, political: 0.25, elections: 0.25, world: 0.52, business: 0.20, economy: 0.18, finance: 0.18, culture: 0.30, health: 0.20, "tech & science": 0.20 },
+  // category/role risk multiplier (military/exec/central-bank/self-referential up; weather/sports down)
+  categoryMult: { world: 1.25, politics: 1.2, elections: 1.2, economy: 1.1, finance: 1.1, business: 1.1, health: 1.05, "tech & science": 1.0, culture: 0.95 },
+  holdToResolution: 0.03,        // selling < 3% before resolution = conviction signature
+  lookbackDays: 90, graceDays: 14,
 };
+function categoryMult(cat) {
+  const m = DEFAULTS.categoryMult[String(cat || "").toLowerCase()];
+  return isNum(m) ? m : 1;
+}
+function winBaseline(cat) {
+  const b = DEFAULTS.winBaseline[String(cat || "").toLowerCase()];
+  return isNum(b) ? b : DEFAULTS.winBaseline.all;
+}
 
 /* ============================================================================
  *  1. PRE-EVENT RUN-UP  —  Keown-Pinkerton event study (FINRA SONAR core)
@@ -311,44 +331,75 @@ function liquidityQ(inputs) {
 }
 
 /* ============================================================================
- *  FUSION  ->  suspicion index (0-100) + label
- *  The index is a weighted sum of the detector sub-scores, divided by the FULL
- *  weight of the detectors AVAILABLE for that platform (concentration is omitted
- *  for anonymous Kalshi). Crucially we do NOT renormalise over only the
- *  detectors that happened to compute: a detector with no data counts as 0, so a
- *  market where we have measured only one of several checks cannot score high.
- *  That makes the number honest and bounded — reaching 100 requires every
- *  available check to be maxed at once.
- *    Index = round(100 * clip(Raw * (1 - gamma*E), 0, 1))
- *  Each contribution carries `points` = its share of the final 0-100 index, so
- *  the UI can show "run-up +18, one-sided buying +22, ... = 72".
+ *  FUSION  ->  suspicion score (0-100) + coverage + severity tier + label
+ *  `dets` is the list of checks APPLICABLE to this market/engine, each
+ *  { key, weight, sub|null } (sub=null means the check could not run — no data).
+ *  We renormalise the weighted sum over ONLY the checks that ran, and report
+ *  coverage (ran / applicable) so the UI shows "3/4 checks ran" instead of fake
+ *  "n/a +0" rows. The score therefore varies with whatever ran — but the
+ *  SEVERITY TIER is gated: a market reaches High-signal only with FULL coverage
+ *  AND >=2 independent detectors agreeing. That is the structural fix for
+ *  "everything scores ~30 from one lonely check".
+ *    Score = round(100 * clip(Raw * (1 - gamma*E) * categoryMult, 0, 1))
  * ========================================================================== */
-function fuse(subs, ctx, opts) {
+function tierOf(x, o) {
+  o = o || DEFAULTS;
+  if (isNum(x.Q) && x.Q <= o.tauQ) return "Watch";                       // thin book caps at Watch
+  if (x.fullCoverage && x.agreeing >= 2 && x.score >= o.tierHigh) return "High-signal";
+  if (x.score >= o.tierElevated && x.agreeing >= 1) return "Elevated";
+  if (x.score >= o.tierWatch) return "Watch";
+  return "Clear";
+}
+function fuse(dets, ctx, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   ctx = ctx || {};
-  const sval = (s) => (s == null ? null : (typeof s === "number" ? s : (isNum(s.score) ? s.score : null)));
-  const order = ["runUp", "vpin", "priceImpact", "concentration"];
-  let denom = 0, weighted = 0, present = 0;
-  const rows = [];
-  order.forEach((key, idx) => {
-    const w = o.w[idx];
-    denom += w;                                  // full available weight (present or not)
-    const v = sval(subs[key]);
-    if (v != null) { weighted += w * v; present++; rows.push({ key, w, v }); }
-  });
-  if (denom <= 0 || !present) return { index: 0, raw: 0, E: 0, label: "Insufficient data", contributions: [] };
+  const applicable = (Array.isArray(dets) ? dets : []).filter((d) => d && isNum(d.weight));
+  const subOf = (s) => (s == null ? null : (typeof s === "number" ? s : (isNum(s.score) ? s.score : null)));
+  const ran = applicable.map((d) => ({ key: d.key, weight: d.weight, sub: subOf(d.sub) })).filter((d) => d.sub != null);
+  const total = applicable.length;
+  if (!ran.length) return { score: 0, raw: 0, E: 0, coverageRan: 0, coverageTotal: total, fullCoverage: false, agreeing: 0, tier: "Insufficient data", label: "Insufficient data", contributions: [] };
 
-  const raw = weighted / denom;
+  const wsum = ran.reduce((s, d) => s + d.weight, 0);
+  const raw = ran.reduce((s, d) => s + (d.weight / wsum) * d.sub, 0);   // RENORMALISED over ran
   const E = isNum(ctx.E) ? ctx.E : (ctx.news && isNum(ctx.news.E) ? ctx.news.E : 0);
-  const discount = 1 - o.gamma * E;
-  const index = Math.round(100 * clip(raw * discount, 0, 1));
+  const mult = isNum(ctx.categoryMult) ? ctx.categoryMult : 1;
+  const disc = clip((1 - o.gamma * E) * mult, 0, 1.5);
+  const score = Math.round(100 * clip(raw * disc, 0, 1));
+  const agreeing = ran.filter((d) => d.sub >= o.agreeSub).length;
+  const fullCoverage = ran.length === total && total > 0;
+  const tier = tierOf({ score, agreeing, fullCoverage, Q: ctx.Q }, o);
   const label = classify({ raw, E, Q: ctx.Q, preEvent: ctx.preEvent, tauQ: o.tauQ });
   return {
-    index, raw: +raw.toFixed(3), E: +E.toFixed(3), label, denom: +denom.toFixed(3),
-    contributions: rows.map((p) => ({
-      key: p.key, score: +p.v.toFixed(3), weight: +(p.w / denom).toFixed(3),
-      points: Math.round(100 * (p.w * p.v / denom) * clip(discount, 0, 1)),
+    score, raw: +raw.toFixed(3), E: +E.toFixed(3),
+    coverageRan: ran.length, coverageTotal: total, fullCoverage, agreeing, tier, label,
+    contributions: ran.map((p) => ({
+      key: p.key, score: +p.sub.toFixed(3), weight: +(p.weight / wsum).toFixed(3),
+      points: Math.round(100 * (p.weight * p.sub / wsum) * clip(disc, 0, 1)),
     })),
+  };
+}
+
+/* ACDC longshot + win-rate-vs-implied screen (resolved markets, Polymarket).
+ * A large bet (>= $2,500) at a low implied (<= 0.35) that RESOLVED in the
+ * bettor's favour is the core insider fingerprint. Winning repeatedly near 0%
+ * implied is the top of the scale. inputs:
+ *   { stakeUsd, impliedProb, won (bool), category } -> {score, hasData, explain} */
+function longshot(x) {
+  if (!x || !isNum(x.stakeUsd) || !isNum(x.impliedProb)) return null;
+  const isLongshot = x.stakeUsd >= DEFAULTS.longshotUsd && x.impliedProb <= DEFAULTS.longshotImplied;
+  if (!isLongshot) return { score: 0, hasData: true, isLongshot: false, explain: "No large low-priced position to flag for this market." };
+  const base = winBaseline(x.category);
+  if (x.won == null) return { score: clip((0.35 - x.impliedProb) / 0.35 * 0.4, 0, 0.5), hasData: true, isLongshot: true, won: null,
+    explain: "A large bet (~$" + Math.round(x.stakeUsd).toLocaleString() + ") was placed at only " + Math.round(x.impliedProb * 100) + "% implied odds." };
+  // won: how far below "fair" the entry was, lifted vs the category baseline
+  const edge = x.won ? clip((1 - x.impliedProb), 0, 1) : 0;
+  const vsBase = x.won ? clip((base - x.impliedProb) / Math.max(0.05, base), 0, 1) : 0;
+  const score = x.won ? clip(0.45 + 0.4 * edge + 0.15 * vsBase, 0, 1) : 0.1;
+  return {
+    score, hasData: true, isLongshot: true, won: x.won, impliedProb: x.impliedProb, baseline: base,
+    explain: x.won
+      ? ("A large bet won at just " + Math.round(x.impliedProb * 100) + "% implied odds — where bets like this win about " + Math.round(base * 100) + "% of the time. Winning anyway is the longshot fingerprint regulators look for.")
+      : "A large low-priced bet that did not pay out.",
   };
 }
 
@@ -368,5 +419,6 @@ function classify(x) {
 
 module.exports = {
   DEFAULTS, clip, logit, logitReturns, mean, stdev, median, normCdf,
-  runUp, vpin, priceImpact, concentration, newsGap, liquidityQ, fuse, classify,
+  runUp, vpin, priceImpact, concentration, newsGap, liquidityQ, longshot,
+  fuse, tierOf, classify, categoryMult, winBaseline,
 };

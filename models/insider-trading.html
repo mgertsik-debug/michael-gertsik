@@ -157,7 +157,7 @@
                 <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#5d6864;">NEW YORK · LIVE</div>
               </div>
               <div style="display:flex;flex-direction:column;gap:6px;z-index:1;">
-                <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#cfd6d2;letter-spacing:.01em;">scanning <span style="color:#F3F5F4;font-weight:600;">{{ surv.scannedStr }}</span> markets<span style="color:#3b4641;margin:0 8px;">·</span><span style="color:#FBBF24;font-weight:600;">{{ surv.flaggedStr }}</span> flagged<span style="color:#3b4641;margin:0 8px;">·</span><span style="color:#F87171;font-weight:600;">{{ surv.highStr }}</span> high-signal</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#cfd6d2;letter-spacing:.01em;">watching <span style="color:#F3F5F4;font-weight:600;">{{ surv.scannedStr }}</span> markets<span style="color:#3b4641;margin:0 8px;">·</span><span style="color:#A78BFA;font-weight:600;">{{ surv.flaggedStr }}</span> deep-evaluated<span style="color:#3b4641;margin:0 8px;">·</span><span style="color:#F87171;font-weight:600;">{{ surv.highStr }}</span> high-signal</div>
                 <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
                   <div style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#8A938F;">
                     <span key="{{ surv.pulseKey }}" style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 7px #34d399;animation:glowPulse 1.8s ease-in-out infinite;"></span>
@@ -214,9 +214,17 @@
                 <sc-if value="{{ surv.overview }}" hint-placeholder-val="{{ false }}">
                   <div style="border:1px solid #1B2521;background:#0F1513;border-radius:12px;padding:15px 16px;animation:fadeUp .35s ease;">{{ surv.overviewEl }}</div>
                 </sc-if>
+                <div style="display:flex;align-items:center;gap:6px;padding:0 2px;">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#5d6864;margin-right:3px;">SHOW</span>
+                  <div style="display:flex;background:#0c1110;border:1px solid #1B2521;border-radius:8px;padding:3px;gap:3px;">
+                    <sc-for list="{{ surv.viewBtns }}" as="v" hint-placeholder-count="3">
+                      <button onClick="{{ v.onClick }}" style="{{ v.style }}">{{ v.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
                 <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 4px;">
                   <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:#8A938F;">WATCHLIST</div>
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#5d6864;">{{ surv.visibleCount }} markets · sorted by {{ surv.sortLabel }}</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#5d6864;">{{ surv.visibleCount }} shown · sorted by {{ surv.sortLabel }}</div>
                 </div>
                 <div style="display:flex;flex-direction:column;gap:10px;">
                   <sc-for list="{{ surv.rows }}" as="m" hint-placeholder-count="6">
@@ -227,7 +235,9 @@
                       </div>
                       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                         <span style="{{ m.tagStyle }}">{{ m.platformLabel }}</span>
+                        <span style="{{ m.tierStyle }}">{{ m.tierLabel }}</span>
                         <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:#6b746f;">{{ m.category }}</span>
+                        <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:#4f5854;">{{ m.coverage }}</span>
                       </div>
                       <div style="display:flex;align-items:center;gap:10px;">
                         <div style="flex:1;height:6px;border-radius:4px;background:#16201c;overflow:hidden;">
@@ -246,7 +256,10 @@
                     </div>
                   </sc-for>
                   <sc-if value="{{ surv.noResults }}" hint-placeholder-val="{{ false }}">
-                    <div style="border:1px dashed #1B2521;border-radius:12px;padding:30px;text-align:center;color:#5d6864;font-family:'JetBrains Mono',monospace;font-size:12px;">No markets match these filters.</div>
+                    <div style="border:1px dashed #1B2521;border-radius:12px;padding:28px 22px;text-align:center;">
+                      <div style="font-size:14px;font-weight:600;color:#cfd6d2;margin-bottom:8px;">{{ surv.emptyTitle }}</div>
+                      <div style="font-size:12.5px;line-height:1.55;color:#7e8782;max-width:46ch;margin:0 auto;text-wrap:pretty;">{{ surv.emptyBody }}</div>
+                    </div>
                   </sc-if>
                 </div>
               </div>
@@ -258,8 +271,10 @@
                     <div style="padding:20px 22px 18px;border-bottom:1px solid #161e1b;background:{{ surv.insp.headBg }};">
                       <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap;">
                         <span style="{{ surv.insp.tagStyle }}">{{ surv.insp.platformLabel }}</span>
+                        <span style="{{ surv.insp.tierStyle }}">{{ surv.insp.tierLabel }}</span>
                         <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#6b746f;">{{ surv.insp.category }}</span>
                         <span style="{{ surv.insp.labelStyle }}">{{ surv.insp.label }}</span>
+                        <span style="display:flex;align-items:center;gap:7px;margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7e8782;">{{ surv.insp.coverage }} {{ surv.insp.coverageBar }}</span>
                         <sc-if value="{{ surv.insp.live }}" hint-placeholder-val="{{ false }}"><span style="{{ surv.insp.liveStyle }}">● LIVE</span></sc-if>
                       </div>
                       <a href="{{ surv.insp.url }}" target="_blank" rel="noopener" style="display:block;font-size:clamp(18px,2.3vw,24px);font-weight:600;line-height:1.28;color:#F3F5F4;text-decoration:none;letter-spacing:-.01em;text-wrap:pretty;" style-hover="text-decoration:underline;">{{ surv.insp.question }} <span style="font-size:13px;color:{{ surv.insp.platformColor }};vertical-align:middle;">↗</span></a>
@@ -607,7 +622,7 @@ class Component extends DCLogic {
       // --- Surveillance: Signal List + Inspector ---
       // --- Surveillance scanner (ported reference UI) ---
       survSel:null, survPlatform:'all', survCats:[], survSort:'suspicion', survThreshold:0, survSearch:'',
-      survOverview:false, survProbView:'pct', survMath:{}, survReduce:false,
+      survOverview:false, survProbView:'pct', survMath:{}, survReduce:false, survView:'high',
       survNow:Date.now(), survStatT:0, survUpdatedAt:Date.now(), survPulse:0,
       survMarkets:null, survFeedAt:null, survCoverage:null, survSources:null, survWs:null,
       // --- Case files ---
@@ -945,7 +960,10 @@ class Component extends DCLogic {
       else summary='The price made an unusual move toward '+dirWord+'; it is partly explained by public context, so it is worth watching rather than alarming.';
 
       const updatedAgo= m.movedAt?Math.max(3,Math.round((Date.now()-m.movedAt)/1000)):(8+(idx%9)*11);
+      const cRan=m.coverageRan!=null?m.coverageRan:checks.filter(c=>c.available).length, cTot=m.coverageTotal!=null?m.coverageTotal:4;
+      const tier=m.tier||(m.label==='Low-liquidity artifact'?'Watch':(score>=70&&cRan===cTot?'High-signal':score>=50?'Elevated':score>=30?'Watch':'Clear'));
       return { id:m.id, question:m.question, platform:plat, category:m.category||'Other', score, label:m.label||'—', summary,
+        tier, coverageRan:cRan, coverageTotal:cTot,
         prob, nLoF, nHiF, surgeStart:estN, curLvl, nLo, nHi, deepSeries, dir,
         checks, news:newsCtx, topChips:top, wallets, hhi, clusters, book:m.book||null, wsCoords:m.ws||null,
         url:m.url||'#', updatedAgo, recencyMins: m.movedAt?Math.round((Date.now()-m.movedAt)/60000):idx, volume:m.volume24h||0, deep:!!m.deep };
@@ -1058,14 +1076,22 @@ class Component extends DCLogic {
 
   // sample markets (identical shape) for the offline / pre-deploy fallback
   // browser-side mirror of detectors.js fuse(): bounded by full available weight
-  _fuseSample(subs01, platform, E){
-    const W={runUp:0.30,vpin:0.25,priceImpact:0.20,concentration:0.25};
+  // browser mirror of detectors.js fuse(): renormalise over the checks that ran,
+  // report coverage, and gate the severity tier (High needs full coverage + >=2).
+  catMult(cat){ const m={world:1.25,politics:1.2,elections:1.2,economy:1.1,finance:1.1,business:1.1,health:1.05,'tech & science':1.0,culture:0.95}; return m[String(cat||'').toLowerCase()]||1; }
+  survTier(x){ if(x.Q!=null&&x.Q<=0.25) return 'Watch'; if(x.fullCoverage&&x.agreeing>=2&&x.score>=70) return 'High-signal'; if(x.score>=50&&x.agreeing>=1) return 'Elevated'; if(x.score>=30) return 'Watch'; return 'Clear'; }
+  tierMeta(t){ return t==='High-signal'?{label:'HIGH-SIGNAL',color:'#F87171',rank:3}:t==='Elevated'?{label:'ELEVATED',color:'#FBBF24',rank:2}:t==='Watch'?{label:'WATCH',color:'#8A938F',rank:1}:{label:String(t||'—').toUpperCase(),color:'#5d6864',rank:0}; }
+  _fuseSample(subs01, opts){
+    opts=opts||{}; const W={runUp:0.30,vpin:0.25,priceImpact:0.20,concentration:0.25};
     const order=['runUp','vpin','priceImpact','concentration'];
-    let denom=0, weighted=0; const rows=[];
-    order.forEach(k=>{ denom+=W[k]; const v=subs01[k]; if(v!=null){ weighted+=W[k]*v; rows.push({k,v}); } });
-    const raw=denom>0?weighted/denom:0, disc=1-0.6*(E||0), index=Math.round(100*Math.max(0,Math.min(1,raw*disc)));
-    const contributions=rows.map(r=>({ key:r.k, points:Math.round(100*(W[r.k]*r.v/denom)*Math.max(0,Math.min(1,disc))) }));
-    return { index, contributions };
+    const applicable=order.length; let wsum=0, weighted=0; const rows=[];
+    order.forEach(k=>{ const v=subs01[k]; if(v!=null){ wsum+=W[k]; weighted+=W[k]*v; rows.push({k,v}); } });
+    if(!rows.length) return { index:0, contributions:[], coverageRan:0, coverageTotal:applicable, fullCoverage:false, agreeing:0, tier:'Insufficient data' };
+    const raw=weighted/wsum, disc=Math.max(0,Math.min(1.5,(1-0.6*(opts.E||0))*(opts.categoryMult||1))), index=Math.round(100*Math.max(0,Math.min(1,raw*disc)));
+    const contributions=rows.map(r=>({ key:r.k, points:Math.round(100*(W[r.k]*r.v/wsum)*Math.max(0,Math.min(1,disc))) }));
+    const agreeing=rows.filter(r=>r.v>=0.45).length, fullCoverage=rows.length===applicable;
+    const tier=this.survTier({ score:index, agreeing, fullCoverage, Q:opts.Q });
+    return { index, contributions, coverageRan:rows.length, coverageTotal:applicable, fullCoverage, agreeing, tier };
   }
   // sample markets in the LIVE FEED shape, so they flow through survLiveCards()
   // exactly like real data (one code path for all the plain-English explanations)
@@ -1089,10 +1115,13 @@ class Component extends DCLogic {
       const s01= idx<5?(0.74+R()*0.22):(0.12+R()*0.62);     // base suspicion 0..1
       // detector sub-scores (0..1), jittered around the base
       const jc=()=>Math.max(0.05,Math.min(0.99,s01+(R()-0.5)*0.28));
-      const subs={ runUp:jc(), vpin:jc(), priceImpact:jc(), concentration: jc() };
+      // vary coverage: ~1 in 4 markets is missing a check (no per-trade data etc.)
+      const missing = R()<0.28 ? (R()<0.5?'vpin':'priceImpact') : null;
+      const subs={ runUp:jc(), vpin: missing==='vpin'?null:jc(), priceImpact: missing==='priceImpact'?null:jc(), concentration: jc() };
       // news: most are pre-event gaps; ~1 in 4 is explained by a headline
       const explained = R()<0.25, E = explained?(0.55+R()*0.4):0;
-      const fused=this._fuseSample(subs, platform, E);
+      const Q = 0.45+R()*0.5;
+      const fused=this._fuseSample(subs, { E, Q, categoryMult:this.catMult(cat) });
       // build a price series: calm range, then a surge of size ~ s01
       const N=56, b0=0.30+R()*0.34, amp=0.03+R()*0.03, ph=R()*6, dir=R()<0.5?1:-1, target=dir>0?0.92:0.08, strength=0.4+s01*0.6;
       const series=[], ws=N-20, we=N-7;
@@ -1105,8 +1134,8 @@ class Component extends DCLogic {
       // detector objects with realistic raw metrics derived from the sub-scores
       const detectors={
         runUp:{ score:subs.runUp, sigma_move:+(subs.runUp*7+0.5).toFixed(1), dir:dir>0?'up':'down' },
-        vpin:{ score:subs.vpin, vpin:+(0.5+subs.vpin*0.45).toFixed(2), nBuckets:50, nTrades:Math.round(120+R()*900) },
-        priceImpact:{ score:subs.priceImpact, impactRatio:+(2+subs.priceImpact*16).toFixed(1), lambda:+(0.004+subs.priceImpact*0.02).toFixed(4), amihud:'2e-5' },
+        vpin: subs.vpin==null?null:{ score:subs.vpin, vpin:+(0.5+subs.vpin*0.45).toFixed(2), nBuckets:50, nTrades:Math.round(120+R()*900) },
+        priceImpact: subs.priceImpact==null?null:{ score:subs.priceImpact, impactRatio:+(2+subs.priceImpact*16).toFixed(1), lambda:+(0.004+subs.priceImpact*0.02).toFixed(4), amihud:'2e-5' },
         concentration: platform==='polymarket'
           ? { score:subs.concentration, top1:+(0.25+subs.concentration*0.55).toFixed(2), nWallets:Math.round(8+R()*60), fresh:R()<0.5, hhi:+(0.1+subs.concentration*0.4).toFixed(2) }
           : { score:subs.concentration, kind:'orderbook', imbalance:+(0.2+subs.concentration*0.6).toFixed(2), side:R()<0.5?'buy':'sell', depthUsd:Math.round(5000+R()*80000), bestBid:+(0.2+R()*0.5).toFixed(2), bestAsk:+(0.25+R()*0.5).toFixed(2) },
@@ -1122,7 +1151,9 @@ class Component extends DCLogic {
       const E2=detectors.news.E;
       let label; if(E2>=0.5&&!detectors.news.preEvent) label='Explained'; else if(fused.index>=55) label='Unexplained'; else if(fused.index>=28) label='Partially explained'; else label='Low-liquidity artifact';
       out.push({ id:'sm'+idx, platform, category:cat, question, prob:+cur.toFixed(4), change24h:+(cur-prev).toFixed(4),
-        volume24h:Math.round(20000+R()*1800000), index:fused.index, label, deep:true, movedAt: now-Math.round((5+R()*280))*1000,
+        volume24h:Math.round(20000+R()*1800000), index:fused.index, label, tier:fused.tier,
+        coverageRan:fused.coverageRan, coverageTotal:fused.coverageTotal, fullCoverage:fused.fullCoverage, agreeing:fused.agreeing,
+        deep:true, movedAt: now-Math.round((5+R()*280))*1000,
         detectors, contributions:fused.contributions, series, onchain, ws:null,
         url: platform==='kalshi'?'https://kalshi.com/markets/kxsample/'+this.slug(question):'https://polymarket.com/event/'+this.slug(question) });
       idx++;
@@ -1611,8 +1642,14 @@ class Component extends DCLogic {
     const allCats = ORDER.concat(extra);
 
     const sp = s.survPlatform||'all', scat = s.survCats||[], ssort=s.survSort||'suspicion', sthr=s.survThreshold||0, sq=(s.survSearch||'').trim().toLowerCase();
+    // PUBLISH BAR: default view shows only High-signal (full coverage + >=2
+    // agreeing checks); the user can opt into Elevated / all. Scan everything,
+    // publish almost nothing — an empty feed is a correct, expected state.
+    const view = s.survView || 'high';
+    const minRank = view==='all' ? 1 : view==='elevated' ? 2 : 3;
     let list = all.filter(m =>
       (sp==='all'||m.platform===sp) && (scat.length===0||scat.includes(m.category)) && m.score>=sthr &&
+      (this.tierMeta(m.tier).rank >= minRank) &&
       (sq===''||m.question.toLowerCase().includes(sq)||m.category.toLowerCase().includes(sq)||m.platform.includes(sq)));
     if (ssort==='suspicion') list.sort((a,b)=>b.score-a.score);
     else if (ssort==='recent') list.sort((a,b)=>a.recencyMins-b.recencyMins);
@@ -1626,10 +1663,12 @@ class Component extends DCLogic {
 
     const cov = (isLive && s.survCoverage) ? s.survCoverage : null;
     const T = s.survStatT!=null ? s.survStatT : 1;
-    const scannedN = cov ? (cov.scanned||all.length) : 2847;
-    const flaggedN = cov ? (cov.flagged|| all.filter(m=>m.score>=40).length) : all.length;
-    const highN = cov ? (cov.high|| all.filter(m=>m.score>70).length) : all.filter(m=>m.score>70).length;
-    const scannedStr=Math.round(scannedN*T).toLocaleString('en-US'), flaggedStr=String(Math.round(flaggedN*T)), highStr=String(Math.round(highN*T));
+    // honest counts: "watching" = full enumerated universe; "evaluated" = the
+    // deep-scored batch; "high-signal" = markets clearing the publish bar.
+    const watchingN = cov ? (cov.watching||cov.scanned||all.length) : all.length;
+    const evaluatedN = cov ? (cov.evaluated|| all.filter(m=>m.deep).length) : all.filter(m=>m.deep).length;
+    const highN = cov ? (cov.highSignal|| all.filter(m=>m.tier==='High-signal').length) : all.filter(m=>m.tier==='High-signal').length;
+    const scannedStr=Math.round(watchingN*T).toLocaleString('en-US'), flaggedStr=String(Math.round(evaluatedN*T)), highStr=String(Math.round(highN*T));
     let updatedAgo;
     if (isLive && s.survFeedAt) updatedAgo=Math.max(0,Math.floor((Date.now()-Date.parse(s.survFeedAt))/1000));
     else updatedAgo=Math.max(0,Math.floor(((s.survNow||Date.now())-(s.survUpdatedAt||Date.now()))/1000));
@@ -1648,8 +1687,11 @@ class Component extends DCLogic {
 
     const rows=list.map(m=>{ const color=m.platform==='kalshi'?'#34D399':'#A78BFA'; const sevc=this.sev(m.score); const selected=m.id===s.survSel;
       const chips=(m.topChips||[]).map(t=>({ text:t, style:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;color:#9aa39e;border:1px solid #1f2a26;background:#0c1110;border-radius:5px;padding:3px 7px;white-space:nowrap;' }));
+      const tm=this.tierMeta(m.tier);
       return { id:m.id, question:m.question, url:m.url, category:m.category, platformLabel:m.platform==='kalshi'?'Kalshi':'Polymarket',
         scoreStr:String(m.score), scoreColor:sevc, meterW:m.score+'%', meterColor:sevc, meterGlow:sevc+'66',
+        tierLabel:tm.label, tierStyle:'font-family:\'JetBrains Mono\',monospace;font-size:8.5px;font-weight:700;letter-spacing:.06em;color:'+tm.color+';border:1px solid '+tm.color+'55;background:'+tm.color+'14;border-radius:4px;padding:2px 6px;',
+        coverage:(m.coverageRan!=null?m.coverageRan:'—')+'/'+(m.coverageTotal||4)+' checks',
         chips, spark:this.spark(m), updatedAgo:m.updatedAgo, onSelect:()=>this.selectSurv(m.id), stop:(e)=>{ e.stopPropagation(); },
         tagStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;font-weight:600;letter-spacing:.04em;color:'+color+';border:1px solid '+color+'44;background:'+color+'14;border-radius:5px;padding:2px 8px;',
         linkStyle:'font-size:14.5px;font-weight:500;line-height:1.34;color:#E5E7EB;text-decoration:none;letter-spacing:-.005em;text-wrap:pretty;flex:1;',
@@ -1672,8 +1714,12 @@ class Component extends DCLogic {
         cardStyle:'border:1px solid #161e1b;background:#0c1110;border-radius:10px;padding:13px 14px;'+(c.available&&c.points>0?'':'opacity:.62;') }));
       const wallets=selM.wallets.map(w=>({ addr:w.addr, pct:w.pct, barW:Math.round((w.share||0)*100)+'%', fresh:w.fresh, url:w.url }));
       const clusters=(selM.clusters||[]).map(c=>({ text:c.size+' different wallets all started buying within about '+c.windowMin+' minutes of each other — together '+Math.round(c.share*100)+'% of the buying. Coordinated timing like this can mean the accounts are linked.' }));
+      const tmI=this.tierMeta(selM.tier);
       insp={ question:selM.question, url:selM.url, category:selM.category, platformLabel:selM.platform==='kalshi'?'Kalshi':'Polymarket', platformColor:color,
         scoreStr:String(selM.score), scoreColor:sevc, meterW:selM.score+'%', meterColor:sevc, meterGlow:sevc+'77', label:selM.label, summary:selM.summary,
+        tierLabel:tmI.label, tierStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:'+tmI.color+';border:1px solid '+tmI.color+'66;background:'+tmI.color+'1a;border-radius:6px;padding:3px 9px;',
+        coverage:(selM.coverageRan!=null?selM.coverageRan:'—')+' of '+(selM.coverageTotal||4)+' checks ran',
+        coverageBar:this.bar(Math.round(((selM.coverageRan||0)/(selM.coverageTotal||4))*100), '#34D399', 70),
         headBg:'linear-gradient(180deg,'+color+'0b,transparent)',
         scoreSentence, breakdown,
         tagStyle:'font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;letter-spacing:.05em;color:'+color+';border:1px solid '+color+'55;background:'+color+'1a;border-radius:6px;padding:3px 10px;',
@@ -1699,8 +1745,12 @@ class Component extends DCLogic {
       platformBtns, sortBtns, cats, threshold:sthr, onThreshold:(e)=>this.setState({survThreshold:Number(e.target.value)}),
       overview:!!s.survOverview, onOverview:()=>this.setState(st=>({survOverview:!st.survOverview})), overviewBtnStyle,
       overviewEl: s.survOverview?this.buildOverview(all):null,
+      viewBtns:[['high','High-signal'],['elevated','+ Elevated'],['all','All flagged']].map(v=>({ label:v[1], onClick:()=>this.setState({survView:v[0]}), style:this.segStyle(view===v[0], v[0]==='high'?'#F87171':v[0]==='elevated'?'#FBBF24':'#34D399') })),
       visibleCount:list.length, sortLabel: ssort==='suspicion'?'suspicion':ssort==='recent'?'most recent':'volume',
-      rows, noResults:list.length===0, hasSel:!!insp, insp,
+      rows, noResults:list.length===0,
+      emptyTitle: view==='high'?'No markets currently clear the high-signal threshold.':'No markets match these filters.',
+      emptyBody: 'The scanner is watching '+Math.round(watchingN).toLocaleString('en-US')+' markets across both platforms. High-signal events are rare by design — an empty list here is a healthy, expected state. Switch to “+ Elevated” or “All flagged” to see lower-confidence signals.',
+      hasSel:!!insp, insp,
     };
 
     // ---- case files ----

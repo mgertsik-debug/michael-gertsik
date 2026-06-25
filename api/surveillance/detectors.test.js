@@ -122,32 +122,62 @@ test("liquidityQ: thin book -> low Q (artifact), deep book -> high Q", () => {
   assert.ok(deep.Q > 0.7, `deep Q ${deep.Q}`);
 });
 
-test("fuse: bounded by full weight; missing checks count as 0; news discount", () => {
-  const all = { runUp: 1, vpin: 1, priceImpact: 1, concentration: 1 };
-  const poly = D.fuse(all, { platform: "polymarket", E: 0, Q: 1 });
-  assert.equal(poly.index, 100);                 // every check maxed -> 100
-  assert.equal(poly.label, "Unexplained");
+const W = { runUp: 0.30, vpin: 0.25, priceImpact: 0.20, concentration: 0.25 };
+const dets = (subs) => ["runUp", "vpin", "priceImpact", "concentration"].map((k) => ({ key: k, weight: W[k], sub: subs[k] != null ? subs[k] : null }));
 
-  // a single check firing CANNOT inflate the score: denom is the full 1.0
-  const onlyRun = D.fuse({ runUp: 1 }, { platform: "polymarket", E: 0, Q: 1 });
-  assert.equal(onlyRun.index, 30);               // 0.30 weight / 1.0 denom
-  assert.equal(onlyRun.contributions[0].points, 30);
+test("fuse: renormalises over the checks that RAN, reports coverage, gates the tier", () => {
+  // all four ran and agree -> full coverage, High-signal
+  const all = D.fuse(dets({ runUp: 1, vpin: 1, priceImpact: 1, concentration: 1 }), { E: 0, Q: 1 });
+  assert.equal(all.score, 100);
+  assert.equal(all.coverageRan, 4); assert.equal(all.coverageTotal, 4);
+  assert.equal(all.fullCoverage, true); assert.equal(all.agreeing, 4);
+  assert.equal(all.tier, "High-signal");
 
-  // E=0.5, gamma 0.6 -> 100*(1-0.3) = 70
-  assert.equal(D.fuse(all, { platform: "polymarket", E: 0.5, Q: 1 }).index, 70);
+  // ONLY one check ran: renormalised so the score reflects it, but coverage is
+  // 1/4 and it can never be High-signal — this is the "everything is 30" fix.
+  const one = D.fuse(dets({ runUp: 1 }), { E: 0, Q: 1 });
+  assert.equal(one.score, 100);                 // renormalised over the one that ran
+  assert.equal(one.coverageRan, 1); assert.equal(one.coverageTotal, 4);
+  assert.equal(one.fullCoverage, false);
+  assert.notEqual(one.tier, "High-signal");     // gated: <2 agreeing, partial coverage
+  assert.equal(one.tier, "Elevated");
 
-  // Kalshi: three checks maxed, concentration missing -> 0.75 of full weight
-  const k3 = D.fuse({ runUp: 1, vpin: 1, priceImpact: 1 }, { platform: "kalshi", E: 0, Q: 1 });
-  assert.equal(k3.index, 75);
-  // with an order-book-pressure value in the concentration slot, Kalshi reaches 100
-  const k4 = D.fuse({ runUp: 1, vpin: 1, priceImpact: 1, concentration: 1 }, { platform: "kalshi", E: 0, Q: 1 });
-  assert.equal(k4.index, 100);
+  // three agree but coverage incomplete -> Elevated, not High-signal
+  const three = D.fuse(dets({ runUp: 0.9, vpin: 0.9, priceImpact: 0.9 }), { E: 0, Q: 1 });
+  assert.equal(three.fullCoverage, false);
+  assert.equal(three.tier, "Elevated");
 
-  // points sum to the index
-  const mid = D.fuse({ runUp: 0.8, vpin: 0.6, priceImpact: 0.4, concentration: 0.2 }, { platform: "polymarket", E: 0, Q: 1 });
-  assert.equal(mid.contributions.reduce((s, c) => s + c.points, 0), mid.index);
+  // news discount + points sum to the score
+  assert.equal(D.fuse(dets({ runUp: 1, vpin: 1, priceImpact: 1, concentration: 1 }), { E: 0.5, Q: 1 }).score, 70);
+  const mid = D.fuse(dets({ runUp: 0.8, vpin: 0.6, priceImpact: 0.4, concentration: 0.2 }), { E: 0, Q: 1 });
+  assert.equal(mid.contributions.reduce((s, c) => s + c.points, 0), mid.score);
 
-  assert.equal(D.fuse({}, { platform: "kalshi" }).label, "Insufficient data");
+  // category multiplier raises a high-conflict market
+  const plain = D.fuse(dets({ runUp: 0.6, vpin: 0.6, priceImpact: 0.6, concentration: 0.6 }), { E: 0, Q: 1 });
+  const mult = D.fuse(dets({ runUp: 0.6, vpin: 0.6, priceImpact: 0.6, concentration: 0.6 }), { E: 0, Q: 1, categoryMult: 1.25 });
+  assert.ok(mult.score > plain.score);
+
+  assert.equal(D.fuse([], {}).tier, "Insufficient data");
+});
+
+test("tierOf: thin book caps at Watch; High needs full coverage + >=2 agreeing", () => {
+  assert.equal(D.tierOf({ score: 95, agreeing: 3, fullCoverage: true, Q: 0.1 }), "Watch");   // thin
+  assert.equal(D.tierOf({ score: 80, agreeing: 2, fullCoverage: true, Q: 0.9 }), "High-signal");
+  assert.equal(D.tierOf({ score: 80, agreeing: 1, fullCoverage: true, Q: 0.9 }), "Elevated"); // only 1 agrees
+  assert.equal(D.tierOf({ score: 80, agreeing: 3, fullCoverage: false, Q: 0.9 }), "Elevated"); // partial coverage
+  assert.equal(D.tierOf({ score: 35, agreeing: 1, fullCoverage: true, Q: 0.9 }), "Watch");
+  assert.equal(D.tierOf({ score: 10, agreeing: 0, fullCoverage: true, Q: 0.9 }), "Clear");
+});
+
+test("longshot: large bet at low implied that WON scores high; otherwise low/0", () => {
+  const small = D.longshot({ stakeUsd: 100, impliedProb: 0.2, won: true, category: "world" });
+  assert.equal(small.isLongshot, false);
+  assert.equal(small.score, 0);
+  const win = D.longshot({ stakeUsd: 5000, impliedProb: 0.05, won: true, category: "world" });
+  assert.ok(win.isLongshot && win.score > 0.7);
+  const lose = D.longshot({ stakeUsd: 5000, impliedProb: 0.05, won: false, category: "world" });
+  assert.ok(lose.score < 0.2);
+  assert.equal(D.longshot({ stakeUsd: null }), null);
 });
 
 test("classify: each branch in priority order", () => {
