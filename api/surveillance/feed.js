@@ -156,7 +156,11 @@ async function enumPoly(maxPages) {
     for (const ev of arr) {
       const evTags = pmTagList(ev, null);
       const url2 = pmUrl(ev, null);
-      for (const m of (ev.markets || [])) {
+      // cap a multi-candidate event to its most-active markets so a 40-candidate
+      // field (e.g. "Who will the next Pope be?") can't flood the watchlist.
+      const evMarkets = (ev.markets || []).slice()
+        .sort((a, b) => num(b.volume24hr || b.volume24Hr) - num(a.volume24hr || a.volume24Hr)).slice(0, 4);
+      for (const m of evMarkets) {
         if (m.closed === true || m.active === false) continue;
         const question = String(m.question || m.groupItemTitle || ev.title || "").trim();
         if (!question) continue;
@@ -167,7 +171,9 @@ async function enumPoly(maxPages) {
         const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
         let prob = num(m.lastTradePrice);
         if (!prob && m.outcomePrices) { try { const op = typeof m.outcomePrices === "string" ? JSON.parse(m.outcomePrices) : m.outcomePrices; prob = num(op && op[0]); } catch (_) {} }
-        if (!(prob > 0 && prob < 1)) continue;
+        // skip extreme longshots: a 1c tick near 0/1 explodes in log-odds and an
+        // insider edge on a <2% / >98% contract is implausible noise.
+        if (!(prob >= 0.02 && prob <= 0.98)) continue;
         let tokenId = null;
         if (m.clobTokenIds) { try { const ct = typeof m.clobTokenIds === "string" ? JSON.parse(m.clobTokenIds) : m.clobTokenIds; tokenId = ct && ct[0]; } catch (_) {} }
         rows.push(scoreMarket({
@@ -212,7 +218,10 @@ async function enumKalshi(maxPages) {
       const series = ev.series_ticker || "";
       const url2 = kUrl(ev);
       const evTitle = String(ev.title || ev.sub_title || "");
-      for (const m of (ev.markets || [])) {
+      // cap multi-candidate events to their most-active markets (see enumPoly)
+      const evMarkets = (ev.markets || []).slice()
+        .sort((a, b) => num(b.volume_24h_fp || b.volume_24h) - num(a.volume_24h_fp || a.volume_24h)).slice(0, 4);
+      for (const m of evMarkets) {
         if (m.status && m.status !== "active" && m.status !== "open") continue;
         const question = String(m.title || m.yes_sub_title || evTitle || m.ticker || "").trim();
         if (!question) continue;
@@ -227,7 +236,8 @@ async function enumKalshi(maxPages) {
         let prob = num(m.last_price_dollars != null ? m.last_price_dollars : m.last_price);
         if (!(prob > 0)) { const b = num(m.yes_bid_dollars), a = num(m.yes_ask_dollars); if (b || a) prob = (b + a) / 2; }
         if (prob > 1) prob = prob / 100;                 // guard if a cents field slips in
-        if (!(prob > 0 && prob < 1)) continue;
+        // skip extreme longshots (noise near 0/1)
+        if (!(prob >= 0.02 && prob <= 0.98)) continue;
         const prev = num(m.previous_price_dollars);
         const change24h = (prev > 0 && prev < 1) ? (prob - prev) : 0;
         rows.push(scoreMarket({
@@ -350,13 +360,16 @@ async function fetchBook(m) {
       const d = await getJSON("https://api.elections.kalshi.com" + path, { headers: kalshiHeaders("GET", path), timeout: 5000 }).catch(() => null);
       const ob = d && (d.orderbook || d);
       if (!ob) return null;
-      const lv = (a) => (Array.isArray(a) ? a : []).map((x) => ({ p: num(x[0]) / 100, s: num(x[1]) }));
-      const yes = lv(ob.yes), no = lv(ob.no);
+      // levels may be yes/no or yes_dollars/no_dollars; price in dollars or cents
+      const lv = (a) => (Array.isArray(a) ? a : []).map((x) => { let p = num(x[0]); if (p > 1) p = p / 100; return { p, s: num(x[1]) }; });
+      const yes = lv(ob.yes_dollars || ob.yes), no = lv(ob.no_dollars || ob.no);
+      if (!yes.length && !no.length) return null;            // thin/empty book -> don't pollute Q
       const yesUsd = yes.reduce((x, l) => x + l.p * l.s, 0), noUsd = no.reduce((x, l) => x + l.p * l.s, 0);
       const flow = yesUsd + noUsd;
+      if (!(flow > 0)) return null;
       const bestYes = yes.reduce((mx, l) => Math.max(mx, l.p), 0), bestNo = no.reduce((mx, l) => Math.max(mx, l.p), 0);
       return { spread: Math.max(0, +(1 - bestYes - bestNo).toFixed(3)), depthUsd: Math.round(flow),
-        imbalance: flow > 0 ? +((yesUsd - noUsd) / flow).toFixed(3) : 0, bestBid: +bestYes.toFixed(3), bestAsk: +(1 - bestNo).toFixed(3) };
+        imbalance: +((yesUsd - noUsd) / flow).toFixed(3), bestBid: +bestYes.toFixed(3), bestAsk: +(1 - bestNo).toFixed(3) };
     }
   } catch (_) {}
   return null;
@@ -527,9 +540,15 @@ async function diagnose() {
   try {
     const k = await enumKalshi(1).catch(() => []);
     const km = k[0];
-    if (km) o.kalshiDeep = { ticker: km._ticker, series: km._series,
-      candles: await kalshiCandleSeries(km._series, km._ticker).then((s) => s ? { points: s.length, last: s[s.length - 1] } : null).catch((e) => ({ error: String(e && e.message) })),
-      book: await fetchBook(km).catch((e) => ({ error: String(e && e.message) })) };
+    if (km) {
+      const obPath = "/trade-api/v2/markets/" + km._ticker + "/orderbook";
+      const rawOb = await getJSON("https://api.elections.kalshi.com" + obPath, { headers: kalshiHeaders("GET", obPath), timeout: 5000 }).catch((e) => ({ error: String(e && e.message) }));
+      o.kalshiDeep = { ticker: km._ticker, series: km._series,
+        candles: await kalshiCandleSeries(km._series, km._ticker).then((s) => s ? { points: s.length, last: s[s.length - 1] } : null).catch((e) => ({ error: String(e && e.message) })),
+        rawOrderbookKeys: rawOb && !rawOb.error ? Object.keys(rawOb.orderbook || rawOb) : null,
+        rawOrderbookSample: JSON.stringify(rawOb).slice(0, 360),
+        book: await fetchBook(km).catch((e) => ({ error: String(e && e.message) })) };
+    }
   } catch (e) { o.kalshiDeep = { error: e.message }; }
   return o;
 }
