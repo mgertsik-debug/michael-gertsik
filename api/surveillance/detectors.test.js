@@ -169,6 +169,28 @@ test("tierOf: thin book caps at Watch; High needs full coverage + >=2 agreeing",
   assert.equal(D.tierOf({ score: 10, agreeing: 0, fullCoverage: true, Q: 0.9 }), "Clear");
 });
 
+test("fuse: per-check points PARTITION the score (Σ points == score), incl. category multiplier + saturation", () => {
+  const dets = [
+    { key: "a", weight: 0.30, sub: { score: 0.8 } },
+    { key: "b", weight: 0.25, sub: { score: 0.6 } },
+    { key: "c", weight: 0.20, sub: { score: 0.5 } },
+    { key: "d", weight: 0.25, sub: { score: 0.9 } },
+  ];
+  // plain (mult=1), boosted (mult=1.25 scales the total up), and a damping mult
+  for (const mult of [1, 1.25, 0.5]) {
+    const f = D.fuse(dets, { categoryMult: mult });
+    const sum = f.contributions.reduce((s, c) => s + c.points, 0);
+    assert.ok(Math.abs(sum - f.score) <= 1, `mult ${mult}: Σpoints ${sum} vs score ${f.score}`);
+  }
+  // saturating case: max subs + big multiplier -> score caps at 100, points still sum to it
+  const sat = D.fuse(dets.map((d) => ({ ...d, sub: { score: 1 } })), { categoryMult: 1.25 });
+  assert.equal(sat.score, 100);
+  assert.ok(Math.abs(sat.contributions.reduce((s, c) => s + c.points, 0) - 100) <= 1);
+  // news discount (E) lowers both the score and the summed points together
+  const disc = D.fuse(dets, { E: 0.8 });
+  assert.ok(Math.abs(disc.contributions.reduce((s, c) => s + c.points, 0) - disc.score) <= 1);
+});
+
 test("longshot: large bet at low implied that WON scores high; otherwise low/0", () => {
   const small = D.longshot({ stakeUsd: 100, impliedProb: 0.2, won: true, category: "world" });
   assert.equal(small.isLongshot, false);
