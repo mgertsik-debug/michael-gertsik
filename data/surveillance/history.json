@@ -1,10 +1,36 @@
 {
-  "updatedAt": "2026-06-25T20:31:34.764Z",
+  "updatedAt": "2026-06-25T22:10:44.913Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-1654959",
+      "ts": "22:10 UTC",
+      "platform": "polymarket",
+      "market": "Will the Fed increase interest rates by 25 bps after the July 2026 meeting?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "51 · Elevated",
+      "index": 51,
+      "url": "https://polymarket.com/event/fed-decision-in-july-181",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-25T22:10:44.913Z"
+    },
+    {
+      "id": "pm-560317",
+      "ts": "22:10 UTC",
+      "platform": "polymarket",
+      "market": "Putin out as President of Russia by December 31, 2026?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "53 · Elevated",
+      "index": 53,
+      "url": "https://polymarket.com/event/putin-out-before-2027",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-25T22:10:44.913Z"
+    },
     {
       "id": "pm-2176270",
       "ts": "18:25 UTC",
