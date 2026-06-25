@@ -278,52 +278,60 @@
                       <p style="margin:15px 0 0;font-size:14.5px;line-height:1.55;color:#c3cbc6;max-width:62ch;text-wrap:pretty;">{{ surv.insp.summary }}</p>
                     </div>
 
+                    <!-- what the score means: the points each check added -->
                     <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
-                      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
-                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;">PROBABILITY OVER TIME</span>
-                        <div style="display:flex;background:#0c1110;border:1px solid #1B2521;border-radius:7px;padding:3px;gap:3px;">
-                          <sc-for list="{{ surv.insp.probViewBtns }}" as="v" hint-placeholder-count="2">
-                            <button onClick="{{ v.onClick }}" style="{{ v.style }}">{{ v.label }}</button>
-                          </sc-for>
-                        </div>
-                      </div>
-                      <div style="width:100%;">{{ surv.insp.probChart }}</div>
-                      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;">
-                        <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7e8782;"><span style="width:14px;height:3px;border-radius:2px;background:{{ surv.insp.platformColor }};"></span>price</span>
-                        <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7e8782;"><span style="width:14px;height:9px;border-radius:2px;background:{{ surv.insp.bandColor }};"></span>expected range</span>
-                        <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7e8782;"><span style="width:14px;height:9px;border-radius:2px;background:#fbbf2422;"></span>flagged window</span>
+                      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:11px;">HOW THIS SCORE IS BUILT</div>
+                      <p style="margin:0 0 14px;font-size:13px;line-height:1.55;color:#9aa39e;text-wrap:pretty;">{{ surv.insp.scoreSentence }}</p>
+                      <div style="display:flex;flex-direction:column;gap:8px;">
+                        <sc-for list="{{ surv.insp.breakdown }}" as="b" hint-placeholder-count="4">
+                          <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="font-size:12.5px;color:#cfd6d2;min-width:170px;">{{ b.name }}</span>
+                            {{ b.bar }}
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#cfd6d2;min-width:34px;text-align:right;">{{ b.points }}</span>
+                          </div>
+                        </sc-for>
                       </div>
                     </div>
 
-                    <div style="padding:18px 22px;border-bottom:1px solid #161e1b;display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
-                      <div style="flex:0 0 auto;">{{ surv.insp.radar }}</div>
-                      <div style="flex:1;min-width:200px;">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:8px;">DETECTOR PROFILE</div>
-                        <p style="margin:0;font-size:13px;line-height:1.55;color:#9aa39e;max-width:42ch;text-wrap:pretty;">Each axis is one detector's sub-score. The shape is this market's fingerprint — a spike on a single axis reads differently from a broadly elevated profile.</p>
-                      </div>
+                    <!-- how the odds moved -->
+                    <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
+                      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:6px;">HOW THE ODDS MOVED</div>
+                      <p style="margin:0 0 12px;font-size:12.5px;line-height:1.5;color:#9aa39e;">The line is the chance of “Yes” over time. The grey band is where this market <span style="color:#cfd6d2;">normally trades ({{ surv.insp.normalRange }})</span>. When the line breaks out of that band — especially before any news — that is the move we flag.</p>
+                      <div style="width:100%;">{{ surv.insp.chart }}</div>
                     </div>
 
+                    <!-- the checks, in plain language -->
                     <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
-                      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:13px;">WHICH METHODS FIRED</div>
+                      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:13px;">WHAT EACH CHECK FOUND</div>
                       <div style="display:flex;flex-direction:column;gap:9px;">
-                        <sc-for list="{{ surv.insp.detectors }}" as="d" hint-placeholder-count="5">
+                        <sc-for list="{{ surv.insp.checks }}" as="d" hint-placeholder-count="4">
                           <div style="{{ d.cardStyle }}">
-                            <div onClick="{{ d.onToggle }}" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
-                              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#cfd6d2;font-weight:500;min-width:108px;">{{ d.name }}</span>
-                              <span style="flex:1;font-size:12.5px;line-height:1.45;color:#9aa39e;text-wrap:pretty;">{{ d.sentence }}</span>
-                              <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:{{ d.valColor }};white-space:nowrap;">{{ d.valueStr }}</span>
-                              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5d6864;transition:transform .2s;transform:{{ d.chevron }};">▸</span>
+                            <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">
+                              <span style="font-size:13px;color:#E5E7EB;font-weight:600;flex:1;">{{ d.name }}</span>
+                              {{ d.bar }}
+                              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:{{ d.pointsColor }};min-width:34px;text-align:right;">{{ d.points }}</span>
                             </div>
-                            <sc-if value="{{ d.mathOpen }}" hint-placeholder-val="{{ false }}">
-                              <div style="margin-top:11px;padding:11px 13px;background:#0a0f0d;border:1px solid #161e1b;border-radius:8px;animation:fadeUp .25s ease;">
-                                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#7e8782;letter-spacing:.02em;margin-bottom:6px;">{{ d.formula }}</div>
-                                <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ d.valColor }};letter-spacing:.01em;">{{ d.plugged }}</div>
-                              </div>
+                            <p style="margin:0;font-size:12.5px;line-height:1.5;color:#9aa39e;text-wrap:pretty;">{{ d.sentence }}</p>
+                            <button type="button" aria-expanded="{{ d.open }}" onClick="{{ d.onToggle }}" style="margin-top:8px;background:none;border:none;color:#7e8782;font-family:'JetBrains Mono',monospace;font-size:10.5px;cursor:pointer;padding:0;display:flex;align-items:center;gap:5px;"><span style="transition:transform .2s;transform:{{ d.chevron }};display:inline-block;">▸</span> how we measured this</button>
+                            <sc-if value="{{ d.open }}" hint-placeholder-val="{{ false }}">
+                              <div style="margin-top:9px;padding:11px 13px;background:#0a0f0d;border:1px solid #161e1b;border-radius:8px;animation:fadeUp .25s ease;font-size:12px;line-height:1.55;color:#8a938f;text-wrap:pretty;">{{ d.how }}</div>
                             </sc-if>
                           </div>
                         </sc-for>
                       </div>
                     </div>
+
+                    <!-- news timing -->
+                    <sc-if value="{{ surv.insp.newsHas }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:9px;">NEWS TIMING</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                          <span style="width:8px;height:8px;border-radius:50%;background:{{ surv.insp.newsColor }};box-shadow:0 0 6px {{ surv.insp.newsColor }};"></span>
+                          <span style="font-size:13px;font-weight:600;color:{{ surv.insp.newsColor }};">{{ surv.insp.newsTitle }}</span>
+                        </div>
+                        <p style="margin:0;font-size:12.5px;line-height:1.55;color:#9aa39e;text-wrap:pretty;">{{ surv.insp.newsSentence }}</p>
+                      </div>
+                    </sc-if>
 
                     <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
                       <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">
@@ -847,67 +855,87 @@ class Component extends DCLogic {
   slug(q){ return String(q||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,48); }
 
   // one-line plain-English summary for a card
-  survSummary(m, detectors, dir){
-    const dirWord = dir>0 ? 'toward “Yes”' : 'toward “No”';
-    if (m.label==='Low-liquidity artifact') return 'Price stayed close to its expected range on a thin book; the elevated reading most likely reflects a low-liquidity artifact rather than informed trading.';
-    const top = (detectors||[]).slice().sort((a,b)=>b.sub-a.sub)[0];
-    const base = top ? (top.name.toLowerCase()+' ('+top.valueStr+')') : 'an unusual move';
-    if (m.label==='Explained') return 'A sharp move that lines up with a credible public headline around the same time, so it most likely has a public cause.';
-    if (m.label==='Unexplained') return 'A '+base+' pushed the price '+dirWord+' and outside its expected range with no public news to explain the shift — the pre-event pattern a surveillance desk escalates.';
-    return 'A '+base+' moved the price '+dirWord+', partially explained by public context near the move.';
-  }
+  _q(sortedArr, p){ if(!sortedArr.length) return 0; const i=Math.min(sortedArr.length-1, Math.max(0, Math.round(p*(sortedArr.length-1)))); return sortedArr[i]; }
 
-  // live feed markets -> the card shape the watchlist/inspector render
+  // live feed markets -> the card shape the watchlist/inspector render.
+  // Every "check" carries a plain-English sentence with concrete numbers (no
+  // jargon, no σ), the points it added to the 0-100 score, and the raw math.
   survLiveCards(markets){
-    const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+    const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)), pct=x=>Math.round(clamp(x,0,1)*100);
     return markets.map((m,idx)=>{
       const plat=m.platform, D=m.detectors||{}, score=Math.round(m.index||0);
-      let prob=(m.series&&m.series.length>=6)?m.series.map(x=>x.p):null;
-      if(!prob){ const p=clamp(m.prob||0.5,0.02,0.98); prob=Array.from({length:24},(_,i)=>clamp(p+Math.sin(i/3)*0.004,0.02,0.98)); }
-      const N=prob.length, estN=Math.max(3,Math.floor(N*0.6)), est=prob.slice(0,estN);
-      const mu=est.reduce((a,b)=>a+b,0)/est.length;
-      const sd=Math.sqrt(est.reduce((a,b)=>a+(b-mu)*(b-mu),0)/est.length)||0.03;
-      const bw=Math.max(0.04,2*sd);
-      const lo=prob.map(()=>clamp(mu-bw,0.01,0.99)), hi=prob.map(()=>clamp(mu+bw,0.01,0.99)), baseline=prob.map(()=>mu);
-      const ws=Math.min(N-2,estN), we=N-1, newsIdx=Math.max(estN,N-3), ce=N-1;
-      const dir=(D.runUp&&D.runUp.dir==='down')?-1:(prob[N-1]>=prob[0]?1:-1);
-      const sub=(d)=> d&&typeof d.score==='number'?Math.round(clamp(d.score*100,0,100)):0;
       const ru=D.runUp,vp=D.vpin,ky=D.priceImpact,co=D.concentration,nw=D.news;
-      const newsSub= nw?Math.round(clamp((nw.preEvent?(0.55+Math.min(0.45,(nw.leadH||6)/48)):(1-(nw.E||0))*0.6)*100,0,99)):0;
-      const v={
-        runup: ru?((ru.sigma_move!=null?ru.sigma_move:Math.abs(ru.carStar||0)).toFixed(1)+'σ'):'—',
-        vpin: (vp&&vp.vpin!=null)?vp.vpin.toFixed(2):'—',
-        kyle: (ky&&ky.impactRatio!=null)?(Math.round(ky.impactRatio)+'×'):'—',
-        conc: (m.onchain&&m.onchain.hhi!=null)?(+m.onchain.hhi).toFixed(2):((co&&co.hhi!=null)?co.hhi.toFixed(2):'—'),
-        news: nw?(nw.leadH?(nw.leadH+'h'):(nw.E!=null?('E '+(+nw.E).toFixed(2)):'—')):'—',
-      };
-      const detectors=[
-        { key:'runup', name:'Run-up', sub:sub(ru), valueStr:v.runup, chip:'Run-up',
-          sentence: ru?'Price ran up far faster than its own recent volatility, well before the outcome was known.':'Not enough price history to measure a run-up yet.',
-          formula:'σ-score = (price move − average move) ÷ volatility', plugged: ru?('= '+v.runup+' beyond this market’s own normal range'):'—' },
-        { key:'vpin', name:'VPIN', sub:sub(vp), valueStr:v.vpin, chip:'VPIN',
-          sentence: vp?'Order flow turned heavily one-sided, a signature of informed buying pressure.':'Per-trade order flow is not available for this market yet.',
-          formula:'VPIN = Σ|buy − sell| ÷ Σ(buy + sell)', plugged: vp?('= '+v.vpin+' of flow one-sided across '+(vp.nBuckets||50)+' volume buckets'):'—' },
-        { key:'kyle', name:'Kyle’s λ', sub:sub(ky), valueStr:v.kyle, chip:'Kyle’s λ',
-          sentence: ky?'Each dollar traded moved the price far more than this market’s usual liquidity implies.':'Liquidity / price-impact is not available for this market yet.',
-          formula:'λ = price impact ÷ √(signed volume)', plugged: ky?('= '+v.kyle+' the impact a normal-liquidity trade would cause'):'—' },
-        { key:'conc', name:'Concentration', sub:sub(co), valueStr:v.conc, chip:'Whale HHI',
-          sentence: co?'A small number of accounts drove most of the directional buying.':(plat==='kalshi'?'Kalshi trades are anonymous — there is no wallet ledger to measure concentration.':'On-chain concentration is not available for this market yet.'),
-          formula:'HHI = Σ (account shareᵢ)²', plugged: co?('= HHI '+(co.hhi!=null?co.hhi.toFixed(2):'—')+' across '+(co.nWallets||0)+' wallets'):'—' },
-        { key:'news', name:'News-gap', sub:newsSub, valueStr:v.news, chip:'News-gap',
-          sentence:(nw&&nw.preEvent)?'The move opened a wide gap ahead of any public news that could explain it.':((nw&&nw.explained)?'A credible public headline sits around this move — it likely has a public cause.':'No clear public catalyst was found around the move.'),
-          formula:'gap = time(price move) − time(public news)', plugged: nw?(nw.headline?('= “'+nw.headline+'”'+(nw.source?(' — '+nw.source):'')):('= '+v.news+' from the nearest public catalyst')):'—' },
+      const sub=(d)=> d&&typeof d.score==='number'?Math.round(clamp(d.score*100,0,100)):0;
+      // points each check contributed to the final score (from the fusion)
+      const cw={}; (m.contributions||[]).forEach(c=>{ cw[c.key]=c.points; });
+      const pts={ runup:cw.runUp||0, vpin:cw.vpin||0, kyle:cw.priceImpact||0, conc:cw.concentration||0 };
+
+      // price series + the market's OWN usual range (10th–90th pct of the calm window)
+      let prob=(m.series&&m.series.length>=6)?m.series.map(x=>x.p):null;
+      const deepSeries=!!prob;
+      if(!prob){ const p=clamp(m.prob||0.5,0.02,0.98); prob=Array.from({length:24},(_,i)=>clamp(p+Math.sin(i/3)*0.004,0.02,0.98)); }
+      const N=prob.length, estN=Math.max(3,Math.floor(N*0.6)), est=prob.slice(0,estN).slice().sort((a,b)=>a-b);
+      const nLoF=this._q(est,0.1), nHiF=this._q(est,0.9), preF=this._q(est,0.5);
+      const nLo=pct(nLoF), nHi=pct(nHiF), preLvl=pct(preF), curLvl=pct(prob[N-1]);
+      const usualWidth=Math.max(2, nHi-nLo), movePts=Math.abs(curLvl-preLvl), moveRatio=Math.max(1,Math.round(movePts/usualWidth));
+      const dir=(ru&&ru.dir==='down')?-1:(prob[N-1]>=prob[0]?1:-1);
+      const chPts=Math.round((m.change24h||0)*100);
+
+      // plain-English numbers per check
+      const vpinPct = (vp&&vp.vpin!=null)?Math.round(vp.vpin*100):null;
+      const kyleX   = (ky&&ky.impactRatio!=null)?Math.round(ky.impactRatio):null;
+      const top1Pct = (m.onchain&&m.onchain.top1!=null)?Math.round(m.onchain.top1*100):((co&&co.top1!=null)?Math.round(co.top1*100):null);
+      const nWal    = (m.onchain&&m.onchain.nWallets)|| (co&&co.nWallets) || null;
+      const leadH   = nw&&nw.leadH!=null?nw.leadH:null, headline=nw&&nw.headline?nw.headline:null;
+
+      const runSentence = !ru ? 'Not enough price history yet to measure how unusual the recent move is.'
+        : (deepSeries
+          ? ('This market normally trades between '+nLo+'% and '+nHi+'%. The YES price has moved to '+curLvl+'% — about '+movePts+' points outside that usual range, roughly '+moveRatio+'× a normal swing. A jump this size before any public news is what you would expect if someone were trading on information the public did not have yet.')
+          : ('Over the last 24 hours the YES price moved '+(chPts>=0?'+':'')+chPts+' points, to '+curLvl+'% — a larger swing than this market usually makes in a day. (Full price history and the other checks load when you open the market.)'));
+      const checks=[
+        { key:'runup', name:'Unusual early move', sub:sub(ru), points:pts.runup, available:!!ru,
+          chip:'Move '+movePts+'pts', sentence:runSentence,
+          how:'We compare the recent move with this market’s own day-to-day wiggle (its usual range was '+nLo+'%–'+nHi+'%). A move many times bigger than normal, before any news, scores high. Method: Keown–Pinkerton event study.' },
+        { key:'vpin', name:'One-sided buying', sub:sub(vp), points:pts.vpin, available:!!vp,
+          chip: vpinPct!=null?(vpinPct+'% one-sided'):'—',
+          sentence: vp?('In a calm market, buying and selling stay close to 50/50. Here, '+vpinPct+'% of recent trading pushed the SAME direction — heavily lopsided, the kind of imbalance that appears when informed money is quietly building a position.'):'We don’t have the individual trades for this market yet, so we can’t measure how one-sided the buying was.',
+          how:'We split recent volume into buys vs sells and measure how lopsided it is ('+(vpinPct!=null?vpinPct+'% one-sided':'—')+'). Method: VPIN (order-flow toxicity).' },
+        { key:'kyle', name:'Big swing on little money', sub:sub(ky), points:pts.kyle, available:!!ky,
+          chip: kyleX!=null?(kyleX+'× impact'):'—',
+          sentence: ky?('It took only a small amount of money to move this price a lot — about '+kyleX+'× the impact a normal trade has here. When a few dollars swing the odds this much, it can mean someone is betting with unusual conviction on a thin market.'):'We can’t measure price impact for this market yet.',
+          how:'We measure how far the price moves per dollar traded, versus this market’s normal liquidity ('+(kyleX!=null?kyleX+'× normal':'—')+'). Method: Kyle’s λ + Amihud illiquidity.' },
+        { key:'conc', name:'A few accounts dominated', sub:sub(co), points:pts.conc, available:(plat==='polymarket'),
+          chip: top1Pct!=null?(top1Pct+'% one wallet'):(plat==='kalshi'?'n/a (anonymous)':'—'),
+          sentence: co?('Most of the buying came from just a few accounts. The single biggest wallet was '+top1Pct+'% of all the buying, out of '+nWal+' accounts. One account loading up looks very different from a crowd of small bettors.'+(m.onchain&&m.onchain.fresh?' The top wallet only appeared right before the move.':'')):(plat==='kalshi'?'Kalshi is a regular exchange where traders are anonymous, so there is no public wallet list to check who was buying. This check only runs on Polymarket.':'We don’t have the on-chain trades for this market yet.'),
+          how:'On Polymarket every trade has a public wallet, so we measure how concentrated the buying is (top wallet '+(top1Pct!=null?top1Pct+'%':'—')+', '+(nWal||'—')+' accounts). Method: Herfindahl index.' },
       ];
+      const newsCtx = !nw ? { has:false } : {
+        has:true, preEvent:!!nw.preEvent, explained:!!nw.explained,
+        sentence: nw.preEvent
+          ? ('The big move happened about '+(leadH||'several')+' hours BEFORE any public news that could explain it. A price that moves first and only gets explained later is a classic red flag — so this does not lower the score.')
+          : (nw.explained
+            ? ('A public headline appeared around the same time as the move'+(headline?(': “'+headline+'”'):'')+', so it most likely has an ordinary public cause. That is why the score is held down.')
+            : 'No clear public news was found around the time of the move.'),
+      };
+
+      const top=checks.filter(c=>c.available).slice().sort((a,b)=>b.points-a.points).slice(0,2).map(c=>c.chip).filter(x=>x&&x!=='—');
       let wallets=[]; const hhi=(m.onchain&&m.onchain.hhi!=null)?m.onchain.hhi:0;
       if(plat==='polymarket'&&m.onchain&&m.onchain.topWallets){
         wallets=m.onchain.topWallets.map(w=>({ addr:w.wallet, share:w.share, pct:Math.round((w.share||0)*100)+'%', fresh:!!w.fresh,
           url: w.full?('https://polygonscan.com/address/'+w.full):'https://polymarket.com' }));
       }
       const clusters=(m.onchain&&m.onchain.clusters)||[];
-      const summary=this.survSummary(m,detectors,dir);
+      const dirWord=dir>0?'“Yes”':'“No”';
+      let summary;
+      if(m.label==='Low-liquidity artifact') summary='Barely any money trades here, so a single small bet can swing the price. The reading is more likely a quirk of a thin market than informed trading.';
+      else if(m.label==='Explained') summary='The price moved sharply, but a public headline around the same time most likely explains it — so this is probably ordinary trading, not an information leak.';
+      else if(m.label==='Unexplained') summary='The price jumped toward '+dirWord+' and outside its usual range with no public news to explain it — the pattern of someone trading ahead of information. That is why it ranks high.';
+      else summary='The price made an unusual move toward '+dirWord+'; it is partly explained by public context, so it is worth watching rather than alarming.';
+
       const updatedAgo= m.movedAt?Math.max(3,Math.round((Date.now()-m.movedAt)/1000)):(8+(idx%9)*11);
       return { id:m.id, question:m.question, platform:plat, category:m.category||'Other', score, label:m.label||'—', summary,
-        prob, baseline, lo, hi, ws, we, newsIdx, ce, dir, detectors, wallets, hhi, clusters, book:m.book||null, wsCoords:m.ws||null,
+        prob, nLoF, nHiF, surgeStart:estN, curLvl, nLo, nHi, deepSeries, dir,
+        checks, news:newsCtx, topChips:top, wallets, hhi, clusters, book:m.book||null, wsCoords:m.ws||null,
         url:m.url||'#', updatedAgo, recencyMins: m.movedAt?Math.round((Date.now()-m.movedAt)/60000):idx, volume:m.volume24h||0, deep:!!m.deep };
     });
   }
@@ -926,52 +954,50 @@ class Component extends DCLogic {
       h('path',{key:'l',d:line,fill:'none',stroke:color,strokeWidth:1.5,strokeLinejoin:'round',strokeLinecap:'round'}),
       h('circle',{key:'c',cx:X(s.length-1),cy:Y(s[s.length-1]),r:2,fill:color}));
   }
-  probChart(m, view){
-    const h=React.createElement;
-    const W=760,H=290,pl=50,pr=18,pt=26,pb=34, plotW=W-pl-pr, plotH=H-pt-pb, N=m.prob.length;
+  // clear annotated "how the odds moved" chart: price line, the market's OWN
+  // usual range shaded + labelled, the unusual-move window, and a current callout.
+  oddsChart(m){
+    const h=React.createElement, S=m.prob, N=S.length;
     const color=m.platform==='kalshi'?'#34D399':'#A78BFA';
-    const logit=p=>Math.log(p/(1-p)), clampP=p=>Math.min(0.985,Math.max(0.015,p)), Lmax=logit(0.985);
-    const X=i=>pl+i/(N-1)*plotW;
-    const Y=p=>{ if(view==='pct') return pt+(1-this.clamp(p,0,1))*plotH; const L=logit(clampP(p)); return pt+(1-(L+Lmax)/(2*Lmax))*plotH; };
-    const grid= view==='pct'?[[1,'100%'],[0.75,'75%'],[0.5,'50%'],[0.25,'25%'],[0,'0%']]:[[0.95,'95%'],[0.8,'80%'],[0.5,'50%'],[0.2,'20%'],[0.05,'5%']];
+    const W=760,H=300,pl=46,pr=86,pt=26,pb=40, plotW=W-pl-pr, plotH=H-pt-pb;
+    const X=i=>pl+(N>1?i/(N-1):0)*plotW, Y=p=>pt+(1-this.clamp(p,0,1))*plotH;
     const els=[];
-    grid.forEach((g,i)=>{ const y=Y(g[0]);
-      els.push(h('line',{key:'g'+i,x1:pl,y1:y,x2:W-pr,y2:y,stroke:'#19211d',strokeWidth:1}));
-      els.push(h('text',{key:'gt'+i,x:pl-8,y:y+3,textAnchor:'end',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},g[1])); });
-    [0,0.5,0.85,1].forEach((f,i)=>{ const x=pl+f*plotW; const lbl=['earlier','','','now'][i];
-      els.push(h('text',{key:'xt'+i,x:x,y:H-12,textAnchor:i===3?'end':'middle',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},lbl)); });
-    const top=m.hi.map((v,i)=>[X(i),Y(v)]), bot=m.lo.map((v,i)=>[X(i),Y(v)]);
-    const bandPath='M'+top.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L')+' L'+bot.slice().reverse().map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L')+' Z';
-    els.push(h('path',{key:'band',d:bandPath,fill:color,opacity:0.08}));
-    els.push(h('rect',{key:'win',x:X(m.ws),y:pt,width:Math.max(2,X(m.we)-X(m.ws)),height:plotH,fill:'#FBBF24',opacity:0.06}));
-    els.push(h('text',{key:'winlbl',x:(X(m.ws)+X(m.we))/2,y:pt+13,textAnchor:'middle',fill:'#d8a93a',style:{font:'500 9.5px JetBrains Mono, monospace'}},'← unusual buying'));
-    [[m.newsIdx,'news public','#8A938F'],[m.ce,'resolves','#cfd6d2']].forEach((mk,i)=>{ const x=X(mk[0]);
-      els.push(h('line',{key:'mk'+i,x1:x,y1:pt,x2:x,y2:pt+plotH,stroke:mk[2],strokeWidth:1,strokeDasharray:'3 4',opacity:0.6}));
-      els.push(h('text',{key:'mkt'+i,x:x,y:pt-8,textAnchor:'middle',fill:mk[2],style:{font:'500 9px JetBrains Mono, monospace'}},mk[1])); });
-    const lpts=m.prob.map((v,i)=>[X(i),Y(v)]);
-    const lp='M'+lpts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
-    const len=1500;
-    const anim=this.state.survReduce?{}:{ strokeDasharray:len, strokeDashoffset:0, animation:'drawLine 1.1s ease', '--len':len };
-    els.push(h('path',{key:'line'+view+m.id,d:lp,fill:'none',stroke:color,strokeWidth:2.4,strokeLinejoin:'round',strokeLinecap:'round',style:Object.assign({filter:'drop-shadow(0 0 5px '+color+'66)'},anim)}));
-    els.push(h('circle',{key:'end',cx:X(N-1),cy:Y(m.prob[N-1]),r:3.2,fill:color,style:{filter:'drop-shadow(0 0 5px '+color+')'}}));
+    [0,0.25,0.5,0.75,1].forEach((g,i)=>{ const y=Y(g);
+      els.push(h('line',{key:'g'+i,x1:pl,y1:y,x2:pl+plotW,y2:y,stroke:'#19211d',strokeWidth:1}));
+      els.push(h('text',{key:'gt'+i,x:pl-8,y:y+3,textAnchor:'end',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},Math.round(g*100)+'%')); });
+    // the market's usual range (shaded + labelled) — what the price normally does
+    const yHi=Y(m.nHiF), yLo=Y(m.nLoF);
+    els.push(h('rect',{key:'band',x:pl,y:yHi,width:plotW,height:Math.max(2,yLo-yHi),fill:'#8A938F',opacity:0.14}));
+    els.push(h('line',{key:'bt',x1:pl,y1:yHi,x2:pl+plotW,y2:yHi,stroke:'#8A938F',strokeWidth:1,strokeDasharray:'4 4',opacity:0.55}));
+    els.push(h('line',{key:'bb',x1:pl,y1:yLo,x2:pl+plotW,y2:yLo,stroke:'#8A938F',strokeWidth:1,strokeDasharray:'4 4',opacity:0.55}));
+    els.push(h('text',{key:'bl1',x:pl+plotW+7,y:(yHi+yLo)/2-2,fill:'#9aa39e',style:{font:'600 9.5px JetBrains Mono, monospace'}},'usual'));
+    els.push(h('text',{key:'bl2',x:pl+plotW+7,y:(yHi+yLo)/2+11,fill:'#6b746f',style:{font:'500 9px JetBrains Mono, monospace'}},m.nLo+'–'+m.nHi+'%'));
+    // the unusual-move window
+    const sx=X(m.surgeStart);
+    els.push(h('rect',{key:'surge',x:sx,y:pt,width:(pl+plotW)-sx,height:plotH,fill:'#F87171',opacity:0.05}));
+    els.push(h('text',{key:'surgel',x:sx+6,y:pt+13,fill:'#d98a8a',style:{font:'600 9.5px JetBrains Mono, monospace'}},'← unusual move'));
+    // price line
+    const pts=S.map((p,i)=>[X(i),Y(p)]);
+    const lp='M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+    const len=1600, anim=this.state.survReduce?{}:{strokeDasharray:len,strokeDashoffset:0,animation:'drawLine 1.1s ease','--len':len};
+    els.push(h('path',{key:'line'+m.id,d:lp,fill:'none',stroke:color,strokeWidth:2.6,strokeLinejoin:'round',strokeLinecap:'round',style:Object.assign({filter:'drop-shadow(0 0 5px '+color+'66)'},anim)}));
+    // current level callout
+    const ex=X(N-1), ey=Y(S[N-1]);
+    els.push(h('circle',{key:'dot',cx:ex,cy:ey,r:3.6,fill:color,style:{filter:'drop-shadow(0 0 5px '+color+')'}}));
+    const bx=Math.min(pl+plotW-44,ex+7);
+    els.push(h('rect',{key:'cb',x:bx,y:ey-11,width:42,height:20,rx:5,fill:'#0a0f0d',stroke:color,strokeOpacity:0.6}));
+    els.push(h('text',{key:'ct',x:bx+21,y:ey+3,textAnchor:'middle',fill:color,style:{font:'700 11px JetBrains Mono, monospace'}},m.curLvl+'%'));
+    // news marker when a public headline sits around the move
+    if(m.news&&m.news.has&&m.news.explained){ els.push(h('line',{key:'nw',x1:sx,y1:pt,x2:sx,y2:pt+plotH,stroke:'#8A938F',strokeWidth:1,strokeDasharray:'2 4',opacity:0.7})); els.push(h('text',{key:'nwt',x:sx,y:pt-7,textAnchor:'middle',fill:'#8A938F',style:{font:'500 9px JetBrains Mono, monospace'}},'news')); }
+    els.push(h('text',{key:'xl',x:pl,y:H-12,fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},'earlier'));
+    els.push(h('text',{key:'xr',x:pl+plotW,y:H-12,textAnchor:'end',fill:'#5d6864',style:{font:'500 9px JetBrains Mono, monospace'}},'now'));
     return h('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',style:{display:'block',maxWidth:'100%'},preserveAspectRatio:'xMidYMid meet'},els);
   }
-  radar(m){
-    const h=React.createElement, cx=110, cy=104, R=72;
-    const axes=[['Run-up','runup'],['VPIN','vpin'],['Kyle’s λ','kyle'],['Concentr.','conc'],['News-gap','news']];
-    const sub={}; m.detectors.forEach(d=>sub[d.key]=d.sub);
-    const ang=i=>(-90+i*72)*Math.PI/180, els=[];
-    [0.25,0.5,0.75,1].forEach((r,ri)=>{ const pts=axes.map((a,i)=>[cx+Math.cos(ang(i))*R*r,cy+Math.sin(ang(i))*R*r]);
-      els.push(h('polygon',{key:'ring'+ri,points:pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' '),fill:'none',stroke:'#1a231f',strokeWidth:1})); });
-    axes.forEach((a,i)=>{ const ex=cx+Math.cos(ang(i))*R, ey=cy+Math.sin(ang(i))*R;
-      els.push(h('line',{key:'ax'+i,x1:cx,y1:cy,x2:ex,y2:ey,stroke:'#1a231f',strokeWidth:1}));
-      const lx=cx+Math.cos(ang(i))*(R+17), ly=cy+Math.sin(ang(i))*(R+15);
-      els.push(h('text',{key:'axl'+i,x:lx,y:ly+3,textAnchor:Math.abs(Math.cos(ang(i)))<0.3?'middle':(Math.cos(ang(i))>0?'start':'end'),fill:'#7e8782',style:{font:'500 8.5px JetBrains Mono, monospace'}},a[0])); });
-    const dpts=axes.map((a,i)=>{ const r=R*((sub[a[1]]||0)/100); return [cx+Math.cos(ang(i))*r,cy+Math.sin(ang(i))*r]; });
-    const col=this.sev(m.score);
-    els.push(h('polygon',{key:'data',points:dpts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' '),fill:col,fillOpacity:0.22,stroke:col,strokeWidth:1.8,style:{filter:'drop-shadow(0 0 5px '+col+'55)'}}));
-    dpts.forEach((p,i)=>els.push(h('circle',{key:'dp'+i,cx:p[0],cy:p[1],r:2.4,fill:col})));
-    return h('svg',{viewBox:'0 0 220 208',width:200,height:189,style:{display:'block'}},els);
+  // a small horizontal bar (0-100) used in the score breakdown + each check
+  bar(value, color, w){
+    const h=React.createElement, W=w||120, H=8;
+    return h('div',{style:{width:W+'px',height:H+'px',borderRadius:'4px',background:'#16201c',overflow:'hidden'}},
+      h('div',{style:{width:Math.max(0,Math.min(100,value))+'%',height:'100%',borderRadius:'4px',background:color,boxShadow:'0 0 7px '+color+'66'}}));
   }
   gauge(value){
     const h=React.createElement, W=164,H=98,cx=82,cy=88,R=64, a0=Math.PI,a1=0;
@@ -1019,7 +1045,19 @@ class Component extends DCLogic {
   }
 
   // sample markets (identical shape) for the offline / pre-deploy fallback
-  survBuildSample(){
+  // browser-side mirror of detectors.js fuse(): bounded by full available weight
+  _fuseSample(subs01, platform, E){
+    const W={runUp:0.30,vpin:0.25,priceImpact:0.20,concentration:0.25};
+    const order=['runUp','vpin','priceImpact','concentration'];
+    let denom=0, weighted=0; const rows=[];
+    order.forEach(k=>{ if(k==='concentration'&&platform==='kalshi') return; denom+=W[k]; const v=subs01[k]; if(v!=null){ weighted+=W[k]*v; rows.push({k,v}); } });
+    const raw=denom>0?weighted/denom:0, disc=1-0.6*(E||0), index=Math.round(100*Math.max(0,Math.min(1,raw*disc)));
+    const contributions=rows.map(r=>({ key:r.k, points:Math.round(100*(W[r.k]*r.v/denom)*Math.max(0,Math.min(1,disc))) }));
+    return { index, contributions };
+  }
+  // sample markets in the LIVE FEED shape, so they flow through survLiveCards()
+  // exactly like real data (one code path for all the plain-English explanations)
+  survSampleRaw(){
     const cats=['Politics','Elections','Economy','Finance','Business','World','Tech & Science','Culture','Health'];
     const POOL={
       'Politics':['Will a US federal government shutdown begin before October 2026?','Will the pending bipartisan trade bill be signed into law before August 2026?','Will a new cabinet secretary be confirmed before September 2026?'],
@@ -1032,44 +1070,50 @@ class Component extends DCLogic {
       'Culture':['Will the front-running film win Best Picture at the 2027 ceremony?','Will the announced album debut at number one in its release week?','Will the new series top the global streaming chart on premiere?'],
       'Health':['Will the FDA approve the new therapy before Q4 2026?','Will the WHO declare a public-health emergency before September 2026?','Will the pending drug trial report positive top-line results?'],
     };
-    const R=this.rng(424242), markets=[]; let idx=0;
+    const R=this.rng(424242), out=[]; let idx=0; const now=Date.now();
     for(const cat of cats){ for(let q=0;q<3;q++){
-      const id='sm'+idx;
       const platform=((idx%5===0)?(idx%2===1):(idx%2===0))?'kalshi':'polymarket';
       const question=POOL[cat][q];
-      const score= idx<5?Math.round(74+R()*20):Math.round(20+R()*64);
-      const N=56, b0=0.32+R()*0.36, slope=(R()-0.5)*0.005, amp=0.035+R()*0.045, ph=R()*6;
-      const baseline=[],lo=[],hi=[], bw=0.07+R()*0.05;
-      for(let i=0;i<N;i++){ const vv=this.clamp(b0+slope*i+Math.sin(i/9+ph)*amp,0.05,0.95); baseline.push(vv); lo.push(this.clamp(vv-bw,0.01,0.99)); hi.push(this.clamp(vv+bw,0.01,0.99)); }
-      const ce=N-4, newsIdx=N-11, we=newsIdx, ws=we-16, dir=R()<0.5?1:-1, target=dir>0?0.94:0.06, strength=score/100, prob=[];
-      const startWin=baseline[ws], endWin=startWin+(target-startWin)*strength;
-      for(let i=0;i<N;i++){ let p; if(i<ws) p=baseline[i]+(R()-0.5)*0.022; else if(i<=we){ const t=(i-ws)/(we-ws); p=startWin+(target-startWin)*Math.pow(t,1.25)*strength+(R()-0.5)*0.018; } else { const t=(i-we)/((N-1)-we); p=endWin+(target-endWin)*t; } prob.push(this.clamp(p,0.015,0.985)); }
-      const subs={ runup:this.clamp(Math.round(score+(R()*20-10)),5,99), vpin:this.clamp(Math.round(score+(R()*24-12)),5,99), kyle:this.clamp(Math.round(score+(R()*22-11)),5,99), conc:this.clamp(Math.round(score+(R()*26-13)),5,99), news:this.clamp(Math.round(score+(R()*22-11)),5,99) };
-      const vv={ runup:(subs.runup/100*5.4+0.6).toFixed(1)+'σ', vpin:(0.45+subs.vpin/100*0.5).toFixed(2), kyle:Math.round(2+subs.kyle/100*16)+'×', conc:(0.2+subs.conc/100*0.6).toFixed(2), news:Math.round(2+subs.news/100*8)+'h' };
-      const detectors=[
-        { key:'runup',name:'Run-up',sub:subs.runup,valueStr:vv.runup,chip:'Run-up',sentence:'Price ran up far faster than its own recent volatility, well before the outcome was known.',formula:'σ-score = (price move − average move) ÷ volatility',plugged:'= '+vv.runup+' beyond this market’s own normal range' },
-        { key:'vpin',name:'VPIN',sub:subs.vpin,valueStr:vv.vpin,chip:'VPIN',sentence:'Order flow turned heavily one-sided, a signature of informed buying pressure.',formula:'VPIN = Σ|buy − sell| ÷ Σ(buy + sell)',plugged:'= '+vv.vpin+' of flow was one-sided across 50 volume buckets' },
-        { key:'kyle',name:'Kyle’s λ',sub:subs.kyle,valueStr:vv.kyle,chip:'Kyle’s λ',sentence:'Each dollar traded moved the price far more than this market’s usual liquidity implies.',formula:'λ = price impact ÷ √(signed volume)',plugged:'= '+vv.kyle+' the impact a normal-liquidity trade would cause' },
-        { key:'conc',name:'Concentration',sub:subs.conc,valueStr:vv.conc,chip:'Whale HHI',sentence:'A small number of accounts drove most of the directional buying.',formula:'HHI = Σ (account shareᵢ)²',plugged:'= '+vv.conc+' concentration across the top accounts' },
-        { key:'news',name:'News-gap',sub:subs.news,valueStr:vv.news,chip:'News-gap',sentence:'The move opened a wide gap ahead of any public news that could explain it.',formula:'gap = time(price move) − time(public news)',plugged:'= '+vv.news+' of one-sided flow before any public catalyst' },
-      ];
-      let wallets=[], hhi=parseFloat(vv.conc), clusters=[];
+      const s01= idx<5?(0.74+R()*0.22):(0.12+R()*0.62);     // base suspicion 0..1
+      // detector sub-scores (0..1), jittered around the base
+      const jc=()=>Math.max(0.05,Math.min(0.99,s01+(R()-0.5)*0.28));
+      const subs={ runUp:jc(), vpin:jc(), priceImpact:jc(), concentration: platform==='polymarket'?jc():null };
+      // news: most are pre-event gaps; ~1 in 4 is explained by a headline
+      const explained = R()<0.25, E = explained?(0.55+R()*0.4):0;
+      const fused=this._fuseSample(subs, platform, E);
+      // build a price series: calm range, then a surge of size ~ s01
+      const N=56, b0=0.30+R()*0.34, amp=0.03+R()*0.03, ph=R()*6, dir=R()<0.5?1:-1, target=dir>0?0.92:0.08, strength=0.4+s01*0.6;
+      const series=[], ws=N-20, we=N-7;
+      let startWin=this.clamp(b0,0.06,0.9);
+      for(let i=0;i<N;i++){ let p; if(i<ws) p=this.clamp(b0+Math.sin(i/8+ph)*amp+(R()-0.5)*0.02,0.04,0.96), startWin=p;
+        else if(i<=we){ const t=(i-ws)/(we-ws); p=startWin+(target-startWin)*Math.pow(t,1.3)*strength+(R()-0.5)*0.015; }
+        else { const t=(i-we)/((N-1)-we); const ev=startWin+(target-startWin)*strength; p=ev+(target-ev)*t; }
+        series.push({ t: Math.floor((now-(N-i)*3600000)/1000), p:this.clamp(p,0.02,0.98) }); }
+      const cur=series[N-1].p, prev=series[Math.max(0,ws-2)].p;
+      // detector objects with realistic raw metrics derived from the sub-scores
+      const detectors={
+        runUp:{ score:subs.runUp, sigma_move:+(subs.runUp*7+0.5).toFixed(1), dir:dir>0?'up':'down' },
+        vpin:{ score:subs.vpin, vpin:+(0.5+subs.vpin*0.45).toFixed(2), nBuckets:50, nTrades:Math.round(120+R()*900) },
+        priceImpact:{ score:subs.priceImpact, impactRatio:+(2+subs.priceImpact*16).toFixed(1), lambda:+(0.004+subs.priceImpact*0.02).toFixed(4), amihud:'2e-5' },
+        concentration: subs.concentration!=null?{ score:subs.concentration, top1:+(0.25+subs.concentration*0.55).toFixed(2), nWallets:Math.round(8+R()*60), fresh:R()<0.5, hhi:+(0.1+subs.concentration*0.4).toFixed(2) }:null,
+        news: explained?{ E, explained:true, preEvent:false, headline:'Officials comment on the matter, agencies report', source:'Reuters' }:{ E:0, explained:false, preEvent:true, leadH:Math.round(3+R()*18) },
+      };
+      let onchain=null;
       if(platform==='polymarket'){
-        const raw=[1,0.62,0.4,0.24,0.13].map(x=>x*(0.4+parseFloat(vv.conc))); const sum=raw.reduce((a,b)=>a+b,0); let hh=0;
-        wallets=raw.map((r,i)=>{ const share=r/sum; hh+=share*share; const hex=Math.floor(R()*0xffffff).toString(16).padStart(6,'0'); return { addr:'0x'+hex.slice(0,4)+'…'+hex.slice(4,6), share, pct:Math.round(share*100)+'%', fresh:(i===0&&R()<0.55)||(i>0&&R()<0.22), url:'https://polygonscan.com/address/0x'+hex }; });
-        hhi=parseFloat(hh.toFixed(2));
-        if(score>=72 && R()<0.5) clusters=[{ size:3, share:+(0.18+R()*0.2).toFixed(2), windowMin:15, wallets:wallets.slice(1,4).map(w=>w.addr), spanSec:480 }];
+        const raw=[1,0.62,0.4,0.24,0.13].map(x=>x*(0.4+subs.concentration)); const sum=raw.reduce((a,b)=>a+b,0); let hh=0;
+        const tw=raw.map((r,i)=>{ const share=r/sum; hh+=share*share; const hex=Math.floor(R()*0xffffff).toString(16).padStart(6,'0'); return { wallet:'0x'+hex.slice(0,4)+'…'+hex.slice(4,6), full:'0x'+hex+hex.slice(0,8), share:+share.toFixed(3), usd:Math.round((1-i*0.15)*(20000+R()*400000)), fresh:(i===0&&R()<0.55)||(i>0&&R()<0.22) }; });
+        const clusters= (fused.index>=70 && R()<0.5)?[{ size:3, share:+(0.18+R()*0.2).toFixed(2), windowMin:15, wallets:tw.slice(1,4).map(w=>w.wallet), spanSec:480 }]:[];
+        onchain={ hhi:+hh.toFixed(2), top1:tw[0].share, fresh:tw[0].fresh, nWallets:tw.length+Math.round(R()*40), clusters, topWallets:tw };
       }
-      let label; if(score>=73)label='Unexplained'; else if(score>=50)label='Partially explained'; else if(score>=32)label='Explained'; else label='Low-liquidity artifact';
-      const dirWord=dir>0?'toward “Yes”':'toward “No”'; let summary;
-      if(score<32) summary='Price stayed close to its expected range; the elevated reading most likely reflects a low-liquidity artifact rather than informed trading.';
-      else { const tpl=['A large one-sided position built over several hours before this market moved '+dirWord+', with no public news to explain the shift.','Concentrated buying pushed the price '+dirWord+' and outside its expected range ahead of any public catalyst, then it resolved that way.','Order flow turned heavily one-sided well before the outcome was known, moving the price far more than this market’s usual liquidity would imply.']; summary=tpl[idx%3]; }
-      markets.push({ id, question, platform, category:cat, score, label, summary, prob, baseline, lo, hi, ws, we, newsIdx, ce, dir, detectors, wallets, hhi, clusters, book:null, wsCoords:null,
-        url: platform==='kalshi'?'https://kalshi.com/markets/'+this.slug(question):'https://polymarket.com/event/'+this.slug(question),
-        updatedAgo:Math.round(5+R()*280), recencyMins:Math.round(R()*1440), volume:Math.round(20000+R()*1800000), deep:true });
+      const E2=detectors.news.E;
+      let label; if(E2>=0.5&&!detectors.news.preEvent) label='Explained'; else if(fused.index>=55) label='Unexplained'; else if(fused.index>=28) label='Partially explained'; else label='Low-liquidity artifact';
+      out.push({ id:'sm'+idx, platform, category:cat, question, prob:+cur.toFixed(4), change24h:+(cur-prev).toFixed(4),
+        volume24h:Math.round(20000+R()*1800000), index:fused.index, label, deep:true, movedAt: now-Math.round((5+R()*280))*1000,
+        detectors, contributions:fused.contributions, series, onchain, ws:null,
+        url: platform==='kalshi'?'https://kalshi.com/markets/kxsample/'+this.slug(question):'https://polymarket.com/event/'+this.slug(question) });
       idx++;
     } }
-    return markets;
+    return out;
   }
 
   ENGINE_CONTROLS = [
@@ -1539,7 +1583,7 @@ class Component extends DCLogic {
 
     // ---- surveillance :: live full-market scanner (ported reference UI) ----
     const isLive = !!(s.survMarkets && s.survMarkets.length);
-    const all = isLive ? this.survLiveCards(s.survMarkets) : (this._survSample || (this._survSample = this.survBuildSample()));
+    const all = this.survLiveCards(isLive ? s.survMarkets : (this._survRaw || (this._survRaw = this.survSampleRaw())));
     // websocket live tick: overlay the open market's latest price onto its series
     if (s.survWs && s.survWs.id && s.survWs.p != null){
       const lm = all.find(x=>x.id===s.survWs.id);
@@ -1589,8 +1633,7 @@ class Component extends DCLogic {
     const overviewBtnStyle='border:1px solid '+(s.survOverview?'#2e5546':'#1B2521')+';border-radius:8px;padding:7px 13px;font-family:\'JetBrains Mono\',monospace;font-size:11px;cursor:pointer;transition:all .18s;background:'+(s.survOverview?'#13251d':'#0c1110')+';color:'+(s.survOverview?'#34D399':'#8A938F')+';'+(s.survOverview?'box-shadow:0 0 10px #34d39922;':'');
 
     const rows=list.map(m=>{ const color=m.platform==='kalshi'?'#34D399':'#A78BFA'; const sevc=this.sev(m.score); const selected=m.id===s.survSel;
-      const tops=m.detectors.slice().sort((a,b)=>b.sub-a.sub).slice(0,2);
-      const chips=tops.map(d=>({ text:d.chip+' · '+d.valueStr, style:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;color:#9aa39e;border:1px solid #1f2a26;background:#0c1110;border-radius:5px;padding:3px 7px;white-space:nowrap;' }));
+      const chips=(m.topChips||[]).map(t=>({ text:t, style:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;color:#9aa39e;border:1px solid #1f2a26;background:#0c1110;border-radius:5px;padding:3px 7px;white-space:nowrap;' }));
       return { id:m.id, question:m.question, url:m.url, category:m.category, platformLabel:m.platform==='kalshi'?'Kalshi':'Polymarket',
         scoreStr:String(m.score), scoreColor:sevc, meterW:m.score+'%', meterColor:sevc, meterGlow:sevc+'66',
         chips, spark:this.spark(m), updatedAgo:m.updatedAgo, onSelect:()=>this.selectSurv(m.id), stop:(e)=>{ e.stopPropagation(); },
@@ -1602,19 +1645,29 @@ class Component extends DCLogic {
     let insp=null;
     if (selM){ const color=selM.platform==='kalshi'?'#34D399':'#A78BFA'; const sevc=this.sev(selM.score);
       const labelColor=selM.label==='Unexplained'?'#F87171':selM.label==='Partially explained'?'#FBBF24':selM.label==='Explained'?'#34D399':'#8A938F';
-      const detectors=selM.detectors.map(d=>({ name:d.name, sentence:d.sentence, valueStr:d.valueStr, formula:d.formula, plugged:d.plugged,
-        valColor:this.sev(d.sub), mathOpen:!!(s.survMath||{})[selM.id+d.key], chevron:(s.survMath||{})[selM.id+d.key]?'rotate(90deg)':'rotate(0deg)',
-        onToggle:()=>this.setState(st=>({ survMath:Object.assign({},st.survMath,{ [selM.id+d.key]:!(st.survMath||{})[selM.id+d.key] }) })),
-        cardStyle:'border:1px solid #161e1b;background:#0c1110;border-radius:9px;padding:11px 13px;' }));
-      const probViewBtns=[['pct','%'],['logodds','log-odds']].map(v=>({ label:v[1], onClick:()=>this.setState({survProbView:v[0]}), style:this.segStyle((s.survProbView||'pct')===v[0],'#34D399') }));
+      // score breakdown: each check's POINTS contribution (sums to the index)
+      const fired=selM.checks.filter(c=>c.available && c.points>0);
+      const breakdown=fired.slice().sort((a,b)=>b.points-a.points).map(c=>({ name:c.name, points:'+'+c.points, bar:this.bar(c.points,this.sev(c.sub),130) }));
+      const scoreSentence='This market scores '+selM.score+' out of 100. The score adds up '+(selM.platform==='kalshi'?'four':'five')+' independent checks for signs of trading on private information — the higher each one, the more they agree something looks off. Here is exactly how this market’s score adds up:';
+      // the checks (plain-English, with bars + expandable "how we measured it")
+      const checks=selM.checks.map(c=>({ name:c.name, sentence:c.sentence, how:c.how, available:c.available,
+        points: c.available?(c.points>0?('+'+c.points):'0'):'n/a', pointsColor: c.points>0?this.sev(c.sub):'#5d6864',
+        bar:this.bar(c.available?c.sub:0, this.sev(c.sub), 90),
+        open:!!(s.survMath||{})[selM.id+c.key], chevron:(s.survMath||{})[selM.id+c.key]?'rotate(90deg)':'rotate(0deg)',
+        onToggle:()=>this.setState(st=>({ survMath:Object.assign({},st.survMath,{ [selM.id+c.key]:!(st.survMath||{})[selM.id+c.key] }) })),
+        cardStyle:'border:1px solid #161e1b;background:#0c1110;border-radius:10px;padding:13px 14px;'+(c.available&&c.points>0?'':'opacity:.62;') }));
       const wallets=selM.wallets.map(w=>({ addr:w.addr, pct:w.pct, barW:Math.round((w.share||0)*100)+'%', fresh:w.fresh, url:w.url }));
-      const clusters=(selM.clusters||[]).map(c=>({ text:c.size+' wallets entered within ~'+c.windowMin+' min, '+Math.round(c.share*100)+'% of buying combined' }));
+      const clusters=(selM.clusters||[]).map(c=>({ text:c.size+' different wallets all started buying within about '+c.windowMin+' minutes of each other — together '+Math.round(c.share*100)+'% of the buying. Coordinated timing like this can mean the accounts are linked.' }));
       insp={ question:selM.question, url:selM.url, category:selM.category, platformLabel:selM.platform==='kalshi'?'Kalshi':'Polymarket', platformColor:color,
         scoreStr:String(selM.score), scoreColor:sevc, meterW:selM.score+'%', meterColor:sevc, meterGlow:sevc+'77', label:selM.label, summary:selM.summary,
-        headBg:'linear-gradient(180deg,'+color+'0b,transparent)', bandColor:color+'22',
+        headBg:'linear-gradient(180deg,'+color+'0b,transparent)',
+        scoreSentence, breakdown,
         tagStyle:'font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;letter-spacing:.05em;color:'+color+';border:1px solid '+color+'55;background:'+color+'1a;border-radius:6px;padding:3px 10px;',
         labelStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;font-weight:600;letter-spacing:.06em;color:'+labelColor+';border:1px solid '+labelColor+'44;background:'+labelColor+'12;border-radius:6px;padding:3px 9px;',
-        probChart:this.probChart(selM,s.survProbView||'pct'), probViewBtns, radar:this.radar(selM), detectors,
+        chart:this.oddsChart(selM), normalRange:selM.nLo+'%–'+selM.nHi+'%', checks,
+        news:selM.news, newsHas:!!(selM.news&&selM.news.has), newsSentence:selM.news&&selM.news.sentence||'',
+        newsColor:(selM.news&&selM.news.preEvent)?'#F87171':(selM.news&&selM.news.explained)?'#34D399':'#8A938F',
+        newsTitle:(selM.news&&selM.news.preEvent)?'No public news to explain it':(selM.news&&selM.news.explained)?'A public headline explains it':'No clear public news',
         isPoly:selM.platform==='polymarket', isKalshi:selM.platform==='kalshi', wallets, gauge:this.gauge(selM.hhi),
         hasClusters:clusters.length>0, clusters, onRegimes:()=>this.setState({activeTab:'engine'}),
         live:!!(s.survWs&&s.survWs.id===selM.id&&s.survWs.p!=null), liveStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.1em;color:#34D399;border:1px solid #2e5546;background:#10231b;border-radius:5px;padding:2px 7px;' };

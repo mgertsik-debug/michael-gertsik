@@ -132,6 +132,14 @@ function scoreMarket(m) {
 }
 
 /* ===================================================== ENUMERATE Polymarket */
+// true only for a plain two-outcome Yes/No market
+function isBinaryOutcomes(outcomes) {
+  let arr = outcomes;
+  if (typeof arr === "string") { try { arr = JSON.parse(arr); } catch (_) { return false; } }
+  if (!Array.isArray(arr) || arr.length !== 2) return false;
+  const set = arr.map((x) => String(x).trim().toLowerCase());
+  return set.includes("yes") && set.includes("no");
+}
 function pmUrl(ev, m) {
   const slug = (ev && ev.slug) || (m && m.slug) || (m && Array.isArray(m.events) && m.events[0] && m.events[0].slug);
   return slug ? "https://polymarket.com/event/" + slug : "https://polymarket.com/markets";
@@ -167,6 +175,9 @@ async function enumPoly(maxPages) {
         // canonical, detectable category or skip (sports / crypto / etc.)
         const cat = classifyMarket(evTags.concat(pmTagList(null, m)), question);
         if (!cat) continue;
+        // BINARY ONLY: a plain Yes/No market (two outcomes). Drop scalar / ranged
+        // / categorical markets — the surveillance math assumes a single YES price.
+        if (!isBinaryOutcomes(m.outcomes)) continue;
         const vol = num(m.volume24hr || m.volume_24hr || m.volume24Hr);
         const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
         let prob = num(m.lastTradePrice);
@@ -202,9 +213,14 @@ function kalshiHeaders(method, path) {
     return { "KALSHI-ACCESS-KEY": keyId, "KALSHI-ACCESS-SIGNATURE": sig, "KALSHI-ACCESS-TIMESTAMP": ts };
   } catch (_) { return {}; }
 }
+// Kalshi web pages live at /markets/{series_ticker}/{event_ticker} (both lower-
+// cased). The event_ticker alone (e.g. KXELONMARS-99) does not resolve.
 function kUrl(ev) {
-  const t = (ev && (ev.event_ticker || ev.series_ticker) || "").toLowerCase();
-  return t ? "https://kalshi.com/markets/" + t : "https://kalshi.com/markets";
+  const series = (ev && ev.series_ticker || "").toLowerCase();
+  const event = (ev && ev.event_ticker || "").toLowerCase();
+  if (series && event) return "https://kalshi.com/markets/" + series + "/" + event;
+  if (series) return "https://kalshi.com/markets/" + series;
+  return "https://kalshi.com/markets";
 }
 async function enumKalshi(maxPages) {
   const base = "https://api.elections.kalshi.com";
@@ -229,6 +245,9 @@ async function enumKalshi(maxPages) {
         // Kalshi gives a clean event.category; fall back to the question text.
         const cat = classifyMarket([ev.category, ev.sub_title].filter(Boolean), question + " " + evTitle);
         if (!cat) continue;
+        // BINARY ONLY: Kalshi tags scalar/range markets with market_type; keep
+        // plain binary Yes/No contracts.
+        if (m.market_type && m.market_type !== "binary") continue;
         const vol = num(m.volume_24h_fp || m.volume_24h || m.volume_fp);
         const oi = num(m.open_interest_fp || m.open_interest);
         const liqD = num(m.liquidity_dollars);
