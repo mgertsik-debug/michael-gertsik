@@ -1,10 +1,75 @@
 {
-  "updatedAt": "2026-06-25T13:29:26.618Z",
+  "updatedAt": "2026-06-25T16:04:45.630Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-601822",
+      "ts": "16:04 UTC",
+      "platform": "polymarket",
+      "market": "Will Michelle Bolsonaro win the 2026 Brazilian presidential election?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "54 · Elevated",
+      "index": 54,
+      "url": "https://polymarket.com/event/brazil-presidential-election",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-25T16:04:45.630Z"
+    },
+    {
+      "id": "k-KXUKPARTY-29-GRE",
+      "ts": "16:04 UTC",
+      "platform": "kalshi",
+      "market": "Will Green win the next U.K. election?",
+      "detector": "runUp",
+      "sev": "med",
+      "metric": "59 · Elevated",
+      "index": 59,
+      "url": "https://kalshi.com/markets/kxukparty/kxukparty-29",
+      "engine": "insider",
+      "firstSeen": "2026-06-25T16:04:45.630Z"
+    },
+    {
+      "id": "k-KXJPMCEONEW-30-ML",
+      "ts": "16:04 UTC",
+      "platform": "kalshi",
+      "market": "Will Marianne Lake succeed Jamie Dimon as CEO of JPMorgan?",
+      "detector": "runUp",
+      "sev": "med",
+      "metric": "65 · Elevated",
+      "index": 65,
+      "url": "https://kalshi.com/markets/kxjpmceonew/kxjpmceonew",
+      "engine": "insider",
+      "firstSeen": "2026-06-25T16:04:45.630Z"
+    },
+    {
+      "id": "k-KXGOVTCUTS-28-250",
+      "ts": "16:04 UTC",
+      "platform": "kalshi",
+      "market": "Will government spending decrease by 250 before 2028?",
+      "detector": "runUp",
+      "sev": "med",
+      "metric": "72 · Elevated",
+      "index": 72,
+      "url": "https://kalshi.com/markets/kxgovtcuts/kxgovtcuts-28",
+      "engine": "insider",
+      "firstSeen": "2026-06-25T16:04:45.630Z"
+    },
+    {
+      "id": "k-KXAKSENADVANCE-26AUG18-WHUN",
+      "ts": "16:04 UTC",
+      "platform": "kalshi",
+      "market": "Will William Hunt qualify for the runoff in the 2026 Alaska Senate race?",
+      "detector": "runUp",
+      "sev": "med",
+      "metric": "86 · Elevated",
+      "index": 86,
+      "url": "https://kalshi.com/markets/kxaksenadvance/kxaksenadvance-26aug18",
+      "engine": "insider",
+      "firstSeen": "2026-06-25T16:04:45.630Z"
+    },
     {
       "id": "pm-2169896",
       "ts": "13:29 UTC",
