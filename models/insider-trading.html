@@ -365,7 +365,21 @@
                           <span style="width:8px;height:8px;border-radius:50%;background:{{ surv.insp.newsColor }};box-shadow:0 0 6px {{ surv.insp.newsColor }};"></span>
                           <span style="font-size:13px;font-weight:600;color:{{ surv.insp.newsColor }};">{{ surv.insp.newsTitle }}</span>
                         </div>
-                        <p style="margin:0;font-size:12.5px;line-height:1.55;color:#9aa39e;text-wrap:pretty;">{{ surv.insp.newsSentence }}</p>
+                        <p style="margin:0 0 10px;font-size:12.5px;line-height:1.55;color:#9aa39e;text-wrap:pretty;">{{ surv.insp.newsSentence }}</p>
+                        <sc-if value="{{ surv.insp.hasNewsArticles }}" hint-placeholder-val="{{ false }}">
+                          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:#5d6864;margin-bottom:7px;">PUBLIC HEADLINES FOUND (verify these)</div>
+                          <div style="display:flex;flex-direction:column;gap:7px;">
+                            <sc-for list="{{ surv.insp.newsArticles }}" as="a" hint-placeholder-count="3">
+                              <a href="{{ a.url }}" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:9px;text-decoration:none;border:1px solid #161e1b;background:#0c1110;border-radius:8px;padding:8px 10px;" style-hover="border-color:#2a3a33;">
+                                <span style="{{ a.badgeStyle }}">{{ a.badge }}</span>
+                                <span style="flex:1;min-width:0;">
+                                  <span style="display:block;font-size:12px;line-height:1.4;color:#cfd6d2;text-wrap:pretty;">{{ a.title }}</span>
+                                  <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#6b746f;">{{ a.source }} · {{ a.date }}</span>
+                                </span>
+                              </a>
+                            </sc-for>
+                          </div>
+                        </sc-if>
                       </div>
                     </sc-if>
 
@@ -1089,13 +1103,19 @@ class Component extends DCLogic {
 
       // news context (insider engine only; manipulation has no news gate)
       const nw=D.news, leadH=nw&&nw.leadH!=null?nw.leadH:null, headline=nw&&nw.headline?nw.headline:null;
-      const newsCtx = (isManip||!nw) ? { has:false } : {
-        has:true, preEvent:!!nw.preEvent, explained:!!nw.explained,
+      const fmtDay=(ts)=>{ try{ return new Date(ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}); }catch(e){ return ''; } };
+      const newsArticles = (nw&&Array.isArray(nw.articles)?nw.articles:[]).map(a=>({
+        title:a.title, source:a.source||'news', when:a.when||'',
+        date: a.ts?fmtDay(a.ts/1000):'', url:a.url||null,
+        beforeMove: a.when==='before' }));
+      const newsAt = (nw&&nw.atMs)?(nw.atMs/1000):null;   // catalyst time in unix seconds (chart marker)
+      const newsCtx = (isManip||!nw) ? { has:false, articles:newsArticles } : {
+        has:true, preEvent:!!nw.preEvent, explained:!!nw.explained, articles:newsArticles, atSec:newsAt,
         sentence: nw.preEvent
-          ? ('The big move happened about '+(leadH||'several')+' hours BEFORE any public news that could explain it. A price that moves first and only gets explained later is a classic red flag — so this does not lower the score.')
+          ? ('The price moved about '+(leadH||'several')+' hours BEFORE the first public headline that could explain it — the climb started ahead of the news. A price that moves first and is only explained later is a classic leakage red flag, so this does not lower the score.')
           : (nw.explained
-            ? ('A public headline appeared around the same time as the move'+(headline?(': “'+headline+'”'):'')+', so it most likely has an ordinary public cause. That is why the score is held down.')
-            : 'No clear public news was found around the time of the move.'),
+            ? ('A public headline appeared at or before the move'+(headline?(': “'+headline+'”'):'')+', so the move most likely has an ordinary public cause. That is why the score is held down.')
+            : 'Related public news was found, but its timing relative to the move is inconclusive.'),
       };
 
       const top=checks.filter(c=>c.available).slice().sort((a,b)=>b.points-a.points).slice(0,2).map(c=>c.chip).filter(x=>x&&x!=='—');
@@ -1179,10 +1199,26 @@ class Component extends DCLogic {
     els.push(h('line',{key:'bb',x1:pl,y1:yLo,x2:pl+plotW,y2:yLo,stroke:'#8A938F',strokeWidth:1,strokeDasharray:'4 4',opacity:0.55}));
     els.push(h('text',{key:'bl1',x:pl+plotW+7,y:(yHi+yLo)/2-2,fill:'#9aa39e',style:{font:'600 9.5px JetBrains Mono, monospace'}},'usual'));
     els.push(h('text',{key:'bl2',x:pl+plotW+7,y:(yHi+yLo)/2+11,fill:'#6b746f',style:{font:'500 9px JetBrains Mono, monospace'}},m.nLo+'–'+m.nHi+'%'));
-    // the pre-event / unusual-move window (the days we trace for the run-up)
-    const sx=X(m.surgeStart);
-    els.push(h('rect',{key:'surge',x:sx,y:pt,width:(pl+plotW)-sx,height:plotH,fill:'#F87171',opacity:0.05}));
-    els.push(h('text',{key:'surgel',x:sx+6,y:pt+13,fill:'#d98a8a',style:{font:'600 9.5px JetBrains Mono, monospace'}},'← pre-event window'));
+    // catalyst marker: where the public news broke (from the news gate). When we
+    // know it, the PRE-EVENT WINDOW is the lead-up BEFORE that news — the days a
+    // suspicious early climb would show. Otherwise fall back to the run-up window.
+    const T=m.times;
+    let newsX=null, newsDate='';
+    if(m.news && m.news.atSec && T && T.length>1){
+      const a=m.news.atSec;
+      let nf;
+      if(a<=T[0]) nf=0; else if(a>=T[T.length-1]) nf=N-1; else { let i=0; while(i<T.length-1 && T[i+1]<a) i++; const span=(T[i+1]-T[i])||1; nf=i+(a-T[i])/span; }
+      newsX=pl+(N>1?nf/(N-1):0)*plotW;
+      try{ newsDate=new Date(a*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}); }catch(e){}
+    }
+    const sx = newsX!=null ? Math.max(pl, Math.min(pl+plotW, newsX)) : X(m.surgeStart);
+    if(newsX!=null){
+      els.push(h('rect',{key:'surge',x:pl,y:pt,width:Math.max(0,sx-pl),height:plotH,fill:'#F87171',opacity:0.05}));
+      els.push(h('text',{key:'surgel',x:pl+6,y:pt+13,fill:'#d98a8a',style:{font:'600 9.5px JetBrains Mono, monospace'}},'pre-event window (lead-up) →'));
+    } else {
+      els.push(h('rect',{key:'surge',x:sx,y:pt,width:(pl+plotW)-sx,height:plotH,fill:'#F87171',opacity:0.05}));
+      els.push(h('text',{key:'surgel',x:sx+6,y:pt+13,fill:'#d98a8a',style:{font:'600 9.5px JetBrains Mono, monospace'}},'← pre-event window'));
+    }
     // price line
     const len=1600, anim=this.state.survReduce?{}:{strokeDasharray:len,strokeDashoffset:0,animation:'drawLine 1.1s ease','--len':len};
     els.push(h('path',{key:'line'+m.id,d:lp,fill:'none',stroke:color,strokeWidth:2.6,strokeLinejoin:'round',strokeLinecap:'round',style:Object.assign({filter:'drop-shadow(0 0 5px '+color+'66)'},anim)}));
@@ -1197,11 +1233,16 @@ class Component extends DCLogic {
       els.push(h('line',{key:'rv',x1:ex,y1:pt,x2:ex,y2:pt+plotH,stroke:color,strokeWidth:1,strokeDasharray:'3 3',opacity:0.5}));
       els.push(h('text',{key:'rvt',x:Math.min(pl+plotW,ex),y:pt-7,textAnchor:'end',fill:color,style:{font:'600 9px JetBrains Mono, monospace'}},'resolved'));
     }
-    // news marker when a public headline sits around the move
-    if(m.news&&m.news.has&&m.news.explained){ els.push(h('line',{key:'nw',x1:sx,y1:pt,x2:sx,y2:pt+plotH,stroke:'#8A938F',strokeWidth:1,strokeDasharray:'2 4',opacity:0.7})); els.push(h('text',{key:'nwt',x:sx,y:pt-7,textAnchor:'middle',fill:'#8A938F',style:{font:'500 9px JetBrains Mono, monospace'}},'news')); }
+    // PUBLIC-NEWS marker: the vertical line is when the explaining/leakage
+    // headline broke. If the price climbs to the LEFT of this line, the move
+    // started before the news — the leakage signature.
+    if(newsX!=null){
+      const nx=Math.max(pl,Math.min(pl+plotW,newsX));
+      els.push(h('line',{key:'nw',x1:nx,y1:pt,x2:nx,y2:pt+plotH,stroke:'#cbb8ff',strokeWidth:1.5,strokeDasharray:'2 3',opacity:0.85}));
+      els.push(h('text',{key:'nwt',x:nx,y:pt-7,textAnchor:'middle',fill:'#cbb8ff',style:{font:'600 9px JetBrains Mono, monospace'}},'public news'+(newsDate?(' · '+newsDate):'')));
+    }
     // x-axis: REAL dates from the series timestamps (mirrors the platform chart)
     const fmtD=(ts)=>{ try { return new Date(ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}); } catch(e){ return ''; } };
-    const T=m.times;
     const xl = (T&&T.length)?fmtD(T[0]):'earlier';
     const xr = (T&&T.length)?fmtD(T[T.length-1]):'now';
     const xm = (T&&T.length>2)?fmtD(T[Math.floor(T.length/2)]):'';
@@ -1366,7 +1407,16 @@ class Component extends DCLogic {
             : { score:subs.concentration, kind:'orderbook', imbalance:+(0.2+subs.concentration*0.6).toFixed(2), side:R()<0.5?'buy':'sell', depthUsd:Math.round(5000+R()*80000), bestBid:+(0.2+R()*0.5).toFixed(2), bestAsk:+(0.25+R()*0.5).toFixed(2) },
           longshot: platform!=='polymarket' ? { naReason:'Kalshi trades are anonymous — no wallet positions to run the longshot win-screen.' }
                     : (subs.longshot==null?null:{ score:subs.longshot, isLongshot:true, won, impliedProb:+(0.08+R()*0.24).toFixed(2), baseline:this.catMult(cat)>1?0.14:0.2 }),
-          news: explained?{ E, explained:true, preEvent:false, headline:'Officials comment on the matter, agencies report', source:'Reuters' }:{ E:0, explained:false, preEvent:true, leadH:Math.round(3+R()*18) },
+          news: (function(){
+            const surgeStartMs=series[Math.max(0,N-20)].t*1000, surgeEndMs=series[Math.max(0,N-7)].t*1000;
+            if(explained) return { E, explained:true, preEvent:false, headline:'Officials confirm the outcome, agencies report', source:'Reuters', atMs:surgeStartMs-6*3600000,
+              articles:[ {title:'Officials confirm the outcome ahead of resolution', source:'Reuters', ts:surgeStartMs-6*3600000, url:'https://news.google.com', when:'before'},
+                         {title:'Analysts flagged the likely result days earlier', source:'Bloomberg', ts:surgeStartMs-30*3600000, url:'https://news.google.com', when:'before'} ] };
+            const lead=Math.round(3+R()*18);
+            return { E:0, explained:false, preEvent:true, leadH:lead, atMs:surgeEndMs+lead*3600000,
+              articles:[ {title:'Outcome announced publicly — the price had already moved', source:'Reuters', ts:surgeEndMs+lead*3600000, url:'https://news.google.com', when:'after'},
+                         {title:'Earlier reports gave no clear signal of the result', source:'AP', ts:surgeStartMs-12*3600000, url:'https://news.google.com', when:'before'} ] };
+          })(),
         };
         if(platform==='polymarket'){
           const raw=[1,0.62,0.4,0.24,0.13].map(x=>x*(0.4+subs.concentration)); const sum=raw.reduce((a,b)=>a+b,0); let hh=0;
@@ -1977,7 +2027,11 @@ class Component extends DCLogic {
         chart:this.oddsChart(selM), normalRange:selM.nLo+'%–'+selM.nHi+'%', checks,
         news:selM.news, newsHas:!!(selM.news&&selM.news.has), newsSentence:selM.news&&selM.news.sentence||'',
         newsColor:(selM.news&&selM.news.preEvent)?'#F87171':(selM.news&&selM.news.explained)?'#34D399':'#8A938F',
-        newsTitle:(selM.news&&selM.news.preEvent)?'No public news to explain it':(selM.news&&selM.news.explained)?'A public headline explains it':'No clear public news',
+        newsTitle:(selM.news&&selM.news.preEvent)?'Price moved before the public news':(selM.news&&selM.news.explained)?'A public headline explains it':'Public news found — timing inconclusive',
+        newsArticles:((selM.news&&selM.news.articles)||[]).map(a=>({ title:a.title, source:a.source, date:a.date, url:a.url||'#',
+          badge:a.beforeMove?'BEFORE':'AFTER',
+          badgeStyle:'flex-shrink:0;font-family:\'JetBrains Mono\',monospace;font-size:8.5px;font-weight:700;letter-spacing:.04em;color:'+(a.beforeMove?'#34D399':'#F87171')+';border:1px solid '+(a.beforeMove?'#34D399':'#F87171')+'55;background:'+(a.beforeMove?'#34D399':'#F87171')+'14;border-radius:4px;padding:2px 5px;margin-top:1px;' })),
+        hasNewsArticles:!!(selM.news&&selM.news.articles&&selM.news.articles.length),
         isPoly:selM.platform==='polymarket', isKalshi:selM.platform==='kalshi', wallets, gauge:this.gauge(selM.hhi),
         hasClusters:clusters.length>0, clusters, onRegimes:()=>this.setState({activeTab:'engine'}),
         live:!!(s.survWs&&s.survWs.id===selM.id&&s.survWs.p!=null), liveStyle:'font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.1em;color:#34D399;border:1px solid #2e5546;background:#10231b;border-radius:5px;padding:2px 7px;' };
