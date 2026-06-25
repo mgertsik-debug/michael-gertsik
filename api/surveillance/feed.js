@@ -1,39 +1,32 @@
 /* ============================================================================
- *  /api/surveillance/feed  —  live surveillance collector (Vercel function)
+ *  /api/surveillance/feed  —  live full-market surveillance scanner
  *  ---------------------------------------------------------------------------
- *  Server-side so it can hold the Kalshi key and dodge browser CORS. Pulls
- *  PUBLIC market data from Polymarket (no key) and Kalshi (public market data;
- *  signs requests with the Kalshi RSA key if present for higher limits), runs a
- *  first set of detectors, and returns the SAME shape the model's sample feed
- *  uses: { generatedAt, sources, alerts:[ {id,ts,platform,market,detector,sev,
- *  metric,spark,note,gap} ] }. The model polls this and falls back to its
- *  embedded sample if the call fails, so nothing ever looks broken.
+ *  Server-side (holds the Kalshi key, dodges browser CORS). Two tiers, both on
+ *  PUBLIC market data:
  *
- *  Detection-side only, public data only. This is a first version to iterate on
- *  against the live deploy (the build sandbox can't reach these APIs), so each
- *  source is wrapped in try/catch and degrades to whatever it can compute.
+ *    1. ENUMERATION — page through every open market on Polymarket (Gamma
+ *       /events, nested markets + tags) and Kalshi (/events?with_nested_markets,
+ *       category per event). For each market we capture the VERBATIM question, a
+ *       link to the live market, its category, current probability, 24h volume
+ *       and liquidity, and score it with a cheap run-up proxy + liquidity gate so
+ *       EVERY market gets a preliminary suspicion index and is rankable.
+ *
+ *    2. DEEP ENRICHMENT — for the top-ranked markets (not low-liquidity), fetch
+ *       price history / candlesticks / on-chain trades and compute the rigorous
+ *       detectors from detectors.js (Keown-Pinkerton run-up, Kyle's λ + Amihud,
+ *       VPIN, Herfindahl concentration) plus the news-context gate, then re-fuse.
+ *
+ *  Returns { generatedAt, live, cadence, coverage, sources, markets:[…], alerts }.
+ *  `alerts` is a back-compat compact view of the flagged subset for the cron.
  *
  *  Env (optional): KALSHI_KEY_ID, KALSHI_PRIVATE_KEY  (read-only key).
  * ========================================================================== */
 "use strict";
 
 const crypto = require("crypto");
+const D = require("./detectors.js");
 
-const GAP = {
-  vol_liq: "Aggressive position-filling is not, by itself, a violation. It completes one only if paired with misappropriated nonpublic information or a manipulative scheme.",
-  accum: "A large one-directional position is a signal, not proof. A violation still needs misappropriated nonpublic information or a breached duty.",
-  vacuum: "A whale moving thin odds is anomalous, not illegal, unless the trade rests on nonpublic information used in breach of a duty, or is non-bona-fide.",
-  lead: "A pre-event move can be informed trading or a sharp read of public signals. Proof requires nonpublic information and, federally, a breached duty.",
-  fresh: "A fresh wallet and good timing are a strong anomaly signal, not a proven breach.",
-};
-const NOTE = {
-  vol_liq: "Trading volume far exceeds the market's resting liquidity.",
-  accum: "A steady one-sided position built relative to the book.",
-  vacuum: "An outsized single fill moved the odds on a thin market.",
-  lead: "Implied probability moved sharply ahead of the expected catalyst.",
-  fresh: "A recently active wallet placed an outsized bet on a niche market.",
-};
-
+/* ----------------------------------------------------------------- fetch -- */
 function withTimeout(ms) {
   const c = new AbortController();
   const t = setTimeout(() => c.abort(), ms);
@@ -63,57 +56,200 @@ function decodeEntities(s) {
     .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/<[^>]+>/g, "").trim();
 }
 const num = (x) => { const n = Number(x); return isFinite(n) ? n : 0; };
-function alert(o) {
+const clip = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+/* ------------------------------------------------------------- categories -- */
+// Categories are DERIVED from the live APIs: Polymarket tags and Kalshi's
+// event.category. We normalise only casing/aliases so chips stay tidy; we never
+// hardcode the allowed set.
+const CAT_ALIAS = {
+  "us-politics": "Politics", "politics": "Politics", "elections": "Elections",
+  "geopolitics": "World", "world": "World", "economy": "Economics",
+  "economics": "Economics", "finance": "Finance", "financials": "Finance",
+  "crypto": "Crypto", "business": "Business", "tech": "Tech & Science",
+  "science": "Tech & Science", "pop-culture": "Culture", "culture": "Culture",
+  "entertainment": "Culture", "sports": "Sports", "climate": "Climate",
+  "weather": "Climate", "health": "Health", "mentions": "Mentions",
+};
+function normCat(raw) {
+  if (!raw) return null;
+  const k = String(raw).trim().toLowerCase().replace(/\s+/g, "-");
+  if (CAT_ALIAS[k]) return CAT_ALIAS[k];
+  // Title-case an unknown tag/category rather than dropping it.
+  return String(raw).trim().replace(/\b\w/g, (c) => c.toUpperCase()).slice(0, 22);
+}
+
+/* ----------------------------------------------------- preliminary scoring -
+ * Every enumerated market gets a cheap run-up proxy from its 24h price change in
+ * log-odds, standardised by a baseline daily logit-volatility floor. The real
+ * Keown-Pinkerton CAR* replaces this for the markets we deep-fetch. */
+const SIGMA0 = 0.55;   // typical 1-day logit swing on these markets (volatility floor)
+function proxyRunUp(prob, change24h) {
+  if (!(prob > 0 && prob < 1) || !isFinite(change24h)) return null;
+  const before = clip(prob - change24h, 0.001, 0.999);
+  const move = Math.abs(D.logit(prob) - D.logit(before));
+  const sigma = move / SIGMA0;
+  const score = clip(sigma / D.DEFAULTS.kRunUp, 0, 1);
   return {
-    id: o.id, ts: o.ts, platform: o.platform, market: o.market, detector: o.detector,
-    sev: o.sev, metric: o.metric, spark: o.spark || null, metrics: o.metrics || null,
-    note: o.note || NOTE[o.detector] || "", gap: o.gap || GAP[o.detector] || "Anomalous, not proof of a violation.",
+    score, sigma_move: +sigma.toFixed(2), dir: change24h >= 0 ? "up" : "down", proxy: true,
+    explain: "Implied probability moved " + (change24h >= 0 ? "+" : "") + Math.round(change24h * 100) +
+      "c in 24h (~" + sigma.toFixed(1) + "σ vs a normal daily swing) — a preliminary run-up read, " +
+      "refined from full price history when this market is inspected.",
   };
 }
-const clip = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-function hhmm() { return new Date().toISOString().slice(11, 16) + " UTC"; }
-
-/* --------------------------------------------------------- topic classifier -
- * Insider trading only makes sense where the OUTCOME turns on nonpublic
- * information: geopolitics, government/political decisions, leakable economic
- * data, and corporate events. Sports, esports, and crypto/index price levels
- * are efficient + public, so we drop them — that is where the noise was. */
-function topic(text) {
-  const s = String(text || "").toLowerCase();
-  if (/\bvs\.?\b|spread:|o\/u|over\/under|moneyline|win on \d{4}-|exact score|\d\s*-\s*\d|world cup|counter-?strike|esports|goalscorer|glove|knockout stage|advance to|\bwnba\b|\bnba\b|\bnfl\b|\bmlb\b|\bnhl\b|\bufc\b|\bf1\b|halftime|to score|\bbo\d\b|premier league|champions league|rebounds|points per/.test(s)) return "sports";
-  if (/\bcpi\b|inflation|\bfomc\b|\bfed\b|rate (cut|hike|decision)|jobs report|unemployment|jobless|payroll|\bgdp\b|interest rate|recession|kxfed|kxcpi/.test(s)) return "econ";
-  if (/bitcoin|ethereum|\bbtc\b|\beth\b|\bspx\b|s&p ?500|nasdaq|price of|above \$|below \$|up or down/.test(s)) return "cryptoprice";
-  if (/prime minister|\bpresident\b|election|drop out|resign|cabinet|nominee|chancellor|parliament|government|\bcoup\b|impeach|governor|senate|congress|\bmayor\b|appointed/.test(s)) return "political";
-  if (/\bwar\b|invade|enter iran|\bstrike\b|ceasefire|hormuz|missile|nuclear|maduro|hostage|sanction|troops|military|annex|\bborder\b|airstrike|occupy/.test(s)) return "geopolitical";
-  if (/\bceo\b|merger|acquisition|earnings|\bipo\b|bankruptcy|layoffs|\bfda\b|approval|recall|guidance|acquire/.test(s)) return "corporate";
-  return "other";
+function scoreMarket(m) {
+  const q = D.liquidityQ({ volumeUsd: m.volume24h, depthUsd: m.liquidity });
+  const runUp = proxyRunUp(m.prob, m.change24h);
+  const subs = { runUp: runUp };
+  const fused = D.fuse(subs, { platform: m.platform, E: 0, Q: q.Q });
+  m.Q = q.Q; m.E = 0; m.raw = fused.raw; m.index = fused.index; m.label = fused.label;
+  m.detectors = { runUp, priceImpact: null, vpin: null, concentration: null, news: null };
+  m.contributions = fused.contributions;
+  return m;
 }
-const INSIDER_TOPICS = new Set(["political", "geopolitical", "corporate", "econ"]);
 
-/* ------------------------------------------------- z-score helpers (measured)
- * Population mean / standard deviation, then z-scores from real on-chain fills.
- * This is the same construction as the informed-trading screen: a wallet's
- * anomaly is measured relative to the distribution it sits in, not in raw $. */
-function zStat(vals) {
-  const n = vals.length; if (n < 2) return null;
-  const mean = vals.reduce((a, b) => a + b, 0) / n;
-  const sd = Math.sqrt(vals.reduce((a, b) => a + (b - mean) * (b - mean), 0) / n);
-  return { mean, sd, n };
+/* ===================================================== ENUMERATE Polymarket */
+function pmUrl(ev, m) {
+  const slug = (ev && ev.slug) || (m && m.slug) || (m && Array.isArray(m.events) && m.events[0] && m.events[0].slug);
+  return slug ? "https://polymarket.com/event/" + slug : "https://polymarket.com/markets";
 }
-const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+function pmCategory(ev, m) {
+  const tags = (ev && ev.tags) || (m && m.tags) || [];
+  if (Array.isArray(tags)) {
+    for (const t of tags) {
+      const label = t && (t.label || t.slug || (typeof t === "string" ? t : null));
+      const c = normCat(label);
+      if (c && c !== "All") return c;
+    }
+  }
+  return normCat(m && m.category) || "Other";
+}
+async function enumPoly(maxPages) {
+  const rows = [];
+  let offset = 0, pages = 0;
+  do {
+    const url = "https://gamma-api.polymarket.com/events?active=true&closed=false&archived=false" +
+      "&limit=100&offset=" + offset + "&order=volume24hr&ascending=false";
+    const evs = await getJSON(url, { timeout: 8000 }).catch(() => null);
+    const arr = Array.isArray(evs) ? evs : (evs && (evs.data || evs.events)) || [];
+    if (!arr.length) break;
+    for (const ev of arr) {
+      const cat = pmCategory(ev, null);
+      const url2 = pmUrl(ev, null);
+      for (const m of (ev.markets || [])) {
+        if (m.closed === true || m.active === false) continue;
+        const question = String(m.question || m.groupItemTitle || ev.title || "").trim();
+        if (!question) continue;
+        const vol = num(m.volume24hr || m.volume_24hr || m.volume24Hr);
+        const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
+        let prob = num(m.lastTradePrice);
+        if (!prob && m.outcomePrices) { try { const op = typeof m.outcomePrices === "string" ? JSON.parse(m.outcomePrices) : m.outcomePrices; prob = num(op && op[0]); } catch (_) {} }
+        if (!(prob > 0 && prob < 1)) continue;
+        let tokenId = null;
+        if (m.clobTokenIds) { try { const ct = typeof m.clobTokenIds === "string" ? JSON.parse(m.clobTokenIds) : m.clobTokenIds; tokenId = ct && ct[0]; } catch (_) {} }
+        rows.push(scoreMarket({
+          id: "pm-" + (m.id || m.conditionId || (question.slice(0, 24))),
+          platform: "polymarket", category: cat, question, url: url2,
+          prob: +prob.toFixed(4), change24h: num(m.oneDayPriceChange),
+          volume24h: Math.round(vol), liquidity: Math.round(liq),
+          _cond: m.conditionId || null, _tokenId: tokenId,
+        }));
+      }
+    }
+    offset += 100; pages++;
+  } while (pages < maxPages);
+  return rows;
+}
 
-// On-chain READOUT for one market (by conditionId), measured from the recent
-// fills the public Data API exposes. We deliberately compute only what a recent
-// window can support honestly: per-wallet BUY concentration (robust to
-// complement-routing fill splits because we aggregate per wallet) and a
-// recent-flow cross-sectional z-score for the top buyer.
-//
-// We do NOT try to reconstruct the paper's late-buy fraction, profit, or
-// within-trader z-scores here: those require COMPLETE trade history and a
-// RESOLVED outcome (the paper builds them from full Dune data offline). From a
-// recent window they degrade to artifacts (late-fraction pins to ~1, sells are
-// undercounted), so they are left to the documented-case demonstrations.
-async function enrichMarket(cond) {
+/* ========================================================= ENUMERATE Kalshi */
+function kalshiHeaders(method, path) {
+  const keyId = process.env.KALSHI_KEY_ID, pk = process.env.KALSHI_PRIVATE_KEY;
+  if (!keyId || !pk) return {};
+  try {
+    const ts = Date.now().toString();
+    const sig = crypto.sign("sha256", Buffer.from(ts + method + path), {
+      key: pk, padding: crypto.constants.RSA_PKCS1_PSS_PADDING, saltLength: crypto.constants.RSA_PSS_SALTLEN_DIGEST,
+    }).toString("base64");
+    return { "KALSHI-ACCESS-KEY": keyId, "KALSHI-ACCESS-SIGNATURE": sig, "KALSHI-ACCESS-TIMESTAMP": ts };
+  } catch (_) { return {}; }
+}
+function kUrl(ev) {
+  const t = (ev && (ev.event_ticker || ev.series_ticker) || "").toLowerCase();
+  return t ? "https://kalshi.com/markets/" + t : "https://kalshi.com/markets";
+}
+async function enumKalshi(maxPages) {
+  const base = "https://api.elections.kalshi.com";
+  const rows = [];
+  let cursor = null, pages = 0;
+  do {
+    const url = base + "/trade-api/v2/events?limit=200&status=open&with_nested_markets=true" + (cursor ? "&cursor=" + cursor : "");
+    const d = await getJSON(url, { headers: kalshiHeaders("GET", "/trade-api/v2/events"), timeout: 8000 }).catch(() => null);
+    if (!d) break;
+    for (const ev of (d.events || d.data || [])) {
+      const cat = normCat(ev.category) || "Other";
+      const series = ev.series_ticker || "";
+      const url2 = kUrl(ev);
+      const evTitle = String(ev.title || ev.sub_title || "");
+      for (const m of (ev.markets || [])) {
+        if (m.status && m.status !== "active" && m.status !== "open") continue;
+        const vol = num(m.volume_24h_fp || m.volume_24h);
+        const oi = num(m.open_interest_fp || m.open_interest);
+        // probability from the yes bid/ask midpoint or last price (cents -> 0..1)
+        let cents = num(m.last_price);
+        if (!cents) { const b = num(m.yes_bid), a = num(m.yes_ask); if (b || a) cents = (b + a) / 2; }
+        const prob = cents > 1 ? cents / 100 : cents;
+        if (!(prob > 0 && prob < 1)) continue;
+        const question = String(m.title || m.yes_sub_title || evTitle || m.ticker || "").trim();
+        if (!question) continue;
+        rows.push(scoreMarket({
+          id: "k-" + (m.ticker || question.slice(0, 24)),
+          platform: "kalshi", category: cat, question, url: url2,
+          prob: +prob.toFixed(4),
+          change24h: num(m.last_price_change) ? num(m.last_price_change) / 100 : 0,
+          volume24h: Math.round(vol), liquidity: Math.round(oi),
+          _series: series, _ticker: m.ticker,
+        }));
+      }
+    }
+    cursor = d.cursor; pages++;
+  } while (cursor && pages < maxPages);
+  return rows;
+}
+
+/* ======================================================= DEEP: price series */
+async function pmPriceSeries(tokenId) {
+  if (!tokenId) return null;
+  const d = await getJSON(
+    "https://clob.polymarket.com/prices-history?market=" + encodeURIComponent(tokenId) + "&interval=1w&fidelity=60",
+    { timeout: 6000 }
+  ).catch(() => null);
+  const hist = d && (d.history || d.data || (Array.isArray(d) ? d : null));
+  if (!Array.isArray(hist)) return null;
+  return hist.map((x) => ({ t: num(x.t || x.timestamp), p: num(x.p || x.price) })).filter((x) => x.t && x.p > 0 && x.p < 1);
+}
+async function kalshiCandleSeries(series, ticker) {
+  if (!series || !ticker) return null;
+  const end = Math.floor(Date.now() / 1000), start = end - 7 * 86400;
+  const path = "/trade-api/v2/series/" + series + "/markets/" + ticker + "/candlesticks";
+  const d = await getJSON(
+    "https://api.elections.kalshi.com" + path + "?start_ts=" + start + "&end_ts=" + end + "&period_interval=60",
+    { headers: kalshiHeaders("GET", path), timeout: 6000 }
+  ).catch(() => null);
+  const cs = d && (d.candlesticks || d.data);
+  if (!Array.isArray(cs)) return null;
+  return cs.map((c) => {
+    const pr = c.price || {};
+    let raw = pr.mean_dollars != null ? pr.mean_dollars : (pr.close_dollars != null ? pr.close_dollars : (c.yes_bid && c.yes_bid.close_dollars));
+    let p = num(raw); if (p > 1) p = p / 100;
+    return { t: num(c.end_period_ts || c.ts), p, volume: num(c.volume) };
+  }).filter((x) => x.t && x.p > 0 && x.p < 1);
+}
+
+/* ======================================== DEEP: Polymarket on-chain trades -- */
+// Pull recent public trades for a market (Data API) -> per-wallet buy volumes
+// (for HHI/concentration), a trade list (for VPIN), and volume bars (for Kyle's
+// λ). Wallet addresses are public on-chain.
+async function pmTrades(cond) {
   const trades = [];
   let offset = 0, pages = 0;
   do {
@@ -125,112 +261,35 @@ async function enrichMarket(cond) {
     if (!arr.length) break;
     trades.push(...arr); offset += arr.length; pages++;
   } while (trades.length < 1000 && pages < 2);
-  if (trades.length < 25) return null;
-
-  // BUY and SELL USDC per wallet (aggregate fills -> one figure per wallet)
-  const buyByWallet = {}; let totalBuy = 0, totalSell = 0;
-  trades.forEach((t) => {
-    const w = t.proxyWallet; if (!w) return;
-    const usd = num(t.size) * num(t.price); if (!usd) return;
-    if (String(t.side || "").toUpperCase() === "SELL") { totalSell += usd; return; }
-    buyByWallet[w] = (buyByWallet[w] || 0) + usd; totalBuy += usd;
-  });
-  const wallets = Object.keys(buyByWallet);
-  const buys = wallets.map((w) => buyByWallet[w]).filter((v) => v > 0);
-  if (buys.length < 5) return null;                 // need a reference distribution
-  const total = buys.reduce((a, b) => a + b, 0);
-  const st = zStat(buys); if (!st || st.sd <= 0) return null;
-
-  let best = null, bestBuy = 0;
-  wallets.forEach((w) => { if (buyByWallet[w] > bestBuy) { bestBuy = buyByWallet[w]; best = w; } });
-  if (bestBuy < 500) return null;
-
-  const recentZ = clamp((bestBuy - st.mean) / st.sd, 0, 20);   // windowed cross-sectional z
-  const topShare = total > 0 ? clamp(bestBuy / total, 0, 1) : 0;
-  // VPIN-style order-flow imbalance: |buy-sell| / (buy+sell) over the window
-  const flow = totalBuy + totalSell;
-  const imbalance = flow > 0 ? clamp(Math.abs(totalBuy - totalSell) / flow, 0, 1) : 0;
-  // Herfindahl concentration of buying across wallets (1 = one wallet, ~0 = diffuse)
-  const herfindahl = total > 0 ? clamp(buys.reduce((a, b) => a + (b / total) * (b / total), 0), 0, 1) : 0;
-  return {
-    computed: true, windowed: true, nTrades: trades.length, nWallets: buys.length,
-    wallet: best.slice(0, 6) + "…" + best.slice(-4),
-    topBuyUsd: Math.round(bestBuy),
-    recentZ: +recentZ.toFixed(2), topShare: +topShare.toFixed(3),
-    imbalance: +imbalance.toFixed(3), herfindahl: +herfindahl.toFixed(3),
-  };
+  return trades;
+}
+function buildWalletVolumes(trades) {
+  const buyByWallet = {};
+  for (const t of trades) {
+    const w = t.proxyWallet; if (!w) continue;
+    if (String(t.side || "").toUpperCase() === "SELL") continue;
+    const usd = num(t.size) * num(t.price); if (!usd) continue;
+    buyByWallet[w] = (buyByWallet[w] || 0) + usd;
+  }
+  return Object.keys(buyByWallet).map((w) => ({ wallet: w.slice(0, 6) + "…" + w.slice(-4), full: w, buyUsd: buyByWallet[w] }))
+    .sort((a, b) => b.buyUsd - a.buyUsd);
+}
+function tradesToBarsAndList(trades) {
+  // time-sorted trade list (price = probability, size, ts) + 5-min volume bars
+  const tl = trades.map((t) => ({ ts: num(t.timestamp || t.matchTime || t.time), price: num(t.price), size: num(t.size) }))
+    .filter((t) => t.ts && t.price > 0 && t.price < 1 && t.size > 0)
+    .sort((a, b) => a.ts - b.ts);
+  const bars = []; const W = 300; let cur = null;
+  for (const t of tl) {
+    const b = Math.floor(t.ts / W) * W;
+    if (!cur || cur.t !== b) { if (cur) bars.push(cur); cur = { t: b, p: t.price, volume: 0 }; }
+    cur.p = t.price; cur.volume += t.size * t.price;
+  }
+  if (cur) bars.push(cur);
+  return { tradeList: tl, bars };
 }
 
-/* ---------------------------------------- price-history shock σ (Polymarket)
- * Pull the market's CLOB price series, read it in LOG-ODDS space, and compute
- * the biggest single-step move as a z-score against the series' own volatility
- * — the lightweight "rolling z-score" multi-scale shock the event-aligned model
- * calls for. Returns true before/after prices and the move's timestamp too. */
-// Shared: a price series [{t (unix s), p (0..1)}] -> the SUSTAINED run-up (the
-// early level vs the current level, in log-odds), standardised by the series'
-// own step volatility (Keown-Pinkerton style). Using the sustained move rather
-// than a single biggest step rejects transient thin-market spikes that revert.
-function logitShockFromSeries(pts) {
-  if (!Array.isArray(pts)) return null;
-  pts = pts.filter((x) => x && x.p > 0 && x.p < 1 && x.t > 0).sort((a, b) => a.t - b.t);
-  if (pts.length < 8) return null;
-  const clp = (p) => clip(p, 0.03, 0.97);   // near 0/1 a one-tick wiggle would otherwise explode the logit
-  const L = (p) => Math.log(clp(p) / (1 - clp(p)));
-  const lg = pts.map((x) => L(x.p));
-  const r = []; for (let i = 1; i < lg.length; i++) r.push(lg[i] - lg[i - 1]);
-  const mean = r.reduce((a, b) => a + b, 0) / r.length;
-  const sd = Math.sqrt(r.reduce((a, b) => a + (b - mean) * (b - mean), 0) / r.length);
-  if (!(sd > 0)) return null;
-  const med = (a) => { const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
-  const nE = Math.max(3, Math.floor(pts.length * 0.25)), nL = Math.max(3, Math.floor(pts.length * 0.15));
-  const early = med(pts.slice(0, nE).map((x) => x.p));   // baseline level
-  const late = med(pts.slice(-nL).map((x) => x.p));      // current sustained level
-  const runMove = Math.abs(L(late) - L(early));
-  let shockSigma = clip(runMove / sd, 0, 12);
-  if (Math.abs(late - early) < 0.03) shockSigma = Math.min(shockSigma, 1.2);   // a tiny sustained move is not a run-up
-  return {
-    shockSigma: +shockSigma.toFixed(2),
-    pBefore: +early.toFixed(3), pAfter: +late.toFixed(3),
-    windowH: Math.min(168, Math.max(1, Math.round((pts[pts.length - 1].t - pts[0].t) / 3600))),
-    moveMs: pts[pts.length - 1].t * 1000,
-  };
-}
-async function priceHistory(tokenId) {
-  if (!tokenId) return null;
-  const d = await getJSON(
-    "https://clob.polymarket.com/prices-history?market=" + encodeURIComponent(tokenId) + "&interval=1w&fidelity=60",
-    { timeout: 6000 }
-  ).catch(() => null);
-  const hist = d && (d.history || d.data || (Array.isArray(d) ? d : null));
-  if (!Array.isArray(hist)) return null;
-  return logitShockFromSeries(hist.map((x) => ({ t: num(x.t || x.timestamp), p: num(x.p || x.price) })));
-}
-// Kalshi price anomaly from authenticated candlesticks (prices in cents or dollars).
-async function kalshiCandles(series, ticker) {
-  if (!series || !ticker) return null;
-  const end = Math.floor(Date.now() / 1000), start = end - 7 * 86400;
-  const path = "/trade-api/v2/series/" + series + "/markets/" + ticker + "/candlesticks";
-  const d = await getJSON(
-    "https://api.elections.kalshi.com" + path + "?start_ts=" + start + "&end_ts=" + end + "&period_interval=60",
-    { headers: kalshiHeaders("GET", path), timeout: 6000 }
-  ).catch(() => null);
-  const cs = d && (d.candlesticks || d.data);
-  if (!Array.isArray(cs)) return null;
-  const pts = cs.map((c) => {
-    const pr = c.price || {};
-    let raw = pr.mean_dollars != null ? pr.mean_dollars
-      : (pr.close_dollars != null ? pr.close_dollars : (c.yes_bid && c.yes_bid.close_dollars));
-    let p = num(raw); if (p > 1) p = p / 100;   // values are already dollars (0..1); guard if cents
-    return { t: num(c.end_period_ts || c.ts), p };
-  });
-  return logitShockFromSeries(pts);
-}
-
-/* ------------------------------------------------ public-news explanation (E)
- * Keyless: query Google News RSS for the market's subject, then compare the
- * timing of relevant headlines to the price move. News AROUND the move →
- * "explained" (less suspicious). The move BEFORE the first relevant headline →
- * pre-event (front-running the wire). Nothing relevant → unknown (not cleared). */
+/* ---------------------------------------------------- DEEP: news-context (E) */
 function newsQuery(t) {
   let s = String(t || "").replace(/[?]+/g, " ").trim();
   s = s.replace(/^(will|does|is|are|can|did|has|have|the|a|an)\s+/i, "");
@@ -253,267 +312,102 @@ async function newsCheck(query, moveMs) {
     const ts = pub ? Date.parse(pub) : NaN;
     if (title) items.push({ title, src, ts });
   }
-  if (!items.length) return { explained: null };
+  if (!items.length) return null;
   const qwords = query.toLowerCase().split(/\W+/).filter((w) => w.length >= 4);
   const rel = items.filter((it) => { const h = it.title.toLowerCase(); return qwords.some((w) => h.includes(w)); }).filter((it) => isFinite(it.ts));
-  if (!rel.length) return { explained: null };
+  if (!rel.length) return null;
   rel.sort((a, b) => a.ts - b.ts);
   const mv = moveMs || Date.now();
   const near = rel.filter((it) => Math.abs(it.ts - mv) <= 24 * 3600 * 1000);
+  // credibility from the source name (official wire/agency > general news > social)
+  const cred = (src) => /reuters|associated press|\bap\b|bloomberg|official|\.gov|federal|white house|department/i.test(src || "") ? "official"
+    : /twitter|x\.com|reddit|telegram|truth social/i.test(src || "") ? "social" : "news";
   if (near.length) {
     const top = near.slice().sort((a, b) => Math.abs(a.ts - mv) - Math.abs(b.ts - mv))[0];
-    return { explained: true, headline: top.title.slice(0, 140), source: top.src || "news", catalyst: top.title.slice(0, 80), leadH: null };
+    return { ctx: { credibility: cred(top.src), hoursFromMove: (top.ts - mv) / 3600000, preEvent: false, directionMatch: true },
+      headline: top.title.slice(0, 160), source: top.src || "news" };
   }
   const after = rel.filter((it) => it.ts > mv);
   if (after.length) {
     const first = after[0]; const leadH = Math.round((first.ts - mv) / 3600000);
     if (leadH >= 1 && leadH <= 240) {
-      return { explained: false, headline: first.title.slice(0, 140), source: first.src || "news", catalyst: first.title.slice(0, 80), leadH };
+      return { ctx: { credibility: cred(first.src), hoursFromMove: leadH, preEvent: true, directionMatch: true },
+        headline: first.title.slice(0, 160), source: first.src || "news", leadH };
     }
   }
-  return { explained: null };
+  return null;
 }
 
-async function polymarket() {
-  const out = [];   // { cond, a } so we can attach measured signals after
-  const condMeta = {};   // cond -> { tokenId, title } for price-history + news
-  // Active markets ranked by 24h volume (Gamma API, public).
-  const markets = await getJSON(
-    "https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=250&order=volume24hr&ascending=false"
-  ).catch(() => []);
-  (Array.isArray(markets) ? markets : []).forEach((m, i) => {
-    const vol = num(m.volume24hr || m.volume_24hr || m.volume24Hr);
-    const liq = num(m.liquidity || m.liquidityNum || m.liquidityClob);
-    const q = (m.question || m.title || m.slug || "Market").toString().slice(0, 90);
-    const tp = topic(q);
-    // Scan every category EXCEPT the two that can't host insider trading: pure
-    // crypto price-levels, and individual sports game-lines (a game's result is
-    // decided on the field — there is no material nonpublic information to leak).
-    if (tp === "cryptoprice" || tp === "sports") return;
-    if (vol < 75000) return;                       // real money behind it
-    const cond = m.conditionId || null;
-    // YES CLOB token id (for price history) + title (for news), keyed by market
-    if (cond && !condMeta[cond]) {
-      let tokenId = null;
-      if (m.clobTokenIds) { try { const ct = typeof m.clobTokenIds === "string" ? JSON.parse(m.clobTokenIds) : m.clobTokenIds; tokenId = ct && ct[0]; } catch (_) {} }
-      condMeta[cond] = { tokenId, title: q };
-    }
-    // current YES price -> before/after for the event-aligned score
-    let price = num(m.lastTradePrice);
-    if (!price && m.outcomePrices) { try { const op = typeof m.outcomePrices === "string" ? JSON.parse(m.outcomePrices) : m.outcomePrices; price = num(op && op[0]); } catch (_) {} }
-    // Price-move finder: a sharp recent move on a market that turns on nonpublic
-    // information can be front-running the wire. Gamma exposes oneDayPriceChange
-    // (there is no 1h field); the real shock σ is then measured from price
-    // history for the flagged set. Skip deep longshots where a 1c tick is noise.
-    const ch = num(m.oneDayPriceChange);
-    if (Math.abs(ch) >= 0.15 && price > 0.05 && price < 0.95) {
-      const pA = clip(price, 0.01, 0.99);
-      const pB = clip(pA - ch, 0.01, 0.99);
-      out.push({ cond, a: alert({
-        id: "pm-move-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
-        detector: "lead", sev: Math.abs(ch) >= 0.30 ? "high" : "med",
-        metric: (ch >= 0 ? "+" : "") + Math.round(ch * 100) + "c in 24h  ($" + Math.round(vol / 1000) + "k vol)  [" + tp + "]",
-        metrics: { category: tp, pBefore: pB, pAfter: pA, windowH: 24, volUsd: Math.round(vol), liqUsd: liq ? Math.round(liq) : null, volRatio: liq ? +(vol / liq).toFixed(1) : null },
-      }) });
-    }
-    // Volume-to-liquidity spike on a thin niche book.
-    if (liq >= 5000) {
-      const ratio = vol / liq;
-      if (ratio >= 6) {
-        out.push({ cond, a: alert({
-          id: "pm-vl-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
-          detector: "vol_liq", sev: (ratio >= 15 || (vol >= 400000 && liq < 30000)) ? "high" : "med",
-          metric: "vol/liq " + ratio.toFixed(0) + "x  ($" + Math.round(vol / 1000) + "k / $" + Math.round(liq / 1000) + "k)  [" + tp + "]",
-          metrics: { category: tp, volUsd: Math.round(vol), liqUsd: Math.round(liq), volRatio: +ratio.toFixed(1) },
-        }) });
-      }
-    }
-  });
-  // Large single fills on insider-relevant markets (Data API). The firehose is
-  // mostly tiny crypto-bot trades, so we scan deeper and topic-filter. usd = shares*price.
-  const trades = await getJSON("https://data-api.polymarket.com/trades?limit=500").catch(() => []);
-  const whales = {};
-  (Array.isArray(trades) ? trades : []).forEach((t, i) => {
-    const usd = num(t.size) * num(t.price);
-    const title = (t.title || t.eventSlug || t.slug || "Market").toString().slice(0, 90);
-    const tp = topic(title);
-    if (usd >= 12000 && tp !== "cryptoprice" && tp !== "sports") {
-      const key = title + "|" + (t.side || "");
-      if (!whales[key] || usd > whales[key].usd) {
-        whales[key] = { usd, title, tp, side: t.side, hash: t.transactionHash || i, cond: t.conditionId || null };
-      }
-    }
-  });
-  Object.values(whales).forEach((w) => out.push({ cond: w.cond, a: alert({
-    id: "pm-whale-" + w.hash, ts: hhmm(), platform: "polymarket", market: w.title,
-    detector: "vacuum", sev: w.usd >= 50000 ? "high" : "med",
-    metric: "$" + Math.round(w.usd / 1000) + "k fill" + (w.side ? " (" + String(w.side).toLowerCase() + ")" : "") + "  [" + w.tp + "]",
-    metrics: { category: w.tp, volUsd: Math.round(w.usd) },
-  }) }));
-
-  // ---- enrichment on the flagged markets (cap 6, high-severity first) ----
-  // Each market gets: measured on-chain concentration, a real price-history
-  // shock σ in log-odds, and a public-news check (E / pre-event timing).
-  const order = out.slice().sort((a, b) => (b.a.sev === "high" ? 1 : 0) - (a.a.sev === "high" ? 1 : 0));
-  const conds = [];
-  order.forEach((o) => { if (o.cond && conds.indexOf(o.cond) === -1 && conds.length < 6) conds.push(o.cond); });
-  const enrich = {};
-  await Promise.all(conds.map(async (cond) => {
-    const meta = condMeta[cond] || {};
-    try {
-      const [sig, ph] = await Promise.all([
-        enrichMarket(cond).catch(() => null),
-        priceHistory(meta.tokenId).catch(() => null),
-      ]);
-      const news = await newsCheck(newsQuery(meta.title || ""), ph && ph.moveMs).catch(() => null);
-      enrich[cond] = { sig, ph, news };
-    } catch (_) {}
-  }));
-  out.forEach((o) => {
-    const e = o.cond && enrich[o.cond]; if (!e) return;
-    if (e.sig) o.a.signals = e.sig;
-    if (e.ph) o.a.metrics = Object.assign({}, o.a.metrics, { shockSigma: e.ph.shockSigma, pBefore: e.ph.pBefore, pAfter: e.ph.pAfter, windowH: e.ph.windowH });
-    if (e.news) o.a.metrics = Object.assign({}, o.a.metrics, {
-      explained: e.news.explained, catalyst: e.news.catalyst || null,
-      leadH: e.news.leadH != null ? e.news.leadH : null, headline: e.news.headline || null, newsSource: e.news.source || null,
-    });
-  });
-
-  return out.map((o) => o.a).slice(0, 50);
-}
-
-/* ----------------------------------------------------------------- Kalshi -- */
-function kalshiHeaders(method, path) {
-  const keyId = process.env.KALSHI_KEY_ID, pk = process.env.KALSHI_PRIVATE_KEY;
-  if (!keyId || !pk) return {}; // public market data works unauthenticated
+/* ===================================================== DEEP: enrich one row */
+async function deepEnrich(m) {
   try {
-    const ts = Date.now().toString();
-    const msg = ts + method + path;
-    const sig = crypto.sign("sha256", Buffer.from(msg), {
-      key: pk, padding: crypto.constants.RSA_PKCS1_PSS_PADDING, saltLength: crypto.constants.RSA_PSS_SALTLEN_DIGEST,
-    }).toString("base64");
-    return { "KALSHI-ACCESS-KEY": keyId, "KALSHI-ACCESS-SIGNATURE": sig, "KALSHI-ACCESS-TIMESTAMP": ts };
-  } catch (_) { return {}; }
-}
-async function kalshi() {
-  const base = "https://api.elections.kalshi.com";
-  // Page through open events across EVERY category, collect nested markets.
-  const collected = [];
-  let cursor = null, pages = 0;
-  do {
-    const url = base + "/trade-api/v2/events?limit=200&status=open&with_nested_markets=true" + (cursor ? "&cursor=" + cursor : "");
-    const d = await getJSON(url, { headers: kalshiHeaders("GET", "/trade-api/v2/events") }).catch(() => null);
-    if (!d) break;
-    (d.events || d.data || []).forEach((ev) => {
-      const cat = String(ev.category || "Other");
-      if (/crypto|sport/i.test(cat)) return;     // price-level + game-outcome markets aren't insider-tradeable
-      const series = ev.series_ticker || "";
-      const evTitle = String(ev.title || ev.sub_title || "");
-      (ev.markets || []).forEach((m) => {
-        const vol = num(m.volume_24h_fp || m.volume_24h);
-        const oi = num(m.open_interest_fp || m.open_interest);
-        if (vol < 1000 || oi < 200) return;      // real activity + a standing book
-        collected.push({ vol, oi, ratio: vol / oi, ticker: m.ticker, series, cat,
-          title: (evTitle || m.title || m.yes_sub_title || m.ticker || "Market").toString().slice(0, 100) });
-      });
-    });
-    cursor = d.cursor; pages++;
-  } while (cursor && pages < 4);
+    let series = null, tradeList = null, bars = null, wallets = null;
+    if (m.platform === "polymarket") {
+      const [ps, tr] = await Promise.all([pmPriceSeries(m._tokenId), m._cond ? pmTrades(m._cond) : Promise.resolve([])]);
+      series = ps;
+      if (tr && tr.length) { const x = tradesToBarsAndList(tr); tradeList = x.tradeList; bars = x.bars; wallets = buildWalletVolumes(tr); }
+    } else {
+      series = await kalshiCandleSeries(m._series, m._ticker);
+      if (series) bars = series.filter((x) => isFinite(x.volume));
+    }
+    if (!series || series.length < 8) { m.deep = true; m.deepNote = "insufficient price history"; return m; }
 
-  // Rank by churn (24h volume / standing open interest) across all categories;
-  // enrich the top movers with a real price-history shock σ (candlesticks) and
-  // a public-news check, the same event-aligned signals as Polymarket.
-  const top = collected.filter((m) => m.ratio >= 1.3).sort((a, b) => b.ratio - a.ratio).slice(0, 12);
-  await Promise.all(top.map(async (m) => {
-    try {
-      const cd = await kalshiCandles(m.series, m.ticker).catch(() => null);
-      const nw = await newsCheck(newsQuery(m.title), cd && cd.moveMs).catch(() => null);
-      m._cd = cd; m._nw = nw;
-    } catch (_) {}
-  }));
+    const runUp = D.runUp(series);
+    const moveMs = series[series.length - 1].t * 1000;
+    const news = await newsCheck(newsQuery(m.question), moveMs).catch(() => null);
+    const newsGap = D.newsGap(news ? news.ctx : null);
 
-  return top.map((m, i) => {
-    const sev = m.ratio >= 3 ? "high" : "med";
-    const metrics = { category: m.cat, contracts: Math.round(m.vol), oi: Math.round(m.oi), volRatio: +m.ratio.toFixed(1) };
-    if (m._cd) { metrics.shockSigma = m._cd.shockSigma; metrics.pBefore = m._cd.pBefore; metrics.pAfter = m._cd.pAfter; metrics.windowH = m._cd.windowH; }
-    if (m._nw) { metrics.explained = m._nw.explained; metrics.catalyst = m._nw.catalyst || null; metrics.leadH = m._nw.leadH != null ? m._nw.leadH : null; metrics.headline = m._nw.headline || null; metrics.newsSource = m._nw.source || null; }
-    return alert({
-      id: "k-vl-" + (m.ticker || i), ts: hhmm(), platform: "kalshi", market: m.title,
-      detector: "vol_liq", sev,
-      metric: "vol/OI " + m.ratio.toFixed(1) + "x  (" + Math.round(m.vol).toLocaleString() + " / " + Math.round(m.oi).toLocaleString() + " contracts)  [" + m.cat + "]",
-      metrics,
-    });
-  });
+    let priceImpact = null, vpin = null, concentration = null;
+    if (bars && bars.length >= 6) priceImpact = D.priceImpact(bars);
+    if (tradeList && tradeList.length >= 12) vpin = D.vpin(tradeList);
+    if (wallets && wallets.length >= 3) concentration = D.concentration(wallets, series[0].t);
+
+    const subs = { runUp, vpin, priceImpact, concentration };
+    const fused = D.fuse(subs, { platform: m.platform, E: newsGap.E, Q: m.Q, preEvent: newsGap.preEvent });
+
+    m.index = fused.index; m.raw = fused.raw; m.E = newsGap.E; m.label = fused.label;
+    m.contributions = fused.contributions;
+    m.detectors = {
+      runUp: runUp || m.detectors.runUp, priceImpact, vpin, concentration,
+      news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null } : {}),
+    };
+    m.movedAt = moveMs;
+    // a downsampled probability series for the inspector chart (cap ~120 points)
+    const step = Math.max(1, Math.floor(series.length / 120));
+    m.series = series.filter((_, i) => i % step === 0).map((x) => ({ t: x.t, p: +x.p.toFixed(4) }));
+    if (m.platform === "polymarket" && wallets && wallets.length) {
+      const total = wallets.reduce((s, w) => s + w.buyUsd, 0) || 1;
+      m.onchain = {
+        hhi: concentration ? concentration.hhi : null,
+        top1: concentration ? concentration.top1 : null,
+        fresh: concentration ? concentration.fresh : false,
+        topWallets: wallets.slice(0, 5).map((w) => ({ wallet: w.wallet, share: +(w.buyUsd / total).toFixed(3), usd: Math.round(w.buyUsd) })),
+        nWallets: wallets.length,
+      };
+    }
+    m.deep = true;
+    return m;
+  } catch (_) { m.deep = true; m.deepNote = "enrichment error"; return m; }
 }
 
 /* ------------------------------------------------------------------ debug -- */
-// /api/surveillance/feed?debug=1 — returns the RAW shape of each upstream API
-// (counts + field names + one sample) so detector field-mapping can be fixed
-// without guessing. Read-only, public data; never returns the Kalshi key.
 async function diagnose() {
   const o = {};
   try {
-    const d = await getJSON("https://api.elections.kalshi.com/trade-api/v2/markets?limit=20&status=open",
-      { headers: kalshiHeaders("GET", "/trade-api/v2/markets") });
-    const arr = (d && (d.markets || d.data)) || [];
-    o.kalshi = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], sample: arr[0] || null };
-  } catch (e) { o.kalshi = { ok: false, error: e.message }; }
+    const d = await getJSON("https://gamma-api.polymarket.com/events?active=true&closed=false&limit=3&order=volume24hr&ascending=false");
+    const arr = Array.isArray(d) ? d : (d.data || []);
+    o.pmEvents = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], slug: arr[0] && arr[0].slug,
+      tags: arr[0] && arr[0].tags, marketKeys: arr[0] && arr[0].markets && arr[0].markets[0] ? Object.keys(arr[0].markets[0]) : [],
+      sampleQuestion: arr[0] && arr[0].markets && arr[0].markets[0] && arr[0].markets[0].question };
+  } catch (e) { o.pmEvents = { ok: false, error: e.message }; }
   try {
-    const d = await getJSON("https://api.elections.kalshi.com/trade-api/v2/events?limit=30&status=open&with_nested_markets=true",
+    const d = await getJSON("https://api.elections.kalshi.com/trade-api/v2/events?limit=20&status=open&with_nested_markets=true",
       { headers: kalshiHeaders("GET", "/trade-api/v2/events") });
     const arr = (d && (d.events || d.data)) || [];
-    o.kalshiEvents = {
-      ok: true, count: arr.length,
-      keys: arr[0] ? Object.keys(arr[0]) : [],
-      categories: [...new Set(arr.map((e) => e.category).filter(Boolean))],
-      sampleTitles: arr.slice(0, 8).map((e) => (e.title || "") + " [" + (e.category || "") + "]"),
-      sampleMarketKeys: arr[0] && arr[0].markets && arr[0].markets[0] ? Object.keys(arr[0].markets[0]) : [],
-    };
+    o.kalshiEvents = { ok: true, count: arr.length, categories: [...new Set(arr.map((e) => e.category).filter(Boolean))],
+      marketKeys: arr[0] && arr[0].markets && arr[0].markets[0] ? Object.keys(arr[0].markets[0]) : [],
+      sample: arr[0] && arr[0].markets && arr[0].markets[0] ? { ticker: arr[0].markets[0].ticker, title: arr[0].markets[0].title, last_price: arr[0].markets[0].last_price } : null };
   } catch (e) { o.kalshiEvents = { ok: false, error: e.message }; }
-  try {
-    const d = await getJSON("https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=5&order=volume24hr&ascending=false");
-    const arr = Array.isArray(d) ? d : (d.data || []);
-    o.pmMarkets = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], sampleTitle: arr[0] && (arr[0].question || arr[0].title) };
-  } catch (e) { o.pmMarkets = { ok: false, error: e.message }; }
-  try {
-    const d = await getJSON("https://data-api.polymarket.com/trades?limit=5");
-    const arr = Array.isArray(d) ? d : (d.data || d.trades || []);
-    o.pmTrades = { ok: true, count: arr.length, keys: arr[0] ? Object.keys(arr[0]) : [], sample: arr[0] || null };
-  } catch (e) { o.pmTrades = { ok: false, error: e.message }; }
-  // price-history + news probes (the two new enrichment sources)
-  try {
-    const d = await getJSON("https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=5&order=volume24hr&ascending=false");
-    const arr = Array.isArray(d) ? d : (d.data || []); const m0 = arr[0] || {};
-    let tok = null; if (m0.clobTokenIds) { try { const ct = typeof m0.clobTokenIds === "string" ? JSON.parse(m0.clobTokenIds) : m0.clobTokenIds; tok = ct && ct[0]; } catch (_) {} }
-    const ph = await priceHistory(tok).catch((e) => ({ error: String(e && e.message || e) }));
-    const nq = newsQuery(m0.question || m0.title || "");
-    const news = await newsCheck(nq, ph && ph.moveMs).catch((e) => ({ error: String(e && e.message || e) }));
-    o.priceHistory = { tokenSeen: !!tok, result: ph };
-    o.news = { query: nq, result: news };
-  } catch (e) { o.enrichProbe = { error: e.message }; }
-  // Kalshi candlestick probe: show the raw shape so the parser can be fixed.
-  try {
-    const d = await getJSON("https://api.elections.kalshi.com/trade-api/v2/events?limit=40&status=open&with_nested_markets=true",
-      { headers: kalshiHeaders("GET", "/trade-api/v2/events") });
-    const evs = (d && (d.events || d.data)) || [];
-    const ev = evs.find((e) => e.series_ticker && e.markets && e.markets.length && num(e.markets[0].open_interest_fp || e.markets[0].open_interest) > 0);
-    if (!ev) { o.kalshiCandles = { note: "no eligible event found" }; }
-    else {
-      const tk = ev.markets[0].ticker;
-      const path = "/trade-api/v2/series/" + ev.series_ticker + "/markets/" + tk + "/candlesticks";
-      const end = Math.floor(Date.now() / 1000), start = end - 7 * 86400;
-      const raw = await getJSON("https://api.elections.kalshi.com" + path + "?start_ts=" + start + "&end_ts=" + end + "&period_interval=60",
-        { headers: kalshiHeaders("GET", path) }).catch((e) => ({ error: String(e && e.message || e) }));
-      o.kalshiCandles = {
-        series: ev.series_ticker, ticker: tk,
-        rawError: raw && raw.error || null,
-        rawKeys: raw && !raw.error ? Object.keys(raw) : null,
-        count: raw && raw.candlesticks ? raw.candlesticks.length : null,
-        sampleCandle: raw && raw.candlesticks ? raw.candlesticks[Math.max(0, raw.candlesticks.length - 1)] : null,
-        parsed: await kalshiCandles(ev.series_ticker, tk).catch(() => null),
-      };
-    }
-  } catch (e) { o.kalshiCandles = { error: e.message }; }
   return o;
 }
 
@@ -524,27 +418,61 @@ module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=60");
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
 
-  if ((req.query && (req.query.debug === "1" || req.query.debug === "true")) || String(req.url || "").includes("debug=1")) {
+  const q = req.query || {};
+  if (q.debug === "1" || q.debug === "true" || String(req.url || "").includes("debug=1")) {
     res.setHeader("Cache-Control", "no-store");
     res.status(200).json(await diagnose());
     return;
   }
 
+  const limit = Math.min(200, Math.max(20, num(q.limit) || 120));
   const sources = { polymarket: "ok", kalshi: process.env.KALSHI_KEY_ID ? "ok(auth)" : "ok(public)" };
-  // Run both collectors in parallel so the added price-history + news fetches
-  // stay inside the function's time budget.
-  const [pm, k] = await Promise.all([
-    polymarket().catch((e) => { sources.polymarket = "error: " + e.message; return []; }),
-    kalshi().catch((e) => { sources.kalshi = "error: " + e.message; return []; }),
-  ]);
 
-  const alerts = [...k, ...pm].sort((a, b) => (a.sev === b.sev ? 0 : a.sev === "high" ? -1 : 1));
-  const enriched = alerts.filter((a) => a.signals && a.signals.computed).length;
-  if (sources.polymarket === "ok") sources.polymarket = "ok(" + enriched + " on-chain)";
+  const [pm, k] = await Promise.all([
+    enumPoly(12).catch((e) => { sources.polymarket = "error: " + e.message; return []; }),
+    enumKalshi(8).catch((e) => { sources.kalshi = "error: " + e.message; return []; }),
+  ]);
+  let all = [...pm, ...k];
+  const scanned = all.length;
+
+  // rank by preliminary index, then deep-enrich the top markets that aren't
+  // thin-book artifacts (don't spend fetches on low-liquidity noise). Kalshi's
+  // 24h-change field is unreliable, so also pull the top Kalshi markets by
+  // volume into the deep set — otherwise the real run-up (from candlesticks)
+  // would never be computed for them and they'd be starved from the ranking.
+  const eligible = all.filter((m) => m.label !== "Low-liquidity artifact" && m.volume24h >= 2000);
+  const deepSet = new Map();
+  eligible.slice().sort((a, b) => b.index - a.index).slice(0, 12).forEach((m) => deepSet.set(m.id, m));
+  eligible.filter((m) => m.platform === "kalshi").sort((a, b) => b.volume24h - a.volume24h).slice(0, 6).forEach((m) => deepSet.set(m.id, m));
+  const deepTargets = [...deepSet.values()].slice(0, 18);
+  await Promise.all(deepTargets.map((m) => deepEnrich(m)));
+
+  // re-rank with the refined indices and trim the payload
+  all.sort((a, b) => b.index - a.index);
+  const markets = all.slice(0, limit).map((m) => {
+    const { _cond, _tokenId, _series, _ticker, ...pub } = m;   // strip internal ids
+    return pub;
+  });
+
+  const flagged = all.filter((m) => m.index >= 40).length;
+  const high = all.filter((m) => m.index >= 70).length;
+  const byPlat = { polymarket: pm.length, kalshi: k.length };
+  const cats = {}; markets.forEach((m) => { cats[m.category] = (cats[m.category] || 0) + 1; });
+
+  // back-compat compact "alerts" for the cron (the flagged subset)
+  const alerts = markets.filter((m) => m.index >= 50).map((m) => ({
+    id: m.id, ts: new Date().toISOString().slice(11, 16) + " UTC", platform: m.platform,
+    market: m.question, detector: (m.contributions && m.contributions[0] && m.contributions[0].key) || "runUp",
+    sev: m.index >= 70 ? "high" : "med", metric: m.index + " · " + m.label, index: m.index, url: m.url,
+  }));
+
   res.status(200).json({
     generatedAt: new Date().toISOString(),
-    live: alerts.length > 0,
+    live: markets.length > 0,
+    cadence: "near-real-time · enumeration every scan, deep-enrich top markets",
+    coverage: { scanned, returned: markets.length, flagged, high, byPlatform: byPlat, categories: cats, deepEnriched: deepTargets.length },
     sources,
+    markets,
     alerts,
   });
 };
