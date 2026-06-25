@@ -80,7 +80,7 @@ function hhmm() { return new Date().toISOString().slice(11, 16) + " UTC"; }
  * are efficient + public, so we drop them — that is where the noise was. */
 function topic(text) {
   const s = String(text || "").toLowerCase();
-  if (/\bvs\.?\b|spread:|o\/u|over\/under|moneyline|win on \d{4}-|world cup|counter-?strike|esports|goalscorer|glove|\bwnba\b|\bnba\b|\bnfl\b|\bmlb\b|\bnhl\b|\bufc\b|\bf1\b|halftime|to score|\bbo\d\b|premier league|champions league|rebounds|points per/.test(s)) return "sports";
+  if (/\bvs\.?\b|spread:|o\/u|over\/under|moneyline|win on \d{4}-|exact score|\d\s*-\s*\d|world cup|counter-?strike|esports|goalscorer|glove|knockout stage|advance to|\bwnba\b|\bnba\b|\bnfl\b|\bmlb\b|\bnhl\b|\bufc\b|\bf1\b|halftime|to score|\bbo\d\b|premier league|champions league|rebounds|points per/.test(s)) return "sports";
   if (/\bcpi\b|inflation|\bfomc\b|\bfed\b|rate (cut|hike|decision)|jobs report|unemployment|jobless|payroll|\bgdp\b|interest rate|recession|kxfed|kxcpi/.test(s)) return "econ";
   if (/bitcoin|ethereum|\bbtc\b|\beth\b|\bspx\b|s&p ?500|nasdaq|price of|above \$|below \$|up or down/.test(s)) return "cryptoprice";
   if (/prime minister|\bpresident\b|election|drop out|resign|cabinet|nominee|chancellor|parliament|government|\bcoup\b|impeach|governor|senate|congress|\bmayor\b|appointed/.test(s)) return "political";
@@ -166,29 +166,33 @@ async function enrichMarket(cond) {
  * the biggest single-step move as a z-score against the series' own volatility
  * — the lightweight "rolling z-score" multi-scale shock the event-aligned model
  * calls for. Returns true before/after prices and the move's timestamp too. */
-// Shared: a price series [{t (unix s), p (0..1)}] -> the biggest single-step
-// move as a z-score against the series' own volatility, read in log-odds.
+// Shared: a price series [{t (unix s), p (0..1)}] -> the SUSTAINED run-up (the
+// early level vs the current level, in log-odds), standardised by the series'
+// own step volatility (Keown-Pinkerton style). Using the sustained move rather
+// than a single biggest step rejects transient thin-market spikes that revert.
 function logitShockFromSeries(pts) {
   if (!Array.isArray(pts)) return null;
-  pts = pts.filter((x) => x && x.p > 0 && x.p < 1 && x.t > 0);
-  if (pts.length < 6) return null;
+  pts = pts.filter((x) => x && x.p > 0 && x.p < 1 && x.t > 0).sort((a, b) => a.t - b.t);
+  if (pts.length < 8) return null;
   const clp = (p) => clip(p, 0.03, 0.97);   // near 0/1 a one-tick wiggle would otherwise explode the logit
-  const lg = pts.map((x) => Math.log(clp(x.p) / (1 - clp(x.p))));
+  const L = (p) => Math.log(clp(p) / (1 - clp(p)));
+  const lg = pts.map((x) => L(x.p));
   const r = []; for (let i = 1; i < lg.length; i++) r.push(lg[i] - lg[i - 1]);
-  if (r.length < 4) return null;
   const mean = r.reduce((a, b) => a + b, 0) / r.length;
   const sd = Math.sqrt(r.reduce((a, b) => a + (b - mean) * (b - mean), 0) / r.length);
   if (!(sd > 0)) return null;
-  let bi = 0, bz = 0;
-  for (let i = 0; i < r.length; i++) { const z = Math.abs(r[i] - mean) / sd; if (z > bz) { bz = z; bi = i; } }
-  const rawMove = Math.abs(pts[bi + 1].p - pts[bi].p);
-  let shockSigma = clip(bz, 0, 12);
-  if (rawMove < 0.015) shockSigma = Math.min(shockSigma, 1.2);   // a tiny price wiggle is not a real shock
+  const med = (a) => { const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
+  const nE = Math.max(3, Math.floor(pts.length * 0.25)), nL = Math.max(3, Math.floor(pts.length * 0.15));
+  const early = med(pts.slice(0, nE).map((x) => x.p));   // baseline level
+  const late = med(pts.slice(-nL).map((x) => x.p));      // current sustained level
+  const runMove = Math.abs(L(late) - L(early));
+  let shockSigma = clip(runMove / sd, 0, 12);
+  if (Math.abs(late - early) < 0.03) shockSigma = Math.min(shockSigma, 1.2);   // a tiny sustained move is not a run-up
   return {
     shockSigma: +shockSigma.toFixed(2),
-    pBefore: +pts[bi].p.toFixed(3), pAfter: +pts[bi + 1].p.toFixed(3),
-    windowH: Math.max(1, Math.round((pts[bi + 1].t - pts[bi].t) / 3600)),
-    moveMs: pts[bi + 1].t * 1000,
+    pBefore: +early.toFixed(3), pAfter: +late.toFixed(3),
+    windowH: Math.min(168, Math.max(1, Math.round((pts[pts.length - 1].t - pts[0].t) / 3600))),
+    moveMs: pts[pts.length - 1].t * 1000,
   };
 }
 async function priceHistory(tokenId) {

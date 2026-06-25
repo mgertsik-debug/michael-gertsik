@@ -204,11 +204,14 @@
                 <div style="background:#0A0E0D;border:1px solid #1B2521;border-radius:11px;padding:22px 16px 10px;margin-bottom:28px">{{ surv.sel.chartEl }}</div>
 
                 <!-- what the detector saw -->
-                <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:14px">WHAT THE DETECTOR SAW</div>
+                <div style="font-family:'JetBrains Mono', monospace;font-size:9.5px;letter-spacing:.12em;color:#8A938F;margin-bottom:14px">WHICH METHODS FIRED</div>
                 <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px">
                   <sc-for list="{{ surv.sel.readings }}" as="rd" hint-placeholder-count="3">
-                    <div style="display:grid;grid-template-columns:170px 1fr;gap:16px;align-items:baseline">
-                      <span style="font-family:'JetBrains Mono', monospace;font-size:12px;color:#34D399;line-height:1.4">{{ rd.m }}</span>
+                    <div style="display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:baseline">
+                      <div style="min-width:0">
+                        <div style="font-family:'JetBrains Mono', monospace;font-size:9px;letter-spacing:.07em;color:#34D399;line-height:1.4">{{ rd.tag }}</div>
+                        <div style="font-family:'JetBrains Mono', monospace;font-size:13px;color:#E5E7EB;line-height:1.45;margin-top:3px">{{ rd.m }}</div>
+                      </div>
                       <span style="font-size:13.5px;color:#cdd3d0;line-height:1.55">{{ rd.e }}</span>
                     </div>
                   </sc-for>
@@ -237,12 +240,12 @@
             <!-- detector glossary (collapsed reference) -->
             <div style="margin-top:20px;border:1px solid #1B2521;border-radius:11px;background:#0F1513;overflow:hidden">
               <button type="button" aria-expanded="{{ surv.glossaryOpen }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:none;border:none;cursor:pointer;color:#E5E7EB;text-align:left" onClick="{{ surv.onToggleGlossary }}">
-                <span style="font-size:13px;font-weight:600">What do these patterns mean?</span>
+                <span style="font-size:13px;font-weight:600">The five detection methods, explained</span>
                 <span style="font-family:'JetBrains Mono', monospace;font-size:11px;color:#8A938F">{{ surv.glossaryIcon }}</span>
               </button>
               <sc-if value="{{ surv.glossaryOpen }}" hint-placeholder-val="{{ false }}">
                 <div style="padding:4px 18px 20px;border-top:1px solid #1B2521">
-                  <div style="font-size:11.5px;color:#6b7772;line-height:1.5;margin:14px 0 16px">Reference definitions for the surveillance patterns. A pattern firing is an anomaly to examine, never a finding of wrongdoing.</div>
+                  <div style="font-size:11.5px;color:#6b7772;line-height:1.5;margin:14px 0 16px">Every signal above is scored by these five methods working together. Each is an established market-surveillance technique; a method firing is an anomaly to examine, never a finding of wrongdoing.</div>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 28px">
                     <sc-for list="{{ surv.glossary }}" as="d" hint-placeholder-count="10">
                       <div style="display:grid;grid-template-columns:auto;gap:3px">
@@ -759,9 +762,17 @@ class Component extends DCLogic {
     let impact;
     if (liq>0) impact = Math.round(Math.min(100, lm*30 * Math.min(2.2, 100000/Math.max(5000,liq))));
     else impact = ratio ? Math.round(Math.min(100, Math.log2(Math.max(1,ratio))*16)) : 0;
-    const conc = g.herfindahl!=null ? Math.round(Math.min(100, g.herfindahl*140))
-               : (g.topShare!=null ? Math.round(Math.min(100, g.topShare*130)) : null);
-    const anomaly = Math.max(runup, impact, (vpin!=null?vpin*0.85:0), (conc!=null?conc*0.9:0));
+    const hasConc = (g.herfindahl!=null || g.topShare!=null || g.recentZ);
+    const conc = hasConc ? Math.round(Math.min(100, Math.max(
+      g.herfindahl!=null ? g.herfindahl*140 : 0,
+      g.topShare!=null ? g.topShare*130 : 0,
+      g.recentZ ? g.recentZ*6 : 0))) : null;
+    // VPIN: one-sided flow is only suspicious when ALSO concentrated — prediction
+    // markets are naturally one-sided as consensus forms, so a crowd all buying
+    // YES is not informed trading; one wallet doing so is.
+    const concFactor = Math.min(1, (g.topShare||0)*3 + (g.herfindahl||0)*2);
+    const vpinSig = (vpin!=null) ? Math.round(vpin*concFactor) : 0;
+    const anomaly = Math.max(runup, impact, vpinSig, (conc!=null?conc*0.9:0));
     const lowLiq = g.lowLiq===true || (vol>0 && vol<15000);
     const explained = g.explained===true;
     const suspicion = Math.max(0, Math.round(explained ? anomaly*0.3 : anomaly));
@@ -769,21 +780,23 @@ class Component extends DCLogic {
     if (lowLiq || explained){ severity='watch'; verdict='Worth watching'; }
     else if (suspicion>=55){ severity='high'; verdict='High-signal anomaly'; }
     else { severity='watch'; verdict='Worth watching'; }
-    return { runup, vpin, impact, conc, anomaly:Math.round(anomaly), suspicion, severity, verdict, lm, sig, vol, liq, ratio, lowLiq, explained };
+    return { runup, vpin, vpinSig, impact, conc, anomaly:Math.round(anomaly), suspicion, severity, verdict, lm, sig, vol, liq, ratio, lowLiq, explained };
   }
-  // "what the detector saw" — plain-English readings, one per firing method
+  // "what the detector saw" — readings tagged with the method that fired:
+  //   [ method label, mono metric, plain-English explanation ]
   survReadings(g){
     const sc=this.survScore(g); const R=[]; const pc=x=>Math.round(x*100)+'%';
     const win = g.windowH>=24 ? (Math.round(g.windowH/24)+(Math.round(g.windowH/24)===1?' day':' days')) : (g.windowH? (g.windowH+'h'):'a short window');
     if (g.pAfter!=null && g.pBefore!=null && Math.abs(g.pAfter-g.pBefore)>=0.02){
-      R.push([(g.pAfter>=g.pBefore?'+':'')+Math.round((g.pAfter-g.pBefore)*100)+'c over '+win, 'the implied probability moved '+pc(g.pBefore)+' → '+pc(g.pAfter)+', a '+sc.sig.toFixed(1)+'σ pre-event run-up against this market’s normal swings']);
+      R.push(['PRE-EVENT RUN-UP', (g.pAfter>=g.pBefore?'+':'')+Math.round((g.pAfter-g.pBefore)*100)+'c over '+win, 'the implied probability moved '+pc(g.pBefore)+' → '+pc(g.pAfter)+', a '+sc.sig.toFixed(1)+'σ run-up against this market’s normal swings (Keown–Pinkerton)']);
     } else if (sc.sig>=2){
-      R.push([sc.sig.toFixed(1)+'σ price run-up', 'the price moved well beyond this market’s normal volatility before the event']);
+      R.push(['PRE-EVENT RUN-UP', sc.sig.toFixed(1)+'σ', 'the price moved well beyond this market’s normal volatility before the event']);
     }
-    if (sc.vpin!=null && sc.vpin>=55) R.push([sc.vpin+'% one-sided flow', sc.vpin+'% of trading pushed a single direction — the order-flow imbalance (VPIN) that flags informed trading']);
-    if (sc.impact>=45) R.push(['$'+this._k(sc.vol)+' on a $'+this._k(sc.liq)+' book', 'a large move achieved on little resting liquidity — high price impact, the liquidity-vacuum fingerprint']);
-    if (sc.conc!=null && sc.conc>=45 && g.topShare!=null) R.push([Math.round(g.topShare*100)+'% one wallet', 'one account was '+Math.round(g.topShare*100)+'% of recent buying — concentrated, not crowd-driven']);
-    if (!R.length) R.push([g.metric||'unusual activity', 'market activity unusual relative to this market’s own history']);
+    if (sc.vpinSig>=30) R.push(['ORDER IMBALANCE · VPIN', sc.vpin+'% one-sided', sc.vpin+'% of trading pushed a single direction, and from few accounts — the order-flow imbalance that flags informed trading']);
+    if (sc.impact>=45) R.push(['PRICE IMPACT · KYLE’S λ', g.backing || 'large move, thin book', 'a large move achieved on little resting liquidity — high price impact, the liquidity-vacuum fingerprint']);
+    if (sc.conc!=null && sc.conc>=45 && g.topShare!=null) R.push(['TRADER CONCENTRATION', Math.round(g.topShare*100)+'% one wallet', 'one account was '+Math.round(g.topShare*100)+'% of recent buying'+(g.recentZ?(' ('+(+g.recentZ).toFixed(1)+'σ above the field)'):'')+' — concentrated, not crowd-driven']);
+    if (g.explained===true && g.headline) R.push(['NEWS CONTEXT', 'headline found', 'a public headline around this move plausibly explains it: “'+g.headline+'”'+(g.newsSource?(' — '+g.newsSource):'')]);
+    if (!R.length) R.push(['ANOMALY', g.metric||'unusual activity', 'market activity unusual relative to this market’s own history']);
     return R;
   }
   survWhy(g){
@@ -887,21 +900,27 @@ class Component extends DCLogic {
       const pB = (M.pBefore!=null) ? M.pBefore : null;
       const haveMove = pA!=null && pB!=null;
       // liquidity, platform-aware (Polymarket = USD book; Kalshi = open interest)
-      let volForQ=0, liqForImpact=null, lowLiq=false;
-      if (poly){ volForQ = M.volUsd||0; liqForImpact = M.liqUsd||null; lowLiq = M.volUsd!=null && M.volUsd<15000; }
-      else { const c=M.contracts||0, oi=M.oi||0; volForQ = Math.max(c,oi)*20; lowLiq = oi>0 && oi<200; }
+      let volForQ=0, liqForImpact=null, lowLiq=false, backing=null;
+      if (poly){
+        volForQ = M.volUsd||0; liqForImpact = M.liqUsd||null; lowLiq = M.volUsd!=null && M.volUsd<15000;
+        backing = (M.volUsd!=null) ? ('$'+this._k(M.volUsd)+(M.liqUsd?(' on a $'+this._k(M.liqUsd)+' book'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(0)+'×)'):'')) : null;
+      } else {
+        const c=M.contracts||0, oi=M.oi||0; volForQ = Math.max(c,oi)*20; lowLiq = oi>0 && oi<200;
+        backing = c ? (c.toLocaleString()+' contracts'+(oi?(' on '+oi.toLocaleString()+' OI'):'')+(M.volRatio?(' ('+(+M.volRatio).toFixed(1)+'×)'):'')) : null;
+      }
       const ocShow = !!(oc && (oc.recentZ>=2 || oc.topShare>=0.05 || (oc.herfindahl!=null && oc.herfindahl>=0.1)));
       const g = {
         id:a.id, market:a.market, platform: poly?'poly':'kalshi', category:M.category||null,
         detector:a.detector,
         onchain: ocShow ? { wallet:oc.wallet, topShare:oc.topShare, recentZ:oc.recentZ, nWallets:oc.nWallets } : null,
-        lead: 0.5 + (i%6),
+        lead: 0.5 + (i%6), backing,
         pBefore:pB, pAfter:pA, windowH: M.windowH || (haveMove?1:null),
         shockSigma: (M.shockSigma!=null) ? M.shockSigma : null,
         volUsd:volForQ, liqUsd: liqForImpact, volRatio: M.volRatio||null, lowLiq,
         imbalance: (oc && oc.imbalance!=null) ? oc.imbalance : null,
         herfindahl: (oc && oc.herfindahl!=null) ? oc.herfindahl : null,
         topShare: (oc && oc.topShare!=null) ? oc.topShare : null,
+        recentZ: (oc && oc.recentZ!=null) ? oc.recentZ : null,
         catalyst: M.catalyst||null, leadH: (M.leadH!=null) ? M.leadH : null,
         explained: (M.explained===true) ? true : (M.explained===false ? false : null),
         headline: M.headline||null, newsSource: M.newsSource||null,
@@ -1494,7 +1513,7 @@ class Component extends DCLogic {
     const rowSig = sigList.filter(x=> listFilter==='all' ? true
         : (listFilter==='high' ? x.severity==='high' : x.platform===(listFilter==='poly'?'poly':'kalshi')));
     const defSel = (sigList.find(x=>x.id===s.survSel) ? s.survSel : (rowSig[0]&&rowSig[0].id) || (sigList[0]&&sigList[0].id));
-    const rowMetric = (g)=>{ if(g.metric) return g.metric; const insp=this.INSPECTOR_DATA[g.id]; if(insp&&insp.readings&&insp.readings[0]) return insp.readings[0][0]; const r=g._readings; return (r&&r[0])?r[0][0]:''; };
+    const rowMetric = (g)=>{ const insp=this.INSPECTOR_DATA[g.id]; if(insp&&insp.readings&&insp.readings[0]) return insp.readings[0][0]; const r=this.survReadings(g); return (r&&r[0])?(r[0].length===3?r[0][1]:r[0][0]):(g.metric||''); };
     const rows = rowSig.map(x=>{
       const seld = defSel===x.id; const sc=sevC(x.severity);
       return { id:x.id, market:x.market, metric:rowMetric(x), platformLabel:this.platLabel(x.platform),
@@ -1505,17 +1524,19 @@ class Component extends DCLogic {
         onSelect:()=> this.selectSignal(x.id),
         onKey:(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.selectSignal(x.id); } } };
     });
-    // selected signal -> Inspector
+    // selected signal -> Inspector. Readings are always method-tagged; the
+    // curated why/prov come from INSPECTOR_DATA for samples, generated for live.
     const g = sigList.find(x=>x.id===defSel) || sigList[0];
-    const insp = g ? (this.INSPECTOR_DATA[g.id] || { readings:g._readings||[], why:g._why||'', prov:g._prov||'' }) : { readings:[] };
+    const insp = g ? (this.INSPECTOR_DATA[g.id] || {}) : {};
+    const readings = g ? this.survReadings(g) : [];
     const sel = g ? {
       market:g.market, platformLabel:this.platLabel(g.platform), category:this.catLabel(g),
       sevColor:sevC(g.severity), sevLine: g.severity==='high'?'High-signal anomaly':'Worth watching',
-      plain:g.desc || (g._readings&&g._readings[0]?g._readings[0][1]:''),
+      plain:g.desc || (readings[0]?readings[0][2]:''),
       chartEl:this.buildInspectorChart(g, { discLabel: g.catalyst || (g.platform==='kalshi'?'event resolves':'news public') }),
-      readings:(insp.readings||[]).map(([m,e])=>({ m, e })),
-      why:insp.why||'', gap:g.gap||'A violation still requires misappropriated material nonpublic information or a breach of a duty.',
-      isPoly: g.platform==='poly', prov:insp.prov||''
+      readings: readings.map(r=> r.length===3 ? ({ tag:r[0], m:r[1], e:r[2] }) : ({ tag:'', m:r[0], e:r[1] })),
+      why: insp.why || g._why || '', gap:g.gap||'A violation still requires misappropriated material nonpublic information or a breach of a duty.',
+      prov: insp.prov || g._prov || ''
     } : { readings:[] };
     // live heartbeat
     let feedLabel = 'SAMPLE FEED · LIVE WIRING PENDING';
@@ -1530,7 +1551,13 @@ class Component extends DCLogic {
         ? `font-family:'JetBrains Mono', monospace;font-size:10px;color:#34D399;padding:4px 10px;border-radius:999px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.07);white-space:nowrap`
         : `font-family:'JetBrains Mono', monospace;font-size:10px;color:#8A938F;padding:4px 10px;border-radius:999px;border:1px solid #1B2521;background:#0F1513;white-space:nowrap`,
       chips, rows, sel, empty: rows.length===0,
-      glossary: this.DETECTORS.map(d=>({ name:d.name, desc:d.desc })),
+      glossary: [
+        { name:'1 · Pre-event run-up', desc:'Did the price drift toward the outcome before any news? We measure the move in σ against this market’s own normal swings, so a quiet market needs only a small move to flag. (Keown & Pinkerton 1981; FINRA SONAR.)' },
+        { name:'2 · Order imbalance — VPIN', desc:'When informed money trades, buying and selling stop balancing out. We compute the one-sided share of volume — the “toxicity” of the order flow — and only count it when it comes from few accounts. (Easley, López de Prado & O’Hara.)' },
+        { name:'3 · Price impact — Kyle’s λ', desc:'How much did the price move per dollar traded? A large move on a thin book is the liquidity-vacuum fingerprint of someone trading on conviction. (Kyle 1985.)' },
+        { name:'4 · Trader concentration', desc:'Is the move one wallet or a crowd? We use the Herfindahl index and the top wallet’s share of recent buying — concentrated buying reads very differently from a hundred small bettors. (Chainalysis; Polymarket on-chain data.)' },
+        { name:'5 · News-context gap', desc:'Every flagged move is checked against a public-headline search around the same time. A move with a matching headline has a public cause and is cleared; an unexplained move stays escalated. (SONAR-style news fusion.)' }
+      ],
       glossaryOpen:!!s.glossaryOpen, glossaryIcon: s.glossaryOpen?'−':'+',
       onToggleGlossary:()=> this.setState(st=>({ glossaryOpen:!st.glossaryOpen })),
       onSeeRegimes:()=> this.setState({ activeTab:'engine' })
