@@ -233,7 +233,7 @@
             <!-- ── watchlist + inspector ── -->
             <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:14px;padding:14px 4px 8px;flex:1;">
 
-              <div style="flex:26 1 300px;min-width:270px;max-width:420px;display:flex;flex-direction:column;gap:12px;">
+              <div style="flex:40 1 360px;min-width:300px;max-width:600px;display:flex;flex-direction:column;gap:12px;">
                 <sc-if value="{{ surv.overview }}" hint-placeholder-val="{{ false }}">
                   <div style="border:1px solid #1B2521;background:#0F1513;border-radius:12px;padding:15px 16px;animation:fadeUp .35s ease;">{{ surv.overviewEl }}</div>
                 </sc-if>
@@ -287,7 +287,7 @@
                 </div>
               </div>
 
-              <div style="flex:74 1 560px;min-width:340px;display:flex;flex-direction:column;">
+              <div style="flex:58 1 500px;min-width:440px;max-width:900px;display:flex;flex-direction:column;">
                 <sc-if value="{{ surv.hasSel }}" hint-placeholder-val="{{ true }}">
                   <div style="border:1px solid #1B2521;background:#0F1513;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;">
 
@@ -320,7 +320,7 @@
                     <!-- what the score means: the points each check added -->
                     <div style="padding:18px 22px;border-bottom:1px solid #161e1b;">
                       <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A938F;margin-bottom:11px;">HOW THIS SCORE IS BUILT</div>
-                      <p style="margin:0 0 14px;font-size:13px;line-height:1.55;color:#9aa39e;text-wrap:pretty;">{{ surv.insp.scoreSentence }}</p>
+                      <p style="margin:0 0 14px;font-size:13px;line-height:1.55;color:#9aa39e;max-width:82ch;text-wrap:pretty;">{{ surv.insp.scoreSentence }}</p>
                       <div style="display:flex;flex-direction:column;gap:8px;">
                         <sc-for list="{{ surv.insp.breakdown }}" as="b" hint-placeholder-count="4">
                           <div style="display:flex;align-items:center;gap:12px;">
@@ -353,7 +353,7 @@
                               {{ d.bar }}
                               <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:{{ d.pointsColor }};min-width:34px;text-align:right;">{{ d.points }}</span>
                             </div>
-                            <p style="margin:0;font-size:12.5px;line-height:1.5;color:#9aa39e;text-wrap:pretty;">{{ d.sentence }}</p>
+                            <p style="margin:0;font-size:12.5px;line-height:1.5;color:#9aa39e;max-width:90ch;text-wrap:pretty;">{{ d.sentence }}</p>
                             <button type="button" aria-expanded="{{ d.open }}" onClick="{{ d.onToggle }}" style="margin-top:8px;background:none;border:none;color:#7e8782;font-family:'JetBrains Mono',monospace;font-size:10.5px;cursor:pointer;padding:0;display:flex;align-items:center;gap:5px;"><span style="transition:transform .2s;transform:{{ d.chevron }};display:inline-block;">▸</span> how we measured this</button>
                             <sc-if value="{{ d.open }}" hint-placeholder-val="{{ false }}">
                               <div style="margin-top:9px;padding:11px 13px;background:#0a0f0d;border:1px solid #161e1b;border-radius:8px;animation:fadeUp .25s ease;font-size:12px;line-height:1.55;color:#8a938f;text-wrap:pretty;">{{ d.how }}</div>
