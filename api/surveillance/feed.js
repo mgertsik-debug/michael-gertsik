@@ -171,7 +171,10 @@ async function priceHistory(tokenId) {
   const pts = hist.map((x) => ({ t: num(x.t || x.timestamp), p: num(x.p || x.price) }))
     .filter((x) => x.p > 0 && x.p < 1 && x.t > 0);
   if (pts.length < 6) return null;
-  const lg = pts.map((x) => Math.log(clip(x.p, 0.001, 0.999) / (1 - clip(x.p, 0.001, 0.999))));
+  // clamp to [0.03,0.97] before log-odds: near 0/1 a one-tick wiggle would
+  // otherwise explode into a huge (fake) logit move on deep-longshot markets.
+  const clp = (p) => clip(p, 0.03, 0.97);
+  const lg = pts.map((x) => Math.log(clp(x.p) / (1 - clp(x.p))));
   const r = []; for (let i = 1; i < lg.length; i++) r.push(lg[i] - lg[i - 1]);
   if (r.length < 4) return null;
   const mean = r.reduce((a, b) => a + b, 0) / r.length;
@@ -179,8 +182,11 @@ async function priceHistory(tokenId) {
   if (!(sd > 0)) return null;
   let bi = 0, bz = 0;
   for (let i = 0; i < r.length; i++) { const z = Math.abs(r[i] - mean) / sd; if (z > bz) { bz = z; bi = i; } }
+  const rawMove = Math.abs(pts[bi + 1].p - pts[bi].p);
+  let shockSigma = clip(bz, 0, 12);
+  if (rawMove < 0.015) shockSigma = Math.min(shockSigma, 1.2);   // a tiny price wiggle is not a real shock
   return {
-    shockSigma: +clip(bz, 0, 12).toFixed(2),
+    shockSigma: +shockSigma.toFixed(2),
     pBefore: +pts[bi].p.toFixed(3), pAfter: +pts[bi + 1].p.toFixed(3),
     windowH: Math.max(1, Math.round((pts[bi + 1].t - pts[bi].t) / 3600)),
     moveMs: pts[bi + 1].t * 1000,
@@ -259,17 +265,19 @@ async function polymarket() {
     // current YES price -> before/after for the event-aligned score
     let price = num(m.lastTradePrice);
     if (!price && m.outcomePrices) { try { const op = typeof m.outcomePrices === "string" ? JSON.parse(m.outcomePrices) : m.outcomePrices; price = num(op && op[0]); } catch (_) {} }
-    // Pre-event price-move detector (the strongest signal): a sharp 1h move on a
-    // market that turns on nonpublic information can be front-running the wire.
-    const ch = num(m.oneHourPriceChange);
-    if (Math.abs(ch) >= 0.12) {
-      const pA = price ? clip(price, 0.01, 0.99) : null;
-      const pB = pA != null ? clip(pA - ch, 0.01, 0.99) : null;
+    // Price-move finder: a sharp recent move on a market that turns on nonpublic
+    // information can be front-running the wire. Gamma exposes oneDayPriceChange
+    // (there is no 1h field); the real shock σ is then measured from price
+    // history for the flagged set. Skip deep longshots where a 1c tick is noise.
+    const ch = num(m.oneDayPriceChange);
+    if (Math.abs(ch) >= 0.15 && price > 0.05 && price < 0.95) {
+      const pA = clip(price, 0.01, 0.99);
+      const pB = clip(pA - ch, 0.01, 0.99);
       out.push({ cond, a: alert({
         id: "pm-move-" + (m.id || i), ts: hhmm(), platform: "polymarket", market: q,
-        detector: "lead", sev: Math.abs(ch) >= 0.25 ? "high" : "med",
-        metric: (ch >= 0 ? "+" : "") + Math.round(ch * 100) + "c in 1h  ($" + Math.round(vol / 1000) + "k vol)  [" + tp + "]",
-        metrics: { pBefore: pB, pAfter: pA, windowH: 1, volUsd: Math.round(vol), liqUsd: liq ? Math.round(liq) : null, volRatio: liq ? +(vol / liq).toFixed(1) : null },
+        detector: "lead", sev: Math.abs(ch) >= 0.30 ? "high" : "med",
+        metric: (ch >= 0 ? "+" : "") + Math.round(ch * 100) + "c in 24h  ($" + Math.round(vol / 1000) + "k vol)  [" + tp + "]",
+        metrics: { pBefore: pB, pAfter: pA, windowH: 24, volUsd: Math.round(vol), liqUsd: liq ? Math.round(liq) : null, volRatio: liq ? +(vol / liq).toFixed(1) : null },
       }) });
     }
     // Volume-to-liquidity spike on a thin niche book.

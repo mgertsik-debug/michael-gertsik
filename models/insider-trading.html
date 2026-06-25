@@ -895,10 +895,11 @@ class Component extends DCLogic {
       // single-wallet concentration from the on-chain readout, or (c) a volume /
       // liquidity spike. Volume alone is a weak insider signal, so it is capped;
       // a measured wallet that towers over the field counts for more.
-      const priceShock = logitMove>0 ? logitMove/0.06 : 0;
-      const volShock   = M.volRatio ? Math.min(3.2, log2(M.volRatio)) : 0;
-      const ocShock    = (oc && oc.recentZ) ? Math.min(5, oc.recentZ/3) : 0;
-      let shock = (M.shockSigma!=null) ? M.shockSigma : Math.max(priceShock, volShock, ocShock);
+      const measuredShock = (M.shockSigma!=null) ? M.shockSigma : 0;             // z of the biggest log-odds step, from price history
+      const fallbackPrice = (!measuredShock && haveMove) ? Math.min(6, logitMove/(M.windowH>=24?0.15:0.06)) : 0;
+      const volShock = M.volRatio ? Math.min(3.2, log2(M.volRatio)) : 0;         // volume alone is weak — capped
+      const ocShock  = (oc && oc.recentZ) ? Math.min(5, oc.recentZ/3) : 0;       // a wallet towering over the field
+      let shock = Math.max(measuredShock, fallbackPrice, volShock, ocShock);
       if (!shock) shock = high?2.5:1.5;
       // liquidity backing, platform-aware (Polymarket = USD; Kalshi = open interest)
       let backing=null, lowLiq=false, volForQ=0;
