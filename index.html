@@ -442,8 +442,8 @@
     /* interactive models get a much wider frame than the reading content so more
        of the app (filters, watchlist, inspector, graphs) is visible without
        scrolling; the model scales its own fonts down to match. */
-    #model-view .shell { max-width: min(1760px, 96vw); }
-    @media (min-width: 1280px) { .model-view { padding-top: 72px; } }
+    #model-view .shell { max-width: 100%; padding-left: clamp(10px, 1.4vw, 22px); padding-right: clamp(10px, 1.4vw, 22px); }
+    @media (min-width: 1280px) { .model-view { padding-top: 64px; } }
     .model-view-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 22px; flex-wrap: wrap; }
     .model-frame-wrap {
       border: 1px solid var(--border-bright); border-radius: 18px; overflow: hidden;
