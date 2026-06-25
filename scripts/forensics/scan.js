@@ -67,7 +67,11 @@ function mergeMarket(state, market, positions) {
   for (const addr of Object.keys(positions)) {
     const bet = positions[addr];
     reviewedSet.add(addr);
-    const clears = bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED;
+    // Cheap screen (§4): a real long-shot position by size, OR a won long-shot at
+    // deep odds with a meaningful stake (the "abnormal win" arm). Tight enough to
+    // keep the ledger bounded; once in, the wallet accrues its whole record.
+    const clears = (bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED) ||
+                   (bet.won && bet.entryPrice <= 0.20 && bet.stakeUsd >= 1000);
     let w = screened[addr];
     if (!w && !clears) continue;                              // not yet interesting
     if (!w) { w = screened[addr] = { address: addr, bets: [], firstSeenTs: null, fundingTs: null, funder: null, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: 0, lastResolvedMs: 0, entryByEvent: {} }; }
@@ -91,13 +95,19 @@ async function run() {
   state.screened = state.screened || {};
   state._reviewedThisRun = new Set();
 
-  // 1+2. enumerate resolved markets and aggregate by wallet
+  // 1+2. enumerate the NEXT slice of resolved markets (watermark sweep) and
+  // aggregate by wallet. Each run resumes where the last left off, so over
+  // successive ticks the whole rolling window is covered and each screened
+  // wallet's full record accumulates (not just the freshest markets).
+  state.watermark = state.watermark || { offset: 0 };
   let markets = [];
   try {
-    markets = await poly.enumResolved({ lookbackDays: LOOKBACK_DAYS, maxPages: Math.ceil(MARKETS_PER_RUN / 100) + 1 });
+    markets = await poly.enumResolved({ lookbackDays: LOOKBACK_DAYS, startOffset: state.watermark.offset || 0, maxMarkets: MARKETS_PER_RUN, maxPages: Math.ceil(MARKETS_PER_RUN / 100) + 3 });
   } catch (e) { log("enumerate failed — not advancing:", e && e.message); }
-  if (!markets.length) { log("no resolved markets this run; leaving state untouched."); finalize(state, NOW_S); return; }
+  if (!markets.length) { log("no resolved markets this slice; wrapping watermark to head."); state.watermark.offset = 0; finalize(state, state.snapshotTs || NOW_S); return; }
 
+  const nextOffset = markets.nextOffset != null ? markets.nextOffset : 0;
+  const exhausted = !!markets.exhausted;
   markets = markets.slice(0, MARKETS_PER_RUN);
   let newestResolved = state.snapshotTs || 0;
   let processed = 0;
@@ -114,7 +124,10 @@ async function run() {
   }
   state.reviewed = (state.reviewed || 0) + state._reviewedThisRun.size;
   state.snapshotTs = newestResolved || NOW_S;
-  log("processed " + processed + " markets · " + state._reviewedThisRun.size + " wallets touched · " + Object.keys(state.screened).length + " screened total");
+  // advance (or wrap) the watermark so the next run sweeps the next slice
+  state.watermark.offset = exhausted ? 0 : nextOffset;
+  state.sweeps = (state.sweeps || 0) + (exhausted ? 1 : 0);
+  log("processed " + processed + " markets · " + state._reviewedThisRun.size + " wallets touched · " + Object.keys(state.screened).length + " screened total · watermark→" + state.watermark.offset + (exhausted ? " (sweep " + state.sweeps + " complete, wrapped)" : ""));
 
   // 4. deep-enrich the stalest screened wallets (wallet age / funding recency)
   const stale = Object.values(state.screened)

@@ -83,15 +83,15 @@ function resolvedWinner(m) {
  * resolved market with a clean winner: { cond, tokenId, question, url, category,
  * eventGroup, winner, resolvedMs }. */
 async function enumResolved(opts) {
-  const o = Object.assign({ lookbackDays: 90, maxPages: 40, pageDelayMs: 120 }, opts);
+  const o = Object.assign({ lookbackDays: 90, maxPages: 40, pageDelayMs: 120, startOffset: 0, maxMarkets: Infinity }, opts);
   const out = [];
   const cutoff = Date.now() - o.lookbackDays * 86400000;
-  let offset = 0, pages = 0;
+  let offset = o.startOffset || 0, pages = 0, exhausted = false;
   do {
     const url = GAMMA + "/events?closed=true&archived=false&limit=100&offset=" + offset + "&order=endDate&ascending=false";
     const evs = await getJSON(url, { timeout: 9000 }).catch(() => null);
     const arr = Array.isArray(evs) ? evs : (evs && (evs.data || evs.events)) || [];
-    if (!arr.length) break;
+    if (!arr.length) { exhausted = true; break; }            // reached the end of the closed-event list
     let anyRecent = false;
     for (const ev of arr) {
       const evTags = tagList(ev, null);
@@ -114,9 +114,14 @@ async function enumResolved(opts) {
       }
     }
     offset += 100; pages++;
-    if (!anyRecent && pages >= 2) break;
+    if (!anyRecent && pages >= 2) { exhausted = true; break; }  // walked past the lookback window
+    if (out.length >= o.maxMarkets) break;                      // enough for this run; resume here next time
     await sleep(o.pageDelayMs);
   } while (pages < o.maxPages);
+  // Back-compat: callers that ignore the return shape still get the array via .markets,
+  // but the array itself is returned so existing `markets.length` style use keeps working.
+  out.nextOffset = exhausted ? 0 : offset;     // 0 ⇒ wrap to the freshest events next sweep
+  out.exhausted = exhausted;
   return out;
 }
 

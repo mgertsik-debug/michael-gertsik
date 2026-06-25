@@ -103,6 +103,14 @@ async function blockTime(block) {
   const r = await rpc("eth_getBlockByNumber", ["0x" + Number(block).toString(16), false]);
   return r && r.timestamp ? hexToNum(r.timestamp) : null;
 }
+// Polygon mints a block ~every 2.1s. Estimate the block at a unix timestamp from
+// the chain head so the keyless RPC path can window getLogs without a block index.
+const POLY_BLOCK_SECS = 2.1;
+async function estimateBlock(ts) {
+  const head = await latestBlock(); if (!head) return null;
+  const headTs = await blockTime(head); if (!headTs) return null;
+  return Math.max(1, Math.round(head - (headTs - ts) / POLY_BLOCK_SECS));
+}
 // inbound USDC transfers to `wallet` within [fromBlock,toBlock]. Public RPCs cap
 // ranges/result size; on failure we return null so the caller excludes the input.
 async function inboundLogs(wallet, fromBlock, toBlock) {
@@ -134,23 +142,38 @@ async function walletFunding(wallet, firstBetTs, firstBetBlock) {
       return { funder: f.from, block: f.block, ts: f.ts, label: exchangeLabel(f.from), inboundCount: inbound.length, source: "etherscan" };
     }
   }
-  // 2. fallback: windowed eth_getLogs ending at the first bet
-  if (firstBetBlock) {
-    const WINDOW = 700000;                                  // ~14d of Polygon blocks
-    const logs = await inboundLogs(wallet, firstBetBlock - WINDOW, firstBetBlock).catch(() => null);
-    if (logs && logs.length) {
-      const first = logs.slice().sort((a, b) => a.block - b.block)[0];
-      const ts = await blockTime(first.block).catch(() => null);
-      return { funder: first.from, block: first.block, ts, label: exchangeLabel(first.from), inboundCount: logs.length, source: "rpc" };
+  // 2. fallback: keyless public RPC. Estimate the first-bet block from its
+  // timestamp, then sweep ~14 days of inbound USDC in chunks (public nodes cap
+  // getLogs ranges), returning the EARLIEST inbound transfer found.
+  let endBlock = firstBetBlock;
+  if (!endBlock && firstBetTs) endBlock = await estimateBlock(firstBetTs).catch(() => null);
+  if (endBlock) {
+    const WINDOW = 600000;                                  // ~14d of Polygon blocks
+    const CHUNK = 90000;                                    // conservative getLogs range for public nodes
+    for (let from = Math.max(1, endBlock - WINDOW); from <= endBlock; from += CHUNK) {
+      const to = Math.min(endBlock, from + CHUNK - 1);
+      const logs = await inboundLogs(wallet, from, to).catch(() => null);
+      if (logs && logs.length) {
+        const first = logs.slice().sort((a, b) => a.block - b.block)[0];
+        const ts = await blockTime(first.block).catch(() => null);
+        return { funder: first.from, block: first.block, ts, label: exchangeLabel(first.from), inboundCount: logs.length, source: "rpc" };
+      }
     }
   }
   return null;
 }
 
 // prior on-chain tx count for the wallet before its first bet (0 ⇒ purpose-built).
+// Etherscan when keyed; otherwise the keyless nonce at the estimated first-bet
+// block via eth_getTransactionCount (outbound tx count = sender nonce).
 async function priorTxCount(wallet, firstBetTs) {
   const c = await scanTxCount(wallet, firstBetTs).catch(() => null);
-  return c == null ? null : c;
+  if (c != null) return c;
+  if (!firstBetTs) return null;
+  const blk = await estimateBlock(firstBetTs).catch(() => null);
+  if (!blk) return null;
+  const r = await rpc("eth_getTransactionCount", [lc(wallet), "0x" + Number(Math.max(1, blk - 1)).toString(16)]).catch(() => null);
+  return r == null ? null : hexToNum(r);
 }
 
 // outbound USDC after `sinceTs` (post-resolution cash-out). Returns the fastest
