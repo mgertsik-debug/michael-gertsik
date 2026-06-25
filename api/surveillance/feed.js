@@ -673,38 +673,52 @@ async function newsCheck(query, moveMs) {
   ).catch(() => null);
   if (!xml) return null;
   const items = []; const re = /<item>([\s\S]*?)<\/item>/g; let m;
-  while ((m = re.exec(xml)) && items.length < 14) {
+  while ((m = re.exec(xml)) && items.length < 20) {
     const blk = m[1];
     const title = decodeEntities((blk.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "");
     const pub = (blk.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || "";
     const src = decodeEntities((blk.match(/<source[^>]*>([\s\S]*?)<\/source>/) || [])[1] || "");
+    const link = (blk.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || "";
     const ts = pub ? Date.parse(pub) : NaN;
-    if (title) items.push({ title, src, ts });
+    if (title) items.push({ title, src, ts, url: link.trim() });
   }
   if (!items.length) return null;
   const qwords = query.toLowerCase().split(/\W+/).filter((w) => w.length >= 4);
-  const rel = items.filter((it) => { const h = it.title.toLowerCase(); return qwords.some((w) => h.includes(w)); }).filter((it) => isFinite(it.ts));
+  // require >=2 query words to match (or 1 if the query is short) so a stray
+  // background headline can't masquerade as the catalyst.
+  const need = qwords.length >= 3 ? 2 : 1;
+  const rel = items
+    .filter((it) => isFinite(it.ts))
+    .map((it) => ({ ...it, hits: qwords.filter((w) => it.title.toLowerCase().includes(w)).length }))
+    .filter((it) => it.hits >= need);
   if (!rel.length) return null;
-  rel.sort((a, b) => a.ts - b.ts);
   const mv = moveMs || Date.now();
-  const near = rel.filter((it) => Math.abs(it.ts - mv) <= 24 * 3600 * 1000);
-  // credibility from the source name (official wire/agency > general news > social)
   const cred = (src) => /reuters|associated press|\bap\b|bloomberg|official|\.gov|federal|white house|department/i.test(src || "") ? "official"
     : /twitter|x\.com|reddit|telegram|truth social/i.test(src || "") ? "social" : "news";
-  if (near.length) {
-    const top = near.slice().sort((a, b) => Math.abs(a.ts - mv) - Math.abs(b.ts - mv))[0];
-    return { ctx: { credibility: cred(top.src), hoursFromMove: (top.ts - mv) / 3600000, preEvent: false, directionMatch: true },
-      headline: top.title.slice(0, 160), source: top.src || "news" };
+  const GRACE = 3 * 3600 * 1000;          // news up to 3h after the move ≈ concurrent
+  const BEFORE_WIN = 72 * 3600 * 1000;    // explanatory news must be a recent catalyst, not background
+  const fmtArticle = (it) => ({ title: it.title.slice(0, 160), source: it.src || "news", ts: it.ts, url: it.url || null, when: it.ts <= mv + GRACE ? "before" : "after" });
+  // evidence list for the UI, nearest-to-the-move first (always returned)
+  const articles = rel.slice().sort((a, b) => Math.abs(a.ts - mv) - Math.abs(b.ts - mv)).slice(0, 4).map(fmtArticle);
+  // EXPLANATORY catalyst: credible news AT or shortly BEFORE the move (news leads
+  // price). Background news older than the window does not count.
+  const before = rel.filter((it) => it.ts <= mv + GRACE && it.ts >= mv - BEFORE_WIN);
+  if (before.length) {
+    const top = before.slice().sort((a, b) => (mv - a.ts) - (mv - b.ts))[0];   // closest before
+    return { ctx: { credibility: cred(top.src), hoursFromMove: Math.max(0, (mv - top.ts) / 3600000), preEvent: false, directionMatch: true },
+      headline: top.title.slice(0, 160), source: top.src || "news", atMs: top.ts, articles };
   }
-  const after = rel.filter((it) => it.ts > mv);
+  // LEAKAGE signature: the price moved, and the public headline only broke AFTER.
+  const after = rel.filter((it) => it.ts > mv + GRACE).sort((a, b) => a.ts - b.ts);
   if (after.length) {
     const first = after[0]; const leadH = Math.round((first.ts - mv) / 3600000);
-    if (leadH >= 1 && leadH <= 240) {
+    if (leadH >= 1 && leadH <= 21 * 24) {
       return { ctx: { credibility: cred(first.src), hoursFromMove: leadH, preEvent: true, directionMatch: true },
-        headline: first.title.slice(0, 160), source: first.src || "news", leadH };
+        headline: first.title.slice(0, 160), source: first.src || "news", leadH, atMs: first.ts, articles };
     }
   }
-  return null;
+  // related news exists but timing is inconclusive — surface it, don't score it
+  return { ctx: null, atMs: (articles[0] && articles[0].ts) || null, articles };
 }
 
 // Drop the trailing SETTLEMENT SNAP from a resolved market's series: the run of
@@ -834,7 +848,7 @@ async function deepEnrich(m, mode) {
     if (bars && bars.length >= 6) ramp = computeRamp(bars);
 
     // stash every raw detector; score for the requested mode
-    m._det = { runUp, vpin, priceImpact, concentration, news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null } : {}),
+    m._det = { runUp, vpin, priceImpact, concentration, news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null, atMs: news.atMs || null, articles: news.articles || [] } : {}),
       accumulation, volumeRunup, longshot, washTrade, ramp };
     scoreForMode(m, mode);
     if (book) m.book = { spread: book.spread, depthUsd: book.depthUsd, imbalance: book.imbalance, bestBid: book.bestBid, bestAsk: book.bestAsk };
