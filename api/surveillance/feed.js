@@ -285,6 +285,36 @@ async function pmPriceSeries(tokenId) {
   if (!Array.isArray(hist)) return null;
   return hist.map((x) => ({ t: num(x.t || x.timestamp), p: num(x.p || x.price) })).filter((x) => x.t && x.p > 0 && x.p < 1);
 }
+// Kalshi trades are PUBLIC (anonymous): price + count + taker side + time. We use
+// them for the same order-flow checks as Polymarket — VPIN (one-sided buying) and
+// Kyle's λ (price impact) — even though there is no wallet ledger.
+async function kalshiTrades(ticker) {
+  if (!ticker) return [];
+  const path = "/trade-api/v2/markets/trades";
+  const d = await getJSON(
+    "https://api.elections.kalshi.com" + path + "?ticker=" + encodeURIComponent(ticker) + "&limit=1000",
+    { headers: kalshiHeaders("GET", path), timeout: 6000 }
+  ).catch(() => null);
+  const arr = (d && (d.trades || d.data)) || [];
+  return Array.isArray(arr) ? arr : [];
+}
+function kalshiTradeRows(trades) {
+  // -> time-sorted {ts, price(0..1), size} list + 5-min volume bars
+  const tl = trades.map((t) => {
+    let cents = num(t.yes_price != null ? t.yes_price : t.price);
+    let p = cents > 1 ? cents / 100 : cents;
+    const ts = t.created_time ? Math.floor(Date.parse(t.created_time) / 1000) : num(t.ts || t.created_ts);
+    return { ts, price: p, size: num(t.count || t.size) };
+  }).filter((t) => t.ts && t.price > 0 && t.price < 1 && t.size > 0).sort((a, b) => a.ts - b.ts);
+  const bars = []; const W = 300; let cur = null;
+  for (const t of tl) {
+    const b = Math.floor(t.ts / W) * W;
+    if (!cur || cur.t !== b) { if (cur) bars.push(cur); cur = { t: b, p: t.price, volume: 0 }; }
+    cur.p = t.price; cur.volume += t.size * t.price;
+  }
+  if (cur) bars.push(cur);
+  return { tradeList: tl, bars };
+}
 async function kalshiCandleSeries(series, ticker) {
   if (!series || !ticker) return null;
   const end = Math.floor(Date.now() / 1000), start = end - 7 * 86400;
@@ -303,10 +333,40 @@ async function kalshiCandleSeries(series, ticker) {
   }).filter((x) => x.t && x.p > 0 && x.p < 1);
 }
 
-/* ======================================== DEEP: Polymarket on-chain trades -- */
-// Pull recent public trades for a market (Data API) -> per-wallet buy volumes
-// (for HHI/concentration), a trade list (for VPIN), and volume bars (for Kyle's
-// λ). Wallet addresses are public on-chain.
+/* ===================================== DEEP: Polymarket on-chain holders ----
+ * Polymarket settles on-chain, so the real TOP HOLDERS (current positions) are
+ * public via the Data API /holders endpoint, each with its actual wallet
+ * address (clickable on Polygonscan). This is the accurate "who holds this
+ * market" list — not just who traded recently. */
+async function pmHolders(cond) {
+  if (!cond) return [];
+  const d = await getJSON("https://data-api.polymarket.com/holders?market=" + encodeURIComponent(cond) + "&limit=100", { timeout: 6000 }).catch(() => null);
+  const rowsOf = (arr) => (arr || []).map((x) => ({
+    full: x.proxyWallet || x.user || x.wallet || x.address,
+    amount: num(x.amount != null ? x.amount : (x.shares != null ? x.shares : (x.balance != null ? x.balance : (x.size != null ? x.size : x.value)))),
+    name: x.name || x.pseudonym || null,
+  })).filter((r) => r.full && r.amount > 0);
+  let list = [];
+  if (Array.isArray(d)) {
+    if (d.length && Array.isArray(d[0].holders)) d.forEach((g) => list.push(...rowsOf(g.holders)));   // grouped by token (YES/NO)
+    else list = rowsOf(d);
+  } else if (d && Array.isArray(d.holders)) list = rowsOf(d.holders);
+  const by = {}; const nameOf = {};
+  list.forEach((r) => { by[r.full] = (by[r.full] || 0) + r.amount; if (r.name) nameOf[r.full] = r.name; });
+  return Object.keys(by).map((w) => ({ full: w, amount: by[w], name: nameOf[w] || null })).sort((a, b) => b.amount - a.amount);
+}
+// a wallet's first-ever Polymarket activity timestamp (seconds) -> "fresh" if it
+// was created/active only shortly before the move. Real check, one call/wallet.
+async function pmFirstSeen(wallet) {
+  if (!wallet) return null;
+  const d = await getJSON("https://data-api.polymarket.com/activity?user=" + encodeURIComponent(wallet) + "&limit=1&sortDirection=ASC", { timeout: 5000 }).catch(() => null);
+  const arr = Array.isArray(d) ? d : (d && (d.data || d.activity)) || [];
+  const t = arr[0] && num(arr[0].timestamp || arr[0].time || arr[0].ts);
+  return t || null;
+}
+/* ----------------------------------------- DEEP: Polymarket recent trades ---
+ * Recent trades drive the order-flow checks (VPIN, Kyle's λ) and the
+ * synchronized-entry clustering. */
 async function pmTrades(cond) {
   const trades = [];
   let offset = 0, pages = 0;
@@ -460,14 +520,21 @@ async function newsCheck(query, moveMs) {
 /* ===================================================== DEEP: enrich one row */
 async function deepEnrich(m) {
   try {
-    let series = null, tradeList = null, bars = null, wallets = null;
+    let series = null, tradeList = null, bars = null, wallets = null, holders = null;
     if (m.platform === "polymarket") {
-      const [ps, tr] = await Promise.all([pmPriceSeries(m._tokenId), m._cond ? pmTrades(m._cond) : Promise.resolve([])]);
-      series = ps;
+      const [ps, tr, hd] = await Promise.all([
+        pmPriceSeries(m._tokenId),
+        m._cond ? pmTrades(m._cond) : Promise.resolve([]),
+        m._cond ? pmHolders(m._cond) : Promise.resolve([]),
+      ]);
+      series = ps; holders = hd;
       if (tr && tr.length) { const x = tradesToBarsAndList(tr); tradeList = x.tradeList; bars = x.bars; wallets = buildWalletVolumes(tr); }
     } else {
-      series = await kalshiCandleSeries(m._series, m._ticker);
-      if (series) bars = series.filter((x) => isFinite(x.volume));
+      // Kalshi: candlesticks for the price series + PUBLIC trades for order-flow.
+      const [cs, tr] = await Promise.all([kalshiCandleSeries(m._series, m._ticker), kalshiTrades(m._ticker)]);
+      series = cs;
+      if (tr && tr.length) { const x = kalshiTradeRows(tr); tradeList = x.tradeList; bars = x.bars; }
+      if ((!bars || bars.length < 6) && series) bars = series.filter((x) => isFinite(x.volume) && x.volume > 0);
     }
     if (!series || series.length < 8) { m.deep = true; m.deepNote = "insufficient price history"; return m; }
 
@@ -483,10 +550,33 @@ async function deepEnrich(m) {
     // a real spread/depth from the book sharpens the liquidity gate Q
     if (book) m.Q = D.liquidityQ({ volumeUsd: m.volume24h, depthUsd: book.depthUsd, spread: book.spread, tradeCount: tradeList ? tradeList.length : null }).Q;
 
-    let priceImpact = null, vpin = null, concentration = null;
+    let priceImpact = null, vpin = null, concentration = null, freshTop = {};
     if (bars && bars.length >= 6) priceImpact = D.priceImpact(bars);
     if (tradeList && tradeList.length >= 12) vpin = D.vpin(tradeList);
-    if (wallets && wallets.length >= 3) concentration = D.concentration(wallets, series[0].t);
+    if (m.platform === "polymarket") {
+      // concentration from REAL current top holders (positions), not buy-flow.
+      if (holders && holders.length >= 3) {
+        const total = holders.reduce((s, h) => s + h.amount, 0) || 1;
+        const shares = holders.map((h) => h.amount / total);
+        const hhi = shares.reduce((s, x) => s + x * x, 0);
+        const top1 = shares[0];
+        // REAL fresh check: look up the top 3 holders' first-ever activity and
+        // flag any whose wallet only became active shortly before the move.
+        const probe = holders.slice(0, 3);
+        const seen = await Promise.all(probe.map((h) => pmFirstSeen(h.full).catch(() => null)));
+        probe.forEach((h, i) => { const fs = seen[i]; freshTop[h.full] = !!(fs && (moveMs / 1000 - fs) <= 14 * 86400 && fs <= moveMs / 1000 + 86400); });
+        const anyFresh = Object.values(freshTop).some(Boolean);
+        concentration = { score: clip(0.55 * hhi + 0.45 * top1 + (anyFresh ? 0.12 : 0), 0, 1),
+          hhi: +hhi.toFixed(3), top1: +top1.toFixed(3), nWallets: holders.length, fresh: anyFresh };
+      }
+    } else if (book && book.depthUsd > 0) {
+      // Kalshi has no wallet ledger, but its order book shows how lopsided the
+      // resting orders are — concentrated one-sided pressure goes in this slot.
+      const imb = Math.abs(book.imbalance || 0);
+      concentration = { score: clip(imb, 0, 1), kind: "orderbook", imbalance: +imb.toFixed(2),
+        side: (book.imbalance || 0) >= 0 ? "buy" : "sell", depthUsd: book.depthUsd,
+        bestBid: book.bestBid, bestAsk: book.bestAsk };
+    }
 
     const subs = { runUp, vpin, priceImpact, concentration };
     const fused = D.fuse(subs, { platform: m.platform, E: newsGap.E, Q: m.Q, preEvent: newsGap.preEvent });
@@ -502,23 +592,21 @@ async function deepEnrich(m) {
     // a downsampled probability series for the inspector chart (cap ~120 points)
     const step = Math.max(1, Math.floor(series.length / 120));
     m.series = series.filter((_, i) => i % step === 0).map((x) => ({ t: x.t, p: +x.p.toFixed(4) }));
-    if (m.platform === "polymarket" && wallets && wallets.length) {
-      const total = wallets.reduce((s, w) => s + w.buyUsd, 0) || 1;
-      // Phase 3: per-wallet "fresh" = first appeared in this market inside the
-      // event/move window (showed up only for the move), and synchronized-entry
-      // clusters. The move window starts at ~75% through the observed series.
-      const moveStart = series[Math.floor(series.length * 0.75)].t;
-      const clusters = detectClusters(wallets, total);
+    if (m.platform === "polymarket" && holders && holders.length) {
+      const total = holders.reduce((s, h) => s + h.amount, 0) || 1;
+      // synchronized-entry clusters still come from recent trade timing
+      const clusters = (wallets && wallets.length) ? detectClusters(wallets, wallets.reduce((s, w) => s + w.buyUsd, 0) || 1) : [];
+      const short = (w) => w.slice(0, 6) + "…" + w.slice(-4);
       m.onchain = {
         hhi: concentration ? concentration.hhi : null,
         top1: concentration ? concentration.top1 : null,
         fresh: concentration ? concentration.fresh : false,
         clusters,
-        topWallets: wallets.slice(0, 5).map((w) => ({
-          wallet: w.wallet, full: w.full, share: +(w.buyUsd / total).toFixed(3), usd: Math.round(w.buyUsd),
-          fresh: !!(w.firstTs && w.firstTs >= moveStart && w.buyUsd / total >= 0.04), nTrades: w.nTrades,
+        topWallets: holders.slice(0, 5).map((h) => ({
+          wallet: h.name || short(h.full), full: h.full, share: +(h.amount / total).toFixed(3),
+          usd: Math.round(h.amount), fresh: !!freshTop[h.full],
         })),
-        nWallets: wallets.length,
+        nWallets: holders.length,
       };
     }
     m.deep = true;
@@ -566,9 +654,19 @@ async function diagnose() {
         candles: await kalshiCandleSeries(km._series, km._ticker).then((s) => s ? { points: s.length, last: s[s.length - 1] } : null).catch((e) => ({ error: String(e && e.message) })),
         rawOrderbookKeys: rawOb && !rawOb.error ? Object.keys(rawOb.orderbook || rawOb) : null,
         rawOrderbookSample: JSON.stringify(rawOb).slice(0, 360),
+        trades: await kalshiTrades(km._ticker).then((t) => ({ count: t.length, sample: t[0] || null })).catch((e) => ({ error: String(e && e.message) })),
         book: await fetchBook(km).catch((e) => ({ error: String(e && e.message) })) };
     }
   } catch (e) { o.kalshiDeep = { error: e.message }; }
+  // Polymarket holders endpoint shape (for accurate top-holder wallet addresses)
+  try {
+    const pm = await enumPoly(1).catch(() => []);
+    const cond = (pm.find((x) => x._cond) || {})._cond;
+    if (cond) {
+      const raw = await getJSON("https://data-api.polymarket.com/holders?market=" + encodeURIComponent(cond) + "&limit=5", { timeout: 6000 }).catch((e) => ({ error: String(e && e.message) }));
+      o.pmHolders = { cond, isArray: Array.isArray(raw), keys: Array.isArray(raw) ? (raw[0] ? Object.keys(raw[0]) : []) : Object.keys(raw || {}), sample: JSON.stringify(raw).slice(0, 420) };
+    }
+  } catch (e) { o.pmHolders = { error: e.message }; }
   return o;
 }
 

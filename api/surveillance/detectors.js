@@ -331,9 +331,8 @@ function fuse(subs, ctx, opts) {
   let denom = 0, weighted = 0, present = 0;
   const rows = [];
   order.forEach((key, idx) => {
-    if (key === "concentration" && ctx.platform === "kalshi") return;   // not available (anonymous)
     const w = o.w[idx];
-    denom += w;                                  // available weight (present or not)
+    denom += w;                                  // full available weight (present or not)
     const v = sval(subs[key]);
     if (v != null) { weighted += w * v; present++; rows.push({ key, w, v }); }
   });
