@@ -58,7 +58,7 @@ const MODELS = [
     title: "Insider Trading on Prediction Markets",
     summary: "Assemble a fact pattern once and watch every legal regime evaluate it in parallel: CFTC Rule 180.1, the Eddie Murphy Rule, wire and commodities fraud, the Martin Act, and platform rules. Plus a surveillance lab, case-file teardowns, duty and materiality tools, and a live enforcement tracker.",
     status: "live",
-    src: "/models/insider-trading.html?v=44",
+    src: "/models/insider-trading.html?v=45",
   },
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────
