@@ -57,12 +57,7 @@
     </div>
     <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #949C98; text-align: right;">Reviewed <span style="color: #ECEFED;">{{ corpus.wallets }}</span> bettors · <span style="color: #FBBF24;">{{ corpus.flagged }}</span> flagged<br><span style="color: #5C6661;">{{ corpus.asOf }}</span></div>
-      <sc-if value="{{ isSample }}" hint-placeholder-val="{{ true }}">
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #34D399; border: 1px solid rgba(52,211,153,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(52,211,153,0.07); box-shadow: 0 0 18px -6px rgba(52,211,153,0.4);">SAMPLE DATA</span>
-      </sc-if>
-      <sc-if value="{{ notSample }}" hint-placeholder-val="{{ false }}">
-        <span title="{{ snapshotTitle }}" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #A78BFA; border: 1px solid rgba(167,139,250,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(167,139,250,0.07); box-shadow: 0 0 18px -6px rgba(167,139,250,0.4);">{{ snapshotLabel }}</span>
-      </sc-if>
+      <span title="{{ snapshotTitle }}" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #A78BFA; border: 1px solid rgba(167,139,250,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(167,139,250,0.07); box-shadow: 0 0 18px -6px rgba(167,139,250,0.4);">{{ snapshotLabel }}</span>
       <div style="display: flex; align-items: center; gap: 9px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 10px; padding: 10px 13px; min-width: 230px; box-shadow: inset 0 0 16px -8px rgba(52,211,153,0.18);">
         <span style="color: #5C6661; font-size: 13px;">⌕</span>
         <input value="{{ search }}" onInput="{{ onSearch }}" placeholder="Search a wallet, person, or market" style="background: transparent; border: none; outline: none; color: #ECEFED; font-family: 'JetBrains Mono', monospace; font-size: 12px; width: 100%;" />
@@ -70,7 +65,8 @@
     </div>
   </div>
 
-  <!-- ZONE 2 — TWO PANE -->
+  <!-- ZONE 2 — TWO PANE (rendered only when the job has flagged real subjects) -->
+  <sc-if value="{{ hasSubjects }}" hint-placeholder-val="{{ true }}">
   <div style="display: grid; grid-template-columns: {{ gridCols }}; gap: 20px; align-items: start;">
 
     <!-- LEFT: FLAGGED BETTORS -->
@@ -451,6 +447,19 @@
       </div>
     </div>
   </div>
+  </sc-if>
+
+  <!-- ZONE 2b — honest empty state (no flagged bettors yet; no sample data) -->
+  <sc-if value="{{ emptyState }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top: 18px; border: 1px solid #1F2A25; border-radius: 16px; background: #0E1512; box-shadow: 0 0 34px -18px rgba(52,211,153,0.18); padding: 48px 30px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+      <div style="width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(52,211,153,0.4); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 22px -6px rgba(52,211,153,0.5);">
+        <span style="width: 12px; height: 12px; border-radius: 50%; background: #34D399; box-shadow: 0 0 12px #34d399; animation: wf-glow 2s ease-in-out infinite;"></span>
+      </div>
+      <div style="font-size: 19px; font-weight: 600; color: #ECEFED;">{{ emptyTitle }}</div>
+      <div style="font-size: 13.5px; line-height: 1.7; color: #949C98; max-width: 560px;">{{ emptyBody }}</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; color: #5C6661; margin-top: 6px;">PATTERN CONSISTENT WITH INFORMED TRADING — NOT PROOF · POLYMARKET ONLY</div>
+    </div>
+  </sc-if>
 
   </div>
 
@@ -479,11 +488,12 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.h = React.createElement;
-    // Honest-by-default: until the read API returns a real snapshot we serve
-    // the seeded sample and flag it. applyRealData() flips isSample to false.
-    this.isSample = true;
-    this.meta = this.sampleMeta();
-    this.subjects = this.buildSubjects();
+    // REAL DATA ONLY — no seeded sample ships. The tool serves exactly what the
+    // scheduled job has flagged; until loadReal() populates it, the view shows an
+    // honest empty state. Never any mock subjects in production.
+    this.isSample = false;
+    this.meta = this.emptyMeta();
+    this.subjects = [];
     this.state = {
       search: "",
       type: "all",
@@ -499,7 +509,7 @@ class Component extends DCLogic {
       minProfit: 0,
       sig: { conceal: false, fresh: false, cluster: false, held: false },
       methodologyOpen: false,
-      selectedId: this.subjects[0].id,
+      selectedId: this.subjects.length ? this.subjects[0].id : null,
       ledgerSort: "entryIdx",
       ledgerDir: 1,
       measure: {},
@@ -526,12 +536,9 @@ class Component extends DCLogic {
   }
 
   // ---------- REAL DATA ----------
-  // Sample-mode metadata (overridden by a real snapshot from the read API).
-  sampleMeta() {
-    return {
-      reviewed: 41206, screened: 312,
-      block: "71,402,331", snapshot: "Jun 25 2026", recomputed: "Jun 25 2026",
-    };
+  // Pre-snapshot metadata (zeros until the scheduled job has run at least once).
+  emptyMeta() {
+    return { reviewed: 0, screened: 0, block: "", snapshot: "", recomputed: "" };
   }
 
   // Pull the live forensic snapshot from the scheduled job's store. On any
@@ -588,175 +595,10 @@ class Component extends DCLogic {
 
   // ---------- DATA ----------
   buildSubjects() {
-    const mk = (o) => ({ ...o });
-
-    const s1 = mk({
-      id: "w1", type: "wallet", idLabel: "0x4e\u2026a91c", username: "saffron",
-      firstSeen: "Apr 02 2026", category: "Military & Defense", marketsCount: 16,
-      tier: "extreme", improbText: "1 in 4.2M", improbDenom: 4200000, improbFull: "1 in 4.2 million", full: true,
-      winRate: 94, avgImplied: 11, profit: "$409K", fired: ["fresh", "longshot", "held", "won", "conceal"],
-      refId: "WF-2026-0041", cexChips: ["0x9a\u2026 Binance", "0xd2\u2026 OKX"],
-      heroSentence: "This account won 14 of 16 long-shot bets that the market gave roughly an 11 percent chance. By luck you would expect about 2 wins. A record this strong is what you would see if the bettor already knew the outcomes.",
-      scorecard: [
-        { key: "fresh", metric: "4 days old", method: "account-age check", formula: "age = first bet block \u2212 funding block", numbers: "funded @ block 70,981,402 \u2192 first bet @ block 71,002,889 (\u2248 4.0 days). Prior transactions: 0." },
-        { key: "longshot", metric: "11% avg", method: "average odds", formula: "average of the market's odds at entry", numbers: "entries: 8%, 9%, 12%, 7%, 14%, 11% \u2026 average 11.2% across 16 markets." },
-        { key: "held", metric: "16 of 16", method: "exit check", formula: "bets held to the end / total bets", numbers: "16 / 16 held to resolution; never sold early or hedged." },
-        { key: "won", metric: "94% vs 11%", method: "luck probability", formula: "chance of \u2265 14 wins in 16 tries at 11% each", numbers: "expected wins \u2248 1.8; actual 14. Probability by luck \u2248 1 in 4.2 million." },
-        { key: "conceal", metric: "cashed out in hours", method: "cash-out timing", formula: "time between each win and moving the money off-platform", numbers: "median 3.1 hours; 12 of 14 wins withdrawn the same day to two exchanges." },
-      ],
-      ledger: [
-        { market: "Will the US conduct a named airstrike in the region before May 1?", odds: 8, stake: "$25,000", outcome: "Won", pl: "+$287,500", tx: "0x71a4\u2026" },
-        { market: "Will a defense supplemental exceed $40B this session?", odds: 14, stake: "$18,000", outcome: "Won", pl: "+$110,571", tx: "0x3c0f\u2026" },
-        { market: "Will the carrier group reposition before the summit?", odds: 11, stake: "$12,000", outcome: "Won", pl: "+$97,090", tx: "0x9b22\u2026" },
-        { market: "Will sanctions on the listed entity expand in Q2?", odds: 9, stake: "$9,000", outcome: "Won", pl: "+$91,000", tx: "0xa7d1\u2026" },
-        { market: "Will the basing agreement be announced this quarter?", odds: 7, stake: "$15,000", outcome: "Won", pl: "+$199,285", tx: "0x55e8\u2026" },
-        { market: "Will the joint exercise be postponed?", odds: 22, stake: "$6,000", outcome: "Lost", pl: "\u2212$6,000", tx: "0x12ab\u2026" },
-        { market: "Will the procurement contract be awarded to the incumbent?", odds: 13, stake: "$8,500", outcome: "Won", pl: "+$56,884", tx: "0xc903\u2026" },
-        { market: "Will the no-fly directive be issued before month end?", odds: 6, stake: "$10,000", outcome: "Won", pl: "+$156,666", tx: "0x44f7\u2026" },
-      ],
-      ledgerSummary: { markets: 16, winRate: 94, realized: "+$409K" },
-      timeline: { market: "Named airstrike before May 1", priceStart: 0.08, priceEnd: 0.97, entries: [0.18, 0.34], resolution: 0.92, candidates: [{ x: 0.62, label: "wire-service report (unverified)" }, { x: 0.78, label: "official statement (unverified)" }] },
-    });
-
-    const s2 = mk({
-      id: "c1", type: "cluster", idLabel: "Cluster of 9 wallets", username: null,
-      firstSeen: "Feb 18 2026", category: "Military & Defense", marketsCount: 31,
-      tier: "extreme", improbText: "1 in 9.1M", improbDenom: 9100000, improbFull: "1 in 9.1 million", full: true,
-      winRate: 98, avgImplied: 9, profit: "$2.4M", fired: ["cluster", "longshot", "held", "won", "conceal"],
-      refId: "WF-2026-0009", cexChips: ["0x9a\u2026 Binance", "0x7f\u2026 Bybit"],
-      heroSentence: "These nine linked accounts won 30 of 31 long-shot bets the market gave about a 9 percent chance. A record this strong essentially cannot happen by chance. It is the pattern you would expect if the bettor already knew the outcomes.",
-      scorecard: [
-        { key: "cluster", metric: "9 accounts, 1 source", method: "shared-funding link", formula: "accounts funded by the same address, then betting together", numbers: "all nine funded from one Binance deposit address within 6 days; they bet the same questions minutes apart." },
-        { key: "longshot", metric: "9% avg", method: "average odds", formula: "average of the market's odds at entry", numbers: "average 9.0% across 31 bets; lowest 4%, highest 19%." },
-        { key: "held", metric: "31 of 31", method: "exit check", formula: "bets held to the end / total bets", numbers: "31 / 31 held to resolution across the whole group; no early exits." },
-        { key: "won", metric: "98% vs 9%", method: "luck probability", formula: "chance of \u2265 30 wins in 31 tries at 9% each", numbers: "expected wins \u2248 2.8; actual 30. Probability by luck \u2248 1 in 9.1 million." },
-        { key: "conceal", metric: "split across accounts", method: "stake-splitting check", formula: "how stakes were spread across accounts in each entry window", numbers: "the same bet split across 9 accounts within 11 minutes, in laddered sizes $4K\u2013$60K, to stay under the radar." },
-      ],
-      ledger: [
-        { market: "Will the joint operation be authorized before the recess?", odds: 6, stake: "$60,000", outcome: "Won", pl: "+$940,000", tx: "0x8821\u2026" },
-        { market: "Will the troop drawdown be paused this quarter?", odds: 12, stake: "$22,000", outcome: "Won", pl: "+$161,333", tx: "0x44a0\u2026" },
-        { market: "Will the new basing pact be signed before June?", odds: 8, stake: "$30,000", outcome: "Won", pl: "+$345,000", tx: "0x2f6c\u2026" },
-        { market: "Will the missile-defense order be expanded?", odds: 9, stake: "$18,000", outcome: "Won", pl: "+$182,000", tx: "0x9d51\u2026" },
-        { market: "Will the embargo list add the named firm?", odds: 5, stake: "$14,000", outcome: "Won", pl: "+$266,000", tx: "0x77be\u2026" },
-        { market: "Will the summit be relocated for security reasons?", odds: 19, stake: "$9,000", outcome: "Lost", pl: "\u2212$9,000", tx: "0x10dd\u2026" },
-        { market: "Will the reconnaissance budget line be approved?", odds: 11, stake: "$16,000", outcome: "Won", pl: "+$129,454", tx: "0x6e02\u2026" },
-      ],
-      ledgerSummary: { markets: 31, winRate: 98, realized: "+$2.4M" },
-      timeline: { market: "Joint operation authorization", priceStart: 0.06, priceEnd: 0.95, entries: [0.12, 0.16, 0.21], resolution: 0.9, candidates: [{ x: 0.55, label: "committee leak (unverified)" }, { x: 0.74, label: "press briefing (unverified)" }] },
-      cluster: {
-        ringValue: "$2.4M", size: 9,
-        nodes: [
-          { id: "a", x: 0.5, y: 0.5, vol: 1.0, label: "0x9a\u2026" },
-          { id: "b", x: 0.22, y: 0.28, vol: 0.7, label: "0x4e\u2026" },
-          { id: "c", x: 0.78, y: 0.26, vol: 0.65, label: "0x71\u2026" },
-          { id: "d", x: 0.84, y: 0.6, vol: 0.55, label: "0x3c\u2026" },
-          { id: "e", x: 0.66, y: 0.82, vol: 0.6, label: "0xa7\u2026" },
-          { id: "f", x: 0.34, y: 0.84, vol: 0.5, label: "0x55\u2026" },
-          { id: "g", x: 0.14, y: 0.6, vol: 0.45, label: "0xc9\u2026" },
-          { id: "h", x: 0.5, y: 0.14, vol: 0.5, label: "0x44\u2026" },
-          { id: "i", x: 0.9, y: 0.4, vol: 0.4, label: "0x6e\u2026" },
-        ],
-        edges: [
-          { from: "a", to: "b", type: "fund", evidence: "shared Binance deposit address 0x9a3f\u20264c21 funded both" },
-          { from: "a", to: "c", type: "fund", evidence: "funded from the same address within 40 minutes" },
-          { from: "a", to: "d", type: "fund", evidence: "funded from the same address 0x9a3f\u20264c21" },
-          { from: "a", to: "h", type: "cofund", evidence: "funded in the same transaction block 70,994,118" },
-          { from: "a", to: "i", type: "fund", evidence: "shared funding source 0x9a3f\u20264c21" },
-          { from: "b", to: "g", type: "sync", evidence: "bet the same question within 4 minutes" },
-          { from: "c", to: "d", type: "sync", evidence: "bet the same question within 7 minutes" },
-          { from: "e", to: "f", type: "create", evidence: "accounts created 9 minutes apart in sequence" },
-          { from: "h", to: "e", type: "sync", evidence: "bet the same question within 11 minutes" },
-          { from: "d", to: "i", type: "cofund", evidence: "funded together twice" },
-        ],
-      },
-    });
-
-    const s3 = mk({
-      id: "c2", type: "cluster", idLabel: "Cluster of 11 wallets", username: null,
-      firstSeen: "Mar 09 2026", category: "Elections", marketsCount: 44,
-      tier: "extreme", improbText: "1 in 1.8M", improbDenom: 1800000, improbFull: "1 in 1.8 million", full: true,
-      winRate: 88, avgImplied: 14, profit: "$1.1M", fired: ["cluster", "longshot", "won", "conceal"],
-      refId: "WF-2026-0023", cexChips: ["0xb1\u2026 Kraken", "0x2e\u2026 Binance"],
-      heroSentence: "These eleven linked accounts mixed very large and very small bets, then won 39 of 44 election bets the market gave about a 14 percent chance. The size-mixing is itself a way to hide. A record this strong is the pattern you would expect from foreknowledge, not luck.",
-      scorecard: [
-        { key: "cluster", metric: "11 accounts, 2 sources", method: "shared-funding link", formula: "accounts funded by the same two addresses, with money moving between them", numbers: "two funding addresses 0xb1\u2026 and 0x2e\u2026; 6 transfers between the accounts; they bet the same questions together." },
-        { key: "longshot", metric: "14% avg", method: "average odds", formula: "average of the market's odds at entry", numbers: "average 14.1% across 44 bets." },
-        { key: "won", metric: "88% vs 14%", method: "luck probability", formula: "chance of \u2265 39 wins in 44 tries at 14% each", numbers: "expected wins \u2248 6.2; actual 39. Probability by luck \u2248 1 in 1.8 million." },
-        { key: "conceal", metric: "decoy small bets", method: "stake-mixing check", formula: "spread of bet sizes around the real positions", numbers: "18 tiny bets under $200 placed alongside 6 large bets to blur which ones mattered." },
-      ],
-      ledger: [
-        { market: "Will the challenger win the regional runoff?", odds: 13, stake: "$72,000", outcome: "Won", pl: "+$481,846", tx: "0xb1c2\u2026" },
-        { market: "Will turnout exceed the 60% threshold?", odds: 18, stake: "$140", outcome: "Won", pl: "+$637", tx: "0x9012\u2026" },
-        { market: "Will the incumbent concede before the recount?", odds: 9, stake: "$54,000", outcome: "Won", pl: "+$546,000", tx: "0x33aa\u2026" },
-        { market: "Will the coalition hold after the vote?", odds: 22, stake: "$80", outcome: "Lost", pl: "\u2212$80", tx: "0x77c1\u2026" },
-        { market: "Will the by-election be called this quarter?", odds: 11, stake: "$48,000", outcome: "Won", pl: "+$388,363", tx: "0xe5d4\u2026" },
-        { market: "Will the ballot measure pass?", odds: 16, stake: "$120", outcome: "Won", pl: "+$630", tx: "0x2bb9\u2026" },
-      ],
-      ledgerSummary: { markets: 44, winRate: 88, realized: "+$1.1M" },
-      timeline: { market: "Regional runoff outcome", priceStart: 0.13, priceEnd: 0.9, entries: [0.2, 0.31, 0.44], resolution: 0.88, candidates: [{ x: 0.6, label: "internal poll leak (unverified)" }] },
-      cluster: {
-        ringValue: "$1.1M", size: 11,
-        nodes: [
-          { id: "h1", x: 0.36, y: 0.5, vol: 0.9, label: "0xb1\u2026" },
-          { id: "h2", x: 0.68, y: 0.5, vol: 0.85, label: "0x2e\u2026" },
-          { id: "n1", x: 0.18, y: 0.26, vol: 0.5, label: "0x4a\u2026" },
-          { id: "n2", x: 0.2, y: 0.72, vol: 0.45, label: "0x90\u2026" },
-          { id: "n3", x: 0.38, y: 0.86, vol: 0.4, label: "0x33\u2026" },
-          { id: "n4", x: 0.5, y: 0.18, vol: 0.4, label: "0x77\u2026" },
-          { id: "n5", x: 0.82, y: 0.26, vol: 0.45, label: "0xe5\u2026" },
-          { id: "n6", x: 0.86, y: 0.72, vol: 0.4, label: "0x2b\u2026" },
-          { id: "n7", x: 0.66, y: 0.86, vol: 0.35, label: "0x5c\u2026" },
-          { id: "n8", x: 0.5, y: 0.5, vol: 0.3, label: "0x88\u2026" },
-          { id: "n9", x: 0.92, y: 0.5, vol: 0.3, label: "0xd1\u2026" },
-        ],
-        edges: [
-          { from: "h1", to: "n1", type: "fund", evidence: "funded from Kraken deposit 0xb1\u2026" },
-          { from: "h1", to: "n2", type: "fund", evidence: "funded from Kraken deposit 0xb1\u2026" },
-          { from: "h1", to: "n3", type: "fund", evidence: "funded from 0xb1\u2026" },
-          { from: "h1", to: "n8", type: "cofund", evidence: "funded in the same block" },
-          { from: "h2", to: "n5", type: "fund", evidence: "funded from Binance deposit 0x2e\u2026" },
-          { from: "h2", to: "n6", type: "fund", evidence: "funded from 0x2e\u2026" },
-          { from: "h2", to: "n9", type: "fund", evidence: "funded from 0x2e\u2026" },
-          { from: "h1", to: "h2", type: "transfer", evidence: "6 transfers of money between the two groups" },
-          { from: "n4", to: "n8", type: "sync", evidence: "bet the same question within 5 minutes" },
-          { from: "n7", to: "h2", type: "sync", evidence: "bet the same question within 9 minutes" },
-          { from: "n3", to: "n7", type: "create", evidence: "created 12 minutes apart in sequence" },
-        ],
-      },
-    });
-
-    const light = [
-      { id: "w4", type: "wallet", idLabel: "0x55\u2026c107", username: "delta_one", category: "World", marketsCount: 22, tier: "extreme", improbText: "1 in 3.0M", improbDenom: 3000000, winRate: 91, avgImplied: 12, profit: "$330K", fired: ["fresh", "longshot", "won", "held", "conceal"] },
-      { id: "w8", type: "wallet", idLabel: "0xe2\u2026 09ab", username: "harborlight", category: "Military & Defense", marketsCount: 17, tier: "elevated", improbText: "1 in 380K", improbDenom: 380000, winRate: 85, avgImplied: 17, profit: "$255K", fired: ["fresh", "longshot", "won"] },
-      { id: "w5", type: "wallet", idLabel: "0x90\u2026a3f1", username: null, category: "Elections", marketsCount: 18, tier: "elevated", improbText: "1 in 210K", improbDenom: 210000, winRate: 83, avgImplied: 20, profit: "$142K", fired: ["longshot", "won", "conceal"] },
-      { id: "c4", type: "cluster", idLabel: "Cluster of 6 wallets", username: null, category: "Economics", marketsCount: 23, tier: "elevated", improbText: "1 in 156K", improbDenom: 156000, winRate: 80, avgImplied: 21, profit: "$210K", fired: ["cluster", "won", "conceal"] },
-      { id: "w2", type: "wallet", idLabel: "0x7c\u2026f0d2", username: "polestar", category: "Politics", marketsCount: 27, tier: "elevated", improbText: "1 in 120K", improbDenom: 120000, winRate: 81, avgImplied: 22, profit: "$180K", fired: ["longshot", "won", "held"] },
-      { id: "w3", type: "wallet", idLabel: "0x1f\u2026b8e4", username: null, category: "Economics", marketsCount: 19, tier: "elevated", improbText: "1 in 64K", improbDenom: 64000, winRate: 76, avgImplied: 28, profit: "$96K", fired: ["won", "held"] },
-      { id: "c3", type: "cluster", idLabel: "Cluster of 4 wallets", username: null, category: "Sports", marketsCount: 15, tier: "elevated", improbText: "1 in 88K", improbDenom: 88000, winRate: 79, avgImplied: 26, profit: "$74K", fired: ["cluster", "won"] },
-      { id: "w6", type: "wallet", idLabel: "0xab\u2026 7720", username: "nightjar", category: "Crypto", marketsCount: 14, tier: "watch", improbText: "1 in 9.4K", improbDenom: 9400, winRate: 71, avgImplied: 33, profit: "$41K", fired: ["won"] },
-      { id: "w7", type: "wallet", idLabel: "0x3d\u2026 11c9", username: null, category: "Politics", marketsCount: 12, tier: "watch", improbText: "1 in 6.1K", improbDenom: 6100, winRate: 68, avgImplied: 35, profit: "$28K", fired: ["longshot"] },
-    ].map((o) => mk(o));
-
-    const all = [s2, s1, s3, ...light];
-    const actByIdx = [11, 5, 26, 70, 130, 190, 240, 300, 18, 45, 95, 160];
-    all.forEach((s, idx) => {
-      s.wins = Math.round(s.marketsCount * s.winRate / 100);
-      s.expectedWins = Math.round(s.marketsCount * s.avgImplied) / 100;
-      const lg = Math.log10(s.improbDenom);
-      s.percentile = s.percentile != null ? s.percentile : Math.min(99.999, +(99 + Math.min(0.999, lg / 7)).toFixed(3));
-      let vol = 0;
-      if (s.ledger) s.ledger.forEach((r) => { vol += parseFloat(r.stake.replace(/[^0-9.]/g, "")) || 0; });
-      if (!vol) { const pn = parseFloat(String(s.profit).replace(/[^0-9.]/g, "")) * (String(s.profit).includes("M") ? 1e6 : 1e3); vol = Math.round(pn * 3.5); }
-      s.volumeNum = vol;
-      s.volume = vol >= 1e6 ? "$" + (vol / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : "$" + Math.round(vol / 1e3) + "K";
-      s.profitNum = parseFloat(String(s.profit).replace(/[^0-9.]/g, "")) * (String(s.profit).includes("M") ? 1e6 : 1e3);
-      s.activityDays = s.activityDays != null ? s.activityDays : (actByIdx[idx] != null ? actByIdx[idx] : 30 + idx * 17);
-      s.lastActivity = s.activityDays <= 1 ? "today" : s.activityDays + " days ago";
-      s.confidenceLimiter = s.confidenceLimiter || (s.type === "cluster"
-        ? "common-ownership is inferred from funding heuristics, not confirmed identity"
-        : "the binomial test assumes each bet is an independent event");
-    });
-    return all;
+    // Sample data intentionally removed — this tool ships REAL data only.
+    // Subjects come exclusively from /api/forensics/subjects (the scheduled
+    // job output); until then the view shows its honest empty state.
+    return [];
   }
 
   // ---------- METHODOLOGY LIBRARY (real, defined methods) ----------
@@ -926,6 +768,36 @@ class Component extends DCLogic {
 
   selSubject() {
     return this.subjects.find((s) => s.id === this.state.selectedId) || this.subjects[0];
+  }
+
+  // Header + honest empty panel when the scheduled job has flagged nobody yet.
+  emptyVals() {
+    const st = this.state;
+    const fn = this.funnel();
+    const haveSnap = !!this.meta.snapshot;
+    return {
+      hasSubjects: false, emptyState: true,
+      isSample: false, notSample: true,
+      snapshotLabel: haveSnap ? ("data as of " + this.meta.snapshot) : "awaiting first snapshot",
+      snapshotTitle: "Retrospective snapshot — not live. Recomputed " + (this.meta.recomputed || "—") + ".",
+      showAmbient: this.props.ambientGlow !== false,
+      search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
+      corpus: {
+        wallets: this.fmtInt(this.meta.reviewed || 0), flagged: 0,
+        asOf: haveSnap ? ("as of " + this.meta.snapshot) : "scan in progress",
+      },
+      funnelSteps: [
+        { k: "reviewed", label: "reviewed", val: this.fmtInt(fn.reviewed), color: "#7E8C86", arrow: "" },
+        { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", arrow: "→" },
+        { k: "flagged", label: "flagged", val: "0", color: "#34D399", arrow: "→" },
+        { k: "extreme", label: "extreme", val: "0", color: "#F87171", arrow: "→" },
+      ],
+      modal: { open: false }, modalBody: null,
+      emptyTitle: haveSnap ? "No bettors meet the bar yet" : "Scanning Polymarket…",
+      emptyBody: haveSnap
+        ? "The scan has reviewed " + this.fmtInt(this.meta.reviewed || 0) + " bettors so far and none clear the multi-detector threshold. A wallet appears here only when its resolved-market record is too unlikely to be chance (binomial improbability plus at least two agreeing signals). An empty list is the honest result — not everyone is informed."
+        : "The scheduled job is sweeping resolved Polymarket markets and aggregating by wallet. Flagged bettors will appear here as soon as a record clears the bar. No sample data is shown.",
+    };
   }
 
   concernTheme(tier) {
@@ -1181,6 +1053,7 @@ class Component extends DCLogic {
   // ---------- RENDER ----------
   renderVals() {
     const st = this.state;
+    if (!this.subjects.length) return this.emptyVals();      // honest empty state — no mock data
     const sel = this.selSubject();
     const ct = this.concernTheme(sel.tier);
     const list = this.filtered();
@@ -1299,6 +1172,7 @@ class Component extends DCLogic {
 
     return {
       corpus,
+      hasSubjects: true, emptyState: false,
       isSample: this.isSample, notSample: !this.isSample,
       snapshotLabel: this.meta.block ? ("data as of block " + this.meta.block) : ("data as of " + (this.meta.snapshot || "—")),
       snapshotTitle: "Retrospective snapshot — not live. Block " + (this.meta.block || "—") + " · " + (this.meta.snapshot || "—") + ". Recomputed " + (this.meta.recomputed || "—") + ".",

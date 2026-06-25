@@ -139,10 +139,26 @@ async function run() {
     .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0))
     .slice(0, ENRICH_BATCH);
   let funded = 0;
+  let fullRecords = 0;
   for (const w of stale) {
     try {
       const fs0 = await poly.firstSeen(w.address);
       if (fs0) w.firstSeenTs = fs0;
+      // FULL resolved record: pull the wallet's entire position history so it is
+      // scored on its whole record now, not only the markets swept so far. Keep
+      // tx/ts from any swept trades for the on-chain verify links.
+      try {
+        const positions = await poly.userPositions(w.address);
+        const posBets = positions.map(poly.positionToBet).filter(Boolean);
+        if (posBets.length >= (w.bets || []).length) {
+          const txByCond = {}; (w.bets || []).forEach((b) => { if (b.tx) txByCond[b.cond] = b; });
+          posBets.forEach((b) => { const e = txByCond[b.cond]; if (e) { b.tx = e.tx; if (!b.ts) b.ts = e.ts; } });
+          w.bets = posBets;
+          w.entryByEvent = {};
+          posBets.forEach((b) => { const ev = b.eventGroup || b.cond; if (b.ts && (w.entryByEvent[ev] == null || b.ts < w.entryByEvent[ev])) w.entryByEvent[ev] = b.ts; if (b.resolvedMs && b.resolvedMs > (w.lastResolvedMs || 0)) w.lastResolvedMs = b.resolvedMs; });
+          fullRecords++;
+        }
+      } catch (_) { /* keep the swept record */ }
       const firstBetTs = (w.bets || []).reduce((m, b) => (b.ts && b.ts < m ? b.ts : m), Infinity);
       // on-chain funding trace -> wallet age + prior-tx (fresh) + funder (cluster)
       const fund = await chain.walletFunding(w.address, isFinite(firstBetTs) ? firstBetTs : null, null);
@@ -162,7 +178,7 @@ async function run() {
     } catch (_) { /* leave stale; retry next run */ }
     await poly.sleep(40);
   }
-  log("deep-enriched " + stale.length + " wallets · " + funded + " funding traces resolved" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
+  log("deep-enriched " + stale.length + " wallets · " + fullRecords + " full position records · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
 
   // 6. rolling-coverage invariant
   const ages = Object.values(state.screened).map((w) => (NOW_S - (w.lastEnrichedTs || 0)) / 86400);
