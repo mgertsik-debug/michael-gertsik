@@ -186,3 +186,89 @@ test("classify: each branch in priority order", () => {
   assert.equal(D.classify({ Q: 0.9, raw: 0.8, E: 0.1, preEvent: true }), "Unexplained");
   assert.equal(D.classify({ Q: 0.9, raw: 0.3, E: 0.1, preEvent: false }), "Partially explained");
 });
+
+/* ===== Part 8 — mandatory validation tests (engine before live data) ===== */
+const DETW = { runUp: 0.30, vpin: 0.25, priceImpact: 0.20, concentration: 0.25 };
+const idets = (subs) => ["runUp", "vpin", "priceImpact", "concentration"].map((k) => ({ key: k, weight: DETW[k], sub: subs[k] != null ? subs[k] : null }));
+
+test("Part8.1 planted insider series -> run-up fires hard, mostly pre-catalyst", () => {
+  // flat, then a large one-sided pre-catalyst move
+  const flat = Array.from({ length: 18 }, (_, i) => ({ t: i * 3600, p: 0.30 + (i % 2 ? 0.008 : -0.008) }));
+  const surge = [0.34, 0.45, 0.6, 0.75, 0.88, 0.93].map((p, i) => ({ t: (18 + i) * 3600, p }));
+  const r = D.runUp(flat.concat(surge));
+  assert.ok(r && r.score > 0.6, `run-up score ${r && r.score}`);
+  assert.ok(r.preMoveFraction >= 0.5, `pre-move fraction ${r.preMoveFraction}`);
+  // with news-gap pre-event and full coverage + agreement -> High-signal
+  const f = D.fuse(idets({ runUp: r.score, vpin: 0.7, priceImpact: 0.6, concentration: 0.7 }), { E: 0, Q: 0.8, preEvent: true });
+  assert.equal(f.tier, "High-signal");
+});
+
+test("Part8.2 random walk -> low run-up, not flagged", () => {
+  let p = 0.5; const rw = [];
+  const seed = (n) => { let s = n; return () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; }; };
+  const rnd = seed(7);
+  for (let i = 0; i < 40; i++) { p = Math.max(0.05, Math.min(0.95, p + (rnd() - 0.5) * 0.02)); rw.push({ t: i * 3600, p }); }
+  const r = D.runUp(rw);
+  assert.ok(!r || r.score < 0.5, `random walk run-up ${r && r.score}`);
+});
+
+test("Part8.3 post-news mover -> labeled Explained, score pulled down", () => {
+  const f = D.fuse(idets({ runUp: 0.9, vpin: 0.8, priceImpact: 0.7, concentration: 0.8 }), { E: 0.8, Q: 0.8, preEvent: false });
+  assert.equal(f.label, "Explained");
+  assert.ok(f.score < 60, `explained score ${f.score}`);
+  assert.notEqual(f.tier, "High-signal");
+});
+
+test("Part8.4 thin-market jitter -> Low-liquidity artifact / capped at Watch", () => {
+  const q = D.liquidityQ({ volumeUsd: 300, depthUsd: 150, spread: 0.08, tradeCount: 4 });
+  assert.ok(q.Q <= D.DEFAULTS.tauQ);
+  const f = D.fuse(idets({ runUp: 0.9, vpin: 0.9, priceImpact: 0.9, concentration: 0.9 }), { E: 0, Q: q.Q });
+  assert.equal(f.tier, "Watch");                 // thin book can't be High-signal
+  assert.equal(f.label, "Low-liquidity artifact");
+});
+
+test("Part8.5 missing-data market -> excluded not 0; can't reach High on one check", () => {
+  const f = D.fuse(idets({ runUp: 0.95 }), { E: 0, Q: 0.8 });   // 3 of 4 have no data
+  assert.equal(f.coverageRan, 1); assert.equal(f.coverageTotal, 4);
+  assert.notEqual(f.tier, "High-signal");
+  // the missing checks did NOT contribute a 0 that dragged the score down:
+  assert.equal(f.contributions.length, 1);
+});
+
+test("Part8.6 reconstructed real cases fire the right detectors", () => {
+  // Spagnuolo / Bubblemaps: winning at very low implied -> longshot ceiling
+  const spag = D.longshot({ stakeUsd: 200000, impliedProb: 0.0, won: true, category: "world" });
+  assert.ok(spag.isLongshot && spag.score > 0.85);
+  // Van Dyke: pre-raid accumulation, held to resolution, won
+  const vd = D.accumulation({ netPreUsd: 33000, soldFracPre: 0.0, won: true });
+  assert.ok(vd.score > 0.7 && vd.held === true);
+  // Bubblemaps linked cluster: high HHI + top share -> concentration ceiling
+  const bm = D.concentration([{ wallet: "a", buyUsd: 900 }, { wallet: "b", buyUsd: 60 }, { wallet: "c", buyUsd: 40 }]);
+  assert.ok(bm.score > 0.6);
+  // Santos (Kalshi, no wallet ledger): flags on run-up alone WITHOUT concentration
+  const santos = D.fuse([
+    { key: "runUp", weight: 0.30, sub: 0.85 }, { key: "vpin", weight: 0.25, sub: 0.6 },
+    { key: "priceImpact", weight: 0.20, sub: 0.55 }, { key: "concentration", weight: 0.25, sub: null },
+  ], { E: 0, Q: 0.7 });
+  assert.ok(santos.score > 0 && santos.coverageRan === 3, "Kalshi flags without wallet data");
+  // Kalshi small-dollar self-trade: category/role multiplier keeps it from being buried
+  const plain = D.fuse(idets({ runUp: 0.5, vpin: 0.4 }), { E: 0, Q: 0.7 });
+  const conflict = D.fuse(idets({ runUp: 0.5, vpin: 0.4 }), { E: 0, Q: 0.7, categoryMult: 1.25 });
+  assert.ok(conflict.score > plain.score);
+});
+
+test("Part8 manipulation detectors: wash + ramp", () => {
+  const wash = D.washTrade({ selfMatchedUsd: 80000, totalUsd: 100000, linkedPairs: 3 });
+  assert.ok(wash.score > 0.6 && wash.selfFrac === 0.8);
+  assert.equal(D.washTrade({ totalUsd: 0 }), null);
+  const ramp = D.ramp({ closeVolFrac: 0.6, moveIntoClose: 0.8, volVsBaseline: 4 });
+  assert.ok(ramp.score > 0.6);
+  assert.equal(D.STREAMING_ONLY.available, false);   // spoofing is an honest boundary
+});
+
+test("Part8 accumulation/volumeRunup guards + behavior", () => {
+  assert.equal(D.accumulation({}), null);
+  const v = D.volumeRunup({ preVol: 50000, baseVol: 5000 });
+  assert.ok(v.score > 0.5 && v.ratio === 10);
+  assert.equal(D.volumeRunup({ preVol: 1, baseVol: 0 }), null);
+});

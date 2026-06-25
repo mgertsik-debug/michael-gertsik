@@ -81,6 +81,16 @@ const DEFAULTS = {
   categoryMult: { world: 1.25, politics: 1.2, elections: 1.2, economy: 1.1, finance: 1.1, business: 1.1, health: 1.05, "tech & science": 1.0, culture: 0.95 },
   holdToResolution: 0.03,        // selling < 3% before resolution = conviction signature
   lookbackDays: 90, graceDays: 14,
+  // §0A deployment-profile knobs (rolling coverage on a cron)
+  ENRICH_BATCH: 250, MAX_STALENESS_H: 6, CRON_INTERVAL_MIN: 15, PUBLISH_THRESHOLD: "High-signal",
+  // manipulation-engine weights [washTrade, ramp, vpin, priceImpact]
+  wManip: [0.30, 0.25, 0.20, 0.25],
+};
+// Streaming-only detectors that this serverless+cron stack cannot run (§0A.1).
+// Surfaced in the UI as an explicit capability boundary — never a silent zero.
+const STREAMING_ONLY = {
+  available: false,
+  reason: "Spoofing & layering are defined by order *cancels*, which exist only in a live websocket stream. This build is serverless + cron (no always-on recorder), so these are out of scope and shown here honestly rather than scored 0.",
 };
 function categoryMult(cat) {
   const m = DEFAULTS.categoryMult[String(cat || "").toLowerCase()];
@@ -122,12 +132,19 @@ function runUp(series, opts) {
   const score = clip(Math.abs(carStar) / o.kRunUp, 0, 1);
 
   const dir = car >= 0 ? "up" : "down";
+  // Keown-Pinkerton "fraction of the total move that happened in the pre-catalyst
+  // window" — leakage shows up as most of the repricing BEFORE the public event.
+  const z = pts.map((x) => logit(x.p));
+  const totalMove = Math.abs(z[z.length - 1] - z[0]);
+  const eventMove = Math.abs(z[z.length - 1] - z[split]);
+  const preMoveFraction = totalMove > 0 ? +clip(eventMove / totalMove, 0, 1).toFixed(2) : 0;
   return {
     score, carStar: +carStar.toFixed(3), car: +car.toFixed(3), n: evt.length,
-    mu: +mu.toFixed(4), sigma: +sigma.toFixed(4), dir,
+    mu: +mu.toFixed(4), sigma: +sigma.toFixed(4), dir, preMoveFraction,
     sigma_move: +Math.abs(carStar).toFixed(2),
     explain: "Implied probability drifted " + dir + " " + Math.abs(carStar).toFixed(1) +
-      "σ beyond this market's own normal swings over the pre-event window (Keown–Pinkerton).",
+      "σ beyond this market's own normal swings over the pre-event window (Keown–Pinkerton)" +
+      (preMoveFraction >= 0.5 ? "; about " + Math.round(preMoveFraction * 100) + "% of the whole move happened before the outcome was public." : "."),
   };
 }
 
@@ -417,8 +434,59 @@ function classify(x) {
   return "Partially explained";
 }
 
+/* INSIDER 2 — pre-event accumulation + hold-to-resolution (Polymarket wallets).
+ * A large one-directional position built BEFORE resolution and held through it
+ * (sold < holdToResolution before settlement) is the conviction signature
+ * (Van Dyke / ACDC). inputs { netPreUsd, soldFracPre, won }. */
+function accumulation(x) {
+  if (!x || !isNum(x.netPreUsd)) return null;
+  const size = clip(Math.log10(Math.max(1, Math.abs(x.netPreUsd))) / 5, 0, 1);   // $1 => 0, $100k => 1
+  const held = isNum(x.soldFracPre) ? (x.soldFracPre <= DEFAULTS.holdToResolution ? 1 : clip(1 - x.soldFracPre / 0.2, 0, 1)) : 0.5;
+  const win = x.won === true ? 1 : x.won === false ? 0 : 0.5;
+  const score = clip(0.45 * size + 0.30 * held + 0.25 * win, 0, 1);
+  return {
+    score, hasData: true, netPreUsd: Math.round(x.netPreUsd), soldFracPre: x.soldFracPre,
+    held: isNum(x.soldFracPre) && x.soldFracPre <= DEFAULTS.holdToResolution,
+    explain: "A one-directional position of about $" + Math.round(Math.abs(x.netPreUsd)).toLocaleString() +
+      " was built before the outcome and " + (isNum(x.soldFracPre) && x.soldFracPre <= 0.03 ? "held all the way to resolution" : "mostly held into resolution") +
+      " — the hold-to-resolution conviction signature.",
+  };
+}
+/* INSIDER 2 (Kalshi) — abnormal pre-event volume vs the market's own baseline. */
+function volumeRunup(x) {
+  if (!x || !isNum(x.preVol) || !isNum(x.baseVol) || x.baseVol <= 0) return null;
+  const ratio = x.preVol / x.baseVol;
+  const score = clip(Math.log2(Math.max(1, ratio)) / Math.log2(10), 0, 1);       // 1x => 0, 10x => 1
+  return { score, hasData: true, ratio: +ratio.toFixed(1),
+    explain: "Pre-event trading volume was " + ratio.toFixed(1) + "× this market's normal level — abnormal interest building before the outcome." };
+}
+
+/* MANIPULATION 1 — wash / self-trading (Polymarket; Kalshi weaker).
+ * Same or linked wallets on both sides of fills, or offsetting round-trips that
+ * inflate volume with no net position change. inputs { selfMatchedUsd, totalUsd, linkedPairs }. */
+function washTrade(x) {
+  if (!x || !isNum(x.totalUsd) || x.totalUsd <= 0) return null;
+  const selfFrac = clip((x.selfMatchedUsd || 0) / x.totalUsd, 0, 1);
+  const linked = clip((x.linkedPairs || 0) / 5, 0, 1);
+  const score = clip(0.7 * selfFrac + 0.3 * linked, 0, 1);
+  return { score, hasData: true, selfFrac: +selfFrac.toFixed(2), linkedPairs: x.linkedPairs || 0,
+    explain: Math.round(selfFrac * 100) + "% of volume traced to the same or linked wallets trading with themselves — wash trading inflates volume without real risk." };
+}
+/* MANIPULATION 2 — ramp / marking-the-close / settlement pressure (price-tape).
+ * Volume + price pressure concentrated into the close/expiry (Archegos/Gallagher
+ * footprint). inputs { closeVolFrac, moveIntoClose, volVsBaseline }. */
+function ramp(x) {
+  if (!x || !isNum(x.closeVolFrac)) return null;
+  const conc = clip(x.closeVolFrac / 0.5, 0, 1);                                  // half the day's volume in the close => 1
+  const move = isNum(x.moveIntoClose) ? clip(Math.abs(x.moveIntoClose) / 1.0, 0, 1) : 0;
+  const vol = isNum(x.volVsBaseline) ? clip(Math.log2(Math.max(1, x.volVsBaseline)) / Math.log2(8), 0, 1) : 0;
+  const score = clip(0.5 * conc + 0.3 * move + 0.2 * vol, 0, 1);
+  return { score, hasData: true, closeVolFrac: +x.closeVolFrac.toFixed(2),
+    explain: Math.round(x.closeVolFrac * 100) + "% of the period's volume hit in the final window, pushing the price into settlement — the marking-the-close / ramp footprint." };
+}
+
 module.exports = {
-  DEFAULTS, clip, logit, logitReturns, mean, stdev, median, normCdf,
-  runUp, vpin, priceImpact, concentration, newsGap, liquidityQ, longshot,
-  fuse, tierOf, classify, categoryMult, winBaseline,
+  DEFAULTS, STREAMING_ONLY, clip, logit, logitReturns, mean, stdev, median, normCdf,
+  runUp, vpin, priceImpact, concentration, newsGap, liquidityQ, longshot, accumulation, volumeRunup,
+  washTrade, ramp, fuse, tierOf, classify, categoryMult, winBaseline,
 };

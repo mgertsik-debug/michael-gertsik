@@ -120,27 +120,62 @@ function proxyRunUp(prob, change24h) {
       "refined from full price history when this market is inspected.",
   };
 }
-// the four insider checks, as the coverage-aware fuse() expects: each carries a
-// weight and a sub-score (null = the check could not run for this market).
-const DET_W = { runUp: 0.30, vpin: 0.25, priceImpact: 0.20, concentration: 0.25 };
-function detsArray(d) {
-  return ["runUp", "vpin", "priceImpact", "concentration"].map((k) => ({ key: k, weight: DET_W[k], sub: d[k] != null ? d[k] : null }));
-}
-function applyFusion(m, dets, ctx) {
-  const fused = D.fuse(dets, Object.assign({ categoryMult: D.categoryMult(m.category) }, ctx));
-  m.index = fused.score; m.raw = fused.raw; m.label = fused.label; m.tier = fused.tier;
-  m.coverageRan = fused.coverageRan; m.coverageTotal = fused.coverageTotal;
-  m.fullCoverage = fused.fullCoverage; m.agreeing = fused.agreeing;
-  m.contributions = fused.contributions;
-  return fused;
-}
-function scoreMarket(m) {
-  const q = D.liquidityQ({ volumeUsd: m.volume24h, depthUsd: m.liquidity });
-  const runUp = proxyRunUp(m.prob, m.change24h);
-  m.Q = q.Q; m.E = 0;
-  applyFusion(m, detsArray({ runUp }), { E: 0, Q: q.Q });
-  m.detectors = { runUp, priceImpact: null, vpin: null, concentration: null, news: null };
+// Per-engine detector weights (§3). INSIDER is retrospective (did money move
+// before the outcome was public); MANIPULATION is in-market microstructure.
+const INS_W = { runUp: 0.30, accumulation: 0.25, concentration: 0.25, longshot: 0.20 };
+const MAN_W = { washTrade: 0.30, ramp: 0.25, vpin: 0.20, priceImpact: 0.25 };
+const dArr = (W, picks) => Object.keys(W).map((k) => ({ key: k, weight: W[k], sub: picks[k] != null ? picks[k] : null }));
+function insiderDets(d) { return dArr(INS_W, { runUp: d.runUp, accumulation: d.accumulation || d.volumeRunup, concentration: d.concentration, longshot: d.longshot }); }
+function manipDets(d) { return dArr(MAN_W, { washTrade: d.washTrade, ramp: d.ramp, vpin: d.vpin, priceImpact: d.priceImpact }); }
+// fuse the active engine's detector set onto the market for the requested mode.
+function scoreForMode(m, mode) {
+  const d = m._det || {};
+  if (mode === "manipulation") {
+    const fused = D.fuse(manipDets(d), { Q: m.Q });
+    Object.assign(m, { index: fused.score, raw: fused.raw, label: fused.label, tier: fused.tier,
+      coverageRan: fused.coverageRan, coverageTotal: fused.coverageTotal, fullCoverage: fused.fullCoverage,
+      agreeing: fused.agreeing, contributions: fused.contributions, engine: "manipulation" });
+    m.detectors = { washTrade: d.washTrade || null, ramp: d.ramp || null, vpin: d.vpin || null, priceImpact: d.priceImpact || null, spoofing: D.STREAMING_ONLY };
+  } else {
+    const news = d.news || { E: 0, preEvent: true };
+    const fused = D.fuse(insiderDets(d), { E: news.E || 0, Q: m.Q, preEvent: news.preEvent, categoryMult: D.categoryMult(m.category) });
+    m.E = news.E || 0;
+    Object.assign(m, { index: fused.score, raw: fused.raw, label: fused.label, tier: fused.tier,
+      coverageRan: fused.coverageRan, coverageTotal: fused.coverageTotal, fullCoverage: fused.fullCoverage,
+      agreeing: fused.agreeing, contributions: fused.contributions, engine: "insider" });
+    m.detectors = { runUp: d.runUp || null, accumulation: d.accumulation || d.volumeRunup || null, concentration: d.concentration || null, longshot: d.longshot || null, news: d.news || null };
+  }
   return m;
+}
+function scoreMarket(m, mode) {
+  const q = D.liquidityQ({ volumeUsd: m.volume24h, depthUsd: m.liquidity });
+  m.Q = q.Q;
+  // cheap enumeration-tier read: only the run-up proxy is available pre-fetch.
+  m._det = { runUp: proxyRunUp(m.prob, m.change24h) };
+  return scoreForMode(m, mode || "insider");
+}
+// MANIPULATION helpers (computable after the fact from REST trade history).
+function computeWash(trades, platform) {
+  if (platform !== "polymarket") return null;        // Kalshi is anonymous -> no wash ledger
+  const byW = {}; let total = 0;
+  for (const t of trades) {
+    const w = t.proxyWallet; if (!w) continue;
+    const usd = num(t.size) * num(t.price); if (!usd) continue; total += usd;
+    const e = byW[w] || (byW[w] = { buy: 0, sell: 0 });
+    if (String(t.side || "").toUpperCase() === "SELL") e.sell += usd; else e.buy += usd;
+  }
+  if (total <= 0) return null;
+  let selfMatched = 0; for (const w in byW) selfMatched += Math.min(byW[w].buy, byW[w].sell);
+  return D.washTrade({ selfMatchedUsd: selfMatched * 2, totalUsd: total, linkedPairs: 0 });
+}
+function computeRamp(bars) {
+  const n = bars.length; if (n < 6) return null;
+  const total = bars.reduce((s, b) => s + b.volume, 0); if (total <= 0) return null;
+  const ci = Math.floor(n * 0.8);
+  const closeVol = bars.slice(ci).reduce((s, b) => s + b.volume, 0);
+  const L = (p) => Math.log(clip(p, 0.02, 0.98) / (1 - clip(p, 0.02, 0.98)));
+  const closeAvg = closeVol / Math.max(1, n - ci), baseAvg = (total - closeVol) / Math.max(1, ci);
+  return D.ramp({ closeVolFrac: closeVol / total, moveIntoClose: Math.abs(L(bars[n - 1].p) - L(bars[ci].p)), volVsBaseline: baseAvg > 0 ? closeAvg / baseAvg : 1 });
 }
 
 /* ===================================================== ENUMERATE Polymarket */
@@ -164,7 +199,7 @@ function pmTagList(ev, m) {
   if (ev && ev.category) out.push(ev.category);
   return out;
 }
-async function enumPoly(maxPages) {
+async function enumPoly(maxPages, mode) {
   const rows = [];
   let offset = 0, pages = 0;
   do {
@@ -205,10 +240,76 @@ async function enumPoly(maxPages) {
           prob: +prob.toFixed(4), change24h: num(m.oneDayPriceChange),
           volume24h: Math.round(vol), liquidity: Math.round(liq),
           _cond: m.conditionId || null, _tokenId: tokenId,
-        }));
+        }, mode));
       }
     }
     offset += 100; pages++;
+  } while (pages < maxPages);
+  return rows;
+}
+
+/* ============================================ ENUMERATE Polymarket — RESOLVED
+ * The INSIDER engine is RETROSPECTIVE: it scans markets that have already
+ * RESOLVED so the outcome (`won`) is known and the longshot / accumulation
+ * screens can be evaluated against the truth. Gamma exposes resolved events via
+ * closed=true; the winning side comes from the final settled outcomePrices.
+ * Each row is aligned to its resolution timestamp; deepEnrich() scores the
+ * pre-event window. Guarded end-to-end so a field/shape change degrades to the
+ * open-market path rather than breaking the feed. */
+function pmResolvedWinner(m) {
+  // final settled prices: [YES, NO] in {0,1}. Returns true=YES won, false=NO, null=unknown.
+  let op = m.outcomePrices;
+  if (typeof op === "string") { try { op = JSON.parse(op); } catch (_) { op = null; } }
+  if (Array.isArray(op) && op.length === 2) {
+    const yes = num(op[0]), no = num(op[1]);
+    if (yes >= 0.95 && no <= 0.05) return true;
+    if (no >= 0.95 && yes <= 0.05) return false;
+  }
+  return null;
+}
+async function enumPolyResolved(maxPages, mode, lookbackDays) {
+  const rows = [];
+  let offset = 0, pages = 0;
+  const cutoff = Date.now() - (lookbackDays || D.DEFAULTS.lookbackDays) * 86400000;
+  do {
+    const url = "https://gamma-api.polymarket.com/events?closed=true&archived=false" +
+      "&limit=100&offset=" + offset + "&order=endDate&ascending=false";
+    const evs = await getJSON(url, { timeout: 8000 }).catch(() => null);
+    const arr = Array.isArray(evs) ? evs : (evs && (evs.data || evs.events)) || [];
+    if (!arr.length) break;
+    let anyRecent = false;
+    for (const ev of arr) {
+      const evTags = pmTagList(ev, null);
+      const url2 = pmUrl(ev, null);
+      const evMarkets = (ev.markets || []).slice()
+        .sort((a, b) => num(b.volume || b.volumeNum) - num(a.volume || a.volumeNum)).slice(0, 4);
+      for (const m of evMarkets) {
+        const question = String(m.question || m.groupItemTitle || ev.title || "").trim();
+        if (!question) continue;
+        const cat = classifyMarket(evTags.concat(pmTagList(null, m)), question);
+        if (!cat) continue;
+        if (!isBinaryOutcomes(m.outcomes)) continue;
+        const won = pmResolvedWinner(m);
+        if (won == null) continue;                          // need a clean settled outcome
+        const resolvedMs = Date.parse(m.closedTime || ev.closedTime || m.endDate || ev.endDate || 0) || 0;
+        if (resolvedMs && resolvedMs < cutoff) continue;    // only RECENTLY resolved
+        if (resolvedMs) anyRecent = true;
+        const vol = num(m.volume || m.volumeNum || m.volume24hr);
+        const liq = num(m.liquidity || m.liquidityNum);
+        let tokenId = null;
+        if (m.clobTokenIds) { try { const ct = typeof m.clobTokenIds === "string" ? JSON.parse(m.clobTokenIds) : m.clobTokenIds; tokenId = ct && ct[0]; } catch (_) {} }
+        const row = scoreMarket({
+          id: "pm-" + (m.id || m.conditionId || question.slice(0, 24)),
+          platform: "polymarket", category: cat, question, url: url2,
+          prob: 0.5,                                        // real pre-event implied is computed in deepEnrich
+          change24h: 0, volume24h: Math.round(vol), liquidity: Math.round(liq),
+          _cond: m.conditionId || null, _tokenId: tokenId, _won: won, _resolvedAt: resolvedMs || null, _resolved: true,
+        }, mode);
+        rows.push(row);
+      }
+    }
+    offset += 100; pages++;
+    if (!anyRecent && pages >= 2) break;                    // walked past the lookback window
   } while (pages < maxPages);
   return rows;
 }
@@ -234,7 +335,7 @@ function kUrl(ev) {
   if (series) return "https://kalshi.com/markets/" + series;
   return "https://kalshi.com/markets";
 }
-async function enumKalshi(maxPages) {
+async function enumKalshi(maxPages, mode) {
   const base = "https://api.elections.kalshi.com";
   const rows = [];
   let cursor = null, pages = 0;
@@ -278,10 +379,53 @@ async function enumKalshi(maxPages) {
           change24h: +change24h.toFixed(4),
           volume24h: Math.round(vol), liquidity: Math.round(liqD || oi),
           _series: series, _ticker: m.ticker,
-        }));
+        }, mode));
       }
     }
     cursor = d.cursor; pages++;
+  } while (cursor && pages < maxPages);
+  return rows;
+}
+/* Kalshi RESOLVED markets for the retrospective insider engine. The markets
+ * endpoint exposes status=settled with a `result` (yes/no) — the known outcome.
+ * Kalshi is anonymous (no wallets), so the insider screens that survive here are
+ * the volume run-up and the candlestick run-up, scored over the pre-settlement
+ * window. Guarded; degrades to the open path on any shape change. */
+async function enumKalshiResolved(maxPages, mode, lookbackDays) {
+  const base = "https://api.elections.kalshi.com";
+  const rows = [];
+  let cursor = null, pages = 0;
+  const cutoff = Date.now() - (lookbackDays || D.DEFAULTS.lookbackDays) * 86400000;
+  do {
+    const path = "/trade-api/v2/markets";
+    const url = base + path + "?limit=200&status=settled" + (cursor ? "&cursor=" + cursor : "");
+    const d = await getJSON(url, { headers: kalshiHeaders("GET", path), timeout: 8000 }).catch(() => null);
+    if (!d) break;
+    const mkts = d.markets || d.data || [];
+    if (!mkts.length) break;
+    let anyRecent = false;
+    for (const m of mkts) {
+      const result = String(m.result || "").toLowerCase();
+      if (result !== "yes" && result !== "no") continue;     // need a clean settlement
+      const resolvedMs = Date.parse(m.settlement_time || m.close_time || m.expiration_time || 0) || 0;
+      if (resolvedMs && resolvedMs < cutoff) continue;
+      if (resolvedMs) anyRecent = true;
+      const question = String(m.title || m.yes_sub_title || m.ticker || "").trim();
+      if (!question) continue;
+      const cat = classifyMarket([m.category].filter(Boolean), question);
+      if (!cat) continue;
+      if (m.market_type && m.market_type !== "binary") continue;
+      const series = m.event_ticker ? (m.event_ticker.split("-")[0] || m.ticker.split("-")[0]) : (m.ticker || "").split("-")[0];
+      const vol = num(m.volume_fp || m.volume);
+      rows.push(scoreMarket({
+        id: "k-" + (m.ticker || question.slice(0, 24)),
+        platform: "kalshi", category: cat, question, url: kUrl({ series_ticker: series, event_ticker: m.event_ticker }),
+        prob: 0.5, change24h: 0, volume24h: Math.round(vol), liquidity: 0,
+        _series: series, _ticker: m.ticker, _won: result === "yes", _resolvedAt: resolvedMs || null, _resolved: true,
+      }, mode));
+    }
+    cursor = d.cursor; pages++;
+    if (!anyRecent && pages >= 2) break;
   } while (cursor && pages < maxPages);
   return rows;
 }
@@ -530,21 +674,21 @@ async function newsCheck(query, moveMs) {
 }
 
 /* ===================================================== DEEP: enrich one row */
-async function deepEnrich(m) {
+async function deepEnrich(m, mode) {
   try {
-    let series = null, tradeList = null, bars = null, wallets = null, holders = null;
+    let series = null, tradeList = null, bars = null, wallets = null, holders = null, rawTrades = null;
     if (m.platform === "polymarket") {
       const [ps, tr, hd] = await Promise.all([
         pmPriceSeries(m._tokenId),
         m._cond ? pmTrades(m._cond) : Promise.resolve([]),
         m._cond ? pmHolders(m._cond) : Promise.resolve([]),
       ]);
-      series = ps; holders = hd;
+      series = ps; holders = hd; rawTrades = tr;
       if (tr && tr.length) { const x = tradesToBarsAndList(tr); tradeList = x.tradeList; bars = x.bars; wallets = buildWalletVolumes(tr); }
     } else {
       // Kalshi: candlesticks for the price series + PUBLIC trades for order-flow.
       const [cs, tr] = await Promise.all([kalshiCandleSeries(m._series, m._ticker), kalshiTrades(m._ticker)]);
-      series = cs;
+      series = cs; rawTrades = tr;
       if (tr && tr.length) { const x = kalshiTradeRows(tr); tradeList = x.tradeList; bars = x.bars; }
       if ((!bars || bars.length < 6) && series) bars = series.filter((x) => isFinite(x.volume) && x.volume > 0);
     }
@@ -552,6 +696,16 @@ async function deepEnrich(m) {
 
     const runUp = D.runUp(series);
     const moveMs = series[series.length - 1].t * 1000;
+    // For a RESOLVED market the live price has settled to ~0/1, so the real
+    // "implied odds the bet was placed at" is the calm PRE-event level — the
+    // median of the estimation window before any run-up. This is what the
+    // longshot screen compares against the known outcome.
+    let impliedPre = null;
+    if (m._resolved) {
+      const ps = series.map((x) => x.p);
+      impliedPre = D.median(ps.slice(0, Math.max(3, Math.floor(ps.length * D.DEFAULTS.estFrac))));
+      if (impliedPre > 0 && impliedPre < 1) m.prob = +impliedPre.toFixed(4);
+    }
     // Phase 2: order book (spread/depth/OFI), in parallel with the news check.
     const [news, book] = await Promise.all([
       newsCheck(newsQuery(m.question), moveMs).catch(() => null),
@@ -590,12 +744,28 @@ async function deepEnrich(m) {
         bestBid: book.bestBid, bestAsk: book.bestAsk };
     }
 
-    m.E = newsGap.E;
-    applyFusion(m, detsArray({ runUp, vpin, priceImpact, concentration }), { E: newsGap.E, Q: m.Q, preEvent: newsGap.preEvent });
-    m.detectors = {
-      runUp: runUp || m.detectors.runUp, priceImpact, vpin, concentration,
-      news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null } : {}),
-    };
+    // ---- INSIDER extras: pre-event accumulation + a longshot-position screen
+    let accumulation = null, longshot = null, volumeRunup = null;
+    if (m.platform === "polymarket" && wallets && wallets.length) {
+      accumulation = D.accumulation({ netPreUsd: wallets[0].buyUsd, soldFracPre: null, won: m._won != null ? m._won : null });
+    } else if (m.platform === "kalshi" && bars && bars.length >= 6) {
+      const half = Math.floor(bars.length / 2);
+      const preVol = bars.slice(half).reduce((s, b) => s + b.volume, 0), baseVol = bars.slice(0, half).reduce((s, b) => s + b.volume, 0) || 1;
+      volumeRunup = D.volumeRunup({ preVol, baseVol });
+    }
+    if (m.platform === "polymarket" && holders && holders.length) {
+      const implied = (m._resolved && impliedPre != null) ? impliedPre : m.prob;
+      longshot = D.longshot({ stakeUsd: holders[0].amount, impliedProb: implied, won: m._won != null ? m._won : null, category: m.category });
+    }
+    // ---- MANIPULATION: wash/self-trading (from trades) + ramp/marking-the-close
+    let washTrade = null, ramp = null;
+    if (rawTrades && rawTrades.length >= 10) washTrade = computeWash(rawTrades, m.platform);
+    if (bars && bars.length >= 6) ramp = computeRamp(bars);
+
+    // stash every raw detector; score for the requested mode
+    m._det = { runUp, vpin, priceImpact, concentration, news: Object.assign({}, newsGap, news ? { headline: news.headline, source: news.source, leadH: news.leadH || null } : {}),
+      accumulation, volumeRunup, longshot, washTrade, ramp };
+    scoreForMode(m, mode);
     if (book) m.book = { spread: book.spread, depthUsd: book.depthUsd, imbalance: book.imbalance, bestBid: book.bestBid, bestAsk: book.bestAsk };
     m.movedAt = moveMs;
     // a downsampled probability series for the inspector chart (cap ~120 points)
@@ -694,33 +864,59 @@ module.exports = async (req, res) => {
   }
 
   const limit = Math.min(200, Math.max(20, num(q.limit) || 120));
+  const mode = (q.mode === "manipulation") ? "manipulation" : "insider";   // §5 read-API mode
+  const fPlatform = (q.platform === "kalshi" || q.platform === "polymarket") ? q.platform : null;
+  const fCategory = q.category ? String(q.category) : null;
   const sources = { polymarket: "ok", kalshi: process.env.KALSHI_KEY_ID ? "ok(auth)" : "ok(public)" };
 
-  const [pm, k] = await Promise.all([
-    enumPoly(12).catch((e) => { sources.polymarket = "error: " + e.message; return []; }),
-    enumKalshi(8).catch((e) => { sources.kalshi = "error: " + e.message; return []; }),
-  ]);
-  let all = [...pm, ...k];
+  let pm, k;
+  if (mode === "insider") {
+    // RETROSPECTIVE: scan recently RESOLVED markets so outcomes are known.
+    [pm, k] = await Promise.all([
+      enumPolyResolved(8, mode, D.DEFAULTS.lookbackDays).catch((e) => { sources.polymarket = "resolved error: " + e.message; return []; }),
+      enumKalshiResolved(6, mode, D.DEFAULTS.lookbackDays).catch((e) => { sources.kalshi = "resolved error: " + e.message; return []; }),
+    ]);
+    sources.polymarket = "resolved(" + pm.length + ")"; sources.kalshi = "resolved(" + k.length + ")";
+    // Augment with OPEN near-resolution markets when the resolved set is thin,
+    // so the engine always has a universe to show (outcome still pending there).
+    if (pm.length < 12) { const o = await enumPoly(6, mode).catch(() => []); pm = pm.concat(o); sources.polymarket += "+open(" + o.length + ")"; }
+    if (k.length < 8) { const o = await enumKalshi(5, mode).catch(() => []); k = k.concat(o); sources.kalshi += "+open(" + o.length + ")"; }
+  } else {
+    // LIVE microstructure watch operates on OPEN markets.
+    [pm, k] = await Promise.all([
+      enumPoly(12, mode).catch((e) => { sources.polymarket = "error: " + e.message; return []; }),
+      enumKalshi(8, mode).catch((e) => { sources.kalshi = "error: " + e.message; return []; }),
+    ]);
+  }
+  // dedup by id (resolved + open augmentation are disjoint, but be defensive)
+  const _seen = new Set();
+  let all = [...pm, ...k].filter((m) => (m && m.id && !_seen.has(m.id)) ? (_seen.add(m.id), true) : false);
+  if (fPlatform) all = all.filter((m) => m.platform === fPlatform);
+  if (fCategory) all = all.filter((m) => m.category === fCategory);
   const scanned = all.length;
 
-  // rank by preliminary index, then deep-enrich the top markets that aren't
-  // thin-book artifacts (don't spend fetches on low-liquidity noise). Kalshi's
-  // 24h-change field is unreliable, so also pull the top Kalshi markets by
-  // volume into the deep set — otherwise the real run-up (from candlesticks)
-  // would never be computed for them and they'd be starved from the ranking.
+  // pick the deep-enrich batch. Insider ranks by the preliminary run-up read;
+  // manipulation has no enumeration-tier signal, so it goes by activity (volume).
   const eligible = all.filter((m) => m.label !== "Low-liquidity artifact" && m.volume24h >= 2000);
   const deepSet = new Map();
-  eligible.slice().sort((a, b) => b.index - a.index).slice(0, 12).forEach((m) => deepSet.set(m.id, m));
-  eligible.filter((m) => m.platform === "kalshi").sort((a, b) => b.volume24h - a.volume24h).slice(0, 6).forEach((m) => deepSet.set(m.id, m));
+  if (mode === "manipulation") {
+    eligible.slice().sort((a, b) => b.volume24h - a.volume24h).slice(0, 18).forEach((m) => deepSet.set(m.id, m));
+  } else {
+    // Retrospective insider: prioritise RESOLVED markets (real `won` outcome ->
+    // the longshot/accumulation screens can actually run) by activity, then fill
+    // with the highest preliminary run-up reads and a few Kalshi by volume.
+    eligible.filter((m) => m._resolved).sort((a, b) => b.volume24h - a.volume24h).slice(0, 10).forEach((m) => deepSet.set(m.id, m));
+    eligible.slice().sort((a, b) => b.index - a.index).slice(0, 8).forEach((m) => deepSet.set(m.id, m));
+    eligible.filter((m) => m.platform === "kalshi").sort((a, b) => b.volume24h - a.volume24h).slice(0, 4).forEach((m) => deepSet.set(m.id, m));
+  }
   const deepTargets = [...deepSet.values()].slice(0, 18);
-  await Promise.all(deepTargets.map((m) => deepEnrich(m)));
+  await Promise.all(deepTargets.map((m) => deepEnrich(m, mode)));
 
   // re-rank with the refined indices and trim the payload
   all.sort((a, b) => b.index - a.index);
   const markets = all.slice(0, limit).map((m) => {
-    const { _cond, _tokenId, _series, _ticker, ...pub } = m;
-    // expose the PUBLIC market-data websocket coordinates so the browser can
-    // live-subscribe the open market (token_id / ticker are public, not secret).
+    const { _cond, _tokenId, _series, _ticker, _det, _won, _resolved, _resolvedAt, ...pub } = m;
+    pub.resolved = !!_resolved; if (_resolvedAt) pub.resolvedAt = new Date(_resolvedAt).toISOString();
     pub.ws = m.platform === "polymarket"
       ? { platform: "polymarket", token: _tokenId || null, cond: _cond || null }
       : { platform: "kalshi", ticker: _ticker || null };
@@ -744,7 +940,10 @@ module.exports = async (req, res) => {
   res.status(200).json({
     generatedAt: new Date().toISOString(),
     live: markets.length > 0,
+    mode, engine: mode,
     cadence: "rotating scan · enumerate all, deep-enrich the stalest/most-screened batch each run",
+    // streaming-only detectors are out of scope on this serverless+cron stack (§0A.1)
+    streamingBoundary: (mode === "manipulation") ? D.STREAMING_ONLY : null,
     coverage: {
       // "watching" = the full enumerated universe reached this run; "evaluated" =
       // the bounded batch that got the deep (multi-check) scoring this run.
