@@ -439,6 +439,11 @@
     /* model viewer */
     .model-view { display: none; padding: 92px 0 48px; }
     .model-view.active { display: block; animation: pmViewIn .4s cubic-bezier(.22,1,.36,1) both; }
+    /* interactive models get a much wider frame than the reading content so more
+       of the app (filters, watchlist, inspector, graphs) is visible without
+       scrolling; the model scales its own fonts down to match. */
+    #model-view .shell { max-width: min(1760px, 96vw); }
+    @media (min-width: 1280px) { .model-view { padding-top: 72px; } }
     .model-view-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 22px; flex-wrap: wrap; }
     .model-frame-wrap {
       border: 1px solid var(--border-bright); border-radius: 18px; overflow: hidden;
@@ -447,7 +452,7 @@
     .model-frame-bar { display: flex; align-items: center; gap: 8px; padding: 11px 16px; border-bottom: 1px solid var(--border); background: rgba(13,20,38,0.8); }
     .model-frame-bar .tdot { width: 10px; height: 10px; border-radius: 50%; }
     .model-frame-bar .frame-label { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-left: 10px; letter-spacing: 0.04em; }
-    .model-frame-wrap iframe { width: 100%; height: 90vh; min-height: 700px; border: 0; display: block; background: var(--bg); transition: opacity .45s ease; }
+    .model-frame-wrap iframe { width: 100%; height: 92vh; min-height: 720px; border: 0; display: block; background: var(--bg); transition: opacity .45s ease; }
 
     /* ─── ABOUT ─── */
     .about-hero { display: grid; grid-template-columns: 1fr 320px; gap: 56px; align-items: start; padding-top: 108px; }

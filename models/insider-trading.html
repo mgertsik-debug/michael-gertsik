@@ -36,10 +36,16 @@
   @media (max-width:760px){ [data-twozone]{grid-template-columns:1fr !important} }
   @media (max-width:560px){ [data-tabbar]{overflow-x:auto !important} [data-dutysplit]{grid-template-columns:1fr !important} }
   @media (prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} }
+  /* root content container: wider on big screens, and proportionally zoomed down
+     so much more (filters, watchlist, inspector, graphs) fits without scrolling.
+     Mobile (<1100px) is left at full size for readability. */
+  #mroot{ max-width:1180px; margin:0 auto; }
+  @media (min-width:1100px){ #mroot{ max-width:1640px; zoom:0.84; } }
+  @media (min-width:1700px){ #mroot{ zoom:0.8; } }
 </style>
 </helmet>
 <div style="min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%, rgba(52,211,153,.06), transparent 60%), #07100D;font-family:'Inter', sans-serif;padding:26px 16px 40px">
-  <div style="max-width:1180px;margin:0 auto">
+  <div id="mroot" style="margin:0 auto">
     <div style="border:1px solid #1F2A26;border-radius:14px;background:#0F1513;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5)">
 
       <div style="padding:30px 30px 26px">
