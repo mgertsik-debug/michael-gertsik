@@ -158,20 +158,23 @@ async function run() {
     try {
       const fs0 = await poly.firstSeen(w.address);
       if (fs0) w.firstSeenTs = fs0;
-      // FULL resolved record: pull the wallet's entire position history so it is
-      // scored on its whole record now, not only the markets swept so far. Keep
-      // tx/ts from any swept trades for the on-chain verify links.
+      // Supplement the AUTHORITATIVE market-sweep record (every bet here has a
+      // known winner because we pulled it alongside the resolved market) with the
+      // wallet's /positions — MERGE by market, never overwrite, so settled-but-
+      // redeemed positions that /positions omits aren't lost. The sweep is what
+      // makes a record complete; /positions only adds markets not yet swept.
       try {
-        const positions = await poly.userPositions(w.address);
-        const posBets = positions.map(poly.positionToBet).filter(Boolean);
-        if (posBets.length >= (w.bets || []).length) {
-          const txByCond = {}; (w.bets || []).forEach((b) => { if (b.tx) txByCond[b.cond] = b; });
-          posBets.forEach((b) => { const e = txByCond[b.cond]; if (e) { b.tx = e.tx; if (!b.ts) b.ts = e.ts; } });
-          w.bets = posBets;
-          w.entryByEvent = {};
-          posBets.forEach((b) => { const ev = b.eventGroup || b.cond; if (b.ts && (w.entryByEvent[ev] == null || b.ts < w.entryByEvent[ev])) w.entryByEvent[ev] = b.ts; if (b.resolvedMs && b.resolvedMs > (w.lastResolvedMs || 0)) w.lastResolvedMs = b.resolvedMs; });
-          fullRecords++;
-        }
+        const haveConds = new Set((w.bets || []).map((b) => b.cond));
+        const posBets = (await poly.userPositions(w.address)).map(poly.positionToBet).filter(Boolean);
+        let added = 0;
+        posBets.forEach((b) => {
+          if (haveConds.has(b.cond)) return;            // market-sweep bet is authoritative
+          haveConds.add(b.cond); w.bets.push(b); added++;
+          const ev = b.eventGroup || b.cond;
+          if (b.ts && (w.entryByEvent[ev] == null || b.ts < w.entryByEvent[ev])) w.entryByEvent[ev] = b.ts;
+          if (b.resolvedMs && b.resolvedMs > (w.lastResolvedMs || 0)) w.lastResolvedMs = b.resolvedMs;
+        });
+        if (added) fullRecords++;
       } catch (_) { /* keep the swept record */ }
       const firstBetTs = (w.bets || []).reduce((m, b) => (b.ts && b.ts < m ? b.ts : m), Infinity);
       // on-chain funding trace -> wallet age + prior-tx (fresh) + funder (cluster)
@@ -257,19 +260,21 @@ function finalize(state, snapshotTs) {
     payload.subjects.filter((s) => s.tier === "extreme").length + " extreme · " +
     clusterAggs.length + " clusters · " + payload.subjects.filter((s) => s.newlyFlagged).length + " newly) from " + meta.reviewed + " reviewed");
 
-  // ---- keep state.json small: a screened wallet whose FULL record we have
-  // already pulled (lastEnrichedTs set) and that did NOT flag is captured and
-  // uninteresting — drop it. Keep un-enriched candidates (still queued) and any
-  // wallet currently flagged (so its record stays for recompute/dilution). This
-  // bounds the committed state to the queue + the flagged set, not every wallet.
+  // ---- bound state.json WITHOUT breaking accumulation. A wallet's record only
+  // matures as the sweep reaches its markets, so we must RETAIN screened wallets
+  // across the sweep (not drop them after one enrichment). When the set exceeds
+  // SCREEN_CAP, evict the LEAST-ACTIVE wallets (oldest last bet) that are not
+  // currently flagged — they're the least likely to ever clear the bar.
   const flaggedAddrs = new Set();
   payload.subjects.forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && flaggedAddrs.add(a)));
-  let pruned = 0;
-  for (const addr of Object.keys(state.screened)) {
-    const w = state.screened[addr];
-    if (w.lastEnrichedTs && !flaggedAddrs.has(addr)) { delete state.screened[addr]; pruned++; }
+  const addrs = Object.keys(state.screened);
+  if (addrs.length > SCREEN_CAP) {
+    const evictable = addrs.filter((a) => !flaggedAddrs.has(a))
+      .sort((a, b) => (state.screened[a].lastTs || 0) - (state.screened[b].lastTs || 0));
+    const toEvict = evictable.slice(0, addrs.length - SCREEN_CAP);
+    toEvict.forEach((a) => delete state.screened[a]);
+    if (toEvict.length) log("evicted " + toEvict.length + " least-active wallets (cap " + SCREEN_CAP + ") · " + Object.keys(state.screened).length + " retained");
   }
-  if (pruned) log("pruned " + pruned + " enriched-but-unflagged wallets · " + Object.keys(state.screened).length + " retained");
 
   delete state._reviewedThisRun;
   write(STATE, state);
