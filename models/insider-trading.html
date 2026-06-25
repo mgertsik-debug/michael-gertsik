@@ -219,6 +219,12 @@
                   </div>
                   <div style="margin-top:14px">{{ surv.sel.gaugeEl }}</div>
                   <div style="font-size:10.5px;color:#6b7772;line-height:1.5;margin-top:10px">{{ surv.sel.estNote }}</div>
+                  <sc-if value="{{ surv.sel.hasOnchain }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:11px;padding:10px 12px;border-radius:8px;background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.25);display:flex;gap:9px;align-items:flex-start">
+                      <span style="font-family:'JetBrains Mono', monospace;font-size:8.5px;letter-spacing:.1em;color:#34D399;flex-shrink:0;padding-top:2px">ON-CHAIN</span>
+                      <span style="font-size:11.5px;color:#9CA3AF;line-height:1.55">{{ surv.sel.onchainLine }}</span>
+                    </div>
+                  </sc-if>
                 </div>
 
                 <!-- signal decomposition (interactive) -->
@@ -947,24 +953,25 @@ class Component extends DCLogic {
       const high = a.sev==='high';
       const det = String(a.detector||'');
       let seed=0; const id=String(a.id||i); for(let k=0;k<id.length;k++) seed=(seed+id.charCodeAt(k))%97;
-      // When the collector measured the z-scores from on-chain fills, use those.
-      // Otherwise fall back to a best-estimate from the alert fields. zProfit is
-      // unmeasurable pre-resolution, so it stays modest either way.
-      const m = (a.signals && a.signals.computed) ? a.signals : null;
+      // The composite sub-signals for LIVE markets are estimates from the alert
+      // fields — the full screen needs complete history + a resolved outcome.
+      // Where the collector could measure the recent on-chain flow, we attach
+      // that as a separate, honestly-labelled readout (oc).
+      const oc = (a.signals && a.signals.computed) ? a.signals : null;
       const lateDet = /lead|imbal|ramp|vacuum|vol_?liq/.test(det);
       const dirDet  = /accum|fresh|dormant|whale|funding|cluster|crosshit/.test(det);
       const jit = (seed%20)/100;            // small per-signal jitter for variety
       return {
         id:a.id, market:a.market,
         platform: a.platform==='polymarket' ? 'poly' : 'kalshi',
-        detector:a.detector, severity: high?'high':'watch',
-        estimated: !m, measured: !!m, walletLabel: m?m.wallet:null, nWallets: m?m.nWallets:null,
+        detector:a.detector, severity: high?'high':'watch', estimated:true,
+        onchain: oc ? { nTrades:oc.nTrades, nWallets:oc.nWallets, wallet:oc.wallet, recentZ:oc.recentZ, topShare:oc.topShare, topBuyUsd:oc.topBuyUsd } : null,
         lead: 0.5 + (seed%60)/10, signal: high?0.85:0.52, fireT: 1 - i/n,
-        zCross:  m? m.zCross  : (high?4.4:2.4) + jit,
-        zWithin: m? m.zWithin : (high?2.6:1.3) + jit,
-        zProfit: m? 0.8       : (high?2.6:0.9) + jit,
-        lateFrac: m? m.lateFrac : (lateDet?0.85:(dirDet?0.52:0.45)),
-        dirScore: m? m.dirScore : (dirDet?0.92:(/spoof|imbal/.test(det)?0.40:0.65)),
+        zCross:  (high?4.4:2.4) + jit,
+        zWithin: (high?2.6:1.3) + jit,
+        zProfit: (high?2.6:0.9) + jit,
+        lateFrac: lateDet?0.85:(dirDet?0.52:0.45),
+        dirScore: dirDet?0.92:(/spoof|imbal/.test(det)?0.40:0.65),
         metric:a.metric, desc:a.note, gap:a.gap
       };
     });
@@ -1593,9 +1600,13 @@ class Component extends DCLogic {
       tierChipStyle:`font-size:11px;font-weight:700;color:${gTier.color};padding:3px 9px;border-radius:6px;border:1px solid ${gTier.color}88;background:${gTier.color}1a;font-family:'JetBrains Mono', monospace;letter-spacing:.03em`,
       winRate:gTier.winRate, topPctLabel:'top '+gPct.toFixed(1)+'%', gaugeEl:this.buildScoreGauge(gScore),
       decomp,
-      estNote: g.measured
-        ? ('Bet size, timing and direction measured from ' + (g.nWallets||'?') + ' on-chain wallets in this market' + (g.walletLabel ? ' · top wallet ' + g.walletLabel : '') + '. Profit z-score pending resolution.')
-        : (g.estimated ? 'Live estimate — sub-signals approximated from the feed; profit z-score needs resolution data.' : 'Illustrative figures, scored with the live weighting.')
+      estNote: g.estimated
+        ? 'Live estimate — the five sub-signals are inferred from the alert. The full screen needs complete trade history and a resolved outcome, so the live score is indicative, not forensic.'
+        : 'Illustrative figures, scored with the live weighting.',
+      hasOnchain: !!g.onchain,
+      onchainLine: g.onchain
+        ? ('Measured from the last ' + g.onchain.nTrades + ' on-chain fills (' + g.onchain.nWallets + ' wallets): top buyer ' + g.onchain.wallet + ' is ' + Math.round(g.onchain.topShare*100) + '% of recent buying and ' + g.onchain.recentZ + 'σ above the field. Recent-window only — not the full-history screen.')
+        : ''
     } : { readings:[], decomp:[] };
     const method = {
       signals: this.SIGNAL_META.map(m=>({ name:m.name, weightLabel:m.weight+'%', color:m.color, blurb:m.blurb,

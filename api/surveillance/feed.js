@@ -86,11 +86,17 @@ function zStat(vals) {
 }
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
-// Pull recent on-chain fills for one market (by conditionId) and aggregate per
-// wallet: buy USDC, sell USDC, and buy USDC in the final 48h. Then compute the
-// real cross-sectional bet-size z-score for the most anomalous qualifying
-// wallet, plus its late-buy fraction, directional concentration, and (via a
-// second call) its within-trader bet-size z-score across its other markets.
+// On-chain READOUT for one market (by conditionId), measured from the recent
+// fills the public Data API exposes. We deliberately compute only what a recent
+// window can support honestly: per-wallet BUY concentration (robust to
+// complement-routing fill splits because we aggregate per wallet) and a
+// recent-flow cross-sectional z-score for the top buyer.
+//
+// We do NOT try to reconstruct the paper's late-buy fraction, profit, or
+// within-trader z-scores here: those require COMPLETE trade history and a
+// RESOLVED outcome (the paper builds them from full Dune data offline). From a
+// recent window they degrade to artifacts (late-fraction pins to ~1, sells are
+// undercounted), so they are left to the documented-case demonstrations.
 async function enrichMarket(cond) {
   const trades = [];
   let offset = 0, pages = 0;
@@ -102,64 +108,34 @@ async function enrichMarket(cond) {
     const arr = Array.isArray(d) ? d : (d && (d.data || d.trades)) || [];
     if (!arr.length) break;
     trades.push(...arr); offset += arr.length; pages++;
-  } while (trades.length < 700 && pages < 2);
-  if (trades.length < 20) return null;
+  } while (trades.length < 1500 && pages < 3);
+  if (trades.length < 25) return null;
 
-  const maxTs = trades.reduce((mx, t) => Math.max(mx, num(t.timestamp)), 0);
-  const lateCut = maxTs - 48 * 3600;            // final-48h window, per the screen
-  const W = {};
+  // BUY USDC per wallet (aggregate fills -> one figure per wallet)
+  const buyByWallet = {};
   trades.forEach((t) => {
     const w = t.proxyWallet; if (!w) return;
+    if (String(t.side || "").toUpperCase() === "SELL") return;
     const usd = num(t.size) * num(t.price); if (!usd) return;
-    const o = W[w] || (W[w] = { buy: 0, sell: 0, late: 0 });
-    if (String(t.side || "").toUpperCase() === "SELL") { o.sell += usd; }
-    else { o.buy += usd; if (num(t.timestamp) >= lateCut) o.late += usd; }
+    buyByWallet[w] = (buyByWallet[w] || 0) + usd;
   });
-  const wallets = Object.keys(W);
-  const buys = wallets.map((w) => W[w].buy).filter((v) => v > 0);
-  if (buys.length < 3) return null;              // need a reference distribution
+  const wallets = Object.keys(buyByWallet);
+  const buys = wallets.map((w) => buyByWallet[w]).filter((v) => v > 0);
+  if (buys.length < 5) return null;                 // need a reference distribution
+  const total = buys.reduce((a, b) => a + b, 0);
   const st = zStat(buys); if (!st || st.sd <= 0) return null;
 
-  // most anomalous wallet that cleared the $500 minimum buy
-  let best = null, bestZ = -Infinity;
-  wallets.forEach((w) => {
-    const b = W[w].buy; if (b < 500) return;
-    const z = (b - st.mean) / st.sd;
-    if (z > bestZ) { bestZ = z; best = w; }
-  });
-  if (!best) return null;
-  const o = W[best];
-  const zCross = clamp(bestZ, 0, 20);
-  const lateFrac = o.buy > 0 ? clamp(o.late / o.buy, 0, 1) : 0;
-  const dirScore = o.buy > 0 ? clamp(1 - o.sell / o.buy, 0, 1) : 0;
+  let best = null, bestBuy = 0;
+  wallets.forEach((w) => { if (buyByWallet[w] > bestBuy) { bestBuy = buyByWallet[w]; best = w; } });
+  if (bestBuy < 500) return null;
 
-  // within-trader: this wallet's bet size here vs. its own bets in other markets
-  let zWithin = 0;
-  try {
-    const d = await getJSON(
-      "https://data-api.polymarket.com/trades?user=" + encodeURIComponent(best) + "&limit=500",
-      { timeout: 6000 }
-    ).catch(() => null);
-    const arr = Array.isArray(d) ? d : (d && (d.data || d.trades)) || [];
-    const perM = {};
-    arr.forEach((t) => {
-      const m = t.conditionId; if (!m) return;
-      if (String(t.side || "").toUpperCase() === "SELL") return;
-      perM[m] = (perM[m] || 0) + num(t.size) * num(t.price);
-    });
-    const vals = Object.values(perM).filter((v) => v > 0);
-    if (vals.length >= 2) {
-      const ws = zStat(vals);
-      if (ws && ws.sd > 0) zWithin = clamp((o.buy - ws.mean) / ws.sd, 0, 12);
-    }
-  } catch (_) {}
-
+  const recentZ = clamp((bestBuy - st.mean) / st.sd, 0, 20);   // windowed cross-sectional z
+  const topShare = total > 0 ? clamp(bestBuy / total, 0, 1) : 0;
   return {
-    computed: true, nWallets: buys.length,
+    computed: true, windowed: true, nTrades: trades.length, nWallets: buys.length,
     wallet: best.slice(0, 6) + "…" + best.slice(-4),
-    buyUsd: Math.round(o.buy),
-    zCross: +zCross.toFixed(2), zWithin: +zWithin.toFixed(2),
-    lateFrac: +lateFrac.toFixed(3), dirScore: +dirScore.toFixed(3),
+    topBuyUsd: Math.round(bestBuy),
+    recentZ: +recentZ.toFixed(2), topShare: +topShare.toFixed(3),
   };
 }
 
@@ -348,8 +324,8 @@ module.exports = async (req, res) => {
   try { k = await kalshi(); } catch (e) { sources.kalshi = "error: " + e.message; }
 
   const alerts = [...k, ...pm].sort((a, b) => (a.sev === b.sev ? 0 : a.sev === "high" ? -1 : 1));
-  const zscored = alerts.filter((a) => a.signals && a.signals.computed).length;
-  if (sources.polymarket === "ok") sources.polymarket = "ok(" + zscored + " z-scored)";
+  const enriched = alerts.filter((a) => a.signals && a.signals.computed).length;
+  if (sources.polymarket === "ok") sources.polymarket = "ok(" + enriched + " on-chain)";
   res.status(200).json({
     generatedAt: new Date().toISOString(),
     live: alerts.length > 0,
