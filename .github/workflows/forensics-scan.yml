@@ -50,15 +50,18 @@ jobs:
           POLYGON_RPC: ${{ secrets.POLYGON_RPC }}
         run: node scripts/forensics/scan.js
 
-      - name: Commit store + state if anything changed
+      - name: Commit store + state + catalog if anything changed
         run: |
-          if git diff --quiet -- data/forensics/store.json data/forensics/state.json; then
+          if git diff --quiet -- data/forensics/store.json data/forensics/state.json data/forensics/markets.json; then
             echo "No change this tick."
             exit 0
           fi
           git config user.email "noreply@anthropic.com"
           git config user.name  "forensics-scan"
-          git add data/forensics/store.json data/forensics/state.json
+          # markets.json is the resolved-market WINNER CATALOG — it MUST be committed
+          # so it accumulates across runs; without it every run starts from an empty
+          # catalog and wallet records can never fill in.
+          git add data/forensics/store.json data/forensics/state.json data/forensics/markets.json
           git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)"
           # Push with rebase+retry so a concurrent push to the branch (a merge or
           # another job) doesn't drop this tick's results. Our commit only touches
