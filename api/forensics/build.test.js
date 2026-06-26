@@ -72,6 +72,9 @@ test("validateSubject: passes a clean record, rejects inconsistent/unsourced one
   assert.match(B.validateSubject(Object.assign({}, good, { k: 20 })), /k out of range/);
   assert.match(B.validateSubject(Object.assign({}, good, { avgImplied: 250 })), /avgImplied/);
   assert.match(B.validateSubject(Object.assign({}, good, { improbDenom: 0 })), /improbDenom/);
+  // NET PROFITABILITY: a flagged wallet that lost money overall is a gambler, not an insider
+  assert.match(B.validateSubject(Object.assign({}, good, { profitNum: -5000 })), /net unprofitable/);
+  assert.equal(B.validateSubject(Object.assign({}, good, { profitNum: -5000, isCluster: true })), null);  // clusters exempt
   assert.match(B.validateSubject(Object.assign({}, good, { bets: [{ cond: "0xabc", entryPrice: 1.5, stakeUsd: 9000, won: true }] })), /entryPrice/);
   assert.match(B.validateSubject(Object.assign({}, good, { bets: [{ entryPrice: 0.11, stakeUsd: 9000, won: true }] })), /missing cond/);
 });

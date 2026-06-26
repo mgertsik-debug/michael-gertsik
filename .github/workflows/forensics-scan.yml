@@ -35,6 +35,21 @@ jobs:
         with:
           node-version: "22"
 
+      # OFF-GIT POOL: the screened-wallet pool (data/forensics/state.json) is the big,
+      # fast-changing working set. Committing it to git every tick both hit git's file-size
+      # limit (capping the pool at ~6k) AND bloated history. Persist it in the Actions
+      # cache instead — no size limit, no repo bloat. The unique `key` always misses (so it
+      # SAVES the fresh pool at job end); `restore-keys` prefix-matches the most recent
+      # prior cache (so it RESTORES last tick's pool). On a cold cache it falls back to the
+      # committed state.json (one-time migration seed), then the cache takes over.
+      - name: Restore forensic pool (off-git)
+        uses: actions/cache@v4
+        with:
+          path: data/forensics/state.json
+          key: forensics-pool-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            forensics-pool-
+
       - name: Advance the forensic ledger (enumerate → aggregate → screen → score)
         env:
           # Coverage: a full year of resolved markets, swept ~400 markets/tick so
@@ -61,11 +76,12 @@ jobs:
           # Retain a large candidate pool (cheap): 790/800 screened wallets already had a
           # winning long-shot, so the old 800 cap evicted real candidates before their
           # full record (the multi-win pattern that flags) could resolve.
-          # Pool cap. Bounded NOT by speed but by state.json's git file size (committed
-          # every tick; 50MB warn / 100MB hard limit). Lean-bet storage (favorites keep
-          # only scoring fields) cut the per-wallet footprint several-fold, so we can hold
-          # a much larger live pool. Start at 12k and tune to the measured state.json size.
-          SCREEN_CAP: "6000"
+          # Pool cap. The git file-size limit no longer binds — state.json is now persisted
+          # in the Actions cache (off-git), so the pool can scale to the full candidate
+          # universe. Bounded now by per-tick parse/write time + memory of the JSON
+          # (~7.5KB/wallet → 15k ≈ 112MB, comfortably within the runner's 7GB). Tune up
+          # once stable; the cluster pass is funder-bucketed so it scales too.
+          SCREEN_CAP: "15000"
           # Live-resolve un-cataloged markets so deep-enrich sees each wallet's WHOLE
           # record, not the thin slice the sweep has reached. Bounded to keep the tick fast.
           ONDEMAND_PER_RUN: "600"
@@ -95,18 +111,19 @@ jobs:
           POLYGON_RPC: ${{ secrets.POLYGON_RPC }}
         run: node scripts/forensics/scan.js
 
-      - name: Commit store + state + catalog if anything changed
+      - name: Commit store + catalog if anything changed
         run: |
-          if git diff --quiet -- data/forensics/store.json data/forensics/state.json data/forensics/markets.json; then
+          # NOTE: state.json is NO LONGER committed — it lives in the Actions cache
+          # (off-git). Only the small, Vercel-served outputs are committed: store.json
+          # (read API), markets.json (winner catalog, must accumulate), rejected.json
+          # (pre-publish gate log).
+          if git diff --quiet -- data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json; then
             echo "No change this tick."
             exit 0
           fi
           git config user.email "noreply@anthropic.com"
           git config user.name  "forensics-scan"
-          # markets.json is the resolved-market WINNER CATALOG — it MUST be committed
-          # so it accumulates across runs; without it every run starts from an empty
-          # catalog and wallet records can never fill in.
-          git add data/forensics/store.json data/forensics/state.json data/forensics/markets.json
+          git add data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json
           git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)"
           # Push with rebase+retry. When two ticks race, the regenerated JSON files
           # genuinely CONFLICT (each is a full rewrite, not a patch), so a plain
@@ -123,8 +140,8 @@ jobs:
               echo "rebase -X theirs failed; forcing our snapshot onto remote head"
               git rebase --abort 2>/dev/null || true
               git reset --soft "origin/${GITHUB_REF_NAME}" 2>/dev/null || true
-              git checkout --ours -- data/forensics/store.json data/forensics/state.json data/forensics/markets.json 2>/dev/null || true
-              git add data/forensics/store.json data/forensics/state.json data/forensics/markets.json
+              git checkout --ours -- data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json 2>/dev/null || true
+              git add data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json
               git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)" || true
             fi
             sleep $((i * 3))

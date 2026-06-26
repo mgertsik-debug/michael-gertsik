@@ -113,7 +113,7 @@ function scoreAggregate(agg) {
 // Returns a reason string if the subject must be REJECTED, or null if it's clean.
 // This is what prevents a bad/fabricated number from ever reaching the UI.
 function validateSubject(ctx) {
-  const { n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly } = ctx;
+  const { n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster } = ctx;
   if (!tier) return "no tier";
   if (!(n >= 1)) return "n<1";
   if (!(k >= 0 && k <= n)) return "k out of range (" + k + "/" + n + ")";
@@ -121,6 +121,11 @@ function validateSubject(ctx) {
   if (!(winRate >= 0 && winRate <= 100)) return "winRate out of range (" + winRate + ")";
   if (!(isFinite(improbDenom) && improbDenom >= 1)) return "improbDenom invalid (" + improbDenom + ")";
   if (!isFinite(profitNum)) return "profit not finite";
+  // NET PROFITABILITY: informed trading is profitable by definition. A flagged wallet
+  // that NET LOST money on its long-shots is a gambler that got an improbable win amid
+  // many losses — not an insider. Require positive realized P/L. (Clusters pool members'
+  // P/L and are exempt — handled by the caller passing isCluster.)
+  if (!isCluster && !(profitNum > 0)) return "net unprofitable (informed trading is profitable; profit=" + Math.round(profitNum) + ")";
   if (!Array.isArray(bets) || !bets.length) return "no bets";
   for (const b of bets) {                                    // every scored bet must be a real resolved Polymarket position
     const ep = num(b.entryPrice);
@@ -252,7 +257,7 @@ function buildSubject(agg, idx, opts, catalog) {
         " percent chance. By luck you would expect about " + won.expectedWins + " wins. A record this strong is consistent with informed trading — not proof of it.");
 
   // ---- PRE-PUBLISH GATE: reject (and log) anything whose numbers don't check out.
-  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly });
+  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster });
   if (_reason) {
     if (opts && Array.isArray(opts._rejects)) opts._rejects.push({ address: agg.address || ((agg.members || [])[0]) || null, id: agg.id || null, tier, reason: _reason });
     return null;
