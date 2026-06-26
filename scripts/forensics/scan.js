@@ -607,16 +607,26 @@ async function finalize(state, snapshotTs) {
     // sync + creation proximity) and require at least one pair to co-move beyond the funder.
     const memEnriched = memberW.map((w) => Object.assign({}, w, { betEvents: Object.keys(w.entryByEvent || {}) }));
     const edges = [];
-    let coSpendMax = 0, syncMax = 0;
+    let coSpendMax = 0, syncMax = 0, proxMax = 0;
     for (let i = 0; i < memEnriched.length; i++) for (let j = i + 1; j < memEnriched.length; j++) {
       const pl = cluster.pairLink(memEnriched[i], memEnriched[j]);
       coSpendMax = Math.max(coSpendMax, pl.signals.coSpend);
       syncMax = Math.max(syncMax, pl.signals.syncEntry);
+      proxMax = Math.max(proxMax, pl.signals.createProx);
       edges.push({ from: memberW[i].address, to: memberW[j].address, w: +pl.link.toFixed(2), link: pl.link, type: pl.type,
         evidence: pl.evidence + " · both funded on-chain from " + String(r.hub).slice(0, 10) + "…" + (r.hubLabel ? " (" + r.hubLabel + ")" : "") });
     }
-    const CO_MIN = +ENV.RING_COSPEND_MIN || 0.15, SYNC_MIN = +ENV.RING_SYNC_MIN || 0.5;
-    if (coSpendMax < CO_MIN && syncMax < SYNC_MIN) return;     // shared funder only → likely a shared service, not one entity
+    // CORROBORATION beyond the shared funder, so a coincidental shared on-ramp isn't a Group:
+    //  • a ring of 3+ wallets one non-exchange address funded is itself coordinated (the hub
+    //    excludes known CEXes), so it qualifies on size alone — these are the real insider rings
+    //    (Maduro/Iran) whose members bet the SAME EVENT across different-dated markets (so the
+    //    exact-market co-spend Jaccard is low even though they obviously co-move);
+    //  • a 2-wallet ring needs behavioral co-movement: same markets, synced entry, or batch
+    //    creation. Thresholds are deliberately lenient (lowered) — the shared NON-EXCHANGE
+    //    funder already carries most of the weight.
+    const CO_MIN = +ENV.RING_COSPEND_MIN || 0.05, SYNC_MIN = +ENV.RING_SYNC_MIN || 0.3, PROX_MIN = +ENV.RING_PROX_MIN || 0.5;
+    const corroborated = memberW.length >= 3 || coSpendMax >= CO_MIN || syncMax >= SYNC_MIN || proxMax >= PROX_MIN;
+    if (!corroborated) return;                                // 2-wallet, shared funder only, no co-movement → skip
     const volOf = (w) => (w.bets || []).reduce((s, b) => s + (Number(b.stakeUsd) || 0), 0);
     const order = memberW.map((w) => ({ w, vol: volOf(w) })).sort((a, b) => b.vol - a.vol);
     const nodes = order.map((o, rank) => {
