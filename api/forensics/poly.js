@@ -475,6 +475,13 @@ function aggregateMarket(market, trades) {
   const byKey = {};
   const resolvedSec = market.resolvedMs ? Math.round(market.resolvedMs / 1000) : null;
   const LATE_WINDOW = 48 * 3600;                              // Harvard's pre-event window: final 48h
+  // ANCHOR for the late-buy window. Harvard uses "the LAST TRADE timestamp as a proxy for the
+  // event resolution time" — NOT the official resolution time (which can be set well after the
+  // book goes quiet, which would over- or under-count late buys depending on the gap). Match the
+  // paper exactly: anchor on the market's last trade; fall back to resolvedSec only if absent.
+  let lastTradeTs = 0;
+  for (const t of trades) { const ts = num(t.timestamp || t.matchTime || t.time); if (ts > lastTradeTs) lastTradeTs = ts; }
+  const lateAnchor = lastTradeTs || resolvedSec || null;
   for (const t of trades) {
     const w = t.proxyWallet || t.user || t.maker || t.taker;
     if (!w) continue;
@@ -488,7 +495,7 @@ function aggregateMarket(market, trades) {
     if (side === "SELL") { e.soldShares += size; }
     else {
       e.boughtShares += size; e.costUsd += size * price; e.wsumPrice += size * price;
-      if (resolvedSec && ts && (resolvedSec - ts) <= LATE_WINDOW && (resolvedSec - ts) >= 0) e.lateUsd += size * price;  // pre-event buy volume
+      if (lateAnchor && ts && (lateAnchor - ts) <= LATE_WINDOW && (lateAnchor - ts) >= 0) e.lateUsd += size * price;  // pre-event buy volume (final 48h before last trade)
       if (ts && ts < e.firstTs) { e.firstTs = ts; e.tx = t.transactionHash || t.transaction_hash || e.tx; }
     }
   }

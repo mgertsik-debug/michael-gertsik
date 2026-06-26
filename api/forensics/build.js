@@ -203,12 +203,29 @@ function buildSubject(agg, idx, opts, catalog) {
   // output against the live data without changing the published tier or risking the site.
   if (harvardTierV && opts && Array.isArray(opts._harvardShadow) && agg.type !== "cluster") {
     const hb = harvard.bet || {};
+    const _cat = catalog || (opts && opts.catalog) || {};
+    const _q = (b) => b.question || (_cat[b.cond] && _cat[b.cond].q) || b.cond || "(market)";
+    const _u = (b) => b.url || (_cat[b.cond] && _cat[b.cond].s ? "https://polymarket.com/event/" + _cat[b.cond].s : null);
+    // Full evidence so the PREVIEW renders the real dossier (the bet ledger + on-chain verify
+    // links + a chart), not just the score — exactly what the live Harvard cutover will keep.
+    const _ledger = (agg.bets || []).filter((b) => b && typeof b.won === "boolean").slice()
+      .sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd)).slice(0, 14).map((b) => ({
+        market: _q(b), url: _u(b), ts: b.ts || null, odds: Math.round(num(b.entryPrice) * 100),
+        stake: Math.round(num(b.stakeUsd)), pl: Math.round(betPL(b)), won: !!b.won, tx: b.tx || null,
+      }));
+    const _epProfit = hb.won ? betPL(hb) : null;
+    const _prof2 = agg.profile || null;
     opts._harvardShadow.push({
-      address: agg.address || null, tier: harvardTierV, S: harvard.S,
-      market: hb.question || (catalog && catalog[hb.cond] && catalog[hb.cond].q) || hb.cond || null,
+      address: agg.address || null, username: (agg.pseudonym || (_prof2 && _prof2.username) || null),
+      tier: harvardTierV, S: harvard.S,
+      market: _q(hb), marketUrl: _u(hb), episodeTx: hb.tx || null,
       stake: Math.round(num(hb.stakeUsd)), odds: Math.round(num(hb.entryPrice) * 100), won: !!hb.won,
+      episodeProfit: _epProfit != null ? Math.round(_epProfit) : null,
       zBetCross: harvard.zBetCross, zBetWithin: harvard.zBetWithin, zProfitCross: harvard.zProfitCross,
       lateBuyFraction: harvard.lateBuyFraction, directionalScore: harvard.directionalScore,
+      accountPnl: (_prof2 && _prof2.pnlAllTime != null && isFinite(num(_prof2.pnlAllTime))) ? Math.round(num(_prof2.pnlAllTime)) : null,
+      firstSeen: dateStr(agg.firstSeenTs) || null, createdOnChain: agg.createdTs != null, created: dateStr(agg.createdTs) || null,
+      betsCount: (agg.bets || []).length, ledger: _ledger,
       alsoBinomial: !!TIER[f.tier],
     });
   }
@@ -500,6 +517,12 @@ function buildPayload(aggregates, meta, catalog) {
     byTier: shadow.reduce((m, r) => { m[r.tier] = (m[r.tier] || 0) + 1; return m; }, {}),
     alsoBinomial: shadow.filter((r) => r.alsoBinomial).length,   // overlap: Harvard ∩ published
     onlyHarvard: shadow.filter((r) => !r.alsoBinomial).length,   // Harvard would flag, binomial misses
+    // the live funnel, so the preview header can show the same observed → screened → flagged
+    // → extreme counts the real site shows (Harvard's flagged/extreme, not the binomial ones).
+    observed: (meta && meta.observed) || 0,
+    reviewed: (meta && meta.reviewed) || 0,
+    screened: (meta && meta.screened) || 0,
+    scored: scoredCount,
     top: shadow.slice(0, 50),                                    // sample for eyeballing on live data
   };
   return {
