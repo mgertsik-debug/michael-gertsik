@@ -456,6 +456,8 @@ function tradeOutcome(t) {
  * Returns a map address -> position. */
 function aggregateMarket(market, trades) {
   const byKey = {};
+  const resolvedSec = market.resolvedMs ? Math.round(market.resolvedMs / 1000) : null;
+  const LATE_WINDOW = 48 * 3600;                              // Harvard's pre-event window: final 48h
   for (const t of trades) {
     const w = t.proxyWallet || t.user || t.maker || t.taker;
     if (!w) continue;
@@ -465,9 +467,13 @@ function aggregateMarket(market, trades) {
     const size = num(t.size), price = num(t.price), ts = num(t.timestamp || t.matchTime || t.time);
     if (!size) continue;
     const key = w + "|" + oc;
-    const e = byKey[key] || (byKey[key] = { address: w, outcome: oc, boughtShares: 0, soldShares: 0, costUsd: 0, wsumPrice: 0, firstTs: Infinity, tx: null });
+    const e = byKey[key] || (byKey[key] = { address: w, outcome: oc, boughtShares: 0, soldShares: 0, costUsd: 0, lateUsd: 0, wsumPrice: 0, firstTs: Infinity, tx: null });
     if (side === "SELL") { e.soldShares += size; }
-    else { e.boughtShares += size; e.costUsd += size * price; e.wsumPrice += size * price; if (ts && ts < e.firstTs) { e.firstTs = ts; e.tx = t.transactionHash || t.transaction_hash || e.tx; } }
+    else {
+      e.boughtShares += size; e.costUsd += size * price; e.wsumPrice += size * price;
+      if (resolvedSec && ts && (resolvedSec - ts) <= LATE_WINDOW && (resolvedSec - ts) >= 0) e.lateUsd += size * price;  // pre-event buy volume
+      if (ts && ts < e.firstTs) { e.firstTs = ts; e.tx = t.transactionHash || t.transaction_hash || e.tx; }
+    }
   }
   // one bet per wallet = its dominant outcome position in this market
   const byWallet = {};
@@ -477,19 +483,45 @@ function aggregateMarket(market, trades) {
     const prev = byWallet[e.address];
     if (!prev || e.costUsd > prev.costUsd) byWallet[e.address] = e;
   }
-  const out = {};
-  for (const addr of Object.keys(byWallet)) {
+  // ---- HARVARD per-market CROSS-SECTION: bet-size and profit z-scores vs all peers in
+  // this market, plus the late-buy fraction and directional score (Ofir & Ofir 2026). Only
+  // computed when the market clears Harvard's reference-distribution filters (≥3 buyers and
+  // ≥$10k total buy volume); otherwise hz is null and the episode just isn't Harvard-scored.
+  const ps = Object.keys(byWallet).map((addr) => {
     const e = byWallet[addr];
-    const entryPrice = e.boughtShares > 0 ? e.costUsd / e.boughtShares : 0;
-    const held = e.soldShares < 0.03 * e.boughtShares;
-    out[addr] = {
+    const entry = clip(e.costUsd / e.boughtShares, 1e-4, 0.9999);
+    const won = e.outcome === market.winner;
+    const profit = won ? e.costUsd * (1 / entry - 1) : -e.costUsd;          // held-to-resolution reconstruction
+    const lateFrac = e.costUsd > 0 ? clip(e.lateUsd / e.costUsd, 0, 1) : 0;
+    const dir = e.boughtShares > 0 ? clip(1 - e.soldShares / e.boughtShares, 0, 1) : 0;
+    return { addr, e, entry, won, profit, lateFrac, dir };
+  });
+  const stakes = ps.map((p) => p.e.costUsd), profits = ps.map((p) => p.profit);
+  const totalVol = stakes.reduce((a, b) => a + b, 0), nBuyers = ps.length;
+  const mean = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
+  const sd = (a, m) => (a.length > 1 ? Math.sqrt(a.reduce((x, y) => x + (y - m) * (y - m), 0) / (a.length - 1)) : 0);
+  const muS = mean(stakes), sdS = sd(stakes, muS), muP = mean(profits), sdP = sd(profits, muP);
+  const eligible = nBuyers >= 3 && totalVol >= 10000;                       // Harvard market filters
+  const out = {};
+  for (const p of ps) {
+    const e = p.e;
+    out[p.addr] = {
       cond: market.cond, tokenId: market.tokenId, question: market.question, url: market.url,
       category: market.category, eventGroup: market.eventGroup,
-      entryPrice: Math.max(1e-4, Math.min(0.9999, entryPrice)),
+      entryPrice: p.entry,
       stakeUsd: Math.round(e.costUsd), outcome: e.outcome,
-      won: e.outcome === market.winner, held,
-      ts: isFinite(e.firstTs) ? e.firstTs : (market.resolvedMs ? Math.round(market.resolvedMs / 1000) : null),
+      won: p.won, held: e.soldShares < 0.03 * e.boughtShares,
+      ts: isFinite(e.firstTs) ? e.firstTs : (resolvedSec || null),
       tx: e.tx || null,
+      // Harvard episode inputs (cross-sectional). z_bet_within is added later by build.js
+      // from the wallet's full betting history (its own baseline across markets).
+      hz: eligible ? {
+        zBetCross: sdS > 0 ? +((e.costUsd - muS) / sdS).toFixed(3) : 0,
+        zProfitCross: sdP > 0 ? +((p.profit - muP) / sdP).toFixed(3) : 0,
+        lateBuyFraction: +p.lateFrac.toFixed(3),
+        directionalScore: +p.dir.toFixed(3),
+        marketVol: Math.round(totalVol), nBuyers,
+      } : null,
     };
   }
   return out;
