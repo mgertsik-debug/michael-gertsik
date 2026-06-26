@@ -1118,7 +1118,18 @@ class Component extends DCLogic {
   fmtUsd(n) { const a = Math.abs(n), sg = n < 0 ? "−" : ""; if (a >= 1e6) return sg + "$" + (a / 1e6).toFixed(2).replace(/\.?0+$/, "") + "M"; if (a >= 1e3) return sg + "$" + (a / 1e3).toFixed(1).replace(/\.0$/, "") + "K"; return sg + "$" + Math.round(a); }
   analyticsNode(s) {
     const h = this.h;
-    const L = (s.ledger || []).filter((b) => b.stakeNum != null && isFinite(b.stakeNum));
+    // Derive numeric fields. Newer scans store stakeNum/plNum/ts directly; for
+    // subjects written by an earlier scan, parse them from the display strings
+    // ("$15K", "+$78K", "Jan 03 2026") so the charts render NOW, not only after the
+    // next scan rewrites the ledger.
+    const pNum = (v) => { if (typeof v === "number") return v; let t = String(v == null ? "" : v).replace(/[$,\s]/g, "").replace(/−/g, "-"); let m = parseFloat(t); if (!isFinite(m)) return 0; if (/b/i.test(t)) m *= 1e9; else if (/m/i.test(t)) m *= 1e6; else if (/k/i.test(t)) m *= 1e3; return m; };
+    const tNum = (b) => (b.ts && isFinite(b.ts)) ? b.ts : (b.entryTime ? (Math.round(Date.parse(b.entryTime) / 1000) || 0) : 0);
+    const L = (s.ledger || []).map((b, i) => Object.assign({}, b, {
+      stakeNum: (b.stakeNum != null && isFinite(b.stakeNum)) ? b.stakeNum : pNum(b.stake),
+      plNum: (b.plNum != null && isFinite(b.plNum)) ? b.plNum : pNum(b.pl),
+      ts: tNum(b) || i,
+      odds: (b.odds != null && isFinite(b.odds)) ? b.odds : pNum(b.odds),
+    })).filter((b) => isFinite(b.stakeNum) && b.stakeNum >= 0);
     if (!L.length) return null;
     const mono = "'JetBrains Mono', monospace";
     const hov = this.state.chartHover || {};
