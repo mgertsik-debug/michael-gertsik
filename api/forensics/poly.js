@@ -46,12 +46,19 @@ function category(tags, question) {
   if (/weather|temperature|hottest|hurricane|rainfall|snowfall|climate|\bel ni/.test(s)) return null;
   if (/\bmention|say the word|tweet|number of posts/.test(s)) return null;
   // INCLUDE only markets whose outcome can turn on nonpublic information.
-  if (/military|defense|defence|airstrike|troop|missile|\bwar\b|nato|sanction|basing|carrier|drone strike|nuclear|ceasefire|hostage/.test(s)) return "Military & Defense";
+  // Military / national-security ACTIONS (incl. operations, strikes, capture/seizure,
+  // chokepoints) — the Maduro-capture, Iran-strike, Hormuz-closure insider markets
+  // all live here. These are the highest-signal insider markets, so cast wide.
+  if (/military|defense|defence|airstrike|air ?base|troop|missile|\bwar\b|warfare|nato|sanction|basing|carrier|drone|nuclear|ceasefire|hostage|strait|hormuz|blockade|invade|invasion|incursion|occupy|occupation|\bseize|\bcapture[d]?|operation|special forces|coup|overthrow|regime|airspace|strike on/.test(s)) return "Military & Defense";
   if (/election|midterm|primary|ballot|electoral|turnout|runoff/.test(s)) return "Elections";
   if (/econom|inflation|\bcpi\b|\bpce\b|\bfed\b|fomc|\bgdp\b|jobs report|payroll|unemploy|jobless|rate (cut|hike|decision)|interest rate|recession/.test(s)) return "Economics";
-  if (/politic|president|senate|congress|governor|cabinet|nominee|confirm|impeach|resign|pardon|executive order|supreme court|indict|cabinet/.test(s)) return "Politics";
+  // Politics + LEADERSHIP TENURE — "X out by DATE", step down, ousted, arrested,
+  // removed from power, survive in office. "Maduro out by March 31" etc. land here.
+  if (/politic|president|prime minister|\bpm\b|chancellor|senate|congress|governor|cabinet|nominee|confirm|impeach|resign|pardon|executive order|supreme court|indict|arrested|extradit|\bout (by|in|before)\b|step down|leave office|leaves office|removed from|remain in office|stay in power|stays in power|ousted|ouster|\boust\b|in power|survive|toppl|in office/.test(s)) return "Politics";
   if (/culture|entertain|\bmovie|\bfilm\b|box office|oscar|grammy|emmy|\baward|\balbum\b|streaming chart/.test(s)) return "Culture";
-  if (/geopolit|treaty|summit|peace deal|coup|foreign|diplomat|sanction|annex|invade|border/.test(s)) return "World";
+  // Geopolitics — named theatres + diplomacy. Country/leader names that recur in
+  // insider markets (Venezuela/Maduro, Iran, Ukraine/Russia, Israel/Gaza, Taiwan, NK).
+  if (/geopolit|treaty|summit|peace deal|coup|foreign|diplomat|sanction|annex|border|maduro|venezuela|caracas|\biran\b|tehran|israel|gaza|hezbollah|hamas|ukraine|russia|kremlin|putin|taiwan|north korea|\bdprk\b|kim jong|syria|lebanon|yemen/.test(s)) return "World";
   return null;                                            // unmatched ⇒ not a detectable-edge market ⇒ excluded
 }
 

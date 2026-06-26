@@ -39,7 +39,7 @@ const DEFAULTS = {
   concealMinTactics: 2, splitTau: 0.5, decoyTau: 0.3, cashoutFastHours: 24,
   // single high-conviction bet (the lone insider bet the binomial can't see):
   // a large stake (≥$10k) on a DEEP long-shot (≤15% implied) that won + was held.
-  convictionUsd: 10000, convictionTau: 0.15,
+  convictionUsd: 7500, convictionTau: 0.15,  // event-concentrated stake; calibrated to the confirmed Maduro insiders ($9.9k+)
   // cluster linkage weights (w1 funder, w2 co-spend, w3 sync-entry, w4 create-prox)
   clusterW: [0.40, 0.25, 0.20, 0.15], clusterTau: 0.80,
   // fusion contribution weights (artifact contributionMap + conviction)
