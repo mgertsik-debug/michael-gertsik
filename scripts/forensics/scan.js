@@ -321,19 +321,29 @@ async function run() {
         // one-off. Resolve this wallet's UN-cataloged markets live (CLOB winner flag),
         // keep only in-scope ones, and fold them into the SHARED catalog so every
         // later wallet benefits too. Bounded per-wallet and per-run to fit the budget.
-        if (onDemandBudget > 0) {
+        // COMPLETE resolution for FLAG CANDIDATES. The shared on-demand budget is spread
+        // across hundreds of screened wallets, so a non-candidate gets only a few markets
+        // resolved — fine for cheap screening. But any wallet that could actually FLAG
+        // (a known-case seed, a ring member, or one that already shows a winning long-shot)
+        // is resolved COMPLETELY — every uncataloged market, uncapped, budget-exempt — so
+        // its published dossier is its FULL resolved in-scope record, identical in depth to
+        // the live search-bar lookup, never a 2-3-bet fragment.
+        const _lsWins = (w.bets || []).filter((b) => (Number(b.entryPrice) || 1) <= 0.35 && b.won).length;
+        const _candidate = w._seed || w._ring || _lsWins >= 1;
+        if (onDemandBudget > 0 || _candidate) {
           const cat = state._catalog || (state._catalog = {});
           const missing = [];
           const seenM = new Set();
           for (const t of utrades) { const c = t.conditionId || t.market || t.condition_id; if (c && !cat[c] && !seenM.has(c)) { seenM.add(c); missing.push(c); } }
           if (missing.length) {
-            const batch = missing.slice(0, Math.min(PER_WALLET_ONDEMAND, onDemandBudget));
+            const cap = _candidate ? missing.length : Math.min(PER_WALLET_ONDEMAND, onDemandBudget);
+            const batch = missing.slice(0, cap);
             const resolved = await poly.marketsByConds(batch).catch(() => ({}));
             for (const c of Object.keys(resolved)) {
               if (!poly.category([], resolved[c].q)) continue;   // in-scope only (drop sports/crypto/etc)
               cat[c] = resolved[c]; onDemandResolved++;
             }
-            onDemandBudget -= batch.length;
+            if (!_candidate) onDemandBudget -= batch.length;
           }
         }
         const recBets = poly.buildUserRecord(utrades, state._catalog || {});
@@ -578,11 +588,18 @@ async function finalize(state, snapshotTs) {
   // the bar. Members folded into a ring cluster are removed as single subjects.
   const ringClusterSubjects = [];
   const absorbed = new Set();
+  // A wallet that ALREADY clears the bar on its OWN record stays a single subject — it is
+  // NOT hidden inside a Group (that was masking individually-HIGH wallets like known
+  // insiders behind a ring). The ring cluster is built only from the members that did NOT
+  // individually publish, so it adds the sub-threshold coordinated wallets without
+  // double-counting; the full ring (incl. the published singles) still renders in the
+  // ringGroups graph for context.
+  const publishedSingles = new Set(payload.subjects.filter((s) => s.type === "wallet").map((s) => String(s.address).toLowerCase()));
   Object.values(state.rings).forEach((r, ri) => {
     const memberW = (r.members || [])
       .map((a) => state.screened[String(a).toLowerCase()] || state.screened[a])
-      .filter((w) => w && (w.bets || []).length);
-    if (memberW.length < 2) return;                           // need >=2 betting members for a cluster record
+      .filter((w) => w && (w.bets || []).length && !publishedSingles.has(String(w.address).toLowerCase()));
+    if (memberW.length < 2) return;                           // need >=2 NOT-already-published betting members
     // REAL, MEASURED linkage — not a hardcoded 0.9. Shared on-chain funding alone is weak
     // (two strangers can fund through the same exchange/bridge/relayer), so a Group must
     // also show BEHAVIORAL corroboration: members actually bet the same markets (co-spend)
