@@ -38,7 +38,12 @@ test("buildSubject: planted impossible single wallet -> extreme, real 1-in-N, re
   assert.ok(/^1 in /.test(s.improbText));
   assert.equal(s.ledger.length, 16);
   assert.ok(s.fired.includes("won"));
-  assert.ok(s.scorecard.find((c) => c.key === "won"));
+  const wonCard = s.scorecard.find((c) => c.key === "won");
+  assert.ok(wonCard);
+  // "show the math" inputs must be REAL bindings from this wallet (not placeholders)
+  assert.ok(Array.isArray(wonCard.inputs) && wonCard.inputs.length, "won card carries real inputs");
+  const nInput = wonCard.inputs.find((p) => p[0] === "n");
+  assert.ok(nInput && /16/.test(nInput[1]), "n input reflects the real 16 bets: " + JSON.stringify(nInput));
   // derived fields the view reads
   assert.ok(s.percentile > 99);
   assert.ok(s.volumeNum > 0);
