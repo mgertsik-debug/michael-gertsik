@@ -28,7 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     # Hard cap so one slow tick can't run for hours and back up the 15-min cron.
     # State persists, so a tick killed at the cap simply resumes next run.
-    timeout-minutes: 13
+    # TEMPORARY (Harvard calibration): 13→14 to fit the doubled MARKETS_PER_RUN; still < the
+    # 15-min cron interval so runs don't overlap. Revert to 13 with MARKETS_PER_RUN.
+    timeout-minutes: 14
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -67,7 +69,11 @@ jobs:
           # and accumulates across ticks, so a smaller per-tick enumeration is plenty —
           # and frees most of the budget for ENRICHMENT, which is what actually flags
           # wallets and forms clusters.
-          MARKETS_PER_RUN: "120"
+          # TEMPORARY (Harvard calibration): doubled 120→240 to re-sweep the market universe
+          # ~2× faster so the corrected Harvard cross-sectional inputs (hz) repopulate sooner
+          # and the shadow distribution can be validated against the paper. Revert to 120 once
+          # the Harvard cutover is calibrated + live.
+          MARKETS_PER_RUN: "240"
           # Enrichment now runs CONCURRENTLY (ENRICH_CONCURRENCY wallets at once), so a
           # much larger batch fits the budget — coverage climbs ~5× faster per tick.
           ENRICH_BATCH: "700"
@@ -91,9 +97,10 @@ jobs:
           # lands in a resolved in-scope market is screened + front-of-queue enriched
           # immediately (near-real-time). Bumped now that enrichment is parallelized.
           LIVE_PAGES: "8"
-          # Wall-clock budget for one tick (job hard-killed at timeout-minutes=13). 10 min
+          # Wall-clock budget for one tick (job hard-killed at timeout-minutes=14). ~11 min
           # of work leaves a safe margin for the commit+push.
-          SCAN_BUDGET_S: "600"
+          # TEMPORARY (Harvard calibration): 600→660 to match the doubled MARKETS_PER_RUN.
+          SCAN_BUDGET_S: "660"
           # Auto ring-finder: walk the on-chain funding graph from the top N flagged
           # wallets each tick, pull in the siblings the sweep hasn't reached, and queue
           # them for scoring. Key-gated (needs eth_getLogs / tokentx, which the keyless

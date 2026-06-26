@@ -510,7 +510,14 @@ function aggregateMarket(market, trades) {
     const won = e.outcome === market.winner;
     const profit = won ? e.costUsd * (1 / entry - 1) : -e.costUsd;          // held-to-resolution reconstruction
     const lateFrac = e.costUsd > 0 ? clip(e.lateUsd / e.costUsd, 0, 1) : 0;
-    const dir = e.boughtShares > 0 ? clip(1 - e.soldShares / e.boughtShares, 0, 1) : 0;
+    // DIRECTIONAL CONCENTRATION (Harvard signal 5): 1.0 = pure one-sided buy-and-hold; lower
+    // = the trader sold or HEDGED. On Polymarket an exit is recorded EITHER as a SELL of the
+    // held token OR as a BUY of the COMPLEMENT token ("complement routing"). Counting only
+    // outright sells pins dir at ~1 for nearly everyone (the bug that made every wallet look
+    // like a pure-conviction holder). Net the complement-side buys in with the sells so a
+    // hedged/exited position correctly scores below 1, matching Harvard's aggregate-fill basis.
+    const compShares = (byKey[addr + "|" + (e.outcome === "YES" ? "NO" : "YES")] || {}).boughtShares || 0;
+    const dir = e.boughtShares > 0 ? clip(1 - (e.soldShares + compShares) / e.boughtShares, 0, 1) : 0;
     return { addr, e, entry, won, profit, lateFrac, dir };
   });
   const stakes = ps.map((p) => p.e.costUsd), profits = ps.map((p) => p.profit);
