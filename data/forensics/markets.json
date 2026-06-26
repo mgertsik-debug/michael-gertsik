@@ -2194,7 +2194,7 @@
     "w": "YES",
     "q": "SCOTUS rules in favor of Monsanto?",
     "s": "scotus-rules-in-favor-of-monsanto",
-    "c": "Politics",
+    "c": "Legal & Regulatory",
     "r": 1782411002
   },
   "0x2d91cf8a20085e5abf4154a204cf234c1a8b6b81b351fdd75596bbc7851791e6": {
@@ -10383,9 +10383,9 @@
   "0xc160ac2b2b5f9a500cc4893611c65e45f50c4b8dbd204a2e8675329261373b0a": {
     "w": "YES",
     "q": "Will Daniel Ennis win the 2026 Dublin-central by-election?",
-    "s": "will-daniel-ennis-win-the-2026-dublin-central-by-election",
+    "s": "dublin-central-by-election-winner",
     "c": "Elections",
-    "r": 1798675200
+    "r": 1779590573
   },
   "0xe443dab97ad8b7f58558cc7a6a3932d156031e962a451e0461e9a4578d78fe84": {
     "w": "NO",
@@ -11471,5 +11471,887 @@
     "s": "will-spacexs-ipo-valuation-be-between-1pt75t-and-2pt00t",
     "c": "Corporate & M&A",
     "r": 946684800
+  },
+  "0x19be7c46e28b61455ec766679ee1122fba39eb0d5c85d0878e4b203ab8b18406": {
+    "w": "YES",
+    "q": "Will John Ternus be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776729908
+  },
+  "0x935f71018092c4f90aa08c310bb26a4a12096b1ddf5af6afa008a9b14531d1ff": {
+    "w": "NO",
+    "q": "Will Sabih Khan be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731092
+  },
+  "0x29da1b88403afcade7c1bdd663c4d058d9b70d8d9c0a40661e78681cf2dbabda": {
+    "w": "NO",
+    "q": "Will another person be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731088
+  },
+  "0x8f5cc5b97073fe39e157b8b6422c45787ab2521ab0333e7af4cb1274ea5d9d33": {
+    "w": "NO",
+    "q": "Will Person B be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731094
+  },
+  "0xe6b46f31d4f9e26d17052edb52989608b181af31b39fdab528f9fe07e374dd33": {
+    "w": "NO",
+    "q": "Will Person D be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776730908
+  },
+  "0x1b2d8fd1e2791ab863da399e41cbcaab8ed5d5fd9f11ae38983f8ff81f1f81e0": {
+    "w": "NO",
+    "q": "Will Person F be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776730946
+  },
+  "0xbc7200d9374d0f77626dc26067c603d7a365bac562eebb6e105658fc5908b5a7": {
+    "w": "NO",
+    "q": "Will Person H be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731090
+  },
+  "0x39b9bb0f987fa4dd137e254510a68195f21f9478255c5ef16c18000213fdf91a": {
+    "w": "NO",
+    "q": "Will Person J be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731100
+  },
+  "0x4a8cdfc445fd747984ff171e9c955f045e2ec69b8b099cf6da2bd104f4e8c65d": {
+    "w": "NO",
+    "q": "Will Person L be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731096
+  },
+  "0x475cc3a4151805ccba19aa262a5b96f75ae54c23099dc1d52e9b7065ecd5aa01": {
+    "w": "NO",
+    "q": "Will Person N be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731034
+  },
+  "0xdc7641548176a2a774729f127f43c85543eee2642cc7474585ff60a06b0a3ee5": {
+    "w": "NO",
+    "q": "Will Person P be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731036
+  },
+  "0x21c9a70d8cb47541cc7d6f09f18437371dd3b375c945f73dd294484ad09d48e9": {
+    "w": "NO",
+    "q": "Will Craig Federighi be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731036
+  },
+  "0x533e3cf5be22f305e14e0c67fb82e8335db2cfba811cf253bef7923d6042416d": {
+    "w": "NO",
+    "q": "Will Greg Joswiak be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731088
+  },
+  "0xf63596df6252409a4767d5cb6b6e185d97b6e30fdc6daf365b2ec3f90650de0e": {
+    "w": "NO",
+    "q": "Will Person A be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731094
+  },
+  "0x754e0553d8b78e058b4c818ac4e6519010f7f32b7ae571fcac8684ef1652e858": {
+    "w": "NO",
+    "q": "Will Person C be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731038
+  },
+  "0x987cf371f632cc817a73c6159ee733a50b7aa9747371dd9340aa4490325d6f91": {
+    "w": "NO",
+    "q": "Will Person E be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731034
+  },
+  "0x9c2050b8ce77c897002b9e4087a85ea4edecbb794bafe43002fe34d00f1ab9bf": {
+    "w": "NO",
+    "q": "Will Person G be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776730992
+  },
+  "0xdd470800f6bd482d67cf5b37064711be8839c031b91ee095b0d8fae0126c8d47": {
+    "w": "NO",
+    "q": "Will Person I be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731036
+  },
+  "0x3805f4e2078915a8a45837216fae25f0c3fa2ec87721a9a0347c2a3719ed0c0a": {
+    "w": "NO",
+    "q": "Will Person K be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731090
+  },
+  "0xa4f514b774153728be34158582ee3917dd13b9073b2fc6bddee86965dfa5f602": {
+    "w": "NO",
+    "q": "Will Person M be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731044
+  },
+  "0x917a72b9c9775e93edd381c3836d76f2c3529ee65f4f1022359c13b66101b87d": {
+    "w": "NO",
+    "q": "Will Person O be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776730888
+  },
+  "0x50135378ff6117e5b0d4ac054cd64c7f22db9905c05d13cdebc0405fc4a4607e": {
+    "w": "NO",
+    "q": "Will Person Q be the next CEO of Apple?",
+    "s": "next-ceo-of-apple",
+    "c": "Corporate & M&A",
+    "r": 1776731038
+  },
+  "0x7aaa3b65947713a2de8c84da098fed1072fdd2be6db8a0d1d905323f027d753c": {
+    "w": "NO",
+    "q": "Will Malachy Steenson win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590972
+  },
+  "0xeccd56699ee56764545aa1192b4efa17f540b7c0d8c409b6ede1c6f3c7054bdd": {
+    "w": "NO",
+    "q": "Will Eoghan Ó Ceannabháin win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590965
+  },
+  "0x744e180f08a452abb2917dba5be6a915ea7079994fd9006e19aed0f5ac88a52f": {
+    "w": "NO",
+    "q": "Will Gillian Sherratt win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590961
+  },
+  "0x961e13143b5f31ba9ac5db5e846230eb4e5ba59510f27b76dc6335dbaf9bd700": {
+    "w": "NO",
+    "q": "Will Ray McAdam win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590730
+  },
+  "0xbd17ac8d17085bf75becb9cb0dfe114ee274c81dbf45f8e03a73adde7d441331": {
+    "w": "NO",
+    "q": "Will Person H win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590784
+  },
+  "0xa45ffbb419cdb135dd54b81969f5a9366e7272f4fe1a83e46fe2417c50052879": {
+    "w": "NO",
+    "q": "Will Person L win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590968
+  },
+  "0x7eae587cee96551189ef52b71fcb2ef1cf82e00ca0569669df865fadf15a5c00": {
+    "w": "NO",
+    "q": "Will Person M win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590672
+  },
+  "0x424e0b9127fbac2df470e4643e3be8efbb7b50c90b5d434b93b921ce9bb2b66e": {
+    "w": "NO",
+    "q": "Will Person P win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590725
+  },
+  "0xe20037a249184469dd754c8397cf61eeef9cf9876ab74122e23e42e9457a135c": {
+    "w": "NO",
+    "q": "Will Person S win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590720
+  },
+  "0x333b24dbabf960392e0c2e1d04a5ecbcd9d9fee253863599bc93fe6bcd2ab69e": {
+    "w": "NO",
+    "q": "Will Person T win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590783
+  },
+  "0x8a595b243aa3228ef5c5b2422dbcff9657f7d00270779ca32ef09b166f56d22d": {
+    "w": "NO",
+    "q": "Will Person W win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590609
+  },
+  "0xe59dec036f15ba0bcfd371860fa8e3ca924437f4c3075e529686734bd4ea54eb": {
+    "w": "NO",
+    "q": "Will Person X win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590555
+  },
+  "0x0c9ad6e8dab282262dd2d3560adade9c79b40c56a96fc0c512966b734ebe69a1": {
+    "w": "NO",
+    "q": "Will Person Y win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590783
+  },
+  "0x35cbb3269ee97f2108130b169c0ae462f3e4b226ba0f624b167bf99925d1bce3": {
+    "w": "NO",
+    "q": "Will Other win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590657
+  },
+  "0x05ce43fb8fc6b2f2b418f773bdac67bdf26f88806b158f0dbdfdedfd536398c2": {
+    "w": "NO",
+    "q": "Will Ian Noel Smyth win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590961
+  },
+  "0xce9e1f6eaad809a6ceb725d6afb29fe533a037abaaf91051360e6a478b22aba3": {
+    "w": "NO",
+    "q": "Will Séamas McGrattan win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590718
+  },
+  "0xa3f4b6e12e18b52b3f5450ce9ea8e05dc205d3add7469d76716d52bdce9f548a": {
+    "w": "NO",
+    "q": "Will Mary Fitzpatrick win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590718
+  },
+  "0x00a04c56dc50c28a94596519d58ead0b9a1a92a4292a24698a3a56ef062f93be": {
+    "w": "NO",
+    "q": "Will Person D win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590720
+  },
+  "0x682a780b6683a54ed1646e74594e05ab4e349b0882324e2745bac0b8d1e8011a": {
+    "w": "NO",
+    "q": "Will Person I win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590966
+  },
+  "0x34717229cf732eeee801e666f5a75cec78e4b0007293b0a41cc30533216fb2e4": {
+    "w": "NO",
+    "q": "Will Person O win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590665
+  },
+  "0x67afa7804fa4d945704b1e1985eb10261000f7eb2237c8e85bd5e6bfe0617fae": {
+    "w": "NO",
+    "q": "Will Person Q win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590667
+  },
+  "0x1c559b452c2a451b170f5d209b3c46e81b2d3379e27ecb91a8331475a4625e8c": {
+    "w": "NO",
+    "q": "Will Janet Horner win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590658
+  },
+  "0xc5c7e75579ebc7dd442e3a0bc40e47cbfcb641666ad3f8ea0bea24ae51d7523a": {
+    "w": "NO",
+    "q": "Will Janice Boylan win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590798
+  },
+  "0x73bd8d903841850fb2dc3625bd7f953ee6d5023ec8f8ab649527f04e6c79e918": {
+    "w": "NO",
+    "q": "Will Person B win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590657
+  },
+  "0xbd19dbb1a45a717c9552e7365dac64a0f391a9e25f208eff786018836f2a0c86": {
+    "w": "NO",
+    "q": "Will Person F win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590716
+  },
+  "0xc5a571b51a1aea0ad0eafc323a3a39ae2e2cbefa33d4f109fb079d787b130960": {
+    "w": "NO",
+    "q": "Will Person K win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590608
+  },
+  "0xba714147dde19b7d0aa47faf04145d50bc70b71c6c32fe57c7abaac16e42cbb8": {
+    "w": "NO",
+    "q": "Will Person N win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590660
+  },
+  "0x1e3f814ef4d0ceb4e54dbddd82b05b366512be7d8fd73e5843dbaf44e21aa545": {
+    "w": "NO",
+    "q": "Will Person R win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590658
+  },
+  "0xfdd15a9211111dd2c7ec02cc2bf0bc36254990f2c995362374d947ea702144c8": {
+    "w": "NO",
+    "q": "Will Person U win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590790
+  },
+  "0x3185eacd107c672df3e6e337174e0c14b959bd7f585b6b1b312595f3b68c5eb2": {
+    "w": "NO",
+    "q": "Will Person V win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590781
+  },
+  "0xd76cfd54b1ceef15c316fbcb36c9d809bad03167a5c029fdfc290274ede1a37a": {
+    "w": "NO",
+    "q": "Will Person Z win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590723
+  },
+  "0xbddb91830ef5d16ab6d4282d58fda2df4886f5978e476399b40040b786e526fa": {
+    "w": "NO",
+    "q": "Will Gerry Hutch win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590963
+  },
+  "0xbce03e14c6874e6dee01715a572c2dc995e2ca235b7b09fd39aa90b9cb63ee2b": {
+    "w": "NO",
+    "q": "Will John Stephens win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590566
+  },
+  "0xab75b1e9a661149bb75f6a1eea0dc0d5bc17c4f79b474e0397ff4922008ec071": {
+    "w": "NO",
+    "q": "Will Person A win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590608
+  },
+  "0x4e043462b91dbf80b1a6646eb78d765966b1443a80d6acea7e75d90092f6e0c2": {
+    "w": "NO",
+    "q": "Will Person C win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590613
+  },
+  "0xcc622605d3d250d68f4f24195de21932bb12858d8c90cc6f52175beb8b2a0d65": {
+    "w": "NO",
+    "q": "Will Person E win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590546
+  },
+  "0x4112bb227512434796d809a143cc9861bc1053fad0b1c50c07cfbd1e46ec4eb6": {
+    "w": "NO",
+    "q": "Will Person G win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590959
+  },
+  "0x3e824f406b63f8fb1f2cdc0dcab77e8afd4864cd6e753e0b365cb4f156f5ad27": {
+    "w": "NO",
+    "q": "Will Person J win the 2026 Dublin-central by-election?",
+    "s": "dublin-central-by-election-winner",
+    "c": "Elections",
+    "r": 1779590718
+  },
+  "0xa8b744720006da3c08b4dc8a61a5ce930542f550fcf8d27380ae898de636799d": {
+    "w": "NO",
+    "q": "Khamenei out as Supreme Leader of Iran by January 31?",
+    "s": "khamenei-out-as-supreme-leader-of-iran-by-january-31",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x7f3c6b9029a1a4a932509c147a2cc0762e1116b7a4568cde472908b29dd4889d": {
+    "w": "NO",
+    "q": "Will the U.S. invade Venezuela by January 31, 2026?",
+    "s": "will-the-us-invade-venezuela-by-january-31-2026",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x79801a0feefbc4c35df8f35d33583eef8ff2bd7a514c619929ac62e23c2cf93d": {
+    "w": "YES",
+    "q": "Trump invokes War Powers against Venezuela by January 31?",
+    "s": "trump-invokes-war-powers-against-venezuela-by-january-31-134-583",
+    "c": "Military & Defense",
+    "r": 1767139200
+  },
+  "0xbb8bfdef9052b2709557a6f8f28b23551e3134bfb86eca800211e2191703ee65": {
+    "w": "YES",
+    "q": "US forces in Venezuela by January 31, 2026?",
+    "s": "us-forces-in-venezuela-by-january-31-2026",
+    "c": "World",
+    "r": 946684800
+  },
+  "0xa27fda74568efbbd888f14114fc1956db3b0a19fd780eabff58f8ea14d63d189": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"Crown\" during Syria President events on November 10?",
+    "s": "will-donald-trump-say-crown-during-syria-president-events-on-november-10",
+    "c": "Politics",
+    "r": 1762732800
+  },
+  "0x42911c6ff6bc9f36adb99592a9ecd5e31e14e7dfe9beef7c2b18c36b0db23cc4": {
+    "w": "NO",
+    "q": "US strikes Iran by January 13, 2026?",
+    "s": "us-strikes-iran-by-january-13-2026-771",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xb4b2bf4879327ce2a4900b6aab0decdadda3a7e248ac1151bbb9e55d61ae80f2": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"Ukraine / Russia\" 5+ times during Syria President events on November 10?",
+    "s": "will-donald-trump-say-ukraine-russia-5-times-during-syria-president-events-on-november-10",
+    "c": "Politics",
+    "r": 1762732800
+  },
+  "0x1104aee65325a3ca2b11bbc443fecc083c52296188819b8c6b7a3792a04debad": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"Biden\" 4+ times during Syria President events on November 10?",
+    "s": "will-donald-trump-say-biden-4-times-during-syria-president-events-on-november-10",
+    "c": "Politics",
+    "r": 1762732800
+  },
+  "0x67f550f9abdfad3d28d51c264810d022e80545e941246ac9d64629562c33a114": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"Handsome / Attractive\" during Syria President events on November 10?",
+    "s": "will-donald-trump-say-handsome-attractive-during-syria-president-events-on-november-10",
+    "c": "Politics",
+    "r": 1762732800
+  },
+  "0x6f42bffb0bc25b7d36deacb30e6a193107fe2af48f23bcfab0ce7078650b88e8": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"Million / Billion / Trillion\" 12+ times during Syria President events on November 10?",
+    "s": "will-donald-trump-say-million-billion-trillion-12-times-during-syria-president-events-on-november-10",
+    "c": "Politics",
+    "r": 1762732800
+  },
+  "0x724a93f3e0ed0a6c83d2b4f2bc60839b39a92cc2c7cbac0169447f48d72537ab": {
+    "w": "YES",
+    "q": "US announces new Iran agreement/ceasefire extension by July 31?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-july-31-772",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x92f5fa7a45fd635632fcf60b1606c4a3b2aad2a89b0538dceac1ff4b05ec6278": {
+    "w": "YES",
+    "q": "US announces new Iran agreement/ceasefire extension by June 17?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-17",
+    "c": "Military & Defense",
+    "r": 1781654400
+  },
+  "0x8f53ea148368f2ec8cb263ad2604abcab2ecfd1e6c3b55b50cc50fdd19ca76be": {
+    "w": "YES",
+    "q": "US announces new Iran agreement/ceasefire extension by June 18?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-18",
+    "c": "Military & Defense",
+    "r": 1781740800
+  },
+  "0xb8d9b5dcd93400871e765b3e72b1c500e793686345a2ea4f138e41b9cb6b12c0": {
+    "w": "NO",
+    "q": "Israel closes its airspace by June 14?",
+    "s": "israel-closes-its-airspace-by-june-14",
+    "c": "Military & Defense",
+    "r": 1781395200
+  },
+  "0xec33b96f5dd335ef75f38066f47dfc9e4b326de97fd853617081c7cd503b6457": {
+    "w": "NO",
+    "q": "Israel closes its airspace by June 12?",
+    "s": "israel-closes-its-airspace-by-june-12",
+    "c": "Military & Defense",
+    "r": 1781222400
+  },
+  "0xc239b0621a1a7d79228032559bbc5f2a43cffeac5f9bdca63cb872347142c16b": {
+    "w": "YES",
+    "q": "Will Iran close its airspace by July 31?",
+    "s": "will-iran-close-its-airspace-by-july-31-20260609184136056",
+    "c": "Military & Defense",
+    "r": 1785542400
+  },
+  "0x5819d26bf096633c6b775be65e1fe90e62737d6d3236f63622c9173072bc9e24": {
+    "w": "NO",
+    "q": "Will Iran close its airspace by June 11?",
+    "s": "will-iran-close-its-airspace-by-june-11-20260609184136049",
+    "c": "Military & Defense",
+    "r": 1781222400
+  },
+  "0x1c5ecd69199f6ff69425ba9e18d8aa90bb20fb847e949bee98da149ce5888b5f": {
+    "w": "NO",
+    "q": "Will Iran close its airspace by June 13?",
+    "s": "will-iran-close-its-airspace-by-june-13-20260609184136051",
+    "c": "Military & Defense",
+    "r": 1781395200
+  },
+  "0x676e7cda423f5826bcbb3c141e808ad7c66bc2d055e4d0aca79c26779712062c": {
+    "w": "NO",
+    "q": "Israel closes its airspace by June 30?",
+    "s": "israel-closes-its-airspace-by-june-30-324-253-464-332-827-713-671-846",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x46e99bb62eda23f2d65b8d789910e54e205c14b16b59939d51b01a55f63e7c38": {
+    "w": "YES",
+    "q": "Iran closes its airspace by July 31?",
+    "s": "iran-closes-its-airspace-by-july-31-478",
+    "c": "Military & Defense",
+    "r": 1785456000
+  },
+  "0x9dd2325bda8916d29f7446846a390b035f1c8da54d1a3749aa5606b4a5906eb4": {
+    "w": "NO",
+    "q": "Israel closes its airspace by June 13?",
+    "s": "israel-closes-its-airspace-by-june-13",
+    "c": "Military & Defense",
+    "r": 1781308800
+  },
+  "0x5cf44e7b58610c8ac35b45c23846887e4efe31fda7963711e85d808647ad44d9": {
+    "w": "YES",
+    "q": "Iran closes its airspace by July 15?",
+    "s": "iran-closes-its-airspace-by-july-15-758",
+    "c": "Military & Defense",
+    "r": 1784073600
+  },
+  "0x4e57f63e885b3a851c1c0c4041b39032a488a363e3dd44520a4ba78b9ddade49": {
+    "w": "NO",
+    "q": "Israel closes its airspace by June 9?",
+    "s": "israel-closes-its-airspace-by-june-9",
+    "c": "Military & Defense",
+    "r": 1780963200
+  },
+  "0x8d47a4108f37b0f4dce7481a58c9fbdb047fe1d61396ec5b35728551c9afbd95": {
+    "w": "NO",
+    "q": "Will 1. FC Köln vs. BV Borussia 09 Dortmund end in a draw?",
+    "s": "bun-koe-dor-2026-03-07-draw",
+    "c": "World",
+    "r": 1772841600
+  },
+  "0xffe381a80c1e36f9e0b03a542aa8fe56e74a67d2566a4e29396d4427aa4244c9": {
+    "w": "NO",
+    "q": "Strait of Hormuz traffic returns to normal by May 15?",
+    "s": "strait-of-hormuz-traffic-returns-to-normal-by-may-15",
+    "c": "Military & Defense",
+    "r": 1778803200
+  },
+  "0xaec9e91c3ff05b07301bd7f1f6b75180fef0e347cd347c69c3e78179d408da4f": {
+    "w": "NO",
+    "q": "US x China tariff agreement by June 30?",
+    "s": "us-x-china-tariff-agreement-by-june-30",
+    "c": "Legal & Regulatory",
+    "r": 1782777600
+  },
+  "0xbd85740fcb891a4e12edd6fdb26656cb24e65f12aee67193ca751bb6ffdc184c": {
+    "w": "NO",
+    "q": "Will JD Vance attend the US-Iran Signing Ceremony?",
+    "s": "will-jd-vance-attend-the-us-iran-signing-ceremony-20260615232204739",
+    "c": "World",
+    "r": 1783468740
+  },
+  "0x603b54737c0573fa3b0f9a808856f6147c0f122d0ddef59859287371312deb49": {
+    "w": "NO",
+    "q": "Sinaloa Gov. Ruben Rocha extradited to US by June 30?",
+    "s": "sinaloa-gov-ruben-rocha-extradited-to-us-by-june-30",
+    "c": "Legal & Regulatory",
+    "r": 1782777600
+  },
+  "0x635d4fdd418b1d335b74dbfee01b7e8a9e8003ca60ad4501a0d231b2e87584bd": {
+    "w": "NO",
+    "q": "Greta Thunberg arrested by June 30?",
+    "s": "greta-thunberg-arrested-by-june-30",
+    "c": "Legal & Regulatory",
+    "r": 1782777600
+  },
+  "0x2cd4df599867b14e835436e67e524cd04bbd67eaa6454c07b294d9dd0470e6b7": {
+    "w": "NO",
+    "q": "Will Hamas agree to disarm by June 30?",
+    "s": "will-hamas-agree-to-disarm-by-june-30",
+    "c": "World",
+    "r": 1782849600
+  },
+  "0x272c0b076215acae2df649271ba3e2873043c2320e40fc38b1a29fba38edb478": {
+    "w": "NO",
+    "q": "Will France send warships through the Strait of Hormuz by June 30, 2026?",
+    "s": "will-france-send-warships-through-the-strait-of-hormuz-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x26ebe9f65bd68ddedda46fd178b35f849aae4607e1265df3ef7243f99829f195": {
+    "w": "NO",
+    "q": "Israel x Hamas ceasefire cancelled by June 30?",
+    "s": "israel-x-hamas-ceasefire-cancelled-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x8d6e53e9c96faed715f6fe20d7d1944f31bf203f980d8f3d94304c0a302381fc": {
+    "w": "NO",
+    "q": "Will María Corina Machado enter Venezuela by June 30?",
+    "s": "will-mara-corina-machado-enter-venezuela-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xb611b3a7173f69e412b55561ed265d849e36693c248ff620d0e981c5b3f2e325": {
+    "w": "YES",
+    "q": "Will Abelardo de la Espriella win the 1st round of the 2026 Colombian presidential election?",
+    "s": "will-abelardo-de-la-espriella-win-the-1st-round-of-the-2026-colombian-presidential-election",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x48874462b88af831a4d90479286c6c1d4cd683a6b119d926f85ac66549385b21": {
+    "w": "NO",
+    "q": "Miguel Díaz-Canel out as President of Cuba by June 30?",
+    "s": "miguel-daz-canel-out-as-president-of-cuba-by-june-30",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0x2af78d63305bbeeab287701eba943a587357b9c63086603cb85b15d8405e12a7": {
+    "w": "NO",
+    "q": "Tamas Sulyok out as President of Hungary by June 30?",
+    "s": "tamas-sulyok-out-as-president-of-hungary-by-june-30",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0x79859c9e6645873e1568344b0b8ee54cc9eb02b90701cc5ba19c9a547ff313ce": {
+    "w": "NO",
+    "q": "Kash Patel out by June 30?",
+    "s": "kash-patel-out-by-june-30-165-798",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0xaaf4be4f37d96703d6c366ac3a69317815cee8a58c81e9d6bb3b0c4dcc5420a0": {
+    "w": "NO",
+    "q": "Will Kim Tae-heum win the 2026 Chungcheongnam Province gubernatorial election?",
+    "s": "will-kim-tae-heum-win-the-2026-chungcheongnam-province-gubernatorial-election",
+    "c": "Military & Defense",
+    "r": 1780444800
+  },
+  "0x3fe18d2b6303ee3a7e406aab679dbc0b0f7504dc6b477a31c69c6ffb04e9e11c": {
+    "w": "NO",
+    "q": "Israel strike on Yemen by June 30, 2026?",
+    "s": "israel-strike-on-yemen-by-june-30-2026-285-633-267-857",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x009cb79c526eff4af80e0e568c648a165a837c0417f4e1de3cde02bfc4a3ab42": {
+    "w": "YES",
+    "q": "Gemini 3.5 released by May 31?",
+    "s": "gemini-3pt5-released-by-may-31",
+    "c": "Crypto Events",
+    "r": 1782777600
+  },
+  "0xd14283ee7e8c01105f3974de5e5ade9a2dc2a49a76153b1b359a489885b6398d": {
+    "w": "NO",
+    "q": "Will Trump’s approval rating be between 38.5 and 38.9 on June 19, 2026?",
+    "s": "will-trumps-approval-rating-be-between-38pt5-and-38pt9-on-june-19-2026-20260612214537960",
+    "c": "Legal & Regulatory",
+    "r": 1781827200
+  },
+  "0xfd3b5650e14afe1e2a42aacd0575553e8d6fd703a11f40bc0593f7f64734722a": {
+    "w": "NO",
+    "q": "Will Alan Wilson win the South Carolina Republican Governor Primary Runoff by 5–10%?",
+    "s": "will-alan-wilson-win-the-south-carolina-republican-governor-primary-runoff-by-510-20260615151502454",
+    "c": "Elections",
+    "r": 1782273540
+  },
+  "0x5832dde962fad89cb936cec0c5553030683456496e95c4b5a316e40a608c3715": {
+    "w": "NO",
+    "q": "Will Alan Wilson win the South Carolina Republican Governor Primary Runoff by 10–15%?",
+    "s": "will-alan-wilson-win-the-south-carolina-republican-governor-primary-runoff-by-1015-20260615151502455",
+    "c": "Elections",
+    "r": 1782273540
+  },
+  "0xeca857151ba75951e66af1b2bf0b15a77d019f3fd2a529c4bdd65ed1efa1030a": {
+    "w": "NO",
+    "q": "Will Alan Wilson win the South Carolina Republican Governor Primary Runoff by less than 5%?",
+    "s": "will-alan-wilson-win-the-south-carolina-republican-governor-primary-runoff-by-less-than-5-20260615151502453",
+    "c": "Elections",
+    "r": 1782273540
+  },
+  "0xb20ab327dc64a405ec80a0775c5947b594581abc61d814316abc355064e16e5a": {
+    "w": "NO",
+    "q": "Will Burt Jones win the 2026 Georgia Governor Republican primary election?",
+    "s": "will-burt-jones-win-the-2026-georgia-governor-republican-primary-election",
+    "c": "Elections",
+    "r": 1779148800
+  },
+  "0x11d4960a26b0696cb8c854e409944e8a69fefba21c68554187f29615ff5d3457": {
+    "w": "YES",
+    "q": "Will Barry Moore be the Republican nominee for Senate in Alabama?",
+    "s": "will-barry-moore-be-the-republican-nominee-for-senate-in-alabama",
+    "c": "Politics",
+    "r": 1779148800
+  },
+  "0xb2e7dd21dd889b9b56447857f03ea6188ebcef50599c3c1556c2f9141772d7bb": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by May 28?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-may-28",
+    "c": "Military & Defense",
+    "r": 1779926400
+  },
+  "0xcb7cab7ee343c84f8b6da881090235d84bcb3211a8b7f6247bf16f29e8e5b18e": {
+    "w": "YES",
+    "q": "Will Trump’s approval rating be between 38.5 and 38.9 on June 12, 2026?",
+    "s": "will-trumps-approval-rating-be-between-38pt5-and-38pt9-on-june-12-2026",
+    "c": "Legal & Regulatory",
+    "r": 1781222400
+  },
+  "0x6d0e09d0f04572d9b1adad84703458b0297bc5603b69dccbde93147ee4443246": {
+    "w": "YES",
+    "q": "US forces enter Iran by April 30?",
+    "s": "us-forces-enter-iran-by-april-30-899",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x084f6697c5406db79ea3bc2f45e92c4c554d09806272f6c2ea90742503c178af": {
+    "w": "YES",
+    "q": "Will James Talarico and Ken Paxton be the candidates for the Texas Senate Election?",
+    "s": "will-james-talarico-and-ken-paxton-be-the-candidates-for-the-texas-senate-election-869",
+    "c": "Elections",
+    "r": 1772496000
+  },
+  "0xb2953e0ded8ee0d8f3b6284ac4f33a790f37c78b931c588466436e60089a6591": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by May 26?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-may-26",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0xfcde02af15efe40e336d67f0ef9aa49e9d40c37b92961fb890afc4afdbfe54d6": {
+    "w": "YES",
+    "q": "Will TISZA – Respect and Freedom Party (TISZA) win the most seats in the next Hungarian parliamentary election?",
+    "s": "will-tisza-respect-and-freedom-party-tisza-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+    "c": "Elections",
+    "r": 1775952000
+  },
+  "0x9fbe1832139c5e67dbf93813aabb9ac67ab8dd3d7d32fe86957ff761a8fa1532": {
+    "w": "YES",
+    "q": "Will CDU win the most seats in the 2026 Rhineland-Palatinate parliamentary elections?",
+    "s": "will-cdu-win-the-most-seats-in-the-2026-rhineland-palatinate-parliamentary-elections",
+    "c": "Elections",
+    "r": 1774137600
+  },
+  "0x5a57dd8923b78b55b1aa48a53260787d2ae5c54f3b265d24c1e717e791d0fada": {
+    "w": "YES",
+    "q": "Will Iran announce a new supreme leader on March 9, 2026?",
+    "s": "will-iran-announce-a-new-supreme-leader-on-march-9-2026",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x561cd8d035bac38ed04e23d7882a126da38d7ead9d6679f722ad62c0c9d54ad2": {
+    "w": "YES",
+    "q": "Will Iran close the Strait of Hormuz by March 31?",
+    "s": "will-iran-close-the-strait-of-hormuz-by-march-31",
+    "c": "Military & Defense",
+    "r": 1798675200
+  },
+  "0xa77b0fe6af6adbf62a04d4bdbf9fb7a0eac951b506dbc6b68ecf452c41ce333f": {
+    "w": "NO",
+    "q": "Will Iran announce a new supreme leader on March 8, 2026?",
+    "s": "will-iran-announce-a-new-supreme-leader-on-march-8-2026",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x101d521eea2a04b8bf2c865facd18dcdfd8c7751a759ca622e512bbdb3896610": {
+    "w": "NO",
+    "q": "Will UK strike Iran by March 31?",
+    "s": "will-uk-strike-iran-by-march-31",
+    "c": "World",
+    "r": 946684800
+  },
+  "0x24fb7c2d95c93a68018e6c4a90d88043bb67d32fd1454924cef8ebdd550228f3": {
+    "w": "YES",
+    "q": "Will Israel launch a major ground offensive in Lebanon by March 31?",
+    "s": "will-israel-launch-a-major-ground-offensive-in-lebanon-by-march-31",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x781a06aa5779f97724b75ed8128aaf72c4a8955c893a6fefdc0efd7cb001c513": {
+    "w": "NO",
+    "q": "Will John Cornyn win the 2026 Texas Republican Primary?",
+    "s": "will-john-cornyn-win-the-2026-republican-primary",
+    "c": "Elections",
+    "r": 1779753600
+  },
+  "0xb33aaddda06294093348959c4da94ea64c9ee6c8c8c8530a645e2fa8d3dc29fb": {
+    "w": "NO",
+    "q": "Will no one leave the Trump Cabinet before 2027?",
+    "s": "will-no-one-leave-the-trump-cabinet-before-2027",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x3725dfa6b17797bd51879ecc3893142bf058be6c9e81bfd72f309060bb387f85": {
+    "w": "YES",
+    "q": "Will US or Israel strike Iran by March 31, 2026?",
+    "s": "will-us-or-israel-strike-iran-by-march-31-2026-233",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0x49a62e12f8da87f9abfbabb953cb0158d4774b4456e81b587b9449c38948e2ba": {
+    "w": "YES",
+    "q": "Will the Liberal Democratic Party win 250 or more seats in the 2026 Japanese snap general election?",
+    "s": "will-the-liberal-democratic-party-win-250-or-more-seats-in-the-2026-japanese-snap-general-election",
+    "c": "Elections",
+    "r": 1770508800
+  },
+  "0xcf3a348a94d63263a6b658845bb125b4965e69ffe3eddd128635e6c9a845bf4d": {
+    "w": "NO",
+    "q": "Will Trump's approval rating be between 40.5 and 40.9 on January 30, 2026?",
+    "s": "will-trumps-approval-rating-be-between-40pt5-and-40pt9-on-january-30-2026",
+    "c": "Legal & Regulatory",
+    "r": 1769817600
+  },
+  "0x763a7f1e440693b54c56da02d338c2092053567dd865174387d06ee5612fdc9e": {
+    "w": "YES",
+    "q": "Will Andy Burnham be the next Prime Minister of the United Kingdom in 2026?",
+    "s": "will-andy-burnham-be-the-next-prime-minister-of-the-united-kingdom-in-2026-882",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xe70fd51f42e61fc309d8e57019a7b76c8dc7bd19b473351d56ff1e125ae0d9d4": {
+    "w": "NO",
+    "q": "Will IR Iran win on 2026-06-15?",
+    "s": "fifwc-irn-nzl-2026-06-15-irn",
+    "c": "World",
+    "r": 1781568000
+  },
+  "0xed5356b5d6f3b0d1095e21d586214de01b438ccb8d0ae5c59b55647d8fc95e97": {
+    "w": "NO",
+    "q": "Will OpenAI have the best AI model at the end of July 2026?",
+    "s": "will-openai-have-the-best-ai-model-at-the-end-of-july-2026",
+    "c": "Tech & Announcements",
+    "r": 1785456000
   }
 }
