@@ -293,8 +293,8 @@ function buildSubject(agg, idx, opts, catalog) {
   } : {};
 
   const heroSentence = isCluster
-    ? "These " + ((agg.members || []).length) + " linked accounts won " + k + " of " + n + " long-shot bets the market gave about a " + avgImplied +
-      " percent chance. A record this strong is the pattern you would expect from foreknowledge, not luck — a pattern consistent with informed trading, not proof of it."
+    ? "These " + ((agg.members || []).length) + " wallets appear to be controlled by a single entity (shared on-chain funding + co-ordinated betting). Together they won " + k + " of " + n + " long-shot bets the market gave about a " + avgImplied +
+      " percent chance — the pattern you would expect from foreknowledge split across wallets, not luck. Consistent with informed trading by one operator, not proof of it."
     : (convOnly
       ? "This account placed a single " + money(conv.stake) + " bet at roughly " + avgImplied + " percent" + (conv.market ? " on “" + String(conv.market).slice(0, 70) + "”" : "") +
         " and cashed out about " + money(conv.payout) + ". One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet insider signature. Consistent with informed trading, not proof of it."
@@ -313,7 +313,7 @@ function buildSubject(agg, idx, opts, catalog) {
     type: isCluster ? "cluster" : "wallet",
     address: agg.address || null,
     memberAddresses: isCluster ? (agg.members || []) : [agg.address],
-    idLabel: isCluster ? ("Cluster of " + ((agg.members || []).length) + " wallets") : short(agg.address),
+    idLabel: isCluster ? (((agg.members || []).length) + " wallets · 1 entity") : short(agg.address),
     username: agg.pseudonym || (_prof && _prof.username) || null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
     category, marketsCount: n, tier,
