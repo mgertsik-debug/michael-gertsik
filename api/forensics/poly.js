@@ -39,26 +39,36 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
  * where a betting edge is noise, not information — those are not scored. */
 function category(tags, question) {
   const s = (tags.join(" ") + " " + question).toLowerCase();
-  // EXCLUDE outcomes decided in public / on the field / by price discovery — an
-  // "edge" there is noise, not information.
-  if (/\bsport|nfl|nba|wnba|mlb|nhl|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|golf|\bf1\b|grand prix|\bmatch\b|\bgame\b|league|playoff|super ?bowl|world cup|lakers|celtics|yankees|warriors|chiefs|win game|moneyline|to score|goalscorer/.test(s)) return null;
-  if (/crypto|bitcoin|\bbtc\b|ethereum|\beth\b|solana|\bsol\b|\bxrp\b|dogecoin|token price|coin price|price of|hit \$|reach \$/.test(s)) return null;
-  if (/weather|temperature|hottest|hurricane|rainfall|snowfall|climate|\bel ni/.test(s)) return null;
-  if (/\bmention|say the word|tweet|number of posts/.test(s)) return null;
-  // INCLUDE only markets whose outcome can turn on nonpublic information.
-  // Military / national-security ACTIONS (incl. operations, strikes, capture/seizure,
-  // chokepoints) — the Maduro-capture, Iran-strike, Hormuz-closure insider markets
-  // all live here. These are the highest-signal insider markets, so cast wide.
+  // ---- EXCLUDE: outcomes decided in PUBLIC — by skill on the field, by open price
+  // discovery, or by nature. An "edge" there is handicapping/luck, not secret info. ----
+  if (/\bsport|nfl|nba|wnba|mlb|nhl|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|golf|\bf1\b|grand prix|\bmatch\b|\bgame\b|league|playoff|super ?bowl|world cup|lakers|celtics|yankees|warriors|chiefs|win game|moneyline|to score|goalscorer|points|rebounds|\bmvp\b/.test(s)) return null;
+  // PRICE TARGETS only (pure price discovery). Crypto/stock EVENTS — listings, hacks,
+  // ETF approvals — are insider-tradeable and caught in the INCLUDE block below.
+  if (/price (of|target|above|below|reach|hit|prediction)|hit \$|reach \$|above \$|below \$|\$[0-9]|close (above|below)|all-time high|\bath\b|market ?cap|flippening|trade(s| at| above| below)/.test(s)) return null;
+  if (/weather|temperature|hottest|coldest|hurricane|rainfall|snowfall|climate|\bel ni|degrees|\brain\b/.test(s)) return null;
+  if (/\bmention|say the word|number of (posts|tweets|times)|how many (times|posts|tweets)|tweet count/.test(s)) return null;
+
+  // ---- INCLUDE: outcomes that can turn on MATERIAL NONPUBLIC information ----
+  // Military / national-security actions (operations, strikes, capture/seizure,
+  // chokepoints) — the Maduro-capture / Iran-strike / Hormuz insider markets.
   if (/military|defense|defence|airstrike|air ?base|troop|missile|\bwar\b|warfare|nato|sanction|basing|carrier|drone|nuclear|ceasefire|hostage|strait|hormuz|blockade|invade|invasion|incursion|occupy|occupation|\bseize|\bcapture[d]?|operation|special forces|coup|overthrow|regime|airspace|strike on/.test(s)) return "Military & Defense";
   if (/election|midterm|primary|ballot|electoral|turnout|runoff/.test(s)) return "Elections";
   if (/econom|inflation|\bcpi\b|\bpce\b|\bfed\b|fomc|\bgdp\b|jobs report|payroll|unemploy|jobless|rate (cut|hike|decision)|interest rate|recession/.test(s)) return "Economics";
-  // Politics + LEADERSHIP TENURE — "X out by DATE", step down, ousted, arrested,
-  // removed from power, survive in office. "Maduro out by March 31" etc. land here.
-  if (/politic|president|prime minister|\bpm\b|chancellor|senate|congress|governor|cabinet|nominee|confirm|impeach|resign|pardon|executive order|supreme court|indict|arrested|extradit|\bout (by|in|before)\b|step down|leave office|leaves office|removed from|remain in office|stay in power|stays in power|ousted|ouster|\boust\b|in power|survive|toppl|in office/.test(s)) return "Politics";
-  if (/culture|entertain|\bmovie|\bfilm\b|box office|oscar|grammy|emmy|\baward|\balbum\b|streaming chart/.test(s)) return "Culture";
-  // Geopolitics — named theatres + diplomacy. Country/leader names that recur in
-  // insider markets (Venezuela/Maduro, Iran, Ukraine/Russia, Israel/Gaza, Taiwan, NK).
-  if (/geopolit|treaty|summit|peace deal|coup|foreign|diplomat|sanction|annex|border|maduro|venezuela|caracas|\biran\b|tehran|israel|gaza|hezbollah|hamas|ukraine|russia|kremlin|putin|taiwan|north korea|\bdprk\b|kim jong|syria|lebanon|yemen/.test(s)) return "World";
+  // Legal / regulatory — verdicts, indictments, arrests, charges, rulings, approvals,
+  // bans, investigations. Decided by bodies whose insiders know before the public.
+  if (/\bindict|\bcharged?\b|\barrest|convict|acquit|verdict|\bguilty\b|sentenc|\bplea\b|lawsuit|\bsued?\b|settle(ment|s)?|subpoena|grand jury|\bsec\b|\bfda\b|\bftc\b|\bdoj\b|antitrust|regulat|\bapprov|\bban(ned|s)?\b|\bfine[ds]?\b|investigat|\bruling\b|\bcourt\b|\btrial\b|extradit|pardon|tariff|sanction/.test(s)) return "Legal & Regulatory";
+  // Corporate / M&A — acquisitions, IPOs, bankruptcies, exec changes, layoffs. The
+  // classic insider-trading surface.
+  if (/acquir|acquisition|\bmerger\b|merge with|buyout|takeover|\bipo\b|go public|bankrupt|chapter 11|layoff|\bceo\b|\bcfo\b|step down as|fired as|resign as|\bearnings\b|delist|spin ?off|stock split|dividend|guidance|\bfunding round|valuation/.test(s)) return "Corporate & M&A";
+  // Politics + LEADERSHIP TENURE — "X out by DATE", ousted, removed from power, survive.
+  if (/politic|president|prime minister|\bpm\b|chancellor|senate|congress|governor|cabinet|nominee|confirm|impeach|resign|pardon|executive order|supreme court|\bout (by|in|before)\b|step down|leave office|leaves office|removed from|remain in office|stay in power|stays in power|ousted|ouster|\boust\b|in power|survive|toppl|in office/.test(s)) return "Politics";
+  // Crypto EVENTS (not price) — listings, hacks, ETF approvals, protocol/governance.
+  if (/list(ing|ed|s)?\b|\bdelist|\bhack|exploit|drained|\betf\b|spot etf|rug ?pull|depeg|insolven|halt withdrawals|mainnet|hard fork|governance vote|\bairdrop|token unlock|coinbase|binance|kraken|\bgemini\b/.test(s)) return "Crypto Events";
+  // Tech / product announcements — launches, releases, unveilings decided internally.
+  if (/\bannounc|unveil|\blaunch|release date|\breveal|\bgpt-?[0-9]|\bai model|new model|partnership|integration|\bships?\b in/.test(s)) return "Tech & Announcements";
+  if (/culture|entertain|\bmovie|\bfilm\b|box office|oscar|grammy|emmy|\baward|\balbum\b|streaming chart|number one|\bnetflix\b|renew(ed|al)/.test(s)) return "Culture";
+  // Geopolitics — named theatres + diplomacy (Venezuela/Maduro, Iran, Ukraine, etc.).
+  if (/geopolit|treaty|summit|peace deal|coup|foreign|diplomat|annex|\bborder\b|maduro|venezuela|caracas|\biran\b|tehran|israel|gaza|hezbollah|hamas|ukraine|russia|kremlin|putin|taiwan|north korea|\bdprk\b|kim jong|syria|lebanon|yemen/.test(s)) return "World";
   return null;                                            // unmatched ⇒ not a detectable-edge market ⇒ excluded
 }
 
