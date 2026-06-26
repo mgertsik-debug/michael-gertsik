@@ -324,15 +324,14 @@ function positionToBet(p) {
   const size = num(p.size != null ? p.size : p.shares);
   const totalBought = num(p.totalBought != null ? p.totalBought : (p.initialValue != null ? p.initialValue : size * avg));
   const title = String(p.title || p.question || "").trim();
-  const endMs = Date.parse(p.endDate || p.end_date || 0) || 0;
-  // SETTLED only when the market has actually RESOLVED on-chain: the holder can
-  // redeem, or the held-outcome price has snapped to ~0/~1. A market whose nominal
-  // end DATE has passed but whose price is still mid-range is an OPEN position — a
-  // match that just ended but hasn't resolved on-chain yet, still tradable. Those
-  // are NOT resolved bets. (Counting them — at curPrice ~0.6, redeemable:false — as
-  // losses is exactly what turned a +$13M sharp's WINNING open positions into a
-  // "−$13K, everything Lost" long-shot loser. endDate<now is NOT a resolution.)
-  const settled = cur <= 0.02 || cur >= 0.98 || p.redeemable === true;
+  // SETTLED only when Polymarket marks the position REDEEMABLE — i.e. the market
+  // resolved on-chain and the held tokens can be redeemed. Price is NOT a reliable
+  // resolution signal: an open 2028-election long-shot sits at curPrice≈0.01 and a
+  // heavy favourite at ≈0.99 for months while still fully tradable. Counting those
+  // priced-extreme OPEN positions as "resolved losses" is what filled lookups with
+  // future markets ("Tim Walz win 2028") shown as settled. Losing resolved bets
+  // come from the trades→winner-catalog path instead (which also carries the tx).
+  const settled = p.redeemable === true;
   if (!cond || !settled) return null;
   if (!(avg > 0.0001 && avg < 0.9999)) return null;            // need a real entry odds
   // SCOPE GATE: only markets whose outcome can turn on NONPUBLIC information are
@@ -349,9 +348,11 @@ function positionToBet(p) {
   // Polymarket's OWN realized P/L for this position — authoritative, matches the
   // number on the wallet's Polymarket profile. Prefer it over any reconstruction.
   const pnl = p.cashPnl != null ? num(p.cashPnl) : (p.realizedPnl != null ? num(p.realizedPnl) : null);
+  const endMs = Date.parse(p.endDate || p.end_date || 0) || 0;
+  const evSlug = p.eventSlug || p.slug;                        // event slug drives the canonical market URL
   return {
-    cond, eventGroup: p.slug || cond, question: title || "(market)",
-    url: p.slug ? "https://polymarket.com/event/" + p.slug : "https://polymarket.com/markets",
+    cond, eventGroup: evSlug || cond, question: title || "(market)",
+    url: evSlug ? "https://polymarket.com/event/" + evSlug : "https://polymarket.com/markets",
     category: cat, entryPrice: clip(avg, 1e-4, 0.9999), stakeUsd: Math.round(totalBought || size * avg),
     outcome: (String(p.outcome || "").toUpperCase()) || "YES", won, held: true,
     pnl: pnl != null ? Math.round(pnl) : null,
