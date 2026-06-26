@@ -2201,49 +2201,49 @@
     "w": "NO",
     "q": "Will Yoon Suk Yeol be sentenced to no prison time?",
     "s": "yoon-insurrection-case-prison-sentence",
-    "c": "Politics",
+    "c": "Legal & Regulatory",
     "r": 1771498778
   },
   "0x972e243bdaf402ae8359433b3ee2920039af238c88e368de0959ad4ff07d68d6": {
     "w": "NO",
     "q": "Will Yoon Suk Yeol be sentenced to 5–10 years in prison?",
     "s": "yoon-insurrection-case-prison-sentence",
-    "c": "Politics",
+    "c": "Legal & Regulatory",
     "r": 1771498832
   },
   "0xd588e540a782bc46a27d0886dc0eb613d63109ba0fe9ef0634b66c6d8b8ebad8": {
     "w": "NO",
     "q": "Will Yoon Suk Yeol be sentenced to 15–20 years in prison?",
     "s": "yoon-insurrection-case-prison-sentence",
-    "c": "Politics",
+    "c": "Legal & Regulatory",
     "r": 1771499072
   },
   "0xf0d956cfe4b9d79284f703c1de3112c4f0d5a33cbc2b4234973cfd8dcb3f59f9": {
     "w": "YES",
     "q": "Will Yoon Suk Yeol be sentenced to at least 30 years in prison?",
     "s": "yoon-insurrection-case-prison-sentence",
-    "c": "Politics",
+    "c": "Legal & Regulatory",
     "r": 1771498892
   },
   "0xbb92b847045637eee60762274a1ef583f4c247070f48b46d0495a7b9024509ea": {
     "w": "NO",
     "q": "Will Yoon Suk Yeol be sentenced to less than 5 years in prison?",
     "s": "yoon-insurrection-case-prison-sentence",
-    "c": "Politics",
+    "c": "Legal & Regulatory",
     "r": 1771499072
   },
   "0x37730cac5eeb5632feed72b87d5e9af5c31e7a823f927231c96fb5024e6da149": {
     "w": "NO",
     "q": "Will Yoon Suk Yeol be sentenced to 10–15 years in prison?",
     "s": "yoon-insurrection-case-prison-sentence",
-    "c": "Politics",
+    "c": "Legal & Regulatory",
     "r": 1771498832
   },
   "0x238a958420eb246a32602eeeb1a88e55d53d30625c3870bf1af542f6f3618eb9": {
     "w": "NO",
     "q": "Will Yoon Suk Yeol be sentenced to 20–30 years in prison?",
     "s": "yoon-insurrection-case-prison-sentence",
-    "c": "Politics",
+    "c": "Legal & Regulatory",
     "r": 1771498830
   },
   "0xc589adfd317b954b8fd645dec08a41eb3ffa08147a42b113cd8e1df7ac68d674": {
@@ -4533,14 +4533,14 @@
     "q": "Russia x Ukraine ceasefire by end of 2027?",
     "s": "russia-x-ukraine-ceasefire-by-end-of-2027",
     "c": "Military & Defense",
-    "r": 1830211200
+    "r": 1778292421
   },
   "0x422ca08d0b46118b477f19e06a432fc4e4ba50173c524fa8fee827bf321645d0": {
     "w": "YES",
     "q": "Russia x Ukraine ceasefire by June 30, 2027?",
     "s": "russia-x-ukraine-ceasefire-by-june-30-2027",
     "c": "Military & Defense",
-    "r": 1814313600
+    "r": 1778308325
   },
   "0xa93b28a6384aefff4e7d5adb2061c444e4a0e95b8ad17755f9cee123c7099b35": {
     "w": "YES",
@@ -4673,7 +4673,7 @@
     "q": "US-Iran nuclear deal before 2027?",
     "s": "us-iran-nuclear-deal-before-2027",
     "c": "Military & Defense",
-    "r": 1798675200
+    "r": 1781491602
   },
   "0xcec9024b36a711d9dec8494a0caaffc94166f2736f1cef4e54f7b50d22df4881": {
     "w": "YES",
@@ -7284,7 +7284,7 @@
     "q": "Canada recession before 2027?",
     "s": "canada-recession-before-2027",
     "c": "Economics",
-    "r": 1798675200
+    "r": 1780091257
   },
   "0x705479cc3e7cf2907997c62b4245356c48b5133f7d82a47829a2354dd77a7c51": {
     "w": "NO",
@@ -8173,6 +8173,3303 @@
     "q": "Will the Iran ceasefire continue through May 20?",
     "s": "will-the-iran-ceasefire-continue-through-may-20",
     "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x8c579046749f8d2d509865dbd9cd653317d84389eb8836221083ba1448595952": {
+    "w": "YES",
+    "q": "Will Arcium launch a token by June 30, 2026?",
+    "s": "will-arcium-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1782130735
+  },
+  "0x167b740c7a0348b56b62d26b9199e216b6b137d19bb95d51d48017b27c0251df": {
+    "w": "YES",
+    "q": "Will Arcium launch a token by December 31, 2027?",
+    "s": "will-arcium-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1782130735
+  },
+  "0x50360dba56644fab3e104fbcc513e4d8c58491e7f45a3153b78b47ac7e6354c5": {
+    "w": "YES",
+    "q": "Will Arcium launch a token by December 31, 2026?",
+    "s": "will-arcium-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1782130735
+  },
+  "0x89ce5907577089f0e410323052f114304af188acd790fc5576221cdc26d952c0": {
+    "w": "YES",
+    "q": "Will Arcium launch a token by September 30, 2027?",
+    "s": "will-arcium-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1782130735
+  },
+  "0x06e6b954fa524452db2fa1f34caf472874c8526001851646b38acbd400555ff6": {
+    "w": "NO",
+    "q": "Will Reppo launch a token by June 30, 2026?",
+    "s": "will-reppo-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781212304
+  },
+  "0xbb09fb2b6723857a05c8205a62d8f197df8548ed5763d8326542740961af7342": {
+    "w": "NO",
+    "q": "Will Reppo launch a token by December 31, 2026?",
+    "s": "will-reppo-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781212304
+  },
+  "0x817c5c4909eaa385e116262e075fce574f12ee0c9446d92018a20291693a746b": {
+    "w": "NO",
+    "q": "Will Reppo launch a token by June 30, 2027?",
+    "s": "will-reppo-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781212304
+  },
+  "0xc12edbe10421595bd4e200e85f9dd16a0e20a2ab9af38afecbfd311fa9174bd2": {
+    "w": "YES",
+    "q": "Will Citrea launch a token by June 30, 2026?",
+    "s": "will-citrea-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779837460
+  },
+  "0x0672048a6b706a89419679d20594bf0611fe6c323b44e4d00d060cac27ae9b2f": {
+    "w": "YES",
+    "q": "Will Citrea launch a token by December 31, 2026?",
+    "s": "will-citrea-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779837460
+  },
+  "0xb384c773b6ec0350dcdee89e8ffdaa23ea28a8f278ae8738b0afa89f88bddebb": {
+    "w": "YES",
+    "q": "Will Citrea launch a token by June 30, 2027?",
+    "s": "will-citrea-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779837460
+  },
+  "0xa8885b67447d25942cb9d298be6acc0be634c077a4c52b342c839115742ac617": {
+    "w": "YES",
+    "q": "Will Citrea launch a token by December 31, 2027?",
+    "s": "will-citrea-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779837460
+  },
+  "0x710244fceb754a51b7565aeccf5e48a4247692c693601f3c0a6f611fc905bbf1": {
+    "w": "YES",
+    "q": "Will Citrea launch a token by September 30, 2026?",
+    "s": "will-citrea-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779837460
+  },
+  "0x93f1de25c1868ed73f5127d63dbb6a4d250a7bbc73cc169e5cbc0bfe6d6b48f1": {
+    "w": "YES",
+    "q": "Will Citrea launch a token by March 31, 2027?",
+    "s": "will-citrea-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779837460
+  },
+  "0xedf5fd2db149d05993b1998fea7676f4d776941df4a8112a7bc04e3255f6c2e5": {
+    "w": "YES",
+    "q": "Will Citrea launch a token by September 30, 2027?",
+    "s": "will-citrea-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779837460
+  },
+  "0x18e0bae7e0e228e57be2d852f1a38f94d0a204a3c44079b0d369b4c9f71bf8ba": {
+    "w": "NO",
+    "q": "Will o1 launch a token by March 31, 2026?",
+    "s": "will-o1-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1775032567
+  },
+  "0xcd7f93a5e2d0919298caceeb694b7541cb04ab3891698987c8f8686eaa30b01e": {
+    "w": "YES",
+    "q": "Will o1 launch a token by December 31, 2026?",
+    "s": "will-o1-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781775346
+  },
+  "0xdd3d42c081d91ecf2a99f5db66968f3e88daf162eec39f0e1d9ec6f50072e33b": {
+    "w": "YES",
+    "q": "Will o1 launch a token by June 30, 2026?",
+    "s": "will-o1-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781778226
+  },
+  "0x984a4d8a55d9de984811a3be1350461b1fe418a3a9c8be183f27eebee8d3044c": {
+    "w": "YES",
+    "q": "Will o1 launch a token by June 30, 2027?",
+    "s": "will-o1-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781775256
+  },
+  "0xec37b4aa424a2dafd3708afad60b817b7a3c05d20133af5ae6d9e89708ac4d57": {
+    "w": "YES",
+    "q": "Will o1 launch a token by September 30, 2026?",
+    "s": "will-o1-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781775827
+  },
+  "0xaf35affe20a84d95d4bb87bca25dc118cecf8b4abd7917e89dd052cf4bc9eed9": {
+    "w": "YES",
+    "q": "Will o1 launch a token by September 30, 2027?",
+    "s": "will-o1-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781775211
+  },
+  "0x6482e21c7b0fa011b9648bf54a61f7eee11d50826ab86acfe6c795205c45f507": {
+    "w": "YES",
+    "q": "Will o1 launch a token by December 31, 2027?",
+    "s": "will-o1-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781775151
+  },
+  "0x55a990a1ec15480a5b8f3e91ad912b7bb0e564ad79ab4bc22261017af8f1f279": {
+    "w": "YES",
+    "q": "Will o1 launch a token by March 31, 2027?",
+    "s": "will-o1-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781775346
+  },
+  "0xb83b8f5249532d56fa9a5e4b6973f273d04de16804c6e35a4de81c72806b2d8e": {
+    "w": "NO",
+    "q": "Will Helen Ogbu win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658429
+  },
+  "0x338e693bdb81d0cb315284ac319a051eb9d7fd8f58ca94580369093828162c92": {
+    "w": "NO",
+    "q": "Will Noel Thomas win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658548
+  },
+  "0xa5c7e44a47a5f491cac7335af4a14e412a9a6e21b2d4667a175ce57287856187": {
+    "w": "NO",
+    "q": "Will Person H win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658544
+  },
+  "0x4bd58a262b6579f0a478879c23c17e75ed4b780979bdcbdfa433b5e47644837d": {
+    "w": "NO",
+    "q": "Will Person M win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658434
+  },
+  "0x7f97e93d37e5e207984d9f68b3dff3013025f9b2ecf9f25e64c690f2f88a0c56": {
+    "w": "NO",
+    "q": "Will Míde Nic Fhionnlaoich win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658546
+  },
+  "0x4884312a9e0c3fe05be1ca8b872f7e7818affbd20b10c047ac1a74bac9b92797": {
+    "w": "NO",
+    "q": "Will Mike Cubbard win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658551
+  },
+  "0xefa742630e0ae617c7ed14b32e553f5b1722a468ae4d61fc70c4fc7ec2aa82dc": {
+    "w": "NO",
+    "q": "Will Person A win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658427
+  },
+  "0x6aa2fa830a7f4d909640e5f1d376ebda2d40bcf46138db860d99ffe0e59ba295": {
+    "w": "NO",
+    "q": "Will Person D win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658490
+  },
+  "0x18e5488a606fa3a9f5fc452666e8f7725d0408d8e78df65a7474507662d8a8e9": {
+    "w": "NO",
+    "q": "Will Person G win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658487
+  },
+  "0xdad742744e5f84c7557125d30d6143bd38e169bbbcd864b7bdcd365a77b90fe4": {
+    "w": "NO",
+    "q": "Will Person L win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658492
+  },
+  "0x616bb3fd50cc842bc36fd49555747fbbf1fdc0125aca5665061a54badbda4fd6": {
+    "w": "NO",
+    "q": "Will Other win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658425
+  },
+  "0x8c33e9363ac336d6ace62f64e10999b5014ea5936cae96d6f8c932b2757a6800": {
+    "w": "NO",
+    "q": "Will Niall Murphy win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658613
+  },
+  "0xaf03708b58d5e0f364ccb2c70be8f03663bf5418550ae17af6bf5921153f1733": {
+    "w": "NO",
+    "q": "Will Person B win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658431
+  },
+  "0x193dc3f003772dea6f1fa54966290acfadb43efee000c88e021f8b19e72d7b56": {
+    "w": "NO",
+    "q": "Will Person C win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658436
+  },
+  "0x8b986572472b16622373582d28fd0a301a1a5fb6679b17bc6208c653437fd983": {
+    "w": "NO",
+    "q": "Will Person F win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658550
+  },
+  "0x0e92a3fe97eb59bcff829a26bde65ed2919df4c8a01dc2bc73d08ce9394c9380": {
+    "w": "NO",
+    "q": "Will Person I win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658544
+  },
+  "0x63c6636ed248824047fb2e5044189e048b9207a549d7358be46204f1b620039f": {
+    "w": "NO",
+    "q": "Will Person K win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658550
+  },
+  "0x8b2b903ff76adf60a562841cac343151da1d2e4f5f9b9243ca802179511d236b": {
+    "w": "NO",
+    "q": "Will Mark Lohan win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658429
+  },
+  "0xa46d2b031e0c57fb04888e3747747f955a71369881f5460b2fc23e923f878ecc": {
+    "w": "NO",
+    "q": "Will Sheila Garrity win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658488
+  },
+  "0x341d6a969d9243889772ba5c8889db5fad54fc1b9cd8fd14f264742e6e97973b": {
+    "w": "YES",
+    "q": "Will Seán Kyne win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658485
+  },
+  "0xe81314deb37ff5c17002bdadbc31ee3e2aefce1159630590ec57838513a457a0": {
+    "w": "NO",
+    "q": "Will Orla Nugent win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658488
+  },
+  "0x6123ac6f7291638159d8079ed8de1627cd782be26db6b0c51855e82cc538c76a": {
+    "w": "NO",
+    "q": "Will Denman Rooke win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658606
+  },
+  "0xf02705eaed652d019fa4c373402e13c8136df70d9e14a1df869cc41678513049": {
+    "w": "NO",
+    "q": "Will Thomas Welby win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658548
+  },
+  "0x7dff02f9943af94fc9d2e9ce9bbf23d091349cf93e7976ee7e38f60bc3e25895": {
+    "w": "NO",
+    "q": "Will Person E win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658434
+  },
+  "0x4048792b2bf1904f398bb6c835bd556aff9e5585e02d124aa174f1edddc45681": {
+    "w": "NO",
+    "q": "Will Person J win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658546
+  },
+  "0x142655fea6cd5ede71adc39d8e86838cb0dd63cb15284568296697aacf46c7e1": {
+    "w": "NO",
+    "q": "Will Person N win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658487
+  },
+  "0x7840657274ad8a4658399658dc84b5b2bf495de052fd2f8abcc055487a9bf135": {
+    "w": "NO",
+    "q": "Will Person O win the 2026 Galway West by-election?",
+    "s": "galway-west-by-election-winner",
+    "c": "Elections",
+    "r": 1779658485
+  },
+  "0xef77a305d9134cc687c647941f60928695c8eca7117a742aaa4a90494f51b9f6": {
+    "w": "NO",
+    "q": "Will Opinion launch a token by February 17, 2026?",
+    "s": "will-opinion-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1771398490
+  },
+  "0xf2209290b297ce5e5919273cb9189c1788649ea584f04e07ef0d438149fe8400": {
+    "w": "YES",
+    "q": "Will Opinion launch a token by December 31, 2026?",
+    "s": "will-opinion-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772722985
+  },
+  "0xb315c9af354537c361bb137e5a62be8d431999d8d8d7354de802a0e3cdbaa66b": {
+    "w": "NO",
+    "q": "Will Opinion launch a token by February 28, 2026?",
+    "s": "will-opinion-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772356225
+  },
+  "0x7fac4826b3560d396be9918b1f43c6d81ab50cb7bafbf2be59f20330ea911fa1": {
+    "w": "YES",
+    "q": "Will Opinion launch a token by March 31, 2026?",
+    "s": "will-opinion-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772722925
+  },
+  "0x86326afa7eba54fce4e637a230a4c14566eb2383b0c0e9a4b23797d604d15627": {
+    "w": "YES",
+    "q": "Will Opinion launch a token by September 30, 2026?",
+    "s": "will-opinion-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772723043
+  },
+  "0x183a3e49c10e27fa8f6e182a229947dee657b1642ea22d729753b3a05555b842": {
+    "w": "YES",
+    "q": "Will Opinion launch a token by June 30, 2026?",
+    "s": "will-opinion-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772722985
+  },
+  "0x0bffe3740f41d3aa15a0b2416b27284ee04299f40e3cf6694fdc75f13c793972": {
+    "w": "YES",
+    "q": "Will Fogo launch a token by September 30 2026?",
+    "s": "will-fogo-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1768491828
+  },
+  "0x437552dbeb29c643b9431dfc4fa447e6590f69037a0a7802dcd28b8a3f720977": {
+    "w": "YES",
+    "q": "Will Fogo launch a token by December 31 2026?",
+    "s": "will-fogo-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1768491828
+  },
+  "0xd4819adad2fcf34eb3a837cc1521c14cddd655e32b26e6b551cf4af6a408b4bd": {
+    "w": "YES",
+    "q": "Will Fogo launch a token by March 31 2026?",
+    "s": "will-fogo-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1768491764
+  },
+  "0x5845c01f34c075a35cad71e25a72b8007bd43db3e9aaf4631d41b386087a7ad7": {
+    "w": "NO",
+    "q": "Will Fogo launch a token by December 31 2025?",
+    "s": "will-fogo-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1767259405
+  },
+  "0x437abc7bee04c713a2e38043df147bd815523523debb8a863b57dc19374c3586": {
+    "w": "YES",
+    "q": "Will Fogo launch a token by June 30 2026?",
+    "s": "will-fogo-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1768491828
+  },
+  "0xe34b474954f0b9b08c68ce3a96def43d7fd41de68f2af77cb651956e21febf51": {
+    "w": "YES",
+    "q": "Will Hyperliquid's HIP-4 upgrade go live on mainnet by September 30?",
+    "s": "will-hyperliquids-hip-4-upgrade-go-live-on-mainnet-by",
+    "c": "Crypto Events",
+    "r": 1777719230
+  },
+  "0xf008c98536b203c09d028c04225570c4b57595aacc83c255addcb26324197dab": {
+    "w": "YES",
+    "q": "Will Hyperliquid's HIP-4 upgrade go live on mainnet by December 31?",
+    "s": "will-hyperliquids-hip-4-upgrade-go-live-on-mainnet-by",
+    "c": "Crypto Events",
+    "r": 1777723238
+  },
+  "0xfb1971fc997e2107ec6a54e487c196d89b2aa62b2b91d34e4cb4e66189c2c7ef": {
+    "w": "NO",
+    "q": "Will Hyperliquid's HIP-4 upgrade go live on mainnet by March 31?",
+    "s": "will-hyperliquids-hip-4-upgrade-go-live-on-mainnet-by",
+    "c": "Crypto Events",
+    "r": 1775032929
+  },
+  "0xba035c08d62311e94910425fd935f9beccdf11aa0861b181a236329b12c50365": {
+    "w": "YES",
+    "q": "Will Hyperliquid's HIP-4 upgrade go live on mainnet by June 30?",
+    "s": "will-hyperliquids-hip-4-upgrade-go-live-on-mainnet-by",
+    "c": "Crypto Events",
+    "r": 1777719228
+  },
+  "0xea9d44103c3da81987ddc229af34aabc058c8ec71aded2c6970817286329c730": {
+    "w": "NO",
+    "q": "Will Hyperliquid's HIP-4 upgrade go live on mainnet by April 30?",
+    "s": "will-hyperliquids-hip-4-upgrade-go-live-on-mainnet-by",
+    "c": "Crypto Events",
+    "r": 1777619436
+  },
+  "0x74e690f9ebf4d2cd0fe2ecf49b96520ecca5e15ff26e7ea958b54590085dd57d": {
+    "w": "YES",
+    "q": "Will Hyperliquid's HIP-4 upgrade go live on mainnet by May 30?",
+    "s": "will-hyperliquids-hip-4-upgrade-go-live-on-mainnet-by",
+    "c": "Crypto Events",
+    "r": 1777719228
+  },
+  "0x6542863f105519646cc6aeaaff65d8348727d70323242b93870e2c515a5e5290": {
+    "w": "YES",
+    "q": "Will ETHGAS launch a token by March 31, 2026?",
+    "s": "will-ethgas-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1769019696
+  },
+  "0x65905f4371a81235b31dc73a09eb5dcd57d20aa7c35573ac94e12ac51e1a8a62": {
+    "w": "YES",
+    "q": "Will ETHGAS launch a token by June 30, 2026?",
+    "s": "will-ethgas-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1769020368
+  },
+  "0x9af8f2741caec30df3baaa476c104c2d0d1cff1dc1e9df97ad60703e180443f1": {
+    "w": "YES",
+    "q": "Will ETHGAS launch a token by September 30, 2026?",
+    "s": "will-ethgas-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1769020914
+  },
+  "0xb6cb8463376952fd97a9ead76f8cdc898b68a4df3e8a777d18dd51f558ccf384": {
+    "w": "YES",
+    "q": "Will ETHGAS launch a token by December 31, 2026?",
+    "s": "will-ethgas-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1769020610
+  },
+  "0x4d5b458f088ada240b15a549c126985a1477d11187e50c8f133777953bf8028d": {
+    "w": "YES",
+    "q": "Will EdgeX launch a token by June 30, 2026?",
+    "s": "will-edgex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1774971857
+  },
+  "0x5fa8ab78c1c5ef6fb8f17ab68c760a82dc7f9d9a11c41d9c23c878d76691d048": {
+    "w": "YES",
+    "q": "Will EdgeX launch a token by September 30, 2026?",
+    "s": "will-edgex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1774971743
+  },
+  "0x9f9dc37f56ca9e2ddd18c7091c08a61ed93519b829bf1b868ffa4910481ba3b9": {
+    "w": "YES",
+    "q": "Will EdgeX launch a token by December 31, 2026?",
+    "s": "will-edgex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1774981087
+  },
+  "0xecfe004703573e24e7a273a42a107862c0a1e96b7daee3daefa35880eebb5d86": {
+    "w": "YES",
+    "q": "Will EdgeX launch a token by March 31, 2026?",
+    "s": "will-edgex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1774971735
+  },
+  "0xeee99a3630d6b21e0e7e8fa39dd5d4b135f18912b81670296ad4781c220b3152": {
+    "w": "YES",
+    "q": "Will Backpack launch a token by March 31?",
+    "s": "will-backpack-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1774284541
+  },
+  "0x4b1fb8e8f9cd3a6c95e9e2aec8a679e1cab748cf693ada3e8874b509f476e779": {
+    "w": "NO",
+    "q": "Will Backpack launch a token by December 31?",
+    "s": "will-backpack-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1767262691
+  },
+  "0x5b62c742d5d16577acd70c09e07f3b3e97dd0a51559bc7b1582eb425fefc8b83": {
+    "w": "YES",
+    "q": "Will Backpack launch a token by December 31, 2026?",
+    "s": "will-backpack-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1774281883
+  },
+  "0x2dd9ad5835dbd6c7a597432aebfa4d02a81a83ad732da10d49c8d78d59ee14bf": {
+    "w": "YES",
+    "q": "Will Flying Tulip launch a token by June 30, 2026?",
+    "s": "will-flying-tulip-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1771926262
+  },
+  "0x9fc5a80c0bb51f34664e17fbb5014611364bf555815bbd0836deed86e8986594": {
+    "w": "YES",
+    "q": "Will Flying Tulip launch a token by March 31, 2026?",
+    "s": "will-flying-tulip-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1771926202
+  },
+  "0x3f73c861c77271eb62ef0499a9eec0de6c40ce4c293980b3f2f39580cd195759": {
+    "w": "YES",
+    "q": "Will Flying Tulip launch a token by September 30, 2026?",
+    "s": "will-flying-tulip-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1771926264
+  },
+  "0x138b8a3738e877cfdfd14d477c9dc8d7b9f6c7fa15bb69adb9c7202b76dcce86": {
+    "w": "YES",
+    "q": "Will Flying Tulip launch a token by December 31, 2026?",
+    "s": "will-flying-tulip-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1771926262
+  },
+  "0xc5b108011e6e24e1dd4c07f96134e88bf75034dc16a6783a67a10d36a98e8bb8": {
+    "w": "YES",
+    "q": "Will Solstice launch a token by June 30 2026?",
+    "s": "will-solstice-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779727106
+  },
+  "0x8d6b81fa5cbc3eb8217808c05c39ee26ca4ac6762bf978b02bad6719f1211276": {
+    "w": "NO",
+    "q": "Will Solstice launch a token by March 31 2026?",
+    "s": "will-solstice-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1775036705
+  },
+  "0x33d458c0ed08b72a6b021e27b848099b40ae7cf3a4637177cd78b89b6f71ddfa": {
+    "w": "NO",
+    "q": "Will Solstice launch a token by December 31 2025?",
+    "s": "will-solstice-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1767262697
+  },
+  "0x6e5bfb1db28eb587f9afda68f671aff0b5ea115dd24caad57dc889d4e5d9055f": {
+    "w": "YES",
+    "q": "Will Solstice launch a token by December 31 2026?",
+    "s": "will-solstice-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1781203788
+  },
+  "0x116cffa74f783bc4c7b435619fe4b3a69583316feb1f4eb29d0d67e7f0c7eded": {
+    "w": "YES",
+    "q": "Will Solstice launch a token by September 30 2026?",
+    "s": "will-solstice-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1779727083
+  },
+  "0x149b25b4f87bd5ec4af9478dd7649b8eaf53993cc079158dab556767bb73753b": {
+    "w": "NO",
+    "q": "Will Paradex launch a token by February 28, 2026?",
+    "s": "will-paradex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772371703
+  },
+  "0xb4c016559241e5e83f308c26828bc53247c75edb40fd50d44d8111217ebf1a55": {
+    "w": "YES",
+    "q": "Will Paradex launch a token by April 30 2026?",
+    "s": "will-paradex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772742407
+  },
+  "0xc238573ecdeee40a6a12daf31ca641df256303787d29c4b5bb32d90e2fe7ac95": {
+    "w": "YES",
+    "q": "Will Paradex launch a token by May 31, 2026?",
+    "s": "will-paradex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772742353
+  },
+  "0x446916cd2b703f35606af528be2ad1b2cb1eaced06718339671209d5af6f33a0": {
+    "w": "NO",
+    "q": "Will Paradex launch a token by December 31 2025?",
+    "s": "will-paradex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1767255891
+  },
+  "0x8a7acb7573f961ff1e49fae8e662bec1a8248bdf3133e2abaf0bc497263d5270": {
+    "w": "YES",
+    "q": "Will Paradex launch a token by June 30 2026?",
+    "s": "will-paradex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772742353
+  },
+  "0x6e02c4637aa0948bc9f0cb4adabfb3ac5729257eaa32d821a7d4bf9ed4a58b24": {
+    "w": "YES",
+    "q": "Will Paradex launch a token by December 31 2026?",
+    "s": "will-paradex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772742043
+  },
+  "0x7322f86a1e1f55b32d3a6a19245eef1fc767fe044e10481b9e62ae2f52082066": {
+    "w": "YES",
+    "q": "Will Paradex launch a token by March 31 2026?",
+    "s": "will-paradex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772741659
+  },
+  "0x31215b33268827996310789e1653fa3a738ac1c80252b3fa3ba8bb5432812302": {
+    "w": "YES",
+    "q": "Will Paradex launch a token by September 30 2026?",
+    "s": "will-paradex-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1772742043
+  },
+  "0x3a72386f277b9fd632bc35e451fcdae2b3704e4ecb58868517d73ff0253bf9ad": {
+    "w": "YES",
+    "q": "Will Infrared launch a token by December 31 2025?",
+    "s": "will-infrared-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1766067182
+  },
+  "0x56d53d66ecd7f027fe59c8958bf308d24f74bcdc5c85a2faefbe3ed40f2684a9": {
+    "w": "YES",
+    "q": "Will Infrared launch a token by June 30 2026?",
+    "s": "will-infrared-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1766068359
+  },
+  "0x1d6886a554874ec350682f3ef968d8776942ad5bf37b5f0d53c12498a68c6926": {
+    "w": "YES",
+    "q": "Will Infrared launch a token by December 31 2026?",
+    "s": "will-infrared-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1766068419
+  },
+  "0xee347e03225dd3de8c20435db8a7f1de946dc1001e01ca2433c40405e9b5b8e7": {
+    "w": "YES",
+    "q": "Will Infrared launch a token by March 31 2026?",
+    "s": "will-infrared-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1766067242
+  },
+  "0xbbaaea7dd6962aa7baf0ffd2fbce081206e0a4f125513b7bb26317f9aac6c995": {
+    "w": "YES",
+    "q": "Will Infrared launch a token by September 30 2026?",
+    "s": "will-infrared-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1766067756
+  },
+  "0x844a138c1392d955d19d3c90068e9ec04f142f4b9ebaaa4c25c180e16274174f": {
+    "w": "YES",
+    "q": "Will Binance launch stock tokens in 2026?",
+    "s": "will-binance-launch-stock-tokens-in-2026",
+    "c": "Crypto Events",
+    "r": 1771981092
+  },
+  "0x622edc9ac1949ae626735b5dd68e66118a67e836fd467a8723d96a8130482abf": {
+    "w": "YES",
+    "q": "Will Tria launch a token by September 30, 2026?",
+    "s": "will-tria-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1770120586
+  },
+  "0xaf774bc499befcbe2e744918f1d6d0ca1796123592197b0fa686ca79c93ae418": {
+    "w": "YES",
+    "q": "Will Tria launch a token by June 30, 2026?",
+    "s": "will-tria-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1770120586
+  },
+  "0x5265d1421a3e7e947005c608c7e3705ac8628547feff093985e263d8f79b1baa": {
+    "w": "YES",
+    "q": "Will Tria launch a token by December 31, 2026?",
+    "s": "will-tria-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1770120522
+  },
+  "0xfa9547464c0354a824900195ac798165f917d7e22b0da7109a6c5bdc5f9b9f60": {
+    "w": "YES",
+    "q": "Will Tria launch a token by March 31, 2026?",
+    "s": "will-tria-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1770120650
+  },
+  "0x7e772c9dfc88c19355d73d26a1590fbdbbe7d0d9de0f1dfc21bb663e19a8e439": {
+    "w": "NO",
+    "q": "Will MegaETH launch a token by March 31, 2026?",
+    "s": "will-megaeth-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1775032515
+  },
+  "0xe9f40f7319cd35af656935a9c812f4cb447d373cd399b6101ebb004e27a0b69a": {
+    "w": "YES",
+    "q": "Will MegaETH launch a token by June 30, 2026?",
+    "s": "will-megaeth-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1777556952
+  },
+  "0x1e08eddfb782d76c375231ff7bcd5f4ddd9b489ba42a18edd4c6a407213abd75": {
+    "w": "YES",
+    "q": "Will MegaETH launch a token by September 30, 2026?",
+    "s": "will-megaeth-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1777556950
+  },
+  "0xb87dc64863dcd536659e991d48a251fb4103d2740defce9b3de061ada1558f17": {
+    "w": "YES",
+    "q": "Will MegaETH launch a token by December 31, 2026?",
+    "s": "will-megaeth-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1777556952
+  },
+  "0xc517b6dcbae1b769dcd81a56c5bdde73ee5bf9b91e60c6dc5ebb1e6f2445a6d6": {
+    "w": "YES",
+    "q": "Will MegaETH launch a token by April 30, 2026?",
+    "s": "will-megaeth-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1777556894
+  },
+  "0x0a1dae2f2b3eb1ec0b8ae721cfb6c021da85cf129ccd1b573c8a0e636f7f7920": {
+    "w": "YES",
+    "q": "Will MegaETH launch a token by May 31, 2026?",
+    "s": "will-megaeth-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1777556950
+  },
+  "0x0f7bf10b1eb763d8c66f5123742c3954509ae96df4803be92e4b953c7b7b7f17": {
+    "w": "YES",
+    "q": "Lighter Airdrop before January 1?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091403
+  },
+  "0x56c8a3cadd18a26bb997aa980da39c83d40524f31334da1efd280ca46958424c": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 1?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091529
+  },
+  "0x2f23c0903f5dedeed90337c9637d33233595745ec8f5252e3b2c7dd50bb7136f": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 2?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091781
+  },
+  "0xcae88d20c5b174edd1f31ba169dacbbd4d197cbf85fbdb6b496ea18f98ba5d58": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 3?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091781
+  },
+  "0x16e400cd026372ab426d25d9d4ea7cf2dc31b19e769d233fa64f2e686a4b3f1b": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 4?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091719
+  },
+  "0x2ceb0bc2f8629ee82fc6958163ca32599ddb6be057a964ce773322c93742583c": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 5?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091781
+  },
+  "0x845eb4b639352cb44217086b7d478200bf158a35e76b2330741251a236df9d6c": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 6?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091781
+  },
+  "0x13b296fbd50f9f59f167f43dd854deaed7267f97d0dde4ab77a450ae441f5a42": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 7?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091719
+  },
+  "0x3ce710f429e39b2704374bd1f3be41ebf3198be2033bdf1b3a3635cdf24966b8": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 8?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091653
+  },
+  "0xb24749c43fab1e9cc431ffda145da2286f4e646ae81f458a00d7893f1a934595": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 9?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091593
+  },
+  "0xb09b2a3ec1d0b31b9954c833a1def3f9d054b174fe24f24bea2236c808452e89": {
+    "w": "NO",
+    "q": "Lighter Airdrop on January 10?",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091529
+  },
+  "0x1a3b4a5ffff4d3fdb410c5f66475a7468f5dc6b0df3c4a7cfb314cf7d2b7d22a": {
+    "w": "NO",
+    "q": "No airdrop by January 10",
+    "s": "what-day-will-the-lighter-airdrop-be-489",
+    "c": "Crypto Events",
+    "r": 1767091591
+  },
+  "0x6e663e149e7e4400060c5f5cfd5cd796878c1b73156f834317466c82fe8ea0e3": {
+    "w": "YES",
+    "q": "Will Trove launch a token by March 31, 2026?",
+    "s": "will-trove-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1768861752
+  },
+  "0x25c4269e3ed13ef5349d04d08b27ae532599735915bf7877dc9592fd2c28ba5e": {
+    "w": "YES",
+    "q": "Will Trove launch a token by June 30, 2026?",
+    "s": "will-trove-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1768861780
+  },
+  "0x64f8113b74c5952def32350edec59aa0612ea484356271a254cdfd1028e23411": {
+    "w": "YES",
+    "q": "Will Trove launch a token by September 30, 2026?",
+    "s": "will-trove-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1768861824
+  },
+  "0x69a2b2b6d4d88a8e4cd77574b74c25df71218bb36191e54a49d392ed4bc04f47": {
+    "w": "YES",
+    "q": "Will Trove launch a token by December 31, 2026?",
+    "s": "will-trove-launch-a-token-by",
+    "c": "Tech & Announcements",
+    "r": 1768861860
+  },
+  "0xafc235557ace53ff0b0d2e93392314a7c3f3daab26a79050e985c11282f66df7": {
+    "w": "NO",
+    "q": "Maduro out in 2025?",
+    "s": "maduro-out-in-2025",
+    "c": "Politics",
+    "r": 1767256259
+  },
+  "0xa953bea944d7264285c0a2cc1f92809a7d9db78138b1c3de9cc23d8917f14d6a": {
+    "w": "NO",
+    "q": "Maduro out by November 30, 2025?",
+    "s": "maduro-out-in-2025",
+    "c": "Politics",
+    "r": 1764572736
+  },
+  "0x18d8c59309811ce5618ea941f9bde2a96afa5d876a69c42fba2da4bcc56d3c5e": {
+    "w": "YES",
+    "q": "Maduro out by March 31, 2026?",
+    "s": "maduro-out-in-2025",
+    "c": "Politics",
+    "r": 1767443067
+  },
+  "0x580adc1327de9bf7c179ef5aaffa3377bb5cb252b7d6390b027172d43fd6f993": {
+    "w": "YES",
+    "q": "Maduro out by January 31, 2026?",
+    "s": "maduro-out-in-2025",
+    "c": "Politics",
+    "r": 1767442447
+  },
+  "0x405d8bce742fa300a306df3bede02ef29a5d45f8e788a8a4c056e17badf5a56a": {
+    "w": "YES",
+    "q": "Maduro out by December 31, 2026?",
+    "s": "maduro-out-in-2025",
+    "c": "Politics",
+    "r": 1767443069
+  },
+  "0xa374f4c047b99a8e2950783b7306c2a8c313fb88d98ae2c1ea0efb58231c3250": {
+    "w": "YES",
+    "q": "Maduro out by February 28, 2026?",
+    "s": "maduro-out-in-2025",
+    "c": "Politics",
+    "r": 1767442947
+  },
+  "0x8d0139c21a36eaf6aacda9ccac75f58a45a9f2209b336351bebcce4ab11b3b03": {
+    "w": "NO",
+    "q": "Starmer out in 2025?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1767258459
+  },
+  "0xbee2cd40473495f713c69b9dfbce9fc2837fa4011568222c83c83bb773e35053": {
+    "w": "YES",
+    "q": "Starmer out by June 30, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124834
+  },
+  "0x2bde6486e7067f48ee21344d8b5c1af458732536eb4d080932c88c3a7c2d2126": {
+    "w": "YES",
+    "q": "Starmer out by December 31, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124834
+  },
+  "0xb957e0c6ec337b15a9d93e1ba19a48b410fc1594f022e3bb734e958a4978cdaf": {
+    "w": "NO",
+    "q": "Starmer out by February 28, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1772349363
+  },
+  "0xb87df3ecfdb937e0d5bd495d7cc7e88062097616e0c59ce478e101eff5020eb7": {
+    "w": "NO",
+    "q": "Starmer out by March 31, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1775029821
+  },
+  "0xc6158282b574047044e504aabb1bc1f86ed28097e62d69425cb4403847767945": {
+    "w": "NO",
+    "q": "Starmer out by April 30, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1777618970
+  },
+  "0x575e86314d77231f25c16834b4f501221f215399a79fa6f5760b0a1eb7f1e5d3": {
+    "w": "NO",
+    "q": "Starmer out by May 15, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1778915804
+  },
+  "0xe0b6f4d40f33f456caba50434db5ea8c5ca93e84eb912054a80ca0c58ad70dd7": {
+    "w": "NO",
+    "q": "Starmer out by May 31, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1780294331
+  },
+  "0x69487ec66303113e2c9125f83de781ba9311656f5f79d811e1153aed5c427fab": {
+    "w": "NO",
+    "q": "Starmer out by May 19, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1779263417
+  },
+  "0x0efcc493f7e7578cd5808b29e08c2535dee61c2a1fe841696e76e7892b29cca8": {
+    "w": "YES",
+    "q": "Starmer out by July 31, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124834
+  },
+  "0x3f75f0ebdcde8371e64cb1462ad7e893aff45003415986d02c29d823132aebd9": {
+    "w": "NO",
+    "q": "Starmer out by June 15, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1781589733
+  },
+  "0x5fc7f19c45c179390eba1c6d43faed2fdcb2ff4b50e9b57655289c5a46107ef3": {
+    "w": "YES",
+    "q": "Starmer out by August 31, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124834
+  },
+  "0x515af955382b776e92128ecdbd74e538fcabf6fe1287b86eace3bccb1d5f84ee": {
+    "w": "YES",
+    "q": "Starmer out by October 31, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124834
+  },
+  "0x2c07ed3563f6ee3e1956152e23ba35f4727a6fe472cc7be009b3cf327ac44e52": {
+    "w": "YES",
+    "q": "Starmer out by June 26, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124682
+  },
+  "0x4815b9206b324492a71047496aadea8eb20e39b363792a6f8e828643361f5aa6": {
+    "w": "YES",
+    "q": "Starmer out by June 22, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124607
+  },
+  "0x5b1a52f1a6d9c27014c99a8b1b6d651364d9f32b7e372193ae2decbc978edb1c": {
+    "w": "YES",
+    "q": "Starmer out by June 23, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124682
+  },
+  "0xe5c669ac8597169d6f63dfd58b0bae429c02276c33e075a9692abe77ff5fbb5d": {
+    "w": "YES",
+    "q": "Starmer out by June 24, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124682
+  },
+  "0xd33ae2d10c8348e441e4bfd07b52a81ea6dfdfe5c6980833392b8446d1326c81": {
+    "w": "NO",
+    "q": "Starmer out by June 21, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782111287
+  },
+  "0x779fc5b3f3aaa199c81492d96bd47784c28df89b8d62389ef8cb37e462a3bba6": {
+    "w": "YES",
+    "q": "Starmer out by June 25, 2026?",
+    "s": "starmer-out-in-2025",
+    "c": "Politics",
+    "r": 1782124682
+  },
+  "0x524a318eb105f5869a591cd1eb782c277e6f7317e79821a1fb41615e4bb68a90": {
+    "w": "NO",
+    "q": "Trump cabinet member out by December 31, 2025?",
+    "s": "trump-cabinet-member-out-by",
+    "c": "Politics",
+    "r": 1767293195
+  },
+  "0x97d1e12f0e5cd575ce17bf5bfed3d4adecaccef50fa1a20bc45b6432be0d30d1": {
+    "w": "YES",
+    "q": "Trump cabinet member out by June 30, 2026?",
+    "s": "trump-cabinet-member-out-by",
+    "c": "Politics",
+    "r": 1770175624
+  },
+  "0x2d3b617b77009da342b854c1a94b7731d8ee523857962d0ca22bd017fc6b5e0a": {
+    "w": "YES",
+    "q": "Trump cabinet member out by December 31, 2026?",
+    "s": "trump-cabinet-member-out-by",
+    "c": "Politics",
+    "r": 1770175624
+  },
+  "0x094b3f83ac561dbad78147de7b97eca89b4b15fff7a82beaaf309d2bd8e3ca20": {
+    "w": "YES",
+    "q": "Trump cabinet member out by March 31, 2026?",
+    "s": "trump-cabinet-member-out-by",
+    "c": "Politics",
+    "r": 1770175624
+  },
+  "0xdf4bf2c18dd18bd9fdeae6143ec7067ac22420bf126f6de465b21eb148ff1c1c": {
+    "w": "YES",
+    "q": "US bank failure by December 31?",
+    "s": "us-bank-failure-by-december-31-996",
+    "c": "Economics",
+    "r": 1777681374
+  },
+  "0xff83d3ad56a0a5242523fa0263c10e6591c71874568050941d7a9bee90ee29f7": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in February 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1772369673
+  },
+  "0x8e0642bdd3ca43d22bd5c5e1516547e39d08a6d729ea60262f558cb143cf56a4": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in March 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1775033611
+  },
+  "0x03b6f5bafa7c7f14274438562650314f06947bd6d9ef94b2d2b014346bdc4ce8": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in April 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1777623974
+  },
+  "0x7f544e70895a850c547cf3f416bc6dd49c8d325a3639174741a37a6400301f00": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in May 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1780319825
+  },
+  "0xd80f3e7fc5ea2f2d5a162aaa589b9ba067be58c9a4b411ff08a22b82ffcd5dfd": {
+    "w": "YES",
+    "q": "Will SpaceX’s initial public offering occur in June 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1781291043
+  },
+  "0xb198d78167e70ab2dcc9d675e454d1152156765db1617380f71417d8466a0c27": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in July 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1781290992
+  },
+  "0x62ba17e89836a5386924dd22b504c3755cc03e9e9e63f77060ed73f0d74da93c": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in August 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1781290989
+  },
+  "0x80790ec7853b6618e72217d126b1e32f5d5b78f09c71aabed9eeac8de147164d": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in September 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1781290990
+  },
+  "0x3d0a1dd98a0256533dcade554951b121c9c77c7d99bb4033431e3a5f68060a9f": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in October 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1781290990
+  },
+  "0x997777e2f3cf6786906e8ed78c433ed80fca450519af312f2f760e21e341da4c": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in November 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1781290992
+  },
+  "0x10f2bd57854f7330295268b3073180c0f4ede6f63b2fd15b4a7abe4c86b1e553": {
+    "w": "NO",
+    "q": "Will SpaceX’s initial public offering occur in December 2026 (ET)?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1781290989
+  },
+  "0xd7f4bc865231fe1bde05ebd31e1b1bea1fb28edba5882be33293aa92b8a5dace": {
+    "w": "NO",
+    "q": "Will SpaceX fail to complete an initial public offering by December 31, 2026, 11:59 PM ET?",
+    "s": "in-which-month-will-spacex-ipo",
+    "c": "Corporate & M&A",
+    "r": 1781290987
+  },
+  "0x8daa489c8dea19532437272840bc257eb98e1e025331969a4f1ee45c2c14b3ab": {
+    "w": "YES",
+    "q": "Will Trump designate Brazil's PCC or CV as a terrorists by December 31?",
+    "s": "will-trump-designate-brazils-pcc-or-cv-as-a-terrorists-by-december-31",
+    "c": "Politics",
+    "r": 1782388859
+  },
+  "0x140eb203cfebb00d88630f849849315352dfacc59af0bc1a0636721f60c38a0f": {
+    "w": "NO",
+    "q": "Will Elon Musk and Sam Altman settle?",
+    "s": "will-elon-musk-and-sam-altman-settle",
+    "c": "Legal & Regulatory",
+    "r": 1781849371
+  },
+  "0xc8d4e2c302e248cb5cd7179c589281e93b5c594baa57e04d3f0b934bd8df449d": {
+    "w": "YES",
+    "q": "Will Trump and Machado share the Nobel Peace Prize?",
+    "s": "will-trump-and-machado-share-the-nobel-peace-prize",
+    "c": "Politics",
+    "r": 1768531142
+  },
+  "0x17347819c431b34b3d53d573dd956c2ac67737684983fe3a6fe0ab01b9aa3604": {
+    "w": "YES",
+    "q": "Will Yoon be sentenced to prison before 2027?",
+    "s": "will-yoon-be-sentenced-to-prison-before-2027",
+    "c": "Legal & Regulatory",
+    "r": 1768569772
+  },
+  "0x5642824719fa2e4d164de9a9ddaa1b5ca4f6fc57483eb222bec54082ad0bb57c": {
+    "w": "NO",
+    "q": "US civil war before 2027?",
+    "s": "us-civil-war-before-2027",
+    "c": "Military & Defense",
+    "r": 1774696797
+  },
+  "0xf07363b5ffe66e94ac95838e6b5ad4d17c072d796cd3ac009711a223d8c6f6eb": {
+    "w": "YES",
+    "q": "Will Drake feature 21 Savage on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778826145
+  },
+  "0x9fe43647406f5898f3efd422b111a398cb4827d4fd8cc7a72b808c2fb01a82ca": {
+    "w": "NO",
+    "q": "Will Drake feature Morgan Wallen on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778833236
+  },
+  "0xbd217a31aad28e4d09961692f4908656a713e74e8ba081f0a2dc6d5c261decd3": {
+    "w": "NO",
+    "q": "Will Drake feature Yeat on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834805
+  },
+  "0xb5dfcf84f1786389b44d12c9b775cd4a417a710292d44c27748e91965e3f600a": {
+    "w": "YES",
+    "q": "Will Drake feature Future on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778826034
+  },
+  "0xd77478ea6411185d17bcb8d827a200fed8e4571db464b81c7c7888f2b2525f82": {
+    "w": "NO",
+    "q": "Will Drake feature EsDeeKid on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778833180
+  },
+  "0xb0ef9714c36e8a05bf0cb9c77d3e3d8961c66995508ec251b93c9e936659b94e": {
+    "w": "NO",
+    "q": "Will Drake feature Travis Scott on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832763
+  },
+  "0x42ab8bca05609259af8246e9e5833d65ca62c9ac47913ec188fd3645ab18f1b7": {
+    "w": "NO",
+    "q": "Will Drake feature Playboi Carti on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832639
+  },
+  "0x702d618e8179e3ec7b285cc9c9be2f3e82e8bdcf0db1640a78e9c4035e381577": {
+    "w": "NO",
+    "q": "Will Drake feature J. Cole on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834746
+  },
+  "0xd7771a0f5ad204accaedcc266b126178fbedd0d90644f54c825efa4fb78155fe": {
+    "w": "NO",
+    "q": "Will Drake feature Lil Yachty on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832891
+  },
+  "0xbeef0ccd28bc3853b8a8794de868fb4351f46dd33bd050c3b9d5a641aec70526": {
+    "w": "NO",
+    "q": "Will Drake feature DJ Khaled on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834748
+  },
+  "0x5642422d9787de69d19c95bedccb060ac48596b5db736841f85d9e55b57f363f": {
+    "w": "NO",
+    "q": "Will Drake feature Kendrick Lamar on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832819
+  },
+  "0xd8f6957d927a6be3d472acdd7c1b76b753e9808da46b899cabd42eddc8c30bab": {
+    "w": "NO",
+    "q": "Will Drake feature Central Cee on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832054
+  },
+  "0xff136ba9b58f8bf4f4d5e2c09d131280aaea1d084a39a17408c78779e140a5de": {
+    "w": "NO",
+    "q": "Will Drake feature Sexyy Red on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778828703
+  },
+  "0xccef3c8bfd3ce6d7fe40dc7b625518f42948499b468ae23f3f0bd283122fe55f": {
+    "w": "NO",
+    "q": "Will Drake feature PARTYNEXTDOOR on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834434
+  },
+  "0x7ac8bfec43189f6509c20a5578f635c4d720086feeb0a53a1455b9454b9c64c2": {
+    "w": "NO",
+    "q": "Will Drake feature Young Thug on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834256
+  },
+  "0x793874825b3b07b3156ffa8a394ede486f8d0f11ab7ea6f06f5d98fe00f84bb4": {
+    "w": "NO",
+    "q": "Will Drake feature Pimmie on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834746
+  },
+  "0x635e224615d45893f09733f740284f1e9d32cf47c915ee4a83ed71c245eff1db": {
+    "w": "NO",
+    "q": "Will Drake feature Lil Wayne on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834193
+  },
+  "0xf3c5a17b425bc8624e9bfe785d146cd03f0c896beeb0583917fc453055eb5361": {
+    "w": "NO",
+    "q": "Will Drake feature Nicki Minaj on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832765
+  },
+  "0xa3ba209a040eba6d9cf6fd0f7d139736699bef6bb79ab8c2a9e7e02ed0e78526": {
+    "w": "NO",
+    "q": "Will Drake feature Metro Boomin on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832819
+  },
+  "0xe8616558e86490565e6a1f5b87a8410a65d2460e60e372641939cc8d030e1729": {
+    "w": "NO",
+    "q": "Will Drake feature SZA on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778835280
+  },
+  "0x7c38a3b9a1c096e2a7132515978ed6436a308dfb7d1233cb5f2b2c1b9e81fe09": {
+    "w": "NO",
+    "q": "Will Drake feature Ty Dolla $ign on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834865
+  },
+  "0x1c03975718c0e9de2e769d2fa787809a4e7c0c6ccc14bddd615f16f4897a107f": {
+    "w": "NO",
+    "q": "Will Drake feature Teezo Touchdown on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832763
+  },
+  "0x263c06b1f6aa21ddb60c36d405383e5b6fa6275c5e79544238e9ba568c62b5c6": {
+    "w": "NO",
+    "q": "Will Drake feature Julia Wolf on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832817
+  },
+  "0x184d5b5c3a6e81584dafdee08b8b3bb42069f120ee6abe654f651b879aec351b": {
+    "w": "NO",
+    "q": "Will Drake feature Lil Baby on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778833178
+  },
+  "0x7c307cf6baa19031e468b9951115201a075be1f0e34f1491b1ec929321fdb9fb": {
+    "w": "NO",
+    "q": "Will Drake feature Lil Durk on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778834923
+  },
+  "0xfecf5da99e8d2174bd80f37eabe731bc53572c593c33e46dd2861a3fee15aa2a": {
+    "w": "NO",
+    "q": "Will Drake feature Sampha on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778833178
+  },
+  "0x6193fae3b5d0b8664ae4c66285d4249ce42e82c3fc33d589172c064541470c6a": {
+    "w": "NO",
+    "q": "Will Drake feature Giveon on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778832882
+  },
+  "0x3e3ba70e7b630cd0cdd5917c5a33204198e16a01b04a78f5875cf8356fb1a8f2": {
+    "w": "NO",
+    "q": "Will Drake feature Yebba on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778835519
+  },
+  "0x07021be2235fd86ea3c076bbcc91906063d00b5ab50b631224c425130f675290": {
+    "w": "NO",
+    "q": "Will Drake feature Chris Brown on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778833913
+  },
+  "0xd3c7467078323ee1155272a5524d650dcf32ef48d84a34b9f8e41156bb0a9380": {
+    "w": "NO",
+    "q": "Will Drake feature Tems on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778833236
+  },
+  "0xfb4b5ddad8ef97d81035b1d5135d5d1bf3ee2f3e462f69182bdc9796b30c0077": {
+    "w": "NO",
+    "q": "Will Drake feature 2 Chainz on ICEMAN?",
+    "s": "who-will-be-featured-on-iceman",
+    "c": "Culture",
+    "r": 1778833113
+  },
+  "0xb94a7987a877c33ca97e190c361c73c7c0e4451c7b473802527dc121545a40f6": {
+    "w": "NO",
+    "q": "Will Yoon Suk Yeol be sentenced to less than 30 years in prison?",
+    "s": "yoon-suk-yeol-insurrection-case-prison-time-wider-strikes",
+    "c": "Legal & Regulatory",
+    "r": 1771498834
+  },
+  "0x8c6a0ca231987dc5d0966799c3d115a610b41e06f3e7ec51e969fb592576608d": {
+    "w": "NO",
+    "q": "Will Yoon Suk Yeol be sentenced to no prison time?",
+    "s": "yoon-suk-yeol-insurrection-case-prison-time-wider-strikes",
+    "c": "Legal & Regulatory",
+    "r": 1771498776
+  },
+  "0x968840758140297e088ea52fe44b3083e41cfebb4044f3823c250c37c8b6bb2a": {
+    "w": "NO",
+    "q": "Will Yoon Suk Yeol be sentenced to 30-60 years in prison?",
+    "s": "yoon-suk-yeol-insurrection-case-prison-time-wider-strikes",
+    "c": "Legal & Regulatory",
+    "r": 1771498950
+  },
+  "0xeaa06c2a4a985543cb58f5e07b83c015a3ffa87e4b3027e0d996623d20f3a84e": {
+    "w": "YES",
+    "q": "Will Yoon Suk Yeol be sentenced to at least 60 years in prison?",
+    "s": "yoon-suk-yeol-insurrection-case-prison-time-wider-strikes",
+    "c": "Legal & Regulatory",
+    "r": 1771498890
+  },
+  "0xf5da88930e5d54ca8211c2341f1d5aa20ac5bab4d656ca55f7c9214d6202a886": {
+    "w": "YES",
+    "q": "Pam Bondi out as Attorney General by April 30?",
+    "s": "pam-bondi-out-as-attorney-general-by-march-31",
+    "c": "Politics",
+    "r": 1775158159
+  },
+  "0x326fbec0681b7cf40098a6c5e720ce411082b428a923e00db5b08e0c173f97b9": {
+    "w": "YES",
+    "q": "Pam Bondi out as Attorney General by April 15?",
+    "s": "pam-bondi-out-as-attorney-general-by-march-31",
+    "c": "Politics",
+    "r": 1775159453
+  },
+  "0x2d209ca81b54a8bfba132424a8358a0d8616b72d73079313ee3626230faacdbd": {
+    "w": "NO",
+    "q": "Will Jon McNeill be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776912404
+  },
+  "0xe4dacc2acbb2080aec41d29a967f490b2175f5033c55ce5b1394af0d2f729900": {
+    "w": "NO",
+    "q": "Will Teri List be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776923706
+  },
+  "0xd567c2d4369f66b33bf13bd6dd2cf17d33761e5b195c47a72231842300d27dc7": {
+    "w": "NO",
+    "q": "Will Jane Nielsen be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776924378
+  },
+  "0xa7c78a3aaacfa621e4f4de4a59dccc7b28805c468e83f56ae9b10bfdfc51ddca": {
+    "w": "NO",
+    "q": "Will Candidate C be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934076
+  },
+  "0xae3eb63b9ac32e510d2023d50af53a57ce1119840d4fa4dd5979d022f66763bf": {
+    "w": "NO",
+    "q": "Will Candidate E be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934074
+  },
+  "0x3dc59ec58cf51c32f3bd248e606b4fd7c3581f01b9a010caafff1e9fed472576": {
+    "w": "NO",
+    "q": "Will Candidate G be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934132
+  },
+  "0x5daf303bfe13e920ff996bc6e11d7434ec23177155db9a8802462de415b31abd": {
+    "w": "NO",
+    "q": "Will Candidate I be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934074
+  },
+  "0x44b9176c4d41918953d67e5f9a6250bb74f3bac771a868a76ddac8d97242b872": {
+    "w": "NO",
+    "q": "Will Candidate K be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934198
+  },
+  "0xfa9f1dbf7e8a0c35a97d71f69196d297fe8f07f8adeca81e2074636daab65329": {
+    "w": "NO",
+    "q": "Will Meghan Frank be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776912468
+  },
+  "0xe9c43a1072b5c9c71441fb166e078082b9a52f5c09f457efd8a8107b58b69579": {
+    "w": "NO",
+    "q": "Will Emily White be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776925034
+  },
+  "0x74457b13c14951adab9fb0593ccc0215cf5514118d998e8b86f1a2e0aae9ea24": {
+    "w": "NO",
+    "q": "Will Candidate M be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934194
+  },
+  "0x16c150c8575ca61ac38dbe698a75747deba47bb3337fb7c5fae4e2745d3dce8e": {
+    "w": "NO",
+    "q": "Will Candidate O be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934194
+  },
+  "0xef408fae553d858336968ce926d6d28ba7e4a86d5d96766aa2faf485a00905c3": {
+    "w": "NO",
+    "q": "Will Alison Loehnis be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776927404
+  },
+  "0xf63770cfbdb4147862a51e1c0c0ccf69bca95cb47898cd68e9bb9780180f0e70": {
+    "w": "NO",
+    "q": "Will Stephanie Linnartz be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776933416
+  },
+  "0xc6a035f0f17a5b1a06ecca46e91545a59dd3fa8ede99f7fb30096a920223070f": {
+    "w": "NO",
+    "q": "Will Candidate B be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934076
+  },
+  "0x4195402420e2809b57b42cea7831fb04393d7e73e2db57f2b53a758bad30d8ef": {
+    "w": "NO",
+    "q": "Will Candidate D be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934130
+  },
+  "0x58e858ac0f87c0b7894223da452e02109aa85f8f93449508ec53c1766991e8e6": {
+    "w": "NO",
+    "q": "Will Candidate F be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934258
+  },
+  "0x75b82c57e73d38da1fe23bd2b17c4e96f97284f34c35b847bb6a62f4ef5c64c1": {
+    "w": "NO",
+    "q": "Will André Maestrini be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776933894
+  },
+  "0xf95fc25ba1f06787bd1165c8afdc7854de0fe0191199e7624d2f7328d0d1bfa4": {
+    "w": "NO",
+    "q": "Will Marti Morfitt be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934196
+  },
+  "0x34f4f892b79c37afcad66899fb77649ce7fc67b431994107d5c7f5274c2c7824": {
+    "w": "NO",
+    "q": "Will Candidate N be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934196
+  },
+  "0x5379832c612701dbe78eb9e4ce3ff5f68cb46c7ae78d630a6f4ad930b8b8944b": {
+    "w": "YES",
+    "q": "Will another candidate be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934198
+  },
+  "0x91fad8c97ebeb69b2ab6ad8f2270ac3664f4ad30ae4d97cbd60a307de48ea6c1": {
+    "w": "NO",
+    "q": "Will Candidate H be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934132
+  },
+  "0xd0498fce5f37d5a1480e63354da14be8fbd839b8d47e1472ba59bca0acc9e2d4": {
+    "w": "NO",
+    "q": "Will Candidate J be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934196
+  },
+  "0xfb0729196b237bb8a882dddabc4e4eb5641dce41f4543cef9c5d120fbc8b8f3f": {
+    "w": "NO",
+    "q": "Will Candidate L be the next CEO of Lululemon?",
+    "s": "next-ceo-of-lululemon",
+    "c": "Corporate & M&A",
+    "r": 1776934260
+  },
+  "0x46ccf5e76fc86d54382165703ce428439ecb4b04d5ee8c408b2fefe748760de9": {
+    "w": "YES",
+    "q": "Trump cabinet member out by March 31, 2026?",
+    "s": "trump-cabinet-member-out-by-685",
+    "c": "Politics",
+    "r": 1774421287
+  },
+  "0xaf834ebf3c041e1668f13d3a50373655a298425072f195920f39a1ee28d0163c": {
+    "w": "YES",
+    "q": "Trump cabinet member out by June 30, 2026?",
+    "s": "trump-cabinet-member-out-by-685",
+    "c": "Politics",
+    "r": 1774421225
+  },
+  "0x04d33f4ea9924c8fab219211f319483b3dfbda8aa1895fd2471c2bb881ef64fd": {
+    "w": "YES",
+    "q": "Trump cabinet member out by December 31, 2026?",
+    "s": "trump-cabinet-member-out-by-685",
+    "c": "Politics",
+    "r": 1774421343
+  },
+  "0x61619309efb1d47c90ccad819ff9975b027680b2b728a51e9a96f5521634b800": {
+    "w": "NO",
+    "q": "Will Marco Rubio visit China by April 30, 2026?",
+    "s": "marco-rubio-visits-china-by",
+    "c": "Politics",
+    "r": 1777620712
+  },
+  "0x612c7282dc540fb6382a282f516b979f28946227920ee8d5e7f108c6d8292cdd": {
+    "w": "YES",
+    "q": "Will Marco Rubio visit China by December 31, 2026?",
+    "s": "marco-rubio-visits-china-by",
+    "c": "Politics",
+    "r": 1778738244
+  },
+  "0x2d7816b10ffcb1e6bfbb2feb9c01a120951133cdb7103ba76fe7e8a83dab1ed1": {
+    "w": "YES",
+    "q": "Will Marco Rubio visit China by June 30, 2026?",
+    "s": "marco-rubio-visits-china-by",
+    "c": "Politics",
+    "r": 1778738909
+  },
+  "0x2c9937efbf3f423350637cef0689a3f65c930738d1817c0bc7eadde76e45446c": {
+    "w": "NO",
+    "q": "Russia x Ukraine diplomatic meeting by May 31, 2026?",
+    "s": "russia-x-ukraine-diplomatic-meeting-by",
+    "c": "Politics",
+    "r": 1780316813
+  },
+  "0xeb092832271358be7f3c76f96fd176d89a29427121461a4058497e510adb03fe": {
+    "w": "YES",
+    "q": "Russia x Ukraine diplomatic meeting by December 31, 2026?",
+    "s": "russia-x-ukraine-diplomatic-meeting-by",
+    "c": "Politics",
+    "r": 1780804543
+  },
+  "0xcb334e65ea89ee98ce533a4dde88d013737526c1ab3c9b123dd023e19aa07dd1": {
+    "w": "YES",
+    "q": "Russia x Ukraine diplomatic meeting by June 30, 2026?",
+    "s": "russia-x-ukraine-diplomatic-meeting-by",
+    "c": "Politics",
+    "r": 1780802698
+  },
+  "0xe807ce28b2dc69d057a0e3ab9153a9604cac6dd000ffac4636c80723602645a4": {
+    "w": "NO",
+    "q": "Will the US strike Yemen next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736100
+  },
+  "0xd1ed79a8282e8951066bb34fa212c3637a4df0c1378886fefd8fade51a0def8a": {
+    "w": "NO",
+    "q": "Will the US strike Venezuela next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736038
+  },
+  "0xbbf686cc4174d809e655c16ff6877d40429555c207104aaad8c462d4289e0664": {
+    "w": "NO",
+    "q": "Will the US strike Iraq next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736100
+  },
+  "0x0a510caf7831577ea1749fc6c3a6e5d74b06481e3a9bf7235cb1dd8318f2477f": {
+    "w": "NO",
+    "q": "Will the US strike Nigeria next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769735920
+  },
+  "0x151688fc06997e0864c22026d8b5cc836c219c76413628f1846d31e7212728cd": {
+    "w": "NO",
+    "q": "Will the US strike another country first?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736166
+  },
+  "0xcea9df65bf98e1729854855a20bca29447f5492256f84d763759825065224522": {
+    "w": "NO",
+    "q": "Will the US strike Mexico next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736166
+  },
+  "0x9201d2aa779dd42dfd272fb5dc13137434dc2925b689f81b747479a0f9a95ee5": {
+    "w": "NO",
+    "q": "Will the US strike Cuba next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736166
+  },
+  "0x912b74ff4b4a48f0f774ee891f5019339d739cd398c74b087c32264be4f4ceb4": {
+    "w": "YES",
+    "q": "Will the US strike Somalia next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736038
+  },
+  "0xeff97f3499e9446493240a92a098b9f7aa9529ab1e40b2484bf590b97aab9d66": {
+    "w": "NO",
+    "q": "Will the US strike Iran next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769735554
+  },
+  "0x4a6d20e5aa8dd3335919fce6ddbc2f031d32367cbdbed2047ef5da3e15b57d11": {
+    "w": "NO",
+    "q": "Will the US strike Syria next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736038
+  },
+  "0xc3496089277c2d5d9951ad652461b1b9cc9778ebbf4c82b661d23d7aa958595a": {
+    "w": "NO",
+    "q": "Will the US not strike another country before 2027?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1770011194
+  },
+  "0xaeff29e173ed50a9a18a741bf2fe7e5638e0b7d78a7e386fce1b08775e8e41c6": {
+    "w": "NO",
+    "q": "Will the US strike Colombia next?",
+    "s": "next-country-us-strikes-785",
+    "c": "Politics",
+    "r": 1769736036
+  },
+  "0x57038169dad7a0eab180dbd157e8a2337a8d317682ee1ad1b9e37c58820a71f8": {
+    "w": "NO",
+    "q": "Will the UAE leave the Gulf Cooperation Council by April 30, 2026?",
+    "s": "will-uae-leave-the-gulf-cooperation-council-by",
+    "c": "Military & Defense",
+    "r": 1777619200
+  },
+  "0x1abea86e9fa1fe2d19d6d56f3c510b4c9f40d70f283e2c7a8d890a295b41ea47": {
+    "w": "NO",
+    "q": "Will the US strike Yemen next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562839
+  },
+  "0x2283854e50d9a29cb4798618dd94436d5b4c06f5ec5df533040ac61c5f84d479": {
+    "w": "NO",
+    "q": "Will the US strike Cuba next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562775
+  },
+  "0x49410729402eacad94d0d2e21fe6f38bccc3407ef9e00c41da039badf538e5e8": {
+    "w": "NO",
+    "q": "Will the US strike Venezuela next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562713
+  },
+  "0x71587dd680c729dea874b646f96d4f6bc9d2572ade824da749d2e048edc1636d": {
+    "w": "YES",
+    "q": "Will the US strike Somalia next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562601
+  },
+  "0xfa1b774f9ac5bcfb89c981c32fd0238b782f35587de6dc03970ef4133741f23e": {
+    "w": "NO",
+    "q": "Will the US strike Iraq next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562775
+  },
+  "0xca9d229eb89ebbc44fcee5469c9ca9c9cff9c35dbb451cd2cf2321decc933536": {
+    "w": "NO",
+    "q": "Will the US strike Iran next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562841
+  },
+  "0xe534a0240fd573c03e95db7fdaf9c62bf4b3c898c8396456253aec47dece1e9a": {
+    "w": "NO",
+    "q": "Will the US strike Nigeria next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562903
+  },
+  "0xd876c908db58198268be58666403da0c0693fd48365a8d84dbe7914c0629aa1f": {
+    "w": "NO",
+    "q": "Will the US strike Syria next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562713
+  },
+  "0xb12d6dcc5236209e4a62d151143d52c6a66fa3075301f021cde6f582a2aef84e": {
+    "w": "NO",
+    "q": "Will the US strike another country first?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562841
+  },
+  "0x115b055cfacfecd62f0fcf8413a3bcc6584b348ac0af6360eb954c1a3a9de4b6": {
+    "w": "NO",
+    "q": "Will the US not strike another country before 2027?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769509003
+  },
+  "0x6589820849a066b2ef505d29d8480e1f25c2b8f4738bfe25878af9204ae5610d": {
+    "w": "NO",
+    "q": "Will the US strike Mexico next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562841
+  },
+  "0x5a6459ddb45bf3e02512bfc10ed1bc3e455ad7d9d9447816a2c620575c50fac4": {
+    "w": "NO",
+    "q": "Will the US strike Colombia next?",
+    "s": "next-country-us-strikes-632",
+    "c": "Politics",
+    "r": 1769562773
+  },
+  "0x7ec2aaec75c826754697dc042c93ab3ec508f3ca546a0d0260f2bdbedbc68459": {
+    "w": "YES",
+    "q": "FDA approves a psychedelic for medical use in 2026?",
+    "s": "fda-approves-a-psychedelic-for-medical-use-in-2026",
+    "c": "Legal & Regulatory",
+    "r": 1778093044
+  },
+  "0x0b27e553659839fc6361cb3384dbfe82014807de83f7ac0e588737de28ac1db6": {
+    "w": "YES",
+    "q": "Will Dua Lipa and Callum Turner get married by December 31?",
+    "s": "will-dua-lipa-and-callum-turner-get-married-by-december-31",
+    "c": "Culture",
+    "r": 1780536238
+  },
+  "0xfbb9e922b7dbbb4aa5253d98203d5593a93b59599447aff02354ecafbe19b916": {
+    "w": "NO",
+    "q": "Will Elon Musk win his case against Sam Altman?",
+    "s": "will-elon-musk-win-his-case-against-sam-altman",
+    "c": "Politics",
+    "r": 1781828852
+  },
+  "0x3ceacdf2ba6cf68521ce10bc11adb7dce7fcd991476b0503fcd12407c297b312": {
+    "w": "YES",
+    "q": "Trump declassifies new UFO files by May 31?",
+    "s": "trump-declassifies-new-ufo-files-by",
+    "c": "Politics",
+    "r": 1778930266
+  },
+  "0xa7f9dfe2a90e8556fe6b9045ae2dce6950bb4cd8c7fc33efc2876c0bf2f81c0a": {
+    "w": "YES",
+    "q": "Trump declassifies new UFO files by May 15?",
+    "s": "trump-declassifies-new-ufo-files-by",
+    "c": "Politics",
+    "r": 1779150724
+  },
+  "0x6d443d96776466b4328ae7c9a132d1a77db1c510506b06a6f09529a8d35ea274": {
+    "w": "YES",
+    "q": "Trump declassifies new UFO files by December 31?",
+    "s": "trump-declassifies-new-ufo-files-by",
+    "c": "Politics",
+    "r": 1778930271
+  },
+  "0xeec3721d3883d5a27a992090d85c8f68fffe1f40774c3a891d078eed10d42508": {
+    "w": "NO",
+    "q": "Will Netflix close Warner Bros. acquisition by end of 2026?",
+    "s": "will-netflix-close-warner-brothers-acquisition-by-end-of-2026",
+    "c": "Corporate & M&A",
+    "r": 1772420147
+  },
+  "0x03675b6b673bfbf7716b35051d95cb6fcdc927096ca198221f5de4220af566c7": {
+    "w": "YES",
+    "q": "AI data center moratorium passed before 2027?",
+    "s": "ai-data-center-moratorium-passed-before-2027",
+    "c": "Politics",
+    "r": 1781428527
+  },
+  "0x7ec3aeb17ed772301206b766dc42fddb75754dd56ba688bb714e09b0bf900f38": {
+    "w": "NO",
+    "q": "Will there be no new Supreme Leader of Iran by June 30?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773016195
+  },
+  "0x1764c1e056db9c6431948a6ec7b4c1c65ede53cf483873478d3dadf8a53221a8": {
+    "w": "NO",
+    "q": "Will Muhammad Mirbaqiri be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773018557
+  },
+  "0xbe6525eb1b615ba8a490abc915d76cdffabb2aad4f71e26aaee5f57c3b096a71": {
+    "w": "YES",
+    "q": "Will Mojtaba Khamenei be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773013579
+  },
+  "0xac2eaa9567aec99d1be6bd9f01e1cea3921c0ea61a620c7a6741a3763446d2b3": {
+    "w": "NO",
+    "q": "Will Reza Pahlavi be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773018561
+  },
+  "0x00af0437d2b83fda120545144824152c45a99e2c798eb433d8edece33df7de1e": {
+    "w": "NO",
+    "q": "Will Maryam Rajavi be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773018553
+  },
+  "0xfd46a3d82edacc2a61f3de27d2fb3387dbf2cb287dffc1294cdbfb97b195a080": {
+    "w": "NO",
+    "q": "Will Seyed Hossein Mousavian be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773018555
+  },
+  "0x94d9f71af90ba6fd6235a23ba09de2f3520f124a0c0b3b2b6a03cacc8901336e": {
+    "w": "NO",
+    "q": "Will Navid Shomali be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773018551
+  },
+  "0x4cd0ccd525c74ae93ec1692a86ca3275b672e6826962211c88e8fc3d691cb968": {
+    "w": "NO",
+    "q": "Will Ali Motahari be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773018007
+  },
+  "0x6731a476b242c2831ea97e797cd4f3ee7e1954a47fcf4ea704edb733092b5d04": {
+    "w": "NO",
+    "q": "Will Mostafa Pourmohammadi be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773018005
+  },
+  "0x1e2b39e8e8e5367d869cce60a3a26ee73b0ca415ac72d7ad2fbd505f9c995232": {
+    "w": "NO",
+    "q": "Will Masoud Pezeshkian be the next Supreme Leader of Iran?",
+    "s": "who-will-be-next-supreme-leader-of-iran-515",
+    "c": "Military & Defense",
+    "r": 1773018007
+  },
+  "0x9d3f02264a94bafc676afd7add8b11442e6ec72dabaa69cefef835f0672275c7": {
+    "w": "NO",
+    "q": "Iran agrees to end enrichment of uranium by June 30?",
+    "s": "iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x1723b7ee4118dee6ae6be8802cb7b6e239c37d199997b20a8191e32553a5bd68": {
+    "w": "NO",
+    "q": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
+    "s": "iran-agrees-to-unrestricted-shipping-through-hormuz-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0xc11f41372087c4d934ae7adb869ff08272b2bcb3e242d4e628330353c130e480": {
+    "w": "NO",
+    "q": "Iran agrees to surrender enriched uranium stockpile by July 31, 2026?",
+    "s": "iran-agrees-to-surrender-enriched-uranium-stockpile-by-july-31-2026",
+    "c": "World",
+    "r": 1785456000
+  },
+  "0x5813dc7ee3feea004711c97bdf27c407c3e943d876432ef50b49b8399eae9f37": {
+    "w": "NO",
+    "q": "Israel withdraws from Lebanon by July 31, 2026?",
+    "s": "israel-withdraws-from-lebanon-by-july-31-2026",
+    "c": "World",
+    "r": 1785456000
+  },
+  "0x57165bc68af588cf16e499eecd6c040e458c939e0fb0dd4b193744a9d21aa5f2": {
+    "w": "NO",
+    "q": "Israel withdraws from Lebanon by June 30, 2026?",
+    "s": "israel-withdraws-from-lebanon-by-june-30-2026",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x0619980a29b1022ba9cbdcb7da731be0be8799ecf9ff2eb5c1ee9137235b0770": {
+    "w": "YES",
+    "q": "Will Iran close its airspace by June 30?",
+    "s": "will-iran-close-its-airspace-by-june-30-20260609184136054",
+    "c": "Military & Defense",
+    "r": 1782864000
+  },
+  "0xaa3a8627dc299d22ac9f3d87f49b0eca4fd0f5d7b61a6c1bf8539f21cd0693f5": {
+    "w": "NO",
+    "q": "Makerfield by-election: Restore Britain receives 10%+?",
+    "s": "makerfield-by-election-restore-britain-receives-10-20260609002937160",
+    "c": "Elections",
+    "r": 1781740800
+  },
+  "0xb5f73273196e2eb5312a51109d5e774651694894eb7dd6be178515a07e84ffa9": {
+    "w": "YES",
+    "q": "Will Iran close its airspace by August 31?",
+    "s": "will-iran-close-its-airspace-by-august-31-20260609184136057",
+    "c": "Military & Defense",
+    "r": 1788220800
+  },
+  "0x6f4f3632b4fbc10e7ba84009b5e582b7061a0f7d1df82cca29a02fbbdaf97186": {
+    "w": "YES",
+    "q": "Will Iran close its airspace by December 31?",
+    "s": "will-iran-close-its-airspace-by-december-31-20260609184136058",
+    "c": "Military & Defense",
+    "r": 1798761600
+  },
+  "0x0fc2ddb048f5aa3a5f05f07c480591d7a41c546387588a6345627144171f9670": {
+    "w": "YES",
+    "q": "Will Iran close its airspace by July 15?",
+    "s": "will-iran-close-its-airspace-by-july-15-20260609184136055",
+    "c": "Military & Defense",
+    "r": 1784160000
+  },
+  "0x608b260059adb2315f3a649419ab8f684f0d741db319aae9c08f93fe2a268f31": {
+    "w": "NO",
+    "q": "Will Iran close its airspace by June 15?",
+    "s": "will-iran-close-its-airspace-by-june-15-20260609184136053",
+    "c": "Military & Defense",
+    "r": 1781568000
+  },
+  "0xfedc055699e34eac5f8cd6a1fb1d19e40d87c8e6920b59e741edcb41f8bbdf7d": {
+    "w": "NO",
+    "q": "Will Iran close its airspace by June 14?",
+    "s": "will-iran-close-its-airspace-by-june-14-20260609184136052",
+    "c": "Military & Defense",
+    "r": 1781481600
+  },
+  "0xc88e812beb27442554b9231273f6cdda7c96022afc1a5b2a841f03c17dbceaaf": {
+    "w": "YES",
+    "q": "Iran closes its airspace by June 8?",
+    "s": "iran-closes-its-airspace-by-june-8",
+    "c": "Military & Defense",
+    "r": 1780876800
+  },
+  "0xd8664606498aba2a8ccab56656860cb3f02d74de80e974ab87a9f940e65d4d5e": {
+    "w": "NO",
+    "q": "Israel closes its airspace by June 15?",
+    "s": "israel-closes-its-airspace-by-june-15-687-594-783-732-455-613-653",
+    "c": "Military & Defense",
+    "r": 1781481600
+  },
+  "0x2fd42d057feb7670810a6389383d3d3d8a721ceb7d5c091e6f57094ccb78c123": {
+    "w": "YES",
+    "q": "Will Fujimori win the 2nd round of the 2026 Peru presidential election by 0–4%?",
+    "s": "will-fujimori-win-the-2nd-round-of-the-2026-peru-presidential-election-by-04",
+    "c": "Elections",
+    "r": 1780790400
+  },
+  "0xeccb47eea2ab003153f542d5dcf234a3c9a814f5e266646390a8f7dd1428c0aa": {
+    "w": "YES",
+    "q": "Will Fujimori win the 2nd round of the 2026 Peru presidential election by 0.2–0.3%?",
+    "s": "will-fujimori-win-the-2nd-round-of-the-2026-peru-presidential-election-by-0pt20pt3-20260609021542084",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0xac084d6558622409fda664dc5446a50a880900f311a4d1e8ff2c4ad8f0fb6f93": {
+    "w": "YES",
+    "q": "Will Karen Bass & Nithya Raman advance to the second round of the 2026 Los Angeles mayoral election?",
+    "s": "will-karen-bass-nithya-raman-advance-to-the-second-round-of-the-2026-los-angeles-mayoral-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0x9af5f84576108c73b2f5bc58290659dc329d42bc3355ee713a41678e1a0c69f7": {
+    "w": "NO",
+    "q": "Will Tom Steyer advance from the 2026 California Governor primary election?",
+    "s": "will-tom-steyer-get-the-first-or-second-most-votes-in-the-2026-california-governor-primary-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0xe0becaf7db4f27b95bcdd5f01c39b44086a8762d8a937e7835576ebfe2e7f981": {
+    "w": "NO",
+    "q": "Will both candidates advancing to the general election for Governor of California from the June 2, 2026 primary be affiliated with the Democratic Party?",
+    "s": "will-both-candidates-advancing-to-the-general-election-for-governor-of-california-from-the-june-2-2026-primary-be-affiliated-with-the-democratic-party",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0x0e2e5c0146c730a2e4ef8031c9128b4efef451a9f4832f42b46997926f9e1303": {
+    "w": "NO",
+    "q": "Will Karen Bass & Spencer Pratt advance to the second round of the 2026 Los Angeles mayoral election?",
+    "s": "will-karen-bass-spencer-pratt-advance-to-the-second-round-of-the-2026-los-angeles-mayoral-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0x6cb3ec9e0fb1c258898f648f8b33422f59ba3e8a71aee551449d7cb147bb8ead": {
+    "w": "NO",
+    "q": "Iran agrees to surrender enriched uranium stockpile by June 30, 2026?",
+    "s": "iran-agrees-to-surrender-enriched-uranium-stockpile-by-june-30-2026",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xb7dd41c16cd5b59e543ffcdab6a0d876f5ccef5329ea42ef1798d80c9a2b8499": {
+    "w": "NO",
+    "q": "Iran closes its airspace by May 31?",
+    "s": "iran-closes-its-airspace-by-may-31-434-443-672-526-188-756",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0xdb22a7749b831aa07a52cbc83213e6c8ceb88226b224a831512f4460011bb0a1": {
+    "w": "NO",
+    "q": "Iran closes its airspace by May 27?",
+    "s": "iran-closes-its-airspace-by-may-29",
+    "c": "Military & Defense",
+    "r": 1779840000
+  },
+  "0xd9933a54c518e773050255ea9dba01a71e1a41f49311ed078ae4a6f7e76b1625": {
+    "w": "YES",
+    "q": "Iran closes its airspace by June 15?",
+    "s": "iran-closes-its-airspace-by-june-15-219",
+    "c": "Military & Defense",
+    "r": 1781481600
+  },
+  "0x51a7c8afb7a0e09b8b47643171d90f400de23a176c4ea06f6552d6e53213839c": {
+    "w": "YES",
+    "q": "Iran closes its airspace by June 30?",
+    "s": "iran-closes-its-airspace-by-june-30-432-786-462-866-468",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x4ba348328e4d4ddee9e6734c9a369b2e8138611651f9f6dc8f59dea51df6c734": {
+    "w": "NO",
+    "q": "Iran closes its airspace by May 24?",
+    "s": "iran-closes-its-airspace-by-may-24",
+    "c": "Military & Defense",
+    "r": 1779580800
+  },
+  "0x924a2942747dd75703321a7c8d809c68f6a514c3b0f2a2e64274e02310634669": {
+    "w": "NO",
+    "q": "Strait of Hormuz traffic returns to normal by end of April?",
+    "s": "strait-of-hormuz-traffic-returns-to-normal-by-april-30",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0x09148e8a5260a4c40aceb29badc45845fe08330497756bfcc1017c478c28bb65": {
+    "w": "NO",
+    "q": "Iran agrees to end enrichment of uranium by May 31?",
+    "s": "iran-agrees-to-end-enrichment-of-uranium-by-may-31-945",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0xc792f8824ef9bb549a4f5d89eec898caefdd3df5a507783f80202d289e9130ea": {
+    "w": "NO",
+    "q": "Israel x Hezbollah permanent peace deal by May 31, 2026?",
+    "s": "israel-x-hezbollah-permanent-peace-deal-by-may-31-2026",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0xc160ac2b2b5f9a500cc4893611c65e45f50c4b8dbd204a2e8675329261373b0a": {
+    "w": "YES",
+    "q": "Will Daniel Ennis win the 2026 Dublin-central by-election?",
+    "s": "will-daniel-ennis-win-the-2026-dublin-central-by-election",
+    "c": "Elections",
+    "r": 1798675200
+  },
+  "0xe443dab97ad8b7f58558cc7a6a3932d156031e962a451e0461e9a4578d78fe84": {
+    "w": "NO",
+    "q": "Will the Iranian regime fall by April 30?",
+    "s": "will-the-iranian-regime-fall-by-april-30",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0x23dbb60ade08c2664ac29488325afbc0136735bc7beb9180d9c0cb72620b0b13": {
+    "w": "YES",
+    "q": "Will Kevin Warsh be confirmed as Fed Chair?",
+    "s": "will-kevin-warsh-be-confirmed-as-fed-chair",
+    "c": "Economics",
+    "r": 1793404800
+  },
+  "0x74d91fa19bbdae4b7afba167f3d297d7c135d87053b1433d1d71d966da64550b": {
+    "w": "NO",
+    "q": "Will US withdraw from NATO by April 30?",
+    "s": "will-us-withdraw-from-nato-by-april-30-583-663",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0xbc0a2d49b4bea7145a8ca4f43644f82e8013620f45f80665406415c4dfe40966": {
+    "w": "YES",
+    "q": "Trump announces Hormuz deadline extension today?",
+    "s": "trump-announces-hormuz-deadline-extension-today",
+    "c": "Military & Defense",
+    "r": 1775520000
+  },
+  "0x1480b819d03d4b6388d70e848b0384adf38c38d955cb783cdbcf6d4a436dee14": {
+    "w": "YES",
+    "q": "Will the next Prime Minister of Hungary be Péter Magyar?",
+    "s": "will-the-next-prime-minister-of-hungary-be-pter-magyar",
+    "c": "Politics",
+    "r": 1775952000
+  },
+  "0x306d10d4a4d51b41910dbc779ca00908bd917c131541c5c42bbbc736258d2d56": {
+    "w": "NO",
+    "q": "US forces enter Iran by March 31?",
+    "s": "us-forces-enter-iran-by-march-31-222-191-243-517-878-439-519",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x9352c559e9648ab4cab236087b64ca85c5b7123a4c7d9d7d4efde4a39c18056f": {
+    "w": "NO",
+    "q": "Will the Iranian regime fall by June 30?",
+    "s": "will-the-iranian-regime-fall-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0xa8e8cdf6ed1a4132ce687c5cd5d0eec65f439e0c83ae7bad3463a0906aba7aa8": {
+    "w": "YES",
+    "q": "Will Mette Frederiksen be the next prime minister of Denmark after the 2026 parliamentary elections?",
+    "s": "will-mette-frederiksen-be-the-next-prime-minister-of-denmark-after-the-2026-parliamentary-elections",
+    "c": "Elections",
+    "r": 1774310400
+  },
+  "0x250716ecd25235530ba4dbd1fa0acf6ab92ab05cf5347e25fc86c4384ef1cecb": {
+    "w": "NO",
+    "q": "Israel strike on Yemen by May 31, 2026?",
+    "s": "israel-strike-on-yemen-by-may-31-2026-588-747-911",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x95e0a41420c5f422b332a0b537afefdf45de8ea948b855f5899f30ffd1da340d": {
+    "w": "NO",
+    "q": "Will Trump say \"Taiwan\" or \"Tibet\" during events with Xi Jinping?",
+    "s": "will-trump-say-taiwan-or-tibet-during-events-with-xi-jinping",
+    "c": "World",
+    "r": 1778803200
+  },
+  "0xb24aa72235c46c88613dca167f2e324aeb03e73f556fda680bbbdb815a5c40d0": {
+    "w": "NO",
+    "q": "Iran closes its airspace by May 15?",
+    "s": "iran-closes-its-airspace-by-may-15-844-228",
+    "c": "Military & Defense",
+    "r": 1778803200
+  },
+  "0xa18c3719079f29038a08f499912edd3aca0cf57cc5e146293a1fafceb7de811a": {
+    "w": "NO",
+    "q": "Exact Score: Belgium 2 - 1 IR Iran?",
+    "s": "fifwc-bel-irn-2026-06-21-exact-score-2-1",
+    "c": "World",
+    "r": 1782000000
+  },
+  "0xc4a229b06046a4a30d9b5cd73fc6364f6b7cdc48efc33bfc6b24a2806aa93f30": {
+    "w": "NO",
+    "q": "Will IR Iran win on 2026-06-21?",
+    "s": "fifwc-bel-irn-2026-06-21-irn",
+    "c": "World",
+    "r": 1782000000
+  },
+  "0x9e6efc35e18b1bfec85ac55722ec63db2b531dfd24c767b34989ca935b09d077": {
+    "w": "NO",
+    "q": "Exact Score: Belgium 1 - 1 IR Iran?",
+    "s": "fifwc-bel-irn-2026-06-21-exact-score-1-1",
+    "c": "World",
+    "r": 1782000000
+  },
+  "0xccefe5550fe4d9e1fdf9888db50b800c1d8633d9d7404313b7b09e847f8e0692": {
+    "w": "YES",
+    "q": "Will Nithya Raman finish second in the first round of the 2026 Los Angeles mayoral election?",
+    "s": "will-nithya-raman-finish-second-in-the-first-round-of-the-2026-los-angeles-mayoral-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0xa4d72632ac0ddadcac5247ffc586a193f1bc3bc839cf9ce993c2471e0d599cca": {
+    "w": "YES",
+    "q": "Will Anthropic have the best AI model at the end of June 2026?",
+    "s": "will-anthropic-have-the-best-ai-model-at-the-end-of-june-2026",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0x0bd1b836a2494f80aaee62927cf01e5f6fceb19114e96fc517c6440aea4576e4": {
+    "w": "NO",
+    "q": "Will Google have the best AI model at the end of June 2026?",
+    "s": "will-google-have-the-best-ai-model-at-the-end-of-june-2026",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0xa57a027158ce73973cdd13eed901c6e767a1b9e2f88c665dab8757a65b60d203": {
+    "w": "NO",
+    "q": "Ukraine signs peace deal with Russia by June 30?",
+    "s": "ukraine-signs-peace-deal-with-russia-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x0de4c5e098c5101f7cce39d11dd3294873381b78c2794b6c6aea3142117f03a1": {
+    "w": "NO",
+    "q": "Will Wes Streeting be the next Prime Minister of the United Kingdom in 2026?",
+    "s": "will-wes-streeting-be-the-next-prime-minister-of-the-united-kingdom-in-2026-137",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x11375fe1cf6665bbdee0cba5c2d48be1dedafab87841bd2eb8bc778c0402f457": {
+    "w": "NO",
+    "q": "Will Katie Porter win the California Governor Election in 2026?",
+    "s": "will-katie-porter-win-the-california-governor-election-in-2026",
+    "c": "Elections",
+    "r": 1793664000
+  },
+  "0x4d1ee0c046938319f654f99c6aca2380c1f6d88a65887dd360fda3d0509eddb4": {
+    "w": "NO",
+    "q": "Israel x Iran permanent peace deal by May 31, 2026?",
+    "s": "israel-x-iran-permanent-peace-deal-by-may-31-2026",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x2ae22e1fd29651ed6f049114672a0be94b907e833485a7a6d0c7df2dc7f03ce9": {
+    "w": "NO",
+    "q": "Will Google have the best AI model at the end of May 2026?",
+    "s": "will-google-have-the-best-ai-model-at-the-end-of-may-2026",
+    "c": "Tech & Announcements",
+    "r": 1780185600
+  },
+  "0x518a5b030b205706b8ffe6bbad9bd3de59548348e5c0471827f5de21e513333c": {
+    "w": "NO",
+    "q": "Strait of Hormuz traffic returns to normal by end of May?",
+    "s": "strait-of-hormuz-traffic-returns-to-normal-by-end-of-may",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x29f1ad89cabf4065e6161e4fd0721c5fb23d9c2ef5ab29969e5c09baae50effc": {
+    "w": "YES",
+    "q": "Will Donald Trump sign an executive order on May 29, 2026?",
+    "s": "will-donald-trump-sign-an-executive-order-on-may-29-2026",
+    "c": "Politics",
+    "r": 1780185600
+  },
+  "0x13ca9f55fed9ce4094d90fe1ab5f63c0d371d1589dfffe247a3c1c13d6fb0477": {
+    "w": "YES",
+    "q": "Will SpaceX IPO by June 15, 2026?",
+    "s": "will-spacex-ipo-by-june-15-2026-789-854",
+    "c": "Corporate & M&A",
+    "r": 1781481600
+  },
+  "0x0e4705144106f4740342c9ea514b4aaf263c7f1986f7a75d754f1a3700d6b5f7": {
+    "w": "YES",
+    "q": "Israeli forces cross the Litani River again by May 31?",
+    "s": "israeli-forces-cross-the-litani-river-again-by-may-31",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x70187b4770796788b9d1f3fc6652c596870a9a837b96c832441652588f26029d": {
+    "w": "NO",
+    "q": "Will María Corina Machado be the leader of Venezuela end of 2026?",
+    "s": "will-mara-corina-machado-be-the-leader-of-venezuela-end-of-2026",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0x5b4be999538e689a0f20055c215e5df11df4da7a6ca7a4bcd8b913ae922d6efb": {
+    "w": "YES",
+    "q": "Internet Access restored in Iran by May 31, 2026?",
+    "s": "internet-access-restored-in-iran-by-may-31-2026",
+    "c": "World",
+    "r": 1773446400
+  },
+  "0x3dbeee81527f6d4868a6e500fca15d8905a6dda0e9b1f525145a4ad813bac98e": {
+    "w": "YES",
+    "q": "Will SpaceX IPO by June 30, 2026?",
+    "s": "will-spacex-ipo-by-june-30-2026-372-264-619",
+    "c": "Corporate & M&A",
+    "r": 1782777600
+  },
+  "0xc48adad41230bb3e1cc1e6ac50560225cea311cb75c33a900f0133d15a9ba4ba": {
+    "w": "YES",
+    "q": "Will SpaceX Starship Flight Test 12 launch by May 22?",
+    "s": "will-spacex-starship-flight-test-12-launch-by-may-22-354-721",
+    "c": "Tech & Announcements",
+    "r": 1779408000
+  },
+  "0xa0c38fa49349167e5fadb5d2583da2132b4e52aab654babd0dd67e5d917fe12b": {
+    "w": "YES",
+    "q": "Major US official out by May 31?",
+    "s": "major-us-official-out-by-may-31",
+    "c": "Politics",
+    "r": 1780185600
+  },
+  "0xf582893f97c06a7929c7c14657b4265a0ff06bcee8cdaadc43a889e720249cdc": {
+    "w": "YES",
+    "q": "Will SpaceX Starship Flight Test 12 launch by May 31?",
+    "s": "will-spacex-starship-flight-test-12-launch-by-may-31-693-981",
+    "c": "Tech & Announcements",
+    "r": 1780185600
+  },
+  "0x331e16ffd77fadb2e80aaf59a18e497faac433311e387f0abcc3c7fb1f170069": {
+    "w": "NO",
+    "q": "Will Ala Stanford be the Democratic nominee for PA-03?",
+    "s": "will-ala-stanford-be-the-democratic-nominee-for-pa-03",
+    "c": "Politics",
+    "r": 1779148800
+  },
+  "0xb8a3ea065baae7536ca832160dd9851a06645b7de509eedec34be15c9e18d850": {
+    "w": "NO",
+    "q": "Will Sharif Street be the Democratic nominee for PA-03?",
+    "s": "will-sharif-street-be-the-democratic-nominee-for-pa-03",
+    "c": "Politics",
+    "r": 1779148800
+  },
+  "0x277bc3c96450e77949fe41ea8d360044f4106833d6c89211cfa5c8ccfd8d0951": {
+    "w": "NO",
+    "q": "Will SpaceX Starship Flight Test 12 launch by May 21?",
+    "s": "will-spacex-starship-flight-test-12-launch-by-may-21-457",
+    "c": "Tech & Announcements",
+    "r": 1779321600
+  },
+  "0x99a0fdc1bb6308873bf87eb75a47e21c8340fe20fb6b033444c1d21392da10a9": {
+    "w": "YES",
+    "q": "Will Ken Paxton win the 2026 Texas Republican Primary?",
+    "s": "will-ken-paxton-win-the-2026-republican-primary",
+    "c": "Elections",
+    "r": 1779753600
+  },
+  "0x098afead2c41677b0f09ae9d0013ca520eacdb3f0d7c8985c6581de7a0e9ac37": {
+    "w": "NO",
+    "q": "Iran closes its airspace by May 21?",
+    "s": "iran-closes-its-airspace-by-may-21",
+    "c": "Military & Defense",
+    "r": 1779321600
+  },
+  "0x891506111ddfbd8e9506abd1ee226d89544e75c2c3eebbbdb875347d9a0ffff3": {
+    "w": "YES",
+    "q": "Will Jerome Powell depart as Fed Chair by May 31 2026?",
+    "s": "will-jerome-powell-depart-as-fed-chair-by-may-31-2026",
+    "c": "Economics",
+    "r": 1782777600
+  },
+  "0xaa145cf5714455f546afe53037b8712df749ba96c04820c2d41f37f877f29697": {
+    "w": "NO",
+    "q": "Will Trump say \"Iran\" during events with Xi Jinping?",
+    "s": "will-trump-say-iran-during-events-with-xi-jinping",
+    "c": "World",
+    "r": 1778803200
+  },
+  "0xdf9c6d4030bc0b96634a279fddfdbd8316ed42d217118f9e46205ac182ae925c": {
+    "w": "YES",
+    "q": "Will Chris Rabb be the Democratic nominee for PA-03?",
+    "s": "will-chris-rabb-be-the-democratic-nominee-for-pa-03",
+    "c": "Politics",
+    "r": 1779148800
+  },
+  "0x5341e90b72330a8eb96cb685dcffe51ad41783cc12e91b6858b9bd996b3d5b63": {
+    "w": "NO",
+    "q": "Will Trump say \"Strait\" or \"Hormuz\" during events with Xi Jinping?",
+    "s": "will-trump-say-strait-or-hormuz-during-events-with-xi-jinping",
+    "c": "Military & Defense",
+    "r": 1778803200
+  },
+  "0x7f4378c2e8fb0a4673813e5a5d6f5a773765bab522186932a0465f326a05328d": {
+    "w": "NO",
+    "q": "Will Trump say \"Nuclear\" during events with Xi Jinping?",
+    "s": "will-trump-say-nuclear-during-events-with-xi-jinping",
+    "c": "Military & Defense",
+    "r": 1778803200
+  },
+  "0x70e711c4f3518935c1695e269bdafe7718c8d05822b465a4fafa8e47b0be6859": {
+    "w": "NO",
+    "q": "Will Donald Trump sign an executive order on May 7, 2026?",
+    "s": "will-donald-trump-sign-an-executive-order-on-may-7-2026",
+    "c": "Politics",
+    "r": 1780185600
+  },
+  "0x2f67a201d2d3a057c027748f9287c39c8ac34012bbf8d06fe3ae194c1dc96268": {
+    "w": "YES",
+    "q": "Will Trump announce a US-China Board of Trade?",
+    "s": "will-trump-announce-a-us-china-board-of-trade",
+    "c": "Tech & Announcements",
+    "r": 1779408000
+  },
+  "0x0cfac875e3fa84e292a97256b74432c236904d1a3e46fe8b489978122bdc663b": {
+    "w": "NO",
+    "q": "Will Trump announce a tariff reduction on China?",
+    "s": "will-trump-announce-a-tariff-reduction-on-china",
+    "c": "Legal & Regulatory",
+    "r": 1779408000
+  },
+  "0xf305528c5dbf4f080f8d96ec4fb2047c89aec3923bcce237eb4238e9dd588a09": {
+    "w": "YES",
+    "q": "Jerome Powell out as Fed Chair by May 16, 2026?",
+    "s": "jerome-powell-out-as-fed-chair-by-may-16-2026",
+    "c": "Economics",
+    "r": 1778889600
+  },
+  "0x1bb8bd43ada27e828ce693a5dc2896cd918b64869570761a61048ec78471ce9a": {
+    "w": "YES",
+    "q": "Jerome Powell out as Fed Chair by May 15, 2026?",
+    "s": "jerome-powell-out-as-fed-chair-by-may-15-2026",
+    "c": "Economics",
+    "r": 1778803200
+  },
+  "0x4273517fc8141d57ad1528ede46efdceebdb6a4da746d5de5bad216564209a1e": {
+    "w": "NO",
+    "q": "Will Tucker Carlson win the 2028 Republican presidential nomination?",
+    "s": "will-tucker-carlson-win-the-2028-republican-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0x78b3aec55f914a149fc110ffd4dcfb008ff94e2df4a451b396f7c14a572d6aa7": {
+    "w": "NO",
+    "q": "Will Likud win 35 or more seats in the 2026 Israeli legislative election?",
+    "s": "will-likud-win-35-or-more-seats-in-the-2026-israeli-legislative-election",
+    "c": "Elections",
+    "r": 1793059200
+  },
+  "0xbfa376c15623eadf6a95441c866495e6dfd06642d6626df7ce09c5cf285ef77a": {
+    "w": "NO",
+    "q": "Will Rabiu Kwankwaso win the 2027 Nigerian Presidential Election?",
+    "s": "will-rabiu-kwankwaso-win-the-2027-nigerian-presidential-election-20260602163030947",
+    "c": "Elections",
+    "r": 1800118800
+  },
+  "0x02e9b16d47215a26872c261f9f4459e9cc9421904b8c01278d01fd40c9e23809": {
+    "w": "NO",
+    "q": "Will Fred M'membe win the 2026 Zambian presidential elections?",
+    "s": "will-fred-mmembe-win-the-2026-zambian-presidential-elections-20260604205342551",
+    "c": "Elections",
+    "r": 1786679940
+  },
+  "0x812d9ea644c58f1e889643bbd9184e9c5fdacbba55d1f9fef2eb2d55ce5dc1c2": {
+    "w": "NO",
+    "q": "Will the Republican Party hold exactly 53 Senate seats after the 2026 midterm elections?",
+    "s": "will-the-republican-party-hold-exactly-53-senate-seats-after-the-2026-midterm-elections",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x84dc47b1dd9cd99a9217b92a95690729334b647650bb6bf676bb31c3db0d7f79": {
+    "w": "NO",
+    "q": "Will North Korea invade South Korea before 2027?",
+    "s": "will-north-korea-invade-south-korea-before-2027",
+    "c": "Military & Defense",
+    "r": 1798675200
+  },
+  "0x45bdbc00baf989a4b8a51c20ada82148e1e1a43a05ab8767f4fd145eae418d57": {
+    "w": "NO",
+    "q": "Will Gustavo Petro be the next leader out before 2027?",
+    "s": "will-gustavo-petro-be-the-next-leader-out-before-2027-576",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x84a45609bfdb644a15be71d679fbb4f115dea9109d9bac96e1bc049853e002f6": {
+    "w": "NO",
+    "q": "Will no listed leader be out before 2027?",
+    "s": "will-no-listed-leader-be-out-before-2027-147",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x20d0bc282552ac5ec6f61cd7101cb42a5948cae07e7651bdf40ede1a8b2c5eac": {
+    "w": "NO",
+    "q": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
+    "s": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0x1a8808d7a309a210b3e413331005c3d7e8cd27d2da4a4acd4ff04b4072d2ed81": {
+    "w": "NO",
+    "q": "Israel x Iran permanent peace deal by July 31, 2026?",
+    "s": "israel-x-iran-permanent-peace-deal-by-july-31-2026",
+    "c": "World",
+    "r": 1785456000
+  },
+  "0xca70cbe260906157e86e302c508c603e175f55719b19cf07943ad8e946392838": {
+    "w": "NO",
+    "q": "Will Mojtaba Khamenei attend the US-Iran Signing Ceremony?",
+    "s": "will-mojtaba-khamenei-attend-the-us-iran-signing-ceremony-20260615232204736",
+    "c": "World",
+    "r": 1783468740
+  },
+  "0xa65e9c75c4ad990e97e598f4c279887da5d51e0dddb781fcca0691c1c2798d9e": {
+    "w": "NO",
+    "q": "Will Marco Rubio attend the next US x Iran diplomatic meeting?",
+    "s": "will-marco-rubio-attend-the-next-us-x-iran-diplomatic-meeting",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xba9e2c497a753af5534c0811d578d044695fec32a563ace340152850561c6409": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 18, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-18-2026-585",
+    "c": "World",
+    "r": 1781740800
+  },
+  "0x585673fcbde68965ee57520268c290e554071d5082f25bba0527f01dc05c8612": {
+    "w": "NO",
+    "q": "Will Israeli forces withdraw from beyond the Litani River by June 30?",
+    "s": "will-israeli-forces-withdraw-from-beyond-the-litani-river-by-june-30-20260607234650335",
+    "c": "World",
+    "r": 1782878340
+  },
+  "0x919563959223d36141fed20ba61fed8f74269b862ae54d4708604f5cddee222a": {
+    "w": "NO",
+    "q": "Sudan civil war ceasefire by June 30, 2026?",
+    "s": "sudan-civil-war-ceasefire-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x1bbb01c67b1520c5db8e02c65b395176b7e2b43d16cc8f8810beb64d70f6e69b": {
+    "w": "NO",
+    "q": "Will the Democrats win the Montana Senate race in 2026?",
+    "s": "will-the-democrats-win-the-montana-senate-race-in-2026",
+    "c": "Politics",
+    "r": 946684800
+  },
+  "0xa281626f9ec48ce3c66cdacfc3beb5170cd790007bf1f7d00fdf02b73f8a113c": {
+    "w": "NO",
+    "q": "Will China’s 2026 annual GDP growth (Y/Y) be between 6.0% and 7.0%?",
+    "s": "will-chinas-2026-annual-gdp-growth-yy-be-between-6pt0-and-7pt0",
+    "c": "Economics",
+    "r": 1769817600
+  },
+  "0x93d07ffcf5c243b98e655380eb876d4a3393351b7325059064cb5a4b1ff6ceb2": {
+    "w": "NO",
+    "q": "Will Yariv Levin be the next Prime Minister of Israel?",
+    "s": "will-yariv-levin-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xf019dab83a6175caa9fbba00969cb975f507361946f6c525e06f8309511895a5": {
+    "w": "NO",
+    "q": "Ukraine peace referendum scheduled by June 30?",
+    "s": "ukraine-peace-referendum-scheduled-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x8c48f3acf4177b5ceb012a8a2dc7a9c219eeae4a032d6ddcbc3c2ffab907439a": {
+    "w": "NO",
+    "q": "Will the Liberal Democratic Party of Russia (LDPR) gain the most seats in the next Russian parliamentary election?",
+    "s": "will-the-liberal-democratic-party-of-russia-ldpr-gain-the-most-seats-in-the-next-russian-parliamentary-election",
+    "c": "Elections",
+    "r": 1790726400
+  },
+  "0x3d8d89ffe0cbbd7580446fad3835fbf4c3d5f7458564b522d96de2b305326587": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 17, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-17-2026-20260612163100185-516-841",
+    "c": "World",
+    "r": 1781740800
+  },
+  "0x60c6fe27d5b273f54fe30b4003c3b2553acd5f76220d9ea289343d536d6dd9ad": {
+    "w": "NO",
+    "q": "Russia x Ukraine ceasefire agreement by June 30, 2026?",
+    "s": "russia-x-ukraine-ceasefire-agreement-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x495e6b49e7397bb4e6f8ce69e246ccb33b744678bd9bf88cbecbd3a113b05423": {
+    "w": "NO",
+    "q": "Will Russia invade a NATO country by June 30, 2026?",
+    "s": "will-russia-invade-a-nato-country-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1767182400
+  },
+  "0x7b91997c6c8ca00643ab322f63af50acf1a0e9b86be130b67e5a19005215e252": {
+    "w": "NO",
+    "q": "Will the Communist Party of the Russian Federation (KPRF) gain the most seats in the next Russian parliamentary election?",
+    "s": "will-the-communist-party-of-the-russian-federation-kprf-gain-the-most-seats-in-the-next-russian-parliamentary-election",
+    "c": "Elections",
+    "r": 1790726400
+  },
+  "0xf752269473fe416c87c8da63dd21c74581cbe3f3920cc904b0d59cbdfa173ef7": {
+    "w": "NO",
+    "q": "Will there be no head of state of Venezuela end of 2026?",
+    "s": "will-there-be-no-head-of-state-of-venezuela-end-of-2026",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0x3ff129c6f6737846a0b7912778da9c68f3766fbe4c8056224bd12de7e3ecfc10": {
+    "w": "YES",
+    "q": "Will Micah Lasher be the democratic nominee for NY-12?",
+    "s": "will-micah-lasher-be-the-democratic-nominee-for-ny-12",
+    "c": "Politics",
+    "r": 1782172800
+  },
+  "0x42833d9c5ae9c45c3999a7dad8e4801c7905c48fccb5677f3f6c2a951647a6af": {
+    "w": "YES",
+    "q": "Will Kweisi Mfume be the Democratic nominee for MD-07?",
+    "s": "will-kweisi-mfume-be-the-democratic-nominee-for-md-07",
+    "c": "Politics",
+    "r": 1782432000
+  },
+  "0x04f1a10e79a106d18dc45e6087f0757456197ec5c6ffec2506cd066e8215fc62": {
+    "w": "YES",
+    "q": "Billionaire one-time wealth tax on California ballot?",
+    "s": "billionaire-one-time-wealth-tax-on-california-ballot",
+    "c": "Elections",
+    "r": 1782345600
+  },
+  "0x360229ef7e200995eeedfab6fd63514c8a43fcee803e8ac6dbe17065bd024d60": {
+    "w": "NO",
+    "q": "Will no next Prime Minister of the United Kingdom be appointed in 2026?",
+    "s": "will-no-next-prime-minister-of-the-united-kingdom-be-appointed-in-2026",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xacfc843170791970f3d730112fcb9937d2c6f25d83480113dbff300ef12d9163": {
+    "w": "NO",
+    "q": "Will \"Toy Story 5\" Opening Weekend Box Office be between 171m and 184m?",
+    "s": "will-toy-story-5-opening-weekend-box-office-be-between-171m-and-184m",
+    "c": "Culture",
+    "r": 1782086400
+  },
+  "0x60be3b306991820cf1e91a966519c15040f1121d1d2aca575a099fb7df4a19b4": {
+    "w": "YES",
+    "q": "Will Masoud Pezeshkian sign a U.S. x Iran deal by July 31?",
+    "s": "will-masoud-pezeshkian-sign-a-uptspt-x-iran-deal-by-july-31-20260611235950072",
+    "c": "World",
+    "r": 1785542400
+  },
+  "0x1be62d973dc8fb45de714eb2113118b6ac3e47694f8b0801c0c41d992d0b7c9f": {
+    "w": "NO",
+    "q": "Will Trump agree to Iranian transit fees in the Strait of Hormuz by June 30?",
+    "s": "will-trump-agree-to-iranian-transit-fees-in-the-strait-of-hormuz-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x72234927d10f9070a036d77a2eba5011f4ec02661459d6f72158bdcd30c841e4": {
+    "w": "YES",
+    "q": "Will Robert Kenyon finish second in the 2026 Makerfield by-election?",
+    "s": "will-robert-kenyon-finish-second-in-the-2026-makerfield-by-election",
+    "c": "Elections",
+    "r": 1781740800
+  },
+  "0x25f221f1e18344d84af9e306ef36f4ce134888016d6fda04fd216f6fe36ad541": {
+    "w": "NO",
+    "q": "Israeli forces enter Nabatieh by June 30?",
+    "s": "israeli-forces-enter-nabatieh-by-june-30",
+    "c": "World",
+    "r": 1780790400
+  },
+  "0x71ee9c148f0e2b386ba959aca5954c5e6c428695bf1a5fca0af9194f40487758": {
+    "w": "YES",
+    "q": "Will Donald Trump attend NATO Summit?",
+    "s": "will-trump-attend-nato-summit-279",
+    "c": "Military & Defense",
+    "r": 1783468800
+  },
+  "0xb2a1c0c2a5ddd15fb8ba2dea1a808ef32c61108bb1a5911281006e8076b6714b": {
+    "w": "YES",
+    "q": "Will 40 ships transit the Strait of Hormuz on any day by June 30, 2026?",
+    "s": "will-40-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1782835200
+  },
+  "0xa976dcc2fac50cf13968adbee89ce1de26df0191b8480b89d418280273197f53": {
+    "w": "NO",
+    "q": "Bab el-Mandeb Strait effectively closed by June 30?",
+    "s": "bab-el-mandeb-strait-effectively-closed-by-june-30-571",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0x9ecb0995bb46eb688cac048d81cfd28ac5032b574cf93e4e3f3d492d5e58a599": {
+    "w": "NO",
+    "q": "Tucker Carlson federally charged?",
+    "s": "tucker-carlson-federally-charged",
+    "c": "Legal & Regulatory",
+    "r": 1782777600
+  },
+  "0x9647b0f18083245933f2d2ca09acbe7ce89ee60ba83ed01e984df4bc7888a214": {
+    "w": "NO",
+    "q": "Bab el-Mandeb Strait effectively closed by May 31?",
+    "s": "bab-el-mandeb-strait-effectively-closed-by-may-31",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0x789c947a9415600d30d56a4aae88d4111996679b0caed166d0c96242fdce92a2": {
+    "w": "NO",
+    "q": "Will the Iranian regime fall by May 31?",
+    "s": "will-the-iranian-regime-fall-by-may-31",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x79e7d16f5c71ab6ff5f805f77045eb5cef7b8f6aa87db54ebabeb3373d31b254": {
+    "w": "NO",
+    "q": "Trump renames Strait of Hormuz to \"Strait of Trump\" by May 31?",
+    "s": "trump-renames-straight-of-hormuz-to-strait-of-trump-by-may-31",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0xb75c07f4252992808d7ca7d9828169c524b0fef44bf5adf78c327ef88469c986": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by May 5, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-may-5-2026",
+    "c": "World",
+    "r": 1777939200
+  },
+  "0xfa7e0faadeddbaa3d8f24a7fbe04fa0b02a7a5fd00c62dba2888b1cb24387be2": {
+    "w": "NO",
+    "q": "Kash Patel out by April 30?",
+    "s": "kash-patel-out-by-april-30-481",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0x2716a89ac0adb404b1651b2f8c153261ea28fddcc2523f6664638a5aeb0a77cb": {
+    "w": "YES",
+    "q": "No change in Bank of Japan’s interest rates after the July 2026 meeting?",
+    "s": "no-change-in-bank-of-japans-interest-rates-after-the-july-2026-meeting",
+    "c": "Economics",
+    "r": 1785456000
+  },
+  "0xba8526e4bf87c26c043d7048d364508d066117c173a91f2c56a82128fdc9102c": {
+    "w": "NO",
+    "q": "Will Adriano Espaillat be the Democratic Nominee for NY-13?",
+    "s": "will-adriano-espaillat-be-the-democratic-nominee-for-ny-13",
+    "c": "Politics",
+    "r": 1782172800
+  },
+  "0xce57adc3608d8fa3fb64aaaa462f5fc9530ebbbaf1e1e73c20399dfa5680ecf6": {
+    "w": "NO",
+    "q": "Will Jared Kushner attend the US-Iran Signing Ceremony?",
+    "s": "will-jared-kushner-attend-the-us-iran-signing-ceremony-20260615232204741",
+    "c": "World",
+    "r": 1783468740
+  },
+  "0x2358809f9f612f8fb4f224b342ba2841ca644a6e3c46adb4c3bcee910cc31632": {
+    "w": "YES",
+    "q": "Will 20 ships transit the Strait of Hormuz on any day by June 30, 2026?",
+    "s": "will-20-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x77954e0830eafc9539916c591f717fb0635f6483bc9949524cb46483cd9b9d39": {
+    "w": "YES",
+    "q": "Will Andy Burnham win the 2026 Makerfield by-election?",
+    "s": "will-andy-burnham-win-the-2026-makerfield-by-election",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x3c169e95aea67be5fac1529b3ad8e891fe97ec54d1f272fab43b02cce948f6c2": {
+    "w": "NO",
+    "q": "Will Robert Kenyon win the 2026 Makerfield by-election?",
+    "s": "will-robert-kenyon-win-the-2026-makerfield-by-election",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0xe9efa6d64dff3970a2501a23d6e7d5c236f258695fea0f30a7bae474f6ec5fed": {
+    "w": "NO",
+    "q": "GPT-5.6 released by June 26, 2026?",
+    "s": "gpt-5pt6-released-by-june-26-2026",
+    "c": "Tech & Announcements",
+    "r": 1782432000
+  },
+  "0x8c2bbf10427fec47209314396631907b16aa2a562ddcd7629aed4207c396181d": {
+    "w": "NO",
+    "q": "Will Donald Trump have a diplomatic meeting with Iran by June 30?",
+    "s": "will-donald-trump-have-a-diplomatic-meeting-with-iran-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x406e0d8cfae33d844448acefab4862f89f82849a7bc6dde73b97aaa702e96be4": {
+    "w": "NO",
+    "q": "Will Marco Rubio have a diplomatic meeting with Iran by June 30?",
+    "s": "will-marco-rubio-have-a-diplomatic-meeting-with-iran-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xac445aa8b0defbd3c01de8fd1c1acba2a99ac71f9debb2e12f2f481bd6510e1c": {
+    "w": "YES",
+    "q": "Will Donald Trump publicly insult Nicolás Maduro by June 30, 2026?",
+    "s": "will-donald-trump-publicly-insult-nicols-maduro-by-june-30-2026",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xdc00146a77dbe0f17e69b4c5d71e9358b0e9eaae4908ab993e0fff0c566abb11": {
+    "w": "NO",
+    "q": "Will Antonio Reynoso be the Democratic nominee for NY-07?",
+    "s": "will-antonio-reynoso-be-the-democratic-nominee-for-ny-07",
+    "c": "Politics",
+    "r": 1782172800
+  },
+  "0x7165fa50209ca99e632130187b2e0923d865f5b13e6e472b3d673b1f2687867d": {
+    "w": "NO",
+    "q": "Will \"The Death of Robin Hood\" Opening Weekend Box Office be between 5m and 6m?",
+    "s": "will-the-death-of-robin-hood-opening-weekend-box-office-be-between-5m-and-6m-20260617210424653",
+    "c": "Culture",
+    "r": 1782086400
+  },
+  "0x61dcae8107169382527c8dac1fcd0e214b4b4267b65d0e6fd4872736d373f360": {
+    "w": "NO",
+    "q": "US-Iran Final Nuclear Deal by July 31, 2026?",
+    "s": "us-iran-final-nuclear-deal-by-july-31-2026-20260621201255151",
+    "c": "Military & Defense",
+    "r": 1785542340
+  },
+  "0x91ab29a404573c337ea18577ab66df31f22743ad687adc04fffbc8b9ef13a4ae": {
+    "w": "NO",
+    "q": "Israeli forces enter Tyre by June 7?",
+    "s": "israeli-forces-enter-tyre-by-june-7",
+    "c": "World",
+    "r": 1780790400
+  },
+  "0xb24c32ecdc78696f1b3e06acb5cc486e3c37d6b0913cffe641c96368aa41f3ef": {
+    "w": "NO",
+    "q": "Will Iran close its airspace by June 12?",
+    "s": "will-iran-close-its-airspace-by-june-12-20260609184136050",
+    "c": "Military & Defense",
+    "r": 1781308800
+  },
+  "0x7f7546918378d63097393ed497ab60d8f911b742abc42b8263bb2504816b4741": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 7, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-7-2026",
+    "c": "World",
+    "r": 1780790400
+  },
+  "0x153c55026360343f385039ef74e61e5ac8a637c05e71fdaaebe99a3b1b8c5e98": {
+    "w": "NO",
+    "q": "Israeli forces enter Choukine by June 7?",
+    "s": "israeli-forces-enter-choukine-by-june-7",
+    "c": "World",
+    "r": 1780790400
+  },
+  "0x283d4efb530a7ff6714ac7ae4fc9d98259f620da36f87be35466196d2c6de8bd": {
+    "w": "NO",
+    "q": "Israeli forces enter Nabatieh by June 7?",
+    "s": "israeli-forces-enter-nabatieh-by-june-7",
+    "c": "World",
+    "r": 1780790400
+  },
+  "0xde09364752373735351b7a989680fab1fc842442cf215116ee212686fe7bd280": {
+    "w": "YES",
+    "q": "Will Trump say \"Million\" or \"Billion\" or \"Trillion\" 25+ times during Cabinet meeting?",
+    "s": "will-trump-say-million-or-billion-or-trillion-25-times-during-cabinet-meeting",
+    "c": "Politics",
+    "r": 1779840000
+  },
+  "0x56a5be8071615b2ef61ace9884de7e4bcb376337916abb8293f1003498bd734c": {
+    "w": "YES",
+    "q": "Will Trump say \"Fraud\" during Cabinet meeting?",
+    "s": "will-trump-say-fraud-during-cabinet-meeting",
+    "c": "Politics",
+    "r": 1779840000
+  },
+  "0xde15533da479594354a3f1a27b53a90ac1812da4d91fba29fe65aa53f3fdc504": {
+    "w": "NO",
+    "q": "James Norton announced as next James Bond?",
+    "s": "james-norton-announced-as-next-james-bond-575",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0x56e1777e2d279537876dc658e3a36ce125258c99bcf6288354cdfb275799c4d3": {
+    "w": "YES",
+    "q": "Will Trump say \"Iran\" 10+ times during Cabinet meeting?",
+    "s": "will-trump-say-iran-10-times-during-cabinet-meeting",
+    "c": "Politics",
+    "r": 1779840000
+  },
+  "0xd7482c59ec03c0def1d1f3caef6e22aa95498a567522de7f0780f1f362ecf522": {
+    "w": "NO",
+    "q": "Callum Turner announced as next James Bond?",
+    "s": "callum-turner-announced-as-next-james-bond",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0xecbc0d8411219bcbf1601cd2d5dc6923f4d3497e5f23f3a45f888cf2ce306591": {
+    "w": "YES",
+    "q": "Will China announce a Boeing aircraft purchase by May 22?",
+    "s": "will-china-announce-a-boeing-aircraft-purchase-by-may-22-385",
+    "c": "Tech & Announcements",
+    "r": 1779408000
+  },
+  "0x40ae35803cf80ab53122ea000eae8c690df0376366b527f77071b3f9a38f8133": {
+    "w": "YES",
+    "q": "US x Cuba diplomatic meeting by June 30?",
+    "s": "us-x-cuba-diplomatic-meeting-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xeda1af684835d5c0296940ca32b76faf2a96571cb171c73f6542d1c52e1d1c90": {
+    "w": "NO",
+    "q": "Trump endorses China's claim to Taiwan this week?",
+    "s": "trump-endorses-chinas-claim-to-taiwan-this-week",
+    "c": "World",
+    "r": 1778976000
+  },
+  "0xcddc048c672ee233890b99b18885dbd510e3db3d67c53afb408ddc93f9aadff4": {
+    "w": "NO",
+    "q": "Will the US confirm that aliens exist by May 31?",
+    "s": "will-the-us-confirm-that-aliens-exist-by-may-31",
+    "c": "Politics",
+    "r": 1780185600
+  },
+  "0xed0f5596263aa1d3dffbe903502f8134864f0b5d8c102c66631b9636b5cc9e4b": {
+    "w": "NO",
+    "q": "Will France send warships through the Strait of Hormuz by May 31, 2026?",
+    "s": "will-france-send-warships-through-the-strait-of-hormuz-by-may-31-2026",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x483c0277d8e873f665b556a2b11a0580c394caed3c74eaa500f8b2103efd317e": {
+    "w": "YES",
+    "q": "Israel x Lebanon diplomatic meeting by May 31?",
+    "s": "israel-x-lebanon-diplomatic-meeting-by-may-31",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x2135ffcb43ba9103bb6acf7116d2d5aa98bef6d9eb3dc9c85ea00cb79513f3ec": {
+    "w": "NO",
+    "q": "Iran closes its airspace by May 8?",
+    "s": "iran-closes-its-airspace-by-may-8-754-861",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x4619a2052c2841d4f21ba3935d0b6ca244b2190e361c3d352c4eb6a7ebb8f919": {
+    "w": "NO",
+    "q": "Major US official out by April 30?",
+    "s": "major-us-official-out-by-april-30",
+    "c": "Politics",
+    "r": 1777507200
+  },
+  "0xd7e6f6627e8b73a8fa3a29949f6dc81f683f5ce102ae6b03347b862d09617f0f": {
+    "w": "NO",
+    "q": "Pete Hegseth out as Secretary of Defense by May 31?",
+    "s": "pete-hegseth-out-as-secretary-of-defense-by-may-31",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0xe033fd230022d2c8835df16bb9e065b402690a15e9ed381ea00569b9218ce102": {
+    "w": "NO",
+    "q": "Jimmy Kimmel fired/resigns by May 31?",
+    "s": "jimmy-kimmel-firedresigns-by-may-31",
+    "c": "Politics",
+    "r": 1780185600
+  },
+  "0x63f59b5dbf9407dbae6138f2abb5d99fcdcf5d1f8978ffd882b07c83c97eb9ae": {
+    "w": "NO",
+    "q": "Will the US confirm that aliens exist by April 30?",
+    "s": "will-the-us-confirm-that-aliens-exist-by-april-30",
+    "c": "Politics",
+    "r": 1777507200
+  },
+  "0xdda63e9a4419b36eed1559287ec645677d23cb95d96ce7d5c91d83cb6a8b268e": {
+    "w": "YES",
+    "q": "Will Trump announce that the US x Iran ceasefire has been broken by April 21, 2026?",
+    "s": "will-trump-announce-that-the-us-x-iran-ceasefire-has-been-broken-by-april-21-2026",
+    "c": "Military & Defense",
+    "r": 1776729600
+  },
+  "0xaa980c83777851bf22a3bd4eeee864d11ce7783096a22ce4af56ff9bf2e1d2cd": {
+    "w": "NO",
+    "q": "Will fewer than 25 ships transit the Strait of Hormuz between April 20-April 26?",
+    "s": "will-fewer-than-25-ships-transit-the-strait-of-hormuz-between-april-20-april-26",
+    "c": "Military & Defense",
+    "r": 1777161600
+  },
+  "0x6a01c1687c781829cc90198cfd3c73f9ce64bca2a8960527868b0ad737e53f89": {
+    "w": "YES",
+    "q": "No one announced as next James Bond?",
+    "s": "no-one-announced-as-next-james-bond-962",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0xfc22df0d2ae7205ded5a31ce012d6e5df5c0297817c1a65afa19564326278961": {
+    "w": "NO",
+    "q": "Russia x Ukraine diplomatic meeting by June 30, 2026?",
+    "s": "russia-x-ukraine-diplomatic-meeting-by-june-30-2026-20260609011545512",
+    "c": "World",
+    "r": 1782849540
+  },
+  "0x22c0216228ef4f9585786ab787855f533d098d6fab779e5d6cc2d57dc7feb47d": {
+    "w": "YES",
+    "q": "Will fewer than 25 ships transit the Strait of Hormuz between June 8-June 14?",
+    "s": "will-fewer-than-25-ships-transit-the-strait-of-hormuz-between-june-8-june-14",
+    "c": "Military & Defense",
+    "r": 1781395200
+  },
+  "0x885af440160b32c882027f0ed610b6a9b311262a6a0518fa9529a050f078fad2": {
+    "w": "YES",
+    "q": "Will Hakeem Jeffries win the 2026 New York 8th District Democratic Primary?",
+    "s": "will-hakeem-jeffries-win-the-2026-new-york-8th-district-democratic-primary",
+    "c": "Elections",
+    "r": 1793664000
+  },
+  "0xbd5585ee0a5f30e605743d13cc12e9bbe9ea43019ab766cac4126797c3b447a1": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 16, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-16-2026-20260612160513701",
+    "c": "World",
+    "r": 1781654400
+  },
+  "0x97b6039c73463cba6712849156b592631901b3be4b69871ea6973dc088cc1af1": {
+    "w": "NO",
+    "q": "Will Russia capture Kindrativka by June 30?",
+    "s": "will-russia-capture-kindrativka-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x2eef613e7ebc53924d2f1ce318465ba30c0a6e26b17b7aaa7cc513743efa0999": {
+    "w": "NO",
+    "q": "Will Iran close its airspace by June 9?",
+    "s": "will-iran-close-its-airspace-by-june-9-20260609184136047",
+    "c": "Military & Defense",
+    "r": 1781049600
+  },
+  "0x1ff94ce9a874202523ac828138d0a2d5ffc2f3899fccbda5505909c51df76277": {
+    "w": "NO",
+    "q": "GPT-5.6 released by June 15, 2026?",
+    "s": "gpt-5pt6-released-by-june-15-2026-343",
+    "c": "Tech & Announcements",
+    "r": 1781481600
+  },
+  "0xd47d0bd030ed55038c400015331bea5447e3c3d9078c799aa6f6ac9becc81a70": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 10, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-10-2026",
+    "c": "World",
+    "r": 1781049600
+  },
+  "0xa08bf5e2acca8cf3f85209795cf278128a30869c5a8bfb97851e19fd21d0d21e": {
+    "w": "NO",
+    "q": "Epstein client list released by June 30?",
+    "s": "epstein-client-list-released-by-june-30",
+    "c": "Crypto Events",
+    "r": 1782777600
+  },
+  "0x1ab70741c263b8374fd08b4cfb2cc5af0537d787e27e40a39d08a83dd67f06b4": {
+    "w": "NO",
+    "q": "Israel closes its airspace by June 8?",
+    "s": "israel-closes-its-airspace-by-june-8",
+    "c": "Military & Defense",
+    "r": 1780876800
+  },
+  "0x754a865447a9e8ff73a49b3bf21edceace487b9f70d45ad27882807fd6e96bc8": {
+    "w": "NO",
+    "q": "Will \"Kai Harada\" win Best Sound Design of a Musical at the 2026 Tony Awards?",
+    "s": "will-kai-harada-cats-the-jellicle-ball-win-best-sound-design-of-a-musical-at-the-2026-tony-awards",
+    "c": "Culture",
+    "r": 1780790400
+  },
+  "0xc8559283856653af1e08c6603ce0c26135db9beaac4df305bc4af1aff53861fe": {
+    "w": "NO",
+    "q": "Will Steve Hilton finish first in the 2026 California Governor primary election?",
+    "s": "will-steve-hilton-finish-first-in-the-2026-california-governor-primary-election-713",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0x1ca0c5a983d6fb372c7696a6c0c7963174f66e2b0ce73455d754327b9354c1d0": {
+    "w": "YES",
+    "q": "Will \"The Amazing Digital Circus: The Last Act\" Opening Weekend Box Office be less than 19m?",
+    "s": "will-the-amazing-digital-circus-the-last-act-opening-weekend-box-office-be-less-than-19m",
+    "c": "Culture",
+    "r": 1780876800
+  },
+  "0xf3568f48124933f10b963aa8ed3472826af99fb01b11a96a8b8dcdb5f33de7e8": {
+    "w": "YES",
+    "q": "MicroStrategy announces >1000 BTC purchase June 2-8?",
+    "s": "microstrategy-announces-1000-btc-purchase-june-2-8",
+    "c": "Tech & Announcements",
+    "r": 1780963200
+  },
+  "0xc00920db6f5e84821a61bd31578499bbc9bd125949572b589b7a9e4b0f13bad3": {
+    "w": "NO",
+    "q": "Will Iván Cepeda Castro win the 1st round of the 2026 Colombian presidential election?",
+    "s": "will-ivn-cepeda-castro-win-the-1st-round-of-the-2026-colombian-presidential-election",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0xd701276286f5323f1b06dd99021411d4930688d42fdd6851c9a78c50c9e170e9": {
+    "w": "NO",
+    "q": "Will Trump say \"Nuclear\" 3+ times during Wisconsin events?",
+    "s": "will-trump-say-nuclear-3-times-during-wisconsin-events-20260602174201997",
+    "c": "Military & Defense",
+    "r": 1780704000
+  },
+  "0x1b0abcc3b1b4b091ae5c83b4585439635cdd2349c2f79b1fb2f83aa005607524": {
+    "w": "NO",
+    "q": "Will Spencer Pratt finish second in the first round of the 2026 Los Angeles mayoral election?",
+    "s": "will-spencer-pratt-finish-second-in-the-first-round-of-the-2026-los-angeles-mayoral-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0x33bc65234a165163b12f0436e7a2df55853645129f3f6d8f5c1ace280227a381": {
+    "w": "YES",
+    "q": "FDA approves Vepdegestrant?",
+    "s": "fda-approves-arvinas-vepdegestrant-06-05-2026",
+    "c": "Legal & Regulatory",
+    "r": 1780617600
+  },
+  "0x3ed92a5a51371e8ba5882ae743ccf90460c8860fdd862a9389e249d0a2b9f055": {
+    "w": "NO",
+    "q": "Masoud Pezeshkian out by June 30?",
+    "s": "masoud-pezeshkian-out-by-june-30-242-112",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0x84b64f4673b608dff6ef9d64099ad83427b9e4010556a8077e2fa7f01765ae71": {
+    "w": "NO",
+    "q": "Exact Score: Belgium 1 - 0 IR Iran?",
+    "s": "fifwc-bel-irn-2026-06-21-exact-score-1-0",
+    "c": "World",
+    "r": 1782000000
+  },
+  "0xfa0fc78ff4455964423f3e2efcd35b00655f8b965d4a584ec758132bb66e6431": {
+    "w": "NO",
+    "q": "Exact Score: Belgium 2 - 0 IR Iran?",
+    "s": "fifwc-bel-irn-2026-06-21-exact-score-2-0",
+    "c": "World",
+    "r": 1782000000
+  },
+  "0x8f3d3d55b93ccd4dcccd6d96474c94c022787b89d35f494e24ff154122981934": {
+    "w": "NO",
+    "q": "Anysphere (Cursor) IPO before 2027?",
+    "s": "anysphere-cursor-ipo-before-2027",
+    "c": "Corporate & M&A",
+    "r": 1798675200
+  },
+  "0x13724d46dee0fc8265728974072c068b83923129965c4c8f54c9b0e03b88d271": {
+    "w": "YES",
+    "q": "Will SpaceX acquire Cursor by September 30, 2026?",
+    "s": "will-spacex-acquire-cursor-by-september-30-2026",
+    "c": "Corporate & M&A",
+    "r": 1790726400
+  },
+  "0xc2dd20bc42378191ba1e6068f2afa8b2a6c13881a42ee03e211441f0a2f3aeac": {
+    "w": "YES",
+    "q": "Will SpaceX acquire Cursor by December 31, 2026?",
+    "s": "will-spacex-acquire-cursor-by-december-31-2026-675",
+    "c": "Corporate & M&A",
+    "r": 1798675200
+  },
+  "0xb2a5145e4597061e02ef614a3ed4c89e12d36b79cf066fc362da9937c709d201": {
+    "w": "NO",
+    "q": "SpaceX IPO: Will Elon Musk Ring the Bell?",
+    "s": "spacex-ipo-will-elon-musk-ring-the-bell-20260608201006493",
+    "c": "Corporate & M&A",
+    "r": 1781308800
+  },
+  "0x583a505658647660175c2e0aa70b4a460d8c34a6b3f46251ce5f9f46e9886c50": {
+    "w": "YES",
+    "q": "Will Steve Hilton advance from the 2026 California Governor primary election?",
+    "s": "will-steve-hilton-get-the-first-or-second-most-votes-in-the-2026-california-governor-primary-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0x1945a8b23e313ed7423b6b6fd556f9ab5578900376b565a61dc480a5f4f35d21": {
+    "w": "NO",
+    "q": "Will Hunter Biden win the 2028 Democratic presidential nomination?",
+    "s": "will-person-a-win-the-2028-democratic-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0xb5110caf39109c43b472e9048c29a7a337a383a6d2baed9225e8f93c69fd87af": {
+    "w": "YES",
+    "q": "Will SpaceX’s IPO valuation be between 1.75T and 2.00T?",
+    "s": "will-spacexs-ipo-valuation-be-between-1pt75t-and-2pt00t",
+    "c": "Corporate & M&A",
     "r": 946684800
   }
 }

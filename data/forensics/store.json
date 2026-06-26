@@ -11,38 +11,39 @@
       "username": null,
       "firstSeen": "Oct 25 2024",
       "category": "Military & Defense",
-      "marketsCount": 29,
+      "marketsCount": 30,
       "tier": "watch",
-      "improbText": "1 in 1.5K",
-      "improbDenom": 1455,
-      "improbFull": "1 in 1.5 thousand",
+      "improbText": "1 in 1.3K",
+      "improbDenom": 1295,
+      "improbFull": "1 in 1.3 thousand",
       "convictionFlag": false,
       "convBet": null,
       "full": false,
-      "winRate": 41,
+      "winRate": 40,
       "avgImplied": 15,
       "profit": "$15K",
       "fired": [
         "won",
+        "timing",
         "longshot"
       ],
       "refId": "WF-2024-872",
       "cexChips": [],
-      "heroSentence": "This account won 12 of 29 long-shot bets that the market gave roughly a 15 percent chance. By luck you would expect about 4.46 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "heroSentence": "This account won 12 of 30 long-shot bets that the market gave roughly a 15 percent chance. By luck you would expect about 4.49 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
         {
           "key": "longshot",
           "metric": "15% avg",
           "method": "average odds",
           "formula": "average of the market's odds at entry",
-          "numbers": "Average entry odds ~16% across 31 bets — concentrated in long shots (≤20%)."
+          "numbers": "Average entry odds ~16% across 32 bets — concentrated in long shots (≤20%)."
         },
         {
           "key": "won",
-          "metric": "41% vs 15%",
+          "metric": "40% vs 15%",
           "method": "luck probability",
-          "formula": "chance of ≥ 12 wins in 29 tries at 15% each",
-          "numbers": "Won 12 of 29 independent bets the market priced at ~15% — about 4.46 expected by luck. Probability by chance ≈ 1 in 1.5K (2 correlated bets de-correlated)."
+          "formula": "chance of ≥ 12 wins in 30 tries at 15% each",
+          "numbers": "Won 12 of 30 independent bets the market priced at ~15% — about 4.49 expected by luck. Probability by chance ≈ 1 in 1.3K (2 correlated bets de-correlated)."
         }
       ],
       "ledger": [
@@ -384,8 +385,8 @@
         }
       ],
       "ledgerSummary": {
-        "markets": 29,
-        "winRate": 41,
+        "markets": 30,
+        "winRate": 40,
         "realized": "+$15K"
       },
       "timeline": {
@@ -401,11 +402,11 @@
       "activityDays": 11,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "wins": 12,
-      "expectedWins": 4.35,
-      "percentile": 99.452,
+      "expectedWins": 4.5,
+      "percentile": 99.445,
       "volumeNum": 4854,
       "volume": "$5K",
-      "profitNum": 14517.403812996301,
+      "profitNum": 14513.403812996301,
       "lastActivity": "11 days ago",
       "firstFlaggedAt": 1782449306,
       "newlyFlagged": true,
@@ -781,6 +782,157 @@
       "archived": false
     },
     {
+      "id": "w1661",
+      "type": "wallet",
+      "address": "0x86434d6e08786232f8e0641cd6ca9882e6ef82a0",
+      "memberAddresses": [
+        "0x86434d6e08786232f8e0641cd6ca9882e6ef82a0"
+      ],
+      "idLabel": "0x86…82a0",
+      "username": null,
+      "firstSeen": "Mar 09 2026",
+      "category": "Military & Defense",
+      "marketsCount": 6,
+      "tier": "watch",
+      "improbText": "1 in 208",
+      "improbDenom": 208,
+      "improbFull": "1 in 208",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": false,
+      "winRate": 83,
+      "avgImplied": 25,
+      "profit": "$62",
+      "fired": [
+        "won"
+      ],
+      "refId": "WF-2026-660",
+      "cexChips": [],
+      "heroSentence": "This account won 5 of 6 long-shot bets that the market gave roughly a 25 percent chance. By luck you would expect about 1.51 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "won",
+          "metric": "83% vs 25%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 5 wins in 6 tries at 25% each",
+          "numbers": "Won 5 of 6 independent bets the market priced at ~25% — about 1.51 expected by luck. Probability by chance ≈ 1 in 208."
+        }
+      ],
+      "ledger": [
+        {
+          "market": "US x Iran ceasefire before Trump visits China?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-before-trump-visits-china",
+          "entryTime": "Mar 14 2026",
+          "ts": 1773463213,
+          "odds": 28,
+          "stakeNum": 9,
+          "plNum": 23,
+          "stake": "$9",
+          "outcome": "Won",
+          "pl": "+$23",
+          "tx": "0x283b…",
+          "txFull": "0x283b4e68e1af3ccb4892fe3789227f3fb15ed937b753b021219b43835d78c922"
+        },
+        {
+          "market": "More EU sanctions on Russia by March 31?",
+          "url": "https://polymarket.com/event/more-eu-sanctions-on-russia-by-march-31",
+          "entryTime": "Mar 13 2026",
+          "ts": 1773360735,
+          "odds": 25,
+          "stakeNum": 9,
+          "plNum": 27,
+          "stake": "$9",
+          "outcome": "Won",
+          "pl": "+$27",
+          "tx": "0xd25b…",
+          "txFull": "0xd25bf70d1d956c15700a71171aa33993db8eefa1bdd25bf46ac099ef0284ff74"
+        },
+        {
+          "market": "Will Marco Rubio visit China by April 30, 2026?",
+          "url": "https://polymarket.com/event/marco-rubio-visits-china-by",
+          "entryTime": "Mar 16 2026",
+          "ts": 1773619207,
+          "odds": 34,
+          "stakeNum": 4,
+          "plNum": 8,
+          "stake": "$4",
+          "outcome": "Won",
+          "pl": "+$8",
+          "tx": "0x8da3…",
+          "txFull": "0x8da3dded2e6f37ed1d6c0ae2b4e8248cce0466cd32af02c1b9e5084f70ade0d8"
+        },
+        {
+          "market": "Will Miguel Díaz-Canel be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "entryTime": "Mar 15 2026",
+          "ts": 1773551767,
+          "odds": 20,
+          "stakeNum": 3,
+          "plNum": -3,
+          "stake": "$3",
+          "outcome": "Lost",
+          "pl": "−$3",
+          "tx": "0x9a24…",
+          "txFull": "0x9a24585b94685be059fe3dde70f9c931d52600a48cba2e44cd50efe3ed6b703f"
+        },
+        {
+          "market": "Will Trump praise Allah again by June 30?",
+          "url": "https://polymarket.com/event/will-trump-praise-allah-again-by-june-30",
+          "entryTime": "May 31 2026",
+          "ts": 1780187873,
+          "odds": 24,
+          "stakeNum": 1,
+          "plNum": 3,
+          "stake": "$1",
+          "outcome": "Won",
+          "pl": "+$3",
+          "tx": "0x452d…",
+          "txFull": "0x452d1044bfc616d9f786c715f3f11c79df9e84d5b44d91599ee807338c0e3b03"
+        },
+        {
+          "market": "Israel x Hezbollah ceasefire by April 30, 2026?",
+          "url": "https://polymarket.com/event/israel-x-hezbollah-ceasefire-by",
+          "entryTime": "Apr 07 2026",
+          "ts": 1775597205,
+          "odds": 20,
+          "stakeNum": 1,
+          "plNum": 4,
+          "stake": "$1",
+          "outcome": "Won",
+          "pl": "+$4",
+          "tx": "0xda4c…",
+          "txFull": "0xda4c4573cc4f63bb33ec127e31414db572900959d107d4ac79ae41799728dd6c"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 6,
+        "winRate": 83,
+        "realized": "+$62"
+      },
+      "timeline": {
+        "market": "US x Iran ceasefire before Trump visits China?",
+        "priceStart": 0.27999998002229576,
+        "priceEnd": 0.95,
+        "entries": [
+          0.27999998002229576
+        ],
+        "resolution": 0.92,
+        "candidates": []
+      },
+      "activityDays": 23,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "wins": 5,
+      "expectedWins": 1.5,
+      "percentile": 99.331,
+      "volumeNum": 27,
+      "volume": "$0K",
+      "profitNum": 62.003886612499294,
+      "lastActivity": "23 days ago",
+      "firstFlaggedAt": 1782455874,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
       "id": "w1725",
       "type": "wallet",
       "address": "0x67fb24a420409a650220e9753332d9f7fceb0b41",
@@ -985,12 +1137,13 @@
       "improbFull": "1 in 178",
       "convictionFlag": false,
       "convBet": null,
-      "full": false,
+      "full": true,
       "winRate": 40,
       "avgImplied": 15,
       "profit": "$64K",
       "fired": [
         "won",
+        "sizing",
         "longshot"
       ],
       "refId": "WF-2025-882",
@@ -1010,6 +1163,13 @@
           "method": "luck probability",
           "formula": "chance of ≥ 8 wins in 20 tries at 15% each",
           "numbers": "Won 8 of 20 independent bets the market priced at ~15% — about 2.98 expected by luck. Probability by chance ≈ 1 in 178 (6 correlated bets de-correlated)."
+        },
+        {
+          "key": "sizing",
+          "metric": "78× median",
+          "method": "within-trader bet-size anomaly",
+          "formula": "largest event position ÷ this wallet's median bet",
+          "numbers": "Largest position $20,965 is ~78× this wallet's median bet ($270) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly)."
         }
       ],
       "ledger": [
@@ -1379,6 +1539,186 @@
       "archived": false
     },
     {
+      "id": "w2083",
+      "type": "wallet",
+      "address": "0x12bbae7bd2c8e6eabb598af12132c1605216f88a",
+      "memberAddresses": [
+        "0x12bbae7bd2c8e6eabb598af12132c1605216f88a"
+      ],
+      "idLabel": "0x12…f88a",
+      "username": null,
+      "firstSeen": "an unrecorded date",
+      "category": "Politics",
+      "marketsCount": 5,
+      "tier": "watch",
+      "improbText": "1 in 140",
+      "improbDenom": 140,
+      "improbFull": "1 in 140",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": false,
+      "winRate": 80,
+      "avgImplied": 20,
+      "profit": "$772",
+      "fired": [
+        "won",
+        "timing"
+      ],
+      "refId": "WF-1970-082",
+      "cexChips": [],
+      "heroSentence": "This account won 4 of 5 long-shot bets that the market gave roughly a 20 percent chance. By luck you would expect about 1.02 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "won",
+          "metric": "80% vs 20%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 4 wins in 5 tries at 20% each",
+          "numbers": "Won 4 of 5 independent bets the market priced at ~20% — about 1.02 expected by luck. Probability by chance ≈ 1 in 140 (3 correlated bets de-correlated)."
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Will Donald Trump not announce a next United States Attorney General by June 30?",
+          "url": "https://polymarket.com/event/who-will-trump-announce-as-next-ag",
+          "entryTime": "Apr 24 2026",
+          "ts": 1777006396,
+          "odds": 33,
+          "stakeNum": 202,
+          "plNum": -202,
+          "stake": "$202",
+          "outcome": "Lost",
+          "pl": "−$202",
+          "tx": "0x1cf0…",
+          "txFull": "0x1cf0a5fc474dcce675ca2e6a6419dbd59275cb4323997555ddde994f15290981"
+        },
+        {
+          "market": "Will Drake feature Yeat on ICEMAN?",
+          "url": "https://polymarket.com/event/who-will-be-featured-on-iceman",
+          "entryTime": "May 05 2026",
+          "ts": 1777941802,
+          "odds": 23,
+          "stakeNum": 85,
+          "plNum": 281,
+          "stake": "$85",
+          "outcome": "Won",
+          "pl": "+$281",
+          "tx": "0x44b7…",
+          "txFull": "0x44b716f261c446a46a8669aaa8de5efd0ed667d5af0ccfcee492a31f88134d88"
+        },
+        {
+          "market": "Will Donald Trump announce Todd Blanche as the next United States Attorney General by June 30?",
+          "url": "https://polymarket.com/event/who-will-trump-announce-as-next-ag",
+          "entryTime": "Apr 03 2026",
+          "ts": 1775181093,
+          "odds": 18,
+          "stakeNum": 72,
+          "plNum": 328,
+          "stake": "$72",
+          "outcome": "Won",
+          "pl": "+$328",
+          "tx": "0x3b90…",
+          "txFull": "0x3b906296a32627ef8b905da23f2f437e21ab2d9b6be398ad70f40beb5b01f9d1"
+        },
+        {
+          "market": "Tulsi Gabbard out by June 30?",
+          "url": "https://polymarket.com/event/tulsi-gabbard-out-by-march-31",
+          "entryTime": "Apr 18 2026",
+          "ts": 1776550124,
+          "odds": 25,
+          "stakeNum": 67,
+          "plNum": 201,
+          "stake": "$67",
+          "outcome": "Won",
+          "pl": "+$201",
+          "tx": "0x37a1…",
+          "txFull": "0x37a1eccf0172d064979d451f6ef8ad3ecf6883f58d195ed36e0f209942e006e3"
+        },
+        {
+          "market": "Will no one leave the Trump Cabinet before 2027?",
+          "url": "https://polymarket.com/event/who-will-be-the-next-to-leave-the-trump-cabinet-967",
+          "entryTime": "Mar 30 2026",
+          "ts": 1774895231,
+          "odds": 7,
+          "stakeNum": 61,
+          "plNum": -61,
+          "stake": "$61",
+          "outcome": "Lost",
+          "pl": "−$61",
+          "tx": "0x1f00…",
+          "txFull": "0x1f000f5b00066870f597448b59a871ddfc121e4772705fafb407f4831ae61d2d"
+        },
+        {
+          "market": "Will Drake feature Central Cee on ICEMAN?",
+          "url": "https://polymarket.com/event/who-will-be-featured-on-iceman",
+          "entryTime": "May 08 2026",
+          "ts": 1778279637,
+          "odds": 24,
+          "stakeNum": 50,
+          "plNum": 159,
+          "stake": "$50",
+          "outcome": "Won",
+          "pl": "+$159",
+          "tx": "0x2cd1…",
+          "txFull": "0x2cd1561dd6665ca6e7c040f7b7131ede2c2dfc8ab43645e44cf290864389edf9"
+        },
+        {
+          "market": "Trump declassifies new UFO files by June 15?",
+          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
+          "entryTime": "Jun 11 2026",
+          "ts": 1781220991,
+          "odds": 25,
+          "stakeNum": 10,
+          "plNum": 30,
+          "stake": "$10",
+          "outcome": "Won",
+          "pl": "+$30",
+          "tx": "0x2159…",
+          "txFull": "0x2159ba4ba8f207f0ac0917dd242c7b80fda9097f704174151030cbe3b0ca2c8d"
+        },
+        {
+          "market": "Will Drake feature Young Thug on ICEMAN?",
+          "url": "https://polymarket.com/event/who-will-be-featured-on-iceman",
+          "entryTime": "May 14 2026",
+          "ts": 1778766298,
+          "odds": 10,
+          "stakeNum": 4,
+          "plNum": 36,
+          "stake": "$4",
+          "outcome": "Won",
+          "pl": "+$36",
+          "tx": "0x6f90…",
+          "txFull": "0x6f90e7e383a0a355e08d20079ff87c0c7605fba43f87399ca4b16f19044f5292"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 5,
+        "winRate": 80,
+        "realized": "+$772"
+      },
+      "timeline": {
+        "market": "Will Donald Trump not announce a next United States Attorney General by June 30?",
+        "priceStart": 0.33430225051391105,
+        "priceEnd": 0.05,
+        "entries": [
+          0.33430225051391105
+        ],
+        "resolution": 0.08,
+        "candidates": []
+      },
+      "activityDays": 115,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "wins": 4,
+      "expectedWins": 1,
+      "percentile": 99.307,
+      "volumeNum": 551,
+      "volume": "$1K",
+      "profitNum": 771.7273383907299,
+      "lastActivity": "115 days ago",
+      "firstFlaggedAt": 1782455874,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
       "id": "w1741",
       "type": "wallet",
       "address": "0x51784bd77f4d6b61e57cdcfbcdb7a085dcb206de",
@@ -1590,6 +1930,300 @@
       "profitNum": 824.9999997499934,
       "lastActivity": "118 days ago",
       "firstFlaggedAt": 1782449306,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
+      "id": "w1941",
+      "type": "wallet",
+      "address": "0xbbe3fb94608928651123d69231c0213ef6e75b92",
+      "memberAddresses": [
+        "0xbbe3fb94608928651123d69231c0213ef6e75b92"
+      ],
+      "idLabel": "0xbb…5b92",
+      "username": null,
+      "firstSeen": "Dec 26 2025",
+      "category": "Military & Defense",
+      "marketsCount": 15,
+      "tier": "watch",
+      "improbText": "1 in 104",
+      "improbDenom": 104,
+      "improbFull": "1 in 104",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": true,
+      "winRate": 47,
+      "avgImplied": 18,
+      "profit": "$449",
+      "fired": [
+        "won",
+        "timing",
+        "longshot",
+        "fresh"
+      ],
+      "refId": "WF-2025-940",
+      "cexChips": [],
+      "heroSentence": "This account won 7 of 15 long-shot bets that the market gave roughly a 18 percent chance. By luck you would expect about 2.67 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "0h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet."
+        },
+        {
+          "key": "longshot",
+          "metric": "18% avg",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~18% across 15 bets — concentrated in long shots (≤20%)."
+        },
+        {
+          "key": "won",
+          "metric": "47% vs 18%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 7 wins in 15 tries at 18% each",
+          "numbers": "Won 7 of 15 independent bets the market priced at ~18% — about 2.67 expected by luck. Probability by chance ≈ 1 in 104."
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Trump announces US x Iran ceasefire over by June 30?",
+          "url": "https://polymarket.com/event/trump-announces-us-x-iran-ceasefire-over-by-june-30-20260607232556276-219",
+          "entryTime": "Jun 10 2026",
+          "ts": 1781118013,
+          "odds": 35,
+          "stakeNum": 110,
+          "plNum": -110,
+          "stake": "$110",
+          "outcome": "Lost",
+          "pl": "−$110",
+          "tx": "0x555b…",
+          "txFull": "0x555bda1b12e0f6e4aefccbd21e8a4646ca890cbd5d84b9ac309ea01ff783e42b"
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by June 13?",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-13",
+          "entryTime": "Jun 12 2026",
+          "ts": 1781225067,
+          "odds": 25,
+          "stakeNum": 75,
+          "plNum": -75,
+          "stake": "$75",
+          "outcome": "Lost",
+          "pl": "−$75",
+          "tx": "0x1a25…",
+          "txFull": "0x1a25ec18c20eb6b080dd556fd0e6b4cadb98a4e5982365775092c5fe7f914012"
+        },
+        {
+          "market": "Will Donald Trump attend the next US x Iran diplomatic meeting?",
+          "url": "https://polymarket.com/event/will-donald-trump-attend-the-next-us-x-iran-diplomatic-meeting",
+          "entryTime": "Jun 11 2026",
+          "ts": 1781218096,
+          "odds": 9,
+          "stakeNum": 50,
+          "plNum": -50,
+          "stake": "$50",
+          "outcome": "Lost",
+          "pl": "−$50",
+          "tx": "0x58a5…",
+          "txFull": "0x58a5351df7630810ecf8dccbb77ec445ce2827e70eae221a9caa1d31e1906d97"
+        },
+        {
+          "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by June 15, 2026?",
+          "url": "https://polymarket.com/event/trump-announces-us-blockade-of-hormuz-lifted-by",
+          "entryTime": "Jun 11 2026",
+          "ts": 1781216751,
+          "odds": 27,
+          "stakeNum": 35,
+          "plNum": 94,
+          "stake": "$35",
+          "outcome": "Won",
+          "pl": "+$94",
+          "tx": "0x8cd1…",
+          "txFull": "0x8cd1a018f5e4891ff37c6470e6a9c5158b9684bd9618712da7047375f1aa4434"
+        },
+        {
+          "market": "Trump announces US x Iran ceasefire over by June 15?",
+          "url": "https://polymarket.com/event/trump-announces-us-x-iran-ceasefire-over-by-june-15-20260607232556275-193",
+          "entryTime": "Jun 10 2026",
+          "ts": 1781118012,
+          "odds": 17,
+          "stakeNum": 35,
+          "plNum": -35,
+          "stake": "$35",
+          "outcome": "Lost",
+          "pl": "−$35",
+          "tx": "0xfd66…",
+          "txFull": "0xfd66fa2ea3d3fcede98d891a3bc25a3bcc39bb375ced462f279dced9c2bc5c12"
+        },
+        {
+          "market": "Bab el-Mandeb Strait effectively closed by June 30?",
+          "url": "https://polymarket.com/event/bab-el-mandeb-strait-effectively-closed-by-june-30-571",
+          "entryTime": "Jun 10 2026",
+          "ts": 1781090955,
+          "odds": 10,
+          "stakeNum": 30,
+          "plNum": -30,
+          "stake": "$30",
+          "outcome": "Lost",
+          "pl": "−$30",
+          "tx": "0x4d4e…",
+          "txFull": "0x4d4ece0cb71dae73f953f45ad467509484db5e73f477a3512c52183687ef06dd"
+        },
+        {
+          "market": "Will Trump agree to withdraw troops from the Iranian region by June 30?",
+          "url": "https://polymarket.com/event/will-trump-agree-to-withdraw-troops-from-the-iranian-region-by-june-30",
+          "entryTime": "Jun 12 2026",
+          "ts": 1781225067,
+          "odds": 26,
+          "stakeNum": 25,
+          "plNum": 71,
+          "stake": "$25",
+          "outcome": "Won",
+          "pl": "+$71",
+          "tx": "0x989d…",
+          "txFull": "0x989d1b236994491ee3eae08eae31e1df21b13c26680019124450756c4cc2af1e"
+        },
+        {
+          "market": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-unrestricted-shipping-through-hormuz-by-june-30",
+          "entryTime": "Jun 11 2026",
+          "ts": 1781216751,
+          "odds": 25,
+          "stakeNum": 25,
+          "plNum": -25,
+          "stake": "$25",
+          "outcome": "Lost",
+          "pl": "−$25",
+          "tx": "0xada4…",
+          "txFull": "0xada45b2969836942d0b8bee50f868efda17c304e47ea5b9293a8d97cbb0d5d4f"
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by June 12?",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-12-2482",
+          "entryTime": "Jun 12 2026",
+          "ts": 1781242524,
+          "odds": 15,
+          "stakeNum": 25,
+          "plNum": -25,
+          "stake": "$25",
+          "outcome": "Lost",
+          "pl": "−$25",
+          "tx": "0xcb11…",
+          "txFull": "0xcb118092500a7b89b01eba8b6e44993b281a37092337b31e3ca96bba023a2e14"
+        },
+        {
+          "market": "Congress passes Iran war powers resolution by June 30?",
+          "url": "https://polymarket.com/event/congress-passes-iran-war-powers-resolution-by-june-30",
+          "entryTime": "Jun 10 2026",
+          "ts": 1781128491,
+          "odds": 12,
+          "stakeNum": 20,
+          "plNum": 148,
+          "stake": "$20",
+          "outcome": "Won",
+          "pl": "+$148",
+          "tx": "0xa19e…",
+          "txFull": "0xa19eeb2ca4ebe8a58bc94f7244bed6150f135e7efaf9a606a1610323f57b4f79"
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by June 14",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-14",
+          "entryTime": "Jun 12 2026",
+          "ts": 1781259607,
+          "odds": 34,
+          "stakeNum": 10,
+          "plNum": 19,
+          "stake": "$10",
+          "outcome": "Won",
+          "pl": "+$19",
+          "tx": "0x3fad…",
+          "txFull": "0x3fad380e3222beaf431b588c28670872eae9b86c4c40b023039e0f7a61ea891f"
+        },
+        {
+          "market": "Trump announces US x Iran ceasefire over by June 12?",
+          "url": "https://polymarket.com/event/trump-announces-us-x-iran-ceasefire-over-by-june-12-20260607232556274",
+          "entryTime": "Jun 10 2026",
+          "ts": 1781118012,
+          "odds": 9,
+          "stakeNum": 10,
+          "plNum": -10,
+          "stake": "$10",
+          "outcome": "Lost",
+          "pl": "−$10",
+          "tx": "0x06a0…",
+          "txFull": "0x06a07e62dbafd52fd360b12341cdef742406d6a3f24fbd0c5734f850e93e7ece"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "entryTime": "Jun 10 2026",
+          "ts": 1781077695,
+          "odds": 5,
+          "stakeNum": 10,
+          "plNum": 190,
+          "stake": "$10",
+          "outcome": "Won",
+          "pl": "+$190",
+          "tx": "0xa339…",
+          "txFull": "0xa339dced10310609a319e7daa8e4ef0f5843457608035e2352e95862356ec805"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by June 30, 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-june-30-2026",
+          "entryTime": "Mar 07 2026",
+          "ts": 1772920573,
+          "odds": 16,
+          "stakeNum": 10,
+          "plNum": 53,
+          "stake": "$10",
+          "outcome": "Won",
+          "pl": "+$53",
+          "tx": "0xd078…",
+          "txFull": "0xd07863ff86df18528d11ecbb5b04d685c46f9cc742cb983128d524dad7e2b4f4"
+        },
+        {
+          "market": "US x Iran ceasefire by April 7?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-7",
+          "entryTime": "Apr 06 2026",
+          "ts": 1775515225,
+          "odds": 2,
+          "stakeNum": 5,
+          "plNum": 233,
+          "stake": "$5",
+          "outcome": "Won",
+          "pl": "+$233",
+          "tx": "0x1bc0…",
+          "txFull": "0x1bc0ff1516c554a48456930c32e8b71bf5ff24fba8f9100a1b005fc770f039b7"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 15,
+        "winRate": 47,
+        "realized": "+$449"
+      },
+      "timeline": {
+        "market": "Trump announces US x Iran ceasefire over by June 30?",
+        "priceStart": 0.34544089477184114,
+        "priceEnd": 0.05,
+        "entries": [
+          0.34544089477184114
+        ],
+        "resolution": 0.08,
+        "candidates": []
+      },
+      "activityDays": 14,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "wins": 7,
+      "expectedWins": 2.7,
+      "percentile": 99.288,
+      "volumeNum": 475,
+      "volume": "$0K",
+      "profitNum": 449.0326054848282,
+      "lastActivity": "14 days ago",
+      "firstFlaggedAt": 1782455874,
       "newlyFlagged": true,
       "archived": false
     },
@@ -1809,7 +2443,7 @@
         "resolution": 0.08,
         "candidates": []
       },
-      "activityDays": 27,
+      "activityDays": 5,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "wins": 5,
       "expectedWins": 1.5,
@@ -1817,7 +2451,7 @@
       "volumeNum": 29,
       "volume": "$0K",
       "profitNum": 71.9428632382157,
-      "lastActivity": "27 days ago",
+      "lastActivity": "5 days ago",
       "firstFlaggedAt": 1782449306,
       "newlyFlagged": true,
       "archived": false
@@ -1852,6 +2486,7 @@
       "profit": "$146K",
       "fired": [
         "conviction",
+        "timing",
         "longshot",
         "held"
       ],
@@ -1938,19 +2573,915 @@
       "firstFlaggedAt": 1782437840,
       "newlyFlagged": true,
       "archived": false
+    },
+    {
+      "id": "w30",
+      "type": "wallet",
+      "address": "0x168b100d7a6620a2f49a455344c2c006eaf1714b",
+      "memberAddresses": [
+        "0x168b100d7a6620a2f49a455344c2c006eaf1714b"
+      ],
+      "idLabel": "0x16…714b",
+      "username": null,
+      "firstSeen": "Dec 23 2025",
+      "category": "Politics",
+      "marketsCount": 2,
+      "tier": "elevated",
+      "improbText": "1 in 8",
+      "improbDenom": 8,
+      "improbFull": "1 in 8",
+      "convictionFlag": true,
+      "convBet": {
+        "stake": 9898,
+        "entryPct": 12,
+        "payout": 82073,
+        "market": "Maduro out by January 31, 2026?",
+        "mult": 8.3
+      },
+      "full": false,
+      "winRate": 50,
+      "avgImplied": 12,
+      "profit": "$65K",
+      "fired": [
+        "conviction",
+        "timing",
+        "longshot"
+      ],
+      "refId": "WF-2025-029",
+      "cexChips": [],
+      "heroSentence": "This account placed a single $10K bet at roughly 12 percent on “Maduro out by January 31, 2026?” and cashed out about $82K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet insider signature. Consistent with informed trading, not proof of it.",
+      "scorecard": [
+        {
+          "key": "longshot",
+          "metric": "12% avg",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~7% across 2 bets — concentrated in long shots (≤20%)."
+        },
+        {
+          "key": "conviction",
+          "metric": "$10K @ 12%",
+          "method": "single high-conviction bet",
+          "formula": "one large long-shot win held to resolution",
+          "numbers": "a single $9,898 bet at ~12% that paid ~$82,073 — a high-conviction long-shot concentrated on one outcome, the single-event insider signature (the binomial needs ≥5 independent events; this is the confluence path)."
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Maduro out by January 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "entryTime": "Jan 03 2026",
+          "ts": 1767418541,
+          "odds": 12,
+          "stakeNum": 9898,
+          "plNum": 72175,
+          "stake": "$10K",
+          "outcome": "Won",
+          "pl": "+$72K",
+          "tx": "0xac0e…",
+          "txFull": "0xac0eba63de4029773de9394670b02dcb8b3d1b8b1406dbe04af3e023aa96c46e"
+        },
+        {
+          "market": "Maduro out in 2025?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "entryTime": "Dec 31 2025",
+          "ts": 1767152243,
+          "odds": 3,
+          "stakeNum": 6867,
+          "plNum": -6867,
+          "stake": "$7K",
+          "outcome": "Lost",
+          "pl": "−$7K",
+          "tx": "0xfd45…",
+          "txFull": "0xfd451538960edb31024d6815f553c50790fd38d91b3b125da3b6a971e00b8161"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 2,
+        "winRate": 50,
+        "realized": "+$65K"
+      },
+      "timeline": {
+        "market": "Maduro out by January 31, 2026?",
+        "priceStart": 0.12060014201870059,
+        "priceEnd": 0.95,
+        "entries": [
+          0.12060014201870059
+        ],
+        "resolution": 0.92,
+        "candidates": []
+      },
+      "activityDays": 177,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "wins": 1,
+      "expectedWins": 0.24,
+      "percentile": 99.129,
+      "volumeNum": 17000,
+      "volume": "$17K",
+      "profitNum": 65307.87184176939,
+      "lastActivity": "177 days ago",
+      "firstFlaggedAt": 1782455874,
+      "newlyFlagged": true,
+      "archived": false
     }
   ],
-  "observed": 140542,
-  "reviewed": 140542,
-  "screened": 2805,
+  "observed": 154062,
+  "reviewed": 154062,
+  "screened": 3359,
   "meta": {
-    "observed": 140542,
-    "reviewed": 140542,
-    "screened": 2805,
+    "observed": 154062,
+    "reviewed": 154062,
+    "screened": 3359,
     "block": "",
     "snapshot": "Jun 25 2026",
     "recomputed": "Jun 26 2026"
   },
-  "generatedAt": "2026-06-26T04:57:10.496Z",
-  "clusters": 0
+  "generatedAt": "2026-06-26T06:45:26.660Z",
+  "coverageByCategory": {
+    "Politics": 548,
+    "Military & Defense": 292,
+    "Economics": 96,
+    "Culture": 196,
+    "Elections": 235,
+    "Legal & Regulatory": 17,
+    "World": 97,
+    "Tech & Announcements": 94,
+    "Crypto Events": 20,
+    "Corporate & M&A": 44
+  },
+  "surpriseMarkets": [],
+  "clusters": 0,
+  "ringGroups": [
+    {
+      "hub": "0x1ab4973a48dc892cd9971ece8e01dcc7688f8f23",
+      "hubLabel": null,
+      "size": 93,
+      "seedFrom": "0xd7f15d5ebda09853ee778019d5513fca4bef73cd",
+      "ts": 1782455874,
+      "flaggedCount": 1,
+      "members": [
+        {
+          "addr": "0xd7f15d5ebda09853ee778019d5513fca4bef73cd",
+          "flagged": true,
+          "tier": "watch"
+        },
+        {
+          "addr": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf2d001fa125b3467a6e684722af163ce1e9e3e6a",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf081470f5c6fbccf48cc4e5b82dd926409dcdd67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3cf7a3399439e3c10e2ea7e01272b54a66a04ba6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1e8ae092651e7b14e4d0f93611267c5be19b8b9f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1a68a604fc403d45c3d18c61990b6e3587c58b05",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x7b925e617aefd7fb3a93abe3a701135d7a1ba710",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4e3288c9ca110bcc82bf38f09a7b425c095d92bf",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xdef171fe48cf0115b1d80b88dc8eab59176fee57",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x252e1b4b43db7e8fac53357ef8788b063ffa06bf",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc590175e458b83680867afd273527ff58f74c02b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb094d94ecc3c23692f341376b34491674d23a380",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe592427a0aece92de3edee1f18e0157c05861564",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xdb6f1920a889355780af7570773609bd8cb1f498",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x5b58811507f8f9f1fe5d7905b487b6b88966fa13",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1231deb6f5749ef6ce6943a275a1d3e7486f4eae",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe37e799d5077682fa0a244d46e5649f71457bd09",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xad3b67bca8935cb510c8d18bd45f0b94f54a968f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x643770e279d5d0733f21d6dc03a8efbabf3255b4",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa2b23d291aa8fd091febf928888c760d432c919f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1111111254eeb25477b68fb85ed929f73a960582",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4b543e89351faa242cb0172b2da0cdb52db699b4",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x92066f4deefa0a98d0fe2cdccf8b42506d845613",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x817eb46d60762442da3d931ff51a30334ca39b74",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xde990994309bc08e57aca82b1a19170ad84323e8",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xce9cc1fa6df298854f77e92042fd2a3e7fb27eff",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe7eb31f23a5befeeff76dbd2ed6adc822568a5d2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2f2dd99235cb728fc79af575f1325eaa270f0c99",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc2a04aebdd607a2396b5a84cc369ef74100d43f8",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc464134e46937d7315800c375854cafa6e70a32e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6d8e9bd8f845f51a224e216b6dd25d5e593d8dd3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb9e37037bde0ff9a3631441cce6259d0a515c500",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1111111254fb6c44bac0bed2854e76f90643097d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xbadffffffff3f678866b558e3fd0a2a4deb4dc48",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe63e2cdd24695464c015b2f5ef723ce17e96886b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xfe05f051bacfa18f1e316d738b87a6bb6b8ffe57",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8a4ceb4dffa238539c5d62ce424980e8fdb21ebc",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x334368af3b67ac0d23df1518592ae3eac6e6916b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xdd425d2d649cc6e61e9c929c6f1621c090afc283",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4739679b3f62f261a6396b96f08ee2bda3edbdff",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x421a018cc5839c4c0300afb21c725776dc389b1a",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1ab4973a48dc892cd9971ece8e01dcc7688f8f23",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe8e7bc6bda0a479b43963fcab690e4a733ab17da",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xdb2009c57e3c7ee2e3bda8bf05b65281da2fdbad",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf5828d5c7aa356de6d0a54698f88970a2288b70e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x42ab6f58d4506f3e77e78b7f7d6e557e383e7aee",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x106f9a07986324c58a6b2b077b0e38719c7de705",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc2aa5bbb9ae116ddb968d5cd05d943e49a72b4f2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x58f3a96635159b0755a17cc5ef1b6f66a005d05c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6dca1f314f4acbd0c14bbb8ab3135ba6c391eaf2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8c8300b22e27413a80a5797cabeae350ece7f556",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x15bc7a7b591d2caf8e7634f76ca56877fcfb178a",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x617e6e52927580b65fa6a9c366a3a76ff439f393",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb3e3e8588032ce0da6772a0c18c70460128f57b6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x989f83618a3efd64b6c44af403864ec2cfcde472",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x69bbeaf77d38a812d448ad92216ecce1228d1081",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0fc95af4cfb33dddc2d8144fd36dcdcac2a5e01c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x46f05604850563c5caf174bd14a7e346f0767e1e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x746a3a394e09e47f84ecfcbbaa96cd533608d3c0",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb2dd50d400d4e82768c4204bad49cde6186356e5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc1daa72eb73b036def6e1287967695e40d197a58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1d3476db54dd1058b6d8a5bf8748cf1b8a7813e9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc1a3b5c321d73065449f25d40fa61a2b4036f9c1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x9c2ca15c8ff3b4a938a8b92e5d4158017f399efd",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc2ff8b2fb8082c811b310ca1c2d5cb235f3059bb",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1b544a269f215b36f74ad09c4d12a631af402093",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x420ed98a26066e944158d93d98e44f9083fe7fe3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb3a8cd6911d83d1d66ed022da2ca55beba5772e6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xab2165c96fee7c7edb48bcf24d700169c91cba61",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf457dabbcd6d89256903cd41c45a05de0864417d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4859e839f277ba340cbe32189ae6f87e352d37ad",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xaebf3f5b52ebe7d16095e9f5d368e290b22b7c42",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb57bd2045a9338e4b02ac01d6092ff6a9d03669f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd665869e8fc02101bf09c2b4c58b820c63c79077",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x44683f9505a0392752326a326e111dfdf6528ec7",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb714fa495c0332b49d580f2aabd3da667d068b0c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x7bce7595608c2e9cc43b00fef7159cc86dd0eb20",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb55f29bbd4f54d7b7a862d50680a3c0a8877693d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x00bd6ff358a31fdbdb5e01268406824df3dd999b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xbd928a37bd7ab9152b4fa5ef73b1f4936aed71fe",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xbe62d672f21f2a902086a65b7b2405c6c2beb528",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x99bd138db616fe86976f290a60c3a0eb585487a0",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "flagged": false,
+          "tier": null
+        }
+      ]
+    },
+    {
+      "hub": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+      "hubLabel": null,
+      "size": 31,
+      "seedFrom": "0xbbe3fb94608928651123d69231c0213ef6e75b92",
+      "ts": 1782455874,
+      "flaggedCount": 1,
+      "members": [
+        {
+          "addr": "0xbbe3fb94608928651123d69231c0213ef6e75b92",
+          "flagged": true,
+          "tier": "watch"
+        },
+        {
+          "addr": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x31331ec182777b3e3cf127f4709a8aaa8f76e549",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x90d612fb10218cbb694ac525b7958bc1599e0c1c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc4275c63c772068cdb8a24fc9eb9ef00c0be4c16",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x9a32b1a10504489f9b88106acec79c672630158c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd1b62bd6b3af1c9ab61735389cc28b2767399b31",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2e3ede5a282b0ac1c31f0a19158845c1a9aa24b0",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8c8372c9a22ce6c8d928afe147190957455dbdbf",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1a720be11ea204cb4a7ec26a8ebff5328995e805",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x905f5adc0df1643ce8bd4945aa4e0cf65cdb9cdd",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6866d5862794b63c6a3d26ebaf6229563e38c55b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5963c83b6e38d766ecf506f39a82e723adc709",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3928b141c2a11c14de7de4e910520ae4ad1da492",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3c402b4c588f7c0ceaeab6914b778e97970a3876",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2f102897fa911f21c524688dbce6b496d941cf76",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb97fbad20ba4340f0728101d8d292be31073d270",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe724a57d2a86b2a7a8aec4c45a08cdae588b84e5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc00f941dc66944a079192b221db993f4a3cacc98",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd5c0d17ccb9071d27a4f7ed8255f59989b9aee0d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0449e53aa1a3f75133df621d0ee755d5381a934e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe1c83ffbd2f9dce7b73d6dd84c19cee39a23d5e6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x635787466cb7b789a807a35156848f3c265cdb59",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xbc69dcb4b5911a6693fcadc171ce6eed3306bef0",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x69d8eb6aefee5caba2c63abb6d991dc50ce89166",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x90b6a1f8df231cd7fd5cca4fc4a2ee3a25ffc8e5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x44b7e6461af76ae31800ae7b756aff8307d919f3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8b5e4db198ffc7f69f8f11f6592f682717df1d92",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x03508bb71268bba25ecacc8f620e01866650532c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xabb2acd3be814a80e502575d6c1dc5f789e9cd10",
+          "flagged": false,
+          "tier": null
+        }
+      ]
+    },
+    {
+      "hub": "0xc5d563a36ae78145c45a50134d48a1215220f80a",
+      "hubLabel": null,
+      "size": 24,
+      "seedFrom": "0x12bbae7bd2c8e6eabb598af12132c1605216f88a",
+      "ts": 1782455874,
+      "flaggedCount": 1,
+      "members": [
+        {
+          "addr": "0x12bbae7bd2c8e6eabb598af12132c1605216f88a",
+          "flagged": true,
+          "tier": "watch"
+        },
+        {
+          "addr": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc5d563a36ae78145c45a50134d48a1215220f80a",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd91e80cf2e7be2e162c6513ced06f1dd0da35296",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3cf3e8d5427aed066a7a5926980600f6c3cf87b3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xabdee0c3a7eb10e912de90b22a624e6ec05bc098",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x46edb2757296060e2b875df0a4486f429707c273",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x081db59a44a05af758847948a133a403d09e8c34",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xca5224eb00880cfdf661b289fbdaf9ea26fd3963",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "flagged": false,
+          "tier": null
+        }
+      ]
+    }
+  ],
+  "rings": 3
 }
