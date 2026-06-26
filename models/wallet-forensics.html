@@ -85,10 +85,10 @@
       <!-- AGGREGATE INFORMED-TRADING P&L (comparable in kind to the Harvard $143M est.) -->
       <sc-if value="{{ hasAggProfit }}" hint-placeholder-val="{{ false }}">
         <div style="border:1px solid #2C3A33;background:linear-gradient(165deg,rgba(52,211,153,0.06),rgba(11,16,14,0.4));border-radius:12px;padding:14px 16px;margin-bottom:14px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:5px;">ESTIMATED INFORMED-TRADING P&amp;L · FLAGGED ACCOUNTS</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:5px;">COMBINED POLYMARKET P&amp;L · FLAGGED ACCOUNTS</div>
           <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;">
             <span style="font-family:'JetBrains Mono',monospace;font-size:25px;font-weight:700;color:#34D399;">{{ aggProfitText }}</span>
-            <span style="font-size:11.5px;color:#949C98;line-height:1.5;">across {{ aggCount }} flagged accounts at the strict bar · grows with coverage</span>
+            <span style="font-size:11.5px;color:#949C98;line-height:1.5;">total all-time Polymarket P&amp;L across {{ aggCount }} flagged accounts (all their trades, not only the flagged bets) · grows with coverage</span>
           </div>
         </div>
       </sc-if>
@@ -706,6 +706,7 @@ class Component extends DCLogic {
       block: (data.meta && data.meta.block) || data.block || "",
       snapshot: (data.meta && data.meta.snapshot) || data.snapshot || "",
       recomputed: (data.meta && data.meta.recomputed) || data.recomputed || (data.meta && data.meta.snapshot) || "",
+      generatedAt: data.generatedAt || (data.meta && data.meta.generatedAt) || null,   // exact scan timestamp (proves freshness)
     };
     const first = this.subjects[0];
     this.setState({ selectedId: first ? first.id : null, measure: {}, hoverEdge: null, _v: (this.state._v || 0) + 1 });
@@ -1124,7 +1125,7 @@ class Component extends DCLogic {
       isSample: false, notSample: true,
       // "data as of" mirrors the last SCAN-RUN date (recomputed), not the newest resolved
       // market — so it shows today and advances every day the cron runs.
-      snapshotLabel: haveSnap ? ("data as of " + (this.meta.recomputed || this.meta.snapshot)) : "awaiting first snapshot",
+      snapshotLabel: haveSnap ? this.stampText("data as of ") : "awaiting first snapshot",
       snapshotTitle: "Recomputed " + (this.meta.recomputed || "—") + " · newest resolved market " + (this.meta.snapshot || "—") + ".",
       showAmbient: this.props.ambientGlow !== false,
       search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
@@ -1135,7 +1136,7 @@ class Component extends DCLogic {
       corpus: {
         observed: this.fmtInt(this.meta.observed || 0),
         wallets: this.fmtInt(this.meta.reviewed || 0), flagged: 0,
-        asOf: (this.meta.recomputed || this.meta.snapshot) ? ("updated " + (this.meta.recomputed || this.meta.snapshot)) : "scan in progress",
+        asOf: this.stampText("updated "),
       },
       funnelSteps: [
         { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", arrow: "" },
@@ -1656,7 +1657,7 @@ class Component extends DCLogic {
 
     const corpus = { observed: this.fmtInt(Math.round((this.meta.observed || 0) * st.corpusProg)),
       wallets: this.fmtInt(Math.round(this.meta.reviewed * st.corpusProg)), flagged: Math.round(this.subjects.length * st.corpusProg),
-      asOf: (this.meta.recomputed || this.meta.snapshot) ? ("updated " + (this.meta.recomputed || this.meta.snapshot)) : "as of —" };
+      asOf: this.stampText("updated ") };
 
     const saved = !!st.saved[sel.id];
     const ls = sel.ledgerSummary || {};
@@ -1702,7 +1703,7 @@ class Component extends DCLogic {
       isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
       onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),
       lookup: st.lookup, lookupBody: this.lookupNode(), closeLookup: () => this.closeLookup(),
-      snapshotLabel: "data as of " + (this.meta.recomputed || this.meta.snapshot || "—"),
+      snapshotLabel: this.stampText("data as of "),
       snapshotTitle: "Retrospective snapshot — not live. Block " + (this.meta.block || "—") + " · " + (this.meta.snapshot || "—") + ". Recomputed " + (this.meta.recomputed || "—") + ".",
       search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
       typeOptions, concernOptions, categoryChips, sigToggles, timeOptions,
@@ -2084,6 +2085,18 @@ class Component extends DCLogic {
   clearAllFilters() { this.setState({ type: "all", tier: "all", cats: [], timeWindow: "all", customFrom: "", customTo: "", minImprob: 0, minProfit: 0, sig: { conceal: false, fresh: false, cluster: false, held: false }, search: "" }); }
   fmtMoney(n) { return n >= 1e6 ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : "$" + Math.round(n / 1e3) + "K"; }
   fmtInt(n) { return n.toLocaleString("en-US"); }
+  // exact scan freshness — date + UTC time from the store's generatedAt, so the live
+  // cadence is VISIBLE (each ~15-min cron commit advances this). Falls back to the date.
+  stampText(prefix) {
+    const g = this.meta && this.meta.generatedAt;
+    if (g) { try {
+      const d = new Date(g), M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      const hh = String(d.getUTCHours()).padStart(2, "0"), mm = String(d.getUTCMinutes()).padStart(2, "0");
+      return prefix + M[d.getUTCMonth()] + " " + d.getUTCDate() + " " + d.getUTCFullYear() + " · " + hh + ":" + mm + " UTC";
+    } catch (_) {} }
+    const ds = (this.meta && (this.meta.recomputed || this.meta.snapshot)) || null;
+    return ds ? (prefix + ds) : (prefix.trim() === "updated" ? "scan in progress" : prefix + "—");
+  }
   fmtBig(n) {
     if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
     if (n >= 1e3) return (n / 1e3).toFixed(n >= 1e4 ? 0 : 1).replace(/\.0$/, "") + "K";
