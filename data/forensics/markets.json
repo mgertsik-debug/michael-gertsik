@@ -11433,16 +11433,16 @@
   "0x13724d46dee0fc8265728974072c068b83923129965c4c8f54c9b0e03b88d271": {
     "w": "YES",
     "q": "Will SpaceX acquire Cursor by September 30, 2026?",
-    "s": "will-spacex-acquire-cursor-by-september-30-2026",
+    "s": "will-spacex-acquire-cursor",
     "c": "Corporate & M&A",
-    "r": 1790726400
+    "r": 1781659891
   },
   "0xc2dd20bc42378191ba1e6068f2afa8b2a6c13881a42ee03e211441f0a2f3aeac": {
     "w": "YES",
     "q": "Will SpaceX acquire Cursor by December 31, 2026?",
-    "s": "will-spacex-acquire-cursor-by-december-31-2026-675",
+    "s": "will-spacex-acquire-cursor",
     "c": "Corporate & M&A",
-    "r": 1798675200
+    "r": 1781635432
   },
   "0xb2a5145e4597061e02ef614a3ed4c89e12d36b79cf066fc362da9937c709d201": {
     "w": "NO",
@@ -22360,9 +22360,9 @@
   "0x2bea5055e9824663f02e4ef6f9d66b22650dd9be675f42ba5be9b32a5931b8b1": {
     "w": "YES",
     "q": "Will Ali Khamenei be the next leader out before 2027?",
-    "s": "will-ali-khamenei-be-the-next-leader-out-before-2027-951",
+    "s": "next-leader-out-of-power-before-2027-577",
     "c": "Politics",
-    "r": 1798675200
+    "r": 1772334349
   },
   "0x64f92fc880b030bc9c48f66b8a0d42b03b59c84db894bfcceedf94e4e683f214": {
     "w": "YES",
@@ -24447,8 +24447,8 @@
     "w": "YES",
     "q": "Khamenei out as Supreme Leader of Iran in 2026?",
     "s": "khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-    "c": "World",
-    "r": 1798675200
+    "c": "Politics",
+    "r": 1772323387
   },
   "0x5299a291f2aaafadee5c937a76bc7810c6ac27c7ad87b223cb885258f2e0a320": {
     "w": "NO",
@@ -38593,9 +38593,9 @@
   "0x4a21333b027a3b8fe9ae5ea8113d288c43aed57bf10f283e5466a4f2eaa5158f": {
     "w": "NO",
     "q": "Will the US strike Iran next?",
-    "s": "will-the-us-strike-iran-next-534",
-    "c": "World",
-    "r": 1798675200
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771550792
   },
   "0xe60cdb39032ab11fac2fe2cb210cb209f1c04868ac0183c96ba64fce21a4c4d6": {
     "w": "NO",
@@ -40336,9 +40336,9 @@
   "0xa6b257cd12864be31b73abe92dfae81a493f88443a221bf968f027a04665827b": {
     "w": "NO",
     "q": "Will the US strike Syria next?",
-    "s": "will-the-us-strike-syria-next-695",
-    "c": "World",
-    "r": 1798675200
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524788
   },
   "0xe9dd2d3e59795162e8eb7ad3b945c790414676277e8f4a0e11cf131e96388f91": {
     "w": "NO",
@@ -54686,9 +54686,9 @@
   "0xcd7535ed70591f0b117fb471b6066584e88e0a50875d2f8aa369af5e9df05527": {
     "w": "NO",
     "q": "Will the US strike Yemen next?",
-    "s": "will-the-us-strike-yemen-next-277",
-    "c": "World",
-    "r": 1798675200
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524854
   },
   "0x6c9a569e48c0dfb201b264d12381ca4be90e89fa304749935297284309a44d78": {
     "w": "NO",
@@ -54738,5 +54738,1006 @@
     "s": "tea-app-removed-from-app-store-by-august-31",
     "c": "Politics",
     "r": 1756598400
+  },
+  "0xdadf6f32bcc73830d5291c1a115000f614847370dc93cad5776598f1d3e4e277": {
+    "w": "NO",
+    "q": "Will the US strike Yemen next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551216
+  },
+  "0x5be4e90278e42a08b36fa8fcbf9328adedfd2d0424a623ffcaf775dba21024fd": {
+    "w": "NO",
+    "q": "Will the US strike Cuba next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551164
+  },
+  "0x1bf19603950536dbf413c99301a5e11b2b7913129994d4dcc3784dfb3b3a9a02": {
+    "w": "NO",
+    "q": "Will the US strike Venezuela next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551160
+  },
+  "0x6f0bc1110985ac5dd16ed2cab05cebcfac586fc48a78445dbf2103356a39f3cf": {
+    "w": "NO",
+    "q": "Will the US not strike another country before 2027?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771501576
+  },
+  "0x805c181845dbc7745f574170bfa63457db9c15dc2e8929f6659bdf2fc7e76dac": {
+    "w": "NO",
+    "q": "Will the US strike Mexico next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551162
+  },
+  "0xcd90979fa7b289d91bc8f7f908791819ed407421e3df4b490b34c9ca061264aa": {
+    "w": "YES",
+    "q": "Will the US strike Somalia next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551704
+  },
+  "0x2eccb9409a0a88eaadb64cbe5d229e471299fd6c73824ce3be05ce0bb47ab85e": {
+    "w": "NO",
+    "q": "Will the US strike Iraq next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551164
+  },
+  "0x0e233d6cd244b4503f557b8dae8f3b15aa5d7e041b662eaba89f34c4afddfa9e": {
+    "w": "NO",
+    "q": "Will the US strike Syria next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551284
+  },
+  "0xa5512603a70e4adf02485c98a35361ee6c4575d1b2d1564b6d97457622323749": {
+    "w": "NO",
+    "q": "Will the US strike Nigeria next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551162
+  },
+  "0x876a238b92b473e696a674096836b6823084c1daa40b58e9b21d7388d9878fef": {
+    "w": "NO",
+    "q": "Will the US strike another country first?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551642
+  },
+  "0xda642bfce1e35c2966c698feb058f6d0ba320a4fdbe4834ef63f3a78fc5b71e7": {
+    "w": "NO",
+    "q": "Will the US strike Colombia next?",
+    "s": "next-country-us-strikes-163",
+    "c": "Politics",
+    "r": 1771551100
+  },
+  "0x84171b35030ad63c8a520ae5e13b555b0cbebfe24ca6143afca2040fc5fb7277": {
+    "w": "NO",
+    "q": "Will the US strike Cuba next?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524916
+  },
+  "0xd8a8fbacfbb4b7748d7b78fd1a37b2ea0b3c2552bfcccf81b7fcdfea81076132": {
+    "w": "YES",
+    "q": "Will the US strike Somalia next?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524790
+  },
+  "0xcb4fab8f1910e65e180f97ed0c7994b302fdd45bd4b0880648e96056e456dcdc": {
+    "w": "NO",
+    "q": "Will the US strike Nigeria next?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524968
+  },
+  "0xd2cba9bffe74b8ff91ad540e554305bdec09a49e9d0597e8c2d473fee8c8b6e1": {
+    "w": "NO",
+    "q": "Will the US strike Mexico next?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524914
+  },
+  "0xf200e8feb605faae197f1473fade9d77289172044b239a4af05ffe2b82e400c4": {
+    "w": "NO",
+    "q": "Will the US strike Venezuela next?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524968
+  },
+  "0xc01de3299d3411ac08140bad89a15056ae6d7489f8df9c5285a506bb1c9caa17": {
+    "w": "NO",
+    "q": "Will the US strike Colombia next?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524854
+  },
+  "0xbe64e75b3bc23963175c73b33dbc69b2a65300127357ce5bfb0e81aa14c816fb": {
+    "w": "NO",
+    "q": "Will the US strike Iraq next?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524968
+  },
+  "0xc0f9608ad6458359217e88ffa02af3ef5baa606233664a9d588cc28692a993e7": {
+    "w": "NO",
+    "q": "Will the US strike Iran next?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524730
+  },
+  "0x3bc871946d6ab83d976478df69ea40dd70079ff718ca10ed5df155d6ddd733b2": {
+    "w": "NO",
+    "q": "Will the US strike another country first?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524914
+  },
+  "0x21f5297714b970f474afdad8a9b60032bd2335ae0c2d81d66188fe9555ca52fb": {
+    "w": "NO",
+    "q": "Will the US not strike another country before 2027?",
+    "s": "next-country-us-strikes-329",
+    "c": "Politics",
+    "r": 1768524914
+  },
+  "0x4854faa2606acd06501abae6ddeb245da0b6f4e0153019c3d148f79c4889e000": {
+    "w": "NO",
+    "q": "Will Volodymyr Zelenskyy be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341793
+  },
+  "0xbe3f8f7d660ec7ae9adf0aa40ce87839e49d5b1c1165e2ae8703b985e1da669b": {
+    "w": "NO",
+    "q": "Will Mahmoud Abbas be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341791
+  },
+  "0x43fcb5abe74671618efe0ff844e645928110dabb408b5c23275f71c4f47b2643": {
+    "w": "NO",
+    "q": "Will Gustavo Petro be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341789
+  },
+  "0xcfe3d6222997e9120a4d88b1d4fcd2bb056025c79f4c612ab07033a335ec8a8d": {
+    "w": "NO",
+    "q": "Will Delcy Rodríguez be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341433
+  },
+  "0x5df7ea39553db41d625ac8967ddec7ed69ef746fd8a5449ea2c905e3a56fe9da": {
+    "w": "NO",
+    "q": "Will Ahmed al-Sharaa be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341789
+  },
+  "0x32d203fa8553edd3d6571c5b1ad249a27bc642b033c8c2d855aab0bdb7d2cf4e": {
+    "w": "NO",
+    "q": "Will Emmanuel Macron be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341991
+  },
+  "0xf49fb607fb481629303d0b53516e815c462b87bbc6ff096db082102e34eeb150": {
+    "w": "NO",
+    "q": "Will Xi Jinping be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341517
+  },
+  "0xd49204ca5084b9ab5c5d5d4e760c56264cf9d5d3cc5099a1b58343284f8d981a": {
+    "w": "NO",
+    "q": "Will Anthony Albanese be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341517
+  },
+  "0xb8ac049f5b92f7ef59d15cd98ec6cf53ca69c6680a14973e3686327da9d1f27e": {
+    "w": "NO",
+    "q": "Will Gavin Newsom be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341969
+  },
+  "0x4d7e848eb1ca9668e8fe9e14a4830c5f8d1a9a6af9c607b9aa44433872737dc2": {
+    "w": "NO",
+    "q": "Will Luiz Inácio Lula da Silva be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341975
+  },
+  "0x22bb7e2242187ebb93f3be0f991e9bec946314745b4786eeb552a52623317cb5": {
+    "w": "NO",
+    "q": "Will Sébastien Lecornu be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341475
+  },
+  "0x6b9a31f5292cf066dce04d16414ac5fcc692fc5377965e6b1eb70b72f440d6e5": {
+    "w": "NO",
+    "q": "Will Pedro Sánchez be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772341997
+  },
+  "0xacbbb7ac0c48f735dbd56a3de5a06b7e43fada37cf4d56a97e673e0d60dff34c": {
+    "w": "NO",
+    "q": "Will Viktor Orbán be the next leader out before 2027?",
+    "s": "next-leader-out-of-power-before-2027-577",
+    "c": "Politics",
+    "r": 1772342003
+  },
+  "0x27882ac2c84bac7ce950c4187caa74842575d3f915f4d8c9a7c4520934980a58": {
+    "w": "NO",
+    "q": "Will Oliver Adams Larkin be the Democratic Nominee for FL-23?",
+    "s": "will-oliver-adams-larkin-be-the-democratic-nominee-for-fl-23",
+    "c": "Politics",
+    "r": 1787011200
+  },
+  "0x9b6f49056938dcb006fe2e78548f11216dcb03a195752bc90836112ce987c41a": {
+    "w": "NO",
+    "q": "Next US strike on Syria on December 14?",
+    "s": "next-us-strike-on-syria-on-december-14",
+    "c": "Military & Defense",
+    "r": 1767139200
+  },
+  "0xdade564249db4b9daad8e06c21e06e2760c7c640b2be1c7016baa48bbfef83d9": {
+    "w": "YES",
+    "q": "Will Woo Sang-ho win the 2026 Gangwon Province gubernatorial election?",
+    "s": "will-woo-sang-ho-win-the-2026-gangwon-province-gubernatorial-election",
+    "c": "Military & Defense",
+    "r": 1780444800
+  },
+  "0x6a5695fb003f6ceb9075445d9a8d2b16c142c148de52cd8826c8dad60ff7483f": {
+    "w": "NO",
+    "q": "Will Julie Johnson be the Democratic nominee for TX-33?",
+    "s": "will-julie-johnson-be-the-democratic-nominee-for-tx-33",
+    "c": "Politics",
+    "r": 1779753600
+  },
+  "0xb05ca5851144e67bb680955f597d7f634d12bf1e6272a38e5e7c7d1655853df0": {
+    "w": "NO",
+    "q": "Will claude-opus-4-6-thinking be the top AI model on April 24, 2026 (Style Control On)?",
+    "s": "will-claude-opus-4-6-thinking-be-the-top-ai-model-on-april-24-2026-style-control-on",
+    "c": "Tech & Announcements",
+    "r": 1776988800
+  },
+  "0xf48c3b69c349a8c82ff5e2fc1c670b130652977bd29518af5d0ee38707b3f512": {
+    "w": "NO",
+    "q": "Will muse-spark be the top AI model on April 24, 2026 (Style Control On)?",
+    "s": "will-muse-spark-be-the-top-ai-model-on-april-24-2026-style-control-on",
+    "c": "Tech & Announcements",
+    "r": 1776988800
+  },
+  "0xefe76c93fb76cb82524874a321f5442bb67a586c6d04fa91856fc9506af56c06": {
+    "w": "NO",
+    "q": "Will Mistral have the best AI model at the end of April 2026?",
+    "s": "will-mistral-have-the-best-ai-model-at-the-end-of-april-2026",
+    "c": "Tech & Announcements",
+    "r": 1777507200
+  },
+  "0xa4d31073f91b374d48f88fe57cf464aec5560c4c50aefe3054e6b07e60c689a3": {
+    "w": "NO",
+    "q": "Will Matej Tonin be the next Prime Minister of Slovenia?",
+    "s": "will-matej-tonin-be-the-next-prime-minister-of-slovenia",
+    "c": "Politics",
+    "r": 1774137600
+  },
+  "0x920108a5697b1ebfafb0670dd38714f4b7ecc8d1c471e7840a68da68ae31542b": {
+    "w": "NO",
+    "q": "Will Yoon Sang-hyun win the 2026 Chungcheongnam Province gubernatorial election?",
+    "s": "will-yoon-sang-hyun-win-the-2026-chungcheongnam-province-gubernatorial-election",
+    "c": "Military & Defense",
+    "r": 1780444800
+  },
+  "0x6b98b6acf1dbf405c189176529f77ff5356b2dc9c2a5f15012c0e2df3f561d2b": {
+    "w": "NO",
+    "q": "Will Juan Manuel Galán win the 1st round of the 2026 Colombian presidential election?",
+    "s": "will-juan-manuel-galn-win-the-1st-round-of-the-2026-colombian-presidential-election",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x30bd076067c87467e2437613f4ac9ce7b0ff529ffd1b9c9a40541ffa892dfed5": {
+    "w": "NO",
+    "q": "Will Trump and Putin meet next in Australia?",
+    "s": "will-trump-and-putin-meet-next-in-australia-459-332-211",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x42e500b5a4836edf2fbfe990f657007229816afc0e1c705c053f6622b775d463": {
+    "w": "NO",
+    "q": "Will Rebecca Scriven win the by-election for the seat of Farrer in the Australian House of Representatives?",
+    "s": "will-rebecca-scriven-win-the-by-election-for-the-seat-of-farrer-in-the-australian-house-of-representatives",
+    "c": "Elections",
+    "r": 1778284800
+  },
+  "0xedcc1af0d27a8e2d59466ec26156050b11187aebc6fb02becf50ca685f5475ba": {
+    "w": "NO",
+    "q": "Will Meituan have the best AI model at the end of April 2026?",
+    "s": "will-meituan-have-the-best-ai-model-at-the-end-of-april-2026",
+    "c": "Tech & Announcements",
+    "r": 1777507200
+  },
+  "0x82c85fd89271efb1ad356855d4ca1c2fc248e0d14c9740b628d28d9d6b0261f1": {
+    "w": "NO",
+    "q": "Will Amazon have the best AI model at the end of April 2026?",
+    "s": "will-amazon-have-the-best-ai-model-at-the-end-of-april-2026",
+    "c": "Tech & Announcements",
+    "r": 1777507200
+  },
+  "0x2a75e4a0535c1ed08877f4352ded4a4e2fa4c8438841d6732a99b03486926f87": {
+    "w": "NO",
+    "q": "Will Moonshot have the #1 AI model at the end of April 2026 (Style Control On)?",
+    "s": "will-moonshot-have-the-1-ai-model-at-the-end-of-april-2026-style-control-on",
+    "c": "Tech & Announcements",
+    "r": 1777507200
+  },
+  "0x8de68dfbcfa9e9b6472bceec9aea2f252038cc12df9838b1f0016c02ec94b6d7": {
+    "w": "NO",
+    "q": "Will Dawn Buckingham win the 2026 Texas Republican Primary?",
+    "s": "will-dawn-buckingham-win-the-2026-republican-primary",
+    "c": "Elections",
+    "r": 1779753600
+  },
+  "0xce4c63006ae8c2690d9da01aff225c4ff9258a9722a86ffad4bb7964d20d0bc3": {
+    "w": "NO",
+    "q": "Will Geraldo Alckmin finish in second place in the first round of the 2026 Brazilian presidential election?",
+    "s": "will-geraldo-alckmin-finish-in-second-place-in-the-first-round-of-the-2026-brazilian-presidential-election",
+    "c": "Elections",
+    "r": 1791072000
+  },
+  "0x59df45d0523260ee1cc889e54c32b59ec6d1ec49c32cabec71baf470e869d49a": {
+    "w": "NO",
+    "q": "Will the Green Party (MP) win the most seats in the 2026 Swedish parliamentary election?",
+    "s": "will-the-green-party-mp-win-the-most-seats-in-the-2026-swedish-parliamentary-election",
+    "c": "Elections",
+    "r": 1789257600
+  },
+  "0x0d1ed5cdd7aabd05268b337833c5f78c310abef413be3c32a8d6fcf45ecdbb86": {
+    "w": "NO",
+    "q": "Will Tisza win the national list vote in the 2026 Hungarian Parliamentary election by 3-6%?",
+    "s": "will-tisza-win-the-national-list-vote-in-the-2026-hungarian-parliamentary-election-by-3-6",
+    "c": "Elections",
+    "r": 1775952000
+  },
+  "0x910a05fb750d627179bc6cdd845fe858f1ef444ad8def0e40d4336c66dc4fdd8": {
+    "w": "NO",
+    "q": "Will Ahn Cheol-soo win the 2026 Seoul Mayoral Election",
+    "s": "will-ahn-cheol-soo-win-the-2026-seoul-mayoral-election",
+    "c": "Elections",
+    "r": 1780444800
+  },
+  "0x65a69d96a0536dc646b25f4b1d77c885d90b69ad8de6890eee3ddecca32f157e": {
+    "w": "NO",
+    "q": "Will Anthropic have the third highest private market valuation on June 30?",
+    "s": "will-anthropic-have-the-third-highest-private-market-valuation-on-june-30",
+    "c": "Corporate & M&A",
+    "r": 1782907200
+  },
+  "0x0437f06a0b6a6d461042738182a8120ca0fa1edf534447df4cc7bac9833f838f": {
+    "w": "YES",
+    "q": "Will Progressive Bulgaria (PB) win the most seats in the 2026 Bulgarian parliamentary election?",
+    "s": "will-progressive-bulgaria-pb-win-the-most-seats-in-the-2026-bulgarian-parliamentary-election",
+    "c": "Elections",
+    "r": 1776556800
+  },
+  "0x2be443fd00e6c11ef4d08538f91c5f253c08efc97282729986894ef9808b89f8": {
+    "w": "NO",
+    "q": "Will there be between 100m and 105m votes cast in the 2026 U.S. House of Representatives midterm elections?",
+    "s": "will-there-be-between-100m-and-105m-votes-cast-in-the-2026-us-house-of-representatives-midterm-elections",
+    "c": "Elections",
+    "r": 1793664000
+  },
+  "0x7dba93926f24ff4b024cf3713ad1a2647ff7b18c1a8b4a76e62b14c315e7433a": {
+    "w": "YES",
+    "q": "Will Romuald Wadagni be the next President of Benin?",
+    "s": "will-romuald-wadagni-be-the-next-president-of-benin",
+    "c": "Politics",
+    "r": 1775952000
+  },
+  "0xa44566e684a257c0f0c2a6416edf100722472ca3ecab7ad3222db79bdbe9f3bc": {
+    "w": "YES",
+    "q": "Will Fuerza Popular (FP) win the most seats in the 2026 Peruvian Senate election?",
+    "s": "will-fuerza-popular-fp-win-the-most-seats-in-the-2026-peruvian-senate-election",
+    "c": "Elections",
+    "r": 1775952000
+  },
+  "0x90c810df015547545998cc0952258c102fac052861896acf6d58e17938cce0c7": {
+    "w": "NO",
+    "q": "Will Nancy Dahlstrom win the 2026 Alaska governor election?",
+    "s": "will-nancy-dahlstrom-win-the-2026-alaska-governor-election",
+    "c": "Elections",
+    "r": 1793664000
+  },
+  "0x72250b5c2453975ea27e5e7ccea2a84aa10b5242c2df0ad2e0fc65ef1ef2a514": {
+    "w": "YES",
+    "q": "MicroStrategy announces >1000 BTC purchase March 31-April 6?",
+    "s": "microstrategy-announces-1000-btc-purchase-march-31-april-6",
+    "c": "Tech & Announcements",
+    "r": 1775520000
+  },
+  "0xb790205b14222a8e7e57660b4d19db1c9b564fb0c49d12ebd02718d29808ea6a": {
+    "w": "NO",
+    "q": "Will the People Power Party win less than or equal to 1 seat in South Korea’s June 3, 2026 parliamentary by-elections?",
+    "s": "will-the-people-power-party-win-less-than-or-equal-to-1-seat-in-south-koreas-june-3-2026-parliamentary-by-elections",
+    "c": "Elections",
+    "r": 1780444800
+  },
+  "0xeac25a786a9aad7b542ba8a1dacacba75e90ae45299664eb4b273c8aaa3323c5": {
+    "w": "NO",
+    "q": "Will Scottish Liberal Democrats win the most seats in the 2026 Scottish Parliament election?",
+    "s": "will-scottish-liberal-democrats-win-the-most-seats-in-the-2026-scottish-parliament-election",
+    "c": "Elections",
+    "r": 1778112000
+  },
+  "0x12b2a643d1162782fb06bd21830af563f73bc5af1c70755c7ed0fe81d67427aa": {
+    "w": "NO",
+    "q": "Will Tisza win the national list vote in the 2026 Hungarian Parliamentary election by 0-3%?",
+    "s": "will-tisza-win-the-national-list-vote-in-the-2026-hungarian-parliamentary-election-by-0-3",
+    "c": "Elections",
+    "r": 1775952000
+  },
+  "0xcfadf718784df562c5a3b5022fd37586b960b4b76a0789df74eb9b3bf653817c": {
+    "w": "NO",
+    "q": "Will voter turnout be 68–71% in the 2026 Hungarian parliamentary election?",
+    "s": "will-voter-turnout-be-6871-in-the-2026-hungarian-parliamentary-election",
+    "c": "Elections",
+    "r": 1775952000
+  },
+  "0xb92bb81b6ddef26d3100275bbb9497167bc56f862c9f7b4dd47399602712eda0": {
+    "w": "NO",
+    "q": "Will Connie Chan receive the most votes in the CA-11 primary?",
+    "s": "will-connie-chan-receive-the-most-votes-in-the-ca-11-primary",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0x0a5852c2478ba15371cb5cdcd259a5121c04127740560afe482ca25b62962a87": {
+    "w": "NO",
+    "q": "Will the Rachida Dati List win the most citywide list votes in the runoff of the 2026 Paris municipal election?",
+    "s": "will-the-rachida-dati-list-win-the-most-citywide-list-votes-in-the-runoff-of-the-2026-paris-municipal-election",
+    "c": "Elections",
+    "r": 1774137600
+  },
+  "0x2fd79147350a023d2aaaf26898b1981a25938fa1d3ea6b231d201618c9db16e9": {
+    "w": "YES",
+    "q": "Will Sophia Chikirou advance to the second round of the 2026 Paris municipal election?",
+    "s": "will-sophia-chikirou-advance-to-the-second-round-of-the-2026-paris-municipal-election",
+    "c": "Elections",
+    "r": 1773532800
+  },
+  "0xa3c6f81a1473f1dcbc65504f48054f0e2f49dc794fecc2971e07dca4b6af4bf1": {
+    "w": "YES",
+    "q": "Will Apple announce a standalone Siri app during the WWDC 2026 keynote?",
+    "s": "will-apple-announce-a-standalone-siri-app-during-the-wwdc-2026-keynote",
+    "c": "Tech & Announcements",
+    "r": 1780876800
+  },
+  "0xe02ccb44668df19649486319a8f204ea75045bc0b94dc20db81d85daad76f24e": {
+    "w": "YES",
+    "q": "Will Apple announce an AI-charged Siri during the WWDC 2026 keynote?",
+    "s": "will-apple-announce-an-ai-charged-siri-during-the-wwdc-2026-keynote",
+    "c": "Legal & Regulatory",
+    "r": 1780876800
+  },
+  "0x170c7d3618e4e39a25e242c95a33a0cb124e1a3bdf906017bbd4d9c9a50d6b01": {
+    "w": "NO",
+    "q": "Will Apple announce a foldable iPhone during the WWDC 2026 keynote?",
+    "s": "will-apple-announce-a-foldable-iphone-during-the-wwdc-2026-keynote",
+    "c": "Tech & Announcements",
+    "r": 1780876800
+  },
+  "0xeb8e70afb7cb9baf07dbee3079d87c0933012ff9491ad177e05afa5532308b6d": {
+    "w": "NO",
+    "q": "Will Jacob deGrom win the 2026 AL Cy Young Award?",
+    "s": "will-jacob-degrom-win-the-2026-al-cy-young-award",
+    "c": "Culture",
+    "r": 1794441600
+  },
+  "0x400574206484a09add5e10bc5a855f2f84c3c8f90329e7a098930d73c29a1601": {
+    "w": "NO",
+    "q": "Will \"Man on Fire\" be the top global Netflix show this week?",
+    "s": "will-man-on-fire-be-the-top-global-netflix-show-this-week-417",
+    "c": "Culture",
+    "r": 1779148800
+  },
+  "0xb9dccd5c771bd567283fc9d9f220a8ad092372e0e6a3467d9f5109d33b7e8605": {
+    "w": "YES",
+    "q": "Will \"Voicemails for Isabelle\" be the top global Netflix movie this week?",
+    "s": "will-voicemails-for-isabelle-be-the-top-global-netflix-movie-this-week-20260623205030647",
+    "c": "Culture",
+    "r": 1782863940
+  },
+  "0x3d08aa0566b54cebc5b5a7a7e04484e0cebb14f17bee93c4797334ab3f8edcf2": {
+    "w": "NO",
+    "q": "Will Gavin Newsom be the 2028 Democratic Vice-Presidential nominee?",
+    "s": "will-gavin-newsom-be-the-2028-democratic-vice-presidential-nominee",
+    "c": "Politics",
+    "r": 1849478400
+  },
+  "0x803d1018e9b81b886b3ef242de57f0d6ebee3313d0728c57eed0a146d56a3bff": {
+    "w": "NO",
+    "q": "Will the Fed’s lower bound reach 1.25% or lower before 2027?",
+    "s": "will-the-feds-lower-bound-reach-1pt25-or-lower-before-2027-683-273-676-864-498-519",
+    "c": "Economics",
+    "r": 1798675200
+  },
+  "0x6aa17d68b02a4610aacab3c0f90ee30e4209e38303c41013b36464c628a8feab": {
+    "w": "NO",
+    "q": "Will Keir Starmer be in the Burnham cabinet?",
+    "s": "will-keir-starmer-be-in-the-burnham-cabinet-20260623004533201",
+    "c": "Politics",
+    "r": 1798761540
+  },
+  "0xbf1e237a1e8cbf9c0b454dc984f5dc789f57f85b077a6a7383489b00b75dc4af": {
+    "w": "NO",
+    "q": "Fed increases interest rates by 25+ bps after May 2025 meeting?",
+    "s": "fed-increases-interest-rates-by-25-bps-after-may-2025-meeting",
+    "c": "Economics",
+    "r": 1746576000
+  },
+  "0xb3ea135352ea36f6c3098e729862d795d0f847df542dae31cee355d64d943aab": {
+    "w": "YES",
+    "q": "Trump imposes 40% tariff on China in first 100 days?",
+    "s": "trump-imposes-40-blanket-tariff-on-china-in-first-100-days",
+    "c": "Legal & Regulatory",
+    "r": 1745884800
+  },
+  "0x7ef13602915dcf8f51d5f95b712ecdb9fe3ff71c7f89e76afb098dbdaab973bf": {
+    "w": "NO",
+    "q": "Will Russia capture all of Kupiansk by June 30?",
+    "s": "will-russia-capture-all-of-kupiansk-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x17231937252b8a83bccc55860163a602420205f0a57c9e3903b38e07837eb197": {
+    "w": "YES",
+    "q": "Will Oh Se-hoon win the 2026 Seoul Mayoral Election by less than 3%?",
+    "s": "will-oh-se-hoon-win-the-2026-seoul-mayoral-election-by-less-than-3",
+    "c": "Elections",
+    "r": 1780444800
+  },
+  "0xe22ddb25cff9ac2f220e4de2ef566ee1d6a77877182d632f8d21dac538aba785": {
+    "w": "YES",
+    "q": "Will Trump say \"Blockade\" during CNBC: Squawk Box appearance on April 21?",
+    "s": "will-trump-say-blockade-during-cnbc-squawk-box-appearance-on-april-21",
+    "c": "Military & Defense",
+    "r": 1776729600
+  },
+  "0x2308c9babd7aad52ea9b22c570d3a728f74630435d6653e2e7cfd79712c35677": {
+    "w": "NO",
+    "q": "Will Fidesz-KDNP win the national list vote in the 2026 Hungarian Parliamentary election by 0-3%?",
+    "s": "will-fidesz-kdnp-win-the-national-list-vote-in-the-2026-hungarian-parliamentary-election-by-0-3",
+    "c": "Elections",
+    "r": 1775952000
+  },
+  "0x5a012cc2e9f12394b27b670ab21205f11178d704978a21e3b0e48d9356976546": {
+    "w": "NO",
+    "q": "Will Pete Hegseth sign a U.S. x Iran deal by July 31?",
+    "s": "will-pete-hegseth-sign-a-uptspt-x-iran-deal-by-july-31-20260611235950070",
+    "c": "World",
+    "r": 1785556740
+  },
+  "0xa77a8fbea7a5e0969a608d44ead3c399aa8d4e740e2078dfdd5a49dab570f25e": {
+    "w": "NO",
+    "q": "Will Abbas Araghchi attend the US-Iran Signing Ceremony?",
+    "s": "will-abbas-araghchi-attend-the-us-iran-signing-ceremonywill-abbas-araghchi-attend-the-us-iran-signing-ceremony-20260615232204723",
+    "c": "World",
+    "r": 1783468740
+  },
+  "0x7ccbe8ce9986fc3016c1aa4cf6608f43154a99ab87dfa66993e67ecf8b57764c": {
+    "w": "NO",
+    "q": "Will Keir Starmer say \"Deeply Concerning\" during the next Prime Minister's Questions event?",
+    "s": "will-keir-starmer-say-deeply-concerning-during-the-next-prime-ministers-questions-event",
+    "c": "Politics",
+    "r": 1777420800
+  },
+  "0x79f4e7c47f1b80916b9b57b5ee7da5d4c906db67d259e7d87a8e32f465816c62": {
+    "w": "NO",
+    "q": "Will turnout in the second round of the 2026 Portuguese presidential election be less than 46%?",
+    "s": "will-turnout-in-the-second-round-of-the-2026-portuguese-presidential-election-be-less-than-46",
+    "c": "Elections",
+    "r": 1770508800
+  },
+  "0xd780578b9f953f44710e6070cc578cde6d5a8374d280907bde57130275f35f2e": {
+    "w": "YES",
+    "q": "Will a 10% US blanket tariff be in effect on March 31?",
+    "s": "will-a-10-us-blanket-tariff-be-in-effect-on-march-31",
+    "c": "Legal & Regulatory",
+    "r": 1774915200
+  },
+  "0xf53ed0c0ee8ff8597d2bd8e14beafe56937f41f0b1f28937de6b99c0ce7d7966": {
+    "w": "YES",
+    "q": "Will IR Iran win on 2026-05-29?",
+    "s": "fif-irn-gam-2026-05-29-irn",
+    "c": "World",
+    "r": 1780012800
+  },
+  "0x1ca4da5850934b7f758958a182a07902a9468632f1509bccfb7bc69bc6e70ad2": {
+    "w": "NO",
+    "q": "Will Russia enter Svitle by April 30?",
+    "s": "will-russia-enter-svitle-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x0bd51ac08ee1cc3ebf14ab952df7de25b2fa16e24b85524e189fad8e8fd00c69": {
+    "w": "NO",
+    "q": "Will Russia enter Pokrovskoe by March 31, 2026?",
+    "s": "will-russia-enter-pokrovskoe-by-march-31-2026",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xb019d411dfee710c4f16c18a1f6237fe51acf55a9f6a1e4f94721e79321a6600": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 13, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-13-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x2554e7ce2574a49356ad7b0b9783e41bd888d933fb2896422b99a0b79e63475d": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 12, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-12-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x319d2ea2fae80bfb7154286337e0fe2642c180d4a2213a051d647a72f0dc3847": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 7, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-7-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x19ecfc6688bbf6bc49fcd65a3c742d73e254196e452f175349a60ae4e2a5523c": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 20, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-20-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x8d6db5580403bb851c47da0b2a247fdcd76065d7738b86ac0bd67ecad94f4323": {
+    "w": "YES",
+    "q": "Will Google have the third-best AI model at the end of March 2026?",
+    "s": "will-google-have-the-third-best-ai-model-at-the-end-of-march-2026",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x24ddfcff3f0b01f2eef9524ccc75460ac5d8140a0b5f65c8a1ef82322410aae6": {
+    "w": "YES",
+    "q": "Will Iran name a successor to Khamenei by March 13?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-13-953",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x61f6203d02dbf41a9f15040c1796227506583ba81edf1fdfe58df9bad8a8d865": {
+    "w": "NO",
+    "q": "Peter Attia out by February 15?",
+    "s": "peter-attia-out-by-february-15",
+    "c": "Politics",
+    "r": 1771113600
+  },
+  "0x4a8856bc27df2111005df39831891deeb2849cd2f865fcc8403366669d9bbdbe": {
+    "w": "NO",
+    "q": "Will SpaceX have the second highest private market valuation on June 30?",
+    "s": "will-spacex-have-the-second-highest-private-market-valuation-on-june-30",
+    "c": "Corporate & M&A",
+    "r": 1782907200
+  },
+  "0x0ae8b3f17fec50cc5f05cd2cb6ce8c9bb72cae58b43ecb2282844bf2283b8189": {
+    "w": "YES",
+    "q": "Will Anthropic have the second best AI model at the end of May 2026?",
+    "s": "will-anthropic-have-the-second-best-ai-model-at-the-end-of-may-2026",
+    "c": "Tech & Announcements",
+    "r": 1780185600
+  },
+  "0x422d727e7a42839fca2d96d76238b8e654fea0f73deeb3ff0f0c52ee43545b07": {
+    "w": "YES",
+    "q": "Will SpaceX have the highest private market valuation on June 30?",
+    "s": "will-spacex-have-the-highest-private-market-valuation-on-june-30",
+    "c": "Corporate & M&A",
+    "r": 1782907200
+  },
+  "0xe563417f1554295028487f40053056a79d880efc30b9fb0ddaefb967a7ee0da1": {
+    "w": "NO",
+    "q": "Will xAI have the second best AI model at the end of June 2026?",
+    "s": "will-xai-have-the-second-best-ai-model-at-the-end-of-june-2026",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0x995bf8453cdb7590afe73476e03f4b59b356af523a8cd57c3098070f78efd3d7": {
+    "w": "NO",
+    "q": "Will xAI have the third-best AI model at the end of March 2026?",
+    "s": "will-xai-have-the-third-best-ai-model-at-the-end-of-march-2026",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x8af5f2c7910598c1e6936d2e4c745e41bda049930a33a037e2a9cc6bb7efa230": {
+    "w": "NO",
+    "q": "Will Anthropic have the third-best AI model at the end of March 2026?",
+    "s": "will-anthropic-have-the-third-best-ai-model-at-the-end-of-march-2026",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x0881547b72d4e95cd1a04a2149a5ab89f48f0f87dc2bfaca01c2d809fcb2703c": {
+    "w": "NO",
+    "q": "Will Salvador Alejandro César Nasralla Salum win the 2025 Honduran presidential election by at least 3%?",
+    "s": "will-salvador-alejandro-csar-nasralla-salum-win-the-2025-honduran-presidential-election-by-at-least-3-374-253",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x68b3b58a006396b238513c1dc6ede0782078cc7233c7c5a4ebb56ca6790aa90a": {
+    "w": "NO",
+    "q": "Will \"Jujutsu Kaisen: Execution\" Opening Weekend Box Office be less than 7m?",
+    "s": "will-jujutsu-kaisen-execution-opening-weekend-box-office-be-less-than-7m",
+    "c": "Culture",
+    "r": 1765152000
+  },
+  "0x87fbf502b8781a5a2279f5cf0e74cb6541515e311b683fe51f89a350baf0fd2f": {
+    "w": "YES",
+    "q": "Will Emma Stone attend the Oscars?",
+    "s": "will-emma-stone-attend-the-oscars",
+    "c": "Culture",
+    "r": 1773532800
+  },
+  "0x49c695e97b5b7f734f8b9d0a562f1bf1743f9f07d9b95d7f5a083a328d26c4f0": {
+    "w": "YES",
+    "q": "Will RB Leipzig vs. BV Borussia 09 Dortmund end in a draw?",
+    "s": "bun-lei-dor-2026-02-21-draw",
+    "c": "World",
+    "r": 1771632000
+  },
+  "0x623749ed9e8a363499c4101071396e2a3594c8a8ba744e7f4cace7193e6c3625": {
+    "w": "YES",
+    "q": "Will 'The Romantic' debut week album sales be between 150k and 200k?",
+    "s": "will-the-romantic-debut-week-album-sales-be-between-150k-and-200k",
+    "c": "Culture",
+    "r": 1773014400
+  },
+  "0x4c41bc234049e515cfa34ba2bc99fcf23d984b9f66870f0640033542960fa0b6": {
+    "w": "YES",
+    "q": "U.S. strike on Somalia by January 31?",
+    "s": "us-strike-on-somalia-by-january-31",
+    "c": "Military & Defense",
+    "r": 1769817600
+  },
+  "0x2ac0b06ad351c18631859aded06c8502633219be993f1d3ae987c21665645ddf": {
+    "w": "YES",
+    "q": "Will Saudi Arabia strike Yemen by January 31?",
+    "s": "will-saudi-arabia-strike-yemen-by-january-31-173",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xe3e150ecca5512ac8170b02ad959a386b7626d1657d6d6c06402b8f2535892cb": {
+    "w": "YES",
+    "q": "Will any Louvre heist robbers be arrested by October 31?",
+    "s": "will-any-louvre-heist-robbers-be-arrested-by-october-31",
+    "c": "Legal & Regulatory",
+    "r": 946684800
+  },
+  "0x4f77344fe962f2ec040a9b5ff9b6f40a4869305d212f6963a0657e97e9d48b42": {
+    "w": "YES",
+    "q": "Will any Louvre heist robbers be arrested by December 31?",
+    "s": "will-any-louvre-heist-robbers-be-arrested-by-december-31",
+    "c": "Legal & Regulatory",
+    "r": 946684800
+  },
+  "0x65c50dab4f1454a9fd7eedb2cbd6337e97a7a95af2c217d1ec12b0142a4e9fc7": {
+    "w": "NO",
+    "q": "Will \"Untold: Jail Blazers\" be the #2 US Netflix movie this week?",
+    "s": "will-untold-jail-blazers-be-the-2-us-netflix-movie-this-week",
+    "c": "Culture",
+    "r": 1776729600
+  },
+  "0x9558a18e86c85343c13a50ade18d8a05e7c0866667fbd1bb77497e025b523b66": {
+    "w": "NO",
+    "q": "Will Trump say \"Ceasefire\" during dinner with Dutch royals?",
+    "s": "will-trump-say-ceasefire-during-dinner-with-dutch-royals",
+    "c": "Military & Defense",
+    "r": 1776038400
+  },
+  "0x03b6de28d45d1468575f5fe5c327959250c4f6c9f8bb62b1a14c48587f7b9cb2": {
+    "w": "NO",
+    "q": "Will Eurozone annual GDP growth in 2026 be between 4.0% and 5.0%?",
+    "s": "will-eurozone-annual-gdp-growth-in-2026-be-between-4pt0-and-5pt0",
+    "c": "Economics",
+    "r": 1801353600
+  },
+  "0x0fc38daa09129109a63f738e12d3c2eaa7e9c222d6fa8a570165333a296076f6": {
+    "w": "YES",
+    "q": "Will Johnson & Johnson (JNJ) beat quarterly earnings?",
+    "s": "jnj-quarterly-earnings-nongaap-eps-2025-10-14-2pt75",
+    "c": "Corporate & M&A",
+    "r": 1760400000
+  },
+  "0x1d3dfd3ff61891cb3e0bf490e0c4156966c84ecff10a1cc375a25cc4475ce33d": {
+    "w": "YES",
+    "q": "Will McCormick & Company (MKC) beat quarterly earnings?",
+    "s": "mkc-quarterly-earnings-nongaap-eps-2025-10-07-0pt82",
+    "c": "Corporate & M&A",
+    "r": 1759795200
+  },
+  "0x6e467b16b650c174152daff7c695053121d92dc24bcf3729705649fe4eb7d197": {
+    "w": "YES",
+    "q": "Will Levi Strauss & Co. (LEVI) beat quarterly earnings?",
+    "s": "levi-quarterly-earnings-nongaap-eps-2025-10-09-0pt30",
+    "c": "Corporate & M&A",
+    "r": 1759968000
+  },
+  "0x13fd1703dbea9cf94b03760e1685bdafb7ea06dc5b3da0e0e583eeeafc0a4657": {
+    "w": "YES",
+    "q": "Will Lamb Weston Holdings (LW) beat quarterly earnings?",
+    "s": "lw-quarterly-earnings-nongaap-eps-2025-09-30-0pt53",
+    "c": "Corporate & M&A",
+    "r": 1759190400
+  },
+  "0xfdd616cb8e7dca0de4541be7476a6a6a7b6a007a3856bb07f6d4cc1a1b930367": {
+    "w": "YES",
+    "q": "Will Constellation Brands (STZ) beat quarterly earnings?",
+    "s": "stz-quarterly-earnings-nongaap-eps-2025-10-06-3pt44",
+    "c": "Corporate & M&A",
+    "r": 1759708800
+  },
+  "0x0c13dce63866c82f731e1e0ee3e36187aeea083b8f62fc66dbe53b731fbf4c11": {
+    "w": "YES",
+    "q": "Will United Natural Foods (UNFI) beat quarterly earnings?",
+    "s": "unfi-quarterly-earnings-nongaap-eps-2025-09-30-neg0pt18",
+    "c": "Corporate & M&A",
+    "r": 1759190400
+  },
+  "0x6a24fa9f3a206d2b96982c06b6ff69e57e4ec6e4ffac9234ed62b91834a40498": {
+    "w": "NO",
+    "q": "Will USD.AI launch a token on April 30?",
+    "s": "will-usdai-launch-a-token-on-april-30",
+    "c": "Tech & Announcements",
+    "r": 1777593600
+  },
+  "0x548869cdfa28990d0fb0337ddd9c94da80d1ed31a5c0cd4d6519629bd0377af4": {
+    "w": "NO",
+    "q": "Will USD.AI launch a token on April 16?",
+    "s": "will-usdai-launch-a-token-on-april-16",
+    "c": "Tech & Announcements",
+    "r": 1777593600
+  },
+  "0x9c69f6f582c6514ac9b1bf43ee05b03201f8e0e978b31f2d0d574e86669146d5": {
+    "w": "NO",
+    "q": "Will USD.AI launch a token on April 17?",
+    "s": "will-usdai-launch-a-token-on-april-17",
+    "c": "Tech & Announcements",
+    "r": 1777593600
+  },
+  "0x2dba4b4a8ad774561b7caef570e5adc21e455107b34df2b4288e3492244442ed": {
+    "w": "NO",
+    "q": "Will USD.AI launch a token on April 15?",
+    "s": "will-usdai-launch-a-token-on-april-15",
+    "c": "Tech & Announcements",
+    "r": 1777593600
+  },
+  "0x0d896c47968d9e437057fc62f874f4d527abd43e91c2e5950cfead58d9c23ff6": {
+    "w": "NO",
+    "q": "Will Tisza win the national list vote in the 2026 Hungarian Parliamentary election by 6-9%?",
+    "s": "will-tisza-win-the-national-list-vote-in-the-2026-hungarian-parliamentary-election-by-6-9",
+    "c": "Elections",
+    "r": 1775952000
+  },
+  "0x9418a6eb53346485bf09a5c5666a8774ec736872807878c59a47fa12f8619520": {
+    "w": "NO",
+    "q": "Will Israel strike Gaza on February 11, 2026?",
+    "s": "will-israel-strike-gaza-on-february-11-2026",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0x6ca9e32ec3bcf137b7120d50e30686ba365c4102e518731f49e226b60a3d2c64": {
+    "w": "NO",
+    "q": "Will Russia win on 2026-05-28?",
+    "s": "fif-egy-rus-2026-05-28-rus",
+    "c": "World",
+    "r": 1779926400
+  },
+  "0x5d50607d01afea859733999b2310ed8f69b9c3a1a2e0224ae7a5fec1b122305c": {
+    "w": "NO",
+    "q": "Will Egypt vs. Russia end in a draw?",
+    "s": "fif-egy-rus-2026-05-28-draw",
+    "c": "World",
+    "r": 1779926400
+  },
+  "0x1adf074e048fa613f4ddbc0766088748a48d120a3a713b0183e219032a411ae3": {
+    "w": "NO",
+    "q": "Will 11 Fed rate cuts happen in 2026?",
+    "s": "will-11-fed-rate-cuts-happen-in-2026",
+    "c": "Economics",
+    "r": 1798675200
+  },
+  "0xde94ee9bb90f45efa07a7cb069086941f68939494256c27ff1f9c098b681e218": {
+    "w": "NO",
+    "q": "Will Iván Cepeda Castro win the first round of the 2026 Colombian presidential election by 15-20%?",
+    "s": "will-ivn-cepeda-castro-win-the-first-round-of-the-2026-colombian-presidential-election-by-15-20",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0xe689107d5893d698f499e186bf64b5a70b9b927654eaacf934b0582604c545f1": {
+    "w": "NO",
+    "q": "Will Iván Cepeda Castro win the first round of the 2026 Colombian presidential election by 10-15%?",
+    "s": "will-ivn-cepeda-castro-win-the-first-round-of-the-2026-colombian-presidential-election-by-10-15",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x1e25af09977c289b206fc692fe3360543ab801755239585266d41764cea99b90": {
+    "w": "NO",
+    "q": "Will OpenAI have the best Coding AI model at the end of May 2026?",
+    "s": "will-openai-have-the-best-coding-ai-model-at-the-end-of-may-2026",
+    "c": "Tech & Announcements",
+    "r": 1780185600
+  },
+  "0x0c2924a04e0159dfdcd2996534d45bdbeade41cdf5cc084b532ec35563e83941": {
+    "w": "NO",
+    "q": "Will Iván Cepeda Castro win the first round of the 2026 Colombian presidential election by 5-10%?",
+    "s": "will-ivn-cepeda-castro-win-the-first-round-of-the-2026-colombian-presidential-election-by-5-10",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x36ffcc6df881532808b8b25b2de3eed9c640a36c93cac58ba96cb3e094dd681a": {
+    "w": "YES",
+    "q": "Will Karen Bass finish first in the first round of the 2026 Los Angeles mayoral election?",
+    "s": "will-karen-bass-finish-first-in-the-first-round-of-the-2026-los-angeles-mayoral-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0xdb5542c4d8125dc89cf7a09b6d531a46fe63ea4c47ddbf4139fe9c7399a93686": {
+    "w": "NO",
+    "q": "Will Karen Bass finish second in the first round of the 2026 Los Angeles mayoral election?",
+    "s": "will-karen-bass-finish-second-in-the-first-round-of-the-2026-los-angeles-mayoral-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0xa40838c5977d0e3cb4d124b2f3b996779c9a67261c8d25df820a971eac7aa14d": {
+    "w": "NO",
+    "q": "Will Paloma Valencia & Iván Cepeda Castro advance to the second round of the 2026 Colombian presidential election?",
+    "s": "will-paloma-valencia-ivn-cepeda-castro-advance-to-the-second-round-of-the-2026-colombian-presidential-election",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0xe8a896f18ae432d57e58e5ff10e6afc459c2aad377bdb054acdf7206a8d480ad": {
+    "w": "NO",
+    "q": "Will a candidate win the 2026 Colombian presidential election in the first round?",
+    "s": "will-a-candidate-win-the-2026-colombian-presidential-election-in-the-first-round",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x5b89585543fd30fd03dc853608fe3c7cb7d8cf40cb14c82b69f931a74602dd83": {
+    "w": "NO",
+    "q": "Will Gina Viola win the 2026 Los Angeles mayoral election?",
+    "s": "will-gina-viola-win-the-2026-los-angeles-mayoral-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0x685cdcefd69d28692de86df85f9ab84cb23ef7e46ac210153a4770b99d83aa11": {
+    "w": "NO",
+    "q": "Will \"Backrooms\" Opening Weekend Box Office be between 57m and 61m?",
+    "s": "will-backrooms-opening-weekend-box-office-be-between-57m-and-61m",
+    "c": "Culture",
+    "r": 1780272000
+  },
+  "0x0db5caccd7f30c6ae645d763f540dead0a0486a85daee7bb6bc8303278bbba84": {
+    "w": "NO",
+    "q": "Will \"Backrooms\" Opening Weekend Box Office be between 53m and 57m?",
+    "s": "will-backrooms-opening-weekend-box-office-be-between-53m-and-57m",
+    "c": "Culture",
+    "r": 1780272000
+  },
+  "0x3b5ab5d39a27595572c0417e4207db4f2a3bde42dd29cd941cb03d3bb44e37d0": {
+    "w": "NO",
+    "q": "Will \"Backrooms\" Opening Weekend Box Office be less than 49m?",
+    "s": "will-backrooms-opening-weekend-box-office-be-less-than-49m",
+    "c": "Culture",
+    "r": 1780272000
   }
 }
