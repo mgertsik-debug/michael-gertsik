@@ -285,37 +285,10 @@ async function run() {
   const nonSeed = Object.values(state.screened).filter((w) => !w._seed);
   const needsProfile = nonSeed.filter((w) => (w.bets || []).length && !w.profile)
     .sort((a, b) => (priorFlagged.has(String(b.address).toLowerCase()) ? 1 : 0) - (priorFlagged.has(String(a.address).toLowerCase()) ? 1 : 0));
-  // PROMISE SCORE — rank the rest by how likely they are to flag HIGH, computed for FREE
-  // from the partial record the cheap market-sweep already left on each wallet (no extra
-  // API calls). The HIGH drivers: won long-shots at low odds (the binomial), the biggest
-  // winning low-odds single bet (the conviction/big-trade signal), and one-sided exposure.
-  // This surfaces likely insiders in 1-2 ticks instead of after a full round-robin rotation.
-  // HONEST LIMIT: it can only see signal already swept — a wallet whose wins are all in
-  // un-cataloged markets still looks boring here, so a COVERAGE RESERVE (a fraction of the
-  // batch) stays pure round-robin so nothing promising-but-unseen is permanently starved.
-  const promiseScore = (w) => {
-    const bets = w.bets || [];
-    let wonLow = 0, maxWinStake = 0, yes = 0, no = 0;
-    for (const b of bets) {
-      const ep = num(b.entryPrice), st = num(b.stakeUsd);
-      if (b.won && ep > 0 && ep <= 0.15) { wonLow++; if (st > maxWinStake) maxWinStake = st; }
-      if (String(b.outcome).toUpperCase() === "YES") yes += st; else no += st;
-    }
-    const purity = (yes + no) > 0 ? Math.max(yes, no) / (yes + no) : 0;
-    return wonLow * 100 + Math.min(50, maxWinStake / 1000) + Math.round(purity * 20);
-  };
-  const rest = nonSeed.filter((w) => !((w.bets || []).length && !w.profile));
-  const byPromise = rest.slice().sort((a, b) => promiseScore(b) - promiseScore(a));
-  const byStale = rest.slice().sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0));
-  // blend: ~75% promise-ranked (find HIGH fast) + ~25% stalest (coverage so nothing starves)
-  const COVER_FRAC = +ENV.COVERAGE_RESERVE_FRAC || 0.25;
-  const promiseN = Math.round(ENRICH_BATCH * (1 - COVER_FRAC));
-  const picked = new Set(), ordered = [];
-  for (const w of byPromise) { if (ordered.length >= promiseN) break; if (!picked.has(w.address)) { picked.add(w.address); ordered.push(w); } }
-  for (const w of byStale) { if (ordered.length >= ENRICH_BATCH) break; if (!picked.has(w.address)) { picked.add(w.address); ordered.push(w); } }
-  const stale = seedWallets.concat(needsProfile, ordered).slice(0, seedWallets.length + needsProfile.length + ENRICH_BATCH);
-  const topPromise = byPromise[0] ? promiseScore(byPromise[0]) : 0;
-  if (needsProfile.length || byPromise.length) log("enrich order: " + needsProfile.length + " re-profile · promise-ranked (top score " + topPromise + ") + " + Math.round(COVER_FRAC * 100) + "% coverage reserve");
+  const byStale = nonSeed.filter((w) => !((w.bets || []).length && !w.profile))
+    .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0));
+  const stale = seedWallets.concat(needsProfile, byStale).slice(0, seedWallets.length + ENRICH_BATCH);
+  if (needsProfile.length) log("re-profiling " + needsProfile.length + " wallet(s) lacking authoritative Polymarket P/L (" + Array.from(priorFlagged).length + " currently-shown prioritised first)");
   let funded = 0;
   let fullRecords = 0;
   let posRecords = 0;                                          // wallets reconciled against /positions (authoritative cashPnl)
@@ -437,6 +410,14 @@ async function run() {
         w.funder = fund.funder || null; w.funderLabel = fund.label || null;
         funded++;
       }
+      // ON-CHAIN WALLET CREATION DATE (Polygonscan): the earliest of the wallet's first
+      // normal tx and its first USDC transfer — the authoritative "created" date, more
+      // accurate than (and often earlier than) the first Polymarket activity we infer.
+      try {
+        const createdTx = await chain.walletCreatedTs(w.address);
+        const cands = [fund && fund.ts, createdTx].filter((t) => t && t > 0);
+        if (cands.length) w.createdTs = Math.min.apply(null, cands);
+      } catch (_) { /* leave undefined → UI falls back to first-active */ }
       const ptx = await chain.priorTxCount(w.address, isFinite(firstBetTs) ? firstBetTs : null);
       if (ptx != null) w.priorTx = ptx;
       // post-resolution cash-out latency (conceal tactic) for a real exchange hop
@@ -511,6 +492,7 @@ async function finalize(state, snapshotTs) {
   // ---- single-wallet aggregates (excluding wallets folded into a cluster) ----
   const singleAggs = wallets.filter((w) => !clustered.has(w.address)).map((w) => ({
     address: w.address, firstSeenTs: w.firstSeenTs, fundingTs: w.fundingTs, priorTx: w.priorTx,
+    createdTs: w.createdTs || null,                           // on-chain wallet-creation date (Polygonscan)
     conceal: walletConceal(w), bets: w.bets, _lastTs: w.lastTs,
     profile: w.profile || null,                               // Polymarket's authoritative account aggregates
   }));
