@@ -381,6 +381,37 @@ async function recentTrades(opts) {
   return out;
 }
 
+// Polymarket's OWN profile aggregates — the exact headline numbers their profile
+// page shows — so the lookup MIRRORS Polymarket instead of reconstructing. Verified
+// against live responses: user-pnl last point = all-time P/L (matched swisstony's
+// $13,766,411 exactly); /traded = prediction count; lb-api profit/volume = all-time;
+// /value = current portfolio value; lb-api carries the username/pseudonym.
+async function profileAggregates(wallet) {
+  if (!wallet) return null;
+  const w = encodeURIComponent(wallet);
+  const PNL = "https://user-pnl-api.polymarket.com", LB = "https://lb-api.polymarket.com";
+  const [val, pnl, profit, vol, traded] = await Promise.all([
+    getJSON(DATA + "/value?user=" + w, { timeout: 7000 }).catch(() => null),
+    getJSON(PNL + "/user-pnl?user_address=" + w + "&interval=all&fidelity=1d", { timeout: 7000 }).catch(() => null),
+    getJSON(LB + "/profit?window=all&limit=1&address=" + w, { timeout: 7000 }).catch(() => null),
+    getJSON(LB + "/volume?window=all&limit=1&address=" + w, { timeout: 7000 }).catch(() => null),
+    getJSON(DATA + "/traded?user=" + w, { timeout: 7000 }).catch(() => null),
+  ]);
+  const arr = (x) => (Array.isArray(x) ? x : (x ? [x] : []));
+  const last = arr(pnl).length ? arr(pnl)[arr(pnl).length - 1] : null;
+  const p0 = arr(profit)[0] || {};
+  const v0 = arr(val)[0] || {};
+  const vol0 = arr(vol)[0] || {};
+  const pnlAll = last && last.p != null ? num(last.p) : (p0.amount != null ? num(p0.amount) : null);
+  return {
+    username: p0.name || p0.pseudonym || null,
+    value: v0.value != null ? num(v0.value) : null,
+    pnlAllTime: pnlAll,
+    volume: vol0.amount != null ? num(vol0.amount) : null,
+    traded: traded && traded.traded != null ? num(traded.traded) : null,
+  };
+}
+
 // a wallet's first-ever Polymarket activity timestamp (seconds).
 async function firstSeen(wallet) {
   if (!wallet) return null;
@@ -448,7 +479,7 @@ function aggregateMarket(market, trades) {
 }
 
 module.exports = {
-  getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket, recentTrades,
+  getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket, recentTrades, profileAggregates,
   userPositions, positionToBet, userTrades, buildUserRecord, marketsByConds, category, resolvedWinner, isBinary, tradeOutcome,
   GAMMA, DATA, CLOB,
 };

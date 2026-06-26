@@ -43,6 +43,11 @@ async function scoreWallet(addr) {
 
   // Data-source probe: show what each Polymarket feed returns for this wallet, so
   // the source of truth is verifiable rather than assumed.
+  // Polymarket's OWN profile numbers (all-time P/L, volume, predictions, value,
+  // username) so the lookup mirrors the wallet's Polymarket page exactly, not a
+  // reconstruction. This runs for ANY wallet, in or out of forensic scope.
+  try { o.polymarket = await poly.profileAggregates(addr); } catch (_) { o.polymarket = null; }
+
   let utrades = [];
   try { utrades = await poly.userTrades(addr); } catch (e) { return Object.assign(o, { error: "trades fetch failed: " + (e && e.message) }); }
 

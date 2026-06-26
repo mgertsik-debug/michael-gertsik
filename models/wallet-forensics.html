@@ -671,6 +671,21 @@ class Component extends DCLogic {
           link("https://polymarket.com/profile/" + addr, "Polymarket ↗", "#7E8C86")),
         h("span", { style: { fontFamily: mono, fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: tc, border: "1px solid " + tc + "66", background: tc + "14", borderRadius: "999px", padding: "4px 11px" } }, flagged ? tier.toUpperCase() : "NOT FLAGGED")),
       h("p", { style: { fontSize: "14px", lineHeight: 1.6, color: "#D7DCD9", margin: "14px 0 16px" } }, d.verdict || ""),
+      // POLYMARKET PROFILE — the wallet's OWN Polymarket numbers, verbatim from their
+      // API (matches the profile page exactly), so the lookup mirrors Polymarket.
+      (d.polymarket && (d.polymarket.pnlAllTime != null || d.polymarket.value != null || d.polymarket.traded != null)) ? (() => {
+        const pm = d.polymarket;
+        const pnlC = (pm.pnlAllTime || 0) >= 0 ? "#34D399" : "#F87171";
+        return h("div", { style: { background: "rgba(124,140,134,0.06)", border: "1px solid #243029", borderRadius: "10px", padding: "13px 16px", marginBottom: "14px" } },
+          h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px", gap: "8px", flexWrap: "wrap" } },
+            h("span", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#8A938E" } }, "POLYMARKET PROFILE · LIVE"),
+            pm.username ? h("a", { href: "https://polymarket.com/profile/" + addr, target: "_blank", rel: "noopener noreferrer", style: { fontFamily: mono, fontSize: "11px", color: "#C4CAC6", textDecoration: "none" } }, "@" + pm.username + " ↗") : null),
+          h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(86px,1fr))", gap: "12px" } },
+            row("ALL-TIME P/L", pm.pnlAllTime != null ? this.fmtUsd(pm.pnlAllTime) : "—", pnlC),
+            row("PREDICTIONS", pm.traded != null ? pm.traded.toLocaleString("en-US") : "—"),
+            row("VOLUME", pm.volume != null ? this.fmtUsd(pm.volume) : "—"),
+            row("PORTFOLIO", pm.value != null ? this.fmtUsd(pm.value) : "—")));
+      })() : null,
       // ALWAYS-ON PROFILE — works for any wallet
       h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(96px,1fr))", gap: "14px", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "15px 16px" } },
         row("RESOLVED BETS", String(prof.resolvedBets != null ? prof.resolvedBets : "—")),
