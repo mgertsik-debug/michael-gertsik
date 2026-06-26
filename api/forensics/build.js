@@ -489,6 +489,106 @@ function derive(all, scoredPop) {
   return all;
 }
 
+/* --------------------------------------------------------- HARVARD subject -- */
+// Build a FULL subject (same shape the live UI renders — ledger, graphs, tx, WHO,
+// scorecard, derived fields) but scored with the pure-Harvard composite (Ofir & Ofir
+// 2026). The headline is the Suspicion Score; the "what drove it" cards are Harvard's
+// five signals. Reuses every helper so the dossier is byte-for-byte the live format —
+// only the metrics change. Returns null if the wallet has no retained Harvard episode.
+const HARV_TO_UI_TIER = { extreme: "extreme", high: "elevated", notable: "watch" };
+function buildHarvardSubject(agg, idx, opts, catalog) {
+  if (agg.type === "cluster") return null;                    // Harvard scores per-wallet episodes
+  const { harvard } = scoreAggregate(agg);
+  if (!harvard || !harvard.hasData || !harvard.tier) return null;
+  const cat = catalog || (opts && opts.catalog) || {};
+  const qOf = (b) => b.question || (cat[b.cond] && cat[b.cond].q) || "(market)";
+  const urlOf = (b) => b.url || (cat[b.cond] && cat[b.cond].s ? "https://polymarket.com/event/" + cat[b.cond].s : null);
+  const tier = HARV_TO_UI_TIER[harvard.tier] || "watch";
+  const S = Math.round(num(harvard.S));
+  const hb = harvard.bet || {};
+  const valid = (agg.bets || []).filter((b) => b && typeof b.won === "boolean" && D.isNum(num(b.entryPrice)));
+  const ledger = valid.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd)).slice(0, 24).map((b) => ({
+    market: qOf(b), url: urlOf(b), entryTime: b.ts ? dateStr(b.ts) : "", ts: b.ts || null,
+    odds: Math.round(num(b.entryPrice) * 100), stakeNum: Math.round(num(b.stakeUsd)), plNum: Math.round(betPL(b)),
+    stake: money(b.stakeUsd), outcome: b.won ? "Won" : "Lost", pl: signedMoney(betPL(b)),
+    tx: b.tx ? (String(b.tx).slice(0, 6) + "…") : "", txFull: b.tx || null,
+  }));
+  if (!ledger.length) return null;
+  const epPL = hb.won ? betPL(hb) : (hb.stakeUsd != null ? -num(hb.stakeUsd) : 0);
+  const profitNum = Math.round(epPL);
+  const _prof = agg.profile || null;
+  const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
+  const wins = valid.filter((b) => b.won).length;
+  const W = D.HARVARD_W;
+  const z = (x) => (num(x)).toFixed(2);
+  // 5 Harvard signal cards (UI renders these in the identical "what drove the flag" format).
+  const sc = [
+    { key: "hProfit", metric: "z = " + z(harvard.zProfitCross), method: "Cross-sectional profit", formula: "z = (profit − μ_market) / σ_market · weight 30",
+      numbers: "profit " + z(harvard.zProfitCross) + " SD above the market's average trader", inputs: [["z_profit_cross", z(harvard.zProfitCross)], ["weight", "30"], ["+S", String(Math.round(W.profitCross * num(harvard.zProfitCross)))]] },
+    { key: "hBetCross", metric: "z = " + z(harvard.zBetCross), method: "Cross-sectional bet size", formula: "z = (stake − μ_market) / σ_market · weight 25",
+      numbers: "bet " + z(harvard.zBetCross) + " SD above the market's average stake", inputs: [["z_bet_cross", z(harvard.zBetCross)], ["weight", "25"], ["+S", String(Math.round(W.betCross * num(harvard.zBetCross)))]] },
+    { key: "hBetWithin", metric: "z = " + z(harvard.zBetWithin), method: "Within-trader bet size", formula: "z = (stake − μ_wallet) / σ_wallet · weight 20",
+      numbers: "bet " + z(harvard.zBetWithin) + " SD above this wallet's own typical stake", inputs: [["z_bet_within", z(harvard.zBetWithin)], ["weight", "20"], ["+S", String(Math.round(W.betWithin * num(harvard.zBetWithin)))]] },
+    { key: "hLate", metric: Math.round(num(harvard.lateBuyFraction) * 100) + "% late", method: "Pre-event timing", formula: "fraction of buys in the final 48h · weight 15 × 100",
+      numbers: Math.round(num(harvard.lateBuyFraction) * 100) + "% of buying was in the final 48h before resolution", inputs: [["late_buy_fraction", num(harvard.lateBuyFraction).toFixed(2)], ["weight", "15"], ["+S", String(Math.round(W.late * num(harvard.lateBuyFraction) * 100))]] },
+    { key: "hDir", metric: Math.round(num(harvard.directionalScore) * 100) + "% one-sided", method: "Directional concentration", formula: "1 − sold/bought · weight 10 × 100",
+      numbers: Math.round(num(harvard.directionalScore) * 100) + "% one-directional (held, not hedged)", inputs: [["directional_score", num(harvard.directionalScore).toFixed(2)], ["weight", "10"], ["+S", String(Math.round(W.dir * num(harvard.directionalScore) * 100))]] },
+  ];
+  // contribution split (each signal's share of S, normalised over the positive contributors)
+  const rawC = { hProfit: W.profitCross * num(harvard.zProfitCross), hBetCross: W.betCross * num(harvard.zBetCross), hBetWithin: W.betWithin * num(harvard.zBetWithin), hLate: W.late * num(harvard.lateBuyFraction) * 100, hDir: W.dir * num(harvard.directionalScore) * 100 };
+  const posSum = Object.values(rawC).reduce((a, v) => a + Math.max(0, v), 0) || 1;
+  const contributions = {}; Object.keys(rawC).forEach((k) => { contributions[k] = Math.max(0, Math.round((Math.max(0, rawC[k]) / posSum) * 100)); });
+  const lead = valid.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd))[0];
+  const timeline = lead ? { market: qOf(lead), priceStart: num(lead.entryPrice), priceEnd: lead.won ? 0.95 : 0.05, entries: [num(lead.entryPrice)], resolution: lead.won ? 0.92 : 0.08, candidates: [] } : {};
+  const epOdds = Math.round(num(hb.entryPrice) * 100);
+  const heroSentence = "This account's most anomalous (wallet, market) episode scores " + S + " on the Harvard composite suspicion score — it bet " + money(hb.stakeUsd) + " at about " + epOdds + "% on “" + String(qOf(hb)).slice(0, 70) + "”" + (hb.won ? ", and won" : "") + ". The score combines five independent signals (outsized profit, outsized bet, late entry, one-sided conviction). Consistent with informed trading — not proof of it.";
+  return {
+    id: "h" + (idx + 1), type: "wallet", address: agg.address || null, memberAddresses: [agg.address],
+    idLabel: short(agg.address), username: agg.pseudonym || (_prof && _prof.username) || null,
+    created: dateStr(agg.createdTs) || dateStr(agg.firstSeenTs) || "an unrecorded date", createdOnChain: agg.createdTs != null,
+    firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
+    category: dominantCategory(valid), marketsCount: valid.length, tier,
+    improbText: "Score " + S, improbDenom: S, improbFull: "a composite suspicion score of " + S, improbCaption: "composite suspicion score",
+    convictionFlag: false, convBet: null, full: ledger.length >= 1,
+    winRate: valid.length ? Math.round(100 * wins / valid.length) : 0, avgImplied: epOdds,
+    profit: money(profitNum), fired: ["hProfit", "hBetCross", "hBetWithin", "hLate", "hDir"], contributions, agreeing: 5,
+    refId: agg.refId || ("WF-H-" + String(1000 + idx).slice(1)), cexChips: agg.cexChips || [],
+    heroSentence, scorecard: sc, ledger,
+    ledgerSummary: { markets: valid.length, winRate: valid.length ? Math.round(100 * wins / valid.length) : 0, realized: signedMoney(profitNum) },
+    timeline,
+    activityDays: agg.firstSeenTs ? Math.max(0, Math.round((Date.now() - (agg._lastTs || agg.firstSeenTs) * 1000) / MS_DAY)) : undefined,
+    confidenceLimiter: "the composite score is a statistical anomaly across five signals; it ranks suspicion, it does not prove intent",
+    profitSource: "harvard-episode",
+    harvardScore: S, harvardTier: harvard.tier, harvardWouldFlag: true,
+    harvardEpisode: { market: qOf(hb), url: urlOf(hb), stake: Math.round(num(hb.stakeUsd)), odds: epOdds, won: !!hb.won, tx: hb.tx || null, zBetCross: harvard.zBetCross, zBetWithin: harvard.zBetWithin, zProfitCross: harvard.zProfitCross, lateBuyFraction: harvard.lateBuyFraction, directionalScore: harvard.directionalScore },
+    profitNum, accountPnl: accountPL != null ? Math.round(accountPL) : null, accountPnlText: accountPL != null ? signedMoney(accountPL) : null,
+    _profitNum: profitNum, _profileVolume: _prof && _prof.volume != null && isFinite(num(_prof.volume)) ? num(_prof.volume) : null, _tradedCount: _prof && _prof.traded != null ? num(_prof.traded) : null,
+    model: "harvard",
+  };
+}
+
+// Build the full Harvard-scored read-API payload (parallel to buildPayload). Ranks by the
+// composite Suspicion Score; sets a true rank-percentile by score.
+function buildHarvardPayload(aggregates, meta, catalog) {
+  meta = meta || {};
+  const subjects = [];
+  (aggregates || []).forEach((agg, i) => { try { const s = buildHarvardSubject(agg, i, meta, catalog); if (s) subjects.push(s); } catch (_) {} });
+  subjects.sort((a, b) => b.improbDenom - a.improbDenom);
+  const n = subjects.length;
+  subjects.forEach((s, i) => { s.percentile = n > 1 ? +(100 * (n - 1 - i) / (n - 1)).toFixed(3) : 99.9; s.percentileN = n; });
+  derive(subjects, null);
+  const totalFlaggedProfit = subjects.reduce((a, s) => a + (Number(s.profitNum) || 0), 0);
+  const fmtUsd = (v) => (Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
+  return {
+    model: "harvard", subjects,
+    observed: (meta && meta.observed) || 0, reviewed: (meta && meta.reviewed) || 0, screened: (meta && meta.screened) || 0, scored: n,
+    totalFlaggedProfit: Math.round(totalFlaggedProfit), totalFlaggedProfitText: fmtUsd(totalFlaggedProfit),
+    flaggedCount: n,
+    meta: { observed: (meta && meta.observed) || 0, reviewed: (meta && meta.reviewed) || 0, screened: (meta && meta.screened) || 0, scored: n, snapshot: (meta && meta.snapshot) || "", recomputed: (meta && meta.recomputed) || "" },
+    generatedAt: new Date().toISOString(),
+  };
+}
+
 /* ----------------------------------------------------------------- payload -- */
 // Build the full read-API payload from a list of aggregates + scan metadata.
 // Subjects are ranked most-improbable first (the default public view).
@@ -548,4 +648,4 @@ function buildPayload(aggregates, meta, catalog) {
   };
 }
 
-module.exports = { scoreAggregate, buildSubject, derive, buildPayload, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };
+module.exports = { scoreAggregate, buildSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };
