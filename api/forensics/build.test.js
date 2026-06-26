@@ -50,6 +50,18 @@ test("buildSubject: planted impossible single wallet -> extreme, real 1-in-N, re
   assert.ok(s.volumeNum > 0);
 });
 
+test("C1 fresh honesty: UNMEASURED priorTx (null) must NOT fire 'purpose-built wallet'", () => {
+  // young wallet (funded ~1 day before its first bet) so fresh's age arm is satisfied.
+  // priorTx === null means the Polygonscan prior-tx fetch FAILED — fresh must degrade to
+  // no-data, never fabricate priorTx=0 and accuse the wallet of being purpose-built.
+  const r = B.scoreAggregate(agg("0x5e00000000000000000000000000000000000c1f", 6, 2, 0.12, "Military & Defense", { priorTx: null }));
+  assert.equal(r.dets.fresh.hasData, false, "null priorTx -> fresh no-data (no fabricated priorTx=0)");
+  // sanity: a MEASURED priorTx=0 on the same young wallet DOES legitimately fire fresh
+  const r2 = B.scoreAggregate(agg("0x5e00000000000000000000000000000000000c20", 6, 2, 0.12, "Military & Defense", { priorTx: 0 }));
+  assert.equal(r2.dets.fresh.hasData, true, "measured priorTx=0 -> fresh has data");
+  assert.equal(r2.dets.fresh.fires, true, "measured priorTx=0 on a young wallet -> fresh fires");
+});
+
 test("buildSubject: sub-5-bet wallet -> excluded (null), never scored", () => {
   const s = B.buildSubject(agg("0xshort", 3, 1, 0.1, "World"), 0, {});
   assert.equal(s, null);

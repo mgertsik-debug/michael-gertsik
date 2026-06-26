@@ -238,7 +238,11 @@ test("HARVARD composite: exact weighted-sum formula + retention gate + tiers", (
   assert.equal(D.harvardTier(300), "high");
   assert.equal(D.harvardTier(700), "extreme");
 
-  // missing/zero inputs degrade gracefully (no NaN)
+  // missing cross-sectional z (the spine of the composite) degrades to NO-DATA — never a
+  // fabricated S=0 that could be scored/retained (honesty rule).
   const z = D.harvardEpisode({});
-  assert.equal(z.S, 0); assert.equal(z.retained, false);
+  assert.equal(z.hasData, false, "no measurable z_bet_cross -> hasData:false, not a fake S=0");
+  // a measured z_bet_cross with the rest absent still scores (rest default to 0 honestly)
+  const partial = D.harvardEpisode({ zBetCross: 3 });
+  assert.equal(partial.hasData, true); assert.equal(partial.S, 75, "25*3 with others 0");
 });
