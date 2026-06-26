@@ -36,6 +36,12 @@ const chain = require("../../api/forensics/chain.js");
 const cluster = require("../../api/forensics/cluster.js");
 const hll = require("../../api/forensics/hll.js");
 
+// numeric coerce — used by the eviction sigScore (and anywhere a bet field may be a
+// string/undefined). Was referenced but never defined, so finalize() threw
+// "num is not defined" at the eviction step once the screened pool first crossed
+// SCREEN_CAP — crashing before write(STORE) and silently discarding every tick.
+const num = (x) => { const n = Number(x); return isFinite(n) ? n : 0; };
+
 const DIR = path.resolve(__dirname, "../../data/forensics");
 const STATE = path.join(DIR, "state.json");
 const STORE = path.join(DIR, "store.json");
@@ -446,6 +452,13 @@ async function finalize(state, snapshotTs) {
     payload.subjects.filter((s) => s.tier === "extreme").length + " extreme · " +
     clusterAggs.length + " clusters · " + payload.subjects.filter((s) => s.newlyFlagged).length + " newly) from " + meta.reviewed + " reviewed");
 
+  // PUBLISH the scored payload IMMEDIATELY — BEFORE the state housekeeping below —
+  // so a bug in eviction/catalog-trim can never again discard a tick's results.
+  // (A "num is not defined" crash in eviction silently froze the site for hours:
+  // finalize threw before write(STORE), the top-level catch exited 0, and the
+  // commit step saw no change.) The published store does not depend on housekeeping.
+  write(STORE, payload);
+
   // ---- bound state.json WITHOUT breaking accumulation. A wallet's record only
   // matures as the sweep reaches its markets, so we RETAIN screened wallets across
   // the sweep. When the set exceeds SCREEN_CAP, evict by SIGNAL, not recency: the
@@ -490,7 +503,11 @@ async function finalize(state, snapshotTs) {
   delete state._reviewedThisRun;
   delete state._catalog;
   write(STATE, state);
-  write(STORE, payload);
+  // (STORE was already written above, before housekeeping, so it lands even if the
+  // eviction/catalog steps throw.)
 }
 
+// The catch exits 0 ON PURPOSE so the commit step still runs and persists whatever
+// was written before the error — but write(STORE) now happens BEFORE any housekeeping,
+// so a late crash no longer discards the tick. Log loudly so failures stay visible.
 run().catch((e) => { log("fatal:", e && e.stack || e); process.exit(0); });
