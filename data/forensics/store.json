@@ -27,6 +27,12 @@
         "timing",
         "longshot"
       ],
+      "contributions": {
+        "won": 54,
+        "timing": 27,
+        "longshot": 19
+      },
+      "agreeing": 3,
       "refId": "WF-2024-162",
       "cexChips": [],
       "heroSentence": "This account won 11 of 19 long-shot bets that the market gave roughly a 17 percent chance. By luck you would expect about 3.15 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -357,15 +363,18 @@
       "archived": false
     },
     {
-      "id": "w2128",
-      "type": "wallet",
+      "id": "c9004",
+      "type": "cluster",
       "address": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
       "memberAddresses": [
-        "0x43440ab002eaac9fede6f9d21bea96d84228f90d"
+        "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
+        "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+        "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+        "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67"
       ],
-      "idLabel": "0x43…f90d",
+      "idLabel": "Cluster of 4 wallets",
       "username": null,
-      "firstSeen": "Dec 09 2024",
+      "firstSeen": "Nov 17 2021",
       "category": "Military & Defense",
       "marketsCount": 22,
       "tier": "watch",
@@ -380,13 +389,30 @@
       "profit": "$113K",
       "fired": [
         "won",
+        "cluster",
         "sizing",
-        "longshot"
+        "longshot",
+        "fresh"
       ],
-      "refId": "WF-2024-127",
+      "contributions": {
+        "won": 38,
+        "cluster": 26,
+        "sizing": 14,
+        "longshot": 13,
+        "fresh": 9
+      },
+      "agreeing": 5,
+      "refId": "WF-2021-0003",
       "cexChips": [],
-      "heroSentence": "This account won 10 of 22 long-shot bets that the market gave roughly a 12 percent chance. By luck you would expect about 2.73 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "heroSentence": "These 4 linked accounts won 10 of 22 long-shot bets the market gave about a 12 percent chance. A record this strong is the pattern you would expect from foreknowledge, not luck — a pattern consistent with informed trading, not proof of it.",
       "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "-14h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~-14h after funding, with no prior transactions — a purpose-built wallet."
+        },
         {
           "key": "longshot",
           "metric": "12% avg",
@@ -402,11 +428,18 @@
           "numbers": "Won 10 of 22 independent bets the market priced at ~12% — about 2.73 expected by luck. Probability by chance ≈ 1 in 7.6K (7 correlated bets de-correlated)."
         },
         {
+          "key": "cluster",
+          "metric": "4 accounts",
+          "method": "shared-funding link",
+          "formula": "link = w₁·funder + w₂·co-spend + w₃·sync + w₄·prox",
+          "numbers": "4 wallets, mean pairwise link 0.90 ≥ 0.80 — treated as one entity (probable common ownership, not confirmed)."
+        },
+        {
           "key": "sizing",
-          "metric": "310× median",
+          "metric": "333× median",
           "method": "within-trader bet-size anomaly",
           "formula": "largest event position ÷ this wallet's median bet",
-          "numbers": "Largest position $195,008 is ~310× this wallet's median bet ($630) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly)."
+          "numbers": "Largest position $195,008 is ~333× this wallet's median bet ($585) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly)."
         }
       ],
       "ledger": [
@@ -762,18 +795,101 @@
         "resolution": 0.08,
         "candidates": []
       },
-      "activityDays": 24,
-      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "cluster": {
+        "ringValue": "$113K",
+        "size": 4,
+        "nodes": [
+          {
+            "id": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
+            "x": 0.5,
+            "y": 0.5,
+            "vol": 1,
+            "label": "0x4344…"
+          },
+          {
+            "id": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "x": 0.9,
+            "y": 0.5,
+            "vol": 0.3,
+            "label": "0x3889…"
+          },
+          {
+            "id": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "x": 0.3,
+            "y": 0.846,
+            "vol": 0.3,
+            "label": "0x56ac…"
+          },
+          {
+            "id": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "x": 0.3,
+            "y": 0.154,
+            "vol": 0.3,
+            "label": "0x3d33…"
+          }
+        ],
+        "edges": [
+          {
+            "from": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xd36ec33c…"
+          },
+          {
+            "from": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xd36ec33c…"
+          },
+          {
+            "from": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xd36ec33c…"
+          },
+          {
+            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xd36ec33c…"
+          },
+          {
+            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xd36ec33c…"
+          },
+          {
+            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xd36ec33c…"
+          }
+        ]
+      },
+      "activityDays": 0,
+      "confidenceLimiter": "common-ownership is inferred from funding heuristics, not confirmed identity",
+      "firstFlaggedAt": 1782466460,
+      "newlyFlagged": true,
       "wins": 10,
       "expectedWins": 2.64,
       "percentile": 99.554,
       "volumeNum": 29313,
       "volume": "$29K",
       "profitNum": 112684.56449021095,
-      "lastActivity": "24 days ago",
-      "firstFlaggedAt": 1782458295,
-      "newlyFlagged": true,
-      "archived": false
+      "lastActivity": "today"
     },
     {
       "id": "c9005",
@@ -807,11 +923,14 @@
         "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
         "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
         "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
-        "0xfa66b67b8deeadc4268411928df20e09a7f11c5b"
+        "0xfa66b67b8deeadc4268411928df20e09a7f11c5b",
+        "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+        "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+        "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67"
       ],
-      "idLabel": "Cluster of 28 wallets",
+      "idLabel": "Cluster of 31 wallets",
       "username": null,
-      "firstSeen": "May 23 2024",
+      "firstSeen": "Nov 17 2021",
       "category": "Military & Defense",
       "marketsCount": 171,
       "tier": "watch",
@@ -832,16 +951,25 @@
         "longshot",
         "fresh"
       ],
-      "refId": "WF-2024-0004",
+      "contributions": {
+        "won": 32,
+        "cluster": 22,
+        "timing": 16,
+        "sizing": 12,
+        "longshot": 11,
+        "fresh": 8
+      },
+      "agreeing": 5,
+      "refId": "WF-2021-0004",
       "cexChips": [],
-      "heroSentence": "These 28 linked accounts won 31 of 171 long-shot bets the market gave about a 9 percent chance. A record this strong is the pattern you would expect from foreknowledge, not luck — a pattern consistent with informed trading, not proof of it.",
+      "heroSentence": "These 31 linked accounts won 31 of 171 long-shot bets the market gave about a 9 percent chance. A record this strong is the pattern you would expect from foreknowledge, not luck — a pattern consistent with informed trading, not proof of it.",
       "scorecard": [
         {
           "key": "fresh",
-          "metric": "-1415h old",
+          "metric": "-14h old",
           "method": "account-age check",
           "formula": "age = first bet block − funding block",
-          "numbers": "Account first bet ~-1415h after funding, with no prior transactions — a purpose-built wallet."
+          "numbers": "Account first bet ~-14h after funding, with no prior transactions — a purpose-built wallet."
         },
         {
           "key": "longshot",
@@ -859,10 +987,10 @@
         },
         {
           "key": "cluster",
-          "metric": "28 accounts",
+          "metric": "31 accounts",
           "method": "shared-funding link",
           "formula": "link = w₁·funder + w₂·co-spend + w₃·sync + w₄·prox",
-          "numbers": "28 wallets, mean pairwise link 0.90 ≥ 0.80 — treated as one entity (probable common ownership, not confirmed)."
+          "numbers": "31 wallets, mean pairwise link 0.90 ≥ 0.80 — treated as one entity (probable common ownership, not confirmed)."
         },
         {
           "key": "sizing",
@@ -1227,7 +1355,7 @@
       },
       "cluster": {
         "ringValue": "$-5K",
-        "size": 28,
+        "size": 31,
         "nodes": [
           {
             "id": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
@@ -1245,183 +1373,204 @@
           },
           {
             "id": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
-            "x": 0.889,
-            "y": 0.592,
+            "x": 0.891,
+            "y": 0.583,
             "vol": 0.49,
             "label": "0x4427…"
           },
           {
             "id": "0x3156cd5aece5e5114322453e4bfaaacefa60b123",
-            "x": 0.857,
-            "y": 0.68,
+            "x": 0.865,
+            "y": 0.663,
             "vol": 0.36,
             "label": "0x3156…"
           },
           {
             "id": "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
-            "x": 0.806,
-            "y": 0.757,
+            "x": 0.824,
+            "y": 0.735,
             "vol": 0.31,
             "label": "0xb83b…"
           },
           {
             "id": "0xbfca85269afab37122d02f6d8729951e26b38d8a",
-            "x": 0.739,
-            "y": 0.821,
+            "x": 0.768,
+            "y": 0.797,
             "vol": 0.3,
             "label": "0xbfca…"
           },
           {
             "id": "0x3a2cf5b41cde22e8ff0faf3129105f64de300328",
-            "x": 0.658,
-            "y": 0.867,
+            "x": 0.7,
+            "y": 0.846,
             "vol": 0.3,
             "label": "0x3a2c…"
           },
           {
             "id": "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
-            "x": 0.569,
-            "y": 0.894,
+            "x": 0.624,
+            "y": 0.88,
             "vol": 0.3,
             "label": "0xeec0…"
           },
           {
             "id": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
-            "x": 0.477,
-            "y": 0.899,
+            "x": 0.542,
+            "y": 0.898,
             "vol": 0.3,
             "label": "0x2edb…"
           },
           {
             "id": "0xc6694a6c56e00b8258cab400fa777bfc8a2a53ea",
-            "x": 0.385,
-            "y": 0.883,
+            "x": 0.458,
+            "y": 0.898,
             "vol": 0.3,
             "label": "0xc669…"
           },
           {
             "id": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
-            "x": 0.3,
-            "y": 0.846,
+            "x": 0.376,
+            "y": 0.88,
             "vol": 0.3,
             "label": "0x47cd…"
           },
           {
             "id": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
-            "x": 0.226,
-            "y": 0.791,
+            "x": 0.3,
+            "y": 0.846,
             "vol": 0.3,
             "label": "0x1c18…"
           },
           {
             "id": "0x052ce60adc64101b42155dbd878d5a533babb3fd",
-            "x": 0.166,
-            "y": 0.72,
+            "x": 0.232,
+            "y": 0.797,
             "vol": 0.3,
             "label": "0x052c…"
           },
           {
             "id": "0x8f8f14bd01305e9325cb8b30280697d9f55da36c",
-            "x": 0.124,
-            "y": 0.637,
+            "x": 0.176,
+            "y": 0.735,
             "vol": 0.3,
             "label": "0x8f8f…"
           },
           {
             "id": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
-            "x": 0.103,
-            "y": 0.546,
+            "x": 0.135,
+            "y": 0.663,
             "vol": 0.3,
             "label": "0x5dc9…"
           },
           {
             "id": "0x4df658ab1a95d2aea8fb70de73986cfa0cc2e553",
-            "x": 0.103,
-            "y": 0.454,
+            "x": 0.109,
+            "y": 0.583,
             "vol": 0.3,
             "label": "0x4df6…"
           },
           {
             "id": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
-            "x": 0.124,
-            "y": 0.363,
+            "x": 0.1,
+            "y": 0.5,
             "vol": 0.3,
             "label": "0xcbf6…"
           },
           {
             "id": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
-            "x": 0.166,
-            "y": 0.28,
+            "x": 0.109,
+            "y": 0.417,
             "vol": 0.3,
             "label": "0x3d38…"
           },
           {
             "id": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
-            "x": 0.226,
-            "y": 0.209,
+            "x": 0.135,
+            "y": 0.337,
             "vol": 0.3,
             "label": "0x5b9f…"
           },
           {
             "id": "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
-            "x": 0.3,
-            "y": 0.154,
+            "x": 0.176,
+            "y": 0.265,
             "vol": 0.3,
             "label": "0x77e4…"
           },
           {
             "id": "0x5a3fb9c0dcd50a64c83a9a4a344ec0c54aadf5c0",
-            "x": 0.385,
-            "y": 0.117,
+            "x": 0.232,
+            "y": 0.203,
             "vol": 0.3,
             "label": "0x5a3f…"
           },
           {
             "id": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
-            "x": 0.477,
-            "y": 0.101,
+            "x": 0.3,
+            "y": 0.154,
             "vol": 0.3,
             "label": "0x988e…"
           },
           {
             "id": "0x9d73a9d90497daf0a600ea99625be450f4510951",
-            "x": 0.569,
-            "y": 0.106,
+            "x": 0.376,
+            "y": 0.12,
             "vol": 0.3,
             "label": "0x9d73…"
           },
           {
             "id": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
-            "x": 0.658,
-            "y": 0.133,
+            "x": 0.458,
+            "y": 0.102,
             "vol": 0.3,
             "label": "0x9f53…"
           },
           {
             "id": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
-            "x": 0.739,
-            "y": 0.179,
+            "x": 0.542,
+            "y": 0.102,
             "vol": 0.3,
             "label": "0xcb85…"
           },
           {
+            "id": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "x": 0.624,
+            "y": 0.12,
+            "vol": 0.3,
+            "label": "0x3889…"
+          },
+          {
             "id": "0xfa66b67b8deeadc4268411928df20e09a7f11c5b",
-            "x": 0.806,
-            "y": 0.243,
+            "x": 0.7,
+            "y": 0.154,
             "vol": 0.3,
             "label": "0xfa66…"
           },
           {
+            "id": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "x": 0.768,
+            "y": 0.203,
+            "vol": 0.3,
+            "label": "0x56ac…"
+          },
+          {
             "id": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
-            "x": 0.857,
-            "y": 0.32,
+            "x": 0.824,
+            "y": 0.265,
             "vol": 0.3,
             "label": "0xa8bc…"
           },
           {
+            "id": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "x": 0.865,
+            "y": 0.337,
+            "vol": 0.3,
+            "label": "0x3d33…"
+          },
+          {
             "id": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
-            "x": 0.889,
-            "y": 0.408,
+            "x": 0.891,
+            "y": 0.417,
             "vol": 0.3,
             "label": "0x1c34…"
           }
@@ -1644,6 +1793,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x18510d997eba5b8a0102bad7307e70e32bc4ae47",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x18510d997eba5b8a0102bad7307e70e32bc4ae47",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x18510d997eba5b8a0102bad7307e70e32bc4ae47",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
             "to": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
             "w": 0.9,
@@ -1852,6 +2025,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
             "to": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
             "w": 0.9,
@@ -2052,6 +2249,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
             "to": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
             "w": 0.9,
@@ -2244,6 +2465,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
             "to": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
             "w": 0.9,
@@ -2428,6 +2673,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
             "to": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
             "w": 0.9,
@@ -2604,6 +2873,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
             "to": "0x9d73a9d90497daf0a600ea99625be450f4510951",
             "w": 0.9,
@@ -2772,6 +3065,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x9d73a9d90497daf0a600ea99625be450f4510951",
             "to": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
             "w": 0.9,
@@ -2932,6 +3249,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x9d73a9d90497daf0a600ea99625be450f4510951",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x9d73a9d90497daf0a600ea99625be450f4510951",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x9d73a9d90497daf0a600ea99625be450f4510951",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
             "to": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
             "w": 0.9,
@@ -3084,6 +3425,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
             "to": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
             "w": 0.9,
@@ -3228,6 +3593,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
             "to": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
             "w": 0.9,
@@ -3364,6 +3753,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
             "to": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
             "w": 0.9,
@@ -3492,6 +3905,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
             "to": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
             "w": 0.9,
@@ -3612,6 +4049,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
             "to": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
             "w": 0.9,
@@ -3724,6 +4185,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
             "to": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
             "w": 0.9,
@@ -3828,6 +4313,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
             "to": "0x052ce60adc64101b42155dbd878d5a533babb3fd",
             "w": 0.9,
@@ -3924,6 +4433,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x052ce60adc64101b42155dbd878d5a533babb3fd",
             "to": "0xc6694a6c56e00b8258cab400fa777bfc8a2a53ea",
             "w": 0.9,
@@ -4012,6 +4545,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x052ce60adc64101b42155dbd878d5a533babb3fd",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x052ce60adc64101b42155dbd878d5a533babb3fd",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x052ce60adc64101b42155dbd878d5a533babb3fd",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0xc6694a6c56e00b8258cab400fa777bfc8a2a53ea",
             "to": "0x3156cd5aece5e5114322453e4bfaaacefa60b123",
             "w": 0.9,
@@ -4092,6 +4649,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0xc6694a6c56e00b8258cab400fa777bfc8a2a53ea",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xc6694a6c56e00b8258cab400fa777bfc8a2a53ea",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xc6694a6c56e00b8258cab400fa777bfc8a2a53ea",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x3156cd5aece5e5114322453e4bfaaacefa60b123",
             "to": "0x5a3fb9c0dcd50a64c83a9a4a344ec0c54aadf5c0",
             "w": 0.9,
@@ -4164,6 +4745,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x3156cd5aece5e5114322453e4bfaaacefa60b123",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x3156cd5aece5e5114322453e4bfaaacefa60b123",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x3156cd5aece5e5114322453e4bfaaacefa60b123",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x5a3fb9c0dcd50a64c83a9a4a344ec0c54aadf5c0",
             "to": "0xbfca85269afab37122d02f6d8729951e26b38d8a",
             "w": 0.9,
@@ -4228,6 +4833,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x5a3fb9c0dcd50a64c83a9a4a344ec0c54aadf5c0",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x5a3fb9c0dcd50a64c83a9a4a344ec0c54aadf5c0",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x5a3fb9c0dcd50a64c83a9a4a344ec0c54aadf5c0",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0xbfca85269afab37122d02f6d8729951e26b38d8a",
             "to": "0x3a2cf5b41cde22e8ff0faf3129105f64de300328",
             "w": 0.9,
@@ -4284,6 +4913,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0xbfca85269afab37122d02f6d8729951e26b38d8a",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xbfca85269afab37122d02f6d8729951e26b38d8a",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xbfca85269afab37122d02f6d8729951e26b38d8a",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x3a2cf5b41cde22e8ff0faf3129105f64de300328",
             "to": "0x4df658ab1a95d2aea8fb70de73986cfa0cc2e553",
             "w": 0.9,
@@ -4332,6 +4985,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x3a2cf5b41cde22e8ff0faf3129105f64de300328",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x3a2cf5b41cde22e8ff0faf3129105f64de300328",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x3a2cf5b41cde22e8ff0faf3129105f64de300328",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x4df658ab1a95d2aea8fb70de73986cfa0cc2e553",
             "to": "0x8f8f14bd01305e9325cb8b30280697d9f55da36c",
             "w": 0.9,
@@ -4372,6 +5049,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x4df658ab1a95d2aea8fb70de73986cfa0cc2e553",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x4df658ab1a95d2aea8fb70de73986cfa0cc2e553",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x4df658ab1a95d2aea8fb70de73986cfa0cc2e553",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x8f8f14bd01305e9325cb8b30280697d9f55da36c",
             "to": "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
             "w": 0.9,
@@ -4404,6 +5105,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x8f8f14bd01305e9325cb8b30280697d9f55da36c",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x8f8f14bd01305e9325cb8b30280697d9f55da36c",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x8f8f14bd01305e9325cb8b30280697d9f55da36c",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
             "to": "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
             "w": 0.9,
@@ -4428,6 +5153,30 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
             "to": "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
             "w": 0.9,
@@ -4444,8 +5193,104 @@
             "evidence": "both funded on-chain from 0xa67d7eb4…"
           },
           {
+            "from": "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
             "from": "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
             "to": "0xfa66b67b8deeadc4268411928df20e09a7f11c5b",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xfa66b67b8deeadc4268411928df20e09a7f11c5b",
+            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xfa66b67b8deeadc4268411928df20e09a7f11c5b",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0xfa66b67b8deeadc4268411928df20e09a7f11c5b",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+            "w": 0.9,
+            "link": 0.9,
+            "type": "fund",
+            "evidence": "both funded on-chain from 0xa67d7eb4…"
+          },
+          {
+            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
             "w": 0.9,
             "link": 0.9,
             "type": "fund",
@@ -4504,6 +5349,15 @@
         "longshot",
         "fresh"
       ],
+      "contributions": {
+        "won": 32,
+        "cluster": 22,
+        "timing": 16,
+        "sizing": 12,
+        "longshot": 11,
+        "fresh": 8
+      },
+      "agreeing": 5,
       "refId": "WF-2021-0001",
       "cexChips": [],
       "heroSentence": "These 10 linked accounts won 11 of 22 long-shot bets the market gave about a 18 percent chance. A record this strong is the pattern you would expect from foreknowledge, not luck — a pattern consistent with informed trading, not proof of it.",
@@ -5348,6 +6202,14 @@
         "longshot",
         "fresh"
       ],
+      "contributions": {
+        "won": 41,
+        "timing": 20,
+        "sizing": 15,
+        "longshot": 14,
+        "fresh": 10
+      },
+      "agreeing": 4,
       "refId": "WF-2025-584",
       "cexChips": [],
       "heroSentence": "This account won 8 of 22 long-shot bets that the market gave roughly a 10 percent chance. By luck you would expect about 2.19 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -5774,6 +6636,12 @@
         "timing",
         "longshot"
       ],
+      "contributions": {
+        "won": 54,
+        "timing": 27,
+        "longshot": 19
+      },
+      "agreeing": 2,
       "refId": "WF-2024-627",
       "cexChips": [],
       "heroSentence": "This account won 12 of 31 long-shot bets that the market gave roughly a 15 percent chance. By luck you would expect about 4.58 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -6187,6 +7055,13 @@
         "sizing",
         "longshot"
       ],
+      "contributions": {
+        "won": 45,
+        "timing": 23,
+        "sizing": 17,
+        "longshot": 15
+      },
+      "agreeing": 3,
       "refId": "WF-2026-260",
       "cexChips": [],
       "heroSentence": "This account won 15 of 41 long-shot bets that the market gave roughly a 17 percent chance. By luck you would expect about 6.8 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -6604,6 +7479,10 @@
       "fired": [
         "won"
       ],
+      "contributions": {
+        "won": 100
+      },
+      "agreeing": 0,
       "refId": "WF-2025-387",
       "cexChips": [],
       "heroSentence": "This account won 5 of 6 long-shot bets that the market gave roughly a 22 percent chance. By luck you would expect about 1.29 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -6731,24 +7610,15 @@
       "archived": false
     },
     {
-      "id": "c9004",
-      "type": "cluster",
+      "id": "w2080",
+      "type": "wallet",
       "address": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
       "memberAddresses": [
-        "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-        "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-        "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-        "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-        "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-        "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-        "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-        "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-        "0x081db59a44a05af758847948a133a403d09e8c34",
-        "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495"
+        "0xa34429d549f23fe45a9ca5442b79b365cd2f8141"
       ],
-      "idLabel": "Cluster of 10 wallets",
+      "idLabel": "0xa3…8141",
       "username": null,
-      "firstSeen": "Jan 20 2021",
+      "firstSeen": "Oct 22 2024",
       "category": "World",
       "marketsCount": 14,
       "tier": "watch",
@@ -6763,21 +7633,25 @@
       "profit": "$362",
       "fired": [
         "won",
-        "cluster",
-        "sizing",
         "longshot",
         "fresh"
       ],
-      "refId": "WF-2021-0003",
+      "contributions": {
+        "won": 63,
+        "longshot": 22,
+        "fresh": 16
+      },
+      "agreeing": 2,
+      "refId": "WF-2024-079",
       "cexChips": [],
-      "heroSentence": "These 10 linked accounts won 8 of 14 long-shot bets the market gave about a 20 percent chance. A record this strong is the pattern you would expect from foreknowledge, not luck — a pattern consistent with informed trading, not proof of it.",
+      "heroSentence": "This account won 8 of 14 long-shot bets that the market gave roughly a 20 percent chance. By luck you would expect about 2.8 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
         {
           "key": "fresh",
-          "metric": "8 days old",
+          "metric": "3h old",
           "method": "account-age check",
           "formula": "age = first bet block − funding block",
-          "numbers": "Account first bet ~7.9d after funding, with no prior transactions — a purpose-built wallet."
+          "numbers": "Account first bet ~3h after funding, with no prior transactions — a purpose-built wallet."
         },
         {
           "key": "longshot",
@@ -6792,20 +7666,6 @@
           "method": "luck probability",
           "formula": "chance of ≥ 8 wins in 14 tries at 20% each",
           "numbers": "Won 8 of 14 independent bets the market priced at ~20% — about 2.8 expected by luck. Probability by chance ≈ 1 in 418 (2 correlated bets de-correlated)."
-        },
-        {
-          "key": "cluster",
-          "metric": "10 accounts",
-          "method": "shared-funding link",
-          "formula": "link = w₁·funder + w₂·co-spend + w₃·sync + w₄·prox",
-          "numbers": "10 wallets, mean pairwise link 0.90 ≥ 0.80 — treated as one entity (probable common ownership, not confirmed)."
-        },
-        {
-          "key": "sizing",
-          "metric": "294× median",
-          "method": "within-trader bet-size anomaly",
-          "formula": "largest event position ÷ this wallet's median bet",
-          "numbers": "Largest position $47,684 is ~294× this wallet's median bet ($162) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly)."
         }
       ],
       "ledger": [
@@ -7049,455 +7909,18 @@
         "resolution": 0.08,
         "candidates": []
       },
-      "cluster": {
-        "ringValue": "$362",
-        "size": 10,
-        "nodes": [
-          {
-            "id": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "x": 0.5,
-            "y": 0.5,
-            "vol": 1,
-            "label": "0xd42f…"
-          },
-          {
-            "id": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "x": 0.9,
-            "y": 0.5,
-            "vol": 0.32,
-            "label": "0xa344…"
-          },
-          {
-            "id": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "x": 0.806,
-            "y": 0.757,
-            "vol": 0.3,
-            "label": "0x081d…"
-          },
-          {
-            "id": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "x": 0.569,
-            "y": 0.894,
-            "vol": 0.3,
-            "label": "0x8698…"
-          },
-          {
-            "id": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "x": 0.3,
-            "y": 0.846,
-            "vol": 0.3,
-            "label": "0xf1bb…"
-          },
-          {
-            "id": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "x": 0.124,
-            "y": 0.637,
-            "vol": 0.3,
-            "label": "0xea03…"
-          },
-          {
-            "id": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "x": 0.124,
-            "y": 0.363,
-            "vol": 0.3,
-            "label": "0x3889…"
-          },
-          {
-            "id": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "x": 0.3,
-            "y": 0.154,
-            "vol": 0.3,
-            "label": "0x56ac…"
-          },
-          {
-            "id": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "x": 0.569,
-            "y": 0.106,
-            "vol": 0.3,
-            "label": "0x3d33…"
-          },
-          {
-            "id": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "x": 0.806,
-            "y": 0.243,
-            "vol": 0.3,
-            "label": "0xd389…"
-          }
-        ],
-        "edges": [
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "to": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "to": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "to": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "to": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "to": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "to": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "to": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "to": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "to": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "to": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "to": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "to": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "to": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "to": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "to": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "to": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "to": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "to": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "to": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "to": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "to": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "to": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "to": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "to": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "to": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "to": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "to": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          },
-          {
-            "from": "0x081db59a44a05af758847948a133a403d09e8c34",
-            "to": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-            "w": 0.9,
-            "link": 0.9,
-            "type": "fund",
-            "evidence": "both funded on-chain from 0xd36ec33c…"
-          }
-        ]
-      },
-      "activityDays": 0,
-      "confidenceLimiter": "common-ownership is inferred from funding heuristics, not confirmed identity",
-      "firstFlaggedAt": 1782466460,
-      "newlyFlagged": true,
+      "activityDays": 7,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "wins": 8,
       "expectedWins": 2.8,
       "percentile": 99.374,
       "volumeNum": 1138,
       "volume": "$1K",
       "profitNum": 361.5902937137573,
-      "lastActivity": "today"
+      "lastActivity": "7 days ago",
+      "firstFlaggedAt": 1782458295,
+      "newlyFlagged": true,
+      "archived": false
     },
     {
       "id": "c9003",
@@ -7538,6 +7961,15 @@
         "longshot",
         "fresh"
       ],
+      "contributions": {
+        "won": 32,
+        "cluster": 22,
+        "timing": 16,
+        "sizing": 12,
+        "longshot": 11,
+        "fresh": 8
+      },
+      "agreeing": 5,
       "refId": "WF-2021-0002",
       "cexChips": [],
       "heroSentence": "These 10 linked accounts won 17 of 49 long-shot bets the market gave about a 17 percent chance. A record this strong is the pattern you would expect from foreknowledge, not luck — a pattern consistent with informed trading, not proof of it.",
@@ -8407,6 +8839,11 @@
         "won",
         "longshot"
       ],
+      "contributions": {
+        "won": 74,
+        "longshot": 26
+      },
+      "agreeing": 1,
       "refId": "WF-2026-605",
       "cexChips": [],
       "heroSentence": "This account won 9 of 19 long-shot bets that the market gave roughly a 18 percent chance. By luck you would expect about 3.4 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -8777,6 +9214,12 @@
         "sizing",
         "fresh"
       ],
+      "contributions": {
+        "won": 62,
+        "sizing": 23,
+        "fresh": 15
+      },
+      "agreeing": 2,
       "refId": "WF-2025-383",
       "cexChips": [],
       "heroSentence": "This account won 7 of 12 long-shot bets that the market gave roughly a 20 percent chance. By luck you would expect about 2.42 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -9029,6 +9472,13 @@
         "sizing",
         "fresh"
       ],
+      "contributions": {
+        "won": 47,
+        "timing": 24,
+        "sizing": 18,
+        "fresh": 12
+      },
+      "agreeing": 3,
       "refId": "WF-2025-616",
       "cexChips": [],
       "heroSentence": "This account won 25 of 74 long-shot bets that the market gave roughly a 20 percent chance. By luck you would expect about 15.08 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -9408,7 +9858,7 @@
         "resolution": 0.08,
         "candidates": []
       },
-      "activityDays": 22,
+      "activityDays": 9,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "wins": 25,
       "expectedWins": 14.8,
@@ -9416,428 +9866,442 @@
       "volumeNum": 4317,
       "volume": "$4K",
       "profitNum": 2000.919947270944,
-      "lastActivity": "22 days ago",
+      "lastActivity": "9 days ago",
       "firstFlaggedAt": 1782466460,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w2176",
+      "id": "w1139",
       "type": "wallet",
-      "address": "0x07d126ea6f8542a58ee2c4c7c31535dd9b3e8ffa",
+      "address": "0xea41d1253bf603d7947da4659e85080dc2071c98",
       "memberAddresses": [
-        "0x07d126ea6f8542a58ee2c4c7c31535dd9b3e8ffa"
+        "0xea41d1253bf603d7947da4659e85080dc2071c98"
       ],
-      "idLabel": "0x07…8ffa",
+      "idLabel": "0xea…1c98",
       "username": null,
-      "firstSeen": "Mar 20 2026",
-      "category": "Military & Defense",
-      "marketsCount": 26,
+      "firstSeen": "Dec 17 2024",
+      "category": "World",
+      "marketsCount": 87,
       "tier": "watch",
-      "improbText": "1 in 149",
-      "improbDenom": 149,
-      "improbFull": "1 in 149",
+      "improbText": "1 in 161",
+      "improbDenom": 161,
+      "improbFull": "1 in 161",
       "convictionFlag": false,
       "convBet": null,
       "full": true,
-      "winRate": 27,
-      "avgImplied": 9,
-      "profit": "$-1K",
+      "winRate": 25,
+      "avgImplied": 15,
+      "profit": "$4K",
       "fired": [
         "won",
-        "timing",
+        "sizing",
         "longshot",
         "fresh"
       ],
-      "refId": "WF-2026-175",
+      "contributions": {
+        "won": 51,
+        "sizing": 19,
+        "longshot": 17,
+        "fresh": 13
+      },
+      "agreeing": 3,
+      "refId": "WF-2024-138",
       "cexChips": [],
-      "heroSentence": "This account won 7 of 26 long-shot bets that the market gave roughly a 9 percent chance. By luck you would expect about 2.34 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "heroSentence": "This account won 22 of 87 long-shot bets that the market gave roughly a 15 percent chance. By luck you would expect about 12.71 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
         {
           "key": "fresh",
-          "metric": "0h old",
+          "metric": "17h old",
           "method": "account-age check",
           "formula": "age = first bet block − funding block",
-          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet."
+          "numbers": "Account first bet ~17h after funding, with no prior transactions — a purpose-built wallet."
         },
         {
           "key": "longshot",
-          "metric": "9% avg",
+          "metric": "15% avg",
           "method": "average odds",
           "formula": "average of the market's odds at entry",
-          "numbers": "Average entry odds ~8% across 40 bets — concentrated in long shots (≤20%)."
+          "numbers": "Average entry odds ~15% across 88 bets — concentrated in long shots (≤20%)."
         },
         {
           "key": "won",
-          "metric": "27% vs 9%",
+          "metric": "25% vs 15%",
           "method": "luck probability",
-          "formula": "chance of ≥ 7 wins in 26 tries at 9% each",
-          "numbers": "Won 7 of 26 independent bets the market priced at ~9% — about 2.34 expected by luck. Probability by chance ≈ 1 in 149 (14 correlated bets de-correlated)."
+          "formula": "chance of ≥ 22 wins in 87 tries at 15% each",
+          "numbers": "Won 22 of 87 independent bets the market priced at ~15% — about 12.71 expected by luck. Probability by chance ≈ 1 in 161 (1 correlated bets de-correlated)."
+        },
+        {
+          "key": "sizing",
+          "metric": "62× median",
+          "method": "within-trader bet-size anomaly",
+          "formula": "largest event position ÷ this wallet's median bet",
+          "numbers": "Largest position $12,338 is ~62× this wallet's median bet ($200) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly)."
         }
       ],
       "ledger": [
         {
-          "market": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
-          "url": "https://polymarket.com/event/iran-agrees-to-unrestricted-shipping-through-hormuz-by-june-30",
-          "entryTime": "Apr 08 2026",
-          "ts": 1775606961,
-          "odds": 5,
-          "stakeNum": 354,
-          "plNum": -354,
-          "stake": "$354",
+          "market": "US strikes Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-january-31-2026-165",
+          "entryTime": "Jan 12 2026",
+          "ts": 1768258221,
+          "odds": 17,
+          "stakeNum": 6725,
+          "plNum": -6725,
+          "stake": "$7K",
           "outcome": "Lost",
-          "pl": "−$354",
-          "tx": "0xa497…",
-          "txFull": "0xa497e383557e037e2ca6d75a80d9d0440178d45ce3dd07909fe1305cef7182f0"
+          "pl": "−$7K",
+          "tx": "0x7a6f…",
+          "txFull": "0x7a6fac65942e80388be27dee27d11461c626b9f47f4c35c907e3a661e2664276"
         },
         {
-          "market": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
-          "url": "https://polymarket.com/event/iran-agrees-to-unrestricted-shipping-through-hormuz-by-june-30",
-          "entryTime": "May 30 2026",
-          "ts": 1780151840,
-          "odds": 5,
-          "stakeNum": 354,
-          "plNum": -354,
-          "stake": "$354",
-          "outcome": "Lost",
-          "pl": "−$354",
-          "tx": "0x372f…",
-          "txFull": "0x372fcb61e176c0d238510eac11498f126ea2efc8ff0b378b1994637ca3b83ded"
+          "market": "US strikes Iran by March 1, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-march-1-2026-492",
+          "entryTime": "Feb 22 2026",
+          "ts": 1771798356,
+          "odds": 24,
+          "stakeNum": 3450,
+          "plNum": 11202,
+          "stake": "$3K",
+          "outcome": "Won",
+          "pl": "+$11K",
+          "tx": "0xb700…",
+          "txFull": "0xb70018fde5577dc9d14ed16e6b0083db65640ecc058708c52bb6203c36b2a5ca"
         },
         {
-          "market": "Iran agrees to surrender enriched uranium stockpile by June 30, 2026?",
-          "url": "https://polymarket.com/event/iran-agrees-to-surrender-enriched-uranium-stockpile-by-june-30-2026",
-          "entryTime": "May 30 2026",
-          "ts": 1780150292,
+          "market": "Israel closes its airspace by June 15?",
+          "url": "https://polymarket.com/event/israel-closes-its-airspace-by-june-15-687-594-783-732-455-613-653",
+          "entryTime": "Jun 01 2026",
+          "ts": 1780320175,
+          "odds": 24,
+          "stakeNum": 2904,
+          "plNum": -2904,
+          "stake": "$3K",
+          "outcome": "Lost",
+          "pl": "−$3K",
+          "tx": "0x10bf…",
+          "txFull": "0x10bf2c4b2360e08309eb17546c710f171182792870a0a6335a12645eec6c807d"
+        },
+        {
+          "market": "US strikes Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-28-2026-227-967-547-688-589-491-592-418-452-924-384-915-464-672-196-157-993-596-269-535-381-391-471-256-988-997-296-225-762-973-292-827-345-182-558-215-794-879-189-761",
+          "entryTime": "Jan 26 2026",
+          "ts": 1769456597,
+          "odds": 26,
+          "stakeNum": 2489,
+          "plNum": 6904,
+          "stake": "$2K",
+          "outcome": "Won",
+          "pl": "+$7K",
+          "tx": "0x1e38…",
+          "txFull": "0x1e388677dc31a6b90085f4f15d5256a9d6e85a5457779e83e4a154c5cd3094cf"
+        },
+        {
+          "market": "US strikes Iran by February 6, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-6-2026-242-933-289-312-673-611-155-294",
+          "entryTime": "Jan 27 2026",
+          "ts": 1769507295,
           "odds": 6,
-          "stakeNum": 255,
-          "plNum": -255,
-          "stake": "$255",
+          "stakeNum": 2420,
+          "plNum": -2420,
+          "stake": "$2K",
           "outcome": "Lost",
-          "pl": "−$255",
-          "tx": "0x6667…",
-          "txFull": "0x66671e0aa344c5bd0ebec5676f0ee5d2bd05351744f1a8be6b390b2caeed9a80"
+          "pl": "−$2K",
+          "tx": "0xde82…",
+          "txFull": "0xde82280f8a0ccd1b9d9e921f8685ac5475afa38ef85515a31e54986120bd20a4"
         },
         {
-          "market": "Iran agrees to end enrichment of uranium by June 30?",
-          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-june-30",
-          "entryTime": "May 30 2026",
-          "ts": 1780147495,
-          "odds": 14,
-          "stakeNum": 140,
-          "plNum": -140,
-          "stake": "$140",
+          "market": "US strikes Iran by February 13, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-13-2026-721-759-497-124-197-797-992-641-418-789-676-262-791-574-169-647-275-931",
+          "entryTime": "Feb 01 2026",
+          "ts": 1769965254,
+          "odds": 12,
+          "stakeNum": 2370,
+          "plNum": -2370,
+          "stake": "$2K",
           "outcome": "Lost",
-          "pl": "−$140",
-          "tx": "0x1677…",
-          "txFull": "0x1677082c76007b744bb0332ed48121abb9c98acf1524d1e3b970ade2d9e41269"
+          "pl": "−$2K",
+          "tx": "0xdf6e…",
+          "txFull": "0xdf6e5d2610b65fada4ef8279c157c78027e84849ee2e195e00e95edf3c7c13f0"
         },
         {
-          "market": "Will Google have the best AI model at the end of June 2026?",
-          "url": "https://polymarket.com/event/will-google-have-the-best-ai-model-at-the-end-of-june-2026",
-          "entryTime": "May 30 2026",
-          "ts": 1780145579,
-          "odds": 3,
-          "stakeNum": 88,
-          "plNum": -88,
-          "stake": "$88",
-          "outcome": "Lost",
-          "pl": "−$88",
-          "tx": "0x52e8…",
-          "txFull": "0x52e80d386ecd7fc3911bc1c7d3beb2bd3777b2b87a36c38732f0baf8279efc24"
-        },
-        {
-          "market": "(market)",
-          "url": null,
-          "entryTime": "Jun 19 2026",
-          "ts": 1781871868,
-          "odds": 3,
-          "stakeNum": 72,
-          "plNum": -72,
-          "stake": "$72",
-          "outcome": "Lost",
-          "pl": "−$72",
-          "tx": "0xf837…",
-          "txFull": "0xf83781f77d72b9a322f0bef1bcf2bf48ae8b7d6da5c5ede0181791776e8d3746"
-        },
-        {
-          "market": "Iran agrees to surrender enriched uranium stockpile by July 31, 2026?",
-          "url": "https://polymarket.com/event/iran-agrees-to-surrender-enriched-uranium-stockpile-by-july-31-2026",
-          "entryTime": "May 31 2026",
-          "ts": 1780243451,
-          "odds": 14,
-          "stakeNum": 37,
-          "plNum": -37,
-          "stake": "$37",
-          "outcome": "Lost",
-          "pl": "−$37",
-          "tx": "0xe011…",
-          "txFull": "0xe011a80332f5e58d1693637cf41ce6c3a133293520240d88c273560160fe69fc"
-        },
-        {
-          "market": "Iran agrees to surrender enriched uranium stockpile by May 31, 2026?",
-          "url": "https://polymarket.com/event/iran-agrees-to-surrender-enriched-uranium-stockpile-by-may-31-2026",
-          "entryTime": "May 30 2026",
-          "ts": 1780150297,
-          "odds": 1,
-          "stakeNum": 14,
-          "plNum": -14,
-          "stake": "$14",
-          "outcome": "Lost",
-          "pl": "−$14",
-          "tx": "0xf948…",
-          "txFull": "0xf9482de67cf5da08853f64d5fd07f553580465a414ea7fc5f3deb9107581e745"
-        },
-        {
-          "market": "Iran closes its airspace by June 30?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-30-432-786-462-866-468",
-          "entryTime": "May 30 2026",
-          "ts": 1780146239,
-          "odds": 23,
-          "stakeNum": 12,
-          "plNum": 40,
-          "stake": "$12",
-          "outcome": "Won",
-          "pl": "+$40",
-          "tx": "0x79ef…",
-          "txFull": "0x79eff00d8718fea29043f4b0ea23155f6093c5b750054113dd7757bf4d11999c"
-        },
-        {
-          "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by June 15, 2026?",
-          "url": "https://polymarket.com/event/trump-announces-us-blockade-of-hormuz-lifted-by",
-          "entryTime": "Jun 10 2026",
-          "ts": 1781091162,
-          "odds": 7,
-          "stakeNum": 11,
-          "plNum": 141,
-          "stake": "$11",
-          "outcome": "Won",
-          "pl": "+$141",
-          "tx": "0x7200…",
-          "txFull": "0x720038925ac095a7426297fdf93df19023f50d589f2a333ca8d35a6eefdfe72e"
-        },
-        {
-          "market": "Military action against Iran ends by April 15, 2026?",
-          "url": "https://polymarket.com/event/military-action-against-iran-ends-by",
-          "entryTime": "Apr 06 2026",
-          "ts": 1775434139,
-          "odds": 11,
-          "stakeNum": 8,
-          "plNum": 64,
-          "stake": "$8",
-          "outcome": "Won",
-          "pl": "+$64",
-          "tx": "0x1dfa…",
-          "txFull": "0x1dfa07ea0b7ece90b27a0e6ad4a8e9753b1c0d8edaf8e53d1339cde2ab5db0b7"
-        },
-        {
-          "market": "Will Anthropic have the best AI model at the end of June 2026?",
-          "url": "https://polymarket.com/event/will-anthropic-have-the-best-ai-model-at-the-end-of-june-2026",
-          "entryTime": "Jun 12 2026",
-          "ts": 1781308792,
-          "odds": 11,
-          "stakeNum": 7,
-          "plNum": -7,
-          "stake": "$7",
-          "outcome": "Lost",
-          "pl": "−$7",
-          "tx": "0xe7b8…",
-          "txFull": "0xe7b82abf2444f45767d9692ee8e0fa06f60574cd1b1ffb7ad130c44b40bc6e03"
-        },
-        {
-          "market": "Will 40 ships transit the Strait of Hormuz on any day by June 30, 2026?",
-          "url": "https://polymarket.com/event/will-40-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30-2026",
-          "entryTime": "Jun 10 2026",
-          "ts": 1781091088,
-          "odds": 16,
-          "stakeNum": 7,
-          "plNum": 37,
-          "stake": "$7",
-          "outcome": "Won",
-          "pl": "+$37",
-          "tx": "0x6bb7…",
-          "txFull": "0x6bb79e9115f6140b009fdaa4c15300b2b0d494c7a160bd138c428f9b883678a2"
-        },
-        {
-          "market": "Iran agrees to end enrichment of uranium by May 31?",
-          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-may-31-945",
-          "entryTime": "May 31 2026",
-          "ts": 1780241719,
-          "odds": 1,
-          "stakeNum": 6,
-          "plNum": -6,
-          "stake": "$6",
-          "outcome": "Lost",
-          "pl": "−$6",
-          "tx": "0x3aeb…",
-          "txFull": "0x3aebdce69d2b285ee2d2fe6c779f2af80f992053cfecc030e917f50306beb666"
-        },
-        {
-          "market": "Iran closes its airspace by June 15?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-15-219",
-          "entryTime": "May 30 2026",
-          "ts": 1780146233,
-          "odds": 16,
-          "stakeNum": 5,
-          "plNum": 27,
-          "stake": "$5",
-          "outcome": "Won",
-          "pl": "+$27",
-          "tx": "0xa855…",
-          "txFull": "0xa855517cb93c36bcb788c31d69f6d199ac56dcf23b61fefaa0460c3bee100d9f"
-        },
-        {
-          "market": "Will SpaceX IPO by September 30, 2026?",
-          "url": "https://polymarket.com/event/spacex-ipo-by",
-          "entryTime": "Apr 07 2026",
-          "ts": 1775525639,
-          "odds": 10,
-          "stakeNum": 5,
-          "plNum": -5,
-          "stake": "$5",
-          "outcome": "Lost",
-          "pl": "−$5",
-          "tx": "0xf981…",
-          "txFull": "0xf981e7dfc7160341e0afa6c6095cb0a667759f5e7a5057d1ae6c57e9311d9405"
-        },
-        {
-          "market": "Will SpaceX IPO by August 31, 2026?",
-          "url": "https://polymarket.com/event/spacex-ipo-by",
-          "entryTime": "Apr 23 2026",
-          "ts": 1776949470,
-          "odds": 6,
-          "stakeNum": 5,
-          "plNum": -5,
-          "stake": "$5",
-          "outcome": "Lost",
-          "pl": "−$5",
-          "tx": "0x5042…",
-          "txFull": "0x5042a0f924b9157847ea0e63b15acef9a968ac4255460f767d174f84cd2ea5c3"
-        },
-        {
-          "market": "Iran closes its airspace by May 31?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-31-434-443-672-526-188-756",
-          "entryTime": "May 30 2026",
-          "ts": 1780146226,
-          "odds": 3,
-          "stakeNum": 4,
-          "plNum": -4,
-          "stake": "$4",
-          "outcome": "Lost",
-          "pl": "−$4",
-          "tx": "0xe887…",
-          "txFull": "0xe88791f43211a1ce101e81db0212272f8325bd056a77465fa960650514572fdb"
-        },
-        {
-          "market": "Will SpaceX IPO by June 30, 2026?",
-          "url": "https://polymarket.com/event/spacex-ipo-by",
-          "entryTime": "Apr 05 2026",
-          "ts": 1775410169,
+          "market": "US x Iran diplomatic meeting by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-june-30-2026-983-259-948-431-294-182-296-883-134-598-264",
+          "entryTime": "Jun 07 2026",
+          "ts": 1780799385,
           "odds": 32,
-          "stakeNum": 4,
-          "plNum": -4,
-          "stake": "$4",
+          "stakeNum": 2328,
+          "plNum": -2328,
+          "stake": "$2K",
           "outcome": "Lost",
-          "pl": "−$4",
-          "tx": "0xda17…",
-          "txFull": "0xda177ca2742e169f88e6213d3fecde1270bad0f530981e576d18e2ec26bf9ddd"
+          "pl": "−$2K",
+          "tx": "0x03f3…",
+          "txFull": "0x03f3e8b9dea0b1743056eb31d31b91fac1e15929fb2a50b61bddd6c0ff95bfe6"
         },
         {
-          "market": "Will 2 Fed rate cuts happen in 2026?",
-          "url": "https://polymarket.com/event/will-2-fed-rate-cuts-happen-in-2026",
-          "entryTime": "Jun 14 2026",
-          "ts": 1781468199,
-          "odds": 3,
-          "stakeNum": 3,
-          "plNum": -3,
-          "stake": "$3",
-          "outcome": "Lost",
-          "pl": "−$3",
-          "tx": "0x0458…",
-          "txFull": "0x0458f21b13044f83f8420112006d2daa1cb49a0af9a58f3e50ac697eec601848"
-        },
-        {
-          "market": "Will the Iranian regime fall by June 30?",
-          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-june-30",
-          "entryTime": "May 31 2026",
-          "ts": 1780258792,
-          "odds": 2,
-          "stakeNum": 3,
-          "plNum": -3,
-          "stake": "$3",
-          "outcome": "Lost",
-          "pl": "−$3",
-          "tx": "0x0deb…",
-          "txFull": "0x0deb57183c35004b5dffdb9b66fd5f724d30b2e2c0f3d6907988555d0875d504"
-        },
-        {
-          "market": "Will the next diplomatic US-Iran meeting be in Pakistan?",
-          "url": "https://polymarket.com/event/where-will-the-next-us-iran-diplomatic-meeting-happen-811",
-          "entryTime": "Apr 06 2026",
-          "ts": 1775507021,
-          "odds": 34,
-          "stakeNum": 2,
-          "plNum": 4,
-          "stake": "$2",
+          "market": "US strikes Iran by March 3, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-march-3-2026-619",
+          "entryTime": "Feb 24 2026",
+          "ts": 1771956160,
+          "odds": 21,
+          "stakeNum": 1615,
+          "plNum": 6125,
+          "stake": "$2K",
           "outcome": "Won",
-          "pl": "+$4",
-          "tx": "0x4fb4…",
-          "txFull": "0x4fb4de26631b90aba10279f83f2c1cc6f44dd3bb7a0752d9cf2b5d6fdc46b256"
+          "pl": "+$6K",
+          "tx": "0x65e3…",
+          "txFull": "0x65e38a2ef385458804d12d80c42bbf0df69d0da2bdc1a5c94ea36b548683f310"
         },
         {
-          "market": "Will Marco Rubio visit China by April 30, 2026?",
-          "url": "https://polymarket.com/event/marco-rubio-visits-china-by",
-          "entryTime": "Apr 06 2026",
-          "ts": 1775439155,
-          "odds": 4,
-          "stakeNum": 2,
-          "plNum": -2,
-          "stake": "$2",
+          "market": "US strikes Iran by February 27, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-27-2026",
+          "entryTime": "Feb 18 2026",
+          "ts": 1771409566,
+          "odds": 11,
+          "stakeNum": 1328,
+          "plNum": -1328,
+          "stake": "$1K",
           "outcome": "Lost",
-          "pl": "−$2",
-          "tx": "0x9e05…",
-          "txFull": "0x9e05f61c5565f6723dce971b332916670329c90e0529672a74e3898c3f5bff87"
+          "pl": "−$1K",
+          "tx": "0xee42…",
+          "txFull": "0xee428e4787a42af8df430a6efeaff2923421a87dfe446cf0ef9b6e15cbf49b60"
         },
         {
-          "market": "Will Trump agree to Iranian transit fees in the Strait of Hormuz by June 30?",
-          "url": "https://polymarket.com/event/will-trump-agree-to-iranian-transit-fees-in-the-strait-of-hormuz-by-june-30",
-          "entryTime": "Jun 16 2026",
-          "ts": 1781621929,
+          "market": "US strikes Iran by February 8, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-8-2026",
+          "entryTime": "Feb 05 2026",
+          "ts": 1770253065,
+          "odds": 3,
+          "stakeNum": 1023,
+          "plNum": -1023,
+          "stake": "$1K",
+          "outcome": "Lost",
+          "pl": "−$1K",
+          "tx": "0x6e80…",
+          "txFull": "0x6e8044160051ad0721e11282f83a5999ed3fc9e90aea68f8dbc92c887d20d009"
+        },
+        {
+          "market": "Gaza flotilla enters Israeli waters by May 31?",
+          "url": "https://polymarket.com/event/gaza-flotilla-enters-israeli-waters-by-31",
+          "entryTime": "Apr 29 2026",
+          "ts": 1777457686,
+          "odds": 30,
+          "stakeNum": 831,
+          "plNum": -831,
+          "stake": "$831",
+          "outcome": "Lost",
+          "pl": "−$831",
+          "tx": "0xfcf7…",
+          "txFull": "0xfcf7dd86f4576efe5837b45757dc6ed5134c5e743b77c68dcd4e51bed534659c"
+        },
+        {
+          "market": "US strikes Iran by February 20, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-20-2026-151-468-624-297-614-778-872-127-349-448-499-337-826-553",
+          "entryTime": "Feb 06 2026",
+          "ts": 1770389617,
+          "odds": 19,
+          "stakeNum": 799,
+          "plNum": -799,
+          "stake": "$799",
+          "outcome": "Lost",
+          "pl": "−$799",
+          "tx": "0x2e5c…",
+          "txFull": "0x2e5cd5d45a88b7b43e2de6fadf468afea65e8b370823dfbb2f3d18f14c7d4dea"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by June 19, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-june-19-2026-475",
+          "entryTime": "Jun 17 2026",
+          "ts": 1781694193,
+          "odds": 32,
+          "stakeNum": 660,
+          "plNum": 1382,
+          "stake": "$660",
+          "outcome": "Won",
+          "pl": "+$1K",
+          "tx": "0x6641…",
+          "txFull": "0x6641b3bee1ab940a1f7d2e689dbfb7d42de92e537ac0f4776024aa13a944c3ae"
+        },
+        {
+          "market": "US strikes Iran by January 30, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-january-30-2026-273-584-555-114-476",
+          "entryTime": "Jan 26 2026",
+          "ts": 1769463029,
+          "odds": 6,
+          "stakeNum": 618,
+          "plNum": -618,
+          "stake": "$618",
+          "outcome": "Lost",
+          "pl": "−$618",
+          "tx": "0x354b…",
+          "txFull": "0x354b79341d8290a885d775977c587effce0e4bc40b546cae05f4be7c20b013df"
+        },
+        {
+          "market": "Will Iran strike Israel on March 10?",
+          "url": "https://polymarket.com/event/will-iran-strike-israel-on-march-10",
+          "entryTime": "Mar 10 2026",
+          "ts": 1773116369,
+          "odds": 7,
+          "stakeNum": 490,
+          "plNum": -490,
+          "stake": "$490",
+          "outcome": "Lost",
+          "pl": "−$490",
+          "tx": "0x3ffd…",
+          "txFull": "0x3ffde46ee78b364b240bce8804d9ae99bb50dc4783bc4c4604018b29ff31de91"
+        },
+        {
+          "market": "US strikes Iran by February 1, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-1-2026",
+          "entryTime": "Feb 01 2026",
+          "ts": 1769917154,
+          "odds": 2,
+          "stakeNum": 474,
+          "plNum": -474,
+          "stake": "$474",
+          "outcome": "Lost",
+          "pl": "−$474",
+          "tx": "0x9a0c…",
+          "txFull": "0x9a0c8471c24b92a8fa852aced0a6799122315f1d293cb230825c8a8c629a508a"
+        },
+        {
+          "market": "Internet Access restored in Iran by May 31, 2026?",
+          "url": "https://polymarket.com/event/internet-access-restored-in-iran-by-may-31-2026",
+          "entryTime": "May 25 2026",
+          "ts": 1779730685,
+          "odds": 27,
+          "stakeNum": 472,
+          "plNum": -472,
+          "stake": "$472",
+          "outcome": "Lost",
+          "pl": "−$472",
+          "tx": "0xe489…",
+          "txFull": "0xe489098b0923a74fa60036dbb60f91b331648f7ee7a73d0ae3a0d11ebf22ac30"
+        },
+        {
+          "market": "US strikes Iran by January 23, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-january-23-2026-494-711-798-734-155",
+          "entryTime": "Jan 15 2026",
+          "ts": 1768486558,
+          "odds": 9,
+          "stakeNum": 460,
+          "plNum": -460,
+          "stake": "$460",
+          "outcome": "Lost",
+          "pl": "−$460",
+          "tx": "0xdc29…",
+          "txFull": "0xdc2973f1c23904846328df26b029db3cf88a8c13b514b02b74e285f72115271a"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by April 26, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-april-26-2026",
+          "entryTime": "Apr 24 2026",
+          "ts": 1777029266,
+          "odds": 34,
+          "stakeNum": 437,
+          "plNum": -437,
+          "stake": "$437",
+          "outcome": "Lost",
+          "pl": "−$437",
+          "tx": "0xb23e…",
+          "txFull": "0xb23e90561f3d528e8d37851d43b9f3d32f852cd4bbcbc86e380294d2fd52d370"
+        },
+        {
+          "market": "US strikes Iran by February 21, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-21-2026",
+          "entryTime": "Feb 17 2026",
+          "ts": 1771333233,
+          "odds": 6,
+          "stakeNum": 423,
+          "plNum": -423,
+          "stake": "$423",
+          "outcome": "Lost",
+          "pl": "−$423",
+          "tx": "0xb84e…",
+          "txFull": "0xb84ebe6b39326b3b0ce61e0c77d7fe4f2f126d1337affcf644ffa24c8187c6a5"
+        },
+        {
+          "market": "Will US or Israel strike Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "entryTime": "Jan 29 2026",
+          "ts": 1769702178,
           "odds": 15,
-          "stakeNum": 2,
-          "plNum": -2,
-          "stake": "$2",
+          "stakeNum": 400,
+          "plNum": -400,
+          "stake": "$400",
           "outcome": "Lost",
-          "pl": "−$2",
-          "tx": "0x3d99…",
-          "txFull": "0x3d9933bd42b776f7e25895fa6d04441923bd4cc38c8067ee3c2cf72a9da71542"
+          "pl": "−$400",
+          "tx": "0xc420…",
+          "txFull": "0xc42062468f3dccd26070ba4d2351fed191845b35428c805dd5d75ef35273f7d2"
+        },
+        {
+          "market": "Will Andrew Cuomo win the 2025 NYC mayoral election?",
+          "url": "https://polymarket.com/event/will-andrew-cuomo-win-the-2025-nyc-mayoral-election",
+          "entryTime": "Sep 05 2025",
+          "ts": 1757104798,
+          "odds": 19,
+          "stakeNum": 363,
+          "plNum": -363,
+          "stake": "$363",
+          "outcome": "Lost",
+          "pl": "−$363",
+          "tx": "0x6c25…",
+          "txFull": "0x6c25e823709a4eb7cb2c5b25369f6088de4111aad77e8d16f1674900049aa796"
+        },
+        {
+          "market": "Israeli forces cross the Litani River again by May 31?",
+          "url": "https://polymarket.com/event/israeli-forces-cross-the-litani-river-again-by-may-31",
+          "entryTime": "May 27 2026",
+          "ts": 1779874877,
+          "odds": 24,
+          "stakeNum": 330,
+          "plNum": -330,
+          "stake": "$330",
+          "outcome": "Lost",
+          "pl": "−$330",
+          "tx": "0x6438…",
+          "txFull": "0x643893196c9f74d0d1d39082a7ce96ba8444bd031748c2750be1ba83b9f302ab"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by April 25, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-april-25-2026",
+          "entryTime": "Apr 24 2026",
+          "ts": 1777029340,
+          "odds": 14,
+          "stakeNum": 319,
+          "plNum": -319,
+          "stake": "$319",
+          "outcome": "Lost",
+          "pl": "−$319",
+          "tx": "0x5ebf…",
+          "txFull": "0x5ebfe08ea915151086d1edd58cfb6c8660910c3fcdc1f2fda6888c30855f50bd"
         }
       ],
       "ledgerSummary": {
-        "markets": 26,
-        "winRate": 27,
-        "realized": "−$1K"
+        "markets": 87,
+        "winRate": 25,
+        "realized": "+$4K"
       },
       "timeline": {
-        "market": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
-        "priceStart": 0.046120975959148304,
+        "market": "US strikes Iran by January 31, 2026?",
+        "priceStart": 0.16731331879051398,
         "priceEnd": 0.05,
         "entries": [
-          0.046120975959148304
+          0.16731331879051398
         ],
         "resolution": 0.08,
         "candidates": []
       },
       "activityDays": 5,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
-      "wins": 7,
-      "expectedWins": 2.34,
-      "percentile": 99.31,
-      "volumeNum": 1400,
-      "volume": "$1K",
-      "profitNum": 1045.6738254862544,
+      "wins": 22,
+      "expectedWins": 13.05,
+      "percentile": 99.315,
+      "volumeNum": 32076,
+      "volume": "$32K",
+      "profitNum": 3640.3498072042967,
       "lastActivity": "5 days ago",
-      "firstFlaggedAt": 1782458295,
+      "firstFlaggedAt": 1782494070,
       "newlyFlagged": true,
       "archived": false
     },
@@ -9868,6 +10332,12 @@
         "sizing",
         "longshot"
       ],
+      "contributions": {
+        "won": 58,
+        "sizing": 22,
+        "longshot": 20
+      },
+      "agreeing": 2,
       "refId": "WF-2025-637",
       "cexChips": [],
       "heroSentence": "This account won 8 of 21 long-shot bets that the market gave roughly a 15 percent chance. By luck you would expect about 3.05 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -10287,6 +10757,12 @@
         "sizing",
         "fresh"
       ],
+      "contributions": {
+        "won": 62,
+        "sizing": 23,
+        "fresh": 15
+      },
+      "agreeing": 2,
       "refId": "WF-2023-119",
       "cexChips": [],
       "heroSentence": "This account won 5 of 7 long-shot bets that the market gave roughly a 22 percent chance. By luck you would expect about 1.54 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -10442,6 +10918,433 @@
       "archived": false
     },
     {
+      "id": "w2176",
+      "type": "wallet",
+      "address": "0x07d126ea6f8542a58ee2c4c7c31535dd9b3e8ffa",
+      "memberAddresses": [
+        "0x07d126ea6f8542a58ee2c4c7c31535dd9b3e8ffa"
+      ],
+      "idLabel": "0x07…8ffa",
+      "username": null,
+      "firstSeen": "Mar 20 2026",
+      "category": "Military & Defense",
+      "marketsCount": 27,
+      "tier": "watch",
+      "improbText": "1 in 138",
+      "improbDenom": 138,
+      "improbFull": "1 in 138",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": true,
+      "winRate": 26,
+      "avgImplied": 9,
+      "profit": "$-1K",
+      "fired": [
+        "won",
+        "timing",
+        "longshot",
+        "fresh"
+      ],
+      "contributions": {
+        "won": 48,
+        "timing": 24,
+        "longshot": 16,
+        "fresh": 12
+      },
+      "agreeing": 3,
+      "refId": "WF-2026-175",
+      "cexChips": [],
+      "heroSentence": "This account won 7 of 27 long-shot bets that the market gave roughly a 9 percent chance. By luck you would expect about 2.36 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "0h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet."
+        },
+        {
+          "key": "longshot",
+          "metric": "9% avg",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~8% across 42 bets — concentrated in long shots (≤20%)."
+        },
+        {
+          "key": "won",
+          "metric": "26% vs 9%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 7 wins in 27 tries at 9% each",
+          "numbers": "Won 7 of 27 independent bets the market priced at ~9% — about 2.36 expected by luck. Probability by chance ≈ 1 in 138 (15 correlated bets de-correlated)."
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-unrestricted-shipping-through-hormuz-by-june-30",
+          "entryTime": "Apr 08 2026",
+          "ts": 1775606961,
+          "odds": 5,
+          "stakeNum": 354,
+          "plNum": -354,
+          "stake": "$354",
+          "outcome": "Lost",
+          "pl": "−$354",
+          "tx": "0xa497…",
+          "txFull": "0xa497e383557e037e2ca6d75a80d9d0440178d45ce3dd07909fe1305cef7182f0"
+        },
+        {
+          "market": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-unrestricted-shipping-through-hormuz-by-june-30",
+          "entryTime": "May 30 2026",
+          "ts": 1780151840,
+          "odds": 5,
+          "stakeNum": 354,
+          "plNum": -354,
+          "stake": "$354",
+          "outcome": "Lost",
+          "pl": "−$354",
+          "tx": "0x372f…",
+          "txFull": "0x372fcb61e176c0d238510eac11498f126ea2efc8ff0b378b1994637ca3b83ded"
+        },
+        {
+          "market": "Iran agrees to surrender enriched uranium stockpile by June 30, 2026?",
+          "url": "https://polymarket.com/event/iran-agrees-to-surrender-enriched-uranium-stockpile-by-june-30-2026",
+          "entryTime": "May 30 2026",
+          "ts": 1780150292,
+          "odds": 6,
+          "stakeNum": 255,
+          "plNum": -255,
+          "stake": "$255",
+          "outcome": "Lost",
+          "pl": "−$255",
+          "tx": "0x6667…",
+          "txFull": "0x66671e0aa344c5bd0ebec5676f0ee5d2bd05351744f1a8be6b390b2caeed9a80"
+        },
+        {
+          "market": "Iran agrees to end enrichment of uranium by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+          "entryTime": "May 30 2026",
+          "ts": 1780147495,
+          "odds": 14,
+          "stakeNum": 140,
+          "plNum": -140,
+          "stake": "$140",
+          "outcome": "Lost",
+          "pl": "−$140",
+          "tx": "0x1677…",
+          "txFull": "0x1677082c76007b744bb0332ed48121abb9c98acf1524d1e3b970ade2d9e41269"
+        },
+        {
+          "market": "Will Google have the best AI model at the end of June 2026?",
+          "url": "https://polymarket.com/event/will-google-have-the-best-ai-model-at-the-end-of-june-2026",
+          "entryTime": "May 30 2026",
+          "ts": 1780145579,
+          "odds": 3,
+          "stakeNum": 88,
+          "plNum": -88,
+          "stake": "$88",
+          "outcome": "Lost",
+          "pl": "−$88",
+          "tx": "0x52e8…",
+          "txFull": "0x52e80d386ecd7fc3911bc1c7d3beb2bd3777b2b87a36c38732f0baf8279efc24"
+        },
+        {
+          "market": "(market)",
+          "url": null,
+          "entryTime": "Jun 19 2026",
+          "ts": 1781871868,
+          "odds": 3,
+          "stakeNum": 72,
+          "plNum": -72,
+          "stake": "$72",
+          "outcome": "Lost",
+          "pl": "−$72",
+          "tx": "0xf837…",
+          "txFull": "0xf83781f77d72b9a322f0bef1bcf2bf48ae8b7d6da5c5ede0181791776e8d3746"
+        },
+        {
+          "market": "Iran agrees to surrender enriched uranium stockpile by July 31, 2026?",
+          "url": "https://polymarket.com/event/iran-agrees-to-surrender-enriched-uranium-stockpile-by-july-31-2026",
+          "entryTime": "May 31 2026",
+          "ts": 1780243451,
+          "odds": 14,
+          "stakeNum": 37,
+          "plNum": -37,
+          "stake": "$37",
+          "outcome": "Lost",
+          "pl": "−$37",
+          "tx": "0xe011…",
+          "txFull": "0xe011a80332f5e58d1693637cf41ce6c3a133293520240d88c273560160fe69fc"
+        },
+        {
+          "market": "Iran agrees to surrender enriched uranium stockpile by May 31, 2026?",
+          "url": "https://polymarket.com/event/iran-agrees-to-surrender-enriched-uranium-stockpile-by-may-31-2026",
+          "entryTime": "May 30 2026",
+          "ts": 1780150297,
+          "odds": 1,
+          "stakeNum": 14,
+          "plNum": -14,
+          "stake": "$14",
+          "outcome": "Lost",
+          "pl": "−$14",
+          "tx": "0xf948…",
+          "txFull": "0xf9482de67cf5da08853f64d5fd07f553580465a414ea7fc5f3deb9107581e745"
+        },
+        {
+          "market": "Iran closes its airspace by June 30?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-30-432-786-462-866-468",
+          "entryTime": "May 30 2026",
+          "ts": 1780146239,
+          "odds": 23,
+          "stakeNum": 12,
+          "plNum": 40,
+          "stake": "$12",
+          "outcome": "Won",
+          "pl": "+$40",
+          "tx": "0x79ef…",
+          "txFull": "0x79eff00d8718fea29043f4b0ea23155f6093c5b750054113dd7757bf4d11999c"
+        },
+        {
+          "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by June 15, 2026?",
+          "url": "https://polymarket.com/event/trump-announces-us-blockade-of-hormuz-lifted-by",
+          "entryTime": "Jun 10 2026",
+          "ts": 1781091162,
+          "odds": 7,
+          "stakeNum": 11,
+          "plNum": 141,
+          "stake": "$11",
+          "outcome": "Won",
+          "pl": "+$141",
+          "tx": "0x7200…",
+          "txFull": "0x720038925ac095a7426297fdf93df19023f50d589f2a333ca8d35a6eefdfe72e"
+        },
+        {
+          "market": "Military action against Iran ends by April 15, 2026?",
+          "url": "https://polymarket.com/event/military-action-against-iran-ends-by",
+          "entryTime": "Apr 06 2026",
+          "ts": 1775434139,
+          "odds": 11,
+          "stakeNum": 8,
+          "plNum": 64,
+          "stake": "$8",
+          "outcome": "Won",
+          "pl": "+$64",
+          "tx": "0x1dfa…",
+          "txFull": "0x1dfa07ea0b7ece90b27a0e6ad4a8e9753b1c0d8edaf8e53d1339cde2ab5db0b7"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by March 31st?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "entryTime": "Mar 31 2026",
+          "ts": 1774918823,
+          "odds": 3,
+          "stakeNum": 8,
+          "plNum": -8,
+          "stake": "$8",
+          "outcome": "Lost",
+          "pl": "−$8",
+          "tx": "0xb74b…",
+          "txFull": "0xb74bdaab62fc4abdbbd47cca5b62d595df66592f703bd9cb0160756388ede258"
+        },
+        {
+          "market": "Will Anthropic have the best AI model at the end of June 2026?",
+          "url": "https://polymarket.com/event/will-anthropic-have-the-best-ai-model-at-the-end-of-june-2026",
+          "entryTime": "Jun 12 2026",
+          "ts": 1781308792,
+          "odds": 11,
+          "stakeNum": 7,
+          "plNum": -7,
+          "stake": "$7",
+          "outcome": "Lost",
+          "pl": "−$7",
+          "tx": "0xe7b8…",
+          "txFull": "0xe7b82abf2444f45767d9692ee8e0fa06f60574cd1b1ffb7ad130c44b40bc6e03"
+        },
+        {
+          "market": "Will 40 ships transit the Strait of Hormuz on any day by June 30, 2026?",
+          "url": "https://polymarket.com/event/will-40-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30-2026",
+          "entryTime": "Jun 10 2026",
+          "ts": 1781091088,
+          "odds": 16,
+          "stakeNum": 7,
+          "plNum": 37,
+          "stake": "$7",
+          "outcome": "Won",
+          "pl": "+$37",
+          "tx": "0x6bb7…",
+          "txFull": "0x6bb79e9115f6140b009fdaa4c15300b2b0d494c7a160bd138c428f9b883678a2"
+        },
+        {
+          "market": "Iran agrees to end enrichment of uranium by May 31?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-may-31-945",
+          "entryTime": "May 31 2026",
+          "ts": 1780241719,
+          "odds": 1,
+          "stakeNum": 6,
+          "plNum": -6,
+          "stake": "$6",
+          "outcome": "Lost",
+          "pl": "−$6",
+          "tx": "0x3aeb…",
+          "txFull": "0x3aebdce69d2b285ee2d2fe6c779f2af80f992053cfecc030e917f50306beb666"
+        },
+        {
+          "market": "Iran closes its airspace by June 15?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-15-219",
+          "entryTime": "May 30 2026",
+          "ts": 1780146233,
+          "odds": 16,
+          "stakeNum": 5,
+          "plNum": 27,
+          "stake": "$5",
+          "outcome": "Won",
+          "pl": "+$27",
+          "tx": "0xa855…",
+          "txFull": "0xa855517cb93c36bcb788c31d69f6d199ac56dcf23b61fefaa0460c3bee100d9f"
+        },
+        {
+          "market": "Will SpaceX IPO by September 30, 2026?",
+          "url": "https://polymarket.com/event/spacex-ipo-by",
+          "entryTime": "Apr 07 2026",
+          "ts": 1775525639,
+          "odds": 10,
+          "stakeNum": 5,
+          "plNum": -5,
+          "stake": "$5",
+          "outcome": "Lost",
+          "pl": "−$5",
+          "tx": "0xf981…",
+          "txFull": "0xf981e7dfc7160341e0afa6c6095cb0a667759f5e7a5057d1ae6c57e9311d9405"
+        },
+        {
+          "market": "Will SpaceX IPO by August 31, 2026?",
+          "url": "https://polymarket.com/event/spacex-ipo-by",
+          "entryTime": "Apr 23 2026",
+          "ts": 1776949470,
+          "odds": 6,
+          "stakeNum": 5,
+          "plNum": -5,
+          "stake": "$5",
+          "outcome": "Lost",
+          "pl": "−$5",
+          "tx": "0x5042…",
+          "txFull": "0x5042a0f924b9157847ea0e63b15acef9a968ac4255460f767d174f84cd2ea5c3"
+        },
+        {
+          "market": "Iran closes its airspace by May 31?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-31-434-443-672-526-188-756",
+          "entryTime": "May 30 2026",
+          "ts": 1780146226,
+          "odds": 3,
+          "stakeNum": 4,
+          "plNum": -4,
+          "stake": "$4",
+          "outcome": "Lost",
+          "pl": "−$4",
+          "tx": "0xe887…",
+          "txFull": "0xe88791f43211a1ce101e81db0212272f8325bd056a77465fa960650514572fdb"
+        },
+        {
+          "market": "Will SpaceX IPO by June 30, 2026?",
+          "url": "https://polymarket.com/event/spacex-ipo-by",
+          "entryTime": "Apr 05 2026",
+          "ts": 1775410169,
+          "odds": 32,
+          "stakeNum": 4,
+          "plNum": -4,
+          "stake": "$4",
+          "outcome": "Lost",
+          "pl": "−$4",
+          "tx": "0xda17…",
+          "txFull": "0xda177ca2742e169f88e6213d3fecde1270bad0f530981e576d18e2ec26bf9ddd"
+        },
+        {
+          "market": "Will 2 Fed rate cuts happen in 2026?",
+          "url": "https://polymarket.com/event/will-2-fed-rate-cuts-happen-in-2026",
+          "entryTime": "Jun 14 2026",
+          "ts": 1781468199,
+          "odds": 3,
+          "stakeNum": 3,
+          "plNum": -3,
+          "stake": "$3",
+          "outcome": "Lost",
+          "pl": "−$3",
+          "tx": "0x0458…",
+          "txFull": "0x0458f21b13044f83f8420112006d2daa1cb49a0af9a58f3e50ac697eec601848"
+        },
+        {
+          "market": "Will the Iranian regime fall by June 30?",
+          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-june-30",
+          "entryTime": "May 31 2026",
+          "ts": 1780258792,
+          "odds": 2,
+          "stakeNum": 3,
+          "plNum": -3,
+          "stake": "$3",
+          "outcome": "Lost",
+          "pl": "−$3",
+          "tx": "0x0deb…",
+          "txFull": "0x0deb57183c35004b5dffdb9b66fd5f724d30b2e2c0f3d6907988555d0875d504"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by April 7th?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "entryTime": "Apr 06 2026",
+          "ts": 1775443473,
+          "odds": 3,
+          "stakeNum": 3,
+          "plNum": -3,
+          "stake": "$3",
+          "outcome": "Lost",
+          "pl": "−$3",
+          "tx": "0x9f49…",
+          "txFull": "0x9f49ca6733b18b66fd965a26e122c13626660e40a99a951aacf8032a6f226152"
+        },
+        {
+          "market": "Will the next diplomatic US-Iran meeting be in Pakistan?",
+          "url": "https://polymarket.com/event/where-will-the-next-us-iran-diplomatic-meeting-happen-811",
+          "entryTime": "Apr 06 2026",
+          "ts": 1775507021,
+          "odds": 34,
+          "stakeNum": 2,
+          "plNum": 4,
+          "stake": "$2",
+          "outcome": "Won",
+          "pl": "+$4",
+          "tx": "0x4fb4…",
+          "txFull": "0x4fb4de26631b90aba10279f83f2c1cc6f44dd3bb7a0752d9cf2b5d6fdc46b256"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 27,
+        "winRate": 26,
+        "realized": "−$1K"
+      },
+      "timeline": {
+        "market": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
+        "priceStart": 0.046120975959148304,
+        "priceEnd": 0.05,
+        "entries": [
+          0.046120975959148304
+        ],
+        "resolution": 0.08,
+        "candidates": []
+      },
+      "activityDays": 5,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "wins": 7,
+      "expectedWins": 2.43,
+      "percentile": 99.306,
+      "volumeNum": 1407,
+      "volume": "$1K",
+      "profitNum": 1056.6738254862544,
+      "lastActivity": "5 days ago",
+      "firstFlaggedAt": 1782458295,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
       "id": "w1765",
       "type": "wallet",
       "address": "0xeb22f4735df6bd5d14e1b5fd10faefa7757d808a",
@@ -10470,6 +11373,14 @@
         "longshot",
         "fresh"
       ],
+      "contributions": {
+        "won": 41,
+        "timing": 20,
+        "sizing": 15,
+        "longshot": 14,
+        "fresh": 10
+      },
+      "agreeing": 4,
       "refId": "WF-2025-764",
       "cexChips": [],
       "heroSentence": "This account won 9 of 30 long-shot bets that the market gave roughly a 12 percent chance. By luck you would expect about 3.68 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -10896,6 +11807,12 @@
         "timing",
         "longshot"
       ],
+      "contributions": {
+        "won": 54,
+        "timing": 27,
+        "longshot": 19
+      },
+      "agreeing": 2,
       "refId": "WF-2024-319",
       "cexChips": [],
       "heroSentence": "This account won 10 of 55 long-shot bets that the market gave roughly a 8 percent chance. By luck you would expect about 4.19 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -11282,6 +12199,288 @@
       "archived": false
     },
     {
+      "id": "w839",
+      "type": "wallet",
+      "address": "0x6b1fe46602b39d66ef1dea587e386a930dbc3fd0",
+      "memberAddresses": [
+        "0x6b1fe46602b39d66ef1dea587e386a930dbc3fd0"
+      ],
+      "idLabel": "0x6b…3fd0",
+      "username": null,
+      "firstSeen": "Apr 17 2026",
+      "category": "Military & Defense",
+      "marketsCount": 12,
+      "tier": "watch",
+      "improbText": "1 in 107",
+      "improbDenom": 107,
+      "improbFull": "1 in 107",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": true,
+      "winRate": 42,
+      "avgImplied": 12,
+      "profit": "$-2K",
+      "fired": [
+        "won",
+        "timing",
+        "sizing",
+        "longshot",
+        "fresh"
+      ],
+      "contributions": {
+        "won": 41,
+        "timing": 20,
+        "sizing": 15,
+        "longshot": 14,
+        "fresh": 10
+      },
+      "agreeing": 4,
+      "refId": "WF-2026-838",
+      "cexChips": [],
+      "heroSentence": "This account won 5 of 12 long-shot bets that the market gave roughly a 12 percent chance. By luck you would expect about 1.44 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "0h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet."
+        },
+        {
+          "key": "longshot",
+          "metric": "12% avg",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~11% across 13 bets — concentrated in long shots (≤20%)."
+        },
+        {
+          "key": "won",
+          "metric": "42% vs 12%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 5 wins in 12 tries at 12% each",
+          "numbers": "Won 5 of 12 independent bets the market priced at ~12% — about 1.44 expected by luck. Probability by chance ≈ 1 in 107 (1 correlated bets de-correlated)."
+        },
+        {
+          "key": "sizing",
+          "metric": "260× median",
+          "method": "within-trader bet-size anomaly",
+          "formula": "largest event position ÷ this wallet's median bet",
+          "numbers": "Largest position $5,199 is ~260× this wallet's median bet ($20) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly)."
+        }
+      ],
+      "ledger": [
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "entryTime": "Jun 12 2026",
+          "ts": 1781290809,
+          "odds": 1,
+          "stakeNum": 2191,
+          "plNum": -2191,
+          "stake": "$2K",
+          "outcome": "Lost",
+          "pl": "−$2K",
+          "tx": "0x7cd8…",
+          "txFull": "0x7cd8b3e940cb9b2c155113411a2da522a5789c71b4b7743b6101ffd2bd5ec3c2"
+        },
+        {
+          "market": "Iran closes its airspace by May 27?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-29",
+          "entryTime": "May 24 2026",
+          "ts": 1779641316,
+          "odds": 16,
+          "stakeNum": 150,
+          "plNum": -150,
+          "stake": "$150",
+          "outcome": "Lost",
+          "pl": "−$150",
+          "tx": "0x2cc4…",
+          "txFull": "0x2cc4eabbf9c43f4b12dc86e5096d815f8eb2db828fdca8784afe65aafacc51f1"
+        },
+        {
+          "market": "Iran closes its airspace by May 24?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-24",
+          "entryTime": "May 24 2026",
+          "ts": 1779640309,
+          "odds": 1,
+          "stakeNum": 55,
+          "plNum": -55,
+          "stake": "$55",
+          "outcome": "Lost",
+          "pl": "−$55",
+          "tx": "0xd867…",
+          "txFull": "0xd8678d3fdfa93a1c5dc64ba912c9c870f475cd2badb3f1a589baf0fa3b45cfe0"
+        },
+        {
+          "market": "Will the Iran ceasefire continue through June 7?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-june-7-849",
+          "entryTime": "May 24 2026",
+          "ts": 1779651215,
+          "odds": 20,
+          "stakeNum": 20,
+          "plNum": 80,
+          "stake": "$20",
+          "outcome": "Won",
+          "pl": "+$80",
+          "tx": "0xe513…",
+          "txFull": "0xe513cf3e179188d4fc8d53dea291a0de2156e99d5958bda9b68559ed125fedeb"
+        },
+        {
+          "market": "Will the Iran ceasefire continue through June 15?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-june-15-136-565",
+          "entryTime": "May 24 2026",
+          "ts": 1779651179,
+          "odds": 25,
+          "stakeNum": 20,
+          "plNum": 60,
+          "stake": "$20",
+          "outcome": "Won",
+          "pl": "+$60",
+          "tx": "0x6246…",
+          "txFull": "0x6246a736283e2e642246cf4e332d7d429e94a0f1d1ff50b15f1841b1c036fd9d"
+        },
+        {
+          "market": "Will the Iran ceasefire continue through May 31?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-31-654-633",
+          "entryTime": "May 24 2026",
+          "ts": 1779642073,
+          "odds": 17,
+          "stakeNum": 20,
+          "plNum": 98,
+          "stake": "$20",
+          "outcome": "Won",
+          "pl": "+$98",
+          "tx": "0xecf5…",
+          "txFull": "0xecf526211c28e24ee6868f961e9cdc65841ec4039ddeee443978652a558cdd78"
+        },
+        {
+          "market": "Will Trump physically sign US x Iran deal?",
+          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
+          "entryTime": "Jun 17 2026",
+          "ts": 1781694002,
+          "odds": 19,
+          "stakeNum": 18,
+          "plNum": 77,
+          "stake": "$18",
+          "outcome": "Won",
+          "pl": "+$77",
+          "tx": "0x0585…",
+          "txFull": "0x05850acf4eb4ce621a901de7e720d586c2e8e6e0db6e0d694d864db267f84bb4"
+        },
+        {
+          "market": "Iran leadership change by May 31?",
+          "url": "https://polymarket.com/event/iran-leadership-change-by-may-31-593-194-829",
+          "entryTime": "May 24 2026",
+          "ts": 1779644245,
+          "odds": 2,
+          "stakeNum": 15,
+          "plNum": -15,
+          "stake": "$15",
+          "outcome": "Lost",
+          "pl": "−$15",
+          "tx": "0xc676…",
+          "txFull": "0xc676b62a38b2a600c089dfcc7fdab8c95d43e3b7e604126d4b5cb30849a0be01"
+        },
+        {
+          "market": "US x Iran permanent peace deal by December 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "entryTime": "Jun 18 2026",
+          "ts": 1781743064,
+          "odds": 0,
+          "stakeNum": 14,
+          "plNum": -14,
+          "stake": "$14",
+          "outcome": "Lost",
+          "pl": "−$14",
+          "tx": "0xc6b8…",
+          "txFull": "0xc6b8c00defa10e503e7a71e9ca27fb47ce0c7cbec452205ed31504e750c1d440"
+        },
+        {
+          "market": "Will the Iran ceasefire continue through May 27?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-27-496",
+          "entryTime": "May 24 2026",
+          "ts": 1779651135,
+          "odds": 10,
+          "stakeNum": 10,
+          "plNum": 90,
+          "stake": "$10",
+          "outcome": "Won",
+          "pl": "+$90",
+          "tx": "0x1f1f…",
+          "txFull": "0x1f1fa83d64a599e5e777ec55ee5da0d56d4afc247e133c63e285e2b0eb3d1827"
+        },
+        {
+          "market": "Will the Iran ceasefire continue through May 24?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-24-733",
+          "entryTime": "May 26 2026",
+          "ts": 1779782527,
+          "odds": 4,
+          "stakeNum": 8,
+          "plNum": -8,
+          "stake": "$8",
+          "outcome": "Lost",
+          "pl": "−$8",
+          "tx": "0x0535…",
+          "txFull": "0x0535215a1bae31e675c1c66e74bf614451419eaaa5f76b7310bb17f678108dd7"
+        },
+        {
+          "market": "US x Cuba diplomatic meeting by May 31?",
+          "url": "https://polymarket.com/event/us-x-cuba-diplomatic-meeting-by-763",
+          "entryTime": "May 30 2026",
+          "ts": 1780180124,
+          "odds": 10,
+          "stakeNum": 5,
+          "plNum": -5,
+          "stake": "$5",
+          "outcome": "Lost",
+          "pl": "−$5",
+          "tx": "0x5fd1…",
+          "txFull": "0x5fd1ab02f0db70549b11a7565fd8a78242ecf5b9fd5df4b935be8e0310461a3c"
+        },
+        {
+          "market": "Major US official out by April 30?",
+          "url": "https://polymarket.com/event/major-us-official-out-by-april-30",
+          "entryTime": "Apr 26 2026",
+          "ts": 1777180132,
+          "odds": 19,
+          "stakeNum": 5,
+          "plNum": -5,
+          "stake": "$5",
+          "outcome": "Lost",
+          "pl": "−$5",
+          "tx": "0xdd63…",
+          "txFull": "0xdd639527d24c77c6c2c0d726e49414382fc293e0c153bfaaf3f76dcc03750957"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 12,
+        "winRate": 42,
+        "realized": "−$2K"
+      },
+      "timeline": {
+        "market": "US x Iran permanent peace deal by June 15, 2026?",
+        "priceStart": 0.008196016878898944,
+        "priceEnd": 0.05,
+        "entries": [
+          0.008196016878898944
+        ],
+        "resolution": 0.08,
+        "candidates": []
+      },
+      "activityDays": 9,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "wins": 5,
+      "expectedWins": 1.44,
+      "percentile": 99.29,
+      "volumeNum": 2340,
+      "volume": "$2K",
+      "profitNum": 2037.9482835171298,
+      "lastActivity": "9 days ago",
+      "firstFlaggedAt": 1782494070,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
       "id": "w2958",
       "type": "wallet",
       "address": "0x31a56e9e690c621ed21de08cb559e9524cdb8ed9",
@@ -11316,6 +12515,14 @@
         "fresh",
         "concentration"
       ],
+      "contributions": {
+        "conviction": 34,
+        "sizing": 21,
+        "longshot": 19,
+        "fresh": 14,
+        "concentration": 12
+      },
+      "agreeing": 5,
       "refId": "WF-2025-957",
       "cexChips": [],
       "heroSentence": "This account placed a single $33K bet at roughly 7 percent on “maduro-out-in-2025” and cashed out about $437K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet insider signature. Consistent with informed trading, not proof of it.",
@@ -11478,6 +12685,15 @@
         "concentration",
         "held"
       ],
+      "contributions": {
+        "conviction": 29,
+        "timing": 24,
+        "longshot": 16,
+        "fresh": 12,
+        "concentration": 10,
+        "held": 9
+      },
+      "agreeing": 6,
       "refId": "WF-2026-169",
       "cexChips": [],
       "heroSentence": "This account placed a single $10K bet at roughly 11 percent on “maduro-out-in-2025” and cashed out about $88K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet insider signature. Consistent with informed trading, not proof of it.",
@@ -11624,6 +12840,13 @@
         "longshot",
         "fresh"
       ],
+      "contributions": {
+        "conviction": 36,
+        "timing": 29,
+        "longshot": 20,
+        "fresh": 15
+      },
+      "agreeing": 4,
       "refId": "WF-2025-025",
       "cexChips": [],
       "heroSentence": "This account placed a single $10K bet at roughly 12 percent on “maduro-out-in-2025” and cashed out about $82K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet insider signature. Consistent with informed trading, not proof of it.",
@@ -11743,6 +12966,14 @@
         "longshot",
         "fresh"
       ],
+      "contributions": {
+        "conviction": 30,
+        "timing": 24,
+        "sizing": 18,
+        "longshot": 16,
+        "fresh": 12
+      },
+      "agreeing": 5,
       "refId": "WF-2024-592",
       "cexChips": [],
       "heroSentence": "This account won 3 of 29 long-shot bets that the market gave roughly a 16 percent chance. By luck you would expect about 4.71 wins. A record this strong is consistent with informed trading — not proof of it.",
@@ -12143,29 +13374,29 @@
       "archived": false
     }
   ],
-  "observed": 163628,
-  "reviewed": 163628,
-  "screened": 3688,
+  "observed": 163962,
+  "reviewed": 163962,
+  "screened": 3728,
   "meta": {
-    "observed": 163628,
-    "reviewed": 163628,
-    "screened": 3688,
+    "observed": 163962,
+    "reviewed": 163962,
+    "screened": 3728,
     "block": "",
     "snapshot": "Jun 25 2026",
     "recomputed": "Jun 26 2026"
   },
-  "generatedAt": "2026-06-26T17:10:00.955Z",
+  "generatedAt": "2026-06-26T17:24:03.346Z",
   "coverageByCategory": {
     "Politics": 718,
-    "Military & Defense": 528,
-    "Economics": 136,
-    "Culture": 207,
-    "Elections": 347,
-    "Legal & Regulatory": 56,
-    "Tech & Announcements": 146,
-    "World": 254,
-    "Crypto Events": 40,
-    "Corporate & M&A": 67
+    "Military & Defense": 541,
+    "Economics": 137,
+    "Culture": 210,
+    "Elections": 355,
+    "Legal & Regulatory": 64,
+    "Tech & Announcements": 151,
+    "World": 273,
+    "Crypto Events": 41,
+    "Corporate & M&A": 69
   },
   "surpriseMarkets": [
     {
@@ -12186,6 +13417,466 @@
   ],
   "clusters": 4,
   "ringGroups": [
+    {
+      "hub": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
+      "hubLabel": null,
+      "size": 90,
+      "seedFrom": "0x18510d997eba5b8a0102bad7307e70e32bc4ae47",
+      "ts": 1782494070,
+      "flaggedCount": 1,
+      "members": [
+        {
+          "addr": "0x18510d997eba5b8a0102bad7307e70e32bc4ae47",
+          "flagged": true,
+          "tier": "elevated"
+        },
+        {
+          "addr": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x7fda9642514a486e36f756df160fb9096888b9fb",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3b1ee855a70fda2ac2913c603f87f7e8a2f972d6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xafa5d687dab231aefda05ce07a305b1e38b0ae5a",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x29632ca895ad52ce4804c961b29630f4ba3f1bad",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x54899c1f7a2d9e9d386a9318a1f9197b9cc5c289",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x282a6b3d73895f6168b107f89135506f7d18aa6f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x7a9df9652d72e6d14466fbafbaa607dc35a2d1e1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6bc610a62672c6a0eaf60ea817f7e8f710ff95ad",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x9d73a9d90497daf0a600ea99625be450f4510951",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xeeead71c30d7f2ba4594c7a068b2019cb36c4af9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x35a611ff527cc7c9b5a002c59e873b1e8f25cb8f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8664c740b6c0a643868abaf516abcdacd29f9981",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf7ba643d125393b93c721e43e4fae24b5481bb9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc35f8e7fc3291e372648dae4e19ac84b1ca7960d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc9ddc880a29fa83e627e887ca3720f2fe1052aae",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8f0f74af14a3ee808864ec8d25684efaeab178a2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x83b32e3fce9018d9fb6b1f3b337eb8d0c50b7801",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8546e3d99aaaa33afa644376552d93f6385ffcef",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1b58ae5ab71526362331d1d684b611ffc3c920af",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x568ddeac4ca7ac5b8b8d67caefbf5bd5b033dcca",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x640b3b4a1699c116ddabca1101f99d4aa4a5144f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x391010201e75323afb8687fd20c48505f5057ba2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3c8003e75717c864cade10f174c01c4ab5b2a5f3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x35df8fcc213d47b5d8ecca4628eb0a3a93b684d2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd1bedc686753e7676b61ff3a8dd04c5c4ee6f380",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xbca5f37511010747af2a474467691b74db9951e9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56c262027e0de4aea31d2489529cb25d23e58a8b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1bafc9358ea3f14fbdd7b0d9379aceb601f09893",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8a01d5b027163015fb19a97db2e274572fb301ce",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x052ce60adc64101b42155dbd878d5a533babb3fd",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc6694a6c56e00b8258cab400fa777bfc8a2a53ea",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x47d8e06dc34972955cc70aff7a1160af5299f231",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x7b7738150a0e207d0513d545b47412381a7ce234",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xda5043637a9505a9daa85c86fee7d8d463307698",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3156cd5aece5e5114322453e4bfaaacefa60b123",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d67c5cb81d4ca7af7364377e84590bc72f9fd75",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x5a3fb9c0dcd50a64c83a9a4a344ec0c54aadf5c0",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x7fe3e99f1aebb5a0acbf21196f38cbb6c05f93ea",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1880bc59da00ecec244bbc0ec7ab183dae3e07d9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb2a00fe0360cf2885a7be2567fd65ff6bcec9131",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x485693f3e283af5f1cf1442b3a6a926fae5156d9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe9304871338f3b72d14fb18309241c7fe29eb44d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xbfca85269afab37122d02f6d8729951e26b38d8a",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3a2cf5b41cde22e8ff0faf3129105f64de300328",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4df658ab1a95d2aea8fb70de73986cfa0cc2e553",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x42515ceb085d6cc37cb181c4721a034df2719360",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8f8f14bd01305e9325cb8b30280697d9f55da36c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x58edbeab1dc1704731e3837f483fc075b258a2cf",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xac83ab4adf1f652b21ca6c09e16bae596f15eaaa",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x47090d99948c5a3cdf417573092a5b19ced2fb48",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0e84f287e6200bf027701a4c6c3e5fae8f7b8a89",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb4edc48a07624a6ef9dd69d4d023f77487327fc9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa9cfc9584457bdfd704d9d669d8db5a121b5372b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x016bf7259f7249a4ad158081d91872e4053b137e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf6c287c27be55649e314f158eaed60f453cee3b7",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2a05a76b4a2290a63214a32ffe2504d814b348f9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4651beadb2844341a4579fcb39b0368b415f877d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x241154897263ab162ae6e5d4122e4343f16a482f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x82518ffcd80552046ef20599a248502362bd330e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xfa66b67b8deeadc4268411928df20e09a7f11c5b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2bf389d53632aac1f9c881b03d7fe8b2634735ff",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "flagged": false,
+          "tier": null
+        }
+      ]
+    },
     {
       "hub": "0x1ab4973a48dc892cd9971ece8e01dcc7688f8f23",
       "hubLabel": null,
@@ -12617,542 +14308,17 @@
       ]
     },
     {
-      "hub": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
-      "hubLabel": null,
-      "size": 81,
-      "seedFrom": "0x18510d997eba5b8a0102bad7307e70e32bc4ae47",
-      "ts": 1782493258,
-      "flaggedCount": 1,
-      "members": [
-        {
-          "addr": "0x18510d997eba5b8a0102bad7307e70e32bc4ae47",
-          "flagged": true,
-          "tier": "elevated"
-        },
-        {
-          "addr": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x7fda9642514a486e36f756df160fb9096888b9fb",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3b1ee855a70fda2ac2913c603f87f7e8a2f972d6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xafa5d687dab231aefda05ce07a305b1e38b0ae5a",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x29632ca895ad52ce4804c961b29630f4ba3f1bad",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x54899c1f7a2d9e9d386a9318a1f9197b9cc5c289",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x282a6b3d73895f6168b107f89135506f7d18aa6f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x7a9df9652d72e6d14466fbafbaa607dc35a2d1e1",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6bc610a62672c6a0eaf60ea817f7e8f710ff95ad",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x9d73a9d90497daf0a600ea99625be450f4510951",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xeeead71c30d7f2ba4594c7a068b2019cb36c4af9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x35a611ff527cc7c9b5a002c59e873b1e8f25cb8f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8664c740b6c0a643868abaf516abcdacd29f9981",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf7ba643d125393b93c721e43e4fae24b5481bb9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc35f8e7fc3291e372648dae4e19ac84b1ca7960d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc9ddc880a29fa83e627e887ca3720f2fe1052aae",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8f0f74af14a3ee808864ec8d25684efaeab178a2",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x83b32e3fce9018d9fb6b1f3b337eb8d0c50b7801",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8546e3d99aaaa33afa644376552d93f6385ffcef",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1b58ae5ab71526362331d1d684b611ffc3c920af",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x568ddeac4ca7ac5b8b8d67caefbf5bd5b033dcca",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x640b3b4a1699c116ddabca1101f99d4aa4a5144f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x391010201e75323afb8687fd20c48505f5057ba2",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3c8003e75717c864cade10f174c01c4ab5b2a5f3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x35df8fcc213d47b5d8ecca4628eb0a3a93b684d2",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd1bedc686753e7676b61ff3a8dd04c5c4ee6f380",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xbca5f37511010747af2a474467691b74db9951e9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x56c262027e0de4aea31d2489529cb25d23e58a8b",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1bafc9358ea3f14fbdd7b0d9379aceb601f09893",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8a01d5b027163015fb19a97db2e274572fb301ce",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x052ce60adc64101b42155dbd878d5a533babb3fd",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc6694a6c56e00b8258cab400fa777bfc8a2a53ea",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x47d8e06dc34972955cc70aff7a1160af5299f231",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x7b7738150a0e207d0513d545b47412381a7ce234",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xda5043637a9505a9daa85c86fee7d8d463307698",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3156cd5aece5e5114322453e4bfaaacefa60b123",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d67c5cb81d4ca7af7364377e84590bc72f9fd75",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x5a3fb9c0dcd50a64c83a9a4a344ec0c54aadf5c0",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x7fe3e99f1aebb5a0acbf21196f38cbb6c05f93ea",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1880bc59da00ecec244bbc0ec7ab183dae3e07d9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xb2a00fe0360cf2885a7be2567fd65ff6bcec9131",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x485693f3e283af5f1cf1442b3a6a926fae5156d9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xe9304871338f3b72d14fb18309241c7fe29eb44d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xbfca85269afab37122d02f6d8729951e26b38d8a",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3a2cf5b41cde22e8ff0faf3129105f64de300328",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4df658ab1a95d2aea8fb70de73986cfa0cc2e553",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x42515ceb085d6cc37cb181c4721a034df2719360",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8f8f14bd01305e9325cb8b30280697d9f55da36c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x58edbeab1dc1704731e3837f483fc075b258a2cf",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xac83ab4adf1f652b21ca6c09e16bae596f15eaaa",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xb83b253e76cd033118d7e77872ca73d92f67dfbe",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x77e4b7eadaba84af7e23ddccc6f153299094bce8",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x47090d99948c5a3cdf417573092a5b19ced2fb48",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0e84f287e6200bf027701a4c6c3e5fae8f7b8a89",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xb4edc48a07624a6ef9dd69d4d023f77487327fc9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xa9cfc9584457bdfd704d9d669d8db5a121b5372b",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x016bf7259f7249a4ad158081d91872e4053b137e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf6c287c27be55649e314f158eaed60f453cee3b7",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2a05a76b4a2290a63214a32ffe2504d814b348f9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xeec0778fc2a32cf0bd97475d152dcec2f2faa385",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4651beadb2844341a4579fcb39b0368b415f877d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x241154897263ab162ae6e5d4122e4343f16a482f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x82518ffcd80552046ef20599a248502362bd330e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xfa66b67b8deeadc4268411928df20e09a7f11c5b",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2bf389d53632aac1f9c881b03d7fe8b2634735ff",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
-          "flagged": false,
-          "tier": null
-        }
-      ]
-    },
-    {
       "hub": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
       "hubLabel": null,
-      "size": 64,
-      "seedFrom": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
-      "ts": 1782493258,
+      "size": 52,
+      "seedFrom": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
+      "ts": 1782494070,
       "flaggedCount": 1,
       "members": [
         {
-          "addr": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
+          "addr": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
           "flagged": true,
           "tier": "watch"
-        },
-        {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc5d563a36ae78145c45a50134d48a1215220f80a",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd91e80cf2e7be2e162c6513ced06f1dd0da35296",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3cf3e8d5427aed066a7a5926980600f6c3cf87b3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xabdee0c3a7eb10e912de90b22a624e6ec05bc098",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x46edb2757296060e2b875df0a4486f429707c273",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x081db59a44a05af758847948a133a403d09e8c34",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xca5224eb00880cfdf661b289fbdaf9ea26fd3963",
-          "flagged": false,
-          "tier": null
         },
         {
           "addr": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
@@ -13358,6 +14524,56 @@
           "addr": "0x421a018cc5839c4c0300afb21c725776dc389b1a",
           "flagged": false,
           "tier": null
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "flagged": false,
+          "tier": null
         }
       ]
     },
@@ -13366,7 +14582,7 @@
       "hubLabel": null,
       "size": 51,
       "seedFrom": "0xd27de9f83ff9f5c2ef769fa966fca1ea5966fa96",
-      "ts": 1782493258,
+      "ts": 1782494070,
       "flaggedCount": 1,
       "members": [
         {
