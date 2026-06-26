@@ -12872,13 +12872,6 @@
     "c": "World",
     "r": 1776643200
   },
-  "0xc0be7b1f19f9b658778c2be7e6bc67596a00f347ab64392d0f5d387534c7c3b4": {
-    "w": "NO",
-    "q": "US x Iran ceasefire extended by April 21, 2026?",
-    "s": "will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
-    "c": "Military & Defense",
-    "r": 1776729600
-  },
   "0x8a0da22bb30a5af1376ef39624155bef82e4e2f9a1a3b3ed629a43db15a3a22c": {
     "w": "YES",
     "q": "Will Trump say \"Eight Wars\" or \"Eighth War\" during TPUSA events on April 17?",
@@ -13306,13 +13299,6 @@
     "c": "Military & Defense",
     "r": 1774915200
   },
-  "0x78f97eed822885c3813ab7ba0ba41a5c1bb0ca0f0f622698bfc0460931aff51a": {
-    "w": "NO",
-    "q": "Will 20 ships transit the Strait of Hormuz on any day in March?",
-    "s": "will-20-ships-transit-the-strait-of-hormuz-on-any-day-in-march",
-    "c": "Military & Defense",
-    "r": 1774915200
-  },
   "0xa0b56d7e621c7cbcfa47fe1a9c24f3409e189180fd6bda55b7a8113129839afc": {
     "w": "NO",
     "q": "Will China invade Taiwan by June 30, 2026?",
@@ -13375,13 +13361,6 @@
     "s": "will-iran-name-a-successor-to-khamenei-by-march-7-249-562",
     "c": "World",
     "r": 1774915200
-  },
-  "0x5072d0bf27763754b734c63255c4cbbba79d9d09b214accf33ecc79b88b1d108": {
-    "w": "YES",
-    "q": "Will Anthropic have the best AI model at the end of May 2026?",
-    "s": "will-anthropic-have-the-best-ai-model-at-the-end-of-may-2026",
-    "c": "Tech & Announcements",
-    "r": 1780185600
   },
   "0x78dc2a064771775d38cc03f072f0cb7b94108d2c31aec5d436a64f7d81447894": {
     "w": "NO",
@@ -13857,6 +13836,496 @@
     "q": "Will France, UK, or Germany strike Iran by June 30?",
     "s": "will-france-uk-or-germany-strike-iran-by-june-30-259",
     "c": "World",
+    "r": 1782777600
+  },
+  "0xe4b9a52d2bb336ff9d84799b70e72e8e5f4507df881af60f3f4daeb9f541a80e": {
+    "w": "YES",
+    "q": "US forces enter Iran by December 31?",
+    "s": "us-forces-enter-iran-by-december-31-573-642-385-371-179-425-262",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0x61ce3773237a948584e422de72265f937034af418a8b703e3a860ea62e59ff36": {
+    "w": "NO",
+    "q": "Will the Iranian regime fall by March 31?",
+    "s": "will-the-iranian-regime-fall-by-march-31",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x1f4b7a59e09d34209391c549db18b2c5c7be842e70a5c5fb30e2cdbb9d68c929": {
+    "w": "NO",
+    "q": "Will the US confirm that aliens exist by March 31?",
+    "s": "will-the-us-confirm-that-aliens-exist-by-march-31",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xb91be12388b3d4079c3ed9b5783cb42d8c33051d37746a49300227e0f45fc089": {
+    "w": "NO",
+    "q": "Will James Talarico win the 2028 Democratic presidential nomination?",
+    "s": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0x895e01dbf3e6a33cd9a44ca0f8cdb5df1bd2b0b6ebed5300d28f8da7145145e4": {
+    "w": "NO",
+    "q": "Will Donald Trump win the 2028 Republican presidential nomination?",
+    "s": "will-donald-trump-win-the-2028-republican-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0x5599856587ed77cf40cf20608448180f6abdcc512027016bcdd68ad73fca3e9f": {
+    "w": "NO",
+    "q": "Will the next Prime Minister of Hungary be Klára Dobrev?",
+    "s": "will-the-next-prime-minister-of-hungary-be-klra-dobrev",
+    "c": "Politics",
+    "r": 1775952000
+  },
+  "0x73e39c98045179951b7c527b749118771c10a15a32eee5ebc98f9e3650a69fe1": {
+    "w": "NO",
+    "q": "Will the next Prime Minister of Hungary be László Toroczkai?",
+    "s": "will-the-next-prime-minister-of-hungary-be-lszl-toroczkai",
+    "c": "Politics",
+    "r": 1775952000
+  },
+  "0xb412664463bbfe21be44b1963291205ab332afd4f7f6e0d027aec1ba7a9e6793": {
+    "w": "NO",
+    "q": "Iran leadership change by April 30?",
+    "s": "iran-leadership-change-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x51cd99a4fd1b0ba0fa46548b3ef82f52a765b0caea8a7053b6dccef6507c75e5": {
+    "w": "NO",
+    "q": "Will China’s 2026 annual GDP growth (Y/Y) be between 3.0% and 4.0%?",
+    "s": "will-chinas-2026-annual-gdp-growth-yy-be-between-3pt0-and-4pt0",
+    "c": "Economics",
+    "r": 1769817600
+  },
+  "0x15fcf94587789dcd26efd4a31a1dbc8ff80c3c0bbfed1ca7eb90a054fda6efbf": {
+    "w": "NO",
+    "q": "Kurds declare independence from Iran?",
+    "s": "kurds-declare-independence-from-iran",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x5df6a65acdade77bfc25c005f97d7e93a5f0b445ebadd96b7a68e57b18923ef5": {
+    "w": "YES",
+    "q": "Will Salesforce (CRM) beat quarterly earnings?",
+    "s": "crm-quarterly-earnings-nongaap-eps-05-27-2026-3pt12",
+    "c": "Corporate & M&A",
+    "r": 1779840000
+  },
+  "0x06df897c94f49d239f2189c0db0c7a42da4a6d7b9a1920e1336f17d3a8c936e6": {
+    "w": "YES",
+    "q": "Will Okta (OKTA) beat quarterly earnings?",
+    "s": "okta-quarterly-earnings-nongaap-eps-05-28-2026-0pt85",
+    "c": "Corporate & M&A",
+    "r": 1779926400
+  },
+  "0x6b0f7fac3bcb01966f157d460e9b246b67641b5cf87e7de7ee7d3dd32e4c7d1a": {
+    "w": "YES",
+    "q": "Will Dell Technologies (DELL) beat quarterly earnings?",
+    "s": "dell-quarterly-earnings-nongaap-eps-05-28-2026-2pt95",
+    "c": "Corporate & M&A",
+    "r": 1779926400
+  },
+  "0x0ceab60f9942ddccac459fb4a5ac5505e4757874e974e9fbf513ec782c587c5d": {
+    "w": "NO",
+    "q": "Gaza flotilla enters Israeli waters by May 31?",
+    "s": "gaza-flotilla-enters-israeli-waters-by-31",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x0c23424305573f92b0d87984e0e22dc9c1c634bed50248b1c0036acfcd75ed4a": {
+    "w": "YES",
+    "q": "Will Anthropic have the best Math AI model at the end of April 2026?",
+    "s": "will-anthropic-have-the-best-math-ai-model-at-the-end-of-april-2026",
+    "c": "Tech & Announcements",
+    "r": 1777507200
+  },
+  "0x33403f2501afbeafa3372043080e5360d714a9323b264cb76c3aaafc335304a5": {
+    "w": "NO",
+    "q": "Will the Dravida Munnetra Kazhagam (DMK) win the most seats in the 2026 Tamil Nadu Legislative Assembly election?",
+    "s": "will-the-dravida-munnetra-kazhagam-dmk-win-the-most-seats-in-the-2026-tamil-nadu-legislative-assembly-election",
+    "c": "Elections",
+    "r": 1776902400
+  },
+  "0x7c8241e9d7d1a6e8a42c6af38aeb18479ce087f7e47227399273b12766cb9ab2": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 26, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-26-2026",
+    "c": "World",
+    "r": 1777161600
+  },
+  "0x36e8ca24d2a13435f519f15580d42b45cdbe3bc425fb39a7c2733260357af0fa": {
+    "w": "YES",
+    "q": "Will there be no change in Fed interest rates after the April 2026 meeting?",
+    "s": "will-there-be-no-change-in-fed-interest-rates-after-the-april-2026-meeting",
+    "c": "Economics",
+    "r": 1777420800
+  },
+  "0xb2732e6044eee17f24ecde333dc426373e639aed25b5a3a0f052f2698c247bd5": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 25, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-25-2026",
+    "c": "World",
+    "r": 1777075200
+  },
+  "0xefc69f5f48827e331957acbcc2339eb3b15e27e32453b8e6f29b5de67474c986": {
+    "w": "YES",
+    "q": "Will the Iranian regime survive U.S. military strikes?",
+    "s": "will-the-iranian-regime-survive-us-military-strikes-741",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x747a380bab6e04278667e1e881cc62bd2a6a6090d295678f426249d06ca79712": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 23, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-23-2026",
+    "c": "World",
+    "r": 1776902400
+  },
+  "0x6c31c73a5447ef744d271098ce51594afa5a521fe367c07f7138c868703d693f": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 21, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-21-2026",
+    "c": "World",
+    "r": 1776729600
+  },
+  "0x06cd4673b8fc846667f7c7de93c10d0499767030c5d9b92bfee07dba445c9f55": {
+    "w": "NO",
+    "q": "Will Base launch a token by September 30, 2026?",
+    "s": "will-base-launch-a-token-by-september-30-2026",
+    "c": "Tech & Announcements",
+    "r": 1790827200
+  },
+  "0xfacf7578441650ec19a86bf2d9c264744bb9180f80ad603c65204aa203bd1755": {
+    "w": "NO",
+    "q": "Will Iran hold a presidential election by June 30?",
+    "s": "will-iran-hold-a-presidential-election-by-june-30",
+    "c": "Elections",
+    "r": 1782777600
+  },
+  "0x9873d0448faebb53d0040a958b40bfd17960f57a164f69a36f2f400e945c36c1": {
+    "w": "NO",
+    "q": "Will Base launch a token by June 30, 2026?",
+    "s": "will-base-launch-a-token-by-june-30-2026",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0xfbf031f22589bfbc503946112c3d4ee50507bdc9dbfc6a1a6fc5130875ca3baf": {
+    "w": "YES",
+    "q": "Will \"Backrooms\" Opening Weekend Box Office be greater than 79m?",
+    "s": "will-backrooms-opening-weekend-box-office-be-greater-than-79m",
+    "c": "Culture",
+    "r": 1780272000
+  },
+  "0xbad704f2ae063322169bf3add805258727ecd3e6c0ad37fc7e6590c993375732": {
+    "w": "NO",
+    "q": "NATO x Russia military clash by June 30, 2026?",
+    "s": "nato-x-russia-military-clash-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x7dd9325e532b5e15ed51b5f9dc0fb673fb3f008471241a78476ce28de0b3dde7": {
+    "w": "NO",
+    "q": "Will Iran strike Ras Laffan Industrial City again by April 30?",
+    "s": "will-iran-strike-ras-laffan-industrial-city-again-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x601d6370088ac1910bda97d62e8444412d2cef435a247e86d1c608efb0644e3d": {
+    "w": "NO",
+    "q": "Foreign intervention in Gaza by April 30?",
+    "s": "foreign-intervention-in-gaza-by-april-30",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x578f5f3b26b8225c812015d17138c2bd2f28bee7993364f69752be72dce21d6c": {
+    "w": "YES",
+    "q": "Will Israel strike 3 countries in March 2026?",
+    "s": "will-israel-strike-3-countries-in-march-2026",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x705bc966a97d10bb9ceea5ffe8997ec12a30df3e5c6a82995f0606e37fc3970b": {
+    "w": "NO",
+    "q": "Will Israel conduct military action in Greater Beirut on March 19, 2026?",
+    "s": "will-israel-conduct-military-action-in-greater-beirut-on-march-19-2026",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x8aab152fc4bc00948af5b09be024d4791c9becc1c74f925337c32f6405d52390": {
+    "w": "NO",
+    "q": "US strikes Yemen by March 31, 2026?",
+    "s": "us-strikes-yemen-by-march-31-2026",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x546a20225293544b154248b32d88dc0059097b9d9854772f1a24235b3f22dd59": {
+    "w": "NO",
+    "q": "Will Israel strike ≥4 countries in March 2026?",
+    "s": "will-israel-strike-4-countries-in-march-2026",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x3e7d87625777d9de933e0e5c89b9c1cda0509ec0611846b88357514539bf53ed": {
+    "w": "NO",
+    "q": "Will Israel strike 2 countries in March 2026?",
+    "s": "will-israel-strike-2-countries-in-march-2026",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x4d0d43382de6021ce0e906774caf6fc73fbe24078c9a75c6d7ae07b04299f8d0": {
+    "w": "NO",
+    "q": "Russian strike on a NATO member by March 31?",
+    "s": "russian-strike-on-a-nato-member-by-march-31",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x3deb01dce09d900494ba740ee18b28b04f9f858303be33194999c071cbb1f976": {
+    "w": "NO",
+    "q": "Will Israel strike Gaza on March 9, 2026?",
+    "s": "will-israel-strike-gaza-on-march-9-2026",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xbf5952e2f44f1251863da558fb625484230648a9709807eeb39fb08670a87e01": {
+    "w": "NO",
+    "q": "US/Israel strike Yemen by March 14?",
+    "s": "usisrael-strike-yemen-by-march-14",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x70909f0ba8256a89c301da58812ae47203df54957a07c7f8b10235e877ad63c2": {
+    "w": "YES",
+    "q": "Khamenei out as Supreme Leader of Iran by March 31?",
+    "s": "khamenei-out-as-supreme-leader-of-iran-by-march-31",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xf023a3c661159ed3b103f885b94aee304ada050a54487a0d12440cf46188ed4e": {
+    "w": "YES",
+    "q": "Will Israel strike Gaza on March 8, 2026?",
+    "s": "will-israel-strike-gaza-on-march-8-2026",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x0dd9378e404c2b77d5bdaabe50187635e7fc25f064d1f0563040b9b46ac4e0b2": {
+    "w": "NO",
+    "q": "Will Google have the best AI model at the end of March 2026?",
+    "s": "will-google-have-the-best-ai-model-at-the-end-of-march-2026-941",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x98c0aa27e741d5bfeb0a06e68bddd256b857fd27597c76c500250db1483c51aa": {
+    "w": "YES",
+    "q": "US strikes Iran by March 15, 2026?",
+    "s": "us-strikes-iran-by-march-15-2026-176-537-334-314-311-563-139-841-296-929-674-361-128-125-587-277-713-864-314-272-772-416-338-683-554-682-743-939-378-887-219-419-692-473-532-837-119-848-847-469",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x3e16995cf503447641ca6a27b40f0e6e1151256c1869e9b0082e7bda26463731": {
+    "w": "NO",
+    "q": "Will the United Kingdom send warships through the Strait of Hormuz by May 31, 2026?",
+    "s": "will-the-united-kingdom-send-warships-through-the-strait-of-hormuz-by-may-31-2026",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0xcc6e10a62115e94c4af40dd61360cb5e7e1f9511bb15ca478ea6b0269667520b": {
+    "w": "NO",
+    "q": "James Comey sentenced to Prison in 2026?",
+    "s": "james-comey-sentenced-to-prison-in-2026",
+    "c": "Legal & Regulatory",
+    "r": 1798675200
+  },
+  "0x2f6a547524c1d290f8a2bbff80be2b0e8ca1b3b716dd3a0e74bf8ddb3e3fd6b7": {
+    "w": "NO",
+    "q": "Iran leadership change by May 31?",
+    "s": "iran-leadership-change-by-may-31-593-194-829",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0xb196a122933da9aff6cb8b0f3764d0dc5db1859f46c0481c711521eee8524291": {
+    "w": "NO",
+    "q": "Iran leadership change by June 30?",
+    "s": "iran-leadership-change-by-june-30-689-922",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x9e0e621f21099a443d0deebbb624c8cf2e40ff0ebb51d67576e4fe7070974f3d": {
+    "w": "NO",
+    "q": "Israel x Syria security agreement by June 30?",
+    "s": "israel-x-syria-security-agreement-by-june-30",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xffe381a80c1e36f9e0b03a542aa8fe56e74a67d2566a4e29396d4427aa4244c9": {
+    "w": "NO",
+    "q": "Strait of Hormuz traffic returns to normal by May 15?",
+    "s": "strait-of-hormuz-traffic-returns-to-normal-by-may-15",
+    "c": "Military & Defense",
+    "r": 1778803200
+  },
+  "0x5ec80dc407457301f282a2b44341947afc700dfaa7923d14c8894e04bc63b03f": {
+    "w": "NO",
+    "q": "Will the next Prime Minister of Hungary be Viktor Orbán?",
+    "s": "will-the-next-prime-minister-of-hungary-be-viktor-orbn",
+    "c": "Politics",
+    "r": 1775952000
+  },
+  "0x068d4f079da544e312b1a7b86e2c5dd39d3fc6a0f5a21b0ec866d1ff34767839": {
+    "w": "NO",
+    "q": "Will the next Prime Minister of Hungary be István Kapitány?",
+    "s": "will-the-next-prime-minister-of-hungary-be-istvn-kapitny",
+    "c": "Politics",
+    "r": 1775952000
+  },
+  "0x759b597b20756bff4086ed700c82b91b8b9fdee4267853dd9773c267738dcd1e": {
+    "w": "NO",
+    "q": "Venezuela election scheduled by January 31, 2026?",
+    "s": "venezuela-election-scheduled-by-january-31-2026",
+    "c": "Elections",
+    "r": 1774915200
+  },
+  "0xd738e71656c315e90cc6712b6afc534724bcd6bf6f40b03f194029511f117369": {
+    "w": "NO",
+    "q": "Maduro mugshot released by Monday?",
+    "s": "maduro-mugshot-released-by-monday",
+    "c": "World",
+    "r": 1767571200
+  },
+  "0x156214d3d62322c191dafef0e6d9233f76bcd98bf49b035a644954795c49e5c8": {
+    "w": "YES",
+    "q": "Will Venezuela give the US oil by January 31?",
+    "s": "will-venezuela-give-the-us-oil-by-january-31",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x68303d339f961812753a5af8899df01adfcad7380a2625fa7b944e2ae30f9683": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"CIA\" or \"FBI\" during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-cia-or-fbi-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0x1df8a73df1a6bb17652b183a5c931d7f2256ac772f455022ca998da17d9803e9": {
+    "w": "YES",
+    "q": "Will Donald Trump say \"dictator\" at least three times during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-dictator-at-least-three-times-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0xf7fa0828df633d7a5379fb6066b6ea3594221d6f04b1c394b3359ad41f9e4d15": {
+    "w": "YES",
+    "q": "Will Donald Trump say \"Maduro\" at least ten times during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-maduro-at-least-ten-times-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday-826",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0x6f0272f9cf26e1c1c76ae986a5ffb59d83c1d4dc90b2b68fd4e531640719387f": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"Minnesota\" during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-minnesota-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0x139bc939a90e0414f2446ef09b30e3c5a14cc0fa8496c11bb6822954ad674a17": {
+    "w": "NO",
+    "q": "Will the U.S. invade Venezuela by March 31, 2026?",
+    "s": "will-the-us-invade-venezuela-by-march-31-2026-255",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x7c6115a1ccea6e8037cd9fb903ea31bd79486759006613a739e3ecebc6af55b0": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"communist\" or \"communism\" at least three times during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-communist-or-communism-at-least-three-times-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0x21c0e38f58b5ef35434b6faecf4c17eccb3327b2bc7efb14bbd33f038646a43b": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"fentanyl\" during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-fentanyl-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0xcc852f4063dd12363afab8e0c9903e12825c6dc98739a9d57a27c96a25288427": {
+    "w": "YES",
+    "q": "Will Donald Trump say \"Iran\" during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-iran-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday-568",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0xd24e825ba72ac28f67b83f9d5993bbd8dc3538712f9dd4bac5c3593e935d66c8": {
+    "w": "NO",
+    "q": "Will Donald Trump say \"Maria\" or \"Corina\" or \"Machado\" during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-maria-or-corina-or-machado-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0x4aa20218324dde48773fa214336eb44b66adfd0e2e95a47269c40a2d2fe2a5c2": {
+    "w": "YES",
+    "q": "Will Donald Trump say \"oil\" during his Mar-a-Lago press conference on Venezuela on Saturday?",
+    "s": "will-donald-trump-say-oil-during-his-mar-a-lago-press-conference-on-venezuela-on-saturday-738",
+    "c": "World",
+    "r": 1767398400
+  },
+  "0xc324255c62710a5d882f96a7fbc974302b5cf715ec9b8cd9a3d9491dd1984552": {
+    "w": "NO",
+    "q": "Will Keir Starmer say \"NHS\" during the next Prime Minister's Questions?",
+    "s": "will-keir-starmer-say-nhs-during-the-next-prime-ministers-questions-528",
+    "c": "Politics",
+    "r": 1766534400
+  },
+  "0x85013f897fb21153193311d4b88e7c47b77a09627676f9801e9181dd17391eb3": {
+    "w": "YES",
+    "q": "Will Keir Starmer say \"Christmas\" during the next Prime Minister's Questions?",
+    "s": "will-keir-starmer-say-christmas-during-the-next-prime-ministers-questions-464",
+    "c": "Politics",
+    "r": 1766534400
+  },
+  "0xfda39f53af27c1bc9848abde483fdb98969d1dfc285bc6a2fe5d56e9c1c677cb": {
+    "w": "NO",
+    "q": "Will Benjamin Netanyahu sign a U.S. x Iran deal by July 31?",
+    "s": "will-benjamin-netanyahu-sign-a-uptspt-x-iran-deal-by-july-31-20260611235950076",
+    "c": "World",
+    "r": 1785556740
+  },
+  "0xf243f49f25aa69cc55bfa09789c1f85645061625a84c6de14e8f9b2915c12893": {
+    "w": "NO",
+    "q": "Will Meta have the best AI model at the end of June 2026?",
+    "s": "will-meta-have-the-best-ai-model-at-the-end-of-june-2026",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0x734c6c32a62f8a27035a222e45fc388d59eeffe89bb31ab26054bc29bcc3eee7": {
+    "w": "NO",
+    "q": "Will OpenAI have the best AI model at the end of June 2026?",
+    "s": "will-openai-have-the-best-ai-model-at-the-end-of-june-2026",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0x81f3cdb2b5211a3aa1678c3cb74924643c30b0a59f6fc53dc568c0843fbfe9b1": {
+    "w": "YES",
+    "q": "Gemini 3.2 released by May 19, 2026?",
+    "s": "gemini-3pt2-released-by-may-19-2026",
+    "c": "Crypto Events",
+    "r": 1779148800
+  },
+  "0x485d75133073b8f557cfddd9e3bb2585aae9db1ca23b5ff84f4cac9bfb638401": {
+    "w": "NO",
+    "q": "Will a new Gemini flagship be released by May 22, 2026?",
+    "s": "will-a-new-gemini-flagship-be-released-by-may-22-2026",
+    "c": "Crypto Events",
+    "r": 1779408000
+  },
+  "0x009cb79c526eff4af80e0e568c648a165a837c0417f4e1de3cde02bfc4a3ab42": {
+    "w": "YES",
+    "q": "Gemini 3.5 released by May 31?",
+    "s": "gemini-3pt5-released-by-may-31",
+    "c": "Crypto Events",
     "r": 1782777600
   }
 }
