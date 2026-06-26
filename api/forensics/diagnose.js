@@ -120,7 +120,7 @@ async function scoreWallet(addr) {
     return {
       market: String(b.question || "(market)"), url: b.url || null, category: b.category,
       date: fmtDate(b.ts || (b.resolvedMs ? b.resolvedMs / 1000 : null)), ts: b.ts || null,
-      entryOdds: Math.round(b.entryPrice * 100) + "%", oddsNum: Math.round(b.entryPrice * 100),
+      entryOdds: (b.entryPrice * 100 < 1 ? "<1%" : Math.round(b.entryPrice * 100) + "%"), oddsNum: Math.round(b.entryPrice * 100),
       stake: "$" + (b.stakeUsd != null ? b.stakeUsd.toLocaleString("en-US") : "0"),
       outcome: b.outcome, won: b.won,
       pl: (pl >= 0 ? "+$" : "−$") + Math.abs(Math.round(pl)).toLocaleString("en-US"), plNum: Math.round(pl),
