@@ -326,6 +326,10 @@ function buildSubject(agg, idx, opts, catalog) {
     memberAddresses: isCluster ? (agg.members || []) : [agg.address],
     idLabel: isCluster ? (((agg.members || []).length) + " wallets · 1 entity") : short(agg.address),
     username: agg.pseudonym || (_prof && _prof.username) || null,
+    // on-chain wallet-creation date (Polygonscan) when available, else first Polymarket
+    // activity. `created` is the authoritative creation date the dossier shows.
+    created: dateStr(agg.createdTs) || dateStr(agg.firstSeenTs) || "an unrecorded date",
+    createdOnChain: agg.createdTs != null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
     category, marketsCount: n, tier,
     improbText, improbDenom,
