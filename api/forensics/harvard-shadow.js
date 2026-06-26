@@ -42,6 +42,12 @@ module.exports = async (req, res) => {
     byTier: s.byTier || {},
     onlyHarvard: s.onlyHarvard || 0,
     alsoBinomial: s.alsoBinomial || 0,
+    // live funnel (same shape the real site's header shows) — Harvard's flagged/extreme counts
+    observed: s.observed || 0,
+    reviewed: s.reviewed || 0,
+    screened: s.screened || 0,
+    scored: s.scored || 0,
+    extreme: (s.byTier && s.byTier.extreme) || 0,
     generatedAt: s.generatedAt || null,
     snapshot: s.snapshot || null,
     shadowMedianS: Math.round(median * 10) / 10,     // our current live shadow median (target: ~105)

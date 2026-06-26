@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|models/).*)", "destination": "/index.html" }
   ],
   "functions": {
     "api/surveillance/feed.js": { "maxDuration": 45 },
