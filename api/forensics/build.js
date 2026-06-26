@@ -111,10 +111,15 @@ function scoreAggregate(agg) {
 // Build the artifact subject (pre-derivation) from an aggregate. Returns null
 // if there is not enough data to compute the headline (won.hasData=false), so
 // sub-5-bet wallets are excluded, never scored 0.
-function buildSubject(agg, idx, opts) {
+function buildSubject(agg, idx, opts, catalog) {
   const { dets, f, bets } = scoreAggregate(agg);
   const tier = TIER[f.tier];
   if (!tier) return null;                                   // unflagged → not published
+  // question/url are dropped from STORED bets (re-derivable) to keep state.json small;
+  // re-hydrate them from the resolved-market catalog (cond -> {q, s}) for display.
+  const cat = catalog || (opts && opts.catalog) || {};
+  const qOf = (b) => b.question || (cat[b.cond] && cat[b.cond].q) || "(market)";
+  const urlOf = (b) => b.url || (cat[b.cond] && cat[b.cond].s ? "https://polymarket.com/event/" + cat[b.cond].s : null);
   // Two publish paths: the binomial RECORD (won.hasData) or the single-bet
   // CONVICTION path (a lone high-conviction insider bet + corroboration).
   const conv = dets.conviction || {};
@@ -155,7 +160,7 @@ function buildSubject(agg, idx, opts) {
 
   // ledger rows (each resolved position), newest entries first by stake.
   const ledger = bets.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd)).slice(0, 24).map((b) => ({
-    market: b.question || "(market)", url: b.url || null,
+    market: qOf(b), url: urlOf(b),
     entryTime: b.ts ? dateStr(b.ts) : "", ts: b.ts || null,
     odds: Math.round(num(b.entryPrice) * 100), stakeNum: Math.round(num(b.stakeUsd)), plNum: Math.round(betPL(b)),
     stake: money(b.stakeUsd),
@@ -195,7 +200,7 @@ function buildSubject(agg, idx, opts) {
   // attached one); candidates stay clearly unverified.
   const lead = bets.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd))[0];
   const timeline = lead ? {
-    market: lead.question || "lead market",
+    market: lead.question || (lead.cond && cat[lead.cond] && cat[lead.cond].q) || "lead market",
     priceStart: num(lead.priceStart) || num(lead.entryPrice),
     priceEnd: num(lead.priceEnd) || (lead.won ? 0.95 : 0.05),
     entries: [num(lead.entryPrice)], resolution: lead.won ? 0.92 : 0.08, candidates: [],
@@ -265,9 +270,9 @@ function derive(all) {
 /* ----------------------------------------------------------------- payload -- */
 // Build the full read-API payload from a list of aggregates + scan metadata.
 // Subjects are ranked most-improbable first (the default public view).
-function buildPayload(aggregates, meta) {
+function buildPayload(aggregates, meta, catalog) {
   const subjects = [];
-  (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta); if (s) subjects.push(s); });
+  (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta, catalog); if (s) subjects.push(s); });
   subjects.sort((a, b) => b.improbDenom - a.improbDenom);
   derive(subjects);
   return {
