@@ -236,33 +236,51 @@ function buildSubject(agg, idx, opts, catalog) {
     tx: b.tx ? (String(b.tx).slice(0, 6) + "…") : "", txFull: b.tx || null,
   }));
 
-  // scorecard — one card per FIRED detector, with the real measured numbers.
+  // scorecard — one card per FIRED detector, with the real measured numbers AND the
+  // real input bindings (every variable in the formula resolved to this wallet's actual
+  // value: real ages, real tactic latencies, real link scores — never placeholders, so
+  // "show the math" reproduces the result from this wallet's data alone).
   const scorecard = [];
-  const push = (key, metric, method, formula, numbers) => { if (fired.includes(key)) scorecard.push({ key, metric, method, formula, numbers }); };
+  const push = (key, metric, method, formula, numbers, inputs) => { if (fired.includes(key)) scorecard.push({ key, metric, method, formula, numbers, inputs: inputs || [] }); };
+  const _ageStr = dets.fresh.hasData ? (dets.fresh.ageDays < 1 ? Math.round(dets.fresh.ageDays * 24) + " h" : dets.fresh.ageDays.toFixed(1) + " days") : "—";
+  const _cashoutH = agg.conceal && agg.conceal.cashoutLatencyHours != null ? agg.conceal.cashoutLatencyHours : null;
   if (fired.includes("fresh") && dets.fresh.hasData)
     push("fresh", (dets.fresh.ageDays < 1 ? Math.round(dets.fresh.ageDays * 24) + "h old" : dets.fresh.ageDays.toFixed(0) + " days old"),
-      "account-age check", "age = first bet block − funding block", dets.fresh.explain);
+      "account-age check", "age = first bet block − funding block", dets.fresh.explain,
+      [["age", _ageStr], ["prior_tx", String(num(agg.priorTx))]]);
   push("longshot", avgImplied + "% avg", "average odds", "average of the market's odds at entry",
-    dets.longshot.hasData ? dets.longshot.explain : "");
+    dets.longshot.hasData ? dets.longshot.explain : "",
+    [["p̄", (avgImplied / 100).toFixed(2)], ["n", String(bets.length) + " long-shots"], ["τ", "0.20"]]);
   if (fired.includes("held") && dets.held.hasData)
-    push("held", dets.held.heldToResolution + " of " + dets.held.total, "exit check", "bets held to the end / total bets", dets.held.explain);
+    push("held", dets.held.heldToResolution + " of " + dets.held.total, "exit check", "bets held to the end / total bets", dets.held.explain,
+      [["held", String(dets.held.heldToResolution)], ["total", String(dets.held.total)], ["h", (dets.held.h != null ? dets.held.h.toFixed(2) : "—")]]);
   if (fired.includes("won") && won.hasData)
     push("won", winRate + "% vs " + avgImplied + "%", "luck probability",
-      "chance of ≥ " + k + " wins in " + n + " tries at " + avgImplied + "% each", won.explain);
+      "chance of ≥ " + k + " wins in " + n + " tries at " + avgImplied + "% each", won.explain,
+      [["n", String(n) + " bets"], ["k", String(k) + " wins"], ["p", (avgImplied / 100).toFixed(2)], ["E[X]", won.expectedWins + " expected"], ["P", improbText]]);
   if (fired.includes("conviction") && conv.hasData)
     push("conviction", money(conv.stake) + " @ " + Math.round(conv.entryPrice * 100) + "%", "single high-conviction bet",
-      "one large long-shot win held to resolution", conv.explain);
+      "one large long-shot win held to resolution", conv.explain,
+      [["stake", money(conv.stake)], ["p", (conv.entryPrice).toFixed(2) + " (" + Math.round(conv.entryPrice * 100) + "%)"], ["payout", money(conv.payout)], ["return", conv.stake ? (+((conv.payout || 0) / conv.stake).toFixed(1)) + "×" : "—"]]);
   if (fired.includes("conceal") && dets.conceal.hasData)
-    push("conceal", dets.conceal.nTactics + " tactics", "concealment check", "score = f(split, decoy, cash-out)", dets.conceal.explain);
+    push("conceal", dets.conceal.nTactics + " tactics", "concealment check", "score = f(split, decoy, cash-out)", dets.conceal.explain,
+      [["tactics", String(dets.conceal.nTactics) + (dets.conceal.tactics && dets.conceal.tactics.length ? " (" + dets.conceal.tactics.join("; ") + ")" : "")]].concat(_cashoutH != null ? [["cash-out latency", _cashoutH < 1 ? Math.round(_cashoutH * 60) + " min" : _cashoutH.toFixed(1) + " h"]] : []));
   if (fired.includes("cluster") && dets.cluster.hasData)
     push("cluster", dets.cluster.nWallets + " accounts", "shared-funding link",
-      "link = w₁·funder + w₂·co-spend + w₃·sync + w₄·prox", dets.cluster.explain);
+      "link = w₁·funder + w₂·co-spend + w₃·sync + w₄·prox", dets.cluster.explain,
+      [["wallets", String(dets.cluster.nWallets)], ["mean link", (dets.cluster.meanLink != null ? dets.cluster.meanLink.toFixed(2) : "—")], ["edges", String(dets.cluster.nEdges != null ? dets.cluster.nEdges : "—")]]);
   if (fired.includes("sizing") && dets.sizing.hasData)
     push("sizing", Math.round(dets.sizing.ratio) + "× median", "within-trader bet-size anomaly",
-      "largest event position ÷ this wallet's median bet", dets.sizing.explain);
+      "largest event position ÷ this wallet's median bet", dets.sizing.explain,
+      [["largest", money(dets.sizing.maxEventStake)], ["median", money(dets.sizing.medianStake)], ["ratio", dets.sizing.ratio + "×"]]);
   if (fired.includes("concentration") && dets.concentration.hasData)
     push("concentration", Math.round(dets.concentration.dirPurity * 100) + "% one-way", "directional concentration",
-      "max(YES, NO stake) ÷ total staked", dets.concentration.explain);
+      "max(YES, NO stake) ÷ total staked", dets.concentration.explain,
+      [["one-way share", Math.round(dets.concentration.dirPurity * 100) + "%"]]);
+  if (fired.includes("timing") && dets.timing.hasData)
+    push("timing", dets.timing.lateWins + " of " + dets.timing.n + " late", "informed-entry timing",
+      "winning long-shots bought within hours of resolution", dets.timing.explain,
+      [["late wins", String(dets.timing.lateWins) + " of " + dets.timing.n], ["soonest", dets.timing.minHours + " h before"], ["median", dets.timing.medianHours + " h before"]]);
 
   // timeline from the single largest winning bet's price path (if the scanner
   // attached one); candidates stay clearly unverified.
@@ -303,7 +321,13 @@ function buildSubject(agg, idx, opts, catalog) {
     improbFull: String(improbText).replace("M", " million").replace("B", " billion").replace("K", " thousand"),
     convictionFlag: convOnly,
     convBet: (conv && conv.fires) ? { stake: Math.round(conv.stake || 0), entryPct: Math.round((conv.entryPrice || 0) * 100), payout: Math.round(conv.payout || 0), market: conv.market || "", mult: conv.stake ? +((conv.payout || 0) / conv.stake).toFixed(1) : null } : null,
-    full: scorecard.length >= 3,
+    // FULL dossier renders whenever there's real evidence to show — a ledger of resolved
+    // bets plus the improbability/conviction headline. Every published subject clears the
+    // upstream gates (≥5 long-shots or a conviction bet, materiality, net-profit), so it
+    // always has the ledger, tx links, percentile graph, and detector breakdown to show.
+    // (Previously gated on ≥3 scorecard cards, which hid the entire dossier — graphs, tx,
+    // metrics — for legitimate 2-signal wallets.)
+    full: (ledger.length >= 1) && (recordImprobable || (conv && conv.fires)),
     winRate, avgImplied, profit: money(profitNum), fired,
     // the AUTHORITATIVE per-detector contribution split (renormalised over FIRED
     // detectors with the real DEFAULTS.contribW weights). The UI must use this, not a

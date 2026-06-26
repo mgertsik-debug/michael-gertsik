@@ -1032,7 +1032,9 @@ class Component extends DCLogic {
     return {
       method: lib.name || entry.method, citation: lib.citation || "",
       formula: lib.formula || entry.formula, symbols: lib.symbols || [],
-      inputs: this.inputsFor(entry.key, s),
+      // prefer the backend's AUTHORITATIVE per-detector input bindings (this wallet's real
+      // ages, latencies, link scores); fall back to the local map only for older records.
+      inputs: (Array.isArray(entry.inputs) && entry.inputs.length) ? entry.inputs : this.inputsFor(entry.key, s),
       result: entry.metric, interpretation: entry.numbers,
       baseline: this.baselineFor(entry.key, s),
       confidenceNote: lib.confidenceNote || "",
@@ -1115,13 +1117,15 @@ class Component extends DCLogic {
   emptyVals() {
     const st = this.state;
     const fn = this.funnel();
-    const haveSnap = !!this.meta.snapshot;
+    const haveSnap = !!(this.meta.recomputed || this.meta.snapshot);
     return {
       hasSubjects: false, emptyState: true, surpriseMarketsNode: this.surpriseMarketsNode(), ringGroupsNode: this.ringGroupsNode(),
       hasAggProfit: !!(this.totalFlaggedProfit > 0 && this.totalFlaggedProfitText), aggProfitText: this.totalFlaggedProfitText || "$0", aggCount: this.fmtInt(this.subjects.length),
       isSample: false, notSample: true,
-      snapshotLabel: haveSnap ? ("data as of " + this.meta.snapshot) : "awaiting first snapshot",
-      snapshotTitle: "Retrospective snapshot — not live. Recomputed " + (this.meta.recomputed || "—") + ".",
+      // "data as of" mirrors the last SCAN-RUN date (recomputed), not the newest resolved
+      // market — so it shows today and advances every day the cron runs.
+      snapshotLabel: haveSnap ? ("data as of " + (this.meta.recomputed || this.meta.snapshot)) : "awaiting first snapshot",
+      snapshotTitle: "Recomputed " + (this.meta.recomputed || "—") + " · newest resolved market " + (this.meta.snapshot || "—") + ".",
       showAmbient: this.props.ambientGlow !== false,
       search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
       isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
@@ -1673,7 +1677,7 @@ class Component extends DCLogic {
       isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
       onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),
       lookup: st.lookup, lookupBody: this.lookupNode(), closeLookup: () => this.closeLookup(),
-      snapshotLabel: this.meta.block ? ("data as of block " + this.meta.block) : ("data as of " + (this.meta.snapshot || "—")),
+      snapshotLabel: "data as of " + (this.meta.recomputed || this.meta.snapshot || "—"),
       snapshotTitle: "Retrospective snapshot — not live. Block " + (this.meta.block || "—") + " · " + (this.meta.snapshot || "—") + ". Recomputed " + (this.meta.recomputed || "—") + ".",
       search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
       typeOptions, concernOptions, categoryChips, sigToggles, timeOptions,
