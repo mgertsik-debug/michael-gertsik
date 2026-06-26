@@ -7320,5 +7320,859 @@
     "s": "trump-out-as-president-by-march-31",
     "c": "Politics",
     "r": 1774915200
+  },
+  "0x4c3523a699f356459e25851db0e10208d6512e597fe5c283ac5b2b560f5b30b8": {
+    "w": "NO",
+    "q": "Will Olivia Rodrigo have 6 or more songs in Billboard top 10 for week of June 27?",
+    "s": "how-many-olivia-rodrigo-songs-in-the-billboard-top-10-for-the-week-of-june-27-20260615213234363",
+    "c": "Culture",
+    "r": 1782177275
+  },
+  "0x0b6afbe661ab95f723b03c50984bedc045a794b6a48a6d83023d3444e3a965fd": {
+    "w": "NO",
+    "q": "Will Olivia Rodrigo have 5 songs in Billboard top 10 for week of June 27?",
+    "s": "how-many-olivia-rodrigo-songs-in-the-billboard-top-10-for-the-week-of-june-27-20260615213234363",
+    "c": "Culture",
+    "r": 1782177275
+  },
+  "0xb69c2e64c5f1e8ee2552ebb587b62e16006c16b012dbf6fb5d1ee36e425820ae": {
+    "w": "NO",
+    "q": "Will Olivia Rodrigo have no songs in Billboard top 10 for week of June 27?",
+    "s": "how-many-olivia-rodrigo-songs-in-the-billboard-top-10-for-the-week-of-june-27-20260615213234363",
+    "c": "Culture",
+    "r": 1782177136
+  },
+  "0x00fbd0cb4bf9865e38838d4f9784091965f69550becde26e98ef5d892d7cce7d": {
+    "w": "NO",
+    "q": "Will Olivia Rodrigo have 1 song in Billboard top 10 for week of June 27?",
+    "s": "how-many-olivia-rodrigo-songs-in-the-billboard-top-10-for-the-week-of-june-27-20260615213234363",
+    "c": "Culture",
+    "r": 1782177020
+  },
+  "0x3cee101e7d495a10d64f724525c4152c43eecb3cbacad45cfb8aa21426ae5439": {
+    "w": "NO",
+    "q": "Will Olivia Rodrigo have 2 songs in Billboard top 10 for week of June 27?",
+    "s": "how-many-olivia-rodrigo-songs-in-the-billboard-top-10-for-the-week-of-june-27-20260615213234363",
+    "c": "Culture",
+    "r": 1782177275
+  },
+  "0x1289b7aebcb77d4e8aee0724411e7773a1f1aa0c1c017039ec9422d918bd4962": {
+    "w": "NO",
+    "q": "Will Olivia Rodrigo have 3 songs in Billboard top 10 for week of June 27?",
+    "s": "how-many-olivia-rodrigo-songs-in-the-billboard-top-10-for-the-week-of-june-27-20260615213234363",
+    "c": "Culture",
+    "r": 1782177275
+  },
+  "0x5a8dd8e01a9cbdd6a1a1e301353de0db3bedeb75e9b548e2f4fdaacaa1f3cb84": {
+    "w": "YES",
+    "q": "Will Olivia Rodrigo have 4 songs in Billboard top 10 for week of June 27?",
+    "s": "how-many-olivia-rodrigo-songs-in-the-billboard-top-10-for-the-week-of-june-27-20260615213234363",
+    "c": "Culture",
+    "r": 1782178817
+  },
+  "0xd9a8b5917a3bc25caf28784fddac39bc45a9f2fe4c63fbf4e3ac8684d8b757df": {
+    "w": "YES",
+    "q": "US x Iran ceasefire by May 15?",
+    "s": "us-x-iran-ceasefire-by-may",
+    "c": "Military & Defense",
+    "r": 1778803200
+  },
+  "0x80059ff4e694f878c0498f6f3a067ee7ca62dc2fc46251a4287b58355ce47bc5": {
+    "w": "YES",
+    "q": "US x Iran ceasefire by April 30?",
+    "s": "us-x-iran-ceasefire-by-april-30",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0xa9937410f8aae98cc6440a7480ad832be5a1a998afcf5a6e77c6f5aa4c0f259f": {
+    "w": "YES",
+    "q": "US x Iran ceasefire by May 31?",
+    "s": "us-x-iran-ceasefire-by-may-825",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x5c0e75027a5561ea72a0776b00086be32fb4af8e758d26be217ac6c9efcdadf9": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by June 9?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-9",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0xb03509e2e8b492b3ff06da25ba298dd86cb94356995487405e6c98404da5d961": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by May 30?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-may-30",
+    "c": "Military & Defense",
+    "r": 1780099200
+  },
+  "0x27182c8b13f2a6284754660cbb3c6350a04f7aa4afe04d24dad481947014d90d": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by June 7?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-7-265-824-655-577-216",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0xf9f0965a3bd704ad9c184851242606ad35a4ffe733febf5074d4fbcc59d52eb8": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 30, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-30-2026-299-459-263-225",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x1e25feaca6587256a7d830023b797279561de33ceb29845186f3d29d3569743d": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 29, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-29-2026",
+    "c": "World",
+    "r": 1777420800
+  },
+  "0xe208a07bd71069b04e3b89de92f71da8b155d45dc2e527dc46c3ceb2a63b307b": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 27, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-27-2026",
+    "c": "World",
+    "r": 1777248000
+  },
+  "0x9967297556e4fd7f7e1e688a2e44d6fdbc42b0700576a1e4e67aa37764ac640a": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 28, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-28-2026",
+    "c": "World",
+    "r": 1777334400
+  },
+  "0xbdb17bc42314c7879e6bde4a15136a9a0f16605f6e530462b9dad774d1e63d86": {
+    "w": "NO",
+    "q": "Will Donald Trump attend the next US x Iran diplomatic meeting?",
+    "s": "will-donald-trump-attend-the-next-us-x-iran-diplomatic-meeting",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xf0abc9c2b0726ec594aa6547d121e46d5264d778f20acd00689d5c21b5e38d18": {
+    "w": "YES",
+    "q": "Will Jared Kushner attend the next US x Iran diplomatic meeting?",
+    "s": "will-jared-kushner-attend-the-next-us-x-iran-diplomatic-meeting",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x7e591fb31786d46761d906abbffbcec8eba519b649909bfb2d7833609a960782": {
+    "w": "YES",
+    "q": "Will Steve Witkoff attend the next US x Iran diplomatic meeting?",
+    "s": "will-steve-witkoff-attend-the-next-us-x-iran-diplomatic-meeting",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xa9aebaf0db62416ddd70acd8eef6bf17902bc1d31746d9286a1b3c3e4fc612bb": {
+    "w": "NO",
+    "q": "Will Keir Starmer be a candidate in the next Labour Party leadership election?",
+    "s": "will-keir-starmer-be-a-candidate-in-the-next-labour-party-leadership-election",
+    "c": "Elections",
+    "r": 1798675200
+  },
+  "0xb9baf4d76ae15a66739def76768e1631ad57267e7f4cf3a046e985b75113efd1": {
+    "w": "YES",
+    "q": "Will Andy Burnham be a candidate in the next Labour Party leadership election?",
+    "s": "will-andy-burnham-be-a-candidate-in-the-next-labour-party-leadership-election",
+    "c": "Elections",
+    "r": 1798675200
+  },
+  "0xed5dbf2e63a4222099bcbaf60c4c70333b29c2940d0f127c8da2ee0920632d34": {
+    "w": "YES",
+    "q": "Will Cait Conley be the Democratic nominee for NY-17?",
+    "s": "will-cait-conley-be-the-democratic-nominee-for-ny-17",
+    "c": "Politics",
+    "r": 1782172800
+  },
+  "0xa6e388d87a81a17dd8f2046479e11c50bf32bcf475ce75a3506c5cf19a09613c": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 19, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-19-2026-475",
+    "c": "World",
+    "r": 1781827200
+  },
+  "0xfa08848205da5717b79e5bc21e7dbd31264fb01acc98bd1436b95870e8fec409": {
+    "w": "YES",
+    "q": "Will Trump agree to withdraw troops from the Iranian region by June 30?",
+    "s": "will-trump-agree-to-withdraw-troops-from-the-iranian-region-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x4366ce763418056042fff7c3eb7b49b01d64acbb8d67664de963ce87bbd233c3": {
+    "w": "YES",
+    "q": "Will the U.S. lift direct Iran OFAC sanctions by June 30, 2026?",
+    "s": "will-the-us-lift-direct-iran-ofac-sanctions-by-june-30-2026-171",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0xd5637eb90bbff16379b6d87f6b4ac81cf5fbe9916a6c41b50d7d7dabef3cbc2b": {
+    "w": "YES",
+    "q": "Will J.D. Vance have a diplomatic meeting with Iran by June 30?",
+    "s": "will-jd-vance-have-a-diplomatic-meeting-with-iran-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x35c73eb41a0ee54b49358c523a2d3335e9df5ee21bba9e526813a6fbaa0f70b6": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 15, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-15-2026-671-962-535-596-386",
+    "c": "World",
+    "r": 1778803200
+  },
+  "0x9d68465261466ff75df821881efdb495983f40a02e64d6c310dc91b6c8a39597": {
+    "w": "YES",
+    "q": "Will Mark Tedford be the Republican nominee for OK-01?",
+    "s": "will-mark-tedford-be-the-republican-nominee-for-ok-01",
+    "c": "Politics",
+    "r": 1781568000
+  },
+  "0x2ff32cec61a2e9924b5e1207974fdb171efe4568bff1aff58b3d15b26237b36b": {
+    "w": "NO",
+    "q": "Will Pamela Evette win the 2026 South Carolina Governor Republican primary election?",
+    "s": "will-pamela-evette-win-the-2026-south-carolina-governor-republican-primary-election-972",
+    "c": "Elections",
+    "r": 1780963200
+  },
+  "0x6fa13f31cceaf10ed3190df6e2aca0a93ab0d6fb46fd279003f17d4cdccee164": {
+    "w": "YES",
+    "q": "US x Iran diplomatic meeting by June 30, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-30-2026-983-259-948-431-294-182-296-883-134-598-264",
+    "c": "World",
+    "r": 1778803200
+  },
+  "0xf69532e65491a92b693f330befbcd2e1e8650c9bed42c22bfd3e04ec4e658559": {
+    "w": "NO",
+    "q": "Israel x Hezbollah diplomatic meeting by June 30, 2026?",
+    "s": "israel-x-hezbollah-diplomatic-meeting-by-june-30-2026",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x639d8b6161b0f21aa3bbefc68223b09572d14228e903809b706c84443e8067ff": {
+    "w": "YES",
+    "q": "Will Trump agree to Iranian oil sanction relief by June 30?",
+    "s": "will-trump-agree-to-iranian-oil-sanction-relief-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x3088733a3d7f03d026035f6dd7df44a82c59eeb95545dda3889b65baa9a36e82": {
+    "w": "YES",
+    "q": "US x Iran diplomatic meeting by June 21, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-21-2026-631-919-131-645-654-454-281-531-319-585-646",
+    "c": "World",
+    "r": 1782000000
+  },
+  "0x24bdb58c26296a162238610b89251b649b8590b7e0ea1fd1d27d652ebb41cded": {
+    "w": "NO",
+    "q": "Will Russia test a nuclear weapon by September 30 2026?",
+    "s": "will-russia-test-a-nuclear-weapon-by-september-30-2026",
+    "c": "Military & Defense",
+    "r": 1790726400
+  },
+  "0x1671cdf5bcf8748efcee39c259d1d9fe92f811bc7c0016d4de111ff9e505e502": {
+    "w": "NO",
+    "q": "Will Russia test a nuclear weapon by June 30 2026?",
+    "s": "will-russia-test-a-nuclear-weapon-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x02bb64bca701d77fb7ca26187a9a73f3cba7fe9df2cf66f0df278b1b46c2a04e": {
+    "w": "NO",
+    "q": "Will \"Backrooms\" 2nd Weekend Box Office be between 27m and 30m?",
+    "s": "will-backrooms-2nd-weekend-box-office-be-between-27m-and-30m",
+    "c": "Culture",
+    "r": 1780876800
+  },
+  "0x1b1a75d6305f5edee255b3f368cca945bde401fea4b2a7e34f2fcca3b3e56cf0": {
+    "w": "NO",
+    "q": "Will Chong Won-oh win the 2026 Seoul Mayoral Election",
+    "s": "will-chong-won-oh-win-the-2026-seoul-mayoral-election",
+    "c": "Elections",
+    "r": 1780444800
+  },
+  "0xc587bda904f031a973ad3cb57128ca011bfab0f45e6cb3734ed2227c4d4be419": {
+    "w": "YES",
+    "q": "Will Oh Se-hoon win the 2026 Seoul Mayoral Election",
+    "s": "will-oh-se-hoon-win-the-2026-seoul-mayoral-election",
+    "c": "Elections",
+    "r": 1780444800
+  },
+  "0x6ecd13f937019c63bdc10848a4ee1e048ab6a84b6d0b20b77f122ce8b5676e8e": {
+    "w": "NO",
+    "q": "Russia x Ukraine ceasefire by June 30, 2026?",
+    "s": "russia-x-ukraine-ceasefire-by-june-30-2026-631",
+    "c": "Military & Defense",
+    "r": 1798675200
+  },
+  "0x70d706fe084905dbafb95dfff13b727e4073efc3ef590adc8330562bac5d26de": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by May 15, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-may-15-2026",
+    "c": "World",
+    "r": 1778803200
+  },
+  "0x3af3b73bcbc15aee58d230cfebd26fc30f2f2c4ba8c25b5814af9ba58862c702": {
+    "w": "NO",
+    "q": "US announces shutdown of Gaza military center by May 15?",
+    "s": "us-announces-shutdown-of-gaza-military-center-by-may-15",
+    "c": "Military & Defense",
+    "r": 1778803200
+  },
+  "0xa48ee32a0cbe5bc1a48844bd14e1691701d3bf8f45f4dd8cb8d1d304561393b6": {
+    "w": "YES",
+    "q": "US announces new Iran agreement/ceasefire extension by June 30?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-30-848-925-757-129-337-165",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0xf526b2fbff94ae996818e76c8b54cc99ffbfa0a1a9972a48253ada65e32786f7": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by June 3?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-3-569-213",
+    "c": "Military & Defense",
+    "r": 1780444800
+  },
+  "0x6a8cfe84d17693425f27831db5949d7511f3393d4624b182ac6956164cd32b10": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by May 31?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-may-31-665-831-238",
+    "c": "Military & Defense",
+    "r": 1780099200
+  },
+  "0x7aa6ecf3de5537b7822a0d6041b713ecc4d8b5c9f58449e16509c8af43db86ef": {
+    "w": "NO",
+    "q": "Will Steve Witkoff have a diplomatic meeting with Iran by April 30?",
+    "s": "will-steve-witkoff-have-a-diplomatic-meeting-with-iran-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0xd666c8eb740964a90685bf02d2a235a0970907fc48434e607011e89f6a092ea8": {
+    "w": "NO",
+    "q": "Will Donald Trump have a diplomatic meeting with Iran by April 30?",
+    "s": "will-donald-trump-have-a-diplomatic-meeting-with-iran-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0xbcf8a1105392d88cdd573deaa65df33e1f89fc87d250fd6f5513b60ee51f548a": {
+    "w": "NO",
+    "q": "Will Jared Kushner have a diplomatic meeting with Iran by April 30?",
+    "s": "will-jared-kushner-have-a-diplomatic-meeting-with-iran-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x52bda1b8d68c469eb3176f2052f4da7cacc65a814c51f53294637d124af6afde": {
+    "w": "NO",
+    "q": "Will J.D. Vance have a diplomatic meeting with Iran by April 30?",
+    "s": "will-jd-vance-have-a-diplomatic-meeting-with-iran-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x773abaa5fe55e5cde51a261f444b7921652a4e059ead6b3be9fe56499c2d4609": {
+    "w": "YES",
+    "q": "US x Iran ceasefire by April 15?",
+    "s": "us-x-iran-ceasefire-by-april-15",
+    "c": "Military & Defense",
+    "r": 1776211200
+  },
+  "0x189c38e8bf3733572f401f8d578099f7233baef3d5fcb438b4eeb0b73bacc787": {
+    "w": "NO",
+    "q": "Will no qualifying diplomatic US-Iran meeting occur by June 30, 2026?",
+    "s": "will-no-qualifying-diplomatic-us-iran-meeting-occur-by-june-30-2026-673",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x6ef34d5c7937cb8a1eb22234ddce8fe3eb1595e1f35c7d4f2101c58f3506e580": {
+    "w": "NO",
+    "q": "No change in Fed interest rates after October 2025 meeting?",
+    "s": "no-change-in-fed-interest-rates-after-october-2025-meeting",
+    "c": "Economics",
+    "r": 1761696000
+  },
+  "0x6a8c775d3a7ab901a5c4595dbc33478d654dc3b293be2b80fd64500cabbfcc37": {
+    "w": "NO",
+    "q": "Fed decreases interest rates by 50+ bps after October 2025 meeting?",
+    "s": "fed-decreases-interest-rates-by-50-bps-after-october-2025-meeting",
+    "c": "Economics",
+    "r": 1761696000
+  },
+  "0x962c76d11abf9d8ef448281d25f3b8678d54866234a960f0f6e8879c7ae12f2b": {
+    "w": "NO",
+    "q": "Israel x Hamas ceasefire cancelled by October 31?",
+    "s": "israel-x-hamas-ceasefire-cancelled-by-october-31",
+    "c": "Military & Defense",
+    "r": 1761868800
+  },
+  "0xb11173b63944f4f273bf31da413d07384284bcf7a3053be15a560a9b80d171df": {
+    "w": "NO",
+    "q": "Will the US officially declare war on Iran before July?",
+    "s": "will-the-united-states-officially-declare-war-on-iran-before-july",
+    "c": "Military & Defense",
+    "r": 1751241600
+  },
+  "0xd009ac14bccdd12925a2d9f8d910411556e4ed153337abb18a97b97fabcf7db0": {
+    "w": "NO",
+    "q": "Will Rafał Trzaskowski be the next President of Poland?",
+    "s": "will-rafa-trzaskowski-be-the-next-president-of-poland",
+    "c": "Politics",
+    "r": 1747526400
+  },
+  "0x614be8366c44bee32b179f13a1653126b28fddfdec74690c1e195989d05f5975": {
+    "w": "NO",
+    "q": "Will Elena Lasconi win the Romanian presidential election?",
+    "s": "romania-presidential-election-winner-will-elena-lasconi-win-the-romanian-presidential-election",
+    "c": "Elections",
+    "r": 1767139200
+  },
+  "0xcc4e7542c6b9b0c0a5069dc1dc16d27fd60c4654f3a36fbc1db96ca74939a580": {
+    "w": "NO",
+    "q": "Will Daniel Funeriu win the Romanian presidential election?",
+    "s": "romania-presidential-election-winner-will-daniel-funeriu-win-the-romanian-presidential-election",
+    "c": "Elections",
+    "r": 1767139200
+  },
+  "0xf759fba6c4fd415128bc840a1bf99708244720d7e613ef4ca02f0e15157b2f14": {
+    "w": "NO",
+    "q": "Will Crin Antonescu win the Romanian presidential election?",
+    "s": "romania-presidential-election-winner-will-crin-antonescu-win-the-romanian-presidential-election",
+    "c": "Elections",
+    "r": 1767139200
+  },
+  "0x01c85fb55ff4f1a406c951dfefc03b55c3455ed027e5443ba682efcdaaf1d000": {
+    "w": "NO",
+    "q": "Will Anamaria Gavrilă win the Romanian presidential election?",
+    "s": "will-anamaria-gavril-win-the-romanian-presidential-election",
+    "c": "Elections",
+    "r": 1767139200
+  },
+  "0x5fc28bfcb6f16080415695b53f1f60820f403a94ce16696eea2f0085d823bc92": {
+    "w": "NO",
+    "q": "Will George Simion win the Romanian presidential election?",
+    "s": "romania-presidential-election-winner-will-george-simion-win-the-romanian-presidential-election",
+    "c": "Elections",
+    "r": 1767139200
+  },
+  "0x5efa976ebe94080bbda7e45605333ff8f30156cc91604d66c41eb52fd3e25f3e": {
+    "w": "NO",
+    "q": "Israel x Iran permanent peace deal by June 30, 2026?",
+    "s": "israel-x-iran-permanent-peace-deal-by-june-30-2026-262",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xc7373d242a34de5c184ffdc9707e7b179ea6aa8f8600686ca2ddecbdbec9457b": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in Qatar?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-qatar-436",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x71c49500d051a9b32b9aa5bc22e0a6925a8b2282840c3e62e0a3afcd0403ba03": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by May 29?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-may-29",
+    "c": "Military & Defense",
+    "r": 1780012800
+  },
+  "0x553c1115fe928f9800e52ea5adabf894d6885b328be0a53927fe897c2eb8623d": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 3, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-3-2026",
+    "c": "World",
+    "r": 1780444800
+  },
+  "0x13419cc3e895bf60225558dadd022c11597814a40ea15b25f99539a111ca5592": {
+    "w": "NO",
+    "q": "Will the Iran ceasefire continue through June 15?",
+    "s": "will-the-iran-ceasefire-continue-through-june-15-136-565",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x656ee3fe28d2f23b12f3e5616161274a1456dc5e355fd97d3ad1d07c7c972f48": {
+    "w": "NO",
+    "q": "Will the Iran ceasefire continue through May 27?",
+    "s": "will-the-iran-ceasefire-continue-through-may-27-496",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x4023fae82e2914ce29c6abc62d4353a7ea1eeaca5dd73b27faeead9abbee790f": {
+    "w": "NO",
+    "q": "Will the Iran ceasefire continue through June 7?",
+    "s": "will-the-iran-ceasefire-continue-through-june-7-849",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x46c09232d356fdbe5e4e543ce1a4e90c84a6e3bd4668a24852fd25563e36b32a": {
+    "w": "NO",
+    "q": "Will the Iran ceasefire continue through May 31?",
+    "s": "will-the-iran-ceasefire-continue-through-may-31-654-633",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x86f43746cbd692719483aaeedc657eef89d9ffb91d6ffceacb1edf533e049516": {
+    "w": "NO",
+    "q": "Israel x Hezbollah permanent peace deal by June 30, 2026?",
+    "s": "israel-x-hezbollah-permanent-peace-deal-by-june-30-2026",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xf6a7f2cc60e471e6324ab27237af4a2b67d1ea142d16501efc0014cf88e9e209": {
+    "w": "YES",
+    "q": "US x Cuba diplomatic meeting by May 31?",
+    "s": "us-x-cuba-diplomatic-meeting-by-may-31",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x4495596ef99ce27149438102ea678eaba0c46053ce37abda7140680cc84b13ad": {
+    "w": "YES",
+    "q": "Confirmed case of Hantavirus in US by May 15?",
+    "s": "confirmed-case-of-hantavirus-in-us-by-may-15",
+    "c": "Politics",
+    "r": 1778803200
+  },
+  "0x258031a51215d328eac2db15bdf45abdee1a23d38d66e12462a83c34cf31b5c8": {
+    "w": "YES",
+    "q": "US x Iran diplomatic meeting by July 31, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-july-31-2026-436-841-384-728-576-249-144-819-328-645-725-579",
+    "c": "World",
+    "r": 1778803200
+  },
+  "0x026750b9545df1861e77a85eb5461e621955344738355a6c7fe69bc78510d5d6": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in Oman?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-oman-869",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x5a27ddbd2965784c01ef0a53d440a9cfc08e815f63f0d923ed8734af36872add": {
+    "w": "NO",
+    "q": "Trump announces US x Iran ceasefire over by June 15?",
+    "s": "trump-announces-us-x-iran-ceasefire-over-by-june-15-20260607232556275-193",
+    "c": "Military & Defense",
+    "r": 1781568000
+  },
+  "0x26ca74d41edc9e3a6643698fbe8eae446377e4579d2f55f505da4ff6a1cf0f66": {
+    "w": "NO",
+    "q": "Trump announces US x Iran ceasefire over by June 30?",
+    "s": "trump-announces-us-x-iran-ceasefire-over-by-june-30-20260607232556276-219",
+    "c": "Military & Defense",
+    "r": 1782878340
+  },
+  "0x0270d132cf6ce8035618aae1e445dfa994679d73443f85c285e4907bf796a1ef": {
+    "w": "NO",
+    "q": "Abbas Araghchi out as Minister of Foreign Affairs of Iran by June 30, 2026?",
+    "s": "abbas-araghchi-out-as-minister-of-foreign-affairs-of-iran-by-june-30-2026",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xfe1b2680389ef9e2d8569b09d103791e8e1d5677487c4044b08d085a80872038": {
+    "w": "NO",
+    "q": "Will Steve Witkoff have a diplomatic meeting with Iran by May 31?",
+    "s": "will-steve-witkoff-have-a-diplomatic-meeting-with-iran-by-may-31",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x3982b6b324e34f850076855826649019133e5799ddb30479547c474947539d11": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by May 23?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-may-23",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0xfec5144509bab2118c9c172a71a3705e269a61aca2ab1de20cb23f0e17200661": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in another country?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-another-country-367",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x0f3062f421a43ab9af2f3dc9c3eef48e2aab38a4c9858aca7651947642c4c964": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in Pakistan?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-pakistan-295",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x3c41f17860ead2faeb7b055dd768ebd7f11c0996756828ddb09acebf8b5fef22": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 18, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-18-2026-456",
+    "c": "World",
+    "r": 1776470400
+  },
+  "0xb4634c0dcf311e11755ef9f1571394f061a3bfdf64843800583eb183078ff099": {
+    "w": "YES",
+    "q": "Israel x Lebanon diplomatic meeting by April 30, 2026?",
+    "s": "israel-x-lebanon-diplomatic-meeting-by-april-30-2026-859",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x00373f48342212cfc74833f43e61eed5efd678b37ec212622fc68c551249e963": {
+    "w": "NO",
+    "q": "Will Trump announce that the US x Iran ceasefire has been broken by April 14, 2026?",
+    "s": "will-trump-announce-that-the-us-x-iran-ceasefire-has-been-broken-by-april-14-2026",
+    "c": "Military & Defense",
+    "r": 1776124800
+  },
+  "0xe12f3636e12dd4d423a4dcaafec802726a6d853980ec23f61798b0c656fb46fb": {
+    "w": "NO",
+    "q": "Israel x Iran permanent peace deal by April 30, 2026?",
+    "s": "israel-x-iran-permanent-peace-deal-by-april-30-2026",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0xecf63047b28b4a9a5a94782e5b2c501348303de25a6ee78f08b02d4f2bad1748": {
+    "w": "NO",
+    "q": "JD Vance diplomatic meeting with Iran by April 10?",
+    "s": "jd-vance-diplomatic-meeting-with-iran-by-april-10",
+    "c": "World",
+    "r": 1775779200
+  },
+  "0x5d87eb09704572f515e1dc472bc1f3dac6835cbb06a6c72c1d0b3486cd0ad97c": {
+    "w": "YES",
+    "q": "Will Israel or the US target Isfahan Nuclear Technology Center nuclear facility?",
+    "s": "will-israel-or-the-us-target-isfahan-nuclear-technology-center-nuclear-facility",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x70735f4ab5d7fc7667a37c0377c8a23fad5880e9ac44b53d954a36d1b5133d45": {
+    "w": "YES",
+    "q": "Will Iran conduct a military action against Israel on March 31, 2026?",
+    "s": "will-iran-conduct-a-military-action-against-israel-on-march-31-2026-112",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0xe34380896d3df2ac2fcd753a01b3a8887acc335778c11e93af952fd273fca7fb": {
+    "w": "NO",
+    "q": "US x Cuba economic deal by June 30, 2026?",
+    "s": "us-x-cuba-economic-deal-by-june-30-2026",
+    "c": "Economics",
+    "r": 1782777600
+  },
+  "0x16608c4fdd7cb41292f6d42c1c02b43ac22593f1c198a104847a3479848d7abe": {
+    "w": "YES",
+    "q": "US announces new Iran agreement/ceasefire extension by June 15?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-15-2889-539",
+    "c": "Military & Defense",
+    "r": 1780012800
+  },
+  "0x339727bd072a1756e1ff56b4512702e28ed0e30818fc28e0c9e39fafea56a578": {
+    "w": "NO",
+    "q": "Trump announces US x Iran ceasefire over by June 12?",
+    "s": "trump-announces-us-x-iran-ceasefire-over-by-june-12-20260607232556274",
+    "c": "Military & Defense",
+    "r": 1781308800
+  },
+  "0x5c630cce90873c62161bdd6994b02f9c8e3203a858f578456b7bfae936cc04c8": {
+    "w": "NO",
+    "q": "Will the Iran ceasefire continue through July 31?",
+    "s": "will-the-iran-ceasefire-continue-through-july-31-157-645",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x37428e14d903dd0d5a243131a60b1dd4af3b58caa75308589d4f88b2475a028e": {
+    "w": "YES",
+    "q": "US announces new Iran agreement/ceasefire extension by June 19?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-19",
+    "c": "Military & Defense",
+    "r": 1781827200
+  },
+  "0xa1b91b95e0941fafb86b8e55f5f8051bf5620f5b03d8547dfb1cf81e10abf077": {
+    "w": "NO",
+    "q": "Jerome Powell out as Fed Chair by May 14, 2026?",
+    "s": "jerome-powell-out-as-fed-chair-by-may-14-2026",
+    "c": "Economics",
+    "r": 1778716800
+  },
+  "0x0873468013b24ec29dbea6baf4db35b679d99d6358b774a472fdfb7d2a6f1836": {
+    "w": "YES",
+    "q": "Will Les Wexner Testify to Congress about Epstein?",
+    "s": "will-les-wexner-testify-to-congress-about-epstein",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0x626d0441b078eefbe2c49047960e7a3b6b4512c235507a2528ccc0f95f2474a6": {
+    "w": "NO",
+    "q": "Fed rate cut by April 2026 meeting?",
+    "s": "fed-rate-cut-by-april-2026-meeting",
+    "c": "Economics",
+    "r": 1777420800
+  },
+  "0x9d253412618643f1a7998374c841465e6582cf853228570df48eab09c3bc7f10": {
+    "w": "NO",
+    "q": "Will Hillary say \"President\" 5+ times during her Epstein testimony?",
+    "s": "will-hillary-say-president-5-times-during-her-epstein-testimony",
+    "c": "Politics",
+    "r": 1772064000
+  },
+  "0xe7f239d76b59c4e614f0bdb80467026da833083e38a31a27fde8e0907417ea12": {
+    "w": "NO",
+    "q": "Fed rate cut by March 2026 meeting?",
+    "s": "fed-rate-cut-by-march-2026-meeting",
+    "c": "Economics",
+    "r": 1773792000
+  },
+  "0x523959b6256674318eb34755789fffd8c62cd652e5fa11ffd332402361d058e9": {
+    "w": "NO",
+    "q": "Will any country leave NATO by December 31, 2026?",
+    "s": "will-any-country-leave-nato-by-december-31-2026",
+    "c": "Military & Defense",
+    "r": 1798718400
+  },
+  "0x549491140b9b057ecbc6606b0a7e15e860ae16c9778e95751291bdc9c13bfaa9": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in Italy?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-italy-332",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xe24b9a3e9c3dbf6540d71a0a49dde378e2aa639241d93221f5a9109fd86ff3d0": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in the UAE?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-the-uae-638",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xd45b7c592c566c75d5ee5a225d4ed0e2c75c84f06dd28c9c458f2bbfb6dcb0d3": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in another European country?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-another-european-country-641",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x3a77d00f9f4a9a588a79d72a27cbdd07f8de96882b3d710badecd1b26e08764b": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in Turkey?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-turkey-583",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x061d30d493488624cb80cce362179251bd837ea6a0664ed4d7fd6a126ab8caa7": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in Austria?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-austria-512",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x30d6852a292eb101cc92a9eed7b2b7be612031f820c34228a2771bdc4343c9c4": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in Iran?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-iran-484",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x991149c636b6756e36eb0af09200e7da254b07c488b708ef794f2595dc0b017b": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in the United States?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-the-united-states-744",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xe9e2214285465e1d1fc3eaa2a3072c98346fd1dee8e6956768c5e41d4d0acd93": {
+    "w": "NO",
+    "q": "Will the next diplomatic US-Iran meeting be in Kazakhstan?",
+    "s": "will-the-next-diplomatic-us-iran-meeting-be-in-kazakhstan-356",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x8db54b33e838dacf85fdd2ec8dd16c425f37844eb6393a7ec0b2e0361d220156": {
+    "w": "NO",
+    "q": "Will \"Toy Story 5\" Opening Weekend Box Office be greater than 184m?",
+    "s": "will-toy-story-5-opening-weekend-box-office-be-greater-than-184m",
+    "c": "Culture",
+    "r": 1782086400
+  },
+  "0x909c5b63cc062959336f05307c25ac8bd87d2c2f36af37c623cd83ddaf7ac958": {
+    "w": "YES",
+    "q": "Will \"Maternal Instinct\" be the top US Netflix movie this week?",
+    "s": "will-maternal-instinct-be-the-top-us-netflix-movie-this-week-20260617143258242",
+    "c": "Culture",
+    "r": 1782172800
+  },
+  "0x5a3914e8988c0713c57438810702a30c7901b3875d25f5e2d0f5c4c66025e2fd": {
+    "w": "YES",
+    "q": "Will Steve Witkoff have a diplomatic meeting with Iran by June 30?",
+    "s": "will-steve-witkoff-have-a-diplomatic-meeting-with-iran-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x7e5228c4aa228752fb75ec1ffcb315a5f2fef812d746ceb6601cee285366d1a8": {
+    "w": "YES",
+    "q": "Will J.D. Vance attend the next US x Iran diplomatic meeting?",
+    "s": "will-jd-vance-attend-the-next-us-x-iran-diplomatic-meeting",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x053d22e12bfe8dd73b12fc1cf89858ecc0de76aede10fea3eca5c7877d8db40c": {
+    "w": "NO",
+    "q": "Israel x Hezbollah permanent peace deal by June 15, 2026?",
+    "s": "israel-x-hezbollah-permanent-peace-deal-by-june-15-2026",
+    "c": "World",
+    "r": 1781481600
+  },
+  "0x269b4de59b444c57f166f690b1ce8c388bf26167c6a68f7613ab5b05e86375a8": {
+    "w": "NO",
+    "q": "Pete Hegseth out as Secretary of Defense by June 30?",
+    "s": "pete-hegseth-out-as-secretary-of-defense-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0xadb3dda930d411bdab3c579f50408b538e66e8b2af8edecdcbcecff7f66aa84b": {
+    "w": "NO",
+    "q": "Ukraine officially agrees to a US backed ceasefire framework by June 30?",
+    "s": "ukraine-officially-agrees-to-a-us-backed-ceasefire-framework-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0xde04b189b3f19eaccda02529a3ea67abfc46bff5c0c8fc42d8a2d0ed7b8f0d41": {
+    "w": "YES",
+    "q": "Will there be no change in Fed interest rates after the June 2026 meeting?",
+    "s": "will-there-be-no-change-in-fed-interest-rates-after-the-june-2026-meeting",
+    "c": "Economics",
+    "r": 1781654400
+  },
+  "0xc3ab3da4947427093f55255e93f5c2ee4ad49a50d75bc40f3a516c0c34237f01": {
+    "w": "NO",
+    "q": "Will Jerome Powell depart as Fed Chair by May 16 2026?",
+    "s": "will-jerome-powell-depart-as-fed-chair-by-may-16-2026",
+    "c": "Economics",
+    "r": 1782777600
+  },
+  "0x1600d32f2f6c318c11436529c522bc3004164d997a4657feb02541d34e09423e": {
+    "w": "YES",
+    "q": "US announces new Iran agreement/ceasefire extension by June 16?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-16",
+    "c": "Military & Defense",
+    "r": 1781568000
+  },
+  "0x68fbeb8d823552abf9d35f3ebdb8619a1a1d51b650da9101be62f09308fd18d2": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by June 13?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-13",
+    "c": "Military & Defense",
+    "r": 1781308800
+  },
+  "0xab1209b73e1ce9ebb4905dad781496385b5102c048889502b174ed733de1506a": {
+    "w": "YES",
+    "q": "US announces new Iran agreement/ceasefire extension by June 14",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-14",
+    "c": "Military & Defense",
+    "r": 1781395200
+  },
+  "0x876047c0df88886ddbe468fe811bc75a667da45a552d798e626ecfc5c60d52d9": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by June 12?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-june-12-2482",
+    "c": "Military & Defense",
+    "r": 1780012800
+  },
+  "0x4997c22d314ed5e9f3712e46eb4847441b51fa730d10ad26240afa85f5d902be": {
+    "w": "YES",
+    "q": "Will the Iran ceasefire continue through May 22?",
+    "s": "will-the-iran-ceasefire-continue-through-may-22",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x276a14b8bc1bc374bebd16407761d530528a05097d2bc53524ba21d38842d5f3": {
+    "w": "YES",
+    "q": "Will the Iran ceasefire continue through May 20?",
+    "s": "will-the-iran-ceasefire-continue-through-may-20",
+    "c": "Military & Defense",
+    "r": 946684800
   }
 }
