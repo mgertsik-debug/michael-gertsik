@@ -695,6 +695,9 @@ class Component extends DCLogic {
             h("div", { style: { display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 } },
               b.txFull ? h("a", { href: "https://polygonscan.com/tx/" + b.txFull, target: "_blank", rel: "noopener noreferrer", title: b.txFull, style: { color: "#34D399", fontSize: "9.5px", textDecoration: "none" } }, "verify ↗") : null,
               h("span", { style: { color: b.won ? "#34D399" : "#F87171", fontWeight: 600 } }, b.won ? "Won" : "Lost"))))) ) : null,
+      (d.ledger && d.ledger.length) ? h("div", { style: { marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" } },
+        h("button", { onClick: () => this.download((addr || "wallet").slice(0, 10) + "_record.csv", "text/csv", this.lookupCsv(d)),
+          style: { fontFamily: mono, fontSize: "11px", color: "#06120D", background: "#34D399", border: "none", borderRadius: "8px", padding: "8px 13px", fontWeight: 700, cursor: "pointer" } }, "↧ Download full record (" + d.ledger.length + " bets, CSV)")) : null,
       h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#5C6661", marginTop: "16px", lineHeight: 1.6 } },
         "data: " + (src.trades || 0) + " trades · " + (src.resolvedTotal != null ? src.resolvedTotal : (src.tradesResolvable || 0)) + " resolved position" + ((src.resolvedTotal === 1) ? "" : "s") +
         (src.outOfScope ? " · " + src.outOfScope + " excluded (sports/crypto/price markets — decided in public)" : "") +
@@ -1619,6 +1622,16 @@ class Component extends DCLogic {
     this.setState({ modal: { open: true, kind, eyebrow } });
   }
 
+  // Full looked-up record as CSV (every resolved in-scope bet, real fields).
+  lookupCsv(d) {
+    const head = "market,date,category,entry_odds,stake,outcome,result,net_pl,tx_hash";
+    const rows = (d.ledger || []).map((b) => [
+      '"' + String(b.market).replace(/"/g, '""') + '"', b.date, b.category, b.entryOdds,
+      String(b.stake).replace(/[$,]/g, ""), b.outcome, (b.won ? "Won" : "Lost"),
+      String(b.pl).replace(/[$,]/g, "").replace(/−/g, "-"), (b.txFull || ""),
+    ].join(","));
+    return [head, ...rows].join("\n");
+  }
   // Real clipboard write with a legacy execCommand fallback (works inside the
   // same-origin iframe; the host grants clipboard-write via the iframe `allow`).
   writeClipboard(text) {
