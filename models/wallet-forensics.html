@@ -1130,7 +1130,7 @@ class Component extends DCLogic {
       corpus: {
         observed: this.fmtInt(this.meta.observed || 0),
         wallets: this.fmtInt(this.meta.reviewed || 0), flagged: 0,
-        asOf: haveSnap ? ("as of " + this.meta.snapshot) : "scan in progress",
+        asOf: (this.meta.recomputed || this.meta.snapshot) ? ("updated " + (this.meta.recomputed || this.meta.snapshot)) : "scan in progress",
       },
       funnelSteps: [
         { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", arrow: "" },
@@ -1161,6 +1161,11 @@ class Component extends DCLogic {
 
   whyLine(s) {
     const phrase = { "Military & Defense": "military events", "Politics": "political events", "Elections": "elections", "Economics": "economic events", "Crypto": "crypto events", "Culture": "culture markets", "Sports": "sports markets", "World": "world events" }[s.category] || "these markets";
+    // CONVICTION wallets aren't flagged by their win RATE (which may be unremarkable) —
+    // they're flagged by one big winning long-shot bet. Describe THAT, not "won X%".
+    if (s.convictionFlag && s.convBet) {
+      return "Put " + ("$" + (s.convBet.stake || 0).toLocaleString("en-US")) + " on a ~" + (s.convBet.entryPct || s.avgImplied) + "% long-shot on " + phrase + " and won — about " + s.profit + ".";
+    }
     return "Won " + s.winRate + "% of long-shot bets on " + phrase + " — about " + s.profit + ".";
   }
 
@@ -1621,7 +1626,7 @@ class Component extends DCLogic {
 
     const corpus = { observed: this.fmtInt(Math.round((this.meta.observed || 0) * st.corpusProg)),
       wallets: this.fmtInt(Math.round(this.meta.reviewed * st.corpusProg)), flagged: Math.round(this.subjects.length * st.corpusProg),
-      asOf: this.meta.snapshot ? ("as of " + this.meta.snapshot) : "as of —" };
+      asOf: (this.meta.recomputed || this.meta.snapshot) ? ("updated " + (this.meta.recomputed || this.meta.snapshot)) : "as of —" };
 
     const saved = !!st.saved[sel.id];
     const ls = sel.ledgerSummary || {};
