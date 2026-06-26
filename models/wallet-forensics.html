@@ -237,7 +237,7 @@
             <button onClick="{{ sel.copyAddr }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ sel.copyColor }}; background: transparent; border: 1px solid {{ sel.copyBorder }}; border-radius: 7px; padding: 4px 9px; cursor: pointer;">{{ sel.copyLabel }}</button>
             <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7E8C86; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34A382;color:#C4CAC6;">Polymarket ↗</a>
           </div>
-          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">{{ sel.createdLine }}</div>
+          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">First active {{ sel.firstSeen }}.</div>
           <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
             <div style="font-size: 13.5px; color: #949C98; margin-top: 8px; line-height: 1.6; max-width: 620px;">These wallets appear to be controlled by one person or group. See the connection evidence below.</div>
           </sc-if>
@@ -371,7 +371,7 @@
                       <a href="{{ row.marketUrl }}" target="_blank" rel="noopener noreferrer" style="color: #ECEFED; text-decoration: none; border-bottom: 1px solid rgba(52,211,153,0.4);" style-hover="color:#34D399;">{{ row.market }} <span style="color:#34D399;">↗</span></a>
                     </td>
                     <td style="padding: 11px 13px; color: #949C98; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.entryTime }}</td>
-                    <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.oddsText }}</td>
+                    <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.odds }}%</td>
                     <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.stake }}</td>
                     <td style="padding: 11px 13px; text-align: center; white-space: nowrap;"><span style="{{ row.outcomeStyle }}">{{ row.outcome }}</span></td>
                     <td style="padding: 11px 13px; text-align: right; white-space: nowrap; color: {{ row.plColor }}; font-weight: 600; font-family: 'JetBrains Mono', monospace;">{{ row.pl }}</td>
@@ -1527,10 +1527,7 @@ class Component extends DCLogic {
     const acc = accessor[key] || accessor.entryIdx;
     rows.sort((a, b) => (acc(a) < acc(b) ? -1 : acc(a) > acc(b) ? 1 : 0) * st.ledgerDir);
     return rows.map((r) => ({
-      market: r.market, entryTime: r.entryTime, odds: r.odds,
-      // a deep long-shot entered below 1% rounds to 0 — show "<1%", never a misleading "0%".
-      oddsText: (Number(r.odds) > 0 && Number(r.odds) < 1) || (Number(r.odds) === 0) ? "<1%" : (r.odds + "%"),
-      stake: r.stake, outcome: r.outcome, pl: r.pl,
+      market: r.market, entryTime: r.entryTime, odds: r.odds, stake: r.stake, outcome: r.outcome, pl: r.pl,
       tx: r.tx, plColor: r.plNum >= 0 ? "#34D399" : "#F87171",
       marketUrl: r.url || (r.eventSlug ? "https://polymarket.com/event/" + r.eventSlug : "https://polymarket.com/markets"),
       txUrl: (r.txFull || r.tx) ? ("https://polygonscan.com/tx/" + (r.txFull || r.tx)) : "https://polygonscan.com/address/" + (s.address || s.idLabel || ""),
@@ -1738,13 +1735,7 @@ class Component extends DCLogic {
         copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "\u2713 copied" : "\u29c9 copy address",
         copyColor: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#949C98",
         copyBorder: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#243029",
-        firstSeen: sel.firstSeen || "an unrecorded date",
-        createdLine: sel.type === "cluster"
-          ? ("First active " + (sel.firstSeen || "an unrecorded date") + ".")
-          : (sel.createdOnChain
-              ? ("Wallet created " + (sel.created || sel.firstSeen) + " (on-chain) · first active on Polymarket " + (sel.firstSeen || "—") + ".")
-              : ("First active " + (sel.firstSeen || "an unrecorded date") + ".")),
-        isCluster: sel.type === "cluster" && !!sel.cluster,
+        firstSeen: sel.firstSeen || "an unrecorded date", isCluster: sel.type === "cluster" && !!sel.cluster,
         depositChips: this.depositChips(sel),
         concernColor: ct.color, concernGlow: ct.glow, concernBorder: ct.border, concernBg: ct.bg, concernLabel: ct.label,
         heroSentence: sel.heroSentence || ("This " + (sel.type === "cluster" ? "group" : "account") + " won " + sel.winRate + "% of " + sel.marketsCount + " long-shot bets priced near " + sel.avgImplied + "%. A record this strong is very hard to explain by luck. A full evidence file has not yet been compiled for this subject."),

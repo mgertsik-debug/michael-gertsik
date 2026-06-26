@@ -100,21 +100,6 @@ async function scanTxCount(wallet, beforeTs) {
   return before.length;
 }
 
-// On-chain wallet CREATION date from Polygonscan — the timestamp of the wallet's
-// first-ever NORMAL transaction (sort=asc, offset=1). Many Polymarket proxy wallets
-// act only through a relayer and have no external txs, so the caller also considers
-// the earliest token (USDC) transfer; the true creation is the MIN of the two. Returns
-// a unix ts or null (keyless / no external tx history).
-async function walletCreatedTs(wallet) {
-  if (!SCAN_KEY || !wallet) return null;
-  const url = SCAN_BASE + "&module=account&action=txlist&address=" + wallet +
-    "&startblock=0&endblock=99999999&page=1&offset=1&sort=asc&apikey=" + SCAN_KEY;
-  const d = await getJSON(url, { timeout: 9000 }).catch(() => null);
-  if (!d || !Array.isArray(d.result) || !d.result.length) return null;
-  const ts = num(d.result[0].timeStamp);
-  return ts > 0 ? ts : null;
-}
-
 /* ----------------------------------------------------- JSON-RPC fallback -- */
 let _rpcId = 1;
 let _rpcGood = 0;                                         // remember the endpoint that last worked
@@ -260,7 +245,7 @@ async function fundingNetwork(wallet, opts) {
 }
 
 module.exports = {
-  walletFunding, walletCreatedTs, priorTxCount, cashoutAfter, exchangeLabel, fundingNetwork, scanTokenTx,
+  walletFunding, priorTxCount, cashoutAfter, exchangeLabel, fundingNetwork, scanTokenTx,
   // exposed for tests / reuse
   padAddr, unpadAddr, usdcAmount, hexToNum, EXCHANGE_LABELS, latestBlock, blockTime,
   USDC, RPC, hasScanKey: () => !!SCAN_KEY,
