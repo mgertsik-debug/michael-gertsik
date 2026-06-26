@@ -163,7 +163,6 @@ async function scoreWallet(addr) {
     .sort((a, b) => b.stakeUsd - a.stakeUsd).slice(0, 8).map(row);
 
   // ---- FORENSIC LAYER: the long-shot improbability flag, when computable ----
-<<<<<<< HEAD
   // on-chain wallet-creation date (Polygonscan) for the dossier "created" line.
   let createdTs = null;
   try { createdTs = await chain.walletCreatedTs(addr); } catch (_) {}
@@ -181,11 +180,6 @@ async function scoreWallet(addr) {
   // fresh = firstSeenTs − fundingTs computes; carry the authoritative profile + created date.
   const firstSeenTs = createdTs || (isFinite(firstBetTs) ? firstBetTs : null);
   const agg = { address: addr, bets, firstSeenTs, fundingTs, priorTx, createdTs, conceal, profile: o.polymarket || null };
-=======
-  // carry Polymarket's authoritative profile so buildSubject() uses the real all-time
-  // P/L (and clears its net-profit gate) instead of the in-scope reconstruction.
-  const agg = { address: addr, bets, firstSeenTs: null, fundingTs: null, priorTx: null, profile: o.polymarket || null };
->>>>>>> origin/main
   const { dets, f } = build.scoreAggregate(agg);
   // expose the on-chain detector verdicts too, so the lookup shows the full suite it ran.
   o.onchain = { fundingTs, priorTx, fresh: dets.fresh.hasData ? { ageDays: +(dets.fresh.ageDays || 0).toFixed(2), priorTx: dets.fresh.priorTx, fires: dets.fresh.fires } : { hasData: false }, conceal: dets.conceal.hasData ? { tactics: dets.conceal.nTactics, fires: dets.conceal.fires } : { hasData: false } };
