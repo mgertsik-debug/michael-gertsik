@@ -1,23 +1,10 @@
 {
-  "updatedAt": "2026-06-26T22:36:10.540Z",
+  "updatedAt": "2026-06-26T21:06:08.399Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
-    {
-      "id": "pm-1250809",
-      "ts": "22:36 UTC",
-      "platform": "polymarket",
-      "market": "Will SpaceX's market cap be between $1.8T and $2.0T at market close on IPO day?",
-      "detector": "runUp",
-      "sev": "med",
-      "metric": "53 · Elevated",
-      "index": 53,
-      "url": "https://polymarket.com/event/spacex-ipo-closing-market-cap-higher-strikes",
-      "engine": "insider",
-      "firstSeen": "2026-06-26T22:36:10.540Z"
-    },
     {
       "id": "pm-2510937",
       "ts": "07:38 UTC",

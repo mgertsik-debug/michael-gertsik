@@ -12441,9 +12441,9 @@
   "0x561cd8d035bac38ed04e23d7882a126da38d7ead9d6679f722ad62c0c9d54ad2": {
     "w": "YES",
     "q": "Will Iran close the Strait of Hormuz by March 31?",
-    "s": "will-iran-close-the-strait-of-hormuz-by-march-31",
+    "s": "will-iran-close-the-strait-of-hormuz-by-2027",
     "c": "Military & Defense",
-    "r": 1798675200
+    "r": 1773448511
   },
   "0x781a06aa5779f97724b75ed8128aaf72c4a8955c893a6fefdc0efd7cb001c513": {
     "w": "NO",
@@ -17817,9 +17817,9 @@
   "0x5bbabd359667d5bbdb9ee690bb959c9aa4cf4b08b2ae6592118a59753f622d78": {
     "w": "YES",
     "q": "Will Iran close the Strait of Hormuz before 2027?",
-    "s": "will-iran-close-the-strait-of-hormuz-by-2027-969-911-654-431-667",
+    "s": "will-iran-close-the-strait-of-hormuz-by-2027",
     "c": "Military & Defense",
-    "r": 1798675200
+    "r": 1773448567
   },
   "0x1dbe370933194e449ebec13b96fd1f5d2fde064c880d6b8db100f2730c50357c": {
     "w": "YES",
@@ -29794,9 +29794,9 @@
   "0x43c7e8f73e867ebc035edf002617f67cf96b90c85eccac18090e553bfe7a8411": {
     "w": "YES",
     "q": "Will Iran close the Strait of Hormuz by June 30?",
-    "s": "will-iran-close-the-strait-of-hormuz-by-june-30",
+    "s": "will-iran-close-the-strait-of-hormuz-by-2027",
     "c": "Military & Defense",
-    "r": 1782777600
+    "r": 1773448541
   },
   "0x8241e8fdb118e0e14f3b9413d114276547f1704372eb023af521504057c9df66": {
     "w": "NO",
@@ -30487,9 +30487,9 @@
   "0x521c20a2815c1ffc40f5a3186fcaaaec8ada81661c74cded21d28615adb89fa8": {
     "w": "NO",
     "q": "Will Iran close the Strait of Hormuz by January 31?",
-    "s": "will-iran-close-the-strait-of-hormuz-by-january-31",
+    "s": "will-iran-close-the-strait-of-hormuz-by-2027",
     "c": "Military & Defense",
-    "r": 1798675200
+    "r": 1769930986
   },
   "0x4c8a2755477da991f6fcd81d513f151e711a30d77232d03a1eec4d64e845385b": {
     "w": "NO",
@@ -54430,5 +54430,313 @@
     "s": "yoon-out-as-president-of-south-korea-before-may",
     "c": "Politics",
     "r": 1745971200
+  },
+  "0xcd4d54b18c84e172b7d066c12bc0460e066814ce12a7402d01f7df73960efece": {
+    "w": "YES",
+    "q": "Anthropic valued higher than OpenAI in 2026?",
+    "s": "anthropic-valued-higher-than-openai-in-2026",
+    "c": "Economics",
+    "r": 1780002938
+  },
+  "0xfc5bc76b605859175517e5ea5676e05b22b5ec64e042bb2cce8b367233315285": {
+    "w": "YES",
+    "q": "U.S. forces seize another oil tanker by February 14, 2026?",
+    "s": "us-forces-seize-another-oil-tanker-by-february-14-2026",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x4e794ebf4afe26e1df04a9f62aa9c2df341409fc3e34bdbfc746130f53da7c5f": {
+    "w": "YES",
+    "q": "Will the US embassy in Venezuela reopen by March 31?",
+    "s": "will-the-us-embassy-in-venezuela-reopen-by-march-31",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x8b3251d2b414f75280ad4626de201089b8be8043c6c531497a1549540f6717e8": {
+    "w": "NO",
+    "q": "US x Venezuela military engagement by December 9?",
+    "s": "us-x-venezuela-military-engagement-by-december-9",
+    "c": "Military & Defense",
+    "r": 1764892800
+  },
+  "0x206662f144a3241bcd1aaa4a2a82268ff90c2f371f88f1279dfa3bac15aaa259": {
+    "w": "NO",
+    "q": "US x Venezuela military engagement by November 25?",
+    "s": "us-x-venezuela-military-engagement-by-november-25-568",
+    "c": "Military & Defense",
+    "r": 1763683200
+  },
+  "0x6e1bca8d39f81ceacc67fe7fbe6be4594a42391e14c2b5fd0d1ea2f232e28f63": {
+    "w": "NO",
+    "q": "Will turnout in the second round of the 2025 Chilean presidential election be between 82% and 84%?",
+    "s": "will-turnout-in-the-second-round-of-the-2025-chilean-presidential-election-be-between-82-and-84",
+    "c": "Elections",
+    "r": 1774915200
+  },
+  "0x59355fb7f95e49fd6820ca6dc3afd7f136724d5e8007e890984620a82abe3a0f": {
+    "w": "NO",
+    "q": "Will Evelyn Matthei come in third in the 1st round of the 2025 Chilean presidential election?",
+    "s": "will-evelyn-matthei-come-in-third-in-the-1st-round-of-the-2025-chilean-presidential-election",
+    "c": "Elections",
+    "r": 1763251200
+  },
+  "0x3c881c1086af2973e00bd7cde3e5dd6b6ade38105d379643125605cda393662d": {
+    "w": "YES",
+    "q": "Will Franco Parisi come in third in the 1st round of the 2025 Chilean presidential election?",
+    "s": "will-franco-parisi-come-in-third-in-the-1st-round-of-the-2025-chilean-presidential-election",
+    "c": "Elections",
+    "r": 1763251200
+  },
+  "0x12bbfe4d2f844c0c6aeb9eac02813218c30fa48d116d20c6f7ab50bc9c0d54cc": {
+    "w": "NO",
+    "q": "Will OpenAI have the second best AI model at the end of November 2025?",
+    "s": "will-openai-have-the-second-best-ai-model-at-the-end-of-november-2025",
+    "c": "Tech & Announcements",
+    "r": 1764460800
+  },
+  "0x8fb526c3afd133bae39214acb5502374a36e3563cbedb8a964899825c8be2b64": {
+    "w": "NO",
+    "q": "Bank of Japan decreases interest rates after the April 2026 meeting?",
+    "s": "bank-of-japan-decreases-interest-rates-after-the-april-2026-meeting",
+    "c": "Economics",
+    "r": 1777334400
+  },
+  "0xd6b3dba9eefc9b556c3bb0f140e7d530759e70ed1283caeb162c31df477c1e1a": {
+    "w": "NO",
+    "q": "Will Russia capture Kostyantynivka by November 30?",
+    "s": "will-russia-capture-kostyantynivka-by-november-30",
+    "c": "Military & Defense",
+    "r": 1761868800
+  },
+  "0xc3b0677f12de966297fb2a879522042addba39552f618afc04263c3a5aa757a6": {
+    "w": "YES",
+    "q": "Will \"Frankenstein\" win exactly 3 awards at the Oscars?",
+    "s": "will-frankenstein-win-exactly-3-awards-at-the-oscars",
+    "c": "Culture",
+    "r": 1773532800
+  },
+  "0x215625b9e962f3f499f832c77dd4caa400bd8435369b5fd65e8673c8b2c4da66": {
+    "w": "NO",
+    "q": "Will Michelle Obama win the popular vote in the 2024 Presidential Election?",
+    "s": "will-michelle-obama-win-the-popular-vote-in-the-2024-presidential-election",
+    "c": "Elections",
+    "r": 1730764800
+  },
+  "0x875c9e4dae99f1447580d5cdd09ba5b7ef767eba5e6b5320a380f1dc2b2270bd": {
+    "w": "YES",
+    "q": "Will \"Mortal Kombat II\" Opening Weekend Box Office be between 35m and 40m?",
+    "s": "will-mortal-kombat-ii-opening-weekend-box-office-be-between-35m-and-40m",
+    "c": "Culture",
+    "r": 1778457600
+  },
+  "0x76e20c18fc781c8bb0b0c7e204587a11bc575e37f3bff938b723e792fe3de444": {
+    "w": "YES",
+    "q": "Will \"Man on Fire: Season 1\" be the top global Netflix show this week?",
+    "s": "will-man-on-fire-season-1-be-the-top-global-netflix-show-this-week",
+    "c": "Culture",
+    "r": 1777939200
+  },
+  "0xdb4d3985dac96597f4e7e518eb8c66ccb521d2ba2a1f2e387dc54ddff98b9025": {
+    "w": "YES",
+    "q": "Cerebras IPO before 2027?",
+    "s": "cerebras-ipo-before-2027",
+    "c": "Corporate & M&A",
+    "r": 1798675200
+  },
+  "0xccf29510341e7437f067af2cb107f69d617975a734646b4a6c86089242c8daa0": {
+    "w": "NO",
+    "q": "Will Jason Miyares win the 2025 Virginia Attorney General election?",
+    "s": "will-jason-miyares-win-the-2025-virginia-attorney-general-election",
+    "c": "Elections",
+    "r": 1762214400
+  },
+  "0xaea6c79cb8d62ecba64932c911e54f2e27c44e382ede2849684461a92dbe5c87": {
+    "w": "NO",
+    "q": "Will Trump agree to a tariff agreement with India in July?",
+    "s": "will-trump-agree-to-a-tariff-agreement-with-india-in-july",
+    "c": "Legal & Regulatory",
+    "r": 1754006400
+  },
+  "0xbe5219d1c82daaa110a20c0b50dae77f681f05eb43094e05ea24fe833c5ec47f": {
+    "w": "YES",
+    "q": "Will Trump lower tariffs on China in April?",
+    "s": "will-trump-lower-tariffs-on-china-in-april",
+    "c": "Legal & Regulatory",
+    "r": 1745971200
+  },
+  "0x12852f3ccc565a833bc18418c8219268bf35e03e60bb50962469b5b05b1c6926": {
+    "w": "YES",
+    "q": "TikTok banned in 2025?",
+    "s": "tiktok-banned-in-2025",
+    "c": "Legal & Regulatory",
+    "r": 1767139200
+  },
+  "0x9179d7a449f793cfd23ab12d3913f012877d05dfc1d57901cb4d8cb5bb97d7ed": {
+    "w": "NO",
+    "q": "Will OpenAI have the top AI model on June 30?",
+    "s": "will-openai-have-the-top-ai-model-on-june-30",
+    "c": "Tech & Announcements",
+    "r": 1751241600
+  },
+  "0xe3720e09908b0185e4ef7f2add28bc47d3ef43bd490126cc73d63201569f0cb9": {
+    "w": "YES",
+    "q": "Will Sonic launch before 2025?",
+    "s": "will-sonic-launch-before-2025",
+    "c": "Tech & Announcements",
+    "r": 1735603200
+  },
+  "0x3c6acc986c649d84360ac3aaecd2d9ea0c228469979787a9b9443c6bed192223": {
+    "w": "NO",
+    "q": "Scroll airdrop by September 30?",
+    "s": "scroll-airdrop-by-september-30",
+    "c": "Crypto Events",
+    "r": 1727654400
+  },
+  "0x9203518d9e229d65d4222d1a6b4ae99ea167abadcfb3d11bb50603428dfc7554": {
+    "w": "NO",
+    "q": "OpenAI settlement with NYT by end of 2024?",
+    "s": "openai-settlement-with-nyt-by-end-of-2024",
+    "c": "Legal & Regulatory",
+    "r": 1735603200
+  },
+  "0x6689c157a7c57f0ee8ab7feace215061cbb8828191854fe81f17976ef33b023e": {
+    "w": "YES",
+    "q": "Will Trump go on Joe Rogan before election?",
+    "s": "will-trump-go-on-rogan-before-election",
+    "c": "Elections",
+    "r": 1730678400
+  },
+  "0x2705276ea71dbb3e80c355ae99b38eb9593ecc35f27c00b1de69187b254bbf76": {
+    "w": "YES",
+    "q": "Will Ilhan Omar win the MN-5 Democratic House Primary?",
+    "s": "will-ilhan-omar-win-the-mn-5-democratic-house-primary",
+    "c": "Elections",
+    "r": 1723507200
+  },
+  "0x6015c53496b7a099d952edf8d74f2d2e839aa09d2084df79be603e1db949da71": {
+    "w": "NO",
+    "q": "U.S. Recession in 2024?",
+    "s": "us-recession-in-2024-1",
+    "c": "Economics",
+    "r": 1735603200
+  },
+  "0xd75a9de8f60669a0b891d713902dcfee64dcf88471c49dd76f39fd1ac34c016b": {
+    "w": "YES",
+    "q": "Will Rumen Radev be the next prime minister of Bulgaria after the 2026 parliamentary election?",
+    "s": "will-rumen-radev-be-the-next-prime-minister-of-bulgaria-after-the-2026-parliamentary-election",
+    "c": "Elections",
+    "r": 1776556800
+  },
+  "0xf2eeec6ca024ba9aa97db261f2dc2f09cdffad7647015b20ccd5f64713f7ce43": {
+    "w": "YES",
+    "q": "Will Progressive Bulgaria (PB) win the 2026 Bulgarian Parliamentary election by at least 20%?",
+    "s": "will-progressive-bulgaria-pb-win-the-2026-bulgarian-parliamentary-election-by-at-least-20",
+    "c": "Elections",
+    "r": 1776556800
+  },
+  "0x59cf370950dc3c31d996597696db6b427f0103291cb33df79d38c7a2183ac0da": {
+    "w": "NO",
+    "q": "Will \"Ego Death At A Bachelorette Party - Hayley Williams\" win Best Alternative Music Album at the 68th annual GRAMMY Awards?",
+    "s": "will-ego-death-at-a-bachelorette-party-hayley-williams-win-best-alternative-music-album-at-the-68th-annual-grammy-awards",
+    "c": "Culture",
+    "r": 1769904000
+  },
+  "0x2df8bb66d0a96661ec2a4f57b0510ca7c8e154d78d6d8f3b557478ddc34fcfae": {
+    "w": "NO",
+    "q": "Will \"private music - Deftones\" win Best Rock Album at the 68th annual GRAMMY Awards?",
+    "s": "will-private-music-deftones-win-best-rock-album-at-the-68th-annual-grammy-awards",
+    "c": "Culture",
+    "r": 1769904000
+  },
+  "0x0172f9c82187df0faa2e7528d93d684aeb308d15ea6ec6c8633aae9dbb111976": {
+    "w": "NO",
+    "q": "Will \"Ones & Twos - Gerald Clayton\" win Best Contemporary Instrumental Album at the 68th annual GRAMMY Awards?",
+    "s": "will-ones-twos-gerald-clayton-win-best-contemporary-instrumental-album-at-the-68th-annual-grammy-awards",
+    "c": "Culture",
+    "r": 1769904000
+  },
+  "0xe7a2ddf5948ebaa900fb6b4b5289879fd385e3e91f8f6c850a6ba70cf5d4ab99": {
+    "w": "YES",
+    "q": "Will Cirkut win Producer of the Year, Non-Classical at the 68th annual GRAMMY Awards?",
+    "s": "will-cirkut-win-producer-of-the-year-non-classical-at-the-68th-annual-grammy-awards",
+    "c": "Culture",
+    "r": 1769904000
+  },
+  "0x5a7ce47b6e0b672f511107c3ed3a000da2ca8e94816e2c521ac5c4e420187e38": {
+    "w": "NO",
+    "q": "Will \"Manchild - Sabrina Carpenter\" win Best Pop Solo Performance at the 68th annual GRAMMY Awards?",
+    "s": "will-manchild-sabrina-carpenter-win-best-pop-solo-performance-at-the-68th-annual-grammy-awards",
+    "c": "Culture",
+    "r": 1769904000
+  },
+  "0xcff3ca6d1df0014ba269187d1663a8856d91b5e9e1209fa01c67e1b234e0b724": {
+    "w": "YES",
+    "q": "Will \"MAYHEM - Lady Gaga\" win Best Pop Vocal Album at the 68th annual GRAMMY Awards?",
+    "s": "will-mayhem-lady-gaga-win-best-pop-vocal-album-at-the-68th-annual-grammy-awards",
+    "c": "Culture",
+    "r": 1769904000
+  },
+  "0xf3034ce842b51d1f24d6d95bbf695d6cf855b19f8602ff2f55a62864a72d587c": {
+    "w": "NO",
+    "q": "Will Israel strike Lebanon on January 13, 2026?",
+    "s": "will-israel-strike-lebanon-on-january-13-2026",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xcd7535ed70591f0b117fb471b6066584e88e0a50875d2f8aa369af5e9df05527": {
+    "w": "NO",
+    "q": "Will the US strike Yemen next?",
+    "s": "will-the-us-strike-yemen-next-277",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0x6c9a569e48c0dfb201b264d12381ca4be90e89fa304749935297284309a44d78": {
+    "w": "NO",
+    "q": "Will Israel strike Iraq by October 31?",
+    "s": "will-israel-strike-iraq-by-october-31",
+    "c": "World",
+    "r": 1761868800
+  },
+  "0x5c787469859a4fe47d5e6cd994fe9837c461c6e7d158f2822410a51835b50317": {
+    "w": "NO",
+    "q": "Will Lebron announce trade or trade request Tuesday?",
+    "s": "will-lebron-announce-trade-or-trade-request-tuesday",
+    "c": "Tech & Announcements",
+    "r": 946684800
+  },
+  "0x4ad92c3463219df21f424b59b604dd798ed9cc812eb7238c959ce50acb8197cd": {
+    "w": "NO",
+    "q": "Will Lebron announce he is returning to Cavaliers Tuesday?",
+    "s": "will-lebron-announce-he-is-returning-to-cavaliers-tuesday",
+    "c": "Tech & Announcements",
+    "r": 946684800
+  },
+  "0x206429cd6bb066c4e92ab5ee41e8b51c36c0e5e30d44a08368049c313c05f8e8": {
+    "w": "NO",
+    "q": "Will Trump pardon SBF by September 30?",
+    "s": "will-trump-pardon-sbf-by-september-30",
+    "c": "Legal & Regulatory",
+    "r": 1759190400
+  },
+  "0xd246c94422c0b107d039725f2d9e9af4e69bfcd1992388d06e849d7bb0feaf7e": {
+    "w": "NO",
+    "q": "Will Trump say \"Maduro\" or \"Venezuela\" during 9-11 memorial event?",
+    "s": "will-trump-say-maduro-or-venezuela-during-9-11-memorial-event-126-919",
+    "c": "World",
+    "r": 1757548800
+  },
+  "0x3a632bae8dbcf0d5c84a98f19a26c868093d26f045950210b2a391993bb4a3f5": {
+    "w": "NO",
+    "q": "Will SpaceX Starship Flight Test 10 launch by August 24?",
+    "s": "will-spacex-starship-flight-test-10-launch-by-august-24-567",
+    "c": "Tech & Announcements",
+    "r": 1755820800
+  },
+  "0x245a81e1495a45a0da5e4637bbc84a4ee2e38b4e140680fa0c7b247019afb70b": {
+    "w": "NO",
+    "q": "Tea App removed from App Store by August 31?",
+    "s": "tea-app-removed-from-app-store-by-august-31",
+    "c": "Politics",
+    "r": 1756598400
   }
 }
