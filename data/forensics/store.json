@@ -17,6 +17,13 @@
       "improbDenom": 9,
       "improbFull": "1 in 9",
       "convictionFlag": true,
+      "convBet": {
+        "stake": 10000,
+        "entryPct": 11,
+        "payout": 88433,
+        "market": "Maduro out by January 31, 2026?",
+        "mult": 8.8
+      },
       "full": true,
       "winRate": 100,
       "avgImplied": 11,
@@ -57,7 +64,10 @@
           "market": "Maduro out by February 28, 2026?",
           "url": "https://polymarket.com/event/maduro-out-in-2025",
           "entryTime": "Jan 03 2026",
+          "ts": 1767412101,
           "odds": 18,
+          "stakeNum": 15090,
+          "plNum": 67187,
           "stake": "$15K",
           "outcome": "Won",
           "pl": "+$67K",
@@ -68,7 +78,10 @@
           "market": "Maduro out by January 31, 2026?",
           "url": "https://polymarket.com/event/maduro-out-in-2025",
           "entryTime": "Jan 03 2026",
+          "ts": 1767411721,
           "odds": 11,
+          "stakeNum": 10000,
+          "plNum": 78433,
           "stake": "$10K",
           "outcome": "Won",
           "pl": "+$78K",
@@ -105,17 +118,17 @@
       "archived": false
     }
   ],
-  "observed": 120938,
-  "reviewed": 120938,
-  "screened": 800,
+  "observed": 134300,
+  "reviewed": 134300,
+  "screened": 1558,
   "meta": {
-    "observed": 120938,
-    "reviewed": 120938,
-    "screened": 800,
+    "observed": 134300,
+    "reviewed": 134300,
+    "screened": 1558,
     "block": "",
     "snapshot": "Jun 25 2026",
     "recomputed": "Jun 26 2026"
   },
-  "generatedAt": "2026-06-26T01:53:13.775Z",
+  "generatedAt": "2026-06-26T04:15:13.632Z",
   "clusters": 0
 }
