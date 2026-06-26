@@ -110,11 +110,12 @@ test("fuse: contribution weights renormalise over FIRED detectors only", () => {
     fresh: { hasData: true, score: 0.2, fires: false },   // ran but didn't fire -> excluded
   };
   const f = D.fuse(dets);
-  // fired = won(34) + longshot(12) + held(6) = 52
+  // fired = won(32) + longshot(11) + held(6) = 49  (weights from DEFAULTS.contribW)
+  const W = D.DEFAULTS.contribW, tot = W.won + W.longshot + W.held;
   assert.deepEqual(f.fired.sort(), ["held", "longshot", "won"]);
-  assert.equal(f.contributions.won, Math.round(34 / 52 * 100));   // 65
-  assert.equal(f.contributions.longshot, Math.round(12 / 52 * 100)); // 23
-  assert.equal(f.contributions.held, Math.round(6 / 52 * 100));    // 12
+  assert.equal(f.contributions.won, Math.round(W.won / tot * 100));
+  assert.equal(f.contributions.longshot, Math.round(W.longshot / tot * 100));
+  assert.equal(f.contributions.held, Math.round(W.held / tot * 100));
   assert.ok(!("fresh" in f.contributions));
   assert.equal(f.tier, "extreme");   // P<=1e-6 and >=2 agreeing
 });
