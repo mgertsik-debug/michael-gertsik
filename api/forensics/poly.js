@@ -191,7 +191,7 @@ async function marketsByConds(conds, opts) {
       const set = m.tokens.map((t) => String(t.outcome || "").trim().toLowerCase());
       if (set.includes("yes") && set.includes("no")) {
         const win = m.tokens.find((t) => t.winner === true || t.winner === "true");
-        if (win && (m.closed === true || m.closed === "true" || win)) {
+        if (win && (m.closed === true || m.closed === "true")) {
           winner = String(win.outcome).trim().toLowerCase() === "yes" ? "YES" : "NO";
           q = String(m.question || "").trim(); slug = m.market_slug || m.slug || ""; endIso = m.end_date_iso || m.endDate;
         }
@@ -314,7 +314,10 @@ function buildUserRecord(trades, catalog) {
 // scored on its WHOLE resolved record in one pass, not only the markets the
 // market-sweep has reached. Paginated, guarded, returns [] on failure.
 async function userPositions(wallet, opts) {
-  const o = Object.assign({ maxPositions: 1500, pageDelayMs: 80 }, opts);
+  // This path exists to recover a wallet's biggest WINNER for reconciliation, so the cap is
+  // generous (4000 positions / 8 pages); the loop still exits early on the first short page,
+  // so heavy wallets aren't silently truncated below their winning position.
+  const o = Object.assign({ maxPositions: 4000, pageDelayMs: 80 }, opts);
   if (!wallet) return [];
   const out = [];
   let offset = 0, pages = 0;
@@ -325,7 +328,7 @@ async function userPositions(wallet, opts) {
     out.push(...arr); offset += arr.length; pages++;
     if (arr.length < 500) break;
     await sleep(o.pageDelayMs);
-  } while (out.length < o.maxPositions && pages < 4);
+  } while (out.length < o.maxPositions && pages < 8);
   return out;
 }
 
@@ -339,7 +342,10 @@ function positionToBet(p) {
   const avg = num(p.avgPrice != null ? p.avgPrice : p.avg_price);
   const cur = num(p.curPrice != null ? p.curPrice : p.cur_price);
   const size = num(p.size != null ? p.size : p.shares);
-  const totalBought = num(p.totalBought != null ? p.totalBought : (p.initialValue != null ? p.initialValue : size * avg));
+  // STAKE in USD cost-basis. initialValue is Polymarket's documented USD cost field;
+  // totalBought is commonly cumulative SHARES (would inflate the stake ~1/price, e.g. ~9×
+  // on an 11% long-shot), so it is NOT trusted here. Fall back to size·avgPrice (also USD).
+  const totalBought = num(p.initialValue != null ? p.initialValue : size * avg);
   const title = String(p.title || p.question || "").trim();
   // SETTLED only when Polymarket marks the position REDEEMABLE — i.e. the market
   // resolved on-chain and the held tokens can be redeemed. Price is NOT a reliable
@@ -358,20 +364,23 @@ function positionToBet(p) {
   // null for those (and for unmatched markets); null ⇒ drop the bet.
   const cat = category([], title);
   if (!cat) return null;
-  // curPrice is the HELD outcome's current price (confirmed against Polymarket's
-  // own profile: NO held at avg 0.542 → curPrice 0.622 → +14.7%). For a resolved
-  // binary that price is ~0 or ~1, so ≥0.5 means the side they held WON.
-  const won = cur >= 0.5;
   // Polymarket's OWN realized P/L for this position — authoritative, matches the
   // number on the wallet's Polymarket profile. Prefer it over any reconstruction.
   const pnl = p.cashPnl != null ? num(p.cashPnl) : (p.realizedPnl != null ? num(p.realizedPnl) : null);
+  // WON: curPrice is the HELD outcome's current price (NO held at avg 0.542 → curPrice
+  // 0.622 → +14.7%). For a resolved binary that price is ~0 or ~1, so ≥0.5 means the held
+  // side WON. But a MISSING curPrice must NOT silently read as a loss — reconcile with the
+  // authoritative realized P/L instead, and if neither is available leave won UNDETERMINED
+  // (null) so the bet degrades to "no data" rather than a fabricated loss.
+  const hasCur = (p.curPrice != null || p.cur_price != null);
+  const won = hasCur ? cur >= 0.5 : (pnl != null ? pnl > 0 : null);
   const endMs = Date.parse(p.endDate || p.end_date || 0) || 0;
   const evSlug = p.eventSlug || p.slug;                        // event slug drives the canonical market URL
   return {
     cond, eventGroup: evSlug || cond, question: title || "(market)",
     url: evSlug ? "https://polymarket.com/event/" + evSlug : "https://polymarket.com/markets",
     category: cat, entryPrice: clip(avg, 1e-4, 0.9999), stakeUsd: Math.round(totalBought || size * avg),
-    outcome: (String(p.outcome || "").toUpperCase()) || "YES", won, held: true,
+    outcome: String(p.outcome || "").toUpperCase() || null, won, held: true,
     pnl: pnl != null ? Math.round(pnl) : null,
     ts: endMs ? Math.round(endMs / 1000) : null, tx: null, resolvedMs: endMs || null,
     source: "positions",
@@ -515,9 +524,13 @@ function aggregateMarket(market, trades) {
       tx: e.tx || null,
       // Harvard episode inputs (cross-sectional). z_bet_within is added later by build.js
       // from the wallet's full betting history (its own baseline across markets).
-      hz: eligible ? {
-        zBetCross: sdS > 0 ? +((e.costUsd - muS) / sdS).toFixed(3) : 0,
-        zProfitCross: sdP > 0 ? +((p.profit - muP) / sdP).toFixed(3) : 0,
+      // Harvard episode is scored only when the market clears ≥3 buyers AND ≥$10k vol AND
+      // this wallet staked ≥$500 (the paper's per-wallet floor). When a market's stake or
+      // profit dispersion is degenerate (sd=0) the z is UNMEASURABLE → null (not 0), so the
+      // composite degrades to no-data instead of a fabricated 0-contribution signal.
+      hz: (eligible && e.costUsd >= 500) ? {
+        zBetCross: sdS > 0 ? +((e.costUsd - muS) / sdS).toFixed(3) : null,
+        zProfitCross: sdP > 0 ? +((p.profit - muP) / sdP).toFixed(3) : null,
         lateBuyFraction: +p.lateFrac.toFixed(3),
         directionalScore: +p.dir.toFixed(3),
         marketVol: Math.round(totalVol), nBuyers,

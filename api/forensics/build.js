@@ -82,8 +82,12 @@ function scoreAggregate(agg) {
   const heldD = bets.length ? D.held({ heldToResolution: heldN, total: bets.length }) : { key: "held", hasData: false };
 
   const ageDays = agg.firstSeenTs && agg.fundingTs ? (agg.firstSeenTs - agg.fundingTs) / 86400 : null;
-  const freshD = (ageDays != null && D.isNum(num(agg.priorTx)))
-    ? D.fresh({ ageDays, priorTx: num(agg.priorTx) }) : { key: "fresh", hasData: false };
+  // GUARD ON THE RAW priorTx, not num(priorTx): a FAILED Polygonscan fetch leaves
+  // priorTx null, and num(null)===0 would make the wallet look brand-new (priorTx=0)
+  // and falsely fire "purpose-built wallet". D.isNum(null) is false, so an unmeasured
+  // prior-tx count correctly degrades to no-data instead of a fabricated accusation.
+  const freshD = (ageDays != null && D.isNum(agg.priorTx))
+    ? D.fresh({ ageDays, priorTx: agg.priorTx }) : { key: "fresh", hasData: false };
 
   const winRate = wonD.hasData ? wonD.winRate : null;
   const baselineD = winRate != null ? D.baseline({ winRate, category: dominantCategory(bets) }) : { key: "baseline", hasData: false };

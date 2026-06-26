@@ -97,7 +97,7 @@ function mergeMarket(state, market, positions) {
     // a WIDE net: ANY won long-shot (≤30% implied, any stake) — that's the whole
     // population of potential informed bettors — plus the big-position whale arm.
     // Every admitted wallet's FULL record is pulled and the math decides honestly.
-    const wonLongshot = bet.won && bet.entryPrice <= 0.30;     // the binomial candidate population
+    const wonLongshot = bet.won && bet.entryPrice <= 0.35;     // the binomial candidate population (matches LONGSHOT_MAX so the screen is a superset of the scored set)
     // HARVARD candidate: an episode whose bet size is in the top ~2.5% of its market
     // (z_bet_cross > 2) — the inclusion gate from the paper. This admits insiders who bet
     // FAVORITES or moderate odds (which the long-shot screen misses entirely).
@@ -382,7 +382,7 @@ async function run() {
           const ex = byCond[pb.cond];
           if (ex) {
             if (pb.pnl != null) ex.pnl = pb.pnl;               // Polymarket's realized P/L wins over reconstruction
-            ex.won = pb.won;                                   // authoritative settled outcome
+            if (pb.won != null) ex.won = pb.won;               // only override the CLOB-winner result when the position outcome is actually determined (never clobber a known win/loss with an undetermined null)
             ex.held = pb.held;
             if (!ex.question && pb.question) ex.question = pb.question;
             if (!ex.url && pb.url) ex.url = pb.url;

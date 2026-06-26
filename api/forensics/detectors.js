@@ -187,7 +187,7 @@ function held(x, opts) {
   return { key: "held", hasData: true, score: fires ? clip(0.4 + (h - o.heldTau) / (1 - o.heldTau) * 0.6, 0, 1) : clip(h * 0.4, 0, 0.4),
     h: +h.toFixed(3), heldToResolution: x.heldToResolution, total: x.total, fires,
     explain: x.heldToResolution + " of " + x.total + " positions held to resolution (" + Math.round(h * 100) + "%)" +
-      (fires ? " — sold <3% before the outcome; the conviction signature." : ".") };
+      (fires ? " — held ≥" + Math.round(o.heldTau * 100) + "% of positions to the outcome; the conviction signature." : ".") };
 }
 
 /* 4. FRESH — wallet age + funding recency. Fires if age <= 14d AND prior_tx = 0. */
@@ -488,7 +488,11 @@ function fuse(dets, opts) {
 const HARVARD_W = { betCross: 25, betWithin: 20, profitCross: 30, late: 15, dir: 10 };
 function harvardEpisode(e, opts) {
   if (!e) return { key: "harvard", hasData: false };
-  const zbc = isNum(e.zBetCross) ? e.zBetCross : 0;
+  // The cross-sectional bet z (z_bet_cross) is the spine of the composite and its retention
+  // gate; if it was UNMEASURABLE (market stake dispersion sd=0 → null), there is no honest
+  // Harvard score to give — degrade to no-data rather than scoring a fabricated 0.
+  if (!isNum(e.zBetCross)) return { key: "harvard", hasData: false };
+  const zbc = e.zBetCross;
   const zbw = isNum(e.zBetWithin) ? e.zBetWithin : 0;
   const zpc = isNum(e.zProfitCross) ? e.zProfitCross : 0;
   const late = clip(isNum(e.lateBuyFraction) ? e.lateBuyFraction : 0, 0, 1);
