@@ -63,6 +63,11 @@ jobs:
           # Live discovery feed: pages of the global recent-trades stream pulled each
           # tick so brand-new wallets are folded into `observed` the moment they trade.
           LIVE_PAGES: "12"
+          # Auto ring-finder: walk the on-chain funding graph from the top N flagged
+          # wallets each tick, pull in the siblings the sweep hasn't reached, and queue
+          # them for scoring. Key-gated (needs eth_getLogs / tokentx, which the keyless
+          # RPC can't do reliably). Bounded so the trace stays under the tick budget.
+          RING_BUDGET: "12"
           # Optional: a Polygonscan/Etherscan key gives reliable funding traces
           # (fresh-wallet, cluster funder, cash-out). Without it the job falls
           # back to the public Polygon RPC (POLYGON_RPC) and degrades honestly.

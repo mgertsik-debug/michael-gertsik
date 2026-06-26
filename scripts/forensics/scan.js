@@ -144,7 +144,7 @@ async function run() {
   try {
     markets = await poly.enumResolved({ lookbackDays: LOOKBACK_DAYS, startOffset: state.watermark.offset || 0, maxMarkets: MARKETS_PER_RUN, maxPages: Math.ceil(MARKETS_PER_RUN / 100) + 3 });
   } catch (e) { log("enumerate failed — not advancing:", e && e.message); }
-  if (!markets.length) { log("no resolved markets this slice; wrapping watermark to head."); state.watermark.offset = 0; finalize(state, state.snapshotTs || NOW_S); return; }
+  if (!markets.length) { log("no resolved markets this slice; wrapping watermark to head."); state.watermark.offset = 0; await finalize(state, state.snapshotTs || NOW_S); return; }
 
   const nextOffset = markets.nextOffset != null ? markets.nextOffset : 0;
   const exhausted = !!markets.exhausted;
@@ -303,7 +303,7 @@ async function run() {
   const oldest = ages.length ? Math.max(...ages) : 0;
   log("coverage: oldest screened wallet enriched " + oldest.toFixed(1) + "d ago (invariant ≤ " + MAX_STALENESS_DAYS + "d)" + (oldest > MAX_STALENESS_DAYS ? " — BEHIND, will catch up next ticks" : " — OK"));
 
-  finalize(state, state.snapshotTs);
+  await finalize(state, state.snapshotTs);
 }
 
 // per-wallet concealment inputs from the bet record + chain cash-out. split_ratio
@@ -319,7 +319,7 @@ function walletConceal(w) {
 }
 
 // 5. cluster pass → score singles + clusters → lifecycle → persist.
-function finalize(state, snapshotTs) {
+async function finalize(state, snapshotTs) {
   const wallets = Object.values(state.screened || {});
 
   // ---- cluster pass: discover linked rings over the screened set ----
@@ -370,6 +370,37 @@ function finalize(state, snapshotTs) {
   });
   payload.clusters = clusterAggs.length;
 
+  // ---- AUTO RING-FINDER: walk the on-chain funding graph from each flagged wallet,
+  // pull in the siblings the sweep hasn't reached, and queue them for scoring next
+  // tick — so a single flag expands into the whole ring (Iran-style 6-9 accounts,
+  // one funder). Bounded + key-gated (the keyless RPC can't walk the tx graph).
+  state.rings = state.rings || {};
+  let ringsFound = 0, ringNew = 0;
+  if (chain.hasScanKey() && payload.subjects.length) {
+    const RING_BUDGET = +ENV.RING_BUDGET || 12;
+    const targets = Array.from(new Set(payload.subjects.flatMap((s) => s.memberAddresses || [s.address]).filter(Boolean))).slice(0, RING_BUDGET);
+    for (const addr of targets) {
+      let net = null;
+      try { net = await chain.fundingNetwork(addr, { maxSiblings: 40 }); } catch (_) {}
+      if (!net || !net.hub) continue;
+      const members = (net.nodes || []).filter((n) => n.role !== "exchange").map((n) => n.addr);
+      if (members.length < 3) continue;                     // hub + subject + >=1 sibling
+      ringsFound++;
+      state.rings[net.hub] = { hub: net.hub, members, size: members.length, seedFrom: addr, ts: NOW_S };
+      members.forEach((m) => {
+        if (!state.screened[m]) {
+          state.screened[m] = { address: m, bets: [], firstSeenTs: null, fundingTs: null, funder: net.hub, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: NOW_S, lastResolvedMs: 0, entryByEvent: {}, _ring: net.hub, _ringTs: NOW_S };
+          ringNew++;
+        } else if (!state.screened[m].funder) { state.screened[m].funder = net.hub; state.screened[m]._ring = net.hub; state.screened[m]._ringTs = NOW_S; }
+      });
+      await poly.sleep(220);                                // etherscan rate limit
+    }
+    const rk = Object.keys(state.rings);
+    if (rk.length > 200) { const keep = {}; rk.sort((a, b) => (state.rings[b].ts || 0) - (state.rings[a].ts || 0)).slice(0, 200).forEach((k) => (keep[k] = state.rings[k])); state.rings = keep; }
+  }
+  payload.rings = Object.values(state.rings).filter((r) => (r.members || []).some((m) => flaggedSet.has(String(m).toLowerCase()))).length;
+  log("ring-finder: " + ringsFound + " funding rings walked · " + ringNew + " new sibling wallets queued");
+
   log("flagged " + payload.subjects.length + " subjects (" +
     payload.subjects.filter((s) => s.tier === "extreme").length + " extreme · " +
     clusterAggs.length + " clusters · " + payload.subjects.filter((s) => s.newlyFlagged).length + " newly) from " + meta.reviewed + " reviewed");
@@ -392,9 +423,11 @@ function finalize(state, snapshotTs) {
   };
   const flaggedAddrs = new Set();
   payload.subjects.forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && flaggedAddrs.add(a)));
+  const RING_GRACE_S = 3 * 86400;   // newly-pulled ring siblings get 3 days to be enriched before they're evictable
   const addrs = Object.keys(state.screened);
   if (addrs.length > SCREEN_CAP) {
     const evictable = addrs.filter((a) => !flaggedAddrs.has(a))
+      .filter((a) => { const w = state.screened[a]; return !(w && w._ringTs && (NOW_S - w._ringTs) < RING_GRACE_S); })
       .sort((a, b) => sigScore(state.screened[a]) - sigScore(state.screened[b]));   // lowest signal first
     const toEvict = evictable.slice(0, addrs.length - SCREEN_CAP);
     toEvict.forEach((a) => delete state.screened[a]);
