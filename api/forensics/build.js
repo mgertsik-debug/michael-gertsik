@@ -156,6 +156,13 @@ function validateSubject(ctx) {
 // sub-5-bet wallets are excluded, never scored 0.
 function buildSubject(agg, idx, opts, catalog) {
   const { dets, f, bets } = scoreAggregate(agg);
+  // EMPIRICAL PERCENTILE POPULATION: record every aggregate we actually SCORED on the
+  // binomial (won.hasData) — flagged or not — so the percentile is a TRUE rank against the
+  // wallets we computed improbability for, not the cheaply-screened "reviewed" count. This
+  // fires for every aggregate buildPayload passes through, before the flag/gate filters.
+  if (opts && Array.isArray(opts._scoredDenoms) && dets.won && dets.won.hasData && isFinite(dets.won.improbDenom)) {
+    opts._scoredDenoms.push(dets.won.improbDenom);
+  }
   const tier = TIER[f.tier];
   if (!tier) return null;                                   // unflagged → not published
   // question/url are dropped from STORED bets (re-derivable) to keep state.json small;
@@ -204,7 +211,18 @@ function buildSubject(agg, idx, opts, catalog) {
   const winRate = won.hasData ? Math.round(won.winRate) : (n ? Math.round(100 * k / n) : 0);
   const improbDenom = recordImprobable ? won.improbDenom : (conv.entryPrice ? Math.round(1 / conv.entryPrice) : 0);
   const improbText = recordImprobable ? won.improbText : (conv.entryPrice ? D.improbText(Math.round(1 / conv.entryPrice)) : "—");
-  const profitNum = bets.reduce((a, b) => a + betPL(b), 0);
+  // AUTHORITATIVE P/L. The dossier headline P/L and the net-profit gate use Polymarket's
+  // OWN all-time realized figure (agg.profile.pnlAllTime) — the exact number the wallet's
+  // Polymarket profile shows — so our number can never diverge from Polymarket/predicts.
+  // The per-bet reconstruction (recordedPL) is only a fallback for the rare wallet whose
+  // profile feed was unavailable this run. A single wallet with NO authoritative figure is
+  // DEFERRED (return null) rather than published with a number we can't source. Clusters
+  // pool members (no single profile) and keep the per-bet sum.
+  const recordedPL = bets.reduce((a, b) => a + betPL(b), 0);
+  const _prof = agg.profile || null;
+  const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
+  if (!isCluster && accountPL == null) return null;          // no authoritative account P/L → defer, never fabricate
+  const profitNum = isCluster ? recordedPL : accountPL;
   const category = dominantCategory(bets);
   const fired = f.fired.slice();
 
@@ -278,7 +296,7 @@ function buildSubject(agg, idx, opts, catalog) {
     address: agg.address || null,
     memberAddresses: isCluster ? (agg.members || []) : [agg.address],
     idLabel: isCluster ? ("Cluster of " + ((agg.members || []).length) + " wallets") : short(agg.address),
-    username: agg.pseudonym || null,
+    username: agg.pseudonym || (_prof && _prof.username) || null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
     category, marketsCount: n, tier,
     improbText, improbDenom,
@@ -303,28 +321,54 @@ function buildSubject(agg, idx, opts, catalog) {
     confidenceLimiter: isCluster
       ? "common-ownership is inferred from funding heuristics, not confirmed identity"
       : "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+    // P/L provenance for the UI: authoritative = pulled directly from Polymarket's profile
+    // feed; reconstructed = summed from per-bet records (clusters / profile unavailable).
+    profitSource: isCluster ? "reconstructed" : "authoritative",
+    profitNum: Math.round(profitNum),                          // authoritative account P/L (already net; not abs-ed)
     _profitNum: profitNum,
+    _profileVolume: _prof && _prof.volume != null && isFinite(num(_prof.volume)) ? num(_prof.volume) : null,
+    _tradedCount: _prof && _prof.traded != null ? num(_prof.traded) : null,
   };
 }
 
 /* ------------------------------------------------- derive (artifact parity) -- */
 // Mirror of buildSubjects()'s forEach so real subjects carry the same derived
 // fields the view reads. Kept in lock-step with the artifact.
-function derive(all) {
+function derive(all, scoredPop) {
+  // sorted ascending population of improbabilities we scored — used for the true rank.
+  const pop = Array.isArray(scoredPop) ? scoredPop : null;
+  const popN = pop ? pop.length : 0;
   all.forEach((s, idx) => {
     s.wins = Math.round(s.marketsCount * s.winRate / 100);
     s.expectedWins = Math.round(s.marketsCount * s.avgImplied) / 100;
-    const lg = Math.log10(Math.max(2, s.improbDenom));
-    s.percentile = s.percentile != null ? s.percentile : Math.min(99.999, +(99 + Math.min(0.999, lg / 7)).toFixed(3));
-    let vol = 0;
-    if (s.ledger) s.ledger.forEach((r) => { vol += parseFloat(String(r.stake).replace(/[^0-9.]/g, "")) * (String(r.stake).includes("M") ? 1e6 : (String(r.stake).includes("K") ? 1e3 : 1)) || 0; });
+    // PERCENTILE: a TRUE empirical rank — the share of scored bettors strictly LESS
+    // improbable than this one. Falls back to the log-odds transform only when no scored
+    // population is available (e.g. unit tests calling derive() directly).
+    if (s.percentile != null) {
+      /* keep an explicitly-provided percentile */
+    } else if (popN > 1) {
+      // count strictly-less-improbable via binary search on the ascending population
+      let lo = 0, hi = popN;
+      while (lo < hi) { const mid = (lo + hi) >> 1; if (pop[mid] < s.improbDenom) lo = mid + 1; else hi = mid; }
+      s.percentile = Math.min(99.999, +(100 * lo / popN).toFixed(3));
+      s.percentileN = popN;
+    } else {
+      const lg = Math.log10(Math.max(2, s.improbDenom));
+      s.percentile = Math.min(99.999, +(99 + Math.min(0.999, lg / 7)).toFixed(3));
+    }
+    // VOLUME — prefer Polymarket's authoritative lifetime volume (from the profile feed);
+    // only reconstruct from ledger stakes when it's unavailable (clusters / fetch failed).
+    let vol = s._profileVolume != null ? Math.round(s._profileVolume) : 0;
+    if (!vol && s.ledger) s.ledger.forEach((r) => { vol += parseFloat(String(r.stake).replace(/[^0-9.]/g, "")) * (String(r.stake).includes("M") ? 1e6 : (String(r.stake).includes("K") ? 1e3 : 1)) || 0; });
     if (!vol) vol = Math.round(Math.abs(s._profitNum || 0) * 3.5);
     s.volumeNum = vol;
     s.volume = vol >= 1e6 ? "$" + (vol / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : "$" + Math.round(vol / 1e3) + "K";
-    s.profitNum = s._profitNum != null ? Math.abs(s._profitNum) : (parseFloat(String(s.profit).replace(/[^0-9.]/g, "")) * (String(s.profit).includes("M") ? 1e6 : 1e3));
+    // P/L: authoritative account figure (non-cluster) is already net & positive past the
+    // gate; clusters keep the pooled magnitude. money()/signedMoney() use this directly.
+    s.profitNum = s._profitNum != null ? (s.profitSource === "authoritative" ? s._profitNum : Math.abs(s._profitNum)) : (parseFloat(String(s.profit).replace(/[^0-9.]/g, "")) * (String(s.profit).includes("M") ? 1e6 : 1e3));
     s.activityDays = s.activityDays != null ? s.activityDays : (30 + idx * 17);
     s.lastActivity = s.activityDays <= 1 ? "today" : s.activityDays + " days ago";
-    delete s._profitNum;
+    delete s._profitNum; delete s._profileVolume;
   });
   return all;
 }
@@ -334,9 +378,16 @@ function derive(all) {
 // Subjects are ranked most-improbable first (the default public view).
 function buildPayload(aggregates, meta, catalog) {
   const subjects = [];
+  meta = meta || {};
+  meta._scoredDenoms = [];                                     // every aggregate's improbability, for the true-rank percentile
   (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta, catalog); if (s) subjects.push(s); });
   subjects.sort((a, b) => b.improbDenom - a.improbDenom);
-  derive(subjects);
+  // TRUE-RANK PERCENTILE: rank each subject's improbability against the population of
+  // wallets we actually SCORED this run (not the cheaply-screened "reviewed" count). The
+  // percentile is the share of scored bettors strictly LESS improbable than this subject.
+  const pop = (meta._scoredDenoms || []).slice().sort((a, b) => a - b);
+  const scoredCount = pop.length;
+  derive(subjects, pop);
   // AGGREGATE estimated informed-trading P&L across published subjects — directly
   // comparable (in kind) to the Harvard study's $143M, but at our strict bar and our
   // current coverage, so it starts small and grows as coverage scales.
@@ -350,10 +401,12 @@ function buildPayload(aggregates, meta, catalog) {
     totalFlaggedProfit: Math.round(totalFlaggedProfit),
     totalFlaggedProfitText: fmtUsd(totalFlaggedProfit),
     flaggedCount: subjects.length,
+    scored: scoredCount,                                       // wallets actually scored on improbability (percentile denominator)
     meta: {
       observed: (meta && meta.observed) || 0,
       reviewed: (meta && meta.reviewed) || 0,
       screened: (meta && meta.screened) || 0,
+      scored: scoredCount,
       block: (meta && meta.block) || "",
       snapshot: (meta && meta.snapshot) || "",
       recomputed: (meta && meta.recomputed) || (meta && meta.snapshot) || "",

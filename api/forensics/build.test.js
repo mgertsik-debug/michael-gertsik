@@ -11,7 +11,10 @@ function agg(address, nWin, nLoss, p, cat, opts) {
   const stake = (opts && opts.stake) || 800;                // small by default so conviction ($10k) isn't tripped
   for (; i < nWin; i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: stake, outcome: "YES", won: true, held: true, ts: 1700000000 + i, tx: "0xabc" + i });
   for (let j = 0; j < nLoss; j++, i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: Math.round(stake / 2), outcome: "YES", won: false, held: true, ts: 1700000000 + i, tx: "0xdef" + i });
-  return Object.assign({ address, firstSeenTs: 1699000000, fundingTs: 1698900000, priorTx: 0, bets }, opts || {});
+  // Polymarket's authoritative account P/L is required to publish a single wallet. The
+  // default is net-positive so flagged-record tests publish; tests can override via opts.
+  const profile = (opts && opts.profile) || { pnlAllTime: 50000, volume: 30000, traded: 200, username: null };
+  return Object.assign({ address, firstSeenTs: 1699000000, fundingTs: 1698900000, priorTx: 0, bets, profile }, opts || {});
 }
 
 test("betPL: uses Polymarket's real pnl when present, estimates only as fallback", () => {
@@ -99,6 +102,33 @@ test("buildPayload: ranks by improbability, carries honest meta, derives fields"
   assert.equal(p.reviewed, 41206);
   assert.equal(p.meta.snapshot, "Jun 25 2026");
   assert.ok(p.subjects[0].lastActivity);
+});
+
+test("AUTHORITATIVE P/L: headline profit is Polymarket's all-time figure, not the reconstruction", () => {
+  // an improbable record whose per-bet reconstruction would sum to one number, but whose
+  // Polymarket account P/L is a DIFFERENT, authoritative figure — the dossier must show
+  // the authoritative one (so it always matches the wallet's Polymarket / predicts page).
+  const a = agg("0xauth00000000000000000000000000000000a01", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: { pnlAllTime: 38244, volume: 249063, traded: 299 } });
+  const s = B.buildSubject(a, 0, {});
+  assert.ok(s, "subject built");
+  B.derive([s]);
+  assert.equal(s.profitNum, 38244, "profit is Polymarket's authoritative all-time P/L");
+  assert.equal(s.profitSource, "authoritative");
+  assert.equal(s.volumeNum, 249063, "volume is Polymarket's authoritative lifetime volume");
+});
+
+test("NET-NEGATIVE account: improbable run but a net loss on Polymarket -> dropped (the M888 case)", () => {
+  // 14/16 long-shots at 11% is statistically extreme, but Polymarket says the account is
+  // net-NEGATIVE all-time. Informed trading is profitable by definition, so this is a lucky
+  // gambler, not an insider — it must NOT publish (no fabricated positive profit).
+  const rejects = [];
+  const s = B.buildSubject(agg("0xneg000000000000000000000000000000000a02", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: { pnlAllTime: -367249 } }), 0, { _rejects: rejects });
+  assert.equal(s, null, "net-negative account is not flagged");
+});
+
+test("NO authoritative P/L: single wallet is DEFERRED, never published with an unsourced number", () => {
+  const s = B.buildSubject(agg("0xnoprof000000000000000000000000000000a03", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: null }), 0, {});
+  assert.equal(s, null, "no profile -> defer rather than fabricate");
 });
 
 test("RECONSTRUCTED Iran-ring cluster aggregate -> extreme subject with cluster card", () => {

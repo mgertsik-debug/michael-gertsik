@@ -163,7 +163,9 @@ async function scoreWallet(addr) {
     .sort((a, b) => b.stakeUsd - a.stakeUsd).slice(0, 8).map(row);
 
   // ---- FORENSIC LAYER: the long-shot improbability flag, when computable ----
-  const agg = { address: addr, bets, firstSeenTs: null, fundingTs: null, priorTx: null };
+  // carry Polymarket's authoritative profile so buildSubject() uses the real all-time
+  // P/L (and clears its net-profit gate) instead of the in-scope reconstruction.
+  const agg = { address: addr, bets, firstSeenTs: null, fundingTs: null, priorTx: null, profile: o.polymarket || null };
   const { dets, f } = build.scoreAggregate(agg);
   o.detectors = {
     won: dets.won.hasData ? { n: dets.won.n, k: dets.won.k, p: dets.won.p, P: dets.won.P, improbText: dets.won.improbText, winRate: dets.won.winRate + "%" } : { hasData: false, reason: dets.won.reason },
@@ -174,6 +176,14 @@ async function scoreWallet(addr) {
   o.fused = { tier: f.tier || "unflagged", fired: f.fired, agreeing: f.agreeing, improbText: f.improbText };
 
   const p = o.profile;
+  // AUTHORITATIVE account P/L (Polymarket's own all-time figure). The flag requires the
+  // account to be net-profitable — informed trading is profitable by definition — so a
+  // wallet with an improbable long-shot run but a net LOSS is NOT flagged (it's a gambler
+  // who got lucky amid losses). This mirrors the scanner's publish gate exactly.
+  const acctPnl = o.polymarket && o.polymarket.pnlAllTime != null && isFinite(Number(o.polymarket.pnlAllTime)) ? Number(o.polymarket.pnlAllTime) : null;
+  const acctText = acctPnl != null ? build.signedMoney(acctPnl) + " all-time (Polymarket)" : p.profit + " in-scope";
+  const netProfitable = acctPnl != null ? acctPnl > 0 : true;   // if profile unavailable, fall back to the in-scope record
+  const wouldFlag = f.tier && f.tier !== "unflagged" && netProfitable;
   if (bets.length === 0) {
     o.verdict = outOfScope > 0
       ? ("Out of scope — this wallet's " + allBets.length + " resolved position" + (allBets.length === 1 ? "" : "s") +
@@ -181,17 +191,21 @@ async function scoreWallet(addr) {
       : ("No resolved in-scope bets found for this wallet (" + utrades.length + " trades pulled, " + o.sources.tradesResolvable +
          " in resolved markets). It may be new, hold only still-open positions, or trade only non-binary / out-of-scope markets.");
   } else if (!dets.won.hasData) {
-    o.verdict = "Record: " + p.resolvedBets + " resolved bets · " + p.winRate + " win rate · " + p.profit + " profit · avg odds " + p.avgOdds + ". " +
+    o.verdict = "Record: " + p.resolvedBets + " resolved bets · " + p.winRate + " win rate · " + acctText + " · avg odds " + p.avgOdds + ". " +
       "Only " + longshots.length + " long-shot bet" + (longshots.length === 1 ? "" : "s") + " (need 5+) — so no improbability flag, but the full record is shown.";
-  } else if (f.tier && f.tier !== "unflagged") {
+  } else if (wouldFlag) {
     o.verdict = "FLAGGED " + f.tier.toUpperCase() + " — won " + dets.won.k + " of " + dets.won.n + " long-shots (~" + Math.round(dets.won.p * 100) +
-      "% implied); chance by luck " + dets.won.improbText + "; " + f.fired.length + " detectors fired. (" + p.resolvedBets + " total bets · " + p.profit + " profit.)";
+      "% implied); chance by luck " + dets.won.improbText + "; " + f.fired.length + " detectors fired. (" + p.resolvedBets + " in-scope bets · " + acctText + ".)";
+  } else if (f.tier && f.tier !== "unflagged" && !netProfitable) {
+    o.verdict = "Not flagged — won " + dets.won.k + " of " + dets.won.n + " long-shots (chance by luck " + dets.won.improbText +
+      "), but the account is NET-NEGATIVE on Polymarket (" + acctText + "). Informed trading is profitable by definition, so an improbable run amid an overall loss is treated as a lucky gambler, not an insider.";
   } else {
-    o.verdict = "Not flagged — " + p.resolvedBets + " resolved bets · " + p.winRate + " win rate · " + p.profit + " profit. Won " + dets.won.k + " of " +
+    o.verdict = "Not flagged — " + p.resolvedBets + " resolved bets · " + p.winRate + " win rate · " + acctText + ". Won " + dets.won.k + " of " +
       dets.won.n + " long-shots; chance by luck " + dets.won.improbText + " does not clear the bar.";
   }
 
-  // Full dossier subject (the tab's flagged shape) when it clears the bar.
+  // Full dossier subject (the tab's flagged shape) when it clears the bar — including the
+  // net-profit gate, so the lookup dossier matches what the scanner would publish.
   if (dets.won.hasData) {
     try { const subj = build.buildSubject(agg, 0, {}); if (subj) { build.derive([subj]); o.subject = subj; } } catch (_) {}
   }

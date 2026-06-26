@@ -273,13 +273,20 @@ async function run() {
   // Seeds go FIRST every tick (and bypass the wall-clock budget below) so the known
   // cases stay current even when enumeration eats the tick.
   const seedWallets = seedAddrs.map((a) => state.screened[a]).filter(Boolean);
-  const stale = seedWallets.concat(
-    Object.values(state.screened)
-      .filter((w) => !w._seed)
-      .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0))
-      .slice(0, ENRICH_BATCH));
+  // PRIORITY: any wallet that has resolved bets but NO authoritative Polymarket profile yet
+  // (e.g. enriched before the authoritative-P/L rollout) must be re-profiled FIRST — without
+  // a profile the publish gate drops it, so a previously-flagged wallet would silently vanish
+  // until it aged into staleness. Profile-less wallets sort ahead of the stalest by-time set.
+  const nonSeed = Object.values(state.screened).filter((w) => !w._seed);
+  const needsProfile = nonSeed.filter((w) => (w.bets || []).length && !w.profile);
+  const byStale = nonSeed.filter((w) => !((w.bets || []).length && !w.profile))
+    .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0));
+  const stale = seedWallets.concat(needsProfile, byStale).slice(0, seedWallets.length + ENRICH_BATCH);
+  if (needsProfile.length) log("re-profiling " + needsProfile.length + " wallet(s) lacking authoritative Polymarket P/L (prioritised)");
   let funded = 0;
   let fullRecords = 0;
+  let posRecords = 0;                                          // wallets reconciled against /positions (authoritative cashPnl)
+  let profiled = 0;                                            // wallets whose Polymarket profile aggregates were fetched
   let onDemandBudget = +ENV.ONDEMAND_PER_RUN || 1500;          // bound live CLOB resolution per run
   const PER_WALLET_ONDEMAND = +ENV.ONDEMAND_PER_WALLET || 80;
   let onDemandResolved = 0;
@@ -334,6 +341,51 @@ async function run() {
         });
         if (added) fullRecords++;
       } catch (_) { /* keep the swept record */ }
+
+      // AUTHORITATIVE per-position reconciliation. The trades→catalog path reconstructs
+      // P/L (assumes hold-to-resolution) and can only see markets in our catalog — that
+      // is what made the dossier numbers diverge from Polymarket/predicts.guru (a wallet's
+      // biggest winner sat in a market we hadn't cataloged, or its P/L ignored a partial
+      // exit). Polymarket's /positions feed carries its OWN realized cashPnl and the
+      // settled winner per position, and is catalog-INDEPENDENT, so we (a) overwrite each
+      // matched bet's P/L + won with Polymarket's authoritative values and (b) RECOVER
+      // resolved in-scope positions we never had. positionToBet() applies the same
+      // in-scope/settled gate, so sports/crypto/open positions are still excluded.
+      try {
+        const positions = await poly.userPositions(w.address);
+        const byCond = {}; (w.bets || []).forEach((b) => { byCond[b.cond] = b; });
+        let recovered = 0, reconciled = 0;
+        for (const p of positions) {
+          const pb = poly.positionToBet(p);
+          if (!pb) continue;
+          const ex = byCond[pb.cond];
+          if (ex) {
+            if (pb.pnl != null) ex.pnl = pb.pnl;               // Polymarket's realized P/L wins over reconstruction
+            ex.won = pb.won;                                   // authoritative settled outcome
+            ex.held = pb.held;
+            if (!ex.question && pb.question) ex.question = pb.question;
+            if (!ex.url && pb.url) ex.url = pb.url;
+            reconciled++;
+          } else {
+            w.bets.push(pb); byCond[pb.cond] = pb; recovered++;
+            const ev = pb.eventGroup || pb.cond;
+            if (pb.ts && (w.entryByEvent[ev] == null || pb.ts < w.entryByEvent[ev])) w.entryByEvent[ev] = pb.ts;
+            if (pb.resolvedMs && pb.resolvedMs > (w.lastResolvedMs || 0)) w.lastResolvedMs = pb.resolvedMs;
+          }
+        }
+        if (recovered || reconciled) posRecords++;
+      } catch (_) { /* keep the trades record */ }
+
+      // AUTHORITATIVE account aggregates — Polymarket's OWN profile figures (all-time
+      // realized P/L, lifetime volume, prediction count, current portfolio value, handle).
+      // These are the exact numbers the wallet's Polymarket profile shows (verified to the
+      // dollar against live responses), so the dossier MIRRORS Polymarket. They drive the
+      // headline P/L and the net-profit gate, replacing the subset reconstruction.
+      try {
+        const prof = await poly.profileAggregates(w.address);
+        if (prof) { w.profile = prof; profiled++; }
+      } catch (_) { /* leave any prior profile in place */ }
+
       const firstBetTs = (w.bets || []).reduce((m, b) => (b.ts && b.ts < m ? b.ts : m), Infinity);
       // on-chain funding trace -> wallet age + prior-tx (fresh) + funder (cluster)
       const fund = await chain.walletFunding(w.address, isFinite(firstBetTs) ? firstBetTs : null, null);
@@ -360,7 +412,7 @@ async function run() {
     await Promise.all(batch.map((w) => enrichWallet(w).catch(() => {})));
     enrichedCount += batch.length;
   }
-  log("deep-enriched " + enrichedCount + " wallets (concurrency " + ENRICH_CONCURRENCY + ") · " + fullRecords + " full position records · " + onDemandResolved + " markets resolved on-demand · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
+  log("deep-enriched " + enrichedCount + " wallets (concurrency " + ENRICH_CONCURRENCY + ") · " + fullRecords + " full records · " + posRecords + " positions-reconciled · " + profiled + " profile aggregates · " + onDemandResolved + " markets resolved on-demand · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
 
   // 6. rolling-coverage invariant
   const ages = Object.values(state.screened).map((w) => (NOW_S - (w.lastEnrichedTs || 0)) / 86400);
@@ -417,6 +469,7 @@ async function finalize(state, snapshotTs) {
   const singleAggs = wallets.filter((w) => !clustered.has(w.address)).map((w) => ({
     address: w.address, firstSeenTs: w.firstSeenTs, fundingTs: w.fundingTs, priorTx: w.priorTx,
     conceal: walletConceal(w), bets: w.bets, _lastTs: w.lastTs,
+    profile: w.profile || null,                               // Polymarket's authoritative account aggregates
   }));
 
   const meta = {
