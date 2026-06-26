@@ -5,7 +5,6 @@
   "functions": {
     "api/surveillance/feed.js": { "maxDuration": 45 },
     "api/forensics/subjects.js": { "includeFiles": "data/forensics/**" },
-    "api/forensics/harvard-shadow.js": { "includeFiles": "data/forensics/**" },
     "api/forensics/subject.js": { "includeFiles": "data/forensics/**" },
     "api/forensics/diagnose.js": { "includeFiles": "data/forensics/**", "maxDuration": 30 }
   }
