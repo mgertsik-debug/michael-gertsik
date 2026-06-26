@@ -277,18 +277,12 @@ async function run() {
   // (e.g. enriched before the authoritative-P/L rollout) must be re-profiled FIRST — without
   // a profile the publish gate drops it, so a previously-flagged wallet would silently vanish
   // until it aged into staleness. Profile-less wallets sort ahead of the stalest by-time set.
-  // wallets CURRENTLY shown on the site (the published store) must be re-profiled FIRST,
-  // so the visible, possibly-wrong numbers are corrected on the very next scan rather than
-  // waiting for these wallets to age into staleness.
-  const priorFlagged = new Set();
-  try { (read(STORE, {}).subjects || []).forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && priorFlagged.add(String(a).toLowerCase()))); } catch (_) {}
   const nonSeed = Object.values(state.screened).filter((w) => !w._seed);
-  const needsProfile = nonSeed.filter((w) => (w.bets || []).length && !w.profile)
-    .sort((a, b) => (priorFlagged.has(String(b.address).toLowerCase()) ? 1 : 0) - (priorFlagged.has(String(a.address).toLowerCase()) ? 1 : 0));
+  const needsProfile = nonSeed.filter((w) => (w.bets || []).length && !w.profile);
   const byStale = nonSeed.filter((w) => !((w.bets || []).length && !w.profile))
     .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0));
   const stale = seedWallets.concat(needsProfile, byStale).slice(0, seedWallets.length + ENRICH_BATCH);
-  if (needsProfile.length) log("re-profiling " + needsProfile.length + " wallet(s) lacking authoritative Polymarket P/L (" + Array.from(priorFlagged).length + " currently-shown prioritised first)");
+  if (needsProfile.length) log("re-profiling " + needsProfile.length + " wallet(s) lacking authoritative Polymarket P/L (prioritised)");
   let funded = 0;
   let fullRecords = 0;
   let posRecords = 0;                                          // wallets reconciled against /positions (authoritative cashPnl)
@@ -583,23 +577,11 @@ async function finalize(state, snapshotTs) {
       .map((a) => state.screened[String(a).toLowerCase()] || state.screened[a])
       .filter((w) => w && (w.bets || []).length);
     if (memberW.length < 2) return;                           // need >=2 betting members for a cluster record
-    // REAL, MEASURED linkage — not a hardcoded 0.9. Shared on-chain funding alone is weak
-    // (two strangers can fund through the same exchange/bridge/relayer), so a Group must
-    // also show BEHAVIORAL corroboration: members actually bet the same markets (co-spend)
-    // or entered in sync. We compute the true pairwise link (shared funder + co-spend +
-    // sync + creation proximity) and require at least one pair to co-move beyond the funder.
-    const memEnriched = memberW.map((w) => Object.assign({}, w, { betEvents: Object.keys(w.entryByEvent || {}) }));
     const edges = [];
-    let coSpendMax = 0, syncMax = 0;
-    for (let i = 0; i < memEnriched.length; i++) for (let j = i + 1; j < memEnriched.length; j++) {
-      const pl = cluster.pairLink(memEnriched[i], memEnriched[j]);
-      coSpendMax = Math.max(coSpendMax, pl.signals.coSpend);
-      syncMax = Math.max(syncMax, pl.signals.syncEntry);
-      edges.push({ from: memberW[i].address, to: memberW[j].address, w: +pl.link.toFixed(2), link: pl.link, type: pl.type,
-        evidence: pl.evidence + " · both funded on-chain from " + String(r.hub).slice(0, 10) + "…" + (r.hubLabel ? " (" + r.hubLabel + ")" : "") });
+    for (let i = 0; i < memberW.length; i++) for (let j = i + 1; j < memberW.length; j++) {
+      edges.push({ from: memberW[i].address, to: memberW[j].address, w: 0.9, link: 0.9, type: "fund",
+        evidence: "both funded on-chain from " + String(r.hub).slice(0, 10) + "…" + (r.hubLabel ? " (" + r.hubLabel + ")" : "") });
     }
-    const CO_MIN = +ENV.RING_COSPEND_MIN || 0.15, SYNC_MIN = +ENV.RING_SYNC_MIN || 0.5;
-    if (coSpendMax < CO_MIN && syncMax < SYNC_MIN) return;     // shared funder only → likely a shared service, not one entity
     const volOf = (w) => (w.bets || []).reduce((s, b) => s + (Number(b.stakeUsd) || 0), 0);
     const order = memberW.map((w) => ({ w, vol: volOf(w) })).sort((a, b) => b.vol - a.vol);
     const nodes = order.map((o, rank) => {
@@ -610,10 +592,9 @@ async function finalize(state, snapshotTs) {
         vol: +Math.max(0.3, o.vol / (order[0].vol || 1)).toFixed(2), label: lab };
     });
     const cexChips = r.hubLabel ? [String(r.hub).slice(0, 4) + "… " + r.hubLabel] : [];
-    const meanLink = edges.length ? +(edges.reduce((a, e) => a + e.link, 0) / edges.length).toFixed(3) : 0;
     let subj = null;
     try {
-      const agg = cluster.clusterAggregate({ members: memberW, edges, nodes, cexChips, meanLink, isCluster: true }, 9000 + ri);
+      const agg = cluster.clusterAggregate({ members: memberW, edges, nodes, cexChips, meanLink: 0.9, isCluster: true }, 9000 + ri);
       subj = build.buildSubject(agg, 9000 + ri, meta, state._catalog || {});
     } catch (_) {}
     if (subj) {
@@ -631,18 +612,6 @@ async function finalize(state, snapshotTs) {
     payload.subjects.sort((a, b) => b.improbDenom - a.improbDenom);
     payload.clusters = payload.subjects.filter((s) => s.type === "cluster").length;
     log("ring→cluster: published " + ringClusterSubjects.length + " on-chain ring(s) as Groups clusters");
-  }
-  // RECOMPUTE the headline aggregate P/L + count over the FINAL subject set. buildPayload()
-  // computed these before the ring→cluster surgery (which adds Group subjects and removes
-  // absorbed singles), so without this the top-line total omits the bundled groups — the
-  // exact "doesn't add up across the groups" discrepancy. Now it sums every published subject.
-  {
-    const tot = payload.subjects.reduce((a, s) => a + (Number(s.profitNum) || 0), 0);
-    const fmtUsd = (v) => (Math.abs(v) >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
-    payload.totalFlaggedProfit = Math.round(tot);
-    payload.totalFlaggedProfitText = fmtUsd(tot);
-    payload.flaggedCount = payload.subjects.length;
-    payload.scored = payload.scored || (payload.meta && payload.meta.scored) || 0;
   }
 
   log("flagged " + payload.subjects.length + " subjects (" +

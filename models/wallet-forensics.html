@@ -1032,9 +1032,7 @@ class Component extends DCLogic {
     return {
       method: lib.name || entry.method, citation: lib.citation || "",
       formula: lib.formula || entry.formula, symbols: lib.symbols || [],
-      // prefer the backend's AUTHORITATIVE per-detector input bindings (this wallet's real
-      // ages, latencies, link scores); fall back to the local map only for older records.
-      inputs: (Array.isArray(entry.inputs) && entry.inputs.length) ? entry.inputs : this.inputsFor(entry.key, s),
+      inputs: this.inputsFor(entry.key, s),
       result: entry.metric, interpretation: entry.numbers,
       baseline: this.baselineFor(entry.key, s),
       confidenceNote: lib.confidenceNote || "",
