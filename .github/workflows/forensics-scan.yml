@@ -70,8 +70,11 @@ jobs:
           # record, not the thin slice the sweep has reached. Bounded to keep the tick fast.
           ONDEMAND_PER_RUN: "600"
           ONDEMAND_PER_WALLET: "70"
-          # Live discovery feed: pages of the global recent-trades stream pulled each tick.
-          LIVE_PAGES: "3"
+          # Live discovery feed: pages of the global recent-trades stream pulled each
+          # tick — new wallets are observed the moment they trade, and any whose trade
+          # lands in a resolved in-scope market is screened + front-of-queue enriched
+          # immediately (near-real-time). Bumped now that enrichment is parallelized.
+          LIVE_PAGES: "8"
           # Wall-clock budget for one tick (job hard-killed at timeout-minutes=13). 10 min
           # of work leaves a safe margin for the commit+push.
           SCAN_BUDGET_S: "600"
