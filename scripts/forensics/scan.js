@@ -102,6 +102,33 @@ function mergeMarket(state, market, positions) {
   }
 }
 
+// SURPRISE-WEIGHTED DISCOVERY. Insiders cluster where an UNLIKELY outcome actually
+// happened. For each resolved market we measure how improbable the realized outcome
+// was — the stake-weighted entry price of the WINNING side (if winners bought in at
+// 8%, the market gave it 8% and it happened anyway → surprise 0.92) — and keep the
+// markets where a long-shot won AND real money rode it early. That ranked list is
+// the haystack an investigator examines first; the wallets in it are scored as usual.
+function recordSurprise(state, market, positions) {
+  state.surpriseMarkets = state.surpriseMarkets || {};
+  if (!market.category) return;                              // in-scope only (sports already excluded upstream)
+  const winners = Object.values(positions).filter((p) => p.won);
+  if (!winners.length) return;
+  const stake = winners.reduce((a, p) => a + (Number(p.stakeUsd) || 0), 0);
+  if (stake <= 0) return;
+  const impliedWin = winners.reduce((a, p) => a + (Number(p.stakeUsd) || 0) * Number(p.entryPrice), 0) / stake;
+  const surprise = 1 - impliedWin;                           // 1 = total shock, 0 = the favourite won
+  if (surprise < 0.70) return;                               // only genuine long-shot upsets (winner ≤ ~30% implied)
+  const big = winners.filter((p) => (Number(p.stakeUsd) || 0) >= 1000).sort((a, b) => b.stakeUsd - a.stakeUsd);
+  state.surpriseMarkets[market.cond] = {
+    cond: market.cond, q: market.question, url: market.url, category: market.category,
+    winner: market.winner, impliedWin: +impliedWin.toFixed(4), surprise: +surprise.toFixed(4),
+    winners: winners.length, bigEarly: big.length, totalStake: Math.round(stake),
+    topStake: big[0] ? Math.round(big[0].stakeUsd) : 0,
+    topWallets: big.slice(0, 5).map((p) => ({ a: p.address, stake: Math.round(p.stakeUsd), odds: +Number(p.entryPrice).toFixed(3) })),
+    resolvedMs: market.resolvedMs || null,
+  };
+}
+
 async function run() {
   fs.mkdirSync(DIR, { recursive: true });
   const state = read(STATE, null) || { watermark: { offset: 0 }, reviewed: 0, screened: {}, snapshotTs: 0 };
@@ -138,6 +165,7 @@ async function run() {
     if (!trades.length) continue;
     const positions = poly.aggregateMarket(m, trades);
     mergeMarket(state, m, positions);
+    recordSurprise(state, m, positions);
     if (m.resolvedMs) newestResolved = Math.max(newestResolved, Math.round(m.resolvedMs / 1000));
     processed++;
     await poly.sleep(60);
@@ -172,7 +200,9 @@ async function run() {
         url: c.s ? "https://polymarket.com/event/" + c.s : "https://polymarket.com/markets",
         resolvedMs: c.r ? c.r * 1000 : null };
       const before = Object.keys(state.screened).length;
-      mergeMarket(state, mk, poly.aggregateMarket(mk, liveByMarket[cond]));
+      const livePos = poly.aggregateMarket(mk, liveByMarket[cond]);
+      mergeMarket(state, mk, livePos);
+      recordSurprise(state, mk, livePos);                 // live-resolved upsets feed the haystack in near-real-time
       liveScreened += Math.max(0, Object.keys(state.screened).length - before);
     }
   } catch (e) { log("live feed skipped:", e && e.message); }
@@ -316,6 +346,19 @@ function finalize(state, snapshotTs) {
     recomputed: monthDay(NOW_S),
   };
   const payload = build.buildPayload(singleAggs.concat(clusterAggs), meta);
+
+  // ---- surprise-weighted discovery: the markets where an unlikely outcome won and
+  // real money rode it early — the haystack to investigate, with the wallets in it.
+  // Bound the persisted set; publish the top 40 by surprise×money for the UI.
+  const flaggedSet = new Set();
+  payload.subjects.forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && flaggedSet.add(String(a).toLowerCase())));
+  const allSurprise = Object.values(state.surpriseMarkets || {});
+  allSurprise.sort((a, b) => (b.surprise * Math.log10(Math.max(10, b.topStake))) - (a.surprise * Math.log10(Math.max(10, a.topStake))));
+  if (allSurprise.length > 400) { const keep = {}; allSurprise.slice(0, 400).forEach((m) => (keep[m.cond] = m)); state.surpriseMarkets = keep; }
+  payload.surpriseMarkets = allSurprise.slice(0, 40).map((m) => Object.assign({}, m, {
+    topWallets: (m.topWallets || []).map((w) => Object.assign({}, w, { flagged: flaggedSet.has(String(w.a).toLowerCase()) })),
+  }));
+  log("surprise markets tracked: " + allSurprise.length + " (top surprise " + (allSurprise[0] ? Math.round(allSurprise[0].surprise * 100) + "%" : "—") + ")");
 
   // ---- lifecycle: persist first-flagged time; mark newly-flagged + archive ----
   state.flaggedHistory = state.flaggedHistory || {};
