@@ -132,8 +132,9 @@ function buildSubject(agg, idx, opts) {
   // ledger rows (each resolved position), newest entries first by stake.
   const ledger = bets.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd)).slice(0, 24).map((b) => ({
     market: b.question || "(market)", url: b.url || null,
-    entryTime: b.ts ? dateStr(b.ts) : "",
-    odds: Math.round(num(b.entryPrice) * 100), stake: money(b.stakeUsd),
+    entryTime: b.ts ? dateStr(b.ts) : "", ts: b.ts || null,
+    odds: Math.round(num(b.entryPrice) * 100), stakeNum: Math.round(num(b.stakeUsd)), plNum: Math.round(betPL(b)),
+    stake: money(b.stakeUsd),
     outcome: b.won ? "Won" : "Lost", pl: signedMoney(betPL(b)),
     tx: b.tx ? (String(b.tx).slice(0, 6) + "…") : "", txFull: b.tx || null,
   }));
