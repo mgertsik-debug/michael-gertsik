@@ -455,6 +455,7 @@
         <sc-if value="{{ isForensics }}" hint-placeholder-val="{{ false }}">
           <div style="display:flex;flex-direction:column;gap:10px">
             <iframe src="{{ forensics.src }}" title="Wallet Forensics — Polymarket" loading="lazy"
+              allow="clipboard-read; clipboard-write"
               style="width:100%;height:1640px;border:0;background:transparent;display:block;border-radius:12px;overflow:hidden"></iframe>
           </div>
         </sc-if>
@@ -2175,7 +2176,7 @@ class Component extends DCLogic {
       tabs, active,
       isEngine: active==='engine', isSurv: active==='surveillance', isForensics: active==='forensics', isCases: active==='cases',
       isDuty: active==='duty', isTracker: active==='tracker',
-      engine, surv, forensics:{ src:'/models/wallet-forensics.html?v=10' }, cases, duty, tracker
+      engine, surv, forensics:{ src:'/models/wallet-forensics.html?v=11' }, cases, duty, tracker
     };
   }
 

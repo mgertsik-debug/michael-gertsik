@@ -218,7 +218,12 @@
         <div style="padding: 24px 24px 20px; border-bottom: 1px solid #18211D; animation: wf-fadeup 0.4s ease both;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-bottom: 12px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> WHO THIS IS</div>
           <div style="font-size: 19px; font-weight: 600; color: {{ sel.whoColor }};">{{ sel.whoGlyph }}{{ sel.whoLabel }}</div>
-          <div style="font-size: 13.5px; color: #949C98; margin-top: 8px;">First active {{ sel.firstSeen }}.</div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+            <a href="{{ sel.scanUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ECEFED; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34D399;color:#34D399;">{{ sel.addrShort }} ↗ Polygonscan</a>
+            <button onClick="{{ sel.copyAddr }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ sel.copyColor }}; background: transparent; border: 1px solid {{ sel.copyBorder }}; border-radius: 7px; padding: 4px 9px; cursor: pointer;">{{ sel.copyLabel }}</button>
+            <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7E8C86; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34A382;color:#C4CAC6;">Polymarket ↗</a>
+          </div>
+          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">First active {{ sel.firstSeen }}.</div>
           <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
             <div style="font-size: 13.5px; color: #949C98; margin-top: 8px; line-height: 1.6; max-width: 620px;">These wallets appear to be controlled by one person or group. See the connection evidence below.</div>
           </sc-if>
@@ -349,14 +354,14 @@
                 <sc-for list="{{ ledgerRows }}" as="row" hint-placeholder-count="7">
                   <tr style="border-top: 1px solid #141C18;" style-hover="background:rgba(52,211,153,0.05);">
                     <td style="padding: 11px 13px; color: #ECEFED; max-width: 290px; white-space: normal; line-height: 1.45;">
-                      <a href="#" onClick="{{ row.prevent }}" style="color: #ECEFED; text-decoration: none; border-bottom: 1px solid rgba(52,211,153,0.4);" style-hover="color:#34D399;">{{ row.market }} <span style="color:#34D399;">↗</span></a>
+                      <a href="{{ row.marketUrl }}" target="_blank" rel="noopener noreferrer" style="color: #ECEFED; text-decoration: none; border-bottom: 1px solid rgba(52,211,153,0.4);" style-hover="color:#34D399;">{{ row.market }} <span style="color:#34D399;">↗</span></a>
                     </td>
                     <td style="padding: 11px 13px; color: #949C98; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.entryTime }}</td>
                     <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.odds }}%</td>
                     <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.stake }}</td>
                     <td style="padding: 11px 13px; text-align: center; white-space: nowrap;"><span style="{{ row.outcomeStyle }}">{{ row.outcome }}</span></td>
                     <td style="padding: 11px 13px; text-align: right; white-space: nowrap; color: {{ row.plColor }}; font-weight: 600; font-family: 'JetBrains Mono', monospace;">{{ row.pl }}</td>
-                    <td style="padding: 11px 13px; text-align: right; white-space: nowrap;"><a href="#" onClick="{{ row.prevent }}" style="color: #34D399; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px;" style-hover="text-decoration:underline;">verify ↗</a></td>
+                    <td style="padding: 11px 13px; text-align: right; white-space: nowrap;"><a href="{{ row.txUrl }}" target="_blank" rel="noopener noreferrer" style="color: #34D399; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px;" style-hover="text-decoration:underline;">{{ row.txLabel }}</a></td>
                   </tr>
                 </sc-for>
               </tbody>
@@ -540,6 +545,7 @@ class Component extends DCLogic {
       modal: { open: false },
       lookup: { open: false, loading: false, error: null, data: null, addr: "" },
       permalinkCopied: false,
+      copied: {},
       heroProg: 0,
       corpusProg: 0,
       reduce: false,
@@ -636,9 +642,29 @@ class Component extends DCLogic {
     const prof = d.profile || {};
     const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", conceal: "concealment", cluster: "group", conviction: "single big bet" };
     const profitColor = (prof.profitNum || 0) >= 0 ? "#34D399" : "#F87171";
+    const addr = d.user || lk.addr || "";
+    const copiedAddr = !!(this.state.copied && this.state.copied[addr]);
+    const link = (href, label, color) => h("a", { href, target: "_blank", rel: "noopener noreferrer",
+      style: { fontFamily: mono, fontSize: "10px", color: color || "#34D399", textDecoration: "none", border: "1px solid " + (color || "#34D399") + "55", borderRadius: "6px", padding: "3px 8px", whiteSpace: "nowrap" } }, label);
+    // exact binomial math, spelled out with this wallet's real numbers
+    const mathNode = (won.hasData === false || won.n == null) ? null : (() => {
+      const n = won.n, k = won.k, p = won.p, exp = (n * p);
+      return h("div", { style: { marginTop: "12px", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "14px 16px" } },
+        h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#6B756F", marginBottom: "8px" } }, "THE MATH — BINOMIAL TAIL TEST"),
+        h("div", { style: { fontFamily: mono, fontSize: "12px", color: "#C4CAC6", lineHeight: 1.9 } },
+          h("div", null, "P(X ≥ k) = Σ C(n,i)·pⁱ·(1−p)ⁿ⁻ⁱ"),
+          h("div", { style: { color: "#949C98" } }, "n = " + n + " long-shot bets · k = " + k + " won · p̄ = " + p.toFixed(3) + " (avg implied)"),
+          h("div", { style: { color: "#949C98" } }, "expected wins by luck = n·p̄ = " + exp.toFixed(2) + " · observed = " + k),
+          h("div", { style: { color: tc, fontWeight: 600, marginTop: "4px" } }, "→ P(this good or better by chance) = " + (won.improbText || ("≈" + (won.P != null ? won.P.toExponential(2) : "—"))))));
+    })();
     return h("div", null,
       h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" } },
-        h("div", { style: { fontFamily: mono, fontSize: "13px", color: "#ECEFED" } }, short(d.user)),
+        h("div", { style: { display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" } },
+          h("span", { style: { fontFamily: mono, fontSize: "13px", color: "#ECEFED" } }, short(addr)),
+          h("button", { onClick: () => this.copyText(addr, addr), title: "Copy address",
+            style: { fontFamily: mono, fontSize: "10px", color: copiedAddr ? "#34D399" : "#949C98", background: "transparent", border: "1px solid " + (copiedAddr ? "#34D399" : "#243029"), borderRadius: "6px", padding: "3px 8px", cursor: "pointer" } }, copiedAddr ? "✓ copied" : "⧉ copy"),
+          link("https://polygonscan.com/address/" + addr, "Polygonscan ↗"),
+          link("https://polymarket.com/profile/" + addr, "Polymarket ↗", "#7E8C86")),
         h("span", { style: { fontFamily: mono, fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: tc, border: "1px solid " + tc + "66", background: tc + "14", borderRadius: "999px", padding: "4px 11px" } }, flagged ? tier.toUpperCase() : "NOT FLAGGED")),
       h("p", { style: { fontSize: "14px", lineHeight: 1.6, color: "#D7DCD9", margin: "14px 0 16px" } }, d.verdict || ""),
       // ALWAYS-ON PROFILE — works for any wallet
@@ -657,13 +683,18 @@ class Component extends DCLogic {
             row("DETECTORS AGREEING", String((fz.agreeing != null ? fz.agreeing : fired.length)))),
       fired.length ? h("div", { style: { display: "flex", flexWrap: "wrap", gap: "7px", marginTop: "13px" } },
         fired.map((k, i) => h("span", { key: i, style: { fontFamily: mono, fontSize: "10px", color: "#34D399", border: "1px solid rgba(52,211,153,0.35)", background: "rgba(52,211,153,0.08)", borderRadius: "999px", padding: "3px 9px" } }, "✓ " + (nameMap[k] || k)))) : null,
+      mathNode,
       (d.sampleBets && d.sampleBets.length) ? h("div", { style: { marginTop: "16px" } },
-        h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#6B756F", marginBottom: "8px" } }, (d.longShotBets ? "SAMPLE LONG-SHOT BETS (" + d.longShotBets + " total)" : "SAMPLE BETS")),
-        h("div", { style: { display: "flex", flexDirection: "column", gap: "4px" } },
-          d.sampleBets.map((b, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: "10px", fontFamily: mono, fontSize: "11px", color: "#C4CAC6", padding: "6px 0", borderBottom: "1px solid #141C18" } },
-            h("span", { style: { color: "#949C98", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%" } }, b.market),
-            h("span", null, b.entryOdds + " · " + b.stake + " · "),
-            h("span", { style: { color: b.won ? "#34D399" : "#F87171", fontWeight: 600 } }, b.won ? "Won" : "Lost"))))) : null,
+        h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#6B756F", marginBottom: "8px" } }, (prof.longShotBets ? "SAMPLE LONG-SHOT BETS (" + prof.longShotBets + " of " + prof.resolvedBets + " scored) — each row links to its on-chain tx" : "SAMPLE BETS — each row links to its on-chain tx")),
+        h("div", { style: { display: "flex", flexDirection: "column", gap: "2px" } },
+          d.sampleBets.map((b, i) => h("div", { key: i, style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", fontFamily: mono, fontSize: "11px", color: "#C4CAC6", padding: "7px 0", borderBottom: "1px solid #141C18" } },
+            h("div", { style: { display: "flex", flexDirection: "column", gap: "2px", minWidth: 0, flex: "1 1 auto" } },
+              b.url ? h("a", { href: b.url, target: "_blank", rel: "noopener noreferrer", style: { color: "#ECEFED", textDecoration: "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", borderBottom: "1px solid rgba(52,211,153,0.35)" } }, b.market + " ↗")
+                : h("span", { style: { color: "#ECEFED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, b.market),
+              h("span", { style: { color: "#6B756F", fontSize: "9.5px" } }, b.date + " · " + b.entryOdds + " implied · " + b.stake + " · NET " + b.pl)),
+            h("div", { style: { display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 } },
+              b.txFull ? h("a", { href: "https://polygonscan.com/tx/" + b.txFull, target: "_blank", rel: "noopener noreferrer", title: b.txFull, style: { color: "#34D399", fontSize: "9.5px", textDecoration: "none" } }, "verify ↗") : null,
+              h("span", { style: { color: b.won ? "#34D399" : "#F87171", fontWeight: 600 } }, b.won ? "Won" : "Lost"))))) ) : null,
       h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#5C6661", marginTop: "16px", lineHeight: 1.6 } },
         "data: " + (src.trades || 0) + " trades · " + (src.resolvedTotal != null ? src.resolvedTotal : (src.tradesResolvable || 0)) + " resolved position" + ((src.resolvedTotal === 1) ? "" : "s") +
         (src.outOfScope ? " · " + src.outOfScope + " excluded (sports/crypto/price markets — decided in public)" : "") +
@@ -1135,7 +1166,7 @@ class Component extends DCLogic {
   ledgerRows(s) {
     const st = this.state;
     if (!s.ledger) return [];
-    const rows = s.ledger.map((r, i) => ({ ...r, entryIdx: i, plNum: parseFloat(r.pl.replace(/[^0-9.\-\u2212]/g, "").replace("\u2212", "-")), entryTime: this.entryTime(s, i) }));
+    const rows = s.ledger.map((r, i) => ({ ...r, entryIdx: i, plNum: parseFloat(r.pl.replace(/[^0-9.\-\u2212]/g, "").replace("\u2212", "-")), entryTime: r.entryTime || this.entryTime(s, i) }));
     const key = st.ledgerSort;
     const accessor = { entryIdx: (r) => r.entryIdx, entryTime: (r) => r.entryIdx, odds: (r) => r.odds, stake: (r) => parseFloat(r.stake.replace(/[^0-9.]/g, "")), outcome: (r) => (r.outcome === "Won" ? 1 : 0), pl: (r) => r.plNum, market: (r) => r.market };
     const acc = accessor[key] || accessor.entryIdx;
@@ -1143,6 +1174,9 @@ class Component extends DCLogic {
     return rows.map((r) => ({
       market: r.market, entryTime: r.entryTime, odds: r.odds, stake: r.stake, outcome: r.outcome, pl: r.pl,
       tx: r.tx, plColor: r.plNum >= 0 ? "#34D399" : "#F87171",
+      marketUrl: r.url || (r.eventSlug ? "https://polymarket.com/event/" + r.eventSlug : "https://polymarket.com/markets"),
+      txUrl: (r.txFull || r.tx) ? ("https://polygonscan.com/tx/" + (r.txFull || r.tx)) : "https://polygonscan.com/address/" + (s.address || s.idLabel || ""),
+      txLabel: (r.txFull || r.tx) ? "verify ↗" : "on-chain ↗",
       outcomeStyle: r.outcome === "Won"
         ? "font-family:Inter;font-size:11px;font-weight:600;color:#34D399;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.35);border-radius:5px;padding:3px 9px;box-shadow:0 0 12px -4px rgba(52,211,153,0.5);"
         : "font-family:Inter;font-size:11px;font-weight:600;color:#949C98;background:rgba(148,148,148,0.07);border:1px solid #243029;border-radius:5px;padding:3px 9px;",
@@ -1313,6 +1347,13 @@ class Component extends DCLogic {
       sel: {
         refId: sel.refId || ("WF-2026-" + String(this.subjects.indexOf(sel) + 100)),
         whoLabel: this.whoLabel(sel), whoGlyph: sel.type === "cluster" ? "\u25c7 " : "", whoColor: sel.type === "cluster" ? "#C4B5FD" : "#ECEFED",
+        addrShort: (() => { const a = sel.address || sel.idLabel || ""; return a.length > 12 ? a.slice(0, 6) + "\u2026" + a.slice(-4) : a; })(),
+        scanUrl: "https://polygonscan.com/address/" + (sel.address || sel.idLabel || ""),
+        polymarketUrl: "https://polymarket.com/profile/" + (sel.address || sel.idLabel || ""),
+        copyAddr: () => this.copyText(sel.address || sel.idLabel || "", "dossier:" + sel.id),
+        copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "\u2713 copied" : "\u29c9 copy address",
+        copyColor: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#949C98",
+        copyBorder: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#243029",
         firstSeen: sel.firstSeen || "an unrecorded date", isCluster: sel.type === "cluster" && !!sel.cluster,
         depositChips: this.depositChips(sel),
         concernColor: ct.color, concernGlow: ct.glow, concernBorder: ct.border, concernBg: ct.bg, concernLabel: ct.label,
@@ -1430,7 +1471,7 @@ class Component extends DCLogic {
     const head = "market,when,odds,amount,result,profit,tx";
     const rows = (sel.ledger || []).map((r, i) => [
       '"' + String(r.market).replace(/"/g, '""') + '"',
-      this.entryTime(sel, i),
+      (r.entryTime || this.entryTime(sel, i)),
       r.odds + "%",
       String(r.stake).replace(/[$,]/g, ""),
       r.outcome,
@@ -1578,7 +1619,30 @@ class Component extends DCLogic {
     this.setState({ modal: { open: true, kind, eyebrow } });
   }
 
-  copyPermalink() { this.setState({ permalinkCopied: true }); setTimeout(() => this.setState({ permalinkCopied: false }), 1800); }
+  // Real clipboard write with a legacy execCommand fallback (works inside the
+  // same-origin iframe; the host grants clipboard-write via the iframe `allow`).
+  writeClipboard(text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(String(text)); return true; }
+    } catch (_) {}
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = String(text); ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
+      return true;
+    } catch (_) { return false; }
+  }
+  copyText(text, key) {
+    this.writeClipboard(text);
+    this.setState({ copied: { ...this.state.copied, [key]: true } });
+    setTimeout(() => this.setState({ copied: { ...this.state.copied, [key]: false } }), 1600);
+  }
+  copyPermalink() {
+    const sel = this.selSubject();
+    const url = (location.origin || "") + "/models/insider-trading.html#forensics" + (sel ? "/" + (sel.idLabel || sel.id) : "");
+    this.writeClipboard(url);
+    this.setState({ permalinkCopied: true }); setTimeout(() => this.setState({ permalinkCopied: false }), 1800);
+  }
   toggleCat(name) { const cats = this.state.cats.includes(name) ? this.state.cats.filter((c) => c !== name) : [...this.state.cats, name]; this.setState({ cats }); }
   sortLedger(k) { if (this.state.ledgerSort === k) this.setState({ ledgerDir: this.state.ledgerDir * -1 }); else this.setState({ ledgerSort: k, ledgerDir: 1 }); }
   clearAllFilters() { this.setState({ type: "all", tier: "all", cats: [], timeWindow: "all", customFrom: "", customTo: "", minImprob: 0, minProfit: 0, sig: { conceal: false, fresh: false, cluster: false, held: false }, search: "" }); }
