@@ -410,6 +410,14 @@ async function run() {
         w.funder = fund.funder || null; w.funderLabel = fund.label || null;
         funded++;
       }
+      // ON-CHAIN WALLET CREATION DATE (Polygonscan): the earliest of the wallet's first
+      // normal tx and its first USDC transfer — the authoritative "created" date, more
+      // accurate than (and often earlier than) the first Polymarket activity we infer.
+      try {
+        const createdTx = await chain.walletCreatedTs(w.address);
+        const cands = [fund && fund.ts, createdTx].filter((t) => t && t > 0);
+        if (cands.length) w.createdTs = Math.min.apply(null, cands);
+      } catch (_) { /* leave undefined → UI falls back to first-active */ }
       const ptx = await chain.priorTxCount(w.address, isFinite(firstBetTs) ? firstBetTs : null);
       if (ptx != null) w.priorTx = ptx;
       // post-resolution cash-out latency (conceal tactic) for a real exchange hop
@@ -484,6 +492,7 @@ async function finalize(state, snapshotTs) {
   // ---- single-wallet aggregates (excluding wallets folded into a cluster) ----
   const singleAggs = wallets.filter((w) => !clustered.has(w.address)).map((w) => ({
     address: w.address, firstSeenTs: w.firstSeenTs, fundingTs: w.fundingTs, priorTx: w.priorTx,
+    createdTs: w.createdTs || null,                           // on-chain wallet-creation date (Polygonscan)
     conceal: walletConceal(w), bets: w.bets, _lastTs: w.lastTs,
     profile: w.profile || null,                               // Polymarket's authoritative account aggregates
   }));

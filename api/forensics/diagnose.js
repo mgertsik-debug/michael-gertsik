@@ -163,6 +163,9 @@ async function scoreWallet(addr) {
     .sort((a, b) => b.stakeUsd - a.stakeUsd).slice(0, 8).map(row);
 
   // ---- FORENSIC LAYER: the long-shot improbability flag, when computable ----
+  // on-chain wallet-creation date (Polygonscan) for the dossier "created" line.
+  let createdTs = null;
+  try { createdTs = await chain.walletCreatedTs(addr); } catch (_) {}
   // ON-CHAIN ENRICHMENT so the live lookup applies the SAME full metric suite as the
   // scanner — fresh (account age + prior-tx) and concealment (cash-out latency), not just
   // the Data-API statistics. Best-effort: walletFunding/priorTxCount degrade to a public
