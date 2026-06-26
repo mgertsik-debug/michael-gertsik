@@ -82,6 +82,17 @@
 
     <!-- LEFT: FLAGGED BETTORS -->
     <div>
+      <!-- AGGREGATE INFORMED-TRADING P&L (comparable in kind to the Harvard $143M est.) -->
+      <sc-if value="{{ hasAggProfit }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid #2C3A33;background:linear-gradient(165deg,rgba(52,211,153,0.06),rgba(11,16,14,0.4));border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:5px;">ESTIMATED INFORMED-TRADING P&amp;L · FLAGGED ACCOUNTS</div>
+          <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:25px;font-weight:700;color:#34D399;">{{ aggProfitText }}</span>
+            <span style="font-size:11.5px;color:#949C98;line-height:1.5;">across {{ aggCount }} flagged accounts at the strict bar · grows with coverage (the Harvard study's $143M is an inclusive estimate across the whole market)</span>
+          </div>
+        </div>
+      </sc-if>
+
       <!-- CONTROL SURFACE -->
       <div style="margin-bottom: 12px;">
         <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
@@ -530,6 +541,8 @@ class Component extends DCLogic {
     this.surpriseMarkets = [];
     this.ringGroups = [];
     this.coverageByCategory = {};
+    this.totalFlaggedProfit = 0;
+    this.totalFlaggedProfitText = null;
     this.state = {
       search: "",
       type: "all",
@@ -682,6 +695,8 @@ class Component extends DCLogic {
     this.surpriseMarkets = Array.isArray(data.surpriseMarkets) ? data.surpriseMarkets : [];
     this.ringGroups = Array.isArray(data.ringGroups) ? data.ringGroups : [];
     this.coverageByCategory = (data.coverageByCategory && typeof data.coverageByCategory === "object") ? data.coverageByCategory : {};
+    this.totalFlaggedProfit = data.totalFlaggedProfit || 0;
+    this.totalFlaggedProfitText = data.totalFlaggedProfitText || null;
     this.isSample = false;
     this.meta = {
       observed: data.observed != null ? data.observed : (data.meta && data.meta.observed) || 0,
@@ -1102,6 +1117,7 @@ class Component extends DCLogic {
     const haveSnap = !!this.meta.snapshot;
     return {
       hasSubjects: false, emptyState: true, surpriseMarketsNode: this.surpriseMarketsNode(), ringGroupsNode: this.ringGroupsNode(),
+      hasAggProfit: !!(this.totalFlaggedProfit > 0 && this.totalFlaggedProfitText), aggProfitText: this.totalFlaggedProfitText || "$0", aggCount: this.fmtInt(this.subjects.length),
       isSample: false, notSample: true,
       snapshotLabel: haveSnap ? ("data as of " + this.meta.snapshot) : "awaiting first snapshot",
       snapshotTitle: "Retrospective snapshot — not live. Recomputed " + (this.meta.recomputed || "—") + ".",
@@ -1646,6 +1662,7 @@ class Component extends DCLogic {
     return {
       corpus,
       hasSubjects: true, emptyState: false, surpriseMarketsNode: this.surpriseMarketsNode(), ringGroupsNode: this.ringGroupsNode(),
+      hasAggProfit: !!(this.totalFlaggedProfit > 0 && this.totalFlaggedProfitText), aggProfitText: this.totalFlaggedProfitText || "$0", aggCount: this.fmtInt(this.subjects.length),
       isSample: this.isSample, notSample: !this.isSample,
       isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
       onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),

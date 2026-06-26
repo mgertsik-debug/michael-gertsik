@@ -495,8 +495,43 @@ function aggregateMarket(market, trades) {
   return out;
 }
 
+// pull a 0x proxy address out of an arbitrary profile JSON shape (proxy/wallet/address key)
+function pickAddress(j) {
+  const found = [];
+  const visit = (o, d) => {
+    if (!o || d > 5) return;
+    if (Array.isArray(o)) return o.forEach((x) => visit(x, d + 1));
+    if (typeof o === "object") for (const k in o) {
+      const v = o[k];
+      if (typeof v === "string" && /proxy|wallet|address/i.test(k) && /^0x[0-9a-fA-F]{40}$/.test(v)) found.push(v.toLowerCase());
+      else if (v && typeof v === "object") visit(v, d + 1);
+    }
+  };
+  visit(j, 0);
+  return found[0] || null;
+}
+// BEST-EFFORT username -> proxy address. The named insider cases (Magamyman,
+// AlphaRaccoon/@0xafee, romanticpaul, dirtycup, 6741) were reported by HANDLE, not
+// address. Polymarket's username API isn't officially documented, so try a few
+// plausible public endpoints and extract the proxy address; returns null on failure
+// (no harm). Runs in the cron, where Polymarket is reachable.
+async function resolveUsername(handle) {
+  const h = String(handle || "").replace(/^@/, "").trim();
+  if (!h) return null;
+  const candidates = [
+    GAMMA + "/profiles?username=" + encodeURIComponent(h),
+    GAMMA + "/profiles?handle=" + encodeURIComponent(h),
+    "https://polymarket.com/api/profile/" + encodeURIComponent(h),
+    "https://lb-api.polymarket.com/profile?username=" + encodeURIComponent(h),
+  ];
+  for (const url of candidates) {
+    try { const a = pickAddress(await getJSON(url, { timeout: 6000 })); if (a) return a; } catch (_) {}
+  }
+  return null;
+}
+
 module.exports = {
   getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket, recentTrades, profileAggregates,
   userPositions, positionToBet, userTrades, buildUserRecord, marketsByConds, category, resolvedWinner, isBinary, tradeOutcome,
-  GAMMA, DATA, CLOB,
+  resolveUsername, pickAddress, GAMMA, DATA, CLOB,
 };

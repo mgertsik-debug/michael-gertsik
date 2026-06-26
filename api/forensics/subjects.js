@@ -60,6 +60,9 @@ module.exports = async (req, res) => {
     screened: store.screened || 0,
     meta: store.meta || {},
     surpriseMarkets: store.surpriseMarkets || [],   // the haystack: long-shot upsets where money rode in early
+    totalFlaggedProfit: store.totalFlaggedProfit || 0,         // aggregate estimated informed-trading P&L
+    totalFlaggedProfitText: store.totalFlaggedProfitText || "$0",
+    flaggedCount: store.flaggedCount != null ? store.flaggedCount : (store.subjects || []).length,
     ringGroups: store.ringGroups || [],             // funding rings that touch a flagged wallet (auto ring-finder)
     rings: store.rings || 0,
     coverageByCategory: store.coverageByCategory || {},  // resolved markets cataloged per category (drives the filter)
