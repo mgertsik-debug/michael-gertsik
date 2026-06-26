@@ -570,6 +570,11 @@ class Component extends DCLogic {
     window.addEventListener("resize", this._onResize);
     this.state.reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     this.loadReal();
+    // LIVE: re-poll the scheduled job's store so the counts + flagged set update
+    // without a reload (the job commits a fresh snapshot every ~15 min; polling every
+    // 90s catches it within ~1.5 min of landing). applyRealData only re-renders when
+    // the data actually changed.
+    this._poll = setInterval(() => this.loadReal(), 90000);
     if (this.state.reduce || this.props.animateCounts === false) { this.setState({ heroProg: 1, corpusProg: 1 }); return; }
     this.animate("corpusProg", 1100);
     this.animate("heroProg", 1300);
@@ -588,9 +593,18 @@ class Component extends DCLogic {
     if (typeof fetch !== "function") return;
     fetch("/api/forensics/subjects", { cache: "no-store" })
       .then((r) => (r && r.ok ? r.json() : null))
-      .then((data) => { if (data && Array.isArray(data.subjects)) this.applyRealData(data); })
+      .then((data) => {
+        if (!data || !Array.isArray(data.subjects)) return;
+        // skip the re-render if the snapshot hasn't changed since last poll (avoids flicker)
+        const stamp = (data.generatedAt || "") + "|" + data.subjects.length + "|" + (data.reviewed || 0);
+        if (stamp === this._lastStamp) return;
+        this._lastStamp = stamp;
+        this.applyRealData(data);
+      })
       .catch(() => {});
   }
+
+  componentWillUnmount() { try { clearInterval(this._poll); } catch (_) {} try { window.removeEventListener("resize", this._onResize); } catch (_) {} }
 
   // Apply the live snapshot. IMPORTANT: update the metadata (reviewed / screened
   // / snapshot) even when there are zero flagged subjects yet — otherwise the
