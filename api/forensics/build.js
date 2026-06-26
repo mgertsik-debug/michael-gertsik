@@ -97,8 +97,12 @@ function scoreAggregate(agg) {
   const convictionD = D.conviction(bets);
   // informed entry timing — bought cheap, late, right before the surprise it won
   const timingD = D.timing(bets);
+  // directional/event concentration + within-trader bet-size anomaly — over the
+  // FULL resolved record (portfolio properties, not just the long-shot subset).
+  const concentrationD = D.concentration(valid);
+  const sizingD = D.sizing(valid);
 
-  const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, conceal: concealD, cluster: clusterD, conviction: convictionD, timing: timingD };
+  const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, conceal: concealD, cluster: clusterD, conviction: convictionD, timing: timingD, concentration: concentrationD, sizing: sizingD };
   const f = D.fuse(dets);
   return { dets, f, bets, ageDays };
 }
@@ -162,6 +166,12 @@ function buildSubject(agg, idx, opts) {
   if (fired.includes("cluster") && dets.cluster.hasData)
     push("cluster", dets.cluster.nWallets + " accounts", "shared-funding link",
       "link = w₁·funder + w₂·co-spend + w₃·sync + w₄·prox", dets.cluster.explain);
+  if (fired.includes("sizing") && dets.sizing.hasData)
+    push("sizing", Math.round(dets.sizing.ratio) + "× median", "within-trader bet-size anomaly",
+      "largest event position ÷ this wallet's median bet", dets.sizing.explain);
+  if (fired.includes("concentration") && dets.concentration.hasData)
+    push("concentration", Math.round(dets.concentration.dirPurity * 100) + "% one-way", "directional concentration",
+      "max(YES, NO stake) ÷ total staked", dets.concentration.explain);
 
   // timeline from the single largest winning bet's price path (if the scanner
   // attached one); candidates stay clearly unverified.
