@@ -12864,5 +12864,999 @@
     "s": "glencore-and-rio-tinto-merger-announced-by-june-30",
     "c": "Corporate & M&A",
     "r": 1782777600
+  },
+  "0x1e688e3b217f932d30c51aefaf79d7ef463ae8c2810635b6f1ffb905d55dcdd6": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by April 20, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-april-20-2026",
+    "c": "World",
+    "r": 1776643200
+  },
+  "0xc0be7b1f19f9b658778c2be7e6bc67596a00f347ab64392d0f5d387534c7c3b4": {
+    "w": "NO",
+    "q": "US x Iran ceasefire extended by April 21, 2026?",
+    "s": "will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
+    "c": "Military & Defense",
+    "r": 1776729600
+  },
+  "0x8a0da22bb30a5af1376ef39624155bef82e4e2f9a1a3b3ed629a43db15a3a22c": {
+    "w": "YES",
+    "q": "Will Trump say \"Eight Wars\" or \"Eighth War\" during TPUSA events on April 17?",
+    "s": "will-trump-say-eight-wars-or-eighth-war-during-tpusa-events-on-april-17",
+    "c": "Military & Defense",
+    "r": 1776384000
+  },
+  "0x3d80e933f417e367157c7478f549355a656ab075fe909427c881b2396a711d52": {
+    "w": "NO",
+    "q": "Will Trump say \"Fed\" or \"Federal Reserve\" during No Tax on Tips Roundtable?",
+    "s": "will-trump-say-fed-or-federal-reserve-during-no-tax-on-tips-roundtable",
+    "c": "Economics",
+    "r": 1776297600
+  },
+  "0x80f96b0002aaa1551ffa1d2042fe93bb4af502e7671589beed4b300a09941241": {
+    "w": "NO",
+    "q": "Will Trump say \"Election\" during No Tax on Tips Roundtable?",
+    "s": "will-trump-say-election-during-no-tax-on-tips-roundtable",
+    "c": "Elections",
+    "r": 1776297600
+  },
+  "0x92d0b95bc8614a72eb2c05e649e4870616199c8a299c0bf241160b10e7be5292": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on February 15, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-february-15-2026-et",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0x905bd0615b38b035e60e69a46e0f185729ace5825a92f6dc39aede1d3ad31a13": {
+    "w": "NO",
+    "q": "US strikes Iran by February 15, 2026?",
+    "s": "us-strikes-iran-by-february-15-2026",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xc734f61dbb7fbf5ff7afac8c18b1f05f13c4b9b408f8f8d6d210a862ebabd00d": {
+    "w": "NO",
+    "q": "US strikes Iran by February 8, 2026?",
+    "s": "us-strikes-iran-by-february-8-2026",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x184f4a327edc0cd0af1f409980f6cc8d227fa96855625ce1ae9dad10e80057a1": {
+    "w": "NO",
+    "q": "US x Iran ceasefire by March 2?",
+    "s": "us-x-iran-ceasefire-by-march-2",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x6bbdeb8773a1470ba1053959a446bb0912b38f6091c8794583612bfa76a81a15": {
+    "w": "NO",
+    "q": "US strikes Iran by February 6, 2026?",
+    "s": "us-strikes-iran-by-february-6-2026-242-933-289-312-673-611-155-294",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xb02e8bc0b915c7d6fc79363f84ca301edeb3c5cd7a7c30cf9517cb4a49a96e35": {
+    "w": "NO",
+    "q": "US strikes Iran by February 13, 2026?",
+    "s": "us-strikes-iran-by-february-13-2026-721-759-497-124-197-797-992-641-418-789-676-262-791-574-169-647-275-931",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x3bed62b0b7e3eb52c1f0d8a5d11edad1f74989038fc1cae2889cdbe96a248dfe": {
+    "w": "NO",
+    "q": "US strikes Iran by February 5, 2026?",
+    "s": "us-strikes-iran-by-february-5-2026",
+    "c": "World",
+    "r": 1770249600
+  },
+  "0x38c0342fb672f38ad0990e98d6cc81d021a0c210fdb8c23ff086742b8a873c51": {
+    "w": "NO",
+    "q": "Will US or Israel strike Iran by February 15, 2026?",
+    "s": "will-us-or-israel-strike-iran-by-february-15-2026-761",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0xa9f0b0c67a815b423a435c523dc9358d98ab5633de5108fe44e203e8d6c2f062": {
+    "w": "NO",
+    "q": "US strikes Iran by February 4, 2026?",
+    "s": "us-strikes-iran-by-february-4-2026",
+    "c": "World",
+    "r": 1770163200
+  },
+  "0xb4bc113c6da82db67b6b17d39369de522e61425dd3609b9bf9306d266230b3a7": {
+    "w": "NO",
+    "q": "US strikes Iran by February 3, 2026?",
+    "s": "us-strikes-iran-by-february-3-2026",
+    "c": "World",
+    "r": 1770076800
+  },
+  "0xb75c745c6d2d6031875955ba01b62af90c622b22852af00391d45fab49ef0aea": {
+    "w": "NO",
+    "q": "US strikes Iran by January 29, 2026?",
+    "s": "us-strikes-iran-by-january-29-2026-183-883-657-383-499",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x8fcd8d30e559d75d1f1ac26fb61c118910d271a55ecce8e05367b1a6114bf20e": {
+    "w": "NO",
+    "q": "US strikes Iran by February 1, 2026?",
+    "s": "us-strikes-iran-by-february-1-2026",
+    "c": "World",
+    "r": 1769904000
+  },
+  "0xabb86b080e9858dcb3f46954010e49b6f539c20036856c7f999395bfd58d01e6": {
+    "w": "NO",
+    "q": "US strikes Iran by January 31, 2026?",
+    "s": "us-strikes-iran-by-january-31-2026-165",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x3397bfce4b2b513ae72da122de53f4f3747c9660fd62cb2b980132c6e7e4923d": {
+    "w": "NO",
+    "q": "US strikes Iran by February 2, 2026?",
+    "s": "us-strikes-iran-by-february-2-2026",
+    "c": "World",
+    "r": 1769990400
+  },
+  "0xfabc0ff190e456ad309ec0559554b4549f90aebcd636d9a6293a89abf5c78722": {
+    "w": "NO",
+    "q": "US strikes Iran by January 30, 2026?",
+    "s": "us-strikes-iran-by-january-30-2026-273-584-555-114-476",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x70cdc92881a74fa13b6d861aae79f3b153989f29b285f234bd8be08f723812a9": {
+    "w": "NO",
+    "q": "US strikes Iran by January 28, 2026?",
+    "s": "us-strikes-iran-by-january-28-2026-117-856-648-735-438",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x1c9a2a68c5e470cff041f2633405fd8e7799dd599dd30c20622ec7c7d9032f6c": {
+    "w": "NO",
+    "q": "US strikes Iran by January 27, 2026?",
+    "s": "us-strikes-iran-by-january-27-2026-458-884-547-617-932",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x843fc1f23d8cfd3df343031312a8a3f0a930ad118c0c0e81a56c21f0ea9ff217": {
+    "w": "NO",
+    "q": "US strikes Iran by January 23, 2026?",
+    "s": "us-strikes-iran-by-january-23-2026-494-711-798-734-155",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x7011cb54689f777d1010d94178451ee3c03a6b892e2ace8787abbe85e762bd11": {
+    "w": "NO",
+    "q": "US strikes Iran by January 24, 2026?",
+    "s": "us-strikes-iran-by-january-24-2026-318",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x4cca07aafd4267f7ceeb16e4ef7c7d5587cb906a13f5ab404275dad21dd6bff2": {
+    "w": "NO",
+    "q": "US strikes Iran by January 25, 2026?",
+    "s": "us-strikes-iran-by-january-25-2026-759-796-449",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xd30db058400adc67ec707baf62fffef82575b140c3a4b5daab341a5c837a4ce9": {
+    "w": "NO",
+    "q": "Will US or Israel strike Iran by January 12, 2026?",
+    "s": "will-us-or-israel-strike-iran-by-january-12-2026",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0xbf1d0865f793f94d78413696946f89327bda5ae44d82bf54f9ebb3edfb57bf56": {
+    "w": "NO",
+    "q": "Israel closes its airspace by May 31?",
+    "s": "israel-closes-its-airspace-by-may-31",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x46f15cb064fb468e39de360f14f5847898ef9b1489d15e9df702b92f1836598d": {
+    "w": "NO",
+    "q": "Trump announces US x Iran ceasefire end by April 15, 2026?",
+    "s": "trump-announces-us-x-iran-ceasefire-end-by-april-15-2026",
+    "c": "Military & Defense",
+    "r": 1776211200
+  },
+  "0xf6897445596086aeee9484f9b5a003f0ed5ddb727e52de92c66ab2a2562aeaa6": {
+    "w": "NO",
+    "q": "Will the next US x Iran diplomatic meeting be on April 26?",
+    "s": "will-the-next-us-x-iran-diplomatic-meeting-be-on-april-26",
+    "c": "World",
+    "r": 1778371200
+  },
+  "0xcc219b07a81f5c0e12a341dc8609ad99ce63d3306ca9f4a60e213a12aabe8a79": {
+    "w": "NO",
+    "q": "Will the next US x Iran diplomatic meeting be on April 27?",
+    "s": "will-the-next-us-x-iran-diplomatic-meeting-be-on-april-27",
+    "c": "World",
+    "r": 1778371200
+  },
+  "0x8c21973cfec923403774862ebcc46dd6235e33396cf5b82f136f971711a83a9b": {
+    "w": "NO",
+    "q": "Will the next US x Iran diplomatic meeting be on April 28?",
+    "s": "will-the-next-us-x-iran-diplomatic-meeting-be-on-april-28",
+    "c": "World",
+    "r": 1778371200
+  },
+  "0x5d37825716832a4a54f89450932e89510f26cf4be59aeec3149d2c49e5fdf44d": {
+    "w": "NO",
+    "q": "Iran agrees to surrender enriched uranium stockpile by April 30, 2026?",
+    "s": "iran-agrees-to-surrender-enriched-uranium-stockpile-by-april-30-2026",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0xa506b4f34e0b07f982ab96ff05ce26902ed772ca6752909d0c927d1e1e37ee6d": {
+    "w": "NO",
+    "q": "Will UAE strike Iran by March 31?",
+    "s": "will-uae-strike-iran-by-march-31",
+    "c": "World",
+    "r": 946684800
+  },
+  "0xf8d9cd66b6243209edf9312b14701622f64578e17e1f2eb678f24819433d7619": {
+    "w": "NO",
+    "q": "Trump announces US x Iran ceasefire end by April 12, 2026?",
+    "s": "trump-announces-us-x-iran-ceasefire-end-by-april-12-2026",
+    "c": "Military & Defense",
+    "r": 1775952000
+  },
+  "0x798e2f7932b4e46b328db3ab9b2858585892db71789e081eefbe9245482b461c": {
+    "w": "NO",
+    "q": "Will 45 or more ships transit the Strait of Hormuz between March 10-16?",
+    "s": "will-45-or-more-ships-transit-the-strait-of-hormuz-between-march-10-16",
+    "c": "Military & Defense",
+    "r": 1773619200
+  },
+  "0x19c52cb0abc4da0f6dc92d38142a826c2c8ecf8e3148d59205bd19daf0c5251a": {
+    "w": "NO",
+    "q": "Will Iran strike Turkey in March?",
+    "s": "will-iran-strike-turkey-in-march",
+    "c": "World",
+    "r": 1772841600
+  },
+  "0xbc0ddedceb1dd20483d78fd2cb40caa7f678beccf45ea1b4e45d42baa701674c": {
+    "w": "NO",
+    "q": "Will 25-29 ships transit the Strait of Hormuz between March 10-16?",
+    "s": "will-25-29-ships-transit-the-strait-of-hormuz-between-march-10-16",
+    "c": "Military & Defense",
+    "r": 1773619200
+  },
+  "0xcc07920770fdaadcdc4dff75056e88140d0988c9cb1dbfb4a78eda51b2868027": {
+    "w": "NO",
+    "q": "Iran leadership change by March 31?",
+    "s": "iran-leadership-change-by-march-31",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x53c672e37f3a7d286a275c85b52fe11bdc5d275f8bf626515d86113358c10d3b": {
+    "w": "NO",
+    "q": "Will 20-24 ships transit the Strait of Hormuz between March 10-16?",
+    "s": "will-20-24-ships-transit-the-strait-of-hormuz-between-march-10-16",
+    "c": "Military & Defense",
+    "r": 1773619200
+  },
+  "0x54e38e5dd8d631184d91b39c2b4b757fce025425d91f985b37b62ece2d6bdadd": {
+    "w": "NO",
+    "q": "Will 40-44 ships transit the Strait of Hormuz between March 10-16?",
+    "s": "will-40-44-ships-transit-the-strait-of-hormuz-between-march-10-16",
+    "c": "Military & Defense",
+    "r": 1773619200
+  },
+  "0x57f95d9e6f66d3afd53bc6a1b09c4c1fae75586e474db7042574d052e16cd9b1": {
+    "w": "NO",
+    "q": "Will 10-14 ships transit the Strait of Hormuz between March 10-16?",
+    "s": "will-10-14-ships-transit-the-strait-of-hormuz-between-march-10-16",
+    "c": "Military & Defense",
+    "r": 1773619200
+  },
+  "0xbeb97cb6d42528a620b66e829b00d6d9e609a34665c109b5c95d581f21b5392f": {
+    "w": "NO",
+    "q": "US/Israel strike on Fordow nuclear facility by March 31?",
+    "s": "usisrael-strike-on-fordow-nuclear-facility-by-march-31-388",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0xbc7438f5fe116c13ac1586748dafb7e659d26a8726a8004570d7654e86f16c3e": {
+    "w": "NO",
+    "q": "Houthi strike on Israel by March 15, 2026?",
+    "s": "houthi-strike-on-israel-by-march-15-2026",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x352559d5f5bdcad9f6dabdf84af660639ca144aef053166c923033d2345d884a": {
+    "w": "NO",
+    "q": "Iran leadership change by March 13?",
+    "s": "iran-leadership-change-by-march-13",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0x2de69f043bbef4e0340eb7e1a08d59ae8cc6e33b938e827104e07b97df0ff992": {
+    "w": "NO",
+    "q": "US/Israel strike on Fordow nuclear facility by March 15?",
+    "s": "usisrael-strike-on-fordow-nuclear-facility-by-march-15",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0xe9d7a2b2e12a357010f5f23bc51fd5224a04dfdb8738ffa97152d92634036acf": {
+    "w": "YES",
+    "q": "Will Israel strike Gaza on March 7, 2026?",
+    "s": "will-israel-strike-gaza-on-march-7-2026",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x22fe0f993bb899d3ae33bbdfbeb7f7d06df0982f578ae26592b55cf581396376": {
+    "w": "NO",
+    "q": "Will Qatar strike Iran by March 31?",
+    "s": "will-qatar-strike-iran-by-march-31",
+    "c": "World",
+    "r": 946684800
+  },
+  "0x7c3f9482e5c8d1c00ad849581324b5e224f5e960476f535453e04c1f55d4ea49": {
+    "w": "NO",
+    "q": "Will a Gulf State strike Iran by March 7?",
+    "s": "will-a-gulf-state-strike-iran-by-march-7",
+    "c": "World",
+    "r": 1772841600
+  },
+  "0x56b19b7b506bb1045e1b3449866b4e70fd37a8515ffb995c28445203823e37d8": {
+    "w": "YES",
+    "q": "Hezbollah strike on Israel by March 31?",
+    "s": "hezbollah-strike-on-israel-by-march-31-737-523",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0xcd3156c9537be4494f31d2303c28a3eee9b685969d6fbfdbfea93de01b896085": {
+    "w": "YES",
+    "q": "Hezbollah strike on Israel by March 7?",
+    "s": "hezbollah-strike-on-israel-by-march-7",
+    "c": "Military & Defense",
+    "r": 1772841600
+  },
+  "0x3488f31e6449f9803f99a8b5dd232c7ad883637f1c86e6953305a2ef19c77f20": {
+    "w": "YES",
+    "q": "US strikes Iran by February 28, 2026?",
+    "s": "us-strikes-iran-by-february-28-2026-227-967-547-688-589-491-592-418-452-924-384-915-464-672-196-157-993-596-269-535-381-391-471-256-988-997-296-225-762-973-292-827-345-182-558-215-794-879-189-761",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x15aa3c1259a716915e068a0d63c3885d2301d29e8982cbb1717ecb9b63d02d95": {
+    "w": "YES",
+    "q": "US strikes Iran by March 1, 2026?",
+    "s": "us-strikes-iran-by-march-1-2026-492",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x5354a2c31fb09cbd45d2ce6aba4d65c2b4fcb778e4702d8079025338f9ab3141": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 1, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-1-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xd4bbf7f6707c67beb736135ad32a41f6db41f8ae52d3ac4919650de9eeb94ed8": {
+    "w": "YES",
+    "q": "Khamenei out as Supreme Leader of Iran by February 28?",
+    "s": "khamenei-out-as-supreme-leader-of-iran-by-february-28",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0xd81f611670339738cb6ac259b94a54b5b08e372f19c063a8ad6fb2a8c7fe3ed8": {
+    "w": "NO",
+    "q": "Trump announces US x Iran ceasefire end by April 18, 2026?",
+    "s": "trump-announces-us-x-iran-ceasefire-end-by-april-18-2026",
+    "c": "Military & Defense",
+    "r": 1776470400
+  },
+  "0xdb7886829f415e00ab97b695a28b5747c6bce1f8ab09635a51ec6480e5d50314": {
+    "w": "NO",
+    "q": "Trump announces US x Iran ceasefire end by April 21, 2026?",
+    "s": "trump-announces-us-x-iran-ceasefire-end-by-april-21-2026",
+    "c": "Military & Defense",
+    "r": 1776729600
+  },
+  "0x4f8bddad85712e2b46756f71c753380a1417bec8049e4a45742e5182c3a5c015": {
+    "w": "NO",
+    "q": "Will Israel conduct military action against Iran by April 14, 2026?",
+    "s": "will-israel-conduct-military-action-against-iran-by-april-14-2026",
+    "c": "Military & Defense",
+    "r": 1776729600
+  },
+  "0x9dd27666ad05dbe8ac5547e79d634fc306578b60b71f96ab4347f020b46e9413": {
+    "w": "NO",
+    "q": "Will Israel conduct military action against Iran by April 21, 2026?",
+    "s": "will-israel-conduct-military-action-against-iran-by-april-21-2026",
+    "c": "Military & Defense",
+    "r": 1776729600
+  },
+  "0xf82ce6cd43d102b5545be8c107dda25697417a7af42ae277c5c8de0f812ae4fb": {
+    "w": "NO",
+    "q": "US x Iran meeting by March 31, 2026?",
+    "s": "us-x-iran-meeting-by-march-31-2026-363",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xc49142a0a94b68377bbc3f2e7f7f53a400274e2dcd4536cfa343be55a3c1fdf8": {
+    "w": "NO",
+    "q": "Will another country strike Iran by March 31?",
+    "s": "will-another-country-strike-iran-by-march-31-833",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x9de11706e7f6d31eddc745b50cb521c1536ae59d123419dd87e11421e3f5d208": {
+    "w": "NO",
+    "q": "Houthi strike on Israel by March 31, 2026?",
+    "s": "houthi-strike-on-israel-by-march-31-2026",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x18cc783dc22e861a77278f463f791161b4a5b6d5836b67e61b981e53a0b1f789": {
+    "w": "NO",
+    "q": "Will 40 ships transit the Strait of Hormuz on any day in March?",
+    "s": "will-40-ships-transit-the-strait-of-hormuz-on-any-day-in-march",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x35aa9df78e99b9edbc77d1448d4548396073064f923591d8cb8cc9cf5c22e7f0": {
+    "w": "NO",
+    "q": "Israel strike on Yemen by March 31, 2026?",
+    "s": "israel-strike-on-yemen-by-march-31-2026",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x78f97eed822885c3813ab7ba0ba41a5c1bb0ca0f0f622698bfc0460931aff51a": {
+    "w": "NO",
+    "q": "Will 20 ships transit the Strait of Hormuz on any day in March?",
+    "s": "will-20-ships-transit-the-strait-of-hormuz-on-any-day-in-march",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0xa0b56d7e621c7cbcfa47fe1a9c24f3409e189180fd6bda55b7a8113129839afc": {
+    "w": "NO",
+    "q": "Will China invade Taiwan by June 30, 2026?",
+    "s": "will-china-invade-taiwan-by-june-30-2026",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x4af035e8e27aa9d450ccbe816c123ccb1488e3c20729972da0283de96fca548b": {
+    "w": "YES",
+    "q": "Will Iran name a successor to Khamenei by March 9?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-9-795",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x28b418b2aeb0f2eec0a64d0cca38a2a7df484a45ee5c35d3d2b2822c27c17dfb": {
+    "w": "YES",
+    "q": "Will Iran name a successor to Khamenei by March 8?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-8-163",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x566b01c1803c1e013d7d4ad26c11b8773da62f59042873cdca3aeffcd807c8bc": {
+    "w": "YES",
+    "q": "Will Israel's Ben Gurion Airport reopen by March 15?",
+    "s": "will-israels-ben-gurion-airport-reopen-by-march-15-611-421",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x56ced25c1266e3bdb08450662d82a6361777ddd1de9c5c4572c33652d6dd1aaf": {
+    "w": "NO",
+    "q": "Will Israel's Ben Gurion Airport reopen by March 7?",
+    "s": "will-israels-ben-gurion-airport-reopen-by-march-7-339-656",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xf5cd656f01d2931021935041b065d7cb17b85a7631c742f41317a95dc4d3557b": {
+    "w": "NO",
+    "q": "Will Iran name a successor to Khamenei by March 3?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-3-345",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x95f1451bed5af0b7063c7c4c827619438f45099ea418c8cc15ad58d4f12410f1": {
+    "w": "NO",
+    "q": "Will Iran name a successor to Khamenei by March 5?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-5-748-625",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x096091ce8191d44656521aa84f5115dcec044f134a8ed24c34ca4b47fdf03f3d": {
+    "w": "NO",
+    "q": "Will Iran name a successor to Khamenei by March 4?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-4-844-575",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xed0a637aac8c056ed81b4016178aeca5ecff627b46ec49524b2a47bcecaf5290": {
+    "w": "NO",
+    "q": "Will Iran name a successor to Khamenei by March 7?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-7-249-562",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x5072d0bf27763754b734c63255c4cbbba79d9d09b214accf33ecc79b88b1d108": {
+    "w": "YES",
+    "q": "Will Anthropic have the best AI model at the end of May 2026?",
+    "s": "will-anthropic-have-the-best-ai-model-at-the-end-of-may-2026",
+    "c": "Tech & Announcements",
+    "r": 1780185600
+  },
+  "0x78dc2a064771775d38cc03f072f0cb7b94108d2c31aec5d436a64f7d81447894": {
+    "w": "NO",
+    "q": "Will \"Supergirl\" Opening Weekend Box Office be greater than 47m?",
+    "s": "will-supergirl-opening-weekend-box-office-be-greater-than-47m-20260622162136542",
+    "c": "Culture",
+    "r": 1782691140
+  },
+  "0xc47d5386411a75a6b87c78cafd47993a42ad8b8b0df166e9722a275269449612": {
+    "w": "YES",
+    "q": "Will Claire Valdez be the Democratic nominee for NY-07?",
+    "s": "will-claire-valdez-be-the-democratic-nominee-for-ny-07",
+    "c": "Politics",
+    "r": 1782172800
+  },
+  "0x0fc751446629fdf52b5ce3f816a52d443dafe0e6dc68a4001ec14bdb38fb39d5": {
+    "w": "NO",
+    "q": "Will GPT-5.6 be released between June 22 and June 28, 2026?",
+    "s": "will-gpt-5pt6-be-released-between-june-22-and-june-28-2026",
+    "c": "Tech & Announcements",
+    "r": 1782604800
+  },
+  "0x6e29cdbf20ecb194c600818c228d79ee3e15471ded2ba8082a80f8e0dcfdb910": {
+    "w": "NO",
+    "q": "Will OpenAI have the best Math AI model at the end of June 2026?",
+    "s": "will-openai-have-the-best-math-ai-model-at-the-end-of-june-2026",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0x0f30fc3cee922cc169f2f2b54261960c2367510ec80686ea38c65b1e13092d3b": {
+    "w": "NO",
+    "q": "Will Starmer officially leave office by June 30?",
+    "s": "will-starmer-officially-leave-office-by-june-30-20260622151504652",
+    "c": "Politics",
+    "r": 1782863940
+  },
+  "0xcb8a519f4d8c10c3e60c5c604cac30f38341e4b35f5bcce8356c0ea4698f8952": {
+    "w": "NO",
+    "q": "Will Kanye West visit Israel by June 30?",
+    "s": "will-kanye-west-visit-israel-by-june-30",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x11395254d664f77f4a463fe28a3feb6dda06b1a396f63def47787bd650a00ce6": {
+    "w": "NO",
+    "q": "Will Iran announce withdrawal from MOU negotiations by June 30?",
+    "s": "will-iran-announce-withdrawal-from-mou-negotiations-by-june-30-20260622191733845",
+    "c": "Tech & Announcements",
+    "r": 1782863940
+  },
+  "0x9b6f9eb121e43f6867a0855acae1354c569ce8ba32fbc48422d4dec9210161ae": {
+    "w": "NO",
+    "q": "Bab el-Mandeb Strait effectively closed by June 15?",
+    "s": "bab-el-mandeb-strait-effectively-closed-by-june-15",
+    "c": "Military & Defense",
+    "r": 1781481600
+  },
+  "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538": {
+    "w": "NO",
+    "q": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
+    "s": "will-rebecca-shepherd-win-the-2026-makerfield-by-election",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x9772347ce628f4427ab437333679512aba5a98a4d14ff2a138f99fe7a40ba5fe": {
+    "w": "NO",
+    "q": "Ukraine agrees not to join NATO by June 30?",
+    "s": "ukraine-agrees-not-to-join-nato-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x7ba4447c532f6c634be6657261acb7e47ab916658f358ec13b1bcc99fdfda929": {
+    "w": "NO",
+    "q": "Will Afghanistan recognize Israel by December 31?",
+    "s": "will-afghanistan-recognize-israel-by-december-31",
+    "c": "World",
+    "r": 1798736400
+  },
+  "0xd5ab04c1da2051ee27f69f3dabd766be2ce27b4f136db4215b8d29c4b08656c3": {
+    "w": "NO",
+    "q": "Kevin Warsh cuts rates at first Fed meeting?",
+    "s": "kevin-warsh-cuts-rates-at-first-fed-meeting",
+    "c": "Economics",
+    "r": 946684800
+  },
+  "0xa6c3ce745e9fe68eaacf7a6e2712192d134e1d18c8ac8dab02f825c481eb5add": {
+    "w": "NO",
+    "q": "Will \"The Devil Wears Prada 2\" be the May film with the highest domestic gross on June 30?",
+    "s": "will-the-devil-wears-prada-2-be-the-may-film-with-the-highest-domestic-gross-on-june-30",
+    "c": "Culture",
+    "r": 1782777600
+  },
+  "0xaf89088494ed29e5694bdf8cb6d945340234729e1e4aba3ffba6fd1df4097d50": {
+    "w": "NO",
+    "q": "Kash Patel out by May 31?",
+    "s": "kash-patel-out-by-may-31",
+    "c": "Politics",
+    "r": 1780185600
+  },
+  "0x1bb95f67ff6d971d43a112464e65b2a5e94e6ae61c72a111ad53340ba7d8cab3": {
+    "w": "NO",
+    "q": "Jeffrey Epstein confirmed to be alive before 2027?",
+    "s": "is-jeffrey-epstein-alive-498",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x54904e2a225c195eeb6984d417a222264fe9cc7f64b90449853b7499f1d8679a": {
+    "w": "NO",
+    "q": "Will Trump and Putin meet next in China?",
+    "s": "will-trump-and-putin-meet-next-in-china-586-328",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x25f7f00e1096e87e29683844e3f428175a4e38a9901520987670f2dfa0309b32": {
+    "w": "NO",
+    "q": "Will Donald Trump publicly insult Vladimir Putin by May 31, 2026?",
+    "s": "will-donald-trump-publicly-insult-vladimir-putin-by-may-31-2026",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0xf480b4ea858af172baf1d8c4d2d0281ee8d2694ed9f40b12b3630c5328dfb3f6": {
+    "w": "NO",
+    "q": "Will the All India Trinamool Congress (AITC) win the most seats in the 2026 West Bengal Legislative Assembly election?",
+    "s": "will-the-all-india-trinamool-congress-aitc-win-the-most-seats-in-the-2026-west-bengal-legislative-assembly-election",
+    "c": "Elections",
+    "r": 1777420800
+  },
+  "0x49e0fd35e25a3c075cba2ddd500e0a69369c88a7ecf8971304495b1970d98017": {
+    "w": "YES",
+    "q": "Will the Bharatiya Janata Party (BJP) win the most seats in the 2026 West Bengal Legislative Assembly election?",
+    "s": "will-the-bharatiya-janata-party-bjp-win-the-most-seats-in-the-2026-west-bengal-legislative-assembly-election",
+    "c": "Elections",
+    "r": 1777420800
+  },
+  "0x5c3e77051639ff3cc2cd1735d6667d15514da142558bc198bcd9e73d1feb2a7f": {
+    "w": "YES",
+    "q": "Will Tamilaga Vettri Kazhagam (TVK) win the most seats in the 2026 Tamil Nadu Legislative Assembly election?",
+    "s": "will-tamilaga-vettri-kazhagam-tvk-win-the-most-seats-in-the-2026-tamil-nadu-legislative-assembly-election",
+    "c": "Elections",
+    "r": 1776902400
+  },
+  "0xcd26bdb63b81dfcc5482c42e9372c8a46091b1de1123d2afefb83df83fe859fd": {
+    "w": "NO",
+    "q": "Bab el-Mandeb Strait effectively closed by April 30?",
+    "s": "bab-el-mandeb-strait-effectively-closed-by-april-30",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0xe5e07c8460e955855d6d8335beafb6a0e001e8ab6b3bf02786ba2d5e53a3fd9a": {
+    "w": "YES",
+    "q": "Will Olivia rank #1 among girl names on the SSA’s official list for 2025?",
+    "s": "will-olivia-rank-1-among-girl-names-on-the-ssas-official-list-for-2025",
+    "c": "Crypto Events",
+    "r": 1767139200
+  },
+  "0x5d5a4729071ff8d9d878210312f132d3691ce6fbbd2f01aebd4546b23e7b624c": {
+    "w": "YES",
+    "q": "Will the Bank of Mexico announce a decrease at the May meeting?",
+    "s": "will-the-bank-of-mexico-announce-a-decrease-at-the-may-meeting",
+    "c": "Tech & Announcements",
+    "r": 1778112000
+  },
+  "0xaaa6ee3092e91a716564958798cbdda7c0a4eb7bac578e726182810007f78fbb": {
+    "w": "NO",
+    "q": "Naim Qassem out as Hezbollah’s secretary-general by April 30, 2026?",
+    "s": "naim-qassem-out-as-hezbollahs-secretary-general-by-april-30-2026",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0xd8ed50f31e195e33758c44181d6a97bb50173ac4b4e7fc387648cb0fa03d0e84": {
+    "w": "NO",
+    "q": "Will Donald Trump publicly insult Vladimir Putin by April 30, 2026?",
+    "s": "will-donald-trump-publicly-insult-vladimir-putin-by-april-30-2026-287-213-946-135-856",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x4ede078cae84a5877ac32d7fb48811e5c23549a1904b7df06ff7935c6d79d831": {
+    "w": "NO",
+    "q": "Will the Fed decrease interest rates by 25 bps after the July 2026 meeting?",
+    "s": "will-the-fed-decrease-interest-rates-by-25-bps-after-the-july-2026-meeting",
+    "c": "Economics",
+    "r": 1785283200
+  },
+  "0x3d675f1c88099a57c12abca632cf926be1bf430125168321de06234e9930fe1a": {
+    "w": "NO",
+    "q": "Will the Fed decrease interest rates by 50+ bps after the July 2026 meeting?",
+    "s": "will-the-fed-decrease-interest-rates-by-50-bps-after-the-july-2026-meeting",
+    "c": "Economics",
+    "r": 1785283200
+  },
+  "0xcc4d677ee6e9ccf49ef775ff434ee1e3075a006a81e1d5032f0343964a00bdac": {
+    "w": "NO",
+    "q": "Will the Fed Pause–Pause–Cut in the next three decisions (Apr–Jun–Jul)?",
+    "s": "will-the-fed-pausepausecut-in-the-next-three-decisions-aprjunjul",
+    "c": "Economics",
+    "r": 1785283200
+  },
+  "0xf773a12cc13214fc493ec398f96c4ea5ec87ea4ff3b29795041d5498e314ad1e": {
+    "w": "NO",
+    "q": "Will Benny Gantz be the next Prime Minister of Israel?",
+    "s": "will-benny-gantz-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x5e464d85eb49f22d876f3ed6168a7db5e2288e9ae1eb91effd2758e994676f86": {
+    "w": "NO",
+    "q": "Will the Fed decrease interest rates by 50+ bps after the September 2026 meeting?",
+    "s": "will-the-fed-decrease-interest-rates-by-50-bps-after-the-september-2026-meeting-863",
+    "c": "Economics",
+    "r": 1789516800
+  },
+  "0xa653be0f150dbe055a532ea02977338bb31f49d1f723b2a48c1f67847a73cb7d": {
+    "w": "NO",
+    "q": "Will Yossi Cohen be the next Prime Minister of Israel?",
+    "s": "will-yossi-cohen-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830": {
+    "w": "NO",
+    "q": "Will the Fed decrease interest rates by 25 bps after the September 2026 meeting?",
+    "s": "will-the-fed-decrease-interest-rates-by-25-bps-after-the-september-2026-meeting-586",
+    "c": "Economics",
+    "r": 1789516800
+  },
+  "0xe8d7ed8a0a720200991a39b1a7be0baccfdff7caa54c883db144580b3cc35e84": {
+    "w": "NO",
+    "q": "Will another candidate win the 2nd round of the 2026 Peru presidential election?",
+    "s": "will-another-candidate-win-the-2nd-round-of-the-2026-peru-presidential-election-20260609021542098",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x641ee08666fd2c37f890d59b4fd32ad8a23e8500e1ad070e112a90219a4d4bfa": {
+    "w": "NO",
+    "q": "Will Yoaz Hendel be the next Prime Minister of Israel?",
+    "s": "will-yoaz-hendel-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xea653dbacdb5b0ba21c9b745f5fb463fe654b988129093ce471d3b3652650cba": {
+    "w": "NO",
+    "q": "Will Gilad Erdan be the next Prime Minister of Israel?",
+    "s": "will-gilad-erdan-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xbb4a907e731f7297fc4c1e9dd30facdadd75c2b6fa692ca24a82d5367467559a": {
+    "w": "NO",
+    "q": "Will Amal Movement win the most seats in the 2026 Lebanese parliamentary election?",
+    "s": "will-amal-movement-win-the-most-seats-in-the-2026-lebanese-parliamentary-election",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x13eff396ae562ffdc52f4d6897551191e64fa718890f1f26afd051e8b8554dd3": {
+    "w": "NO",
+    "q": "Will Iván Cepeda Castro win the first round of the 2026 Colombian presidential election by 0-5%?",
+    "s": "will-ivn-cepeda-castro-win-the-first-round-of-the-2026-colombian-presidential-election-by-0-5",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x4bf44e9885ee8f43148458d5c9537d96c940cf48414557528358d65870131517": {
+    "w": "NO",
+    "q": "Will Itamar Ben Gvir be the next Prime Minister of Israel?",
+    "s": "will-itamar-ben-gvir-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x6a5a2f0dee907cdb831d2f697674cd6827ab0cafdab130615b8ec656b62ce51a": {
+    "w": "NO",
+    "q": "Mahmoud Abbas out as Palestinian President by June 30?",
+    "s": "mahmoud-abbas-out-as-palestinian-president-by-june-30",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0x43272c02b8407ed3f8d5b04fb4cb132d7a59c5df6ecc423afcf66f1c778d1887": {
+    "w": "NO",
+    "q": "Will Reza Pahlavi enter Iran by June 30?",
+    "s": "will-reza-pahlavi-enter-iran-by-june-30-555-947-362-379-213",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x2c027dcabf04d8aafebe86337180f6959f6341adeb2dcc22f590992dd0d9978e": {
+    "w": "NO",
+    "q": "Will the Fed Pause–Cut–Pause in the next three decisions (Jun–Jul–Sep)?",
+    "s": "will-the-fed-pausecutpause-in-the-next-three-decisions-junjulsep",
+    "c": "Economics",
+    "r": 1789516800
+  },
+  "0x02507350fc2b81c3af36c659a805adbda9b0a81e63a27b29cb273cdd7dbc072e": {
+    "w": "NO",
+    "q": "Fed rate cut by July 2026 meeting?",
+    "s": "fed-rate-cut-by-july-2026-meeting-577",
+    "c": "Economics",
+    "r": 1781654400
+  },
+  "0x865303ccb9a48341d1bae33b3b4379ca86d5abbff3ce1e132716631cc0af3cce": {
+    "w": "NO",
+    "q": "Netanyahu out by June 30?",
+    "s": "netanyahu-out-by-june-30-383-244-575",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0x482e9982e8a5dad916f6309a73cb4187a09351f0b7e938991b41e21fe6ed0c27": {
+    "w": "NO",
+    "q": "Israeli forces enter Beirut by June 30?",
+    "s": "israeli-forces-enter-beirut-by-june-30",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x671a0cb1c18cc4166536648335ee075380776b54b89218999a4cdd842e27168a": {
+    "w": "NO",
+    "q": "Will Iván Cepeda Castro win the second round of the 2026 Colombian presidential election?",
+    "s": "will-ivan-cepeda-castro-win-the-second-round-of-the-2026-colombian-presidential-election-20260605193429336",
+    "c": "Elections",
+    "r": 1782086400
+  },
+  "0xd8625515585b5bf81d9c1262a1d2b0212a6f2a7a5c5f6ef6c993f7cc269f92dd": {
+    "w": "NO",
+    "q": "Will Nir Barkat be the next Prime Minister of Israel?",
+    "s": "will-nir-barkat-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x8cbdd0c4c6061c9e5c5a94d4a474c1880d0f2ab5ee4704a64af1e77c6d0e18d0": {
+    "w": "NO",
+    "q": "Will Amir Ohana be the next Prime Minister of Israel?",
+    "s": "will-amir-ohana-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xdbdcd65ce03b31e1c8444c5813f709dd258b7d90d4d81ae644a0351cd26de2d7": {
+    "w": "NO",
+    "q": "Israeli parliament dissolved by June 15?",
+    "s": "israeli-parliament-dissolved-by-june-15",
+    "c": "World",
+    "r": 1781481600
+  },
+  "0xfb2cb634e693b1758fc78b38b02754472edd728bd22eb4a7023c6f49419c73d6": {
+    "w": "NO",
+    "q": "Will Gideon Sa’ar be the next Prime Minister of Israel?",
+    "s": "will-gideon-saar-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x9288e07cc3a716cad898081de864f2fffad42e5f48bf923aad42a36403d2ae9a": {
+    "w": "NO",
+    "q": "Will the Fed Pause–Cut–Cut in the next three decisions (Jun–Jul–Sep)?",
+    "s": "will-the-fed-pausecutcut-in-the-next-three-decisions-junjulsep",
+    "c": "Economics",
+    "r": 1789516800
+  },
+  "0x673014b56298da65997bb9310fce2a14117ffb0301a766cebdb87d20b7c6a748": {
+    "w": "NO",
+    "q": "Will Sánchez win the 2nd round of the 2026 Peru presidential election by 0.1–0.2%?",
+    "s": "will-sanchez-win-the-2nd-round-of-the-2026-peru-presidential-election-by-0pt10pt2-20260609021542088",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x33813ca7d304cff113cd67c7f75059b776f17d9d14150713e1c99899b6d4b77b": {
+    "w": "NO",
+    "q": "Will Sánchez win the 2nd round of the 2026 Peru presidential election by 0–0.1%?",
+    "s": "will-sanchez-win-the-2nd-round-of-the-2026-peru-presidential-election-by-00pt1-20260609021542087",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x34c68f47edf908976ad344469d138ac809e8085659a738c495ad9ed57c44c85f": {
+    "w": "NO",
+    "q": "Will Sánchez win the 2nd round of the 2026 Peru presidential election by 4–8%?",
+    "s": "will-snchez-win-the-2nd-round-of-the-2026-peru-presidential-election-by-48",
+    "c": "Elections",
+    "r": 1780790400
+  },
+  "0x7af50ffcbc67e0216ef20419b21c12862a5409a9ec1addeb29b5a1c9b15c4719": {
+    "w": "NO",
+    "q": "Will Sánchez win the 2nd round of the 2026 Peru presidential election by 0.2–0.3%?",
+    "s": "will-sanchez-win-the-2nd-round-of-the-2026-peru-presidential-election-by-0pt20pt3-20260609021542089",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x0dd84832f6ed9f1bbb544ec05428b74b342ca0f6f9477d766b6c050353cd9593": {
+    "w": "NO",
+    "q": "Will Islamic Charitable Projects Association win the most seats in the 2026 Lebanese parliamentary election?",
+    "s": "will-islamic-charitable-projects-association-win-the-most-seats-in-the-2026-lebanese-parliamentary-election",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x31317ee9df4dc92999f25ad189a13b599a5b8a3de5729a26d3cccb3ca71f0da5": {
+    "w": "NO",
+    "q": "Will Hezbollah win the most seats in the 2026 Lebanese parliamentary election?",
+    "s": "will-hezbollah-win-the-most-seats-in-the-2026-lebanese-parliamentary-election",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x45a79193a66e5078a29c625e78e0d4b9a059edef8e206097c48bbfe7eaf9590e": {
+    "w": "NO",
+    "q": "Will Yair Lapid be the next Prime Minister of Israel?",
+    "s": "will-yair-lapid-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xc05733ff4abddbf855f9c247fd57fcebfa0e756e624718c19e0abc545e8a0993": {
+    "w": "NO",
+    "q": "Will Fujimori win the 2nd round of the 2026 Peru presidential election by 0–0.1%?",
+    "s": "will-fujimori-win-the-2nd-round-of-the-2026-peru-presidential-election-by-00pt1-20260609021542086",
+    "c": "Elections",
+    "r": 946684800
+  },
+  "0x46666ceb4c63814f38a8c83784ae10e1c2e1ef52e2db648372bd86dea521cf64": {
+    "w": "NO",
+    "q": "Strait of Hormuz traffic returns to normal by June 15?",
+    "s": "strait-of-hormuz-traffic-returns-to-normal-by-june-15",
+    "c": "Military & Defense",
+    "r": 1781481600
+  },
+  "0xa222e431c2edbbccbcfe36c415e0b17184d28c65de158ef488e7c809affe5993": {
+    "w": "NO",
+    "q": "Will Russia enter Khatnie by May 31, 2026?",
+    "s": "will-russia-enter-khatnie-by-may-31-2026",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0xbfca16aab43bd662a6dc667c5c3605f6802c23de429ceb7a87db4add503f286a": {
+    "w": "NO",
+    "q": "US announces new Iran agreement/ceasefire extension by May 27?",
+    "s": "us-announces-new-iran-agreementceasefire-extension-by-may-27",
+    "c": "Military & Defense",
+    "r": 1779840000
+  },
+  "0x88e08e1db2095d39e18ef77068b8dc8074069ccac3feac7fba88482f4f822935": {
+    "w": "NO",
+    "q": "Will the No to ten million Switzerland initiative be approved in Switzerland’s June 14, 2026 popular vote?",
+    "s": "will-the-no-to-ten-million-switzerland-initiative-be-approved-in-switzerlands-june-14-2026-popular-vote",
+    "c": "Legal & Regulatory",
+    "r": 1781395200
+  },
+  "0xb582fa41361aa4c9faea522e821cf0ec09783594fca42ef6c8aceb14445eafec": {
+    "w": "YES",
+    "q": "Internet Access restored in Iran by June 30, 2026?",
+    "s": "internet-access-restored-in-iran-by-june-30-2026",
+    "c": "World",
+    "r": 1773446400
+  },
+  "0xda70183170dabffacfcaf4d3f28cc8d02654eebc5f3821d0573aa9468d5acf6d": {
+    "w": "NO",
+    "q": "Will Russia enter Ternuvate again by May 31?",
+    "s": "will-russia-enter-ternuvate-again-by-may-31",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0xb744bc19070b0c84fde101c0b4dc81f7192a3d65723b594db1e30596608d7dc5": {
+    "w": "NO",
+    "q": "Will Russia enter Krasnopillya by May 31?",
+    "s": "will-russia-enter-krasnopillya-by-may-31",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x1e5efe84a9a890e61044d77ea6e182f39b06d5b382c851b926cad54cb4972e68": {
+    "w": "NO",
+    "q": "Will Russia capture Sloviansk by June 30?",
+    "s": "will-russia-capture-slovainsk-by-2027",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x31a3bcdbd168e04b59406dd868b3d305ce1687c6e802dbbbeffc5ece1c23191e": {
+    "w": "NO",
+    "q": "Will Russia capture all of Rodynske again by June 30?",
+    "s": "will-russia-capture-all-of-rodynske-again-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x0c38dd9305e3205557885183f0730270779e7e426b0ec3e7743f23963b6d6e4a": {
+    "w": "NO",
+    "q": "Will France, UK, or Germany strike Iran by June 30?",
+    "s": "will-france-uk-or-germany-strike-iran-by-june-30-259",
+    "c": "World",
+    "r": 1782777600
   }
 }
