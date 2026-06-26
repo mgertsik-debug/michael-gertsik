@@ -165,7 +165,10 @@ async function scoreWallet(addr) {
   // ---- FORENSIC LAYER: the long-shot improbability flag, when computable ----
   // carry Polymarket's authoritative profile so buildSubject() uses the real all-time
   // P/L (and clears its net-profit gate) instead of the in-scope reconstruction.
-  const agg = { address: addr, bets, firstSeenTs: null, fundingTs: null, priorTx: null, profile: o.polymarket || null };
+  // on-chain wallet-creation date (Polygonscan) for the dossier "created" line.
+  let createdTs = null;
+  try { createdTs = await chain.walletCreatedTs(addr); } catch (_) {}
+  const agg = { address: addr, bets, firstSeenTs: null, fundingTs: null, priorTx: null, createdTs, profile: o.polymarket || null };
   const { dets, f } = build.scoreAggregate(agg);
   o.detectors = {
     won: dets.won.hasData ? { n: dets.won.n, k: dets.won.k, p: dets.won.p, P: dets.won.P, improbText: dets.won.improbText, winRate: dets.won.winRate + "%" } : { hasData: false, reason: dets.won.reason },
