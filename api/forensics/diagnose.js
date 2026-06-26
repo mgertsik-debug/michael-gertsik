@@ -64,8 +64,8 @@ async function scoreWallet(addr) {
   try { posBets = (await poly.userPositions(addr)).map(poly.positionToBet).filter(Boolean); } catch (_) {}
   const recBets = poly.buildUserRecord(utrades, merged);
   const byCond = {};
-  recBets.forEach((b) => { byCond[b.cond] = b; });
-  posBets.forEach((b) => { if (!byCond[b.cond]) byCond[b.cond] = b; });
+  posBets.forEach((b) => { byCond[b.cond] = b; });          // authoritative first (real avg price + P/L)
+  recBets.forEach((b) => { if (!byCond[b.cond]) byCond[b.cond] = b; });  // fill gaps from trades+catalog
   const bets = Object.values(byCond);
 
   o.sources = {

@@ -325,12 +325,17 @@ function positionToBet(p) {
   // category drives the baseline/risk weight, it is NOT a gate that shrinks n.
   const cat = category([], title) || categoryFallback(title);
   const won = cur >= 0.5;
+  // Polymarket's OWN realized P/L for this position — authoritative, matches the
+  // number on the wallet's Polymarket profile. Prefer it over any reconstruction.
+  const pnl = p.cashPnl != null ? num(p.cashPnl) : (p.realizedPnl != null ? num(p.realizedPnl) : null);
   return {
     cond, eventGroup: p.slug || cond, question: title || "(market)",
     url: p.slug ? "https://polymarket.com/event/" + p.slug : "https://polymarket.com/markets",
     category: cat, entryPrice: clip(avg, 1e-4, 0.9999), stakeUsd: Math.round(totalBought || size * avg),
     outcome: (String(p.outcome || "").toUpperCase()) || "YES", won, held: true,
+    pnl: pnl != null ? Math.round(pnl) : null,
     ts: endMs ? Math.round(endMs / 1000) : null, tx: null, resolvedMs: endMs || null,
+    source: "positions",
   };
 }
 

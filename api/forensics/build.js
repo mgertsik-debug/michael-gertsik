@@ -45,8 +45,12 @@ function dateStr(ts) {
   return M[d.getUTCMonth()] + " " + String(d.getUTCDate()).padStart(2, "0") + " " + d.getUTCFullYear();
 }
 
-// realized P/L for one bet: a won long-shot pays stake·(1/p − 1); a loss is −stake.
+// realized P/L for one bet. Prefer Polymarket's OWN number (b.pnl, from the
+// /positions feed) — it's authoritative and accounts for partial exits, so it
+// matches the wallet's Polymarket profile. Only when that's absent (a trades-only
+// reconstruction) do we estimate held-to-resolution payout: won → stake·(1/p−1).
 function betPL(b) {
+  if (b && b.pnl != null && isFinite(Number(b.pnl))) return Number(b.pnl);
   const p = Math.max(1e-6, Math.min(1 - 1e-6, num(b.entryPrice)));
   return b.won ? num(b.stakeUsd) * (1 / p - 1) : -num(b.stakeUsd);
 }

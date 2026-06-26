@@ -14,6 +14,15 @@ function agg(address, nWin, nLoss, p, cat, opts) {
   return Object.assign({ address, firstSeenTs: 1699000000, fundingTs: 1698900000, priorTx: 0, bets }, opts || {});
 }
 
+test("betPL: uses Polymarket's real pnl when present, estimates only as fallback", () => {
+  // real P/L from /positions (e.g. they sold early; pnl != naive payout)
+  assert.equal(B.betPL({ won: true, entryPrice: 0.1, stakeUsd: 1000, pnl: 250 }), 250);
+  assert.equal(B.betPL({ won: false, entryPrice: 0.1, stakeUsd: 1000, pnl: -1000 }), -1000);
+  // no pnl -> estimate held-to-resolution payout
+  assert.equal(B.betPL({ won: true, entryPrice: 0.1, stakeUsd: 1000 }), 1000 * (1 / 0.1 - 1));
+  assert.equal(B.betPL({ won: false, entryPrice: 0.1, stakeUsd: 1000 }), -1000);
+});
+
 test("buildSubject: planted impossible single wallet -> extreme, real 1-in-N, real ledger", () => {
   const s = B.buildSubject(agg("0x4e00000000000000000000000000000000000a91c", 14, 2, 0.11, "Military & Defense"), 0, {});
   assert.ok(s, "subject built");
