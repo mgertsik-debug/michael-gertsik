@@ -1531,7 +1531,7 @@ class Component extends DCLogic {
     });
 
     // findings
-    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet" };
+    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction" };
     const explainMap = {
       fresh: "Created just days before the bets, with no prior history.",
       longshot: "Targeted unlikely outcomes priced around " + sel.avgImplied + "%, where an informed bet pays the most.",
@@ -1540,8 +1540,11 @@ class Component extends DCLogic {
       conceal: "Used tactics that hide the size or the trail of the bets — splitting stakes, decoys, or fast cash-outs.",
       cluster: "Many accounts that were funded together and bet in lockstep, acting as one.",
       conviction: sel.convBet ? ("Put $" + sel.convBet.stake.toLocaleString("en-US") + " on a " + sel.convBet.entryPct + "%-implied long-shot, held it to resolution, and cashed out $" + sel.convBet.payout.toLocaleString("en-US") + " — a " + (sel.convBet.mult != null ? sel.convBet.mult + "×" : "large") + " return on one outsized bet.") : "A single outsized long-shot bet, held to resolution and won.",
+      timing: "Bought a winning long-shot in the final hours before it resolved — entering right before a surprise it then won.",
+      sizing: "The informed bet was many times larger than this wallet's normal stake — its own betting history makes the size an outlier.",
+      concentration: "Put nearly every dollar one direction on a single event cluster — the un-hedged, single-thesis betting of someone who already knows the answer.",
     };
-    const barMap = { fresh: 0.92, longshot: 0.84, held: 1.0, won: 0.97, conceal: 0.78, cluster: 0.9, conviction: 0.95 };
+    const barMap = { fresh: 0.92, longshot: 0.84, held: 1.0, won: 0.97, conceal: 0.78, cluster: 0.9, conviction: 0.95, timing: 0.93, sizing: 0.88, concentration: 0.8 };
     const contrib = this.contributionMap(sel);
     const findings = (sel.scorecard || []).map((r) => {
       const open = !!st.measure[r.key];

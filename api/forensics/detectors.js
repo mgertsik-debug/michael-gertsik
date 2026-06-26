@@ -44,10 +44,22 @@ const DEFAULTS = {
   // Van Dyke bet the night before; the Iran ring bought hours before at ~10c. A
   // winning ≤20%-implied bet entered within this window of resolution is the tell.
   timingTau: 0.20, timingWindowH: 72,
+  // DIRECTIONAL / EVENT CONCENTRATION — Van Dyke was 100% YES, 13/13, in one cluster.
+  // purity = max(yes,no stake)/total; fires only with real money behind it so a
+  // single-direction $50 gambler doesn't trip it. Common alone → low weight, and
+  // it needs >=concMinBets so it stays inert on the single-bet conviction archetype.
+  concDirTau: 0.95, concMinUsd: 10000, concMinBets: 3,
+  // WITHIN-TRADER BET-SIZE ANOMALY (Harvard "within-trader bet size") — the informed
+  // bet dwarfs the wallet's own norm. top event stake vs the wallet's MEDIAN bet;
+  // fires if >= sizingMult× median AND >= sizingFloorUsd absolute. Needs >=sizingMinBets
+  // (a distribution), so it can't collude with `conviction` on a lone-bet wallet.
+  sizingMult: 8, sizingFloorUsd: 3000, sizingMinBets: 4,
   // cluster linkage weights (w1 funder, w2 co-spend, w3 sync-entry, w4 create-prox)
   clusterW: [0.40, 0.25, 0.20, 0.15], clusterTau: 0.80,
-  // fusion contribution weights (artifact contributionMap + conviction)
-  contribW: { won: 32, cluster: 22, conviction: 20, timing: 16, conceal: 14, longshot: 11, fresh: 8, held: 6 },
+  // fusion contribution weights (artifact contributionMap + conviction). Ordered by
+  // discriminating power: rare+causal signals (won/cluster/conviction/timing) weigh
+  // most; common-alone signals (fresh/concentration/held) least.
+  contribW: { won: 32, cluster: 22, conviction: 20, timing: 16, conceal: 14, sizing: 12, longshot: 11, fresh: 8, concentration: 7, held: 6 },
   agreeSub: 0.45,                  // a detector "agrees" when its sub-score >= this
   minAgree: 2,                     // High/Extreme needs >= 2 independent detectors
   // win-rate baselines on <=35%-implied bets, by category (ACDC-derived)
@@ -302,6 +314,82 @@ function timing(bets, opts) {
 }
 
 /* ============================================================================
+ *  9. CONCENTRATION — directional + event purity (the "all-YES, one-cluster" tell).
+ *  Van Dyke was 100% YES, 13/13, every dollar on the Venezuela cluster. purity =
+ *  max(yes,no stake)/total; clusterDensity = top-event stake / total. Fires only
+ *  with real money behind it (>= concMinUsd) and >= concMinBets, so it stays inert
+ *  on the lone-bet conviction archetype (can't collude with `conviction`). Common
+ *  alone among long-shot bettors → LOW weight, only matters in >=2-agreeing confluence.
+ *  bets: [{ stakeUsd, outcome ('YES'|'NO'), eventGroup?, cond?, question? }]. */
+function concentration(bets, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  const rs = (bets || []).filter((b) => b && isNum(Number(b.stakeUsd)) && Number(b.stakeUsd) > 0 && b.outcome != null);
+  if (rs.length < o.concMinBets) return { key: "concentration", hasData: false };
+  let yes = 0, no = 0, total = 0; const byEvent = {};
+  for (const b of rs) {
+    const s = Number(b.stakeUsd); total += s;
+    const side = String(b.outcome).toUpperCase();
+    if (side === "YES") yes += s; else if (side === "NO") no += s;
+    const ev = b.eventGroup || b.cond || b.question || "?";
+    byEvent[ev] = (byEvent[ev] || 0) + s;
+  }
+  if (total <= 0) return { key: "concentration", hasData: false };
+  const dirPurity = Math.max(yes, no) / total;
+  const clusterDensity = Object.values(byEvent).reduce((m, s) => Math.max(m, s), 0) / total;
+  const fires = dirPurity >= o.concDirTau && total >= o.concMinUsd;
+  const score = fires
+    ? clip(0.46 + (dirPurity - o.concDirTau) / (1 - o.concDirTau) * 0.3 + (clusterDensity - 0.5) * 0.2, 0, 1)
+    : clip((dirPurity - 0.5) * 0.6, 0, 0.39);
+  const dir = yes >= no ? "YES" : "NO";
+  const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+  return {
+    key: "concentration", hasData: true, fires, score,
+    dirPurity: +dirPurity.toFixed(3), clusterDensity: +clusterDensity.toFixed(3), totalStake: Math.round(total), nBets: rs.length, dominantSide: dir,
+    explain: fires
+      ? Math.round(dirPurity * 100) + "% of " + usd(total) + " staked one direction (" + dir + "), " + Math.round(clusterDensity * 100) +
+        "% in a single event cluster — the un-hedged, single-thesis concentration of someone betting what they already know."
+      : Math.round(dirPurity * 100) + "% single-direction across " + usd(total) + " — not concentrated enough (or below the " + usd(o.concMinUsd) + " floor) to flag.",
+  };
+}
+
+/* ============================================================================
+ * 10. SIZING — within-trader bet-size anomaly (Harvard "within-trader bet size").
+ *  The informed bet dwarfs the wallet's own norm: top EVENT position vs the
+ *  wallet's MEDIAN bet. Fires if >= sizingMult× median AND >= sizingFloorUsd. Needs
+ *  >= sizingMinBets (a real distribution), so a lone-bet wallet → hasData=false and
+ *  it can NEVER stand in as the second agreeing detector for a single-bet conviction
+ *  case. For multi-bet wallets it's independent of `conviction` (relative, not absolute).
+ *  bets: [{ stakeUsd, eventGroup?, cond?, question? }]. */
+function sizing(bets, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  const stakes = (bets || []).map((b) => Number(b && b.stakeUsd)).filter((s) => isNum(s) && s > 0);
+  if (stakes.length < o.sizingMinBets) return { key: "sizing", hasData: false };
+  const byEvent = {};
+  for (const b of bets) {
+    const s = Number(b.stakeUsd); if (!(isNum(s) && s > 0)) continue;
+    const ev = b.eventGroup || b.cond || b.question || "?";
+    byEvent[ev] = (byEvent[ev] || 0) + s;
+  }
+  const maxEvent = Math.max.apply(null, Object.values(byEvent));
+  const sorted = stakes.slice().sort((a, b) => a - b);
+  const median = sorted[Math.floor(sorted.length / 2)] || 0;
+  const ratio = median > 0 ? maxEvent / median : 0;
+  const fires = ratio >= o.sizingMult && maxEvent >= o.sizingFloorUsd;
+  const score = fires
+    ? clip(0.46 + 0.14 * Math.log10(Math.max(1, ratio / o.sizingMult)) + Math.min(0.2, maxEvent / o.sizingFloorUsd * 0.02), 0, 1)
+    : clip((ratio / o.sizingMult) * 0.3, 0, 0.39);
+  const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+  return {
+    key: "sizing", hasData: true, fires, score,
+    maxEventStake: Math.round(maxEvent), medianStake: Math.round(median), ratio: +ratio.toFixed(1), nBets: stakes.length,
+    explain: fires
+      ? "Largest position " + usd(maxEvent) + " is ~" + Math.round(ratio) + "× this wallet's median bet (" + usd(median) +
+        ") — an informed bet that dwarfs its own trading norm (the within-trader size anomaly)."
+      : "Largest position " + usd(maxEvent) + " vs a " + usd(median) + " median (" + ratio.toFixed(1) + "×) — within this wallet's normal sizing.",
+  };
+}
+
+/* ============================================================================
  *  7. CLUSTER — pairwise linkage + cluster build (Meiklejohn-style).
  *  link(a,b) = w1·shared_funder + w2·co_spend + w3·sync_entry + w4·create_prox,
  *  each signal in [0,1]. cluster if mean pairwise link >= τ (0.80). */
@@ -379,5 +467,5 @@ function fuse(dets, opts) {
 module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
   decorrelate, won, longshot, held, fresh, baseline, concealment, conviction, timing,
-  clusterLink, clusterScore, fuse, winBaseline, categoryRisk,
+  concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk,
 };

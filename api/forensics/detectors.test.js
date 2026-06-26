@@ -157,6 +157,55 @@ test("SINGLE-BET INSIDER (Van Dyke): 1 bet -> binomial can't score, conviction p
   assert.equal(f.convictionPath, true);
 });
 
+test("concentration: all-YES, one-cluster, >$10k fires; hedged or small does not; <3 bets excluded", () => {
+  const all = [
+    { stakeUsd: 9000, outcome: "YES", eventGroup: "maduro" },
+    { stakeUsd: 8000, outcome: "YES", eventGroup: "maduro" },
+    { stakeUsd: 7000, outcome: "YES", eventGroup: "maduro" },
+  ];
+  const c = D.concentration(all);
+  assert.equal(c.hasData, true);
+  assert.equal(c.fires, true, "100% YES, one cluster, $24k -> fires");
+  assert.ok(c.dirPurity >= 0.95 && c.clusterDensity >= 0.95);
+  // hedged: half YES half NO -> purity 0.5, doesn't fire
+  assert.equal(D.concentration([{ stakeUsd: 9000, outcome: "YES", eventGroup: "a" }, { stakeUsd: 9000, outcome: "NO", eventGroup: "b" }, { stakeUsd: 9000, outcome: "YES", eventGroup: "c" }]).fires, false);
+  // below the $10k money floor -> doesn't fire even at 100% one-way
+  assert.equal(D.concentration([{ stakeUsd: 100, outcome: "YES" }, { stakeUsd: 100, outcome: "YES" }, { stakeUsd: 100, outcome: "YES" }]).fires, false);
+  // ANTI-COLLUSION: a single bet can't satisfy concentration (needs >= 3)
+  assert.equal(D.concentration([{ stakeUsd: 32000, outcome: "YES" }]).hasData, false);
+});
+
+test("sizing: a bet that dwarfs the wallet's own median fires; uniform sizing does not; <4 bets excluded", () => {
+  // normally bets ~$100, then one $40k event -> ~400x median
+  const hist = [{ stakeUsd: 100 }, { stakeUsd: 120 }, { stakeUsd: 80 }, { stakeUsd: 110 }, { stakeUsd: 40000, eventGroup: "tip" }];
+  const s = D.sizing(hist);
+  assert.equal(s.hasData, true);
+  assert.equal(s.fires, true);
+  assert.ok(s.ratio >= 8 && s.maxEventStake >= 3000);
+  // uniform sizing -> ratio ~1, doesn't fire
+  assert.equal(D.sizing([{ stakeUsd: 500 }, { stakeUsd: 520 }, { stakeUsd: 480 }, { stakeUsd: 510 }]).fires, false);
+  // big jump but below the absolute floor -> doesn't fire ($40 is 8x $5 but tiny)
+  assert.equal(D.sizing([{ stakeUsd: 5 }, { stakeUsd: 5 }, { stakeUsd: 5 }, { stakeUsd: 40 }]).fires, false);
+  // ANTI-COLLUSION: too few bets to define a distribution -> hasData=false
+  assert.equal(D.sizing([{ stakeUsd: 32000 }, { stakeUsd: 100 }]).hasData, false);
+});
+
+test("anti-collusion: a LONE conviction bet can't reach High on size-only signals", () => {
+  // single $32k @ 8% win — conviction fires, but sizing/concentration are inert (1 bet)
+  const lone = [{ impliedProb: 0.08, entryPrice: 0.08, won: true, held: true, stakeUsd: 32000, outcome: "YES" }];
+  const conv = D.conviction(lone);
+  const conc = D.concentration(lone);   // <3 bets
+  const siz = D.sizing(lone);           // <4 bets
+  assert.equal(conv.fires, true);
+  assert.equal(conc.hasData, false);
+  assert.equal(siz.hasData, false);
+  // conviction alone (only 1 agreeing) must NOT reach High — the gate still needs
+  // 2 INDEPENDENT detectors that aren't all driven by the same big bet.
+  const f = D.fuse({ won: D.won(lone), conviction: conv, concentration: conc, sizing: siz });
+  assert.notEqual(f.tier, "high");
+  assert.notEqual(f.tier, "extreme");
+});
+
 test("RECONSTRUCTED Iran-ring cluster (9 wallets, ~98% win, fresh, held) -> Extreme", () => {
   const ring = D.won(bets([[30, 0.09, true], [1, 0.09, false]]));   // 30/31 at 9%
   const cluster = D.clusterScore(Array.from({ length: 10 }, () => ({ link: 0.88 })), 9);
