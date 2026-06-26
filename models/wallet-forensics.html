@@ -187,7 +187,7 @@
           </div>
         </sc-if>
         <sc-for list="{{ subjects }}" as="s" hint-placeholder-count="6">
-          <div class="wf-card" tabindex="0" onClick="{{ s.onClick }}" onKeyDown="{{ s.onKeyDown }}" style="{{ s.cardStyle }}" style-hover="transform:translateY(-2px);border-color:#34D399;box-shadow:0 0 0 1px rgba(52,211,153,0.22),0 0 24px -12px rgba(52,211,153,0.3),0 10px 26px -18px rgba(0,0,0,0.5);">
+          <div class="wf-card" tabindex="0" onClick="{{ s.onClick }}" onKeyDown="{{ s.onKeyDown }}" style="{{ s.cardStyle }}" style-hover="transform:translateY(-2px);border-color:rgba(52,211,153,0.28);box-shadow:0 10px 26px -18px rgba(0,0,0,0.5);">
             <div style="{{ s.accentStyle }}"></div>
             <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;">
               <div style="min-width: 0;">
@@ -1160,7 +1160,7 @@ class Component extends DCLogic {
   clusterSize(s) { const m = String(s.idLabel).match(/\d+/); return m ? parseInt(m[0], 10) : (s.cluster ? s.cluster.size : "several"); }
 
   whoLabel(s) {
-    if (s.type === "cluster") return "A group of " + this.clusterSize(s) + " linked accounts";
+    if (s.type === "cluster") return "One entity behind " + this.clusterSize(s) + " wallets";
     return "Wallet " + s.idLabel + (s.username ? " · @" + s.username : "");
   }
 
@@ -1180,7 +1180,23 @@ class Component extends DCLogic {
 
   connectionSentence(s) {
     const n = this.clusterSize(s);
-    return "These " + n + " accounts are connected because they were funded from the same exchange deposit address, were created within days of each other, and bet on the same outcomes within minutes.";
+    // Build the sentence from the cluster's REAL edges — only claim the links that
+    // actually fired for THIS group (never a hardcoded "all three"). Each edge's `type`
+    // is its dominant measured signal; the mean link is the average measured strength.
+    const edges = (s.cluster && s.cluster.edges) || [];
+    const types = new Set(edges.map((e) => e.type));
+    const parts = [];
+    if (types.has("fund")) parts.push("were funded from the same on-chain address");
+    if (types.has("cofund")) parts.push("bet the same markets");
+    if (types.has("sync")) parts.push("entered the same markets within minutes of each other");
+    if (types.has("create")) parts.push("were created within days of each other");
+    const meanLink = edges.length ? (edges.reduce((a, e) => a + (e.w != null ? e.w : (e.link || 0)), 0) / edges.length).toFixed(2) : null;
+    const why = parts.length
+      ? parts.slice(0, -1).join(", ") + (parts.length > 1 ? " and " : "") + parts[parts.length - 1]
+      : "share on-chain funding";
+    return "These " + n + " wallets appear to be operated by a SINGLE entity because they " + why +
+      (meanLink ? " (mean link " + meanLink + " of 1.0)" : "") +
+      ". Like a Bubblemaps cluster, this is a probabilistic inference of common control from on-chain funding and co-ordinated betting — not confirmed identity.";
   }
 
   // ---------- CHARTS ----------
@@ -1557,8 +1573,10 @@ class Component extends DCLogic {
       return {
         onClick: () => this.select(s.id),
         onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.select(s.id); } },
-        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;transition:transform .18s,border-color .18s,box-shadow .18s;" + GLASS + (isSel ? "border-color:#34D399;box-shadow:0 0 0 1px rgba(52,211,153,0.3),0 0 26px -12px rgba(52,211,153,0.35),0 10px 26px -18px rgba(0,0,0,0.55);" : ""),
-        accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 12px 1px rgba(52,211,153,0.7);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
+        // ONLY the user-selected card carries the bright glow; every other card is neutral
+        // (no green border) so a single click highlights exactly one wallet.
+        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;transition:transform .18s,border-color .18s,box-shadow .18s;" + GLASS + (isSel ? "border-color:#34D399;box-shadow:0 0 0 1.5px rgba(52,211,153,0.65),0 0 46px -4px rgba(52,211,153,0.75),0 0 18px -6px rgba(52,211,153,0.6),0 10px 26px -18px rgba(0,0,0,0.55);" : ""),
+        accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:" + (isSel ? "4px" : "3px") + ";border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 18px 2px rgba(52,211,153,0.95);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
         whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         whoLabel: this.whoLabel(s), why: this.whyLine(s),
         // For a conviction-path flag the "1 in N" is ONE bet's odds, not the record —
@@ -2015,14 +2033,32 @@ class Component extends DCLogic {
   // Real clipboard write with a legacy execCommand fallback (works inside the
   // same-origin iframe; the host grants clipboard-write via the iframe `allow`).
   writeClipboard(text) {
+    const t = String(text || "");
+    // The async Clipboard API can REJECT silently inside a sandboxed iframe (no
+    // clipboard-write permission), which previously left nothing on the clipboard
+    // while the UI still flashed "copied". So we ALWAYS keep the execCommand path as a
+    // fallback: try the async API and, on any rejection, fall through to execCommand;
+    // if the API is unavailable, go straight to execCommand. execCommand("copy") works
+    // in a sandboxed iframe that has allow-scripts, given the click user-gesture.
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(String(text)); return true; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).catch(() => this._execCopy(t));
+        return true;
+      }
     } catch (_) {}
+    return this._execCopy(t);
+  }
+  _execCopy(t) {
     try {
       const ta = document.createElement("textarea");
-      ta.value = String(text); ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
-      document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
-      return true;
+      ta.value = t; ta.setAttribute("readonly", "");
+      ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.left = "0"; ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try { ta.setSelectionRange(0, t.length); } catch (_) {}
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
     } catch (_) { return false; }
   }
   copyText(text, key) {
