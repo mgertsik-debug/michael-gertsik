@@ -265,7 +265,7 @@
             <sc-if value="{{ sel.full }}" hint-placeholder-val="{{ true }}">
               <div style="max-width: 640px; margin: 26px auto 0; text-align: left; display: flex; flex-direction: column; gap: 14px;">
                 <div>
-                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 7px;">WHERE THIS SITS AMONG ALL REVIEWED BETTORS</div>
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 7px;">WHERE THIS SITS AMONG ALL SCORED LONG-SHOT BETTORS</div>
                   {{ percentileStripNode }}
                   <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{ sel.concernColor }}; margin-top: 8px;">{{ sel.percentileText }}</div>
                 </div>
@@ -702,6 +702,7 @@ class Component extends DCLogic {
       observed: data.observed != null ? data.observed : (data.meta && data.meta.observed) || 0,
       reviewed: data.reviewed != null ? data.reviewed : (data.meta && data.meta.reviewed) || this.subjects.length,
       screened: data.screened != null ? data.screened : (data.meta && data.meta.screened) || 0,
+      scored: data.scored != null ? data.scored : (data.meta && data.meta.scored) || 0,
       block: (data.meta && data.meta.block) || data.block || "",
       snapshot: (data.meta && data.meta.snapshot) || data.snapshot || "",
       recomputed: (data.meta && data.meta.recomputed) || data.recomputed || (data.meta && data.meta.snapshot) || "",
@@ -1264,7 +1265,7 @@ class Component extends DCLogic {
         h("path", { d: area, fill: "#34D399", fillOpacity: 0.07 }),
         h("path", { d: pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" "), fill: "none", stroke: "#7E8C86", strokeWidth: 1.4, strokeOpacity: 0.6 }),
         h("line", { x1: padX, y1: base, x2: W - padX, y2: base, stroke: "#1F2A25", strokeWidth: 1 }),
-        h("text", { x: cx(mu), y: base + 16, fill: "#5C6661", fontSize: 9, fontFamily: "Inter", textAnchor: "middle" }, "typical reviewed bettor"),
+        h("text", { x: cx(mu), y: base + 16, fill: "#5C6661", fontSize: 9, fontFamily: "Inter", textAnchor: "middle" }, "typical long-shot bettor"),
         h("g", { opacity: prog, style: { transition: "opacity .4s" } },
           h("line", { x1: mx, y1: padTop - 6, x2: mx, y2: base, stroke: ct.color, strokeWidth: 1.6 }),
           h("circle", { cx: mx, cy: padTop - 6, r: 4.5, fill: ct.color, style: { filter: "drop-shadow(0 0 7px " + ct.glow + ")" } }),
@@ -1719,7 +1720,7 @@ class Component extends DCLogic {
         ],
         summaryLine, connectionSentence: this.connectionSentence(sel),
         ledger: sel.ledger || [], timeline: sel.timeline || {},
-        percentile: sel.percentile, percentileText: sel.percentile.toFixed(3) + "th percentile of " + this.fmtInt(this.meta.reviewed) + " reviewed bettors",
+        percentile: sel.percentile, percentileText: (this.meta.scored ? sel.percentile.toFixed(3) + "th percentile of " + this.fmtInt(this.meta.scored) + " scored long-shot bettors" : sel.percentile.toFixed(3) + "th percentile by luck odds (1 in " + this.fmtInt(sel.improbDenom) + ")"),
         volume: sel.volume, lastActivity: sel.lastActivity,
         provSources: prov.sources, provBlock: prov.block, provSnapshot: prov.snapshot, provRecomputed: prov.recomputed,
       },

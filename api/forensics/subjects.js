@@ -58,6 +58,7 @@ module.exports = async (req, res) => {
     subjects,
     reviewed: store.reviewed || 0,
     screened: store.screened || 0,
+    scored: store.scored || (store.meta && store.meta.scored) || 0,   // wallets scored on improbability (percentile denominator)
     meta: store.meta || {},
     surpriseMarkets: store.surpriseMarkets || [],   // the haystack: long-shot upsets where money rode in early
     totalFlaggedProfit: store.totalFlaggedProfit || 0,         // aggregate estimated informed-trading P&L
