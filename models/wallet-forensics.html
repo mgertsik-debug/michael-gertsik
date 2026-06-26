@@ -243,9 +243,9 @@
             <circle cx="160" cy="160" r="104" fill="none" stroke="{{ sel.concernColor }}" stroke-width="1" stroke-dasharray="1 16" opacity="0.3" style="transform-origin: 160px 160px; animation: wf-spin-rev 34s linear infinite;"></circle>
           </svg>
           <div style="position: relative;">
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #949C98;">WHY IT IS FLAGGED</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #949C98;">{{ heroEyebrow }}</div>
             <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 68px; line-height: 1; color: {{ sel.concernColor }}; margin: 16px 0 6px; letter-spacing: -0.03em; text-shadow: 0 0 36px {{ sel.concernGlow }};">{{ heroDisplay }}</div>
-            <div style="font-size: 13px; color: #949C98;">chance this winning record is luck</div>
+            <div style="font-size: 13px; color: #949C98;">{{ heroCaption }}</div>
             <div style="display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; border: 1px solid {{ sel.concernBorder }}; background: {{ sel.concernBg }}; color: {{ sel.concernColor }}; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; padding: 7px 15px; border-radius: 999px; box-shadow: 0 0 26px -8px {{ sel.concernGlow }};">{{ sel.concernLabel }}</div>
             <p style="font-family: Inter; font-size: 16px; color: #D7DCD9; max-width: 580px; margin: 22px auto 0; line-height: 1.65;">{{ sel.heroSentence }}</p>
             <sc-if value="{{ sel.full }}" hint-placeholder-val="{{ true }}">
@@ -369,6 +369,9 @@
           </div>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C4CAC6; margin-top: 14px; text-align: right;">{{ sel.summaryLine }}</div>
         </div>
+
+        <!-- 4b · ADVANCED INTERACTIVE ANALYTICS -->
+        {{ analyticsNode }}
 
         <!-- 5 · CONNECTION EVIDENCE (groups) -->
         <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
@@ -546,6 +549,7 @@ class Component extends DCLogic {
       lookup: { open: false, loading: false, error: null, data: null, addr: "" },
       permalinkCopied: false,
       copied: {},
+      chartHover: null,
       heroProg: 0,
       corpusProg: 0,
       reduce: false,
@@ -1096,6 +1100,111 @@ class Component extends DCLogic {
     );
   }
 
+  // ---------- ADVANCED INTERACTIVE ANALYTICS ----------
+  // A suite of real-data charts driven entirely by the subject's resolved ledger:
+  //   (1) cumulative realized P/L over time, (2) every bet as a stake×entry-odds
+  //   bubble (the "big money on long-shots that won" signature), (3) the evidence
+  //   decomposition with each detector's measured value. All hover-interactive.
+  fmtUsd(n) { const a = Math.abs(n), sg = n < 0 ? "−" : ""; if (a >= 1e6) return sg + "$" + (a / 1e6).toFixed(2).replace(/\.?0+$/, "") + "M"; if (a >= 1e3) return sg + "$" + (a / 1e3).toFixed(1).replace(/\.0$/, "") + "K"; return sg + "$" + Math.round(a); }
+  analyticsNode(s) {
+    const h = this.h;
+    const L = (s.ledger || []).filter((b) => b.stakeNum != null && isFinite(b.stakeNum));
+    if (!L.length) return null;
+    const mono = "'JetBrains Mono', monospace";
+    const hov = this.state.chartHover || {};
+    const card = (title, sub, body) => h("div", { style: { background: "#090D0C", border: "1px solid #1B2521", borderRadius: "14px", padding: "16px 16px 12px" } },
+      h("div", { style: { fontFamily: mono, fontSize: "10px", letterSpacing: "0.1em", color: "#8A938E", marginBottom: "2px" } }, title),
+      sub ? h("div", { style: { fontFamily: "Inter", fontSize: "11px", color: "#5C6661", marginBottom: "8px" } }, sub) : null,
+      body);
+    const setHov = (o) => () => this.setState({ chartHover: o });
+    const clearHov = () => this.setState({ chartHover: null });
+
+    // ---------- (1) cumulative realized P/L over time ----------
+    const W = 680, H = 210, pl = 46, pr = 14, pt = 16, pb = 40;
+    const byTime = L.slice().sort((a, b) => (a.ts || 0) - (b.ts || 0));
+    let cum = 0; const pts = byTime.map((b, i) => { cum += (b.plNum || 0); return { b, i, cum }; });
+    const cums = pts.map((p) => p.cum).concat([0]);
+    const lo = Math.min(...cums), hi = Math.max(...cums), span = (hi - lo) || 1;
+    const xAt = (i) => pl + (pts.length <= 1 ? 0.5 : i / (pts.length - 1)) * (W - pl - pr);
+    const yAt = (v) => pt + (1 - (v - lo) / span) * (H - pt - pb);
+    const linePath = pts.map((p, i) => (i ? "L" : "M") + xAt(i).toFixed(1) + " " + yAt(p.cum).toFixed(1)).join(" ");
+    const areaPath = pts.length ? (linePath + " L" + xAt(pts.length - 1).toFixed(1) + " " + yAt(lo).toFixed(1) + " L" + xAt(0).toFixed(1) + " " + yAt(lo).toFixed(1) + " Z") : "";
+    const finalPos = cum >= 0;
+    const accent = finalPos ? "#34D399" : "#F87171";
+    const yticks = [hi, (hi + lo) / 2, lo].map((v, i) => h("g", { key: "yt" + i },
+      h("line", { x1: pl, y1: yAt(v), x2: W - pr, y2: yAt(v), stroke: "#ECEFED", strokeOpacity: 0.05 }),
+      h("text", { x: pl - 6, y: yAt(v) + 3, fill: "#5C6661", fontSize: 8.5, fontFamily: mono, textAnchor: "end" }, this.fmtUsd(v))));
+    const zeroY = yAt(0);
+    const plDots = pts.map((p) => h("circle", { key: "pd" + p.i, cx: xAt(p.i), cy: yAt(p.cum), r: hov.chart === "pl" && hov.i === p.i ? 5.5 : 3.2,
+      fill: (p.b.plNum >= 0 ? "#34D399" : "#F87171"), stroke: "#090D0C", strokeWidth: 1, style: { cursor: "pointer", transition: "r .12s" },
+      onMouseEnter: setHov({ chart: "pl", i: p.i }), onMouseLeave: clearHov }));
+    const plHover = (hov.chart === "pl" && pts[hov.i]) ? (() => {
+      const p = pts[hov.i]; const hx = xAt(p.i), tipW = 188, tx = Math.max(2, Math.min(W - tipW - 2, hx - tipW / 2));
+      return h("g", null,
+        h("line", { x1: hx, y1: pt, x2: hx, y2: H - pb, stroke: accent, strokeOpacity: 0.4, strokeDasharray: "3 3" }),
+        h("foreignObject", { x: tx, y: 2, width: tipW, height: 60 },
+          h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#D7DCD9", background: "#0E1512", border: "1px solid #243029", borderRadius: "7px", padding: "6px 8px", lineHeight: 1.45 } },
+            h("div", { style: { color: "#ECEFED", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, String(p.b.market).slice(0, 34)),
+            h("div", { style: { color: "#6B756F" } }, (p.b.entryTime || "") + " · " + p.b.odds + "% · " + p.b.stake),
+            h("div", null, "this bet ", h("span", { style: { color: p.b.plNum >= 0 ? "#34D399" : "#F87171" } }, p.b.pl), " · running ", h("span", { style: { color: accent } }, this.fmtUsd(p.cum))))));
+    })() : null;
+    const chart1 = h("svg", { viewBox: "0 0 " + W + " " + H, style: { width: "100%", display: "block" } },
+      yticks, h("line", { x1: pl, y1: zeroY, x2: W - pr, y2: zeroY, stroke: "#7E8C86", strokeOpacity: 0.5, strokeWidth: 1 }),
+      areaPath ? h("path", { d: areaPath, fill: accent, fillOpacity: 0.10 }) : null,
+      h("path", { d: linePath, fill: "none", stroke: accent, strokeWidth: 2 }),
+      plDots, plHover,
+      h("text", { x: pl, y: H - 8, fill: "#5C6661", fontSize: 8.5, fontFamily: mono }, byTime[0] && byTime[0].entryTime || ""),
+      h("text", { x: W - pr, y: H - 8, fill: "#5C6661", fontSize: 8.5, fontFamily: mono, textAnchor: "end" }, byTime[byTime.length - 1] && byTime[byTime.length - 1].entryTime || ""));
+
+    // ---------- (2) stake × entry-odds bubble scatter ----------
+    const W2 = 680, H2 = 230, m2 = { l: 50, r: 16, t: 16, b: 40 };
+    const maxStake = Math.max(...L.map((b) => b.stakeNum), 1);
+    const rOf = (v) => 4 + 16 * Math.sqrt(v / maxStake);
+    const sx = (odds) => m2.l + (Math.max(0, Math.min(100, odds)) / 100) * (W2 - m2.l - m2.r);
+    const syTop = m2.t + 6, syBot = H2 - m2.b;
+    const sy = (v) => syBot - (Math.sqrt(v) / Math.sqrt(maxStake)) * (syBot - syTop);
+    const xgrid = [0, 25, 50, 75, 100].map((g, i) => h("g", { key: "xg" + i },
+      h("line", { x1: sx(g), y1: syTop - 6, x2: sx(g), y2: syBot, stroke: "#ECEFED", strokeOpacity: 0.05 }),
+      h("text", { x: sx(g), y: H2 - m2.b + 14, fill: "#5C6661", fontSize: 8.5, fontFamily: mono, textAnchor: "middle" }, g + "%")));
+    const sgrid = [maxStake, maxStake / 2].map((v, i) => h("text", { key: "sg" + i, x: m2.l - 6, y: sy(v) + 3, fill: "#5C6661", fontSize: 8.5, fontFamily: mono, textAnchor: "end" }, this.fmtUsd(v)));
+    const bubbles = L.map((b, i) => { const won = b.outcome === "Won"; const c = won ? "#34D399" : "#F87171";
+      const on = hov.chart === "sc" && hov.i === i;
+      return h("circle", { key: "b" + i, cx: sx(b.odds), cy: sy(b.stakeNum), r: rOf(b.stakeNum) * (on ? 1.18 : 1),
+        fill: c, fillOpacity: won ? 0.5 : 0.18, stroke: c, strokeWidth: on ? 2 : 1.2, style: { cursor: "pointer", transition: "r .12s" },
+        onMouseEnter: setHov({ chart: "sc", i: i }), onMouseLeave: clearHov }); });
+    const scHover = (hov.chart === "sc" && L[hov.i]) ? (() => { const b = L[hov.i]; const hx = sx(b.odds), tipW = 190, tx = Math.max(2, Math.min(W2 - tipW - 2, hx - tipW / 2));
+      return h("foreignObject", { x: tx, y: Math.max(2, sy(b.stakeNum) - 56), width: tipW, height: 52 },
+        h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#D7DCD9", background: "#0E1512", border: "1px solid #243029", borderRadius: "7px", padding: "6px 8px", lineHeight: 1.45 } },
+          h("div", { style: { color: "#ECEFED", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, String(b.market).slice(0, 34)),
+          h("div", { style: { color: "#6B756F" } }, b.stake + " at " + b.odds + "% implied"),
+          h("div", null, h("span", { style: { color: b.outcome === "Won" ? "#34D399" : "#F87171" } }, b.outcome), " · ", h("span", { style: { color: b.plNum >= 0 ? "#34D399" : "#F87171" } }, b.pl)))); })() : null;
+    const chart2 = h("svg", { viewBox: "0 0 " + W2 + " " + H2, style: { width: "100%", display: "block" } },
+      xgrid, sgrid, bubbles, scHover,
+      h("text", { x: (m2.l + W2 - m2.r) / 2, y: H2 - 4, fill: "#5C6661", fontSize: 8.5, fontFamily: mono, textAnchor: "middle" }, "entry odds (implied probability) → longer shots to the left"));
+
+    // ---------- (3) evidence decomposition with measured values ----------
+    const contrib = this.contributionMap(s);
+    const order = Object.keys(contrib).sort((a, b) => contrib[b] - contrib[a]);
+    const measured = {}; (s.scorecard || []).forEach((c) => (measured[c.key] = c.metric));
+    const pal = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#FBBF24", baseline: "#5EEAD4" };
+    const maxC = Math.max(...order.map((k) => contrib[k]), 1);
+    const bars = order.map((k) => h("div", { key: k, style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "9px" } },
+      h("div", { style: { width: "120px", flexShrink: 0, fontFamily: "Inter", fontSize: "11.5px", color: "#C4CAC6", textAlign: "right" } }, this.findingName(k)),
+      h("div", { style: { flex: 1, height: "20px", background: "#11181400", position: "relative" } },
+        h("div", { style: { width: (contrib[k] / maxC * 100) + "%", height: "100%", background: pal[k] || "#34D399", borderRadius: "4px", opacity: 0.85, transition: "width .4s" } }),
+        h("div", { style: { position: "absolute", left: "8px", top: "2px", fontFamily: mono, fontSize: "10px", color: "#06120D", fontWeight: 700 } }, contrib[k] + "%")),
+      h("div", { style: { width: "150px", flexShrink: 0, fontFamily: mono, fontSize: "10px", color: "#8A938E", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, measured[k] || "")));
+
+    const wins = L.filter((b) => b.outcome === "Won").length;
+    return h("div", { style: { padding: "24px", borderBottom: "1px solid #18211D" } },
+      h("div", { style: { fontFamily: mono, fontSize: "10px", letterSpacing: "0.14em", color: "#6B756F", marginBottom: "14px" } }, h("span", { style: { color: "#34D399", fontSize: "7px", verticalAlign: "middle" } }, "●"), " THE NUMBERS, VISUALISED"),
+      h("div", { style: { display: "grid", gridTemplateColumns: this.state.vw < 760 ? "1fr" : "1fr 1fr", gap: "14px" } },
+        card("CUMULATIVE REALIZED P/L", wins + " of " + L.length + " resolved bets won · ends " + this.fmtUsd(cum), chart1),
+        card("EVERY BET · STAKE × ENTRY ODDS", "bubble size = stake · green = won, red = lost", chart2)),
+      h("div", { style: { marginTop: "14px" } },
+        card("WHAT DROVE THE FLAG", "each detector's share of the score, with its measured value", h("div", { style: { marginTop: "6px" } }, bars))));
+  }
+
   timelineNode(s) {
     if (!s.timeline || !s.timeline.entries) return null;
     const h = this.h;
@@ -1272,7 +1381,15 @@ class Component extends DCLogic {
     }));
 
     const denom = sel.improbDenom * st.heroProg;
-    const heroDisplay = "1 in " + this.fmtBig(Math.max(1, denom));
+    // Conviction-path flags (a lone outsized long-shot the binomial can't see) lead
+    // with the MONEY, not the weak 1-in-N of a single de-correlated bet — the signal
+    // is the size + conviction + win, so show the realized profit up front.
+    const convHero = !!sel.convictionFlag;
+    const heroDisplay = convHero ? (sel.profit || "+$0") : ("1 in " + this.fmtBig(Math.max(1, denom)));
+    const heroEyebrow = convHero ? "THE HIGH-CONVICTION BET" : "WHY IT IS FLAGGED";
+    const heroCaption = convHero
+      ? ("won on a long-shot the market priced near " + sel.avgImplied + "%")
+      : "chance this winning record is luck";
 
     const corpus = { observed: this.fmtInt(Math.round((this.meta.observed || 0) * st.corpusProg)),
       wallets: this.fmtInt(Math.round(this.meta.reviewed * st.corpusProg)), flagged: Math.round(this.subjects.length * st.corpusProg),
@@ -1373,13 +1490,14 @@ class Component extends DCLogic {
         provSources: prov.sources, provBlock: prov.block, provSnapshot: prov.snapshot, provRecomputed: prov.recomputed,
       },
 
-      heroDisplay, findings, contributionNode,
+      heroDisplay, heroEyebrow, heroCaption, findings, contributionNode,
       percentileStripNode: this.percentileStripNode(sel),
       confidenceMeterNode: this.confidenceMeterNode(sel),
       methods,
       toggleMethodology: () => this.setState({ methodologyOpen: !st.methodologyOpen }), methodologyOpen: st.methodologyOpen,
       methodologyCaret: st.methodologyOpen ? "\u2212 collapse" : "+ expand",
       clusterGraphNode: sel.cluster ? this.clusterGraphNode(sel) : null,
+      analyticsNode: this.analyticsNode(sel),
       timelineNode: this.timelineNode(sel),
 
       ledgerCols, ledgerRows: this.ledgerRows(sel),
