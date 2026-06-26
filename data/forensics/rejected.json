@@ -1,7 +1,13 @@
 {
   "generatedAt": "Jun 26 2026",
-  "count": 3,
+  "count": 4,
   "rejected": [
+    {
+      "address": "0xbb917b91d7c946d5898f19ab6865e27f850cb15e",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$382 < $1000)"
+    },
     {
       "address": "0x8828232dc619ae43d9136ce6b5a9d24618be2954",
       "id": null,
