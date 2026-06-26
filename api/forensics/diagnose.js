@@ -65,7 +65,13 @@ async function scoreWallet(addr) {
   const recBets = poly.buildUserRecord(utrades, merged);
   const byCond = {};
   posBets.forEach((b) => { byCond[b.cond] = b; });          // authoritative first (real avg price + P/L)
-  recBets.forEach((b) => { if (!byCond[b.cond]) byCond[b.cond] = b; });  // fill gaps from trades+catalog
+  recBets.forEach((b) => {
+    if (!byCond[b.cond]) { byCond[b.cond] = b; return; }     // fill gaps from trades+catalog
+    // same market in both: keep the position's authoritative P/L, but graft the
+    // trade's real on-chain tx hash (positions carry no tx) so the Polygonscan
+    // "verify ↗" link resolves for every bet, not just trade-only ones.
+    if (!byCond[b.cond].tx && b.tx) byCond[b.cond].tx = b.tx;
+  });
   const allBets = Object.values(byCond);
   // SCOPE GATE (lookup side): the trades→catalog path still LABELS out-of-scope
   // markets (marketsByConds falls back to "Sports"/"Crypto"/"Other"); drop them so
