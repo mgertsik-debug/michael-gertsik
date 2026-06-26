@@ -135,6 +135,32 @@ async function scoreWallet(addr) {
   return o;
 }
 
+// RAW PROBE — return Polymarket's ACTUAL API responses verbatim (first rows), so
+// the real field names/shape are visible and the parser can be mapped to reality
+// instead of assumptions. GET /api/forensics/diagnose?user=0x...&raw=1
+async function rawProbe(addr) {
+  const DATA = "https://data-api.polymarket.com";
+  const get = async (url) => {
+    try {
+      const r = await fetch(url, { signal: (() => { const c = new AbortController(); setTimeout(() => c.abort(), 9000); return c.signal; })() });
+      const status = r.status;
+      let body = null; try { body = await r.json(); } catch (_) { try { body = (await r.text()).slice(0, 400); } catch (__) {} }
+      const arr = Array.isArray(body) ? body : (body && (body.data || body.positions || body.trades || body.activity)) || null;
+      return { status, isArray: Array.isArray(body), count: Array.isArray(arr) ? arr.length : null,
+        keys: Array.isArray(arr) && arr[0] ? Object.keys(arr[0]) : (body && typeof body === "object" ? Object.keys(body) : null),
+        sample: Array.isArray(arr) ? arr.slice(0, 2) : body };
+    } catch (e) { return { error: String(e && e.message || e) }; }
+  };
+  return {
+    user: addr, checkedAt: new Date().toISOString(),
+    note: "Raw Polymarket Data API responses (first rows) so the field mapping can be fixed to match reality.",
+    positions: await get(DATA + "/positions?user=" + encodeURIComponent(addr) + "&limit=3"),
+    trades: await get(DATA + "/trades?user=" + encodeURIComponent(addr) + "&limit=3"),
+    activity: await get(DATA + "/activity?user=" + encodeURIComponent(addr) + "&limit=3"),
+    value: await get(DATA + "/value?user=" + encodeURIComponent(addr)),
+  };
+}
+
 async function diagnose() {
   const o = { endpoint: "data-api.polymarket.com/trades", checkedAt: new Date().toISOString() };
 
@@ -221,8 +247,11 @@ module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
   const q = req.query || {};
-  const user = q.user || (String(req.url || "").match(/[?&]user=([^&]+)/) || [])[1];
+  const url = String(req.url || "");
+  const user = q.user || (url.match(/[?&]user=([^&]+)/) || [])[1];
+  const raw = q.raw === "1" || q.raw === "true" || /[?&]raw=1/.test(url);
   try {
+    if (user && raw) { res.status(200).json(await rawProbe(decodeURIComponent(String(user)).toLowerCase())); return; }
     if (user) { res.status(200).json(await scoreWallet(decodeURIComponent(String(user)).toLowerCase())); return; }
     res.status(200).json(await diagnose());
   } catch (e) { res.status(200).json({ verdict: "diagnose failed", error: String(e && e.message) }); }
