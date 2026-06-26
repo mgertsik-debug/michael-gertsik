@@ -285,10 +285,37 @@ async function run() {
   const nonSeed = Object.values(state.screened).filter((w) => !w._seed);
   const needsProfile = nonSeed.filter((w) => (w.bets || []).length && !w.profile)
     .sort((a, b) => (priorFlagged.has(String(b.address).toLowerCase()) ? 1 : 0) - (priorFlagged.has(String(a.address).toLowerCase()) ? 1 : 0));
-  const byStale = nonSeed.filter((w) => !((w.bets || []).length && !w.profile))
-    .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0));
-  const stale = seedWallets.concat(needsProfile, byStale).slice(0, seedWallets.length + ENRICH_BATCH);
-  if (needsProfile.length) log("re-profiling " + needsProfile.length + " wallet(s) lacking authoritative Polymarket P/L (" + Array.from(priorFlagged).length + " currently-shown prioritised first)");
+  // PROMISE SCORE — rank the rest by how likely they are to flag HIGH, computed for FREE
+  // from the partial record the cheap market-sweep already left on each wallet (no extra
+  // API calls). The HIGH drivers: won long-shots at low odds (the binomial), the biggest
+  // winning low-odds single bet (the conviction/big-trade signal), and one-sided exposure.
+  // This surfaces likely insiders in 1-2 ticks instead of after a full round-robin rotation.
+  // HONEST LIMIT: it can only see signal already swept — a wallet whose wins are all in
+  // un-cataloged markets still looks boring here, so a COVERAGE RESERVE (a fraction of the
+  // batch) stays pure round-robin so nothing promising-but-unseen is permanently starved.
+  const promiseScore = (w) => {
+    const bets = w.bets || [];
+    let wonLow = 0, maxWinStake = 0, yes = 0, no = 0;
+    for (const b of bets) {
+      const ep = num(b.entryPrice), st = num(b.stakeUsd);
+      if (b.won && ep > 0 && ep <= 0.15) { wonLow++; if (st > maxWinStake) maxWinStake = st; }
+      if (String(b.outcome).toUpperCase() === "YES") yes += st; else no += st;
+    }
+    const purity = (yes + no) > 0 ? Math.max(yes, no) / (yes + no) : 0;
+    return wonLow * 100 + Math.min(50, maxWinStake / 1000) + Math.round(purity * 20);
+  };
+  const rest = nonSeed.filter((w) => !((w.bets || []).length && !w.profile));
+  const byPromise = rest.slice().sort((a, b) => promiseScore(b) - promiseScore(a));
+  const byStale = rest.slice().sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0));
+  // blend: ~75% promise-ranked (find HIGH fast) + ~25% stalest (coverage so nothing starves)
+  const COVER_FRAC = +ENV.COVERAGE_RESERVE_FRAC || 0.25;
+  const promiseN = Math.round(ENRICH_BATCH * (1 - COVER_FRAC));
+  const picked = new Set(), ordered = [];
+  for (const w of byPromise) { if (ordered.length >= promiseN) break; if (!picked.has(w.address)) { picked.add(w.address); ordered.push(w); } }
+  for (const w of byStale) { if (ordered.length >= ENRICH_BATCH) break; if (!picked.has(w.address)) { picked.add(w.address); ordered.push(w); } }
+  const stale = seedWallets.concat(needsProfile, ordered).slice(0, seedWallets.length + needsProfile.length + ENRICH_BATCH);
+  const topPromise = byPromise[0] ? promiseScore(byPromise[0]) : 0;
+  if (needsProfile.length || byPromise.length) log("enrich order: " + needsProfile.length + " re-profile · promise-ranked (top score " + topPromise + ") + " + Math.round(COVER_FRAC * 100) + "% coverage reserve");
   let funded = 0;
   let fullRecords = 0;
   let posRecords = 0;                                          // wallets reconciled against /positions (authoritative cashPnl)
@@ -607,16 +634,26 @@ async function finalize(state, snapshotTs) {
     // sync + creation proximity) and require at least one pair to co-move beyond the funder.
     const memEnriched = memberW.map((w) => Object.assign({}, w, { betEvents: Object.keys(w.entryByEvent || {}) }));
     const edges = [];
-    let coSpendMax = 0, syncMax = 0;
+    let coSpendMax = 0, syncMax = 0, proxMax = 0;
     for (let i = 0; i < memEnriched.length; i++) for (let j = i + 1; j < memEnriched.length; j++) {
       const pl = cluster.pairLink(memEnriched[i], memEnriched[j]);
       coSpendMax = Math.max(coSpendMax, pl.signals.coSpend);
       syncMax = Math.max(syncMax, pl.signals.syncEntry);
+      proxMax = Math.max(proxMax, pl.signals.createProx);
       edges.push({ from: memberW[i].address, to: memberW[j].address, w: +pl.link.toFixed(2), link: pl.link, type: pl.type,
         evidence: pl.evidence + " · both funded on-chain from " + String(r.hub).slice(0, 10) + "…" + (r.hubLabel ? " (" + r.hubLabel + ")" : "") });
     }
-    const CO_MIN = +ENV.RING_COSPEND_MIN || 0.15, SYNC_MIN = +ENV.RING_SYNC_MIN || 0.5;
-    if (coSpendMax < CO_MIN && syncMax < SYNC_MIN) return;     // shared funder only → likely a shared service, not one entity
+    // CORROBORATION beyond the shared funder, so a coincidental shared on-ramp isn't a Group:
+    //  • a ring of 3+ wallets one non-exchange address funded is itself coordinated (the hub
+    //    excludes known CEXes), so it qualifies on size alone — these are the real insider rings
+    //    (Maduro/Iran) whose members bet the SAME EVENT across different-dated markets (so the
+    //    exact-market co-spend Jaccard is low even though they obviously co-move);
+    //  • a 2-wallet ring needs behavioral co-movement: same markets, synced entry, or batch
+    //    creation. Thresholds are deliberately lenient (lowered) — the shared NON-EXCHANGE
+    //    funder already carries most of the weight.
+    const CO_MIN = +ENV.RING_COSPEND_MIN || 0.05, SYNC_MIN = +ENV.RING_SYNC_MIN || 0.3, PROX_MIN = +ENV.RING_PROX_MIN || 0.5;
+    const corroborated = memberW.length >= 3 || coSpendMax >= CO_MIN || syncMax >= SYNC_MIN || proxMax >= PROX_MIN;
+    if (!corroborated) return;                                // 2-wallet, shared funder only, no co-movement → skip
     const volOf = (w) => (w.bets || []).reduce((s, b) => s + (Number(b.stakeUsd) || 0), 0);
     const order = memberW.map((w) => ({ w, vol: volOf(w) })).sort((a, b) => b.vol - a.vol);
     const nodes = order.map((o, rank) => {

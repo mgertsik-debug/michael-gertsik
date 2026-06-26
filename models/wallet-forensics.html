@@ -371,7 +371,7 @@
                       <a href="{{ row.marketUrl }}" target="_blank" rel="noopener noreferrer" style="color: #ECEFED; text-decoration: none; border-bottom: 1px solid rgba(52,211,153,0.4);" style-hover="color:#34D399;">{{ row.market }} <span style="color:#34D399;">↗</span></a>
                     </td>
                     <td style="padding: 11px 13px; color: #949C98; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.entryTime }}</td>
-                    <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.odds }}%</td>
+                    <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.oddsText }}</td>
                     <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.stake }}</td>
                     <td style="padding: 11px 13px; text-align: center; white-space: nowrap;"><span style="{{ row.outcomeStyle }}">{{ row.outcome }}</span></td>
                     <td style="padding: 11px 13px; text-align: right; white-space: nowrap; color: {{ row.plColor }}; font-weight: 600; font-family: 'JetBrains Mono', monospace;">{{ row.pl }}</td>
@@ -1527,7 +1527,10 @@ class Component extends DCLogic {
     const acc = accessor[key] || accessor.entryIdx;
     rows.sort((a, b) => (acc(a) < acc(b) ? -1 : acc(a) > acc(b) ? 1 : 0) * st.ledgerDir);
     return rows.map((r) => ({
-      market: r.market, entryTime: r.entryTime, odds: r.odds, stake: r.stake, outcome: r.outcome, pl: r.pl,
+      market: r.market, entryTime: r.entryTime, odds: r.odds,
+      // a deep long-shot entered below 1% rounds to 0 — show "<1%", never a misleading "0%".
+      oddsText: (Number(r.odds) > 0 && Number(r.odds) < 1) || (Number(r.odds) === 0) ? "<1%" : (r.odds + "%"),
+      stake: r.stake, outcome: r.outcome, pl: r.pl,
       tx: r.tx, plColor: r.plNum >= 0 ? "#34D399" : "#F87171",
       marketUrl: r.url || (r.eventSlug ? "https://polymarket.com/event/" + r.eventSlug : "https://polymarket.com/markets"),
       txUrl: (r.txFull || r.tx) ? ("https://polygonscan.com/tx/" + (r.txFull || r.tx)) : "https://polygonscan.com/address/" + (s.address || s.idLabel || ""),
