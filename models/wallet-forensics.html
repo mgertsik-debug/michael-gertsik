@@ -73,11 +73,8 @@
     </div>
   </div>
 
-  <!-- SURPRISE MARKETS — the discovery haystack (renders in any state) -->
-  {{ surpriseMarketsNode }}
-
-  <!-- DETECTED GROUPS — auto-found funding rings (renders in any state) -->
-  {{ ringGroupsNode }}
+  <!-- (Funding rings now surface as cluster subjects under the "Groups" filter, not a
+       top panel. The surprising-markets discovery panel was removed from the top.) -->
 
   <!-- ZONE 2 — TWO PANE (rendered only when the job has flagged real subjects) -->
   <sc-if value="{{ hasSubjects }}" hint-placeholder-val="{{ true }}">
@@ -426,6 +423,7 @@
           <div style="position: relative; overflow: hidden; border: 1px solid #2C3A33; background: linear-gradient(165deg, rgba(52,211,153,0.05), rgba(11,16,14,0.4)); border-radius: 14px; padding: 22px 24px;">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #34D399; margin-bottom: 12px;">A PATTERN, NOT A VERDICT</div>
             <p style="font-size: 14.5px; color: #D7DCD9; line-height: 1.75; margin: 0;">This shows a winning record extraordinarily unlikely to be luck. It does not prove who these people are, what they knew, or that they broke the law. Confirming that requires records only the exchange or a regulator can obtain. Everyone is presumed innocent. This is an investigative lead, not legal advice.</p>
+            <p style="font-size: 12px; color: #7E8C86; line-height: 1.65; margin: 12px 0 0; border-top: 1px solid #1F2A25; padding-top: 12px;">Methodology inspired by the peer-reviewed prediction-market insider-trading research it builds on: the <strong style="color:#A7B0AB;">Harvard Law School</strong> composite-signal study (93,000 Polymarket markets, March 2026) and the <strong style="color:#A7B0AB;">London Business School &amp; Yale</strong> "expert winners" study (1.72M accounts, 2025). This tool operationalizes and extends their five-signal framework with exact per-wallet binomial improbability, de-correlation, and on-chain funding-graph clustering. All trade data is pulled from Polymarket's public APIs.</p>
           </div>
         </div>
 
@@ -986,7 +984,12 @@ class Component extends DCLogic {
   }
 
   contributionMap(s) {
-    const weight = { won: 34, cluster: 24, conceal: 16, longshot: 12, fresh: 8, held: 6 };
+    // Prefer the backend's AUTHORITATIVE split (renormalised over fired detectors with
+    // the real weights). Only fall back to a local recompute for older/sample records,
+    // and keep the weight table IN SYNC with detectors.js DEFAULTS.contribW so every
+    // detector (incl. conviction/timing/concentration/sizing) gets a real share.
+    if (s.contributions && Object.keys(s.contributions).length) return s.contributions;
+    const weight = { won: 32, cluster: 22, conviction: 20, timing: 16, conceal: 14, sizing: 12, longshot: 11, fresh: 8, concentration: 7, held: 6 };
     const fired = (s.fired || []).filter((k) => weight[k] != null);
     const total = fired.reduce((a, k) => a + weight[k], 0) || 1;
     const out = {};
@@ -1544,15 +1547,19 @@ class Component extends DCLogic {
       sizing: "The informed bet was many times larger than this wallet's normal stake — its own betting history makes the size an outlier.",
       concentration: "Put nearly every dollar one direction on a single event cluster — the un-hedged, single-thesis betting of someone who already knows the answer.",
     };
-    const barMap = { fresh: 0.92, longshot: 0.84, held: 1.0, won: 0.97, conceal: 0.78, cluster: 0.9, conviction: 0.95, timing: 0.93, sizing: 0.88, concentration: 0.8 };
     const contrib = this.contributionMap(sel);
+    // bar width = the detector's REAL contribution share, normalised so the top
+    // contributor fills the bar. This keeps the bar and the "% of flag" consistent
+    // (no more full bar next to 0%).
+    const maxContrib = Math.max(1, ...(sel.scorecard || []).map((r) => contrib[r.key] || 0));
     const findings = (sel.scorecard || []).map((r) => {
       const open = !!st.measure[r.key];
       const en = this.enrichFinding(sel, r);
+      const cpct = contrib[r.key] != null ? contrib[r.key] : 0;
       return {
         name: nameMap[r.key] || r.key, explanation: explainMap[r.key] || "", metric: r.metric, metricColor: ct.color,
-        barPct: Math.round((barMap[r.key] || 0.8) * 100) + "%",
-        contribPct: (contrib[r.key] != null ? contrib[r.key] : 0) + "% of flag",
+        barPct: Math.round((cpct / maxContrib) * 100) + "%",
+        contribPct: cpct + "% of flag",
         open, caret: open ? "\u2212 hide the math" : "+ show the math",
         method: en.method, citation: en.citation, formula: en.formula,
         symbols: en.symbols.map((p) => ({ sym: p[0], def: p[1] })),
@@ -1660,7 +1667,7 @@ class Component extends DCLogic {
         whoLabel: this.whoLabel(sel), whoGlyph: sel.type === "cluster" ? "\u25c7 " : "", whoColor: sel.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         addrShort: (() => { const a = sel.address || sel.idLabel || ""; return a.length > 12 ? a.slice(0, 6) + "\u2026" + a.slice(-4) : a; })(),
         scanUrl: "https://polygonscan.com/address/" + (sel.address || sel.idLabel || ""),
-        polymarketUrl: "https://polymarket.com/profile/" + (sel.address || sel.idLabel || ""),
+        polymarketUrl: (() => { const a = String((sel.type === "cluster" ? (sel.memberAddresses || [])[0] : sel.address) || "").toLowerCase(); return /^0x[0-9a-f]{40}$/.test(a) ? "https://polymarket.com/profile/" + a : null; })(),
         copyAddr: () => this.copyText(sel.address || sel.idLabel || "", "dossier:" + sel.id),
         copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "\u2713 copied" : "\u29c9 copy address",
         copyColor: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#949C98",

@@ -230,6 +230,11 @@ function buildSubject(agg, idx, opts, catalog) {
     convBet: (conv && conv.fires) ? { stake: Math.round(conv.stake || 0), entryPct: Math.round((conv.entryPrice || 0) * 100), payout: Math.round(conv.payout || 0), market: conv.market || "", mult: conv.stake ? +((conv.payout || 0) / conv.stake).toFixed(1) : null } : null,
     full: scorecard.length >= 3,
     winRate, avgImplied, profit: money(profitNum), fired,
+    // the AUTHORITATIVE per-detector contribution split (renormalised over FIRED
+    // detectors with the real DEFAULTS.contribW weights). The UI must use this, not a
+    // recomputed map, so conviction/timing/concentration/sizing aren't shown as 0%.
+    contributions: f.contributions || {},
+    agreeing: f.agreeing,
     refId: agg.refId || ("WF-" + new Date((agg.firstSeenTs || 0) * 1000).getUTCFullYear() + "-" + String(1000 + idx).slice(1)),
     cexChips: agg.cexChips || [],
     heroSentence, scorecard, ledger,
