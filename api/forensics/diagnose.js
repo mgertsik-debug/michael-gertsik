@@ -106,12 +106,32 @@ async function scoreWallet(addr) {
     longShotBets: longshots.length,
     longShotWinRate: longshots.length ? Math.round((lsWins / longshots.length) * 100) + "%" : "—",
   };
-  // sample: long-shots first (the interesting ones), else any resolved bets
-  o.sampleBets = (longshots.length ? longshots : bets).slice(0, 10)
-    .sort((a, b) => b.stakeUsd - a.stakeUsd).slice(0, 8).map((b) => ({
-      market: String(b.question).slice(0, 60), category: b.category,
-      entryOdds: Math.round(b.entryPrice * 100) + "%", stake: "$" + b.stakeUsd, outcome: b.outcome, won: b.won,
-    }));
+  // Render a bet into the row shape the UI ledger reads: real date, real entry
+  // odds, real stake, real P/L, and the real on-chain tx (linkable to Polygonscan).
+  const fmtDate = (ts) => {
+    if (!ts) return "—";
+    const ms = ts < 1e12 ? ts * 1000 : ts;
+    const d = new Date(ms);
+    return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getUTCMonth()] + " " +
+      String(d.getUTCDate()).padStart(2, "0") + " " + d.getUTCFullYear();
+  };
+  const row = (b) => {
+    const pl = build.betPL(b);
+    return {
+      market: String(b.question || "(market)"), url: b.url || null, category: b.category,
+      date: fmtDate(b.ts || (b.resolvedMs ? b.resolvedMs / 1000 : null)), ts: b.ts || null,
+      entryOdds: Math.round(b.entryPrice * 100) + "%", oddsNum: Math.round(b.entryPrice * 100),
+      stake: "$" + (b.stakeUsd != null ? b.stakeUsd.toLocaleString("en-US") : "0"),
+      outcome: b.outcome, won: b.won,
+      pl: (pl >= 0 ? "+$" : "−$") + Math.abs(Math.round(pl)).toLocaleString("en-US"), plNum: Math.round(pl),
+      tx: b.tx ? (b.tx.slice(0, 8) + "…" + b.tx.slice(-4)) : null, txFull: b.tx || null,
+    };
+  };
+  // full ledger (in-scope, resolved), newest first — every position, not a preview
+  o.ledger = bets.slice().sort((a, b) => (b.ts || 0) - (a.ts || 0)).map(row);
+  // sample: long-shots first (the interesting ones), else any resolved bets — biggest stakes
+  o.sampleBets = (longshots.length ? longshots : bets).slice()
+    .sort((a, b) => b.stakeUsd - a.stakeUsd).slice(0, 8).map(row);
 
   // ---- FORENSIC LAYER: the long-shot improbability flag, when computable ----
   const agg = { address: addr, bets, firstSeenTs: null, fundingTs: null, priorTx: null };
