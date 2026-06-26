@@ -1,0 +1,23 @@
+{
+  "_comment": "Publicly-reported / suspected insider wallets. The scanner FORCE-ENRICHES these every tick (priority, never evicted) so they get a full on-chain record, then scores them with the SAME detector suite as everything else — they publish ONLY if they independently clear the bar (no special treatment, no fabricated flags). Add an entry to put a wallet on the force-scored list.",
+  "cases": [
+    {
+      "address": "0xa72db1749e9ac2379d49a3c12708325ed17febd4",
+      "case": "Maduro capture (Operation, Jan 2026)",
+      "label": "Maduro insider",
+      "source": "DOJ/CFTC Van Dyke filings + press; reported profit ~$74,982"
+    },
+    {
+      "address": "0x6baf05d193692bb208d616709e27442c910a94c5",
+      "case": "Maduro capture (Operation, Jan 2026)",
+      "label": "Maduro insider",
+      "source": "DOJ/CFTC Van Dyke filings + press; reported profit ~$145,620"
+    },
+    {
+      "address": "0x31a56e9e690c621ed21de08cb559e9524cdb8ed9",
+      "case": "Maduro capture (Operation, Jan 2026)",
+      "label": "Gannon Ken Van Dyke (indicted)",
+      "source": "DOJ indictment (first criminal PM insider-trading prosecution); reported profit ~$409,882"
+    }
+  ]
+}

@@ -46,6 +46,7 @@ const DIR = path.resolve(__dirname, "../../data/forensics");
 const STATE = path.join(DIR, "state.json");
 const STORE = path.join(DIR, "store.json");
 const CATALOG = path.join(DIR, "markets.json");   // resolved-market winner catalog (cond -> {w,q,s,c,r})
+const SEEDS = path.join(DIR, "seeds.json");        // publicly-reported wallets to force-enrich + score
 const CATALOG_MAX = +process.env.CATALOG_MAX || 20000;
 
 const ENV = process.env;
@@ -241,10 +242,32 @@ async function run() {
   state.sweeps = (state.sweeps || 0) + (exhausted ? 1 : 0);
   log("processed " + processed + " markets · " + state._reviewedThisRun.size + " wallets touched · " + Object.keys(state.screened).length + " screened total · watermark→" + state.watermark.offset + (exhausted ? " (sweep " + state.sweeps + " complete, wrapped)" : ""));
 
-  // 4. deep-enrich the stalest screened wallets (wallet age / funding recency)
-  const stale = Object.values(state.screened)
-    .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0))
-    .slice(0, ENRICH_BATCH);
+  // ---- SEED publicly-reported / suspected wallets so they're force-enriched and
+  // scored every tick, regardless of where the market-sweep frontier is. They get NO
+  // special scoring — they run through the SAME detector suite and publish only if they
+  // independently clear the bar. This just guarantees the known cases get a full record
+  // (the sweep covers ~3.6k of 150k+ wallets, so it may never reach a given wallet).
+  const seedCfg = read(SEEDS, { cases: [] }) || { cases: [] };
+  const seedAddrs = (seedCfg.cases || []).map((c) => String(c.address || "").toLowerCase()).filter((a) => /^0x[0-9a-f]{40}$/.test(a));
+  seedAddrs.forEach((a, i) => {
+    const c = seedCfg.cases[i];
+    if (!state.screened[a]) state.screened[a] = { address: a, bets: [], firstSeenTs: null, fundingTs: null, funder: null, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: NOW_S, lastResolvedMs: 0, entryByEvent: {} };
+    state.screened[a]._seed = true;
+    state.screened[a]._seedCase = (c && c.case) || null;
+    state.screened[a]._seedLabel = (c && c.label) || null;
+    state.screened[a]._seedSource = (c && c.source) || null;
+  });
+  if (seedAddrs.length) log("seeds: " + seedAddrs.length + " known-case wallets force-queued for enrichment");
+
+  // 4. deep-enrich the stalest screened wallets (wallet age / funding recency).
+  // Seeds go FIRST every tick (and bypass the wall-clock budget below) so the known
+  // cases stay current even when enumeration eats the tick.
+  const seedWallets = seedAddrs.map((a) => state.screened[a]).filter(Boolean);
+  const stale = seedWallets.concat(
+    Object.values(state.screened)
+      .filter((w) => !w._seed)
+      .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0))
+      .slice(0, ENRICH_BATCH));
   let funded = 0;
   let fullRecords = 0;
   let onDemandBudget = +ENV.ONDEMAND_PER_RUN || 1500;          // bound live CLOB resolution per run
@@ -252,7 +275,7 @@ async function run() {
   let onDemandResolved = 0;
   let enrichedCount = 0;
   for (const w of stale) {
-    if (enrichOverBudget()) { log("enrich: hit wall-clock budget after " + enrichedCount + "/" + stale.length + " wallets — wrapping up (reserving time for ring-finder + commit)"); break; }
+    if (!w._seed && enrichOverBudget()) { log("enrich: hit wall-clock budget after " + enrichedCount + "/" + stale.length + " wallets — wrapping up (reserving time for ring-finder + commit)"); break; }
     enrichedCount++;
     try {
       const fs0 = await poly.firstSeen(w.address);
@@ -481,6 +504,7 @@ async function finalize(state, snapshotTs) {
   const addrs = Object.keys(state.screened);
   if (addrs.length > SCREEN_CAP) {
     const evictable = addrs.filter((a) => !flaggedAddrs.has(a))
+      .filter((a) => { const w = state.screened[a]; return !(w && w._seed); })   // never evict seeded known-case wallets
       .filter((a) => { const w = state.screened[a]; return !(w && w._ringTs && (NOW_S - w._ringTs) < RING_GRACE_S); })
       .sort((a, b) => sigScore(state.screened[a]) - sigScore(state.screened[b]));   // lowest signal first
     const toEvict = evictable.slice(0, addrs.length - SCREEN_CAP);
