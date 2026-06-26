@@ -20,4 +20,6 @@ jobs:
       - name: Score known insider wallets
         env:
           ADDRS: ${{ github.event.inputs.addrs }}
+          POLYGONSCAN_API_KEY: ${{ secrets.POLYGONSCAN_API_KEY }}
+          POLYGON_RPC: ${{ secrets.POLYGON_RPC }}
         run: node scripts/forensics/calibrate.js
