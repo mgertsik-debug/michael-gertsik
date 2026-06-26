@@ -256,7 +256,9 @@
           <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
             <a href="{{ sel.scanUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ECEFED; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34D399;color:#34D399;">{{ sel.addrShort }} ↗ Polygonscan</a>
             <button onClick="{{ sel.copyAddr }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ sel.copyColor }}; background: transparent; border: 1px solid {{ sel.copyBorder }}; border-radius: 7px; padding: 4px 9px; cursor: pointer;">{{ sel.copyLabel }}</button>
-            <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7E8C86; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34A382;color:#C4CAC6;">Polymarket ↗</a>
+            <sc-if value="{{ sel.hasPolymarket }}" hint-placeholder-val="{{ true }}">
+              <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7E8C86; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34A382;color:#C4CAC6;">Polymarket ↗</a>
+            </sc-if>
           </div>
           <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">{{ sel.createdLine }}</div>
           <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
@@ -848,7 +850,7 @@ class Component extends DCLogic {
           h("button", { onClick: () => this.copyText(addr, addr), title: "Copy address",
             style: { fontFamily: mono, fontSize: "10px", color: copiedAddr ? "#34D399" : "#949C98", background: "transparent", border: "1px solid " + (copiedAddr ? "#34D399" : "#243029"), borderRadius: "6px", padding: "3px 8px", cursor: "pointer" } }, copiedAddr ? "✓ copied" : "⧉ copy"),
           link("https://polygonscan.com/address/" + addr, "Polygonscan ↗"),
-          link("https://polymarket.com/profile/" + addr, "Polymarket ↗", "#7E8C86")),
+          (d.polymarket && d.polymarket.username) ? link("https://polymarket.com/@" + encodeURIComponent(d.polymarket.username), "Polymarket ↗", "#7E8C86") : null),
         h("span", { style: { fontFamily: mono, fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: tc, border: "1px solid " + tc + "66", background: tc + "14", borderRadius: "999px", padding: "4px 11px" } }, flagged ? tier.toUpperCase() : "NOT FLAGGED")),
       h("p", { style: { fontSize: "14px", lineHeight: 1.6, color: "#D7DCD9", margin: "14px 0 16px" } }, d.verdict || ""),
       // POLYMARKET PROFILE — the wallet's OWN Polymarket numbers, verbatim from their
@@ -859,7 +861,7 @@ class Component extends DCLogic {
         return h("div", { style: { background: "rgba(124,140,134,0.06)", border: "1px solid #243029", borderRadius: "10px", padding: "13px 16px", marginBottom: "14px" } },
           h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px", gap: "8px", flexWrap: "wrap" } },
             h("span", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#8A938E" } }, "POLYMARKET PROFILE · LIVE"),
-            pm.username ? h("a", { href: "https://polymarket.com/profile/" + addr, target: "_blank", rel: "noopener noreferrer", style: { fontFamily: mono, fontSize: "11px", color: "#C4CAC6", textDecoration: "none" } }, "@" + pm.username + " ↗") : null),
+            pm.username ? h("a", { href: "https://polymarket.com/@" + encodeURIComponent(pm.username), target: "_blank", rel: "noopener noreferrer", style: { fontFamily: mono, fontSize: "11px", color: "#C4CAC6", textDecoration: "none" } }, "@" + pm.username + " ↗") : null),
           h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(86px,1fr))", gap: "12px" } },
             row("ALL-TIME P/L", pm.pnlAllTime != null ? this.fmtUsd(pm.pnlAllTime) : "—", pnlC),
             row("PREDICTIONS", pm.traded != null ? pm.traded.toLocaleString("en-US") : "—"),
@@ -1757,7 +1759,12 @@ class Component extends DCLogic {
         whoLabel: this.whoLabel(sel), whoGlyph: sel.type === "cluster" ? "\u25c7 " : "", whoColor: sel.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         addrShort: (() => { const a = sel.address || sel.idLabel || ""; return a.length > 12 ? a.slice(0, 6) + "\u2026" + a.slice(-4) : a; })(),
         scanUrl: "https://polygonscan.com/address/" + (sel.address || sel.idLabel || ""),
-        polymarketUrl: (() => { const a = String((sel.type === "cluster" ? (sel.memberAddresses || [])[0] : sel.address) || "").toLowerCase(); return /^0x[0-9a-f]{40}$/.test(a) ? "https://polymarket.com/profile/" + a : null; })(),
+        // Polymarket profiles load by USERNAME, not wallet address — so the link uses the
+        // @handle (https://polymarket.com/@<username>). When the wallet has no Polymarket
+        // username the profile isn't reachable, so the link is hidden rather than pointing at
+        // a dead address URL.
+        polymarketUrl: sel.username ? ("https://polymarket.com/@" + encodeURIComponent(sel.username)) : null,
+        hasPolymarket: !!sel.username,
         copyAddr: () => this.copyText(sel.address || sel.idLabel || "", "dossier:" + sel.id),
         copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "\u2713 copied" : "\u29c9 copy address",
         copyColor: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#949C98",

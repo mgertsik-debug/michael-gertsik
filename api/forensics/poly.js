@@ -438,13 +438,21 @@ async function profileAggregates(wallet) {
   };
 }
 
-// a wallet's first-ever Polymarket activity timestamp (seconds).
+// A wallet's first-ever Polymarket activity timestamp (seconds) = the date the dossier shows
+// as "first active on Polymarket". We MUST sort by TIMESTAMP explicitly: with only
+// sortDirection=ASC the API could order by a different default field, making arr[0] not the
+// chronologically earliest action and the displayed date wrong. To be doubly safe against an
+// unsupported sort param, we also scan the returned rows for the true minimum timestamp.
 async function firstSeen(wallet) {
   if (!wallet) return null;
-  const d = await getJSON(DATA + "/activity?user=" + encodeURIComponent(wallet) + "&limit=1&sortDirection=ASC", { timeout: 6000 }).catch(() => null);
+  const d = await getJSON(DATA + "/activity?user=" + encodeURIComponent(wallet) + "&limit=20&sortBy=TIMESTAMP&sortDirection=ASC", { timeout: 6000 }).catch(() => null);
   const arr = Array.isArray(d) ? d : (d && (d.data || d.activity)) || [];
-  const t = arr[0] && num(arr[0].timestamp || arr[0].time || arr[0].ts);
-  return t || null;
+  let min = null;
+  for (const a of arr) {
+    const t = num(a && (a.timestamp || a.time || a.ts));
+    if (t > 0 && (min == null || t < min)) min = t;             // true earliest, regardless of server sort
+  }
+  return min || null;
 }
 
 // outcome label a trade took, normalised to 'YES' | 'NO'.
