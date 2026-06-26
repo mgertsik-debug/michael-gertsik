@@ -68,6 +68,11 @@ jobs:
           # them for scoring. Key-gated (needs eth_getLogs / tokentx, which the keyless
           # RPC can't do reliably). Bounded so the trace stays under the tick budget.
           RING_BUDGET: "12"
+          # Materiality floor: a flagged wallet must have real money at risk
+          # (max of total long-shot stake or |realized P/L|). Insider trading is about
+          # money — a statistically-odd record on $20 bets is a gambler, not an insider.
+          # Every confirmed case is $10k+; $1k keeps them all and clears the noise.
+          MATERIALITY_USD: "1000"
           # Optional: a Polygonscan/Etherscan key gives reliable funding traces
           # (fresh-wallet, cluster funder, cash-out). Without it the job falls
           # back to the public Polygon RPC (POLYGON_RPC) and degrades honestly.

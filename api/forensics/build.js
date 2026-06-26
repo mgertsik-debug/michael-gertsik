@@ -121,6 +121,24 @@ function buildSubject(agg, idx, opts) {
   const convOnly = !dets.won.hasData;
   if (convOnly && !conv.fires) return null;                 // not scoreable and not a conviction case
 
+  // MATERIALITY — insider trading is about MONEY AT RISK. A statistically-unusual
+  // record on trivial stakes (six winning $20 long-shots) is a lucky gambler, not an
+  // insider, and it pollutes the notable tier. We gate on STAKE, not profit: long-shot
+  // profit is amplified (a $20 bet at 10% pays ~$180), so profit overstates scale —
+  // the honest "is this a serious bettor" signal is how much they put at risk. Use the
+  // larger of total long-shot stake or biggest single-event stake. Every confirmed case
+  // is $10k+ of stake, so a modest floor keeps them all. The notable tier (the
+  // false-positive bucket) gets the full floor; extreme/high clear a far higher
+  // STATISTICAL bar so they get half. Clusters pool many wallets' money → exempt.
+  const _stakeTotal = bets.reduce((a, b) => a + num(b.stakeUsd), 0);
+  const _stakeByEvent = {};
+  bets.forEach((b) => { const e = b.eventGroup || b.cond || b.question; _stakeByEvent[e] = (_stakeByEvent[e] || 0) + num(b.stakeUsd); });
+  const _maxEventStake = Object.values(_stakeByEvent).reduce((m, s) => Math.max(m, s), 0);
+  const _material = Math.max(_stakeTotal, _maxEventStake);
+  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
+  const _floor = (f.tier === "extreme" || f.tier === "high") ? MATERIALITY_USD * 0.5 : MATERIALITY_USD;
+  if (agg.type !== "cluster" && _material < _floor) return null;   // immaterial stake → not published
+
   const isCluster = agg.type === "cluster";
   const won = dets.won;
   const wins = bets.filter((b) => b.won).length;
