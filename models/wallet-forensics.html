@@ -1310,7 +1310,7 @@ class Component extends DCLogic {
     const mu = 0.3, sg = 0.12, N = 80, pts = [];
     for (let i = 0; i <= N; i++) { const f = i / N; const v = Math.exp(-Math.pow((f - mu) / sg, 2) / 2); pts.push([cx(f), base - v * (base - padTop)]); }
     const area = "M" + cx(0).toFixed(1) + " " + base + " " + pts.map((p) => "L" + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ") + " L" + cx(1).toFixed(1) + " " + base + " Z";
-    const mf = Math.min(0.965, 0.55 + ((s.percentile - 99) / 1) * 0.42);
+    const mf = Math.max(0.04, Math.min(0.965, (Number(s.percentile) || 0) / 100 * 0.965));
     const mx = cx(mf);
     return h("div", { style: { width: "100%", overflowX: "auto", border: "1px solid #1F2A25", borderRadius: "12px", background: "#090D0C" } },
       h("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { minWidth: 460, display: "block" } },

@@ -294,7 +294,11 @@ function buildSubject(agg, idx, opts, catalog) {
   const fired = f.fired.slice();
 
   // ledger rows (each resolved position), newest entries first by stake.
-  const ledger = bets.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd)).slice(0, 24).map((b) => ({
+  // FULL flagged-bet ledger (no top-N cap) so "THE BETS THEMSELVES" RECONCILES to the headline
+  // profitNum (which sums every flagged bet). A 200-row guard bounds store.json for the rare
+  // prolific wallet; flagged subjects clear the ≥5-long-shot + materiality gates, so in practice
+  // the whole flagged record is shown and the bet table sums to the P&L.
+  const ledger = bets.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd)).slice(0, 200).map((b) => ({
     market: qOf(b), url: urlOf(b),
     entryTime: b.ts ? dateStr(b.ts) : "", ts: b.ts || null,
     odds: Math.round(num(b.entryPrice) * 100), stakeNum: Math.round(num(b.stakeUsd)), plNum: Math.round(betPL(b)),
