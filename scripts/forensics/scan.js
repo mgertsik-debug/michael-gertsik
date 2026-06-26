@@ -45,6 +45,7 @@ const num = (x) => { const n = Number(x); return isFinite(n) ? n : 0; };
 const DIR = path.resolve(__dirname, "../../data/forensics");
 const STATE = path.join(DIR, "state.json");
 const STORE = path.join(DIR, "store.json");
+const REJECTED = path.join(DIR, "rejected.json");   // pre-publish gate: wallets dropped + why
 const CATALOG = path.join(DIR, "markets.json");   // resolved-market winner catalog (cond -> {w,q,s,c,r})
 const SEEDS = path.join(DIR, "seeds.json");        // publicly-reported wallets to force-enrich + score
 const CATALOG_MAX = +process.env.CATALOG_MAX || 20000;
@@ -403,6 +404,7 @@ async function finalize(state, snapshotTs) {
     block: "",                                   // date-stamped snapshot (no fabricated block)
     snapshot: monthDay(snapshotTs),
     recomputed: monthDay(NOW_S),
+    _rejects: [],                                // pre-publish gate fills this with {address, reason}
   };
   const payload = build.buildPayload(singleAggs.concat(clusterAggs), meta, state._catalog || {});
 
@@ -547,6 +549,14 @@ async function finalize(state, snapshotTs) {
   // finalize threw before write(STORE), the top-level catch exited 0, and the
   // commit step saw no change.) The published store does not depend on housekeeping.
   write(STORE, payload);
+
+  // ---- pre-publish gate: record what the validator DROPPED (and why), so false
+  // positives / data-source bugs are visible instead of silent. Bounded to the most
+  // recent 500. A reason like "improbDenom mismatch" or "bad entryPrice" points
+  // straight at a calculation/source problem.
+  const rejects = (meta._rejects || []).slice(0, 500);
+  write(REJECTED, { generatedAt: monthDay(NOW_S), count: rejects.length, rejected: rejects });
+  if (rejects.length) log("pre-publish gate: dropped " + rejects.length + " subject(s) that failed validation");
 
   // ---- bound state.json WITHOUT breaking accumulation. A wallet's record only
   // matures as the sweep reaches its markets, so we RETAIN screened wallets across
