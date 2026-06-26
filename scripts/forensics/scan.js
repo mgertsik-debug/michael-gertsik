@@ -404,7 +404,7 @@ async function finalize(state, snapshotTs) {
     snapshot: monthDay(snapshotTs),
     recomputed: monthDay(NOW_S),
   };
-  const payload = build.buildPayload(singleAggs.concat(clusterAggs), meta);
+  const payload = build.buildPayload(singleAggs.concat(clusterAggs), meta, state._catalog || {});
 
   // ---- category coverage: how many RESOLVED markets the scanner has cataloged in
   // each insider-tradeable category. The UI drives its category filter off this, so
@@ -518,7 +518,7 @@ async function finalize(state, snapshotTs) {
     let subj = null;
     try {
       const agg = cluster.clusterAggregate({ members: memberW, edges, nodes, cexChips, meanLink: 0.9, isCluster: true }, 9000 + ri);
-      subj = build.buildSubject(agg, 9000 + ri, meta);
+      subj = build.buildSubject(agg, 9000 + ri, meta, state._catalog || {});
     } catch (_) {}
     if (subj) {
       if (!state.flaggedHistory[subj.id]) state.flaggedHistory[subj.id] = NOW_S;
@@ -600,9 +600,17 @@ async function finalize(state, snapshotTs) {
   // the per-wallet footprint several-fold. Scoring already ran above with full data.
   for (const a in state.screened) {
     const w = state.screened[a];
-    if (w && Array.isArray(w.bets)) w.bets = w.bets.map((b) => num(b.entryPrice) > 0.35
-      ? { cond: b.cond, entryPrice: b.entryPrice, stakeUsd: b.stakeUsd, won: b.won, outcome: b.outcome, eventGroup: b.eventGroup, category: b.category }
-      : b);
+    if (!w || !Array.isArray(w.bets)) continue;
+    w.bets = w.bets.map((b) => {
+      // drop question/url everywhere (re-derived from the catalog at display time) and
+      // priceStart/End (unused once resolved); keep tx only for long-shots (the dossier
+      // shows tx links for those). Everything scoring needs is retained.
+      const lean = { cond: b.cond, entryPrice: b.entryPrice, won: b.won, stakeUsd: b.stakeUsd,
+        outcome: b.outcome, eventGroup: b.eventGroup, category: b.category, ts: b.ts, resolvedMs: b.resolvedMs, held: b.held };
+      if (b.pnl != null) lean.pnl = b.pnl;                                   // Polymarket's authoritative P/L
+      if (num(b.entryPrice) <= 0.35 && b.tx) lean.tx = b.tx;                 // tx link only matters for long-shots
+      return lean;
+    });
   }
   write(STATE, state);
   // (STORE was already written above, before housekeeping, so it lands even if the
