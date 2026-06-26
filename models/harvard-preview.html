@@ -75,6 +75,7 @@
 
   <div class="funnel" id="funnel"></div>
   <div class="gauge" id="gauge"></div>
+  <div id="filters" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:11px;"></div>
 
   <div class="grid">
     <div class="panel"><div class="list" id="list"><div class="empty">Loading…</div></div></div>
@@ -101,7 +102,18 @@ function shortA(a){ a=String(a||""); return a.length>12?a.slice(0,6)+"…"+a.sli
 function fmtInt(n){ return num(n).toLocaleString("en-US"); }
 function dateS(ts){ if(!ts) return ""; var d=new Date(ts*1000), M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return M[d.getUTCMonth()]+" "+String(d.getUTCDate()).padStart(2,"0")+" "+d.getUTCFullYear(); }
 
-var S = { rows:[], sel:0, meta:null };
+var S = { all:[], rows:[], sel:0, meta:null, filter:"all" };
+function visible(){ return S.filter==="only"?S.all.filter(function(r){return !r.alsoBinomial;}) : S.filter==="both"?S.all.filter(function(r){return r.alsoBinomial;}) : S.all; }
+function renderFilters(){
+  var only=S.all.filter(function(r){return !r.alsoBinomial;}).length, both=S.all.length-only;
+  var defs=[["all","All · "+S.all.length],["only","Harvard-only · "+only],["both","Also binomial · "+both]];
+  var el=document.getElementById("filters");
+  el.innerHTML=defs.map(function(d){ var on=S.filter===d[0];
+    return '<button class="chip" data-f="'+d[0]+'" style="'+(on?"border-color:var(--green);color:var(--green);background:rgba(52,211,153,.12);":"")+'">'+esc(d[1])+'</button>';
+  }).join("")+'<span class="muted small" style="margin-left:4px;">Harvard-only = wallets our binomial misses — the payoff of the switch</span>';
+  Array.prototype.forEach.call(el.querySelectorAll("button"),function(b){ b.onclick=function(){ S.filter=b.getAttribute("data-f"); S.sel=0; applyFilter(); }; });
+}
+function applyFilter(){ S.rows=visible(); if(S.sel>=S.rows.length) S.sel=0; renderFilters(); renderList(); renderDoss(); }
 
 function renderFunnel(d){
   var ex=(d.byTier&&d.byTier.extreme)||0;
@@ -123,7 +135,8 @@ function renderList(){
   var el=document.getElementById("list");
   if(!S.rows.length){ el.innerHTML='<div class="empty">No Harvard episodes yet — the next cron tick will populate this.</div>'; return; }
   el.innerHTML=S.rows.map(function(r,i){
-    return '<div class="card '+(i===S.sel?"sel":"")+'" data-i="'+i+'"><div class="r1"><span class="who">'+esc(shortA(r.address))+(r.username?' · @'+esc(r.username):"")+'</span><span class="score">'+Math.round(num(r.S))+'</span></div>'+
+    var badge = !r.alsoBinomial ? '<span style="font-family:var(--mono);font-size:7.5px;font-weight:600;color:#FBBF24;border:1px solid rgba(251,191,36,.45);border-radius:999px;padding:1px 6px;margin-left:6px;vertical-align:middle;">BINOMIAL MISSES</span>' : '';
+    return '<div class="card '+(i===S.sel?"sel":"")+'" data-i="'+i+'"><div class="r1"><span class="who">'+esc(shortA(r.address))+(r.username?' · @'+esc(r.username):"")+badge+'</span><span class="score">'+Math.round(num(r.S))+'</span></div>'+
       '<div class="sub"><span class="rank">#'+(i+1)+'</span> · '+esc(String(r.market||"market").slice(0,42))+' · '+usd(r.stake)+' @ '+num(r.odds)+'% · '+(r.won?"won":"lost")+'</div></div>';
   }).join("");
   Array.prototype.forEach.call(el.querySelectorAll(".card"),function(c){ c.onclick=function(){ S.sel=+c.getAttribute("data-i"); renderList(); renderDoss(); }; });
@@ -171,12 +184,12 @@ function renderDoss(){
     '<div class="sec"><div class="seclab"><span class="dot">●</span> THE BETS THEMSELVES'+(r.betsCount?' · '+r.betsCount+' resolved':'')+'</div>'+
       (led.length?('<div style="overflow-x:auto;"><table><thead><tr><th>MARKET</th><th>WHEN</th><th class="r">ODDS</th><th class="r">AMOUNT</th><th class="r">RESULT</th><th class="r">PROFIT</th><th class="r">ON-CHAIN</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+chart(led)) : '<div class="muted small">Full bet ledger + verify links populate on the next cron tick (the enriched shadow is regenerating).</div>')+'</div>'+
     '<div class="sec" style="border-bottom:none;"><div class="lab">METHOD · Ofir &amp; Ofir 2026 — composite informed-trading score</div>'+
-      '<div class="muted small" style="margin-top:6px;line-height:1.65;">Each (wallet, market) episode is scored on five independent signals — cross-sectional profit (30), cross-sectional bet size (25), within-trader bet size (20), pre-event timing (15), directional concentration (10) — combined as a weighted sum. A score is a <b>statistical anomaly</b>, ranked as in the paper's Table 2. It is <b>consistent with informed trading, not proof</b>. All data is pulled from Polymarket's public APIs and on-chain Polygon records; every bet links to its transaction. Scores shown here are calibrating to the paper's published scale.</div></div>';
+      '<div class="muted small" style="margin-top:6px;line-height:1.65;">Each (wallet, market) episode is scored on five independent signals — cross-sectional profit (30), cross-sectional bet size (25), within-trader bet size (20), pre-event timing (15), directional concentration (10) — combined as a weighted sum. A score is a <b>statistical anomaly</b>, ranked as in the paper&#39;s Table 2. It is <b>consistent with informed trading, not proof</b>. All data is pulled from Polymarket&#39;s public APIs and on-chain Polygon records; every bet links to its transaction. Scores shown here are calibrating to the paper&#39;s published scale.</div></div>';
 }
 function setUpdated(d,err){ var u=document.getElementById("updated"); if(err){ u.innerHTML='<span class="err">'+esc(err)+' · showing last good data</span>'; return; }
   var when=d&&(d.snapshot||d.generatedAt)?(d.snapshot||new Date(d.generatedAt).toUTCString().replace("GMT","UTC")):"—"; u.textContent="shadow: "+when+" · "+S.rows.length+" episodes · auto-refresh 60s"; }
-function apply(d){ S.meta=d; S.rows=(d.top||[]).slice().sort(function(a,b){return num(b.S)-num(a.S);}); if(S.sel>=S.rows.length) S.sel=0;
-  renderFunnel(d); renderGauge(d); renderList(); renderDoss(); setUpdated(d,null); }
+function apply(d){ S.meta=d; S.all=(d.top||[]).slice().sort(function(a,b){return num(b.S)-num(a.S);});
+  renderFunnel(d); renderGauge(d); applyFilter(); setUpdated(d,null); }
 function load(){
   fetch("/api/forensics/harvard-shadow?t="+Date.now(),{cache:"no-store"})
     .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
