@@ -347,6 +347,14 @@ async function finalize(state, snapshotTs) {
   };
   const payload = build.buildPayload(singleAggs.concat(clusterAggs), meta);
 
+  // ---- category coverage: how many RESOLVED markets the scanner has cataloged in
+  // each insider-tradeable category. The UI drives its category filter off this, so
+  // every category being SCANNED is visible — not just the ones with a flag yet.
+  const covCat = state._catalog || read(CATALOG, {}) || {};
+  const coverageByCategory = {};
+  for (const k in covCat) { const c = covCat[k] && covCat[k].c; if (c) coverageByCategory[c] = (coverageByCategory[c] || 0) + 1; }
+  payload.coverageByCategory = coverageByCategory;
+
   // ---- surprise-weighted discovery: the markets where an unlikely outcome won and
   // real money rode it early — the haystack to investigate, with the wallets in it.
   // Bound the persisted set; publish the top 40 by surprise×money for the UI.
@@ -386,7 +394,8 @@ async function finalize(state, snapshotTs) {
       const members = (net.nodes || []).filter((n) => n.role !== "exchange").map((n) => n.addr);
       if (members.length < 3) continue;                     // hub + subject + >=1 sibling
       ringsFound++;
-      state.rings[net.hub] = { hub: net.hub, members, size: members.length, seedFrom: addr, ts: NOW_S };
+      const hubNode = (net.nodes || []).find((n) => String(n.addr).toLowerCase() === String(net.hub).toLowerCase());
+      state.rings[net.hub] = { hub: net.hub, hubLabel: (hubNode && hubNode.label) || net.hubLabel || null, members, nodes: net.nodes || [], size: members.length, seedFrom: addr, ts: NOW_S };
       members.forEach((m) => {
         if (!state.screened[m]) {
           state.screened[m] = { address: m, bets: [], firstSeenTs: null, fundingTs: null, funder: net.hub, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: NOW_S, lastResolvedMs: 0, entryByEvent: {}, _ring: net.hub, _ringTs: NOW_S };
@@ -398,8 +407,25 @@ async function finalize(state, snapshotTs) {
     const rk = Object.keys(state.rings);
     if (rk.length > 200) { const keep = {}; rk.sort((a, b) => (state.rings[b].ts || 0) - (state.rings[a].ts || 0)).slice(0, 200).forEach((k) => (keep[k] = state.rings[k])); state.rings = keep; }
   }
-  payload.rings = Object.values(state.rings).filter((r) => (r.members || []).some((m) => flaggedSet.has(String(m).toLowerCase()))).length;
-  log("ring-finder: " + ringsFound + " funding rings walked · " + ringNew + " new sibling wallets queued");
+  // Publish the ring GROUPS the UI renders: every funding ring that touches at
+  // least one flagged wallet, with per-member tier so the front end can colour the
+  // graph. tierByAddr maps a member address -> its flagged tier (if any).
+  const tierByAddr = {};
+  payload.subjects.forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => { if (a) tierByAddr[String(a).toLowerCase()] = s.tier; }));
+  payload.ringGroups = Object.values(state.rings)
+    .map((r) => {
+      const members = (r.members || []).map((m) => {
+        const lo = String(m).toLowerCase();
+        return { addr: m, flagged: flaggedSet.has(lo), tier: tierByAddr[lo] || null };
+      });
+      const flaggedCount = members.filter((m) => m.flagged).length;
+      return { hub: r.hub, hubLabel: r.hubLabel || null, size: r.size, seedFrom: r.seedFrom, ts: r.ts, flaggedCount, members };
+    })
+    .filter((g) => g.flaggedCount >= 1)                       // only rings that touch a flagged wallet
+    .sort((a, b) => (b.flaggedCount - a.flaggedCount) || (b.size - a.size))
+    .slice(0, 30);
+  payload.rings = payload.ringGroups.length;
+  log("ring-finder: " + ringsFound + " funding rings walked · " + ringNew + " new sibling wallets queued · " + payload.rings + " rings touch a flagged wallet");
 
   log("flagged " + payload.subjects.length + " subjects (" +
     payload.subjects.filter((s) => s.tier === "extreme").length + " extreme · " +

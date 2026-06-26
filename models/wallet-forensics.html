@@ -76,6 +76,9 @@
   <!-- SURPRISE MARKETS — the discovery haystack (renders in any state) -->
   {{ surpriseMarketsNode }}
 
+  <!-- DETECTED GROUPS — auto-found funding rings (renders in any state) -->
+  {{ ringGroupsNode }}
+
   <!-- ZONE 2 — TWO PANE (rendered only when the job has flagged real subjects) -->
   <sc-if value="{{ hasSubjects }}" hint-placeholder-val="{{ true }}">
   <div style="display: grid; grid-template-columns: {{ gridCols }}; gap: 20px; align-items: start;">
@@ -125,7 +128,7 @@
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 8px;">CATEGORY</div>
             <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
               <sc-for list="{{ categoryChips }}" as="c" hint-placeholder-count="8">
-                <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}<span style="opacity:0.5; margin-left:5px;">{{ c.count }}</span></button>
+                <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}<span style="opacity:0.5; margin-left:5px;">{{ c.badge }}</span></button>
               </sc-for>
             </div>
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 10px;">THRESHOLDS</div>
@@ -527,6 +530,8 @@ class Component extends DCLogic {
     this.meta = this.emptyMeta();
     this.subjects = [];
     this.surpriseMarkets = [];
+    this.ringGroups = [];
+    this.coverageByCategory = {};
     this.state = {
       search: "",
       type: "all",
@@ -628,9 +633,43 @@ class Component extends DCLogic {
       list.map(row));
   }
 
+  // DETECTED GROUPS — funding rings the scanner found automatically by tracing each
+  // flagged wallet's on-chain USDC funder and pulling in the siblings that funder
+  // also seeded (the Iran-style "one funder, many fresh accounts" pattern). Each
+  // group is a hub (shared funder) + the wallets it bankrolled; ⚑ = flagged member.
+  ringGroupsNode() {
+    const h = this.h, mono = "'JetBrains Mono', monospace";
+    const groups = (this.ringGroups || []).slice(0, 12);
+    if (!groups.length) return null;
+    const short = (a) => (a && a.length > 12 ? a.slice(0, 6) + "…" + a.slice(-4) : a);
+    const tierColor = (t) => t === "extreme" ? "#F87171" : t === "elevated" ? "#FBBF24" : t === "watch" ? "#34D399" : "#6B756F";
+    const chip = (m, i) => h("button", { key: i, onClick: () => { this.setState({ search: m.addr }); this.runLookup(m.addr); },
+      title: m.flagged ? "Flagged member — click to open the dossier" : "Sibling wallet — click to score it",
+      style: { fontFamily: mono, fontSize: "10px", color: m.flagged ? tierColor(m.tier) : "#949C98", background: "transparent",
+        border: "1px solid " + (m.flagged ? tierColor(m.tier) + "66" : "#1F2A25"), borderRadius: "6px", padding: "3px 7px", cursor: "pointer", whiteSpace: "nowrap" } },
+      (m.flagged ? "⚑ " : "") + short(m.addr));
+    const group = (g, i) => h("div", { key: i, style: { padding: "11px 0", borderBottom: "1px solid #141C18" } },
+      h("div", { style: { display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "7px" } },
+        h("a", { href: "https://polygonscan.com/address/" + g.hub, target: "_blank", rel: "noopener noreferrer",
+          style: { fontFamily: mono, fontSize: "12px", color: "#A78BFA", textDecoration: "none", borderBottom: "1px solid rgba(167,139,250,0.4)" } },
+          "⬡ " + (g.hubLabel ? g.hubLabel + " (" + short(g.hub) + ")" : short(g.hub)) + " ↗"),
+        h("span", { style: { fontFamily: mono, fontSize: "9.5px", color: "#5C6661" } },
+          "shared funder · " + g.size + " wallets · " + g.flaggedCount + " flagged")),
+      h("div", { style: { display: "flex", gap: "6px", flexWrap: "wrap" } }, (g.members || []).slice(0, 24).map(chip)));
+    return h("div", { style: { background: "#0E1512", border: "1px solid #1F2A25", borderRadius: "14px", padding: "16px 18px", marginBottom: "20px", boxShadow: "0 8px 24px -18px rgba(0,0,0,0.55)" } },
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", marginBottom: "6px", flexWrap: "wrap" } },
+        h("div", { style: { fontFamily: mono, fontSize: "10px", letterSpacing: "0.14em", color: "#F87171" } }, "⬡ DETECTED GROUPS — WALLETS BANKROLLED BY A SHARED ON-CHAIN FUNDER"),
+        h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#5C6661" } }, groups.length + " of " + (this.ringGroups || []).length)),
+      h("p", { style: { fontFamily: "Inter", fontSize: "12px", color: "#949C98", margin: "0 0 8px", maxWidth: "640px", lineHeight: 1.55 } },
+        "The scanner traced each flagged wallet's USDC funder on-chain and pulled in the other accounts that funder also seeded — the \"one funder, many fresh wallets\" ring pattern. ⬡ = the shared funder, ⚑ = a flagged member. Click any wallet to score it."),
+      groups.map(group));
+  }
+
   applyRealData(data) {
     this.subjects = Array.isArray(data.subjects) ? data.subjects : [];
     this.surpriseMarkets = Array.isArray(data.surpriseMarkets) ? data.surpriseMarkets : [];
+    this.ringGroups = Array.isArray(data.ringGroups) ? data.ringGroups : [];
+    this.coverageByCategory = (data.coverageByCategory && typeof data.coverageByCategory === "object") ? data.coverageByCategory : {};
     this.isSample = false;
     this.meta = {
       observed: data.observed != null ? data.observed : (data.meta && data.meta.observed) || 0,
@@ -984,7 +1023,12 @@ class Component extends DCLogic {
     const counts = {};
     cats.forEach((c) => (counts[c] = 0));
     this.subjects.forEach((s) => { if (counts[s.category] != null) counts[s.category]++; });
-    return cats.filter((c) => counts[c] > 0).map((c) => ({ name: c, count: counts[c] }));
+    // Show every category the scanner is COVERING (cataloged resolved markets), not
+    // just the ones with a flag yet — `count` is flagged subjects, `scanned` is
+    // resolved markets reviewed. A category with coverage but 0 flags still appears.
+    const cov = this.coverageByCategory || {};
+    const present = cats.filter((c) => counts[c] > 0 || (cov[c] || 0) > 0);
+    return present.map((c) => ({ name: c, count: counts[c], scanned: cov[c] || 0 }));
   }
 
   timeWindowDays() {
@@ -1040,7 +1084,7 @@ class Component extends DCLogic {
     const fn = this.funnel();
     const haveSnap = !!this.meta.snapshot;
     return {
-      hasSubjects: false, emptyState: true, surpriseMarketsNode: this.surpriseMarketsNode(),
+      hasSubjects: false, emptyState: true, surpriseMarketsNode: this.surpriseMarketsNode(), ringGroupsNode: this.ringGroupsNode(),
       isSample: false, notSample: true,
       snapshotLabel: haveSnap ? ("data as of " + this.meta.snapshot) : "awaiting first snapshot",
       snapshotTitle: "Retrospective snapshot — not live. Recomputed " + (this.meta.recomputed || "—") + ".",
@@ -1457,8 +1501,10 @@ class Component extends DCLogic {
     const seg = (active) => "font-family:Inter;font-size:12px;padding:6px 11px;border-radius:8px;cursor:pointer;border:1px solid " + (active ? "#34D399" : "#1F2A25") + ";color:" + (active ? "#34D399" : "#949C98") + ";background:" + (active ? "rgba(52,211,153,0.12)" : "#0E1512") + ";";
     const typeOptions = [["all", "Everyone"], ["wallets", "Single wallets"], ["clusters", "Groups"]].map(([v, l]) => ({ label: l, style: seg(st.type === v), onClick: () => this.setState({ type: v }) }));
     const concernOptions = [["all", "All"], ["extreme", "Extreme"], ["elevated", "High"], ["watch", "Notable"]].map(([v, l]) => ({ label: l, style: seg(st.tier === v), onClick: () => this.setState({ tier: v }) }));
+    const shortN = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : String(n));
     const categoryChips = cc.map((c) => ({
-      label: c.name, count: c.count, onClick: () => this.toggleCat(c.name),
+      label: c.name, count: c.count, badge: c.count > 0 ? String(c.count) : (c.scanned > 0 ? "⌕" + shortN(c.scanned) : "0"),
+      onClick: () => this.toggleCat(c.name),
       style: "font-family:Inter;font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;border:1px solid " + (st.cats.includes(c.name) ? "#34D399" : "#1F2A25") + ";color:" + (st.cats.includes(c.name) ? "#34D399" : "#949C98") + ";background:" + (st.cats.includes(c.name) ? "rgba(52,211,153,0.12)" : "transparent") + ";",
     }));
 
@@ -1575,7 +1621,7 @@ class Component extends DCLogic {
 
     return {
       corpus,
-      hasSubjects: true, emptyState: false, surpriseMarketsNode: this.surpriseMarketsNode(),
+      hasSubjects: true, emptyState: false, surpriseMarketsNode: this.surpriseMarketsNode(), ringGroupsNode: this.ringGroupsNode(),
       isSample: this.isSample, notSample: !this.isSample,
       isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
       onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),
