@@ -1198,15 +1198,9 @@ class Component extends DCLogic {
     const why = parts.length
       ? parts.slice(0, -1).join(", ") + (parts.length > 1 ? " and " : "") + parts[parts.length - 1]
       : "share on-chain funding";
-<<<<<<< HEAD
     return "These " + n + " wallets appear to be operated by a SINGLE entity because they " + why +
       (meanLink ? " (mean link " + meanLink + " of 1.0)" : "") +
       ". Like a Bubblemaps cluster, this is a probabilistic inference of common control from on-chain funding and co-ordinated betting — not confirmed identity.";
-=======
-    return "These " + n + " accounts are linked because they " + why +
-      (meanLink ? " (mean link " + meanLink + " of 1.0)" : "") +
-      ". This is a probabilistic inference from on-chain funding and betting behavior — not confirmed common ownership.";
->>>>>>> origin/main
   }
 
   // ---------- CHARTS ----------
