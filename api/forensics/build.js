@@ -485,7 +485,12 @@ function derive(all, scoredPop) {
     s.volume = vol >= 1e6 ? "$" + (vol / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : "$" + Math.round(vol / 1e3) + "K";
     // P/L: authoritative account figure (non-cluster) is already net & positive past the
     // gate; clusters keep the pooled magnitude. money()/signedMoney() use this directly.
-    s.profitNum = s._profitNum != null ? (s.profitSource === "authoritative" ? s._profitNum : Math.abs(s._profitNum)) : (parseFloat(String(s.profit).replace(/[^0-9.]/g, "")) * (String(s.profit).includes("M") ? 1e6 : 1e3));
+    // Keep the SIGN for authoritative + Harvard-episode P/L (a flagged episode can be a big
+    // LOSING bet — retained by bet-size z, not profit — so abs() would wrongly flip its sign and
+    // disagree with the signed s.profit shown on the card). Only the legacy flagged-bets path
+    // (positive past the $5k gate) uses magnitude.
+    const _signed = s.profitSource === "authoritative" || s.profitSource === "harvard-episode";
+    s.profitNum = s._profitNum != null ? (_signed ? s._profitNum : Math.abs(s._profitNum)) : (parseFloat(String(s.profit).replace(/[^0-9.\-−]/g, "").replace("−", "-")) * (String(s.profit).includes("M") ? 1e6 : 1e3));
     s.activityDays = s.activityDays != null ? s.activityDays : (30 + idx * 17);
     s.lastActivity = s.activityDays <= 1 ? "today" : s.activityDays + " days ago";
     delete s._profitNum; delete s._profileVolume;
