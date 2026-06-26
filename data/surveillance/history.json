@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-26T03:36:30.758Z",
+  "updatedAt": "2026-06-26T07:38:17.378Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-2510937",
+      "ts": "07:38 UTC",
+      "platform": "polymarket",
+      "market": "US and Iran sign an agreement by June 15, 2026?",
+      "detector": "runUp",
+      "sev": "high",
+      "metric": "81 · High-signal",
+      "index": 81,
+      "url": "https://polymarket.com/event/us-and-iran-sign-an-agreement-byptptpt-20260611221049850",
+      "engine": "insider",
+      "firstSeen": "2026-06-26T07:38:17.378Z"
+    },
     {
       "id": "pm-1250810",
       "ts": "23:46 UTC",
