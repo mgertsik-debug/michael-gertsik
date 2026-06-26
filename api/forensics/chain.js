@@ -23,7 +23,17 @@
 const USDC = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";              // USDC.e on Polygon
 const USDC_NATIVE = "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359";       // native USDC on Polygon
 const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
-const RPC = process.env.POLYGON_RPC || "https://polygon-rpc.com";
+// Keyless public Polygon RPCs. Free nodes rate-limit and cap getLogs ranges, so we
+// ROTATE across several reliable ones — if one 429s or caps, the next answers. A
+// configured POLYGON_RPC (or a Polygonscan key, preferred) takes priority.
+const RPCS = (process.env.POLYGON_RPC ? [process.env.POLYGON_RPC] : []).concat([
+  "https://polygon-bor-rpc.publicnode.com",
+  "https://polygon.llamarpc.com",
+  "https://1rpc.io/matic",
+  "https://polygon-rpc.com",
+  "https://rpc.ankr.com/polygon",
+]);
+const RPC = RPCS[0];
 const SCAN_KEY = process.env.POLYGONSCAN_API_KEY || process.env.ETHERSCAN_API_KEY || "";
 const SCAN_BASE = "https://api.etherscan.io/v2/api?chainid=137";
 
@@ -92,11 +102,15 @@ async function scanTxCount(wallet, beforeTs) {
 
 /* ----------------------------------------------------- JSON-RPC fallback -- */
 let _rpcId = 1;
+let _rpcGood = 0;                                         // remember the endpoint that last worked
 async function rpc(method, params) {
   const body = JSON.stringify({ jsonrpc: "2.0", id: _rpcId++, method, params });
-  const d = await getJSON(RPC, { method: "POST", headers: { "content-type": "application/json" }, body, timeout: 9000 }).catch(() => null);
-  if (!d || d.error) return null;
-  return d.result;
+  for (let i = 0; i < RPCS.length; i++) {
+    const url = RPCS[(_rpcGood + i) % RPCS.length];
+    const d = await getJSON(url, { method: "POST", headers: { "content-type": "application/json" }, body, timeout: 9000 }).catch(() => null);
+    if (d && !d.error && d.result !== undefined) { _rpcGood = (_rpcGood + i) % RPCS.length; return d.result; }
+  }
+  return null;                                            // all endpoints failed → caller excludes the input
 }
 async function latestBlock() { const r = await rpc("eth_blockNumber", []); return r ? hexToNum(r) : null; }
 async function blockTime(block) {

@@ -73,6 +73,9 @@
     </div>
   </div>
 
+  <!-- SURPRISE MARKETS — the discovery haystack (renders in any state) -->
+  {{ surpriseMarketsNode }}
+
   <!-- ZONE 2 — TWO PANE (rendered only when the job has flagged real subjects) -->
   <sc-if value="{{ hasSubjects }}" hint-placeholder-val="{{ true }}">
   <div style="display: grid; grid-template-columns: {{ gridCols }}; gap: 20px; align-items: start;">
@@ -523,6 +526,7 @@ class Component extends DCLogic {
     this.isSample = false;
     this.meta = this.emptyMeta();
     this.subjects = [];
+    this.surpriseMarkets = [];
     this.state = {
       search: "",
       type: "all",
@@ -589,8 +593,43 @@ class Component extends DCLogic {
   // honest empty state shows "0 reviewed · awaiting snapshot" while the job has
   // in fact reviewed tens of thousands of bettors. Subjects populate the list
   // only when non-empty.
+  // SURPRISE MARKETS — the proactive discovery surface: resolved markets where an
+  // unlikely outcome won and money rode in early. This is the haystack to examine,
+  // independent of whether anyone has been flagged yet.
+  surpriseMarketsNode() {
+    const h = this.h, mono = "'JetBrains Mono', monospace";
+    const list = (this.surpriseMarkets || []).slice(0, 12);
+    if (!list.length) return null;
+    const usd = (n) => n >= 1e6 ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : n >= 1e3 ? "$" + (n / 1e3).toFixed(1).replace(/\.0$/, "") + "K" : "$" + Math.round(n);
+    const short = (a) => (a && a.length > 12 ? a.slice(0, 6) + "…" + a.slice(-4) : a);
+    const row = (m, i) => {
+      const top = (m.topWallets || [])[0];
+      return h("div", { key: i, style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", padding: "10px 0", borderBottom: "1px solid #141C18", flexWrap: "wrap" } },
+        h("div", { style: { minWidth: 0, flex: "1 1 280px" } },
+          m.url ? h("a", { href: m.url, target: "_blank", rel: "noopener noreferrer", style: { color: "#ECEFED", fontSize: "13px", textDecoration: "none", borderBottom: "1px solid rgba(167,139,250,0.4)" } }, String(m.q).slice(0, 70) + " ↗")
+            : h("span", { style: { color: "#ECEFED", fontSize: "13px" } }, String(m.q).slice(0, 70)),
+          h("div", { style: { fontFamily: mono, fontSize: "10px", color: "#6B756F", marginTop: "3px" } },
+            "won at " + Math.round(m.impliedWin * 100) + "% implied · " + m.category + " · " + m.winners + " winners · " + usd(m.totalStake) + " on the winning side")),
+        h("div", { style: { display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 } },
+          h("div", { style: { textAlign: "right" } },
+            h("div", { style: { fontFamily: mono, fontSize: "15px", fontWeight: 700, color: "#A78BFA" } }, Math.round(m.surprise * 100) + "%"),
+            h("div", { style: { fontFamily: mono, fontSize: "8.5px", color: "#5C6661", letterSpacing: "0.1em" } }, "SURPRISE")),
+          top ? h("button", { onClick: () => { this.setState({ search: top.a }); this.runLookup(top.a); },
+            title: "Score the biggest winning-side wallet", style: { fontFamily: mono, fontSize: "10px", color: top.flagged ? "#F87171" : "#34D399", background: "transparent", border: "1px solid " + (top.flagged ? "#F8717155" : "#34A38255"), borderRadius: "6px", padding: "4px 8px", cursor: "pointer", whiteSpace: "nowrap" } },
+            (top.flagged ? "⚑ " : "") + short(top.a) + " " + usd(top.stake) + " @ " + Math.round(top.odds * 100) + "% →") : null));
+    };
+    return h("div", { style: { background: "#0E1512", border: "1px solid #1F2A25", borderRadius: "14px", padding: "16px 18px", marginBottom: "20px", boxShadow: "0 8px 24px -18px rgba(0,0,0,0.55)" } },
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", marginBottom: "6px", flexWrap: "wrap" } },
+        h("div", { style: { fontFamily: mono, fontSize: "10px", letterSpacing: "0.14em", color: "#A78BFA" } }, "◆ MOST SURPRISING RESOLVED MARKETS — WHERE INFORMED TRADING IS MOST LIKELY"),
+        h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#5C6661" } }, list.length + " of " + (this.surpriseMarkets || []).length)),
+      h("p", { style: { fontFamily: "Inter", fontSize: "12px", color: "#949C98", margin: "0 0 8px", maxWidth: "640px", lineHeight: 1.55 } },
+        "A long-shot came true and real money was already on it. These are the haystacks an investigator examines first — click the biggest winning-side wallet to score it. ⚑ = already flagged."),
+      list.map(row));
+  }
+
   applyRealData(data) {
     this.subjects = Array.isArray(data.subjects) ? data.subjects : [];
+    this.surpriseMarkets = Array.isArray(data.surpriseMarkets) ? data.surpriseMarkets : [];
     this.isSample = false;
     this.meta = {
       observed: data.observed != null ? data.observed : (data.meta && data.meta.observed) || 0,
@@ -611,8 +650,8 @@ class Component extends DCLogic {
     if (e.key === "Enter" && this.isAddr(this.state.search)) { e.preventDefault(); this.runLookup(); }
   }
 
-  runLookup() {
-    const addr = String(this.state.search || "").trim().toLowerCase();
+  runLookup(forced) {
+    const addr = String(forced || this.state.search || "").trim().toLowerCase();
     if (!this.isAddr(addr)) return;
     this.setState({ lookup: { open: true, loading: true, error: null, data: null, addr } });
     if (typeof fetch !== "function") return;
@@ -940,7 +979,7 @@ class Component extends DCLogic {
     const fn = this.funnel();
     const haveSnap = !!this.meta.snapshot;
     return {
-      hasSubjects: false, emptyState: true,
+      hasSubjects: false, emptyState: true, surpriseMarketsNode: this.surpriseMarketsNode(),
       isSample: false, notSample: true,
       snapshotLabel: haveSnap ? ("data as of " + this.meta.snapshot) : "awaiting first snapshot",
       snapshotTitle: "Retrospective snapshot — not live. Recomputed " + (this.meta.recomputed || "—") + ".",
@@ -1470,7 +1509,7 @@ class Component extends DCLogic {
 
     return {
       corpus,
-      hasSubjects: true, emptyState: false,
+      hasSubjects: true, emptyState: false, surpriseMarketsNode: this.surpriseMarketsNode(),
       isSample: this.isSample, notSample: !this.isSample,
       isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
       onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),

@@ -59,6 +59,7 @@ module.exports = async (req, res) => {
     reviewed: store.reviewed || 0,
     screened: store.screened || 0,
     meta: store.meta || {},
+    surpriseMarkets: store.surpriseMarkets || [],   // the haystack: long-shot upsets where money rode in early
     generatedAt: store.generatedAt || null,
   });
 };
