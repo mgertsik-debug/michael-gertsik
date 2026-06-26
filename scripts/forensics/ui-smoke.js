@@ -21,7 +21,7 @@ const ok = (name, cond, detail) => { checks.push({ name, pass: !!cond, detail: d
   page.on("pageerror", (e) => errors.push("PAGEERROR: " + e.message));
   page.on("console", (m) => { if (m.type() === "error") errors.push("CONSOLE: " + m.text()); });
 
-  const url = SITE + "/models/wallet-forensics.html?v=11";
+  const url = SITE + "/models/wallet-forensics.html?v=13";
   console.log("# loading " + url);
   await page.goto(url, { waitUntil: "networkidle", timeout: 60000 }).catch((e) => errors.push("GOTO: " + e.message));
 
@@ -29,6 +29,13 @@ const ok = (name, cond, detail) => { checks.push({ name, pass: !!cond, detail: d
   const input = page.locator('input[placeholder*="Paste a 0x wallet"]');
   await input.waitFor({ state: "visible", timeout: 30000 }).catch(() => {});
   ok("page renders (search box present)", await input.count() > 0);
+
+  // 1b) the advanced dossier charts render for the default flagged subject
+  await page.waitForTimeout(1500);
+  const analytics = page.locator('text=/THE NUMBERS, VISUALISED/i');
+  ok("advanced analytics section renders", await analytics.count() > 0);
+  const svgs = await page.locator('svg').count();
+  ok("dossier SVG charts present", svgs >= 3, svgs + " svg(s)");
 
   // 2) typing an address reveals the SCORE button, click it
   await input.fill(ADDR);
