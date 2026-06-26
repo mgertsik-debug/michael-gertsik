@@ -1,23 +1,13 @@
 {
-  "_comment": "Publicly-reported / suspected insider wallets. The scanner FORCE-ENRICHES these every tick (priority, never evicted) so they get a full on-chain record, then scores them with the SAME detector suite as everything else — they publish ONLY if they independently clear the bar (no special treatment, no fabricated flags). Add an entry to put a wallet on the force-scored list.",
+  "_comment": "Publicly-reported / suspected insider wallets. The scanner FORCE-ENRICHES these every tick (priority, never evicted) so they get a full on-chain record, then scores them with the SAME detector suite as everything else — they publish ONLY if they independently clear the bar (no special treatment, no fabricated flags). Entries may give an 'address' (preferred) OR a 'username' (resolved to a proxy address via Polymarket at scan time, best-effort). Web research (June 2026) confirmed only the Maduro case has public 0x addresses; the other named cases were reported by Polymarket handle only.",
   "cases": [
-    {
-      "address": "0xa72db1749e9ac2379d49a3c12708325ed17febd4",
-      "case": "Maduro capture (Operation, Jan 2026)",
-      "label": "Maduro insider",
-      "source": "DOJ/CFTC Van Dyke filings + press; reported profit ~$74,982"
-    },
-    {
-      "address": "0x6baf05d193692bb208d616709e27442c910a94c5",
-      "case": "Maduro capture (Operation, Jan 2026)",
-      "label": "Maduro insider",
-      "source": "DOJ/CFTC Van Dyke filings + press; reported profit ~$145,620"
-    },
-    {
-      "address": "0x31a56e9e690c621ed21de08cb559e9524cdb8ed9",
-      "case": "Maduro capture (Operation, Jan 2026)",
-      "label": "Gannon Ken Van Dyke (indicted)",
-      "source": "DOJ indictment (first criminal PM insider-trading prosecution); reported profit ~$409,882"
-    }
+    { "address": "0xa72db1749e9ac2379d49a3c12708325ed17febd4", "case": "Maduro capture (Operation, Jan 2026)", "label": "Maduro insider", "source": "DOJ/CFTC + Lookonchain; reported profit ~$74,982" },
+    { "address": "0x6baf05d193692bb208d616709e27442c910a94c5", "case": "Maduro capture (Operation, Jan 2026)", "label": "Maduro insider", "source": "DOJ/CFTC + Lookonchain; reported profit ~$145,620" },
+    { "address": "0x31a56e9e690c621ed21de08cb559e9524cdb8ed9", "case": "Maduro capture (Operation, Jan 2026)", "label": "Gannon Ken Van Dyke (indicted)", "source": "DOJ indictment + Lookonchain; reported profit ~$409,882" },
+    { "username": "magamyman", "case": "U.S.-Israeli strike on Iran (Feb 2026)", "label": "Magamyman", "source": "NPR + Harvard/SSRN; first trade ~71 min before news, reported profit ~$553k" },
+    { "username": "0xafee", "case": "Google 'Year in Search' (AlphaRaccoon / Spagnuolo)", "label": "AlphaRaccoon (Spagnuolo, charged)", "source": "CFTC/DOJ (pseudonymized); renamed handle polymarket.com/@0xafee" },
+    { "username": "dirtycup", "case": "Nobel Peace Prize 2025 (Machado)", "label": "Nobel Peace Prize bettor", "source": "Blockworks/Protos; reported ~$31k profit, Nobel Institute probe" },
+    { "username": "6741", "case": "Nobel Peace Prize 2025 (Machado)", "label": "Nobel Peace Prize bettor", "source": "Blockworks/Protos; reported >$50k profit" },
+    { "username": "romanticpaul", "case": "Taylor Swift engagement (Mar 2026)", "label": "Taylor Swift bettor", "source": "Harvard/SSRN; ~$3k profit (likely below materiality)" }
   ]
 }

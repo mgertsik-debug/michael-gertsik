@@ -249,16 +249,25 @@ async function run() {
   // independently clear the bar. This just guarantees the known cases get a full record
   // (the sweep covers ~3.6k of 150k+ wallets, so it may never reach a given wallet).
   const seedCfg = read(SEEDS, { cases: [] }) || { cases: [] };
-  const seedAddrs = (seedCfg.cases || []).map((c) => String(c.address || "").toLowerCase()).filter((a) => /^0x[0-9a-f]{40}$/.test(a));
-  seedAddrs.forEach((a, i) => {
-    const c = seedCfg.cases[i];
+  state._userCache = state._userCache || {};            // resolved username -> address (persisted, resolve once)
+  const seedAddrs = [];
+  let resolvedNew = 0;
+  for (const c of (seedCfg.cases || [])) {
+    let a = String((c && c.address) || "").toLowerCase();
+    if (!/^0x[0-9a-f]{40}$/.test(a) && c && c.username) {
+      const u = String(c.username).toLowerCase();
+      if (state._userCache[u]) a = state._userCache[u];
+      else { try { const r = await poly.resolveUsername(u); if (r) { a = r; state._userCache[u] = r; resolvedNew++; } } catch (_) {} }
+    }
+    if (!/^0x[0-9a-f]{40}$/.test(a)) continue;            // unresolved username -> skip this tick
     if (!state.screened[a]) state.screened[a] = { address: a, bets: [], firstSeenTs: null, fundingTs: null, funder: null, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: NOW_S, lastResolvedMs: 0, entryByEvent: {} };
     state.screened[a]._seed = true;
     state.screened[a]._seedCase = (c && c.case) || null;
     state.screened[a]._seedLabel = (c && c.label) || null;
     state.screened[a]._seedSource = (c && c.source) || null;
-  });
-  if (seedAddrs.length) log("seeds: " + seedAddrs.length + " known-case wallets force-queued for enrichment");
+    seedAddrs.push(a);
+  }
+  if (seedAddrs.length) log("seeds: " + seedAddrs.length + " known-case wallets force-queued" + (resolvedNew ? " (" + resolvedNew + " username(s) resolved)" : ""));
 
   // 4. deep-enrich the stalest screened wallets (wallet age / funding recency).
   // Seeds go FIRST every tick (and bypass the wall-clock budget below) so the known

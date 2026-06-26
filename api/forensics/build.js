@@ -323,11 +323,19 @@ function buildPayload(aggregates, meta, catalog) {
   (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta, catalog); if (s) subjects.push(s); });
   subjects.sort((a, b) => b.improbDenom - a.improbDenom);
   derive(subjects);
+  // AGGREGATE estimated informed-trading P&L across published subjects — directly
+  // comparable (in kind) to the Harvard study's $143M, but at our strict bar and our
+  // current coverage, so it starts small and grows as coverage scales.
+  const totalFlaggedProfit = subjects.reduce((a, s) => a + (Number(s.profitNum) || 0), 0);
+  const fmtUsd = (v) => (Math.abs(v) >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
   return {
     subjects,
     observed: (meta && meta.observed) || 0,
     reviewed: (meta && meta.reviewed) || 0,
     screened: (meta && meta.screened) || 0,
+    totalFlaggedProfit: Math.round(totalFlaggedProfit),
+    totalFlaggedProfitText: fmtUsd(totalFlaggedProfit),
+    flaggedCount: subjects.length,
     meta: {
       observed: (meta && meta.observed) || 0,
       reviewed: (meta && meta.reviewed) || 0,
