@@ -46,11 +46,14 @@ jobs:
           # the catalog, screened pool and HLL all persist, so each run advances the
           # frontier rather than redoing the universe.
           LOOKBACK_DAYS: "365"
-          MARKETS_PER_RUN: "450"
-          # Deep-enrich more wallets per tick, each resolving its FULL record on-demand,
-          # so binomial-eligible records (>=5 long-shots) fill faster and genuinely
-          # improbable wallets surface sooner. Kept under the 13-min timeout backstop.
-          ENRICH_BATCH: "320"
+          # REBALANCED: enumeration of 450 markets + 12 live pages was eating the ENTIRE
+          # wall-clock budget, so deep-enrich ran 0 wallets/tick (no records mature, no
+          # funder data, no clusters). The catalog already holds 1,800+ resolved markets
+          # and accumulates across ticks, so a smaller per-tick enumeration is plenty —
+          # and frees most of the budget for ENRICHMENT, which is what actually flags
+          # wallets and forms clusters.
+          MARKETS_PER_RUN: "120"
+          ENRICH_BATCH: "240"
           SCREEN_USD: "2500"
           # Retain a large candidate pool (cheap): 790/800 screened wallets already had a
           # winning long-shot, so the old 800 cap evicted real candidates before their
@@ -58,11 +61,13 @@ jobs:
           SCREEN_CAP: "3000"
           # Live-resolve un-cataloged markets so deep-enrich sees each wallet's WHOLE
           # record, not the thin slice the sweep has reached. Bounded to keep the tick fast.
-          ONDEMAND_PER_RUN: "1100"
+          ONDEMAND_PER_RUN: "600"
           ONDEMAND_PER_WALLET: "70"
-          # Live discovery feed: pages of the global recent-trades stream pulled each
-          # tick so brand-new wallets are folded into `observed` the moment they trade.
-          LIVE_PAGES: "12"
+          # Live discovery feed: pages of the global recent-trades stream pulled each tick.
+          LIVE_PAGES: "3"
+          # Wall-clock budget for one tick (job hard-killed at timeout-minutes=13). 10 min
+          # of work leaves a safe margin for the commit+push.
+          SCAN_BUDGET_S: "600"
           # Auto ring-finder: walk the on-chain funding graph from the top N flagged
           # wallets each tick, pull in the siblings the sweep hasn't reached, and queue
           # them for scoring. Key-gated (needs eth_getLogs / tokentx, which the keyless
