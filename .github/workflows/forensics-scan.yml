@@ -82,13 +82,25 @@ jobs:
           # catalog and wallet records can never fill in.
           git add data/forensics/store.json data/forensics/state.json data/forensics/markets.json
           git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)"
-          # Push with rebase+retry so a concurrent push to the branch (a merge or
-          # another job) doesn't drop this tick's results. Our commit only touches
-          # data/forensics/*.json, so rebasing onto remote is conflict-free.
+          # Push with rebase+retry. When two ticks race, the regenerated JSON files
+          # genuinely CONFLICT (each is a full rewrite, not a patch), so a plain
+          # `pull --rebase` aborts mid-rebase and the next push silently reports
+          # "up-to-date" — the tick's results are LOST. That is exactly why the
+          # flagged set was frozen. Resolve deterministically with `-X theirs`
+          # (during a rebase, "theirs" = OUR replayed commit), so this tick's fresh
+          # snapshot always wins the conflict and actually lands.
           for i in 1 2 3 4 5; do
             if git push origin HEAD:"${GITHUB_REF_NAME}"; then echo "pushed"; exit 0; fi
-            echo "push rejected (attempt $i) — rebasing on remote and retrying"
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            echo "push rejected (attempt $i) — rebasing -X theirs (our fresh snapshot wins) and retrying"
+            git fetch origin "${GITHUB_REF_NAME}" || true
+            if ! git rebase -X theirs "origin/${GITHUB_REF_NAME}"; then
+              echo "rebase -X theirs failed; forcing our snapshot onto remote head"
+              git rebase --abort 2>/dev/null || true
+              git reset --soft "origin/${GITHUB_REF_NAME}" 2>/dev/null || true
+              git checkout --ours -- data/forensics/store.json data/forensics/state.json data/forensics/markets.json 2>/dev/null || true
+              git add data/forensics/store.json data/forensics/state.json data/forensics/markets.json
+              git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)" || true
+            fi
             sleep $((i * 3))
           done
           echo "push still failing after retries" >&2
