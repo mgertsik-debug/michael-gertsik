@@ -116,14 +116,14 @@ jobs:
           # NOTE: state.json is NO LONGER committed — it lives in the Actions cache
           # (off-git). Only the small, Vercel-served outputs are committed: store.json
           # (read API), markets.json (winner catalog, must accumulate), rejected.json
-          # (pre-publish gate log).
-          if git diff --quiet -- data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json; then
+          # (pre-publish gate log), harvard-shadow.json (dark-launch diagnostic).
+          if git diff --quiet -- data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json; then
             echo "No change this tick."
             exit 0
           fi
           git config user.email "noreply@anthropic.com"
           git config user.name  "forensics-scan"
-          git add data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json
+          git add data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json
           git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)"
           # Push with rebase+retry. When two ticks race, the regenerated JSON files
           # genuinely CONFLICT (each is a full rewrite, not a patch), so a plain
@@ -140,8 +140,8 @@ jobs:
               echo "rebase -X theirs failed; forcing our snapshot onto remote head"
               git rebase --abort 2>/dev/null || true
               git reset --soft "origin/${GITHUB_REF_NAME}" 2>/dev/null || true
-              git checkout --ours -- data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json 2>/dev/null || true
-              git add data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json
+              git checkout --ours -- data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json 2>/dev/null || true
+              git add data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json
               git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)" || true
             fi
             sleep $((i * 3))

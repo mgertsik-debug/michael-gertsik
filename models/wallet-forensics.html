@@ -31,6 +31,13 @@
   .wf-card:focus { outline: none !important; }
   .wf-card:focus:not(:focus-visible) { outline: none !important; box-shadow: none; }
   .wf-card:focus-visible { outline: none !important; box-shadow: 0 0 0 2px rgba(52,211,153,0.6), 0 0 30px -8px rgba(52,211,153,0.5); }
+  /* Clicking a card must never paint the browser's white/blue text-selection highlight over its
+     labels (e.g. "$51K account P&L (all trades)"). The card is a button — its text is not meant to
+     be hand-selected (there's a dedicated copy control), so suppress selection on the card subtree. */
+  .wf-card, .wf-card * { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+  /* Anywhere text IS selectable, tint the highlight green instead of the OS default white/blue. */
+  ::selection { background: rgba(52,211,153,0.28); color: #ECEFED; }
+  ::-moz-selection { background: rgba(52,211,153,0.28); color: #ECEFED; }
 </style>
 </helmet>
 <div style="position: relative; overflow: hidden; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #ECEFED; background: #0A0E0D; line-height: 1.55; -webkit-font-smoothing: antialiased; padding: 2px 0 44px;">
