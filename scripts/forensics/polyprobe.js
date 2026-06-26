@@ -24,6 +24,21 @@ function arrify(b) { return Array.isArray(b) ? b : (b && (b.data || b.positions 
   const val = await get(DATA + "/value?user=" + ADDR);
   console.log("\n=== /value ===\nstatus " + val.status + "\n" + JSON.stringify(val.body).slice(0, 400));
 
+  // Candidate endpoints for the wallet's ALL-TIME P/L + volume headline (what the
+  // Polymarket profile shows) — /positions only has CURRENT holdings, so we need one
+  // of these to mirror their numbers.
+  for (const u of [
+    "https://user-pnl-api.polymarket.com/user-pnl?user_address=" + ADDR + "&interval=all&fidelity=1d",
+    "https://lb-api.polymarket.com/profit?window=all&limit=1&address=" + ADDR,
+    "https://lb-api.polymarket.com/volume?window=all&limit=1&address=" + ADDR,
+    DATA + "/traded?user=" + ADDR,
+  ]) {
+    const r = await get(u);
+    let s = JSON.stringify(r.body);
+    if (Array.isArray(r.body)) s = "[len " + r.body.length + "] " + JSON.stringify(r.body.slice(-2));
+    console.log("\n=== " + u.split("?")[0].replace(/^https?:\/\//, "") + " ===\nstatus " + r.status + "\n" + String(s).slice(0, 360));
+  }
+
   const posR = await get(DATA + "/positions?user=" + ADDR + "&limit=500&sortBy=CURRENT&sortDirection=DESC");
   const pos = arrify(posR.body);
   console.log("\n=== /positions ===\nstatus " + posR.status + " · count " + pos.length);
