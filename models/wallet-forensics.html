@@ -25,12 +25,22 @@
   .wf-scroll::-webkit-scrollbar { width: 9px; height: 9px; }
   .wf-scroll::-webkit-scrollbar-thumb { background: #1E2823; border-radius: 5px; }
   .wf-scroll::-webkit-scrollbar-track { background: transparent; }
-  /* No white/default focus ring on the cards — selection is shown ONLY by the green glow
-     (driven by the user's click). Keyboard focus stays accessible with a green ring, never white. */
-  .wf-card { -webkit-tap-highlight-color: transparent; }
-  .wf-card:focus { outline: none !important; }
-  .wf-card:focus:not(:focus-visible) { outline: none !important; box-shadow: none; }
-  .wf-card:focus-visible { outline: none !important; box-shadow: 0 0 0 2px rgba(52,211,153,0.6), 0 0 30px -8px rgba(52,211,153,0.5); }
+  /* NEVER show the browser's white/blue default focus ring on ANY interactive element in this
+     component (cards, the "+ show the math" toggles, export buttons, links, the search box,
+     selects, anything tabbable). Mouse clicks show NO ring at all; keyboard navigation gets an
+     accessible GREEN ring via :focus-visible — never white, never blue. */
+  * { -webkit-tap-highlight-color: transparent; }
+  button, a, select, input, textarea, summary, [tabindex], [role="button"], .wf-card { outline: none !important; }
+  button:focus, a:focus, select:focus, input:focus, textarea:focus, summary:focus,
+  [tabindex]:focus, [role="button"]:focus, .wf-card:focus { outline: none !important; }
+  :focus:not(:focus-visible) { outline: none !important; }
+  button:focus-visible, a:focus-visible, select:focus-visible, [tabindex]:focus-visible,
+  [role="button"]:focus-visible, .wf-card:focus-visible {
+    outline: none !important; border-radius: 8px;
+    box-shadow: 0 0 0 2px rgba(52,211,153,0.6), 0 0 22px -8px rgba(52,211,153,0.5);
+  }
+  /* text inputs keep their own border treatment, just a green (not blue) focus glow */
+  input:focus-visible, textarea:focus-visible { outline: none !important; box-shadow: 0 0 0 1px rgba(52,211,153,0.5); }
   /* Clicking a card must never paint the browser's white/blue text-selection highlight over its
      labels (e.g. "$51K account P&L (all trades)"). The card is a button — its text is not meant to
      be hand-selected (there's a dedicated copy control), so suppress selection on the card subtree. */
