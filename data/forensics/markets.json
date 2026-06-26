@@ -3503,14 +3503,14 @@
     "w": "YES",
     "q": "Will Russia capture Dorozhnie by June 30, 2026?",
     "s": "will-russia-capture-dorozhnie-by",
-    "c": "Politics",
+    "c": "Military & Defense",
     "r": 1782166231
   },
   "0x893b08038bdbfd48e71886c942b38f49de6dc3896645fc64a7b43cfd8c8442e2": {
     "w": "YES",
     "q": "Will Russia capture Dorozhnie by July 31, 2026?",
     "s": "will-russia-capture-dorozhnie-by",
-    "c": "Politics",
+    "c": "Military & Defense",
     "r": 1782166297
   },
   "0x10da72ad6ca4cf3f7deb9a0ad11ccd477e5feca81990b53dfb0c72142c5eb1c8": {
@@ -16189,5 +16189,740 @@
     "s": "tariff-increase-on-canada-in-effect-by-june-30",
     "c": "Legal & Regulatory",
     "r": 1782777600
+  },
+  "0x680efda99a9c43cae7a318972ec3156a6b100b48a43d12478bcbcea85eb58ed7": {
+    "w": "NO",
+    "q": "US strikes Iran by February 26, 2026?",
+    "s": "us-strikes-iran-by-february-26-2026-368",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xb37e5f6ece2db9165517b62e3257e0da5d3e79713883cb71c74013fe912e8a4d": {
+    "w": "NO",
+    "q": "Netanyahu out by April 30?",
+    "s": "netanyahu-out-by-april-30",
+    "c": "Politics",
+    "r": 1777507200
+  },
+  "0x6a4d97b6b54f49991f3984998fc8423668b09e9ea21de7074f27ab7dd4953ba3": {
+    "w": "YES",
+    "q": "US strikes Iran by March 3, 2026?",
+    "s": "us-strikes-iran-by-march-3-2026-619",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x168959e2c7e997109d9bb7b6dd4c51d8a4f4fb0d8a65eb2b034d29e1240b15e1": {
+    "w": "NO",
+    "q": "US strikes Iran by February 25, 2026?",
+    "s": "us-strikes-iran-by-february-25-2026",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xe1c67f75aac5b10dc28f1a2fbb79b079fc7f7320abfbd6a950a50c372979569b": {
+    "w": "NO",
+    "q": "US strikes Iran by February 20, 2026?",
+    "s": "us-strikes-iran-by-february-20-2026-151-468-624-297-614-778-872-127-349-448-499-337-826-553",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xf7ebe673ed7e71d3846b4f0c74065351d9f7f2717088ea2a517d86ef0d02c7a8": {
+    "w": "NO",
+    "q": "US strikes Iran by February 21, 2026?",
+    "s": "us-strikes-iran-by-february-21-2026",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x8a38e9511fe17e13fa7c3fc65923983c22d4d494b69091fad0107637a7cd1e32": {
+    "w": "NO",
+    "q": "US strikes Iran by February 23, 2026?",
+    "s": "us-strikes-iran-by-february-23-2026-678-563",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x557dddb6136459f0e47c106ad9ca1ff975498ce4414d086be54477e4012d45b7": {
+    "w": "YES",
+    "q": "Will the Fed cut-cut-cut in 2025?",
+    "s": "will-the-fed-cut-cut-cut-in-2025-796",
+    "c": "Economics",
+    "r": 1765324800
+  },
+  "0x419c7ae262b7b17f41a077eeaec4b2d3881406ea3a4cf0d5984536fe0bd3c995": {
+    "w": "NO",
+    "q": "Will the Fed cut-pause-cut in 2025",
+    "s": "will-the-fed-cut-pause-cut-in-2025-858",
+    "c": "Economics",
+    "r": 1765324800
+  },
+  "0xf5ec2524e8d5fdd9f4f7e1084ba14805fa78aacc9f31d58e0c713100c3a462ae": {
+    "w": "NO",
+    "q": "Will the Fed Cut–Cut–Pause in 2025?",
+    "s": "will-the-fed-cutcutpause-in-2025-136",
+    "c": "Economics",
+    "r": 1765324800
+  },
+  "0x617c7a90eda304d6875abfefa3638ecedb2fffe3321aa207a9e23e8fc686fb75": {
+    "w": "NO",
+    "q": "Will the Fed cut-pause-pause in 2025?",
+    "s": "will-the-fed-cut-pause-pause-in-2025-577",
+    "c": "Economics",
+    "r": 1765324800
+  },
+  "0xfcd2fb666c5a346faee448e63267346a3ec394a52bce4c199877559da91cd2c1": {
+    "w": "NO",
+    "q": "Fed increases interest rates by 25+ bps after December 2025 meeting?",
+    "s": "fed-increases-interest-rates-by-25-bps-after-december-2025-meeting",
+    "c": "Economics",
+    "r": 1765324800
+  },
+  "0xd6e0317cee513cc3afdc1954ac576b241ad2287536e88b17fd3a77b4c3d0976e": {
+    "w": "NO",
+    "q": "Fed increases interest rates by 25+ bps after October 2025 meeting?",
+    "s": "fed-increases-interest-rates-by-25-bps-after-october-2025-meeting",
+    "c": "Economics",
+    "r": 1761696000
+  },
+  "0x5360f524a00e2d02089ad82fe32061742c2df6ad282d44d6f91b96f23c18af7f": {
+    "w": "NO",
+    "q": "Kevin Warsh confirmed as Fed Chair by May 1?",
+    "s": "kevin-warsh-confirmed-as-fed-chair-by-may-1",
+    "c": "Economics",
+    "r": 1778803200
+  },
+  "0x291f0f6023efa933d36cc80fd55f9d176309a92b61b9567fd4f044a8b21873fb": {
+    "w": "YES",
+    "q": "Israel strikes Iran by February 28, 2026?",
+    "s": "israel-strikes-iran-by-february-28-2026",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0x707ab64115b0ca83b65bc5137aaa947a11f56885ed82ffcedc3c5b70e1210151": {
+    "w": "NO",
+    "q": "Greece x Turkey military engagement by June 30?",
+    "s": "greece-x-turkey-military-engagement-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x4b02efe53e631ada84681303fd66d79ad615f3d2b6a28b4633d43d935f89af58": {
+    "w": "YES",
+    "q": "US strikes Iran by March 31, 2026?",
+    "s": "us-strikes-iran-by-march-31-2026-393-881-954",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xd69784215865ef81c16f3cb8b0806d43acbcf284982789a7e014d1cef52e7478": {
+    "w": "YES",
+    "q": "Will Israel strike Greater Beirut by March 31, 2026?",
+    "s": "will-israel-strike-greater-beirut-by-march-31",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xf5e75e837e140abc19c56504b037f74caef25437fcbe3f929859579de379fb6d": {
+    "w": "NO",
+    "q": "Will Israel strike Lebanon on February 24, 2026?",
+    "s": "will-israel-strike-lebanon-on-february-24-2026",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0x226c6d5a8de377a56641a498191c5e1f3792b81618841afb8879a5d817f13771": {
+    "w": "NO",
+    "q": "Will Russia invade a NATO country in 2025?",
+    "s": "will-russia-invade-a-nato-country-in-2025",
+    "c": "Military & Defense",
+    "r": 1767139200
+  },
+  "0x876e3f74017fff10b2677f8c0b9c7ddcf8f74f147eeee59fff71e7a1928edf19": {
+    "w": "NO",
+    "q": "Israel strikes Iran by October 31?",
+    "s": "israel-strikes-iran-by-october-31",
+    "c": "World",
+    "r": 1761868800
+  },
+  "0x3fc804e4d893f86d49229eb42492cabf6150f5bcbf36c1b66d1e8f22bc15ec6d": {
+    "w": "YES",
+    "q": "US strikes Iran by March 2, 2026?",
+    "s": "us-strikes-iran-by-march-2-2026",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0x5081132b043efb9933246a7a186f66737c93d7b52b2061909c6097cb8b0d553c": {
+    "w": "NO",
+    "q": "More EU sanctions on Russia by September 30?",
+    "s": "more-eu-sanctions-on-russia-by-september-30",
+    "c": "Military & Defense",
+    "r": 1759190400
+  },
+  "0x0f4d9792bdf45a5fa5f717cbe55d78107878854816374b2dd741f46062aba2b0": {
+    "w": "NO",
+    "q": "Will Iran close the Strait of Hormuz before July?",
+    "s": "will-iran-close-the-strait-of-hormuz-before-july",
+    "c": "Military & Defense",
+    "r": 1751241600
+  },
+  "0xb948e1738d72b05ea45bdfe468878c546843252d5d21f058931ca958b003c1ed": {
+    "w": "NO",
+    "q": "Will Iran declare war on Israel before July?",
+    "s": "will-iran-declare-war-on-israel-before-july",
+    "c": "Military & Defense",
+    "r": 1751241600
+  },
+  "0x39adf00f000bf978a7f9f6fadf67ceabceee776d237702287d371131bda6e24e": {
+    "w": "YES",
+    "q": "Israel strike on Iran on June 15?",
+    "s": "israel-strike-on-iran-on-june-15-494-312",
+    "c": "Military & Defense",
+    "r": 1750377600
+  },
+  "0x896d1877ca71ffa3d43c046fdacd4470f1a8c0cf91e14ed66d9d0e0b3099dfe5": {
+    "w": "NO",
+    "q": "US-Iran nuclear deal before July?",
+    "s": "us-iran-nuclear-deal-before-july",
+    "c": "Military & Defense",
+    "r": 1751241600
+  },
+  "0x89ff77ee1c11d6c8a480bfaab11eefd6f87b8f2076a065be0706453857dc0958": {
+    "w": "NO",
+    "q": "Will Iran close the Strait of Hormuz in 2025?",
+    "s": "will-iran-close-the-strait-of-hormuz-in-2025",
+    "c": "Military & Defense",
+    "r": 1767139200
+  },
+  "0x6a67b9d828d53862160e470329ffea5246f338ecfffdf2cab45211ec578b0347": {
+    "w": "YES",
+    "q": "US military action against Iran before July?",
+    "s": "us-military-action-against-iran-before-july",
+    "c": "Military & Defense",
+    "r": 1751241600
+  },
+  "0x1f96ae92bb56176b892e06b24d7f6f54d1c54e82981d544523b7f86410fe0a59": {
+    "w": "YES",
+    "q": "Israel strike on Iran on June 16?",
+    "s": "israel-strike-on-iran-on-june-16-317-587",
+    "c": "Military & Defense",
+    "r": 1750377600
+  },
+  "0x545d755d9b10944436bda0536893dc2efeb26b9e3d4e594460e728c51bace61f": {
+    "w": "NO",
+    "q": "Will Iran declare war on Israel by Friday?",
+    "s": "will-iran-declare-war-on-israel-by-friday",
+    "c": "Military & Defense",
+    "r": 1750377600
+  },
+  "0x5a3dc97b0200aaea720be8cbbf196e3f7660d589a8fe6e29029a3139d154c21b": {
+    "w": "NO",
+    "q": "Will Ahmed al-Sharaa be the first leader out in 2025?",
+    "s": "will-ahmed-al-sharaa-be-the-first-leader-out-in-2025",
+    "c": "Politics",
+    "r": 1767139200
+  },
+  "0x01278664ac467fcc2e4aba500b05f994787d34b873f2bff96c375a89f59bc983": {
+    "w": "NO",
+    "q": "Will Iran conduct a military action against Israel on April 10, 2026?",
+    "s": "will-iran-conduct-a-military-action-against-israel-on-april-10-2026",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0x18dccc229331c63d8360d1400ece2355627637547d8dcd54aa5f7f1b5580686e": {
+    "w": "YES",
+    "q": "Military action against Iran ends on April 9, 2026?",
+    "s": "military-action-against-iran-ends-on-april-9-2026",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0x4f3be223a7fb240b7ceb9afc13f440792d3b2cb18a64cb192c58e7cfacf44108": {
+    "w": "NO",
+    "q": "Will 30-39 ships transit the Strait of Hormuz between April 6-April 12?",
+    "s": "will-30-39-ships-transit-the-strait-of-hormuz-between-april-6-april-12",
+    "c": "Military & Defense",
+    "r": 1775952000
+  },
+  "0x1dd421987f66dbe0ab3e9ba57b4ff7583e90b88ac3335c3d5fe9ace7e75bc0ca": {
+    "w": "NO",
+    "q": "Will 20-29 ships transit the Strait of Hormuz between April 6-April 12?",
+    "s": "will-20-29-ships-transit-the-strait-of-hormuz-between-april-6-april-12",
+    "c": "Military & Defense",
+    "r": 1775952000
+  },
+  "0x81cc8a629b1f633542f1015514305fbefdbf578e578992efe17190edc49aea6c": {
+    "w": "NO",
+    "q": "Will 50-59 ships transit the Strait of Hormuz between April 6-April 12?",
+    "s": "will-50-59-ships-transit-the-strait-of-hormuz-between-april-6-april-12",
+    "c": "Military & Defense",
+    "r": 1775952000
+  },
+  "0x858071dbcd97be6e31f8467cba92fcb09d1d767d46da407e4434438a188b04a2": {
+    "w": "NO",
+    "q": "Will UAE strike Iran by April 30?",
+    "s": "will-uae-strike-iran-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x858123ef616e0bce0b80f8aa4c967ab91bd6da094cd217f53294356d3461c6bb": {
+    "w": "NO",
+    "q": "Israel military action against Fordow nuclear facility by April 30?",
+    "s": "israel-military-action-against-fordow-nuclear-facility-by-april-30",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0xd18ed6ef65bfa1b2c93c72998f026d8c3ae53a41f80231f07063e0d2d2c6dd47": {
+    "w": "NO",
+    "q": "Will a Gulf State carry out military action against Iran by April 15, 2026?",
+    "s": "will-a-gulf-state-carry-out-military-action-against-iran-by-april-15-2026",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0x8bfcaf4064012bbb37855cc3cf1961460f435f1742c90b18e5362b9fb24ae56d": {
+    "w": "NO",
+    "q": "Will Israel or the US target Fordow nuclear facility?",
+    "s": "will-israel-or-the-us-target-fordow-nuclear-facility",
+    "c": "Military & Defense",
+    "r": 946684800
+  },
+  "0x30a892ea01a40602dd58029243f165a97ce22dbfeabf427f86d705ae650fad4b": {
+    "w": "NO",
+    "q": "US forces enter Iran by March 14?",
+    "s": "us-forces-enter-iran-by-march-14-337",
+    "c": "World",
+    "r": 1772323200
+  },
+  "0x02f5a047fbad390edaed349f8499f6f7ad8a80bd28db4f7d54a21d65df2cd122": {
+    "w": "NO",
+    "q": "Trump announces US x Iran ceasefire end by April 10, 2026?",
+    "s": "trump-announces-us-x-iran-ceasefire-end-by-april-10-2026",
+    "c": "Military & Defense",
+    "r": 1775779200
+  },
+  "0xb40e0490382e7bc89d193fcc8657d0acb9191afd764ef435af888868ba2b88eb": {
+    "w": "NO",
+    "q": "Will the US conduct a cyberattack on Iran by March 31?",
+    "s": "will-the-us-conduct-a-cyberattack-on-iran-by-march-31",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xbfd64511446e0cce9de039d5b5e8867a993b93bd14acb3465a898c82bed372c3": {
+    "w": "NO",
+    "q": "Another US strike on Venezuela by March 31?",
+    "s": "another-us-strike-on-venezuela-by-march-31",
+    "c": "Military & Defense",
+    "r": 1769817600
+  },
+  "0x53e409b11e90081ba2cb0834a391e1208dd4c87ac817e4c76a5125cd2b647a9f": {
+    "w": "NO",
+    "q": "US strike on Mexico by March 31?",
+    "s": "us-strike-on-mexico-by-march-31",
+    "c": "Military & Defense",
+    "r": 1798675200
+  },
+  "0xf94145fa5716d4bfd2948ce5eef2954dcb560516ccbba5e8b68059027e431cdc": {
+    "w": "NO",
+    "q": "US forces enter Iran by March 7?",
+    "s": "us-forces-enter-iran-by-march-7",
+    "c": "World",
+    "r": 1772496000
+  },
+  "0x403b8deb760c51691df6dcc9a6aa080846ecd280d49d3786865c2d9846180aaa": {
+    "w": "NO",
+    "q": "US strike on Cuba by March 31?",
+    "s": "us-strike-on-cuba-by-march-31",
+    "c": "Military & Defense",
+    "r": 1798675200
+  },
+  "0xb3298af85e00aafad937c119444a5f2800a55343b7482eb75581f6e454432501": {
+    "w": "NO",
+    "q": "Will Kamala Harris win the 2028 US Presidential Election?",
+    "s": "will-kamala-harris-win-the-2028-us-presidential-election",
+    "c": "Elections",
+    "r": 1857168000
+  },
+  "0x09cbe3e796661a1d820580145488ad2ccb9ad1e720efcd64b448bb77b97007c1": {
+    "w": "NO",
+    "q": "US strikes Iran by February 27, 2026?",
+    "s": "us-strikes-iran-by-february-27-2026",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x53da43937e38f3e09977827ac9b450018d10ee599be6a3d270791d1104b61f2e": {
+    "w": "YES",
+    "q": "Will Iran conduct a military action against Israel on March 30, 2026?",
+    "s": "will-iran-conduct-a-military-action-against-israel-on-march-30-2026-933",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0x5f53df3f158b091342447b8ae57032110382868040b2625ffd85201ddd75e703": {
+    "w": "YES",
+    "q": "Will Iran conduct a military action against Israel on April 3, 2026?",
+    "s": "will-iran-conduct-a-military-action-against-israel-on-april-3-2026",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0xc698b84223698775c00b03a5d160af984a4217ae3cb63787ab245bf8f1d4dc59": {
+    "w": "YES",
+    "q": "Will US or Israel strike Iran on March 5, 2026?",
+    "s": "will-us-or-israel-strike-iran-on-march-5-2026",
+    "c": "World",
+    "r": 1773100800
+  },
+  "0xf723d076576a434c0b92914608ab73ba9c56b2197f5bd9476ccd48a2c6dee12b": {
+    "w": "YES",
+    "q": "Will DraftKings launch a prediction market in 2025?",
+    "s": "will-draftkings-launch-a-prediction-market-in-2025",
+    "c": "Tech & Announcements",
+    "r": 1767139200
+  },
+  "0x054725b2a7971376f7924a7021221b12acc50fe78d97817824fe411704d5b5a2": {
+    "w": "NO",
+    "q": "Will Romeu Zema win the 2026 Brazilian presidential election?",
+    "s": "will-romeu-zema-win-the-2026-brazilian-presidential-election",
+    "c": "Elections",
+    "r": 1791072000
+  },
+  "0x3367d22cd2a673014f1960742afdf8601040a8ad856dc0a98bd1a44ee99504e2": {
+    "w": "NO",
+    "q": "Will Ron DeSantis win the 2028 US Presidential Election?",
+    "s": "will-ron-desantis-win-the-2028-us-presidential-election",
+    "c": "Elections",
+    "r": 1857168000
+  },
+  "0x101d084cd035070abde58d8a3113b78e11ba68028b0d9e7e38ea7d780797aecc": {
+    "w": "NO",
+    "q": "Will Camilo Santana win the 2026 Brazilian presidential election?",
+    "s": "will-camilo-santana-win-the-2026-brazilian-presidential-election",
+    "c": "Elections",
+    "r": 1791072000
+  },
+  "0xe39adea057926dc197fe30a441f57a340b2a232d5a687010f78bba9b6e02620f": {
+    "w": "NO",
+    "q": "Will Gretchen Whitmer win the 2028 Democratic presidential nomination?",
+    "s": "will-gretchen-whitmer-win-the-2028-democratic-presidential-nomination-676",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0x32903694997a5c09afee30904970f9fab2a5fb4ec45f572f194341185574f1a4": {
+    "w": "NO",
+    "q": "Will Thomas Massie win the 2028 US Presidential Election?",
+    "s": "will-thomas-massie-win-the-2028-us-presidential-election",
+    "c": "Elections",
+    "r": 1857168000
+  },
+  "0x2d3c4fc5cde6dfb43448402b912e41bd4453e3f030448ed026bff8f1a0bc072e": {
+    "w": "NO",
+    "q": "Will Eric Trump win the 2028 US Presidential Election?",
+    "s": "will-eric-trump-win-the-2028-us-presidential-election",
+    "c": "Elections",
+    "r": 1857168000
+  },
+  "0xfd6176f8c9a59105f80e060a77c4099881c5f2d9e0ceab88e55cf978462fab7f": {
+    "w": "NO",
+    "q": "Will Gretchen Whitmer win the 2028 US Presidential Election?",
+    "s": "will-gretchen-whitmer-win-the-2028-us-presidential-election",
+    "c": "Elections",
+    "r": 1857168000
+  },
+  "0x80a849ac73eefe56d4d613e44b45e32b9f91f0bfc77173b732cffac7daab3b3b": {
+    "w": "NO",
+    "q": "Will Ayelet Shaked be the next Prime Minister of Israel?",
+    "s": "will-ayelet-shaked-be-the-next-prime-minister-of-israel",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x57089bd657907396fb040c773ec9b14de3bc7f16a9f2cb6184321f3cff7d49a0": {
+    "w": "NO",
+    "q": "Will Beyond Meat (BYND) beat quarterly earnings?",
+    "s": "bynd-quarterly-earnings-gaap-eps-02-25-2026-neg0pt08",
+    "c": "Corporate & M&A",
+    "r": 1771977600
+  },
+  "0x27ade12e788507af8c7723933e38c79c97d2f687c9daa7eb6c9e6951786bf247": {
+    "w": "YES",
+    "q": "Will Iran strike Jordan in March?",
+    "s": "will-iran-strike-jordan-in-march-375",
+    "c": "World",
+    "r": 1772841600
+  },
+  "0x4a29417dd569806a261b11731a6a97e25e1290fc569a913d5177a3a5ebac6454": {
+    "w": "NO",
+    "q": "Will the Bank of Mexico announce no change at the March meeting?",
+    "s": "will-the-bank-of-mexico-announce-no-change-at-the-march-meeting",
+    "c": "Tech & Announcements",
+    "r": 1774483200
+  },
+  "0xbf7d903a72d0450260093c13010a773f138ca61cfd3e9a7022ef058c255fb79a": {
+    "w": "NO",
+    "q": "Will US GDP growth in Q1 2026 be less than 1.0%?",
+    "s": "will-us-gdp-growth-in-q1-2026-be-less-than-1pt0",
+    "c": "Economics",
+    "r": 1777507200
+  },
+  "0xbfe12fe58a5aadd010d319ca422158cd5f5036b156519955ea649d77327fa95d": {
+    "w": "NO",
+    "q": "Will María Corina Machado enter Venezuela by March 31?",
+    "s": "will-mara-corina-machado-enter-venezuela-by-march-31-426-698-771",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x03bc660a4df5faeaee8e66d0e7bc4f2200b543340b7f7a5c83bfa1fecafa9ead": {
+    "w": "YES",
+    "q": "Will Iran strike Israel on March 10?",
+    "s": "will-iran-strike-israel-on-march-10",
+    "c": "World",
+    "r": 946684800
+  },
+  "0x190aac2f60ce91f9a15889f34a5a9582c4bbfd809869e4bf8dc943a0fa96f167": {
+    "w": "NO",
+    "q": "Peter Mandelson charged by March 31?",
+    "s": "peter-mandelson-charged-by-march-31",
+    "c": "Legal & Regulatory",
+    "r": 1774915200
+  },
+  "0x05260e1c44dc94aadd963c29e0005618d4b9975db01f0883e01455c729a04cf1": {
+    "w": "NO",
+    "q": "Will US GDP growth in Q1 2026 be greater than 3.5%?",
+    "s": "will-us-gdp-growth-in-q1-2026-be-greater-than-3pt5",
+    "c": "Economics",
+    "r": 1777507200
+  },
+  "0x5e4b85546e0e49cad0bccf254efe892312ca215c0e9e26dc0965753f45a2360f": {
+    "w": "NO",
+    "q": "Will Bill Clinton be confirmed to have visited Epstein’s island?",
+    "s": "will-bill-clinton-be-confirmed-to-have-visited-epsteins-island",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0xa33a1153f6ce8d2f334b698615ca2ffcadaf162be0e8dac77bfb80764f967b76": {
+    "w": "NO",
+    "q": "Will Hillary Clinton be confirmed to have visited Epstein’s island?",
+    "s": "will-hillary-clinton-be-confirmed-to-have-visited-epsteins-island",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0x7ca95f6c38e50e158279df39b2f30dbd005edc94ee64c6e4f50912e40bd16b5c": {
+    "w": "NO",
+    "q": "Will Nigel Farage be the next Prime Minister of the United Kingdom in 2026?",
+    "s": "will-nigel-farage-be-the-next-prime-minister-of-the-united-kingdom-in-2026-356",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0xe6eb21883f57c3047cf7be1d7cff4554fbb82067e374bd07c53242170f57851f": {
+    "w": "NO",
+    "q": "Will Reza Pahlavi be head of state in Iran end of 2026?",
+    "s": "will-reza-pahlavi-be-head-of-state-in-iran-end-of-2026",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0xf4d9075a14094db9b40fe56854550374f2875cb54cb93973eef773bbeac147b3": {
+    "w": "YES",
+    "q": "Will Iran name a successor to Khamenei by March 15?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-15-153-144-999-648-116-955-829-149",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x1204e81bd79e5caf0065549828d8c759b94c1914aef018a8535c986064cbe0b7": {
+    "w": "NO",
+    "q": "Will Iran name a successor to Khamenei by March 6?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-6-419-412-158-246-866-876-465",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x60c7d191ee2808417523e00ac85a4682324af4f1d887243f9f69b388524d6942": {
+    "w": "NO",
+    "q": "Russia x Ukraine ceasefire by February 28, 2026?",
+    "s": "russia-x-ukraine-ceasefire-by-february-28-2026",
+    "c": "Military & Defense",
+    "r": 1772236800
+  },
+  "0x1dda38b3bdc54eb87db0eae3c6aae2ac8730e36a1131f68d3a23ffca28c4f3a2": {
+    "w": "YES",
+    "q": "Will Iran name a successor to Khamenei by March 31?",
+    "s": "will-iran-name-a-successor-to-khamenei-by-march-31-483-852-436-833-347-948",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x1685c8da893250409e66eb37e0a6f4582e5ece40e7aee1fd7e5e55091439c010": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on February 12, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-february-12-2026-et",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0x4e32e01144b8b92af76c80f31f7b984757b3d0a689d74617c6ec7b64566e0ff5": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on February 13, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-february-13-2026-et",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0x05e32c8390a4d25a5d169df53b32ce8d893c24e837104c7c6cd550edeaf238b8": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on February 11, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-february-11-2026-et",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0x7b637d4f3a4ab4bace4ec5777dba0885116c5dac5a52e6db2bd3d1dd05752e82": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on February 14, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-february-14-2026-et",
+    "c": "World",
+    "r": 1772236800
+  },
+  "0x39504cbc120a8092f5df3d0ba612976a0d97a7aa2b699e73fae49010cbc31f1d": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on January 21, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-january-21-2026-et-774",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x63bb7fc1b5b53a3fe498fffadd8171a7f0914cd86275dc91c6a539688d31021c": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on January 22, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-january-22-2026-et-837",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0xe5ea9d130ab1b9fcadcbe1d0c64457448ad118536cfef7a2032a7244a7fb630f": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on January 26, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-january-26-2026-et-241",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x5cb15a6ad5db73f234b494077e358b716a9eb9947e742d17cc86e137313cb9ed": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on January 23, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-january-23-2026-et-724",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x8d62f20324e9e7f1a3c663ab6aac9a2f6e7adb96c6a69ac2cea7e08a71a7f2ef": {
+    "w": "NO",
+    "q": "Will Tom Steyer win the California Governor Election in 2026?",
+    "s": "will-tom-steyer-win-the-california-governor-election-in-2026",
+    "c": "Elections",
+    "r": 1793664000
+  },
+  "0xfee07be730188c94cd3644ed6f107fa3ea2dfab9989ce8d39aeeae064766abe3": {
+    "w": "NO",
+    "q": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
+    "s": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0xf105ea1a83605540617366526881a245bd0fb586e0cfe15c1582d0d3ee579558": {
+    "w": "NO",
+    "q": "Will OpenAI have the best AI model at the end of April 2026?",
+    "s": "will-openai-have-the-best-ai-model-at-the-end-of-april-2026",
+    "c": "Tech & Announcements",
+    "r": 1777507200
+  },
+  "0x158fdaad572880f8de3d3f00e4d3c2fbbae77108d88c29deb800141928c1e040": {
+    "w": "NO",
+    "q": "Will Jorge Nieto win the 2026 Peruvian presidential election?",
+    "s": "will-jorge-nieto-win-the-2026-peruvian-presidential-election",
+    "c": "Elections",
+    "r": 1780790400
+  },
+  "0x0a10ea4f5d42ac33a29d73b8562f4414f5ea2219afd9da74ba950f7aefe7c630": {
+    "w": "NO",
+    "q": "Will Ricardo Belmont win the 2026 Peruvian presidential election?",
+    "s": "will-ricardo-belmont-win-the-2026-peruvian-presidential-election",
+    "c": "Elections",
+    "r": 1780790400
+  },
+  "0x64d31a2af85518c6718a5757a35b840f08eca20c1e22c0eb1e96ec01cc55b8b6": {
+    "w": "NO",
+    "q": "Will Ron DeSantis win the 2028 Republican presidential nomination?",
+    "s": "will-ron-desantis-win-the-2028-republican-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0xe883f2fda25a605a184bb5fe583afce6cc21ea0b348b6a3728ec3067553c548d": {
+    "w": "NO",
+    "q": "Will J.B. Pritzker win the 2028 Democratic presidential nomination?",
+    "s": "will-jb-pritzker-win-the-2028-democratic-presidential-nomination-288",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0x7cb525e831729325d651017f81cbcb6f1adde5011c7b2283babea00b4ae93ae7": {
+    "w": "NO",
+    "q": "Netanyahu out by March 31?",
+    "s": "netanyahu-out-by-march-31-854",
+    "c": "Politics",
+    "r": 1774915200
+  },
+  "0xd94b47bdeba16ae948bfb147bda059f3543d6fca73291644dfff5268bba7a797": {
+    "w": "NO",
+    "q": "Will Tucker Carlson win the 2028 US Presidential Election?",
+    "s": "will-tucker-carlson-win-the-2028-us-presidential-election",
+    "c": "Elections",
+    "r": 1857168000
+  },
+  "0xe0173375b7eaccb836f7b92d28a9a2d1cc69e54e5a65fae89a5d7e49aadd332e": {
+    "w": "NO",
+    "q": "Will Nikki Haley win the 2028 US Presidential Election?",
+    "s": "will-nikki-haley-win-the-2028-us-presidential-election",
+    "c": "Elections",
+    "r": 1857168000
+  },
+  "0x0ac23db1e56971022bc7e822b907a2466c618b34104ea72bc9fa95e41c86a9c6": {
+    "w": "NO",
+    "q": "Will Ted Cruz win the 2028 Republican presidential nomination?",
+    "s": "will-ted-cruz-win-the-2028-republican-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0xc80571a1a13b24f40b1855fb51b0339612d548e3a453731832768bbb94c45e68": {
+    "w": "NO",
+    "q": "Will Kamala Harris announce a 2028 run for President by June 30?",
+    "s": "will-kamala-harris-announce-a-2028-run-for-president-by-june-30",
+    "c": "Politics",
+    "r": 1782777600
+  },
+  "0xcb111226a8271fed0c71bb5ec1bd67b2a4fd72f1eb08466e2180b9efa99d3f32": {
+    "w": "YES",
+    "q": "Fed decreases interest rates by 25 bps after December 2025 meeting?",
+    "s": "fed-decreases-interest-rates-by-25-bps-after-december-2025-meeting",
+    "c": "Economics",
+    "r": 1765324800
+  },
+  "0xe93c89c41d1bb08d3bb40066d8565df301a696563b2542256e6e8bbbb1ec490d": {
+    "w": "YES",
+    "q": "No change in Fed interest rates after January 2026 meeting?",
+    "s": "no-change-in-fed-interest-rates-after-january-2026-meeting",
+    "c": "Economics",
+    "r": 1769558400
+  },
+  "0x386c1da56d757c6920fc73535aba510300e9cd666c0312d11b4cc03f097fb487": {
+    "w": "NO",
+    "q": "US strike on Mexico by January 31?",
+    "s": "us-strike-on-mexico-by-january-31",
+    "c": "Military & Defense",
+    "r": 1798675200
+  },
+  "0xd46931250308613b38c1fdad5cfeaeaae05818bc445668ad4629f12e92aac690": {
+    "w": "NO",
+    "q": "Will Diosdado Cabello Rondón be the leader of Venezuela end of 2026?",
+    "s": "will-diosdado-cabello-rondn-be-the-leader-of-venezuela-end-of-2026",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0x7ed08b305a3cca4f5b4e0c295c6b066e424a61358447b35d4f9bf1c2b56fe37c": {
+    "w": "NO",
+    "q": "Will Netflix close Warner Bros acquisition?",
+    "s": "will-netflix-close-warner-bros-acquisition",
+    "c": "Corporate & M&A",
+    "r": 946684800
+  },
+  "0xb914e0f9c90e04c44c475c7eec99fd0cbd6f95d36104fa4ecbd58a59a101834b": {
+    "w": "NO",
+    "q": "Will Kraken be accused of insider trading?",
+    "s": "will-company-l-be-accused-of-insider-trading",
+    "c": "Crypto Events",
+    "r": 946684800
+  },
+  "0xe5535e41e78edb730150ac1a497fbef7cef536022168771cb51a6b702705ebb1": {
+    "w": "NO",
+    "q": "US strikes Iran by February 24, 2026?",
+    "s": "us-strikes-iran-by-february-24-2026",
+    "c": "World",
+    "r": 1769817600
   }
 }
