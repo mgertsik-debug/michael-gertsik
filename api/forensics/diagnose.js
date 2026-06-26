@@ -22,6 +22,24 @@
 "use strict";
 const poly = require("./poly.js");
 const build = require("./build.js");
+const chain = require("./chain.js");
+
+// FUND-FLOW NETWORK probe — trace the wallet's on-chain funding ring (funder → all
+// the wallets it seeded) and cross-reference each node against the flagged set, so
+// a coordinated insider/drainer ring (one hub seeding many flagged wallets) is
+// visible at a glance. GET /api/forensics/diagnose?user=0x...&network=1
+async function networkProbe(addr) {
+  let net;
+  try { net = await chain.fundingNetwork(addr); } catch (e) { net = { error: String(e && e.message), nodes: [], edges: [] }; }
+  net = net || { nodes: [], edges: [] };
+  const flagged = new Set();
+  try { const store = require("../../data/forensics/store.json"); (store.subjects || []).forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && flagged.add(String(a).toLowerCase()))); } catch (_) {}
+  (net.nodes || []).forEach((n) => { n.flagged = flagged.has(String(n.addr).toLowerCase()); });
+  net.flaggedCount = (net.nodes || []).filter((n) => n.flagged).length;
+  net.user = addr; net.checkedAt = new Date().toISOString();
+  net.hasKey = chain.hasScanKey();
+  return net;
+}
 const D = require("./detectors.js");
 
 const short = (a) => (a && a.length > 10 ? a.slice(0, 6) + "…" + a.slice(-4) : (a || null));
@@ -296,7 +314,9 @@ module.exports = async (req, res) => {
   const user = q.user || (url.match(/[?&]user=([^&]+)/) || [])[1];
   const raw = q.raw === "1" || q.raw === "true" || /[?&]raw=1/.test(url);
   try {
+    const network = q.network === "1" || /[?&]network=1/.test(url);
     if (user && raw) { res.status(200).json(await rawProbe(decodeURIComponent(String(user)).toLowerCase())); return; }
+    if (user && network) { res.status(200).json(await networkProbe(decodeURIComponent(String(user)).toLowerCase())); return; }
     if (user) { res.status(200).json(await scoreWallet(decodeURIComponent(String(user)).toLowerCase())); return; }
     res.status(200).json(await diagnose());
   } catch (e) { res.status(200).json({ verdict: "diagnose failed", error: String(e && e.message) }); }

@@ -551,6 +551,7 @@ class Component extends DCLogic {
       saved: {},
       modal: { open: false },
       lookup: { open: false, loading: false, error: null, data: null, addr: "" },
+      network: { loading: false, data: null, addr: null, hoverNode: null },
       permalinkCopied: false,
       copied: {},
       chartHover: null,
@@ -653,12 +654,64 @@ class Component extends DCLogic {
   runLookup(forced) {
     const addr = String(forced || this.state.search || "").trim().toLowerCase();
     if (!this.isAddr(addr)) return;
-    this.setState({ lookup: { open: true, loading: true, error: null, data: null, addr } });
+    this.setState({ lookup: { open: true, loading: true, error: null, data: null, addr }, network: { loading: false, data: null, addr: null, hoverNode: null } });
     if (typeof fetch !== "function") return;
     fetch("/api/forensics/diagnose?user=" + encodeURIComponent(addr), { cache: "no-store" })
       .then((r) => (r && r.ok ? r.json() : Promise.reject(new Error("request failed"))))
       .then((data) => this.setState({ lookup: { open: true, loading: false, error: null, data, addr } }))
       .catch((err) => this.setState({ lookup: { open: true, loading: false, error: String(err && err.message || err), data: null, addr } }));
+  }
+  // FUND-FLOW NETWORK — trace the wallet's on-chain funding ring on demand.
+  runNetwork(addr) {
+    const a = String(addr || this.state.lookup.addr || "").trim().toLowerCase();
+    if (!this.isAddr(a) || typeof fetch !== "function") return;
+    this.setState({ network: { loading: true, data: null, addr: a, hoverNode: null } });
+    fetch("/api/forensics/diagnose?user=" + encodeURIComponent(a) + "&network=1", { cache: "no-store" })
+      .then((r) => (r && r.ok ? r.json() : Promise.reject(new Error("request failed"))))
+      .then((data) => this.setState({ network: { loading: false, data, addr: a, hoverNode: null } }))
+      .catch((err) => this.setState({ network: { loading: false, data: { error: String(err && err.message || err), nodes: [] }, addr: a, hoverNode: null } }));
+  }
+  // Radial fund-flow graph: the hub (common funder) at center, the wallets it seeded
+  // around it; subject ringed green, flagged ring-members red, exchanges grey. Edges
+  // carry the USDC flow. One hub seeding many flagged wallets = a coordinated ring.
+  fundNetworkNode() {
+    const h = this.h, mono = "'JetBrains Mono', monospace", net = this.state.network;
+    if (!net || (!net.loading && !net.data)) return null;
+    const short = (a) => (a && a.length > 12 ? a.slice(0, 6) + "…" + a.slice(-4) : a);
+    if (net.loading) return h("div", { style: { padding: "18px", textAlign: "center", color: "#949C98", fontFamily: mono, fontSize: "12px" } }, "Tracing the on-chain funding network…");
+    const d = net.data || {};
+    if (d.error || !(d.nodes || []).length) return h("div", { style: { padding: "14px", color: "#6B756F", fontFamily: mono, fontSize: "11px" } }, "No funding network resolved" + (d.error ? " (" + d.error + ")" : "") + (d.hasKey === false ? " — needs the Polygonscan key." : "."));
+    const nodes = d.nodes, edges = d.edges || [];
+    const W = 660, H = 440, cx = W / 2, cy = H / 2;
+    const center = nodes.find((n) => n.role === "hub") || nodes.find((n) => n.addr === d.subject) || nodes[0];
+    const others = nodes.filter((n) => n !== center);
+    const R = Math.min(180, 110 + others.length * 2);
+    const pos = {}; pos[center.addr] = { x: cx, y: cy };
+    others.forEach((n, i) => { const a = (i / Math.max(1, others.length)) * Math.PI * 2 - Math.PI / 2; pos[n.addr] = { x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) }; });
+    const col = (n) => n.addr === d.subject ? "#34D399" : n.flagged ? "#F87171" : n.role === "hub" ? "#A78BFA" : n.role === "exchange" ? "#6B756F" : "#7E8C86";
+    const rad = (n) => n.role === "hub" ? 13 : n.addr === d.subject ? 11 : n.flagged ? 10 : 7;
+    const usd = (v) => v >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : v >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v);
+    const edgeEls = edges.map((e, i) => { const a = pos[e.from], b = pos[e.to]; if (!a || !b) return null;
+      return h("line", { key: "e" + i, x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: "#34A382", strokeOpacity: 0.35, strokeWidth: Math.max(0.6, Math.min(3, Math.log10(Math.max(10, e.value)) - 1)) }); });
+    const hov = net.hoverNode;
+    const nodeEls = nodes.map((n, i) => { const p = pos[n.addr]; if (!p) return null; const c = col(n), r = rad(n), on = hov && hov.addr === n.addr;
+      return h("g", { key: "n" + i, transform: "translate(" + p.x + "," + p.y + ")", style: { cursor: "pointer" },
+        onMouseEnter: () => this.setState({ network: Object.assign({}, net, { hoverNode: n }) }), onMouseLeave: () => this.setState({ network: Object.assign({}, net, { hoverNode: null }) }),
+        onClick: () => { this.setState({ search: n.addr }); this.runLookup(n.addr); this.runNetwork(n.addr); } },
+        h("circle", { r: r + (on ? 3 : 0), fill: c, fillOpacity: n.role === "exchange" ? 0.25 : 0.85, stroke: c, strokeWidth: on ? 2.5 : 1.2, style: { transition: "r .1s" } }),
+        n.flagged ? h("text", { y: 4, textAnchor: "middle", fontSize: 11, fill: "#06120D", fontWeight: 700 }, "⚑") : null); });
+    const tip = hov ? h("foreignObject", { x: 8, y: 8, width: 280, height: 54 },
+      h("div", { style: { fontFamily: mono, fontSize: "10px", color: "#D7DCD9", background: "#0E1512", border: "1px solid #243029", borderRadius: "7px", padding: "6px 9px", lineHeight: 1.5 } },
+        h("div", { style: { color: col(hov) } }, short(hov.addr) + " · " + (hov.label || hov.role) + (hov.flagged ? " · ⚑ FLAGGED" : "")),
+        h("div", { style: { color: "#6B756F" } }, "click to score this wallet + map its network"))) : null;
+    const ringFlagged = nodes.filter((n) => n.flagged).length;
+    return h("div", { style: { marginTop: "14px" } },
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px", marginBottom: "6px" } },
+        h("div", { style: { fontFamily: mono, fontSize: "9px", letterSpacing: "0.12em", color: "#A78BFA" } }, "◆ FUND-FLOW NETWORK — " + (d.ringSize || nodes.length) + " wallets · hub " + (d.hub ? short(d.hub) : "—")),
+        h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: ringFlagged > 1 ? "#F87171" : "#6B756F" } }, ringFlagged + " flagged in this ring")),
+      h("div", { style: { background: "#070B0A", border: "1px solid #1B2521", borderRadius: "12px", overflow: "hidden" } },
+        h("svg", { viewBox: "0 0 " + W + " " + H, style: { width: "100%", display: "block" } }, edgeEls, nodeEls, tip)),
+      h("div", { style: { fontFamily: mono, fontSize: "9px", color: "#5C6661", marginTop: "6px" } }, "● subject  ● hub funder  ⚑ flagged ring member  ● exchange · one hub seeding many flagged wallets = a coordinated ring"));
   }
 
   closeLookup() { this.setState({ lookup: { open: false, loading: false, error: null, data: null, addr: "" } }); }
@@ -753,9 +806,12 @@ class Component extends DCLogic {
             h("div", { style: { display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 } },
               b.txFull ? h("a", { href: "https://polygonscan.com/tx/" + b.txFull, target: "_blank", rel: "noopener noreferrer", title: b.txFull, style: { color: "#34D399", fontSize: "9.5px", textDecoration: "none" } }, "verify ↗") : null,
               h("span", { style: { color: b.won ? "#34D399" : "#F87171", fontWeight: 600 } }, b.won ? "Won" : "Lost"))))) ) : null,
-      (d.ledger && d.ledger.length) ? h("div", { style: { marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" } },
-        h("button", { onClick: () => this.download((addr || "wallet").slice(0, 10) + "_record.csv", "text/csv", this.lookupCsv(d)),
-          style: { fontFamily: mono, fontSize: "11px", color: "#06120D", background: "#34D399", border: "none", borderRadius: "8px", padding: "8px 13px", fontWeight: 700, cursor: "pointer" } }, "↧ Download full record (" + d.ledger.length + " bets, CSV)")) : null,
+      h("div", { style: { marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" } },
+        (d.ledger && d.ledger.length) ? h("button", { onClick: () => this.download((addr || "wallet").slice(0, 10) + "_record.csv", "text/csv", this.lookupCsv(d)),
+          style: { fontFamily: mono, fontSize: "11px", color: "#06120D", background: "#34D399", border: "none", borderRadius: "8px", padding: "8px 13px", fontWeight: 700, cursor: "pointer" } }, "↧ Download full record (" + d.ledger.length + " bets, CSV)") : null,
+        h("button", { onClick: () => this.runNetwork(addr),
+          style: { fontFamily: mono, fontSize: "11px", color: "#C4B5FD", background: "transparent", border: "1px solid #4A3F7A", borderRadius: "8px", padding: "8px 13px", fontWeight: 600, cursor: "pointer" } }, "◆ Map funding network")),
+      this.fundNetworkNode(),
       h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#5C6661", marginTop: "16px", lineHeight: 1.6 } },
         "data: " + (src.trades || 0) + " trades · " + (src.resolvedTotal != null ? src.resolvedTotal : (src.tradesResolvable || 0)) + " resolved position" + ((src.resolvedTotal === 1) ? "" : "s") +
         (src.outOfScope ? " · " + src.outOfScope + " excluded (sports/crypto/price markets — decided in public)" : "") +
