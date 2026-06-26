@@ -1167,16 +1167,16 @@ class Component extends DCLogic {
 
   whyLine(s) {
     const phrase = { "Military & Defense": "military events", "Politics": "political events", "Elections": "elections", "Economics": "economic events", "Crypto": "crypto events", "Culture": "culture markets", "Sports": "sports markets", "World": "world events" }[s.category] || "these markets";
-    // Two DISTINCT facts, kept separate so neither is misread:
-    //   • the long-shot SIGNAL (win rate / conviction bet) — over the ≤35% subset, this category
-    //   • the wallet's NET P/L — Polymarket's authoritative all-time figure (ALL markets), so it
-    //     is labeled as such, never implied to be the profit from just the long-shots above.
-    const netPL = (s.type === "cluster" ? "pooled P&L " : "net P&L ") + (s.profit || "—");
+    // The P/L shown is the profit ON THE FLAGGED long-shot bets (it reconciles to the bet
+    // table). The wallet's account-wide Polymarket P/L is appended only as labeled context
+    // when it differs materially — never conflated with the flagged-bet profit.
+    const flaggedPL = (s.type === "cluster" ? "+" + (s.profit || "—") + " across the bundle" : "+" + (s.profit || "—") + " on those bets");
+    const acct = (s.accountPnlText && s.type !== "cluster") ? " · " + s.accountPnlText + " account P&L (all trades)" : "";
     if (s.convictionFlag && s.convBet) {
       const payout = s.convBet.payout ? ("$" + s.convBet.payout.toLocaleString("en-US")) : null;
-      return "Put $" + (s.convBet.stake || 0).toLocaleString("en-US") + " on a ~" + (s.convBet.entryPct || s.avgImplied) + "% long-shot on " + phrase + (payout ? " and won " + payout : " and won") + " · " + netPL + " all-time.";
+      return "Put $" + (s.convBet.stake || 0).toLocaleString("en-US") + " on a ~" + (s.convBet.entryPct || s.avgImplied) + "% long-shot on " + phrase + (payout ? " and won " + payout : " and won") + acct + ".";
     }
-    return "Won " + s.winRate + "% of its long-shot bets on " + phrase + " · " + netPL + " all-time on Polymarket.";
+    return "Won " + s.winRate + "% of its long-shot bets on " + phrase + " · " + flaggedPL + acct + ".";
   }
 
   depositChips(s) {

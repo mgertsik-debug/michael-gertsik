@@ -217,18 +217,18 @@ function buildSubject(agg, idx, opts, catalog) {
   const winRate = won.hasData ? Math.round(won.winRate) : (n ? Math.round(100 * k / n) : 0);
   const improbDenom = recordImprobable ? won.improbDenom : (conv.entryPrice ? Math.round(1 / conv.entryPrice) : 0);
   const improbText = recordImprobable ? won.improbText : (conv.entryPrice ? D.improbText(Math.round(1 / conv.entryPrice)) : "—");
-  // AUTHORITATIVE P/L. The dossier headline P/L and the net-profit gate use Polymarket's
-  // OWN all-time realized figure (agg.profile.pnlAllTime) — the exact number the wallet's
-  // Polymarket profile shows — so our number can never diverge from Polymarket/predicts.
-  // The per-bet reconstruction (recordedPL) is only a fallback for the rare wallet whose
-  // profile feed was unavailable this run. A single wallet with NO authoritative figure is
-  // DEFERRED (return null) rather than published with a number we can't source. Clusters
-  // pool members (no single profile) and keep the per-bet sum.
+  // FORENSIC P/L = the realized P/L of the FLAGGED long-shot bets themselves (the exact
+  // rows in "THE BETS THEMSELVES"), each from Polymarket's authoritative per-position cashPnl
+  // (betPL). THIS is the number the dossier leads with and the net-profit gate uses — so the
+  // headline always RECONCILES to the bet table, and a wallet whose suspicious bets actually
+  // LOST money is not flagged as a profitable insider just because it earned elsewhere.
+  //   • accountPL (Polymarket's all-time profile P/L, ALL trades) is carried as SEPARATE
+  //     context — shown labeled, never as the forensic profit, because it includes trades
+  //     we don't flag (that's why it can dwarf the table).
   const recordedPL = bets.reduce((a, b) => a + betPL(b), 0);
   const _prof = agg.profile || null;
   const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
-  if (!isCluster && accountPL == null) return null;          // no authoritative account P/L → defer, never fabricate
-  const profitNum = isCluster ? recordedPL : accountPL;
+  const profitNum = recordedPL;                              // profit ON THE FLAGGED BETS (reconciles to the table)
   const category = dominantCategory(bets);
   const fired = f.fired.slice();
 
@@ -308,7 +308,11 @@ function buildSubject(agg, idx, opts, catalog) {
         " percent chance. By luck you would expect about " + won.expectedWins + " wins. A record this strong is consistent with informed trading — not proof of it.");
 
   // ---- PRE-PUBLISH GATE: reject (and log) anything whose numbers don't check out.
-  const _minProfit = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 1000;
+  // A SOLO insider makes real money on the flagged bets — a few hundred or even $1k of
+  // profit isn't worth the risk/exposure of trading on material nonpublic info. Floor the
+  // single-wallet flagged-bet profit at $5k. CLUSTERS are exempt (a bundle splits the
+  // position across many wallets, so each member can be small — the ring is the unit).
+  const _minProfit = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 5000;
   const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster, recordImprobable, minProfit: _minProfit });
   if (_reason) {
     if (opts && Array.isArray(opts._rejects)) opts._rejects.push({ address: agg.address || ((agg.members || [])[0]) || null, id: agg.id || null, tier, reason: _reason });
@@ -352,10 +356,13 @@ function buildSubject(agg, idx, opts, catalog) {
     confidenceLimiter: isCluster
       ? "common-ownership is inferred from funding heuristics, not confirmed identity"
       : "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
-    // P/L provenance for the UI: authoritative = pulled directly from Polymarket's profile
-    // feed; reconstructed = summed from per-bet records (clusters / profile unavailable).
-    profitSource: isCluster ? "reconstructed" : "authoritative",
-    profitNum: Math.round(profitNum),                          // authoritative account P/L (already net; not abs-ed)
+    // profit = realized P/L of the FLAGGED long-shot bets (sums the bet table). accountPnl
+    // = Polymarket's all-time profile P/L across ALL the wallet's trades — shown as separate
+    // context, clearly labeled, so the two scopes are never conflated.
+    profitSource: "flagged-bets",
+    profitNum: Math.round(profitNum),                          // P/L on the flagged bets (reconciles to the ledger)
+    accountPnl: accountPL != null ? Math.round(accountPL) : null,
+    accountPnlText: accountPL != null ? signedMoney(accountPL) : null,
     _profitNum: profitNum,
     _profileVolume: _prof && _prof.volume != null && isFinite(num(_prof.volume)) ? num(_prof.volume) : null,
     _tradedCount: _prof && _prof.traded != null ? num(_prof.traded) : null,

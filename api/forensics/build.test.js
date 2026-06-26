@@ -10,7 +10,8 @@ function agg(address, nWin, nLoss, p, cat, opts) {
   let i = 0;
   const stake = (opts && opts.stake) || 800;                // small by default so conviction ($10k) isn't tripped
   for (; i < nWin; i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: stake, outcome: "YES", won: true, held: true, ts: 1700000000 + i, tx: "0xabc" + i });
-  for (let j = 0; j < nLoss; j++, i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: Math.round(stake / 2), outcome: "YES", won: false, held: true, ts: 1700000000 + i, tx: "0xdef" + i });
+  const lossStake = (opts && opts.lossStake) || Math.round(stake / 2);
+  for (let j = 0; j < nLoss; j++, i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Market " + i, url: "#", category: cat, entryPrice: p, stakeUsd: lossStake, outcome: "YES", won: false, held: true, ts: 1700000000 + i, tx: "0xdef" + i });
   // Polymarket's authoritative account P/L is required to publish a single wallet. The
   // default is net-positive so flagged-record tests publish; tests can override via opts.
   const profile = (opts && opts.profile) || { pnlAllTime: 50000, volume: 30000, traded: 200, username: null };
@@ -109,41 +110,45 @@ test("buildPayload: ranks by improbability, carries honest meta, derives fields"
   assert.ok(p.subjects[0].lastActivity);
 });
 
-test("AUTHORITATIVE P/L: headline profit is Polymarket's all-time figure, not the reconstruction", () => {
-  // an improbable record whose per-bet reconstruction would sum to one number, but whose
-  // Polymarket account P/L is a DIFFERENT, authoritative figure — the dossier must show
-  // the authoritative one (so it always matches the wallet's Polymarket / predicts page).
+test("FORENSIC P/L: profit is the FLAGGED BETS' P/L (reconciles to the ledger); account P/L is context", () => {
+  // The dossier headline P/L must be the realized P/L of the long-shot bets it shows — so it
+  // reconciles to the bet table — NOT the wallet's account-wide Polymarket figure. The account
+  // figure is carried separately as context (it can dwarf the flagged bets when the wallet
+  // also earned on trades we don't flag).
   const a = agg("0xauth00000000000000000000000000000000a01", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: { pnlAllTime: 38244, volume: 249063, traded: 299 } });
   const s = B.buildSubject(a, 0, {});
   assert.ok(s, "subject built");
   B.derive([s]);
-  assert.equal(s.profitNum, 38244, "profit is Polymarket's authoritative all-time P/L");
-  assert.equal(s.profitSource, "authoritative");
+  assert.ok(s.profitNum > 50000, "profit is the flagged-bet sum (14 wins at 11%), not the $38k account figure: " + s.profitNum);
+  assert.equal(s.accountPnl, 38244, "account P/L carried separately as context");
+  assert.equal(s.profitSource, "flagged-bets");
   assert.equal(s.volumeNum, 249063, "volume is Polymarket's authoritative lifetime volume");
 });
 
-test("NET-NEGATIVE account: improbable run but a net loss on Polymarket -> dropped (the M888 case)", () => {
-  // 14/16 long-shots at 11% is statistically extreme, but Polymarket says the account is
-  // net-NEGATIVE all-time. Informed trading is profitable by definition, so this is a lucky
-  // gambler, not an insider — it must NOT publish (no fabricated positive profit).
+test("FLAGGED BETS net-negative: improbable WIN RATE but losing bets outweigh the wins -> dropped", () => {
+  // 6 of 20 won at 10% (an improbable rate), but the LOSING bets carried far bigger stakes, so
+  // the flagged long-shots NET a loss. The account is hugely positive (it earned elsewhere) —
+  // but we flag the BETS, not the account, so a wallet whose suspicious bets lost is not an
+  // insider. This is the @lmtfalone case ($135k account, money-losing flagged bets).
   const rejects = [];
-  const s = B.buildSubject(agg("0xneg000000000000000000000000000000000a02", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: { pnlAllTime: -367249 } }), 0, { _rejects: rejects });
-  assert.equal(s, null, "net-negative account is not flagged");
+  const s = B.buildSubject(agg("0xneg000000000000000000000000000000000a02", 6, 14, 0.10, "Military & Defense", { stake: 200, lossStake: 2000, profile: { pnlAllTime: 500000 } }), 0, { _rejects: rejects });
+  assert.equal(s, null, "flagged bets net-negative -> dropped even though the ACCOUNT is +$500k");
 });
 
-test("NO authoritative P/L: single wallet is DEFERRED, never published with an unsourced number", () => {
+test("NO profile: still publishes on the flagged-bet P/L (profile only adds context, not required)", () => {
   const s = B.buildSubject(agg("0xnoprof000000000000000000000000000000a03", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: null }), 0, {});
-  assert.equal(s, null, "no profile -> defer rather than fabricate");
+  assert.ok(s && s.tier, "publishes on the flagged-bet record; profile not required");
+  assert.equal(s.accountPnl, null, "no account context when the profile is unavailable");
 });
 
-test("TRIVIAL net profit: improbable record but only +$382 all-time -> dropped (the <$1k case)", () => {
-  // 14/16 at 11% is statistically extreme and the stake clears materiality, but the
-  // account netted a trivial +$382 all-time — not a credible insider. Must not publish.
-  const s = B.buildSubject(agg("0xtiny000000000000000000000000000000aa04", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: { pnlAllTime: 382 } }), 0, {});
-  assert.equal(s, null, "sub-$1k net profit is dropped");
-  // a wallet just over the floor still publishes
-  const ok = B.buildSubject(agg("0xover000000000000000000000000000000aa05", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: { pnlAllTime: 4200 } }), 0, {});
-  assert.ok(ok && ok.tier, "above the floor publishes");
+test("TRIVIAL flagged-bet profit: improbable record but the flagged bets net under the $5k floor -> dropped", () => {
+  // improbable rate but tiny stakes -> the flagged bets net only a few hundred dollars. No solo
+  // insider risks exposure for that, so it's dropped. (Clusters are exempt — a bundle splits.)
+  const s = B.buildSubject(agg("0xtiny000000000000000000000000000000aa04", 6, 2, 0.12, "Military & Defense", { stake: 40, lossStake: 400 }), 0, {});
+  assert.equal(s, null, "sub-$5k flagged-bet profit is dropped");
+  // a wallet whose flagged bets clear the floor still publishes
+  const ok = B.buildSubject(agg("0xover000000000000000000000000000000aa05", 14, 2, 0.11, "Military & Defense", { stake: 1500 }), 0, {});
+  assert.ok(ok && ok.tier, "flagged-bet profit above the floor publishes");
 });
 
 test("RECONSTRUCTED Iran-ring cluster aggregate -> extreme subject with cluster card", () => {
