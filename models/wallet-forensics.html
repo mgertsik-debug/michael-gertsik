@@ -457,7 +457,7 @@
           <div style="position: relative; overflow: hidden; border: 1px solid #2C3A33; background: linear-gradient(165deg, rgba(52,211,153,0.05), rgba(11,16,14,0.4)); border-radius: 14px; padding: 22px 24px;">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #34D399; margin-bottom: 12px;">A PATTERN, NOT A VERDICT</div>
             <p style="font-size: 14.5px; color: #D7DCD9; line-height: 1.75; margin: 0;">This shows a winning record extraordinarily unlikely to be luck. It does not prove who these people are, what they knew, or that they broke the law. Confirming that requires records only the exchange or a regulator can obtain. Everyone is presumed innocent. This is an investigative lead, not legal advice.</p>
-            <p style="font-size: 12px; color: #7E8C86; line-height: 1.65; margin: 12px 0 0; border-top: 1px solid #1F2A25; padding-top: 12px;">Methodology inspired by the peer-reviewed prediction-market insider-trading research it builds on: the <strong style="color:#A7B0AB;">Harvard Law School</strong> composite-signal study (93,000 Polymarket markets, March 2026) and the <strong style="color:#A7B0AB;">London Business School &amp; Yale</strong> "expert winners" study (1.72M accounts, 2025). This tool operationalizes and extends their five-signal framework with exact per-wallet binomial improbability, de-correlation, and on-chain funding-graph clustering. All trade data is pulled from Polymarket's public APIs.</p>
+            <p style="font-size: 12px; color: #7E8C86; line-height: 1.65; margin: 12px 0 0; border-top: 1px solid #1F2A25; padding-top: 12px;">Methodology inspired by the peer-reviewed prediction-market informed-trading research it builds on: the <strong style="color:#A7B0AB;">Harvard Law School</strong> composite-signal study (93,000 Polymarket markets, March 2026) and the <strong style="color:#A7B0AB;">London Business School &amp; Yale</strong> "expert winners" study (1.72M accounts, 2025). This tool operationalizes and extends their five-signal framework with exact per-wallet binomial improbability, de-correlation, and on-chain funding-graph clustering. All trade data is pulled from Polymarket's public APIs.</p>
           </div>
         </div>
 
@@ -1003,7 +1003,7 @@ class Component extends DCLogic {
         confidenceNote: "Links are probabilistic inferences, not confirmed common ownership.",
       },
       conviction: {
-        name: "Single high-conviction bet", citation: "lone-insider / one-shot signature (binomial needs n≥5, can't see it)",
+        name: "Single high-conviction bet", citation: "lone informed-trader / one-shot signature (binomial needs n≥5, can't see it)",
         formula: "fires if  stake ≥ $10,000  AND  entry p ≤ 0.15  AND  held to resolution AND won",
         symbols: [["stake", "USD committed to the one bet"], ["p", "implied probability at entry"], ["payout", "amount returned"], ["×", "return multiple = payout / stake"]],
         threshold: "stake ≥ $10k at ≤ 15% implied, held, won — plus ≥ 2 other detectors agreeing",

@@ -34,8 +34,10 @@ module.exports = async (req, res) => {
   // live shadow scores are from the paper (median 105.3, range 40–3987, >500 = top 0.3%).
   const harvardRef = { median: 105.3, mean: 120.3, p90: 184.2, p95: 228.4, p99: 368.5, highTier: 500, min: 40, max: 3987.4 };
   const top = (s.top || []).slice().sort((a, b) => (b.S || 0) - (a.S || 0));
+  // prefer the TRUE median over ALL episodes (s.medianS); fall back to the top-50 sample only
+  // for old snapshots written before that field existed (those read biased-high).
   const Ss = top.map((t) => t.S).filter((x) => isFinite(x)).sort((a, b) => a - b);
-  const median = Ss.length ? Ss[Math.floor(Ss.length / 2)] : 0;
+  const median = (s.medianS != null) ? s.medianS : (Ss.length ? Ss[Math.floor(Ss.length / 2)] : 0);
 
   res.status(200).json({
     total: s.total || top.length,
@@ -50,7 +52,8 @@ module.exports = async (req, res) => {
     extreme: (s.byTier && s.byTier.extreme) || 0,
     generatedAt: s.generatedAt || null,
     snapshot: s.snapshot || null,
-    shadowMedianS: Math.round(median * 10) / 10,     // our current live shadow median (target: ~105)
+    shadowMedianS: Math.round(median * 10) / 10,     // TRUE current live shadow median (target: ~105)
+    shadowP95: s.p95 != null ? s.p95 : null, shadowP99: s.p99 != null ? s.p99 : null, shadowOver500: s.over500 != null ? s.over500 : null,
     harvardRef,                                      // the paper's distribution, for the calibration gauge
     calibrating: !(median >= 80 && median <= 160),   // true until our median lands in Harvard's range
     top,

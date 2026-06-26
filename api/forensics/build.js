@@ -364,7 +364,7 @@ function buildSubject(agg, idx, opts, catalog) {
       " percent chance — the pattern you would expect from foreknowledge split across wallets, not luck. Consistent with informed trading by one operator, not proof of it."
     : (convOnly
       ? "This account placed a single " + money(conv.stake) + " bet at roughly " + avgImplied + " percent" + (conv.market ? " on “" + String(conv.market).slice(0, 70) + "”" : "") +
-        " and cashed out about " + money(conv.payout) + ". One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet insider signature. Consistent with informed trading, not proof of it."
+        " and cashed out about " + money(conv.payout) + ". One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it."
       : "This account won " + k + " of " + n + " long-shot bets that the market gave roughly a " + avgImplied +
         " percent chance. By luck you would expect about " + won.expectedWins + " wins. A record this strong is consistent with informed trading — not proof of it.");
 
@@ -612,9 +612,15 @@ function buildPayload(aggregates, meta, catalog) {
   const fmtUsd = (v) => (Math.abs(v) >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
   // SHADOW summary — how pure-Harvard's flag set compares to what we actually publish (binomial).
   const shadow = (meta._harvardShadow || []).slice().sort((a, b) => (b.S || 0) - (a.S || 0));
+  // TRUE distribution stats over ALL shadow episodes (not just the top 50) — this is what tells
+  // us whether calibration has landed in Harvard's range (paper: median 105, p99 368, >500 rare).
+  const allS = shadow.map((r) => num(r.S)).filter((x) => isFinite(x)).sort((a, b) => a - b);
+  const pct = (p) => (allS.length ? Math.round(allS[Math.min(allS.length - 1, Math.floor(allS.length * p))] * 10) / 10 : 0);
   const harvardShadow = {
     total: shadow.length,
     byTier: shadow.reduce((m, r) => { m[r.tier] = (m[r.tier] || 0) + 1; return m; }, {}),
+    medianS: pct(0.5), p90: pct(0.9), p95: pct(0.95), p99: pct(0.99), minS: allS[0] || 0, maxS: allS[allS.length - 1] || 0,
+    over500: allS.filter((x) => x > 500).length,                 // Harvard's "high tier" — should be rare once calibrated
     alsoBinomial: shadow.filter((r) => r.alsoBinomial).length,   // overlap: Harvard ∩ published
     onlyHarvard: shadow.filter((r) => !r.alsoBinomial).length,   // Harvard would flag, binomial misses
     // the live funnel, so the preview header can show the same observed → screened → flagged
