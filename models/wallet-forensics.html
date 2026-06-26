@@ -187,7 +187,7 @@
           </div>
         </sc-if>
         <sc-for list="{{ subjects }}" as="s" hint-placeholder-count="6">
-          <div class="wf-card" tabindex="0" onClick="{{ s.onClick }}" onKeyDown="{{ s.onKeyDown }}" style="{{ s.cardStyle }}" style-hover="transform:translateY(-2px);border-color:rgba(52,211,153,0.28);box-shadow:0 10px 26px -18px rgba(0,0,0,0.5);">
+          <div class="wf-card" tabindex="0" onClick="{{ s.onClick }}" onKeyDown="{{ s.onKeyDown }}" style="{{ s.cardStyle }}" style-hover="transform:translateY(-2px);border-color:#34D399;box-shadow:0 0 0 1px rgba(52,211,153,0.22),0 0 24px -12px rgba(52,211,153,0.3),0 10px 26px -18px rgba(0,0,0,0.5);">
             <div style="{{ s.accentStyle }}"></div>
             <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;">
               <div style="min-width: 0;">
@@ -237,7 +237,7 @@
             <button onClick="{{ sel.copyAddr }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ sel.copyColor }}; background: transparent; border: 1px solid {{ sel.copyBorder }}; border-radius: 7px; padding: 4px 9px; cursor: pointer;">{{ sel.copyLabel }}</button>
             <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7E8C86; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34A382;color:#C4CAC6;">Polymarket ↗</a>
           </div>
-          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">{{ sel.createdLine }}</div>
+          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">First active {{ sel.firstSeen }}.</div>
           <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
             <div style="font-size: 13.5px; color: #949C98; margin-top: 8px; line-height: 1.6; max-width: 620px;">These wallets appear to be controlled by one person or group. See the connection evidence below.</div>
           </sc-if>
@@ -1160,7 +1160,7 @@ class Component extends DCLogic {
   clusterSize(s) { const m = String(s.idLabel).match(/\d+/); return m ? parseInt(m[0], 10) : (s.cluster ? s.cluster.size : "several"); }
 
   whoLabel(s) {
-    if (s.type === "cluster") return "One entity behind " + this.clusterSize(s) + " wallets";
+    if (s.type === "cluster") return "A group of " + this.clusterSize(s) + " linked accounts";
     return "Wallet " + s.idLabel + (s.username ? " · @" + s.username : "");
   }
 
@@ -1194,9 +1194,9 @@ class Component extends DCLogic {
     const why = parts.length
       ? parts.slice(0, -1).join(", ") + (parts.length > 1 ? " and " : "") + parts[parts.length - 1]
       : "share on-chain funding";
-    return "These " + n + " wallets appear to be operated by a SINGLE entity because they " + why +
+    return "These " + n + " accounts are linked because they " + why +
       (meanLink ? " (mean link " + meanLink + " of 1.0)" : "") +
-      ". Like a Bubblemaps cluster, this is a probabilistic inference of common control from on-chain funding and co-ordinated betting — not confirmed identity.";
+      ". This is a probabilistic inference from on-chain funding and betting behavior — not confirmed common ownership.";
   }
 
   // ---------- CHARTS ----------
@@ -1573,10 +1573,8 @@ class Component extends DCLogic {
       return {
         onClick: () => this.select(s.id),
         onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.select(s.id); } },
-        // ONLY the user-selected card carries the bright glow; every other card is neutral
-        // (no green border) so a single click highlights exactly one wallet.
-        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;transition:transform .18s,border-color .18s,box-shadow .18s;" + GLASS + (isSel ? "border-color:#34D399;box-shadow:0 0 0 1.5px rgba(52,211,153,0.65),0 0 46px -4px rgba(52,211,153,0.75),0 0 18px -6px rgba(52,211,153,0.6),0 10px 26px -18px rgba(0,0,0,0.55);" : ""),
-        accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:" + (isSel ? "4px" : "3px") + ";border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 18px 2px rgba(52,211,153,0.95);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
+        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;transition:transform .18s,border-color .18s,box-shadow .18s;" + GLASS + (isSel ? "border-color:#34D399;box-shadow:0 0 0 1px rgba(52,211,153,0.3),0 0 26px -12px rgba(52,211,153,0.35),0 10px 26px -18px rgba(0,0,0,0.55);" : ""),
+        accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 12px 1px rgba(52,211,153,0.7);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
         whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         whoLabel: this.whoLabel(s), why: this.whyLine(s),
         // For a conviction-path flag the "1 in N" is ONE bet's odds, not the record —
@@ -1731,13 +1729,7 @@ class Component extends DCLogic {
         copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "\u2713 copied" : "\u29c9 copy address",
         copyColor: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#949C98",
         copyBorder: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#243029",
-        firstSeen: sel.firstSeen || "an unrecorded date",
-        createdLine: sel.type === "cluster"
-          ? ("First active " + (sel.firstSeen || "an unrecorded date") + ".")
-          : (sel.createdOnChain
-              ? ("Wallet created " + (sel.created || sel.firstSeen) + " (on-chain) · first active on Polymarket " + (sel.firstSeen || "—") + ".")
-              : ("First active " + (sel.firstSeen || "an unrecorded date") + ".")),
-        isCluster: sel.type === "cluster" && !!sel.cluster,
+        firstSeen: sel.firstSeen || "an unrecorded date", isCluster: sel.type === "cluster" && !!sel.cluster,
         depositChips: this.depositChips(sel),
         concernColor: ct.color, concernGlow: ct.glow, concernBorder: ct.border, concernBg: ct.bg, concernLabel: ct.label,
         heroSentence: sel.heroSentence || ("This " + (sel.type === "cluster" ? "group" : "account") + " won " + sel.winRate + "% of " + sel.marketsCount + " long-shot bets priced near " + sel.avgImplied + "%. A record this strong is very hard to explain by luck. A full evidence file has not yet been compiled for this subject."),
@@ -2033,32 +2025,14 @@ class Component extends DCLogic {
   // Real clipboard write with a legacy execCommand fallback (works inside the
   // same-origin iframe; the host grants clipboard-write via the iframe `allow`).
   writeClipboard(text) {
-    const t = String(text || "");
-    // The async Clipboard API can REJECT silently inside a sandboxed iframe (no
-    // clipboard-write permission), which previously left nothing on the clipboard
-    // while the UI still flashed "copied". So we ALWAYS keep the execCommand path as a
-    // fallback: try the async API and, on any rejection, fall through to execCommand;
-    // if the API is unavailable, go straight to execCommand. execCommand("copy") works
-    // in a sandboxed iframe that has allow-scripts, given the click user-gesture.
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(t).catch(() => this._execCopy(t));
-        return true;
-      }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(String(text)); return true; }
     } catch (_) {}
-    return this._execCopy(t);
-  }
-  _execCopy(t) {
     try {
       const ta = document.createElement("textarea");
-      ta.value = t; ta.setAttribute("readonly", "");
-      ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.left = "0"; ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.focus(); ta.select();
-      try { ta.setSelectionRange(0, t.length); } catch (_) {}
-      const ok = document.execCommand("copy");
-      document.body.removeChild(ta);
-      return ok;
+      ta.value = String(text); ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
+      return true;
     } catch (_) { return false; }
   }
   copyText(text, key) {
