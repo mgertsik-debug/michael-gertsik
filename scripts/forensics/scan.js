@@ -277,12 +277,18 @@ async function run() {
   // (e.g. enriched before the authoritative-P/L rollout) must be re-profiled FIRST — without
   // a profile the publish gate drops it, so a previously-flagged wallet would silently vanish
   // until it aged into staleness. Profile-less wallets sort ahead of the stalest by-time set.
+  // wallets CURRENTLY shown on the site (the published store) must be re-profiled FIRST,
+  // so the visible, possibly-wrong numbers are corrected on the very next scan rather than
+  // waiting for these wallets to age into staleness.
+  const priorFlagged = new Set();
+  try { (read(STORE, {}).subjects || []).forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && priorFlagged.add(String(a).toLowerCase()))); } catch (_) {}
   const nonSeed = Object.values(state.screened).filter((w) => !w._seed);
-  const needsProfile = nonSeed.filter((w) => (w.bets || []).length && !w.profile);
+  const needsProfile = nonSeed.filter((w) => (w.bets || []).length && !w.profile)
+    .sort((a, b) => (priorFlagged.has(String(b.address).toLowerCase()) ? 1 : 0) - (priorFlagged.has(String(a.address).toLowerCase()) ? 1 : 0));
   const byStale = nonSeed.filter((w) => !((w.bets || []).length && !w.profile))
     .sort((a, b) => (a.lastEnrichedTs || 0) - (b.lastEnrichedTs || 0));
   const stale = seedWallets.concat(needsProfile, byStale).slice(0, seedWallets.length + ENRICH_BATCH);
-  if (needsProfile.length) log("re-profiling " + needsProfile.length + " wallet(s) lacking authoritative Polymarket P/L (prioritised)");
+  if (needsProfile.length) log("re-profiling " + needsProfile.length + " wallet(s) lacking authoritative Polymarket P/L (" + Array.from(priorFlagged).length + " currently-shown prioritised first)");
   let funded = 0;
   let fullRecords = 0;
   let posRecords = 0;                                          // wallets reconciled against /positions (authoritative cashPnl)
