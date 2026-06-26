@@ -61,7 +61,7 @@ jobs:
           # Retain a large candidate pool (cheap): 790/800 screened wallets already had a
           # winning long-shot, so the old 800 cap evicted real candidates before their
           # full record (the multi-win pattern that flags) could resolve.
-          SCREEN_CAP: "3000"
+          SCREEN_CAP: "8000"
           # Live-resolve un-cataloged markets so deep-enrich sees each wallet's WHOLE
           # record, not the thin slice the sweep has reached. Bounded to keep the tick fast.
           ONDEMAND_PER_RUN: "600"

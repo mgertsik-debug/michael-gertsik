@@ -377,7 +377,12 @@ async function finalize(state, snapshotTs) {
   const wallets = Object.values(state.screened || {});
 
   // ---- cluster pass: discover linked rings over the screened set ----
-  const enrichedForCluster = wallets.filter((w) => (w.bets || []).length);
+  // cluster.pairLink computes co-spend as jaccard(betEvents) — but the scanner stores
+  // the event set as the KEYS of entryByEvent, not a `betEvents` field. Without this
+  // mapping co-spend was always 0, so wallets that bet the SAME markets never linked
+  // (the Groups tab stayed empty). Derive betEvents from entryByEvent here.
+  const enrichedForCluster = wallets.filter((w) => (w.bets || []).length)
+    .map((w) => Object.assign({}, w, { betEvents: Object.keys(w.entryByEvent || {}) }));
   let clusters = [];
   try { clusters = cluster.buildClusters(enrichedForCluster); }
   catch (e) { log("cluster pass failed (continuing single-wallet):", e && e.message); }
