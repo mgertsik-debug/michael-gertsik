@@ -65,6 +65,27 @@ test("buildSubject: MATERIALITY floor — improbable record on trivial stakes is
   assert.equal(gated, null);
 });
 
+test("validateSubject: passes a clean record, rejects inconsistent/unsourced ones", () => {
+  const good = { n: 16, k: 14, avgImplied: 11, winRate: 88, improbDenom: 4200000, profitNum: 50000, tier: "extreme",
+    bets: [{ cond: "0xabc", entryPrice: 0.11, stakeUsd: 9000, won: true }], won: { hasData: false }, convOnly: false };
+  assert.equal(B.validateSubject(good), null);
+  assert.match(B.validateSubject(Object.assign({}, good, { k: 20 })), /k out of range/);
+  assert.match(B.validateSubject(Object.assign({}, good, { avgImplied: 250 })), /avgImplied/);
+  assert.match(B.validateSubject(Object.assign({}, good, { improbDenom: 0 })), /improbDenom/);
+  assert.match(B.validateSubject(Object.assign({}, good, { bets: [{ cond: "0xabc", entryPrice: 1.5, stakeUsd: 9000, won: true }] })), /entryPrice/);
+  assert.match(B.validateSubject(Object.assign({}, good, { bets: [{ entryPrice: 0.11, stakeUsd: 9000, won: true }] })), /missing cond/);
+});
+
+test("buildSubject: pre-publish gate logs rejects into opts._rejects and returns null", () => {
+  // a record that scores but we corrupt via a poisoned bet → must be dropped + logged
+  const a = agg("0xbad0000000000000000000000000000000000001", 14, 2, 0.11, "Military & Defense", { stake: 1500 });
+  a.bets[0].entryPrice = 0;                          // impossible odds (still ≤0.35, so it's scored) → fails validation
+  const rejects = [];
+  const s = B.buildSubject(a, 0, { _rejects: rejects }, {});
+  assert.equal(s, null);
+  assert.ok(rejects.length >= 1 && /entryPrice/.test(rejects[0].reason), "logged reason: " + JSON.stringify(rejects));
+});
+
 test("buildPayload: ranks by improbability, carries honest meta, derives fields", () => {
   const strong = agg("0xstrong00000000000000000000000000000000a", 14, 2, 0.10, "Elections");
   const weak = agg("0xweak0000000000000000000000000000000000b", 9, 5, 0.18, "Politics");

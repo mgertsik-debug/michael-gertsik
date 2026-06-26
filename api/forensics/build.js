@@ -107,6 +107,42 @@ function scoreAggregate(agg) {
   return { dets, f, bets, ageDays };
 }
 
+/* --------------------------------------------------------------- validate -- */
+// PRE-PUBLISH CORRECTNESS GATE. A subject is published only if its numbers are
+// internally consistent AND derived from real Polymarket-sourced, resolved bets.
+// Returns a reason string if the subject must be REJECTED, or null if it's clean.
+// This is what prevents a bad/fabricated number from ever reaching the UI.
+function validateSubject(ctx) {
+  const { n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly } = ctx;
+  if (!tier) return "no tier";
+  if (!(n >= 1)) return "n<1";
+  if (!(k >= 0 && k <= n)) return "k out of range (" + k + "/" + n + ")";
+  if (!(avgImplied >= 1 && avgImplied <= 99)) return "avgImplied out of range (" + avgImplied + ")";
+  if (!(winRate >= 0 && winRate <= 100)) return "winRate out of range (" + winRate + ")";
+  if (!(isFinite(improbDenom) && improbDenom >= 1)) return "improbDenom invalid (" + improbDenom + ")";
+  if (!isFinite(profitNum)) return "profit not finite";
+  if (!Array.isArray(bets) || !bets.length) return "no bets";
+  for (const b of bets) {                                    // every scored bet must be a real resolved Polymarket position
+    const ep = num(b.entryPrice);
+    if (!(ep > 0.0001 && ep < 0.9999)) return "bad entryPrice (" + ep + ")";
+    if (!(isFinite(num(b.stakeUsd)) && num(b.stakeUsd) >= 0)) return "bad stake";
+    if (typeof b.won !== "boolean") return "won not boolean";
+    if (!b.cond) return "bet missing cond (unresolved market)";
+  }
+  // binomial self-consistency: the headline "1 in N" MUST match P(X>=k | n, p)
+  if (won && won.hasData) {
+    const P = D.binomTailGE(won.n, won.k, won.p);
+    const denom = P > 0 ? Math.round(1 / P) : Infinity;
+    if (isFinite(denom) && isFinite(improbDenom) && improbDenom > 0) {
+      const r = denom / improbDenom;
+      if (r < 0.5 || r > 2) return "improbDenom mismatch (binomial " + denom + " vs published " + improbDenom + ")";
+    }
+  }
+  // the single-bet conviction path must have a real firing conviction bet
+  if (convOnly && !(conv && conv.fires && conv.stake > 0)) return "convOnly without a valid conviction bet";
+  return null;
+}
+
 /* ----------------------------------------------------------------- subject -- */
 // Build the artifact subject (pre-derivation) from an aggregate. Returns null
 // if there is not enough data to compute the headline (won.hasData=false), so
@@ -215,6 +251,13 @@ function buildSubject(agg, idx, opts, catalog) {
       : "This account won " + k + " of " + n + " long-shot bets that the market gave roughly a " + avgImplied +
         " percent chance. By luck you would expect about " + won.expectedWins + " wins. A record this strong is consistent with informed trading — not proof of it.");
 
+  // ---- PRE-PUBLISH GATE: reject (and log) anything whose numbers don't check out.
+  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly });
+  if (_reason) {
+    if (opts && Array.isArray(opts._rejects)) opts._rejects.push({ address: agg.address || ((agg.members || [])[0]) || null, id: agg.id || null, tier, reason: _reason });
+    return null;
+  }
+
   return {
     id: agg.id || (isCluster ? "c" + (idx + 1) : "w" + (idx + 1)),
     type: isCluster ? "cluster" : "wallet",
@@ -297,4 +340,4 @@ function buildPayload(aggregates, meta, catalog) {
   };
 }
 
-module.exports = { scoreAggregate, buildSubject, derive, buildPayload, money, signedMoney, dateStr, betPL, dominantCategory, TIER };
+module.exports = { scoreAggregate, buildSubject, derive, buildPayload, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };
