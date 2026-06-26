@@ -113,7 +113,7 @@ function scoreAggregate(agg) {
 // Returns a reason string if the subject must be REJECTED, or null if it's clean.
 // This is what prevents a bad/fabricated number from ever reaching the UI.
 function validateSubject(ctx) {
-  const { n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster } = ctx;
+  const { n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster, recordImprobable } = ctx;
   if (!tier) return "no tier";
   if (!(n >= 1)) return "n<1";
   if (!(k >= 0 && k <= n)) return "k out of range (" + k + "/" + n + ")";
@@ -134,8 +134,10 @@ function validateSubject(ctx) {
     if (typeof b.won !== "boolean") return "won not boolean";
     if (!b.cond) return "bet missing cond (unresolved market)";
   }
-  // binomial self-consistency: the headline "1 in N" MUST match P(X>=k | n, p)
-  if (won && won.hasData) {
+  // binomial self-consistency: ONLY when the published headline IS the binomial record
+  // (recordImprobable). For conviction wallets the published "1 in N" is the conviction
+  // bet's odds, a different quantity, so this check doesn't apply.
+  if (recordImprobable && won && won.hasData) {
     const P = D.binomTailGE(won.n, won.k, won.p);
     const denom = P > 0 ? Math.round(1 / P) : Infinity;
     if (isFinite(denom) && isFinite(improbDenom) && improbDenom > 0) {
@@ -164,8 +166,15 @@ function buildSubject(agg, idx, opts, catalog) {
   // Two publish paths: the binomial RECORD (won.hasData) or the single-bet
   // CONVICTION path (a lone high-conviction insider bet + corroboration).
   const conv = dets.conviction || {};
-  const convOnly = !dets.won.hasData;
-  if (convOnly && !conv.fires) return null;                 // not scoreable and not a conviction case
+  // The "1 in N — chance this record is luck" headline is ONLY meaningful when the
+  // binomial record is ACTUALLY improbable (P <= pNotable). A wallet with >=5 long-shots
+  // but an unremarkable win rate (P ~ 1, i.e. "1 in 1") is NOT flagged by the record —
+  // it's flagged by the CONVICTION path (one big winning long-shot bet). In that case the
+  // headline must show the conviction framing (the $ won on the long-shot), never the
+  // meaningless "1 in 1". recordImprobable decides which headline is shown.
+  const recordImprobable = dets.won.hasData && dets.won.P != null && dets.won.P <= D.DEFAULTS.pNotable;
+  const convOnly = !recordImprobable;
+  if (convOnly && !conv.fires) return null;                 // record isn't improbable AND no conviction bet → don't publish
 
   // MATERIALITY — insider trading is about MONEY AT RISK. A statistically-unusual
   // record on trivial stakes (six winning $20 long-shots) is a lucky gambler, not an
@@ -193,8 +202,8 @@ function buildSubject(agg, idx, opts, catalog) {
   const avgImplied = won.hasData ? Math.round(won.p * 100)
     : (conv.entryPrice ? Math.round(conv.entryPrice * 100) : Math.round((bets.reduce((a, b) => a + num(b.entryPrice), 0) / (bets.length || 1)) * 100));
   const winRate = won.hasData ? Math.round(won.winRate) : (n ? Math.round(100 * k / n) : 0);
-  const improbDenom = won.hasData ? won.improbDenom : (conv.entryPrice ? Math.round(1 / conv.entryPrice) : 0);
-  const improbText = won.hasData ? won.improbText : (conv.entryPrice ? D.improbText(Math.round(1 / conv.entryPrice)) : "—");
+  const improbDenom = recordImprobable ? won.improbDenom : (conv.entryPrice ? Math.round(1 / conv.entryPrice) : 0);
+  const improbText = recordImprobable ? won.improbText : (conv.entryPrice ? D.improbText(Math.round(1 / conv.entryPrice)) : "—");
   const profitNum = bets.reduce((a, b) => a + betPL(b), 0);
   const category = dominantCategory(bets);
   const fired = f.fired.slice();
@@ -257,7 +266,7 @@ function buildSubject(agg, idx, opts, catalog) {
         " percent chance. By luck you would expect about " + won.expectedWins + " wins. A record this strong is consistent with informed trading — not proof of it.");
 
   // ---- PRE-PUBLISH GATE: reject (and log) anything whose numbers don't check out.
-  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster });
+  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster, recordImprobable });
   if (_reason) {
     if (opts && Array.isArray(opts._rejects)) opts._rejects.push({ address: agg.address || ((agg.members || [])[0]) || null, id: agg.id || null, tier, reason: _reason });
     return null;
