@@ -107,10 +107,10 @@
       <!-- AGGREGATE INFORMED-TRADING P&L (comparable in kind to the Harvard $143M est.) -->
       <sc-if value="{{ hasAggProfit }}" hint-placeholder-val="{{ false }}">
         <div style="border:1px solid #2C3A33;background:linear-gradient(165deg,rgba(52,211,153,0.06),rgba(11,16,14,0.4));border-radius:12px;padding:14px 16px;margin-bottom:14px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:5px;">COMBINED POLYMARKET P&amp;L · FLAGGED ACCOUNTS</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:5px;">COMBINED PROFIT ON THE FLAGGED BETS</div>
           <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;">
             <span style="font-family:'JetBrains Mono',monospace;font-size:25px;font-weight:700;color:#34D399;">{{ aggProfitText }}</span>
-            <span style="font-size:11.5px;color:#949C98;line-height:1.5;">total all-time Polymarket P&amp;L across {{ aggCount }} flagged accounts (all their trades, not only the flagged bets) · grows with coverage</span>
+            <span style="font-size:11.5px;color:#949C98;line-height:1.5;">combined realized P&amp;L on the flagged bets across {{ aggCount }} flagged accounts (the flagged bets only — not account-wide trading) · comparable in kind to the research's anomalous-profit estimate · grows with coverage</span>
           </div>
         </div>
       </sc-if>
@@ -245,7 +245,6 @@
         <button onClick="{{ act.exportCsv }}" style="display:flex;align-items:center;gap:6px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);color:#34D399;font-family:Inter;font-size:12px;font-weight:600;padding:9px 13px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(52,211,153,0.18);box-shadow:0 0 20px -6px rgba(52,211,153,0.5);">↧ Bet list</button>
         <button onClick="{{ act.referral }}" style="display:flex;align-items:center;gap:6px;background:#34D399;border:1px solid #34D399;color:#06120D;font-family:Inter;font-size:12px;font-weight:700;padding:9px 14px;border-radius:9px;cursor:pointer;box-shadow:0 0 24px -8px rgba(52,211,153,0.7);" style-hover="background:#4CE0AC;">⊞ Build referral packet</button>
         <button onClick="{{ act.save }}" style="{{ saveStyle }}">{{ saveIcon }} {{ saveLabel }}</button>
-        <button onClick="{{ act.permalink }}" style="display:flex;align-items:center;gap:6px;background:transparent;border:1px solid #1F2A25;color:#949C98;font-family:Inter;font-size:12px;padding:9px 12px;border-radius:9px;cursor:pointer;" style-hover="border-color:#34D399;color:#ECEFED;">{{ permalinkLabel }}</button>
       </div>
 
       <div class="wf-scroll" style="max-height: {{ dossierMaxH }}; overflow-y: {{ dossierOverflow }};">
@@ -590,7 +589,6 @@ class Component extends DCLogic {
       modal: { open: false },
       lookup: { open: false, loading: false, error: null, data: null, addr: "" },
       network: { loading: false, data: null, addr: null, hoverNode: null },
-      permalinkCopied: false,
       copied: {},
       chartHover: null,
       heroProg: 0,
@@ -922,7 +920,7 @@ class Component extends DCLogic {
   }
 
   select(id) {
-    this.setState({ selectedId: id, heroProg: this.state.reduce ? 1 : 0, measure: {}, hoverEdge: null, permalinkCopied: false });
+    this.setState({ selectedId: id, heroProg: this.state.reduce ? 1 : 0, measure: {}, hoverEdge: null });
     if (!this.state.reduce) setTimeout(() => this.animate("heroProg", 1100), 0);
     if (window.innerWidth < 760) {
       setTimeout(() => {
@@ -1603,9 +1601,12 @@ class Component extends DCLogic {
       return {
         onClick: () => this.select(s.id),
         onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.select(s.id); } },
-        // ONLY the user-selected card carries the bright glow; every other card is neutral
-        // (no green border) so a single click highlights exactly one wallet.
-        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;transition:transform .18s,border-color .18s,box-shadow .18s;" + GLASS + (isSel ? "border-color:#34D399;box-shadow:0 0 0 1.5px rgba(52,211,153,0.65),0 0 46px -4px rgba(52,211,153,0.75),0 0 18px -6px rgba(52,211,153,0.6),0 10px 26px -18px rgba(0,0,0,0.55);" : ""),
+        // ONLY the user-selected card shows anything: a GREEN border + bright green glow.
+        // Every OTHER card has a fully TRANSPARENT border (no white/grey outline at all) — the
+        // GLASS #1F2A25 border was rendering as a visible light outline around every card, which
+        // is the "white outline" the user kept seeing. Non-selected = just the card fill + a soft
+        // dark drop-shadow, no edge line. So a single click highlights exactly one wallet in green.
+        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;background:#0E1512;border:1px solid " + (isSel ? "#34D399" : "transparent") + ";transition:transform .18s,border-color .18s,box-shadow .18s;" + (isSel ? "box-shadow:0 0 0 1.5px rgba(52,211,153,0.65),0 0 46px -4px rgba(52,211,153,0.75),0 0 18px -6px rgba(52,211,153,0.6),0 10px 26px -18px rgba(0,0,0,0.55);" : "box-shadow:0 8px 24px -18px rgba(0,0,0,0.55);"),
         accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:" + (isSel ? "4px" : "3px") + ";border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 18px 2px rgba(52,211,153,0.95);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
         whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         whoLabel: this.whoLabel(s), why: this.whyLine(s),
@@ -1726,7 +1727,7 @@ class Component extends DCLogic {
       onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),
       lookup: st.lookup, lookupBody: this.lookupNode(), closeLookup: () => this.closeLookup(),
       snapshotLabel: this.stampText("data as of "),
-      snapshotTitle: "Retrospective snapshot — not live. Block " + (this.meta.block || "—") + " · " + (this.meta.snapshot || "—") + ". Recomputed " + (this.meta.recomputed || "—") + ".",
+      snapshotTitle: "Recomputed " + (this.meta.recomputed || "—") + " · newest resolved market " + (this.meta.snapshot || "—") + " · re-polled live every ~90s.",
       search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
       typeOptions, concernOptions, categoryChips, sigToggles, timeOptions,
       sortValue: st.sort, onSort: (e) => this.setState({ sort: e.target.value }),
@@ -1803,13 +1804,12 @@ class Component extends DCLogic {
 
       act: {
         exportPdf: () => this.openModal("pdf"), exportCsv: () => this.openModal("csv"),
-        referral: () => this.openModal("referral"), permalink: () => this.copyPermalink(),
+        referral: () => this.openModal("referral"),
         save: () => this.setState({ saved: { ...st.saved, [sel.id]: !saved } }),
         close: () => this.setState({ modal: { open: false } }),
       },
       saveStyle: "display:flex;align-items:center;gap:6px;background:" + (saved ? "rgba(52,211,153,0.18)" : "transparent") + ";border:1px solid " + (saved ? "#34D399" : "#243029") + ";color:" + (saved ? "#34D399" : "#949C98") + ";font-family:Inter;font-size:12px;padding:9px 12px;border-radius:9px;cursor:pointer;" + (saved ? "box-shadow:0 0 18px -6px rgba(52,211,153,0.5);" : ""),
       saveIcon: saved ? "\u2605" : "\u2606", saveLabel: saved ? "Saved" : "Save",
-      permalinkLabel: st.permalinkCopied ? "\u2713 copied" : "\u29c9 Copy link",
 
       modal: st.modal, modalBody: this.modalBody(sel),
     };
@@ -2095,12 +2095,6 @@ class Component extends DCLogic {
     this.writeClipboard(text);
     this.setState({ copied: { ...this.state.copied, [key]: true } });
     setTimeout(() => this.setState({ copied: { ...this.state.copied, [key]: false } }), 1600);
-  }
-  copyPermalink() {
-    const sel = this.selSubject();
-    const url = (location.origin || "") + "/models/insider-trading.html#forensics" + (sel ? "/" + (sel.idLabel || sel.id) : "");
-    this.writeClipboard(url);
-    this.setState({ permalinkCopied: true }); setTimeout(() => this.setState({ permalinkCopied: false }), 1800);
   }
   toggleCat(name) { const cats = this.state.cats.includes(name) ? this.state.cats.filter((c) => c !== name) : [...this.state.cats, name]; this.setState({ cats }); }
   sortLedger(k) { if (this.state.ledgerSort === k) this.setState({ ledgerDir: this.state.ledgerDir * -1 }); else this.setState({ ledgerSort: k, ledgerDir: 1 }); }
