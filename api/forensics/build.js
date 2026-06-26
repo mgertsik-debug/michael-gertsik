@@ -277,6 +277,10 @@ function buildSubject(agg, idx, opts, catalog) {
     push("concentration", Math.round(dets.concentration.dirPurity * 100) + "% one-way", "directional concentration",
       "max(YES, NO stake) ÷ total staked", dets.concentration.explain,
       [["one-way share", Math.round(dets.concentration.dirPurity * 100) + "%"]]);
+  if (fired.includes("timing") && dets.timing.hasData)
+    push("timing", dets.timing.lateWins + " of " + dets.timing.n + " late", "informed-entry timing",
+      "winning long-shots bought within hours of resolution", dets.timing.explain,
+      [["late wins", String(dets.timing.lateWins) + " of " + dets.timing.n], ["soonest", dets.timing.minHours + " h before"], ["median", dets.timing.medianHours + " h before"]]);
 
   // timeline from the single largest winning bet's price path (if the scanner
   // attached one); candidates stay clearly unverified.
@@ -317,7 +321,13 @@ function buildSubject(agg, idx, opts, catalog) {
     improbFull: String(improbText).replace("M", " million").replace("B", " billion").replace("K", " thousand"),
     convictionFlag: convOnly,
     convBet: (conv && conv.fires) ? { stake: Math.round(conv.stake || 0), entryPct: Math.round((conv.entryPrice || 0) * 100), payout: Math.round(conv.payout || 0), market: conv.market || "", mult: conv.stake ? +((conv.payout || 0) / conv.stake).toFixed(1) : null } : null,
-    full: scorecard.length >= 3,
+    // FULL dossier renders whenever there's real evidence to show — a ledger of resolved
+    // bets plus the improbability/conviction headline. Every published subject clears the
+    // upstream gates (≥5 long-shots or a conviction bet, materiality, net-profit), so it
+    // always has the ledger, tx links, percentile graph, and detector breakdown to show.
+    // (Previously gated on ≥3 scorecard cards, which hid the entire dossier — graphs, tx,
+    // metrics — for legitimate 2-signal wallets.)
+    full: (ledger.length >= 1) && (recordImprobable || (conv && conv.fires)),
     winRate, avgImplied, profit: money(profitNum), fired,
     // the AUTHORITATIVE per-detector contribution split (renormalised over FIRED
     // detectors with the real DEFAULTS.contribW weights). The UI must use this, not a
