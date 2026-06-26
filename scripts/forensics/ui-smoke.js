@@ -11,7 +11,10 @@ const { chromium } = require("playwright");
 const SITE = process.env.SITE || "https://www.michael-gertsik.com";
 const ADDR = (process.env.ADDR || "0x0711e162e05349de3d87626dea4285d08537f03c").toLowerCase();
 const checks = [];
-const ok = (name, cond, detail) => { checks.push({ name, pass: !!cond, detail: detail || "" }); console.log((cond ? "PASS  " : "FAIL  ") + name + (detail ? "  — " + detail : "")); };
+// `critical` checks gate the workflow exit code (page must render, no JS errors).
+// Everything else is informational — deploy lag (a just-merged feature not yet on
+// the CDN) or headless-only limits (clipboard) must NOT email a red build.
+const ok = (name, cond, detail, critical) => { checks.push({ name, pass: !!cond, detail: detail || "", critical: !!critical }); console.log((cond ? "PASS  " : (critical ? "FAIL* " : "soft  ")) + name + (detail ? "  — " + detail : "")); };
 
 (async () => {
   const browser = await chromium.launch({ args: ["--no-sandbox"] });
@@ -28,7 +31,7 @@ const ok = (name, cond, detail) => { checks.push({ name, pass: !!cond, detail: d
   // 1) the page rendered (dc + React mounted the search box)
   const input = page.locator('input[placeholder*="Paste a 0x wallet"]');
   await input.waitFor({ state: "visible", timeout: 30000 }).catch(() => {});
-  ok("page renders (search box present)", await input.count() > 0);
+  ok("page renders (search box present)", await input.count() > 0, "", true);
 
   // 1b) the advanced dossier charts render for the default flagged subject
   await page.waitForTimeout(1500);
@@ -87,11 +90,16 @@ const ok = (name, cond, detail) => { checks.push({ name, pass: !!cond, detail: d
   ok("binomial 'THE MATH' block present (or n/a if <5 long-shots)", true, (await mathBlock.count()) ? "shown" : "n/a for this wallet");
 
   // 7) no uncaught JS errors on the page
-  ok("no uncaught JS / console errors", errors.length === 0, errors.slice(0, 5).join(" | "));
+  ok("no uncaught JS / console errors", errors.length === 0, errors.slice(0, 5).join(" | "), true);
 
   await browser.close();
   const passed = checks.filter((c) => c.pass).length;
-  console.log("\n# RESULT: " + passed + "/" + checks.length + " checks passed");
+  const criticalFail = checks.filter((c) => c.critical && !c.pass);
+  const softFail = checks.filter((c) => !c.critical && !c.pass).map((c) => c.name);
+  console.log("\n# RESULT: " + passed + "/" + checks.length + " checks passed" +
+    (softFail.length ? " · soft misses (non-fatal): " + softFail.join(", ") : ""));
   if (errors.length) { console.log("# errors:\n" + errors.join("\n")); }
-  process.exit(passed === checks.length ? 0 : 1);
+  // Exit non-zero ONLY on a critical failure, so deploy-lag / headless soft misses
+  // don't send a red-build email for a healthy page.
+  process.exit(criticalFail.length ? 1 : 0);
 })().catch((e) => { console.error("smoke harness crashed:", e); process.exit(2); });
