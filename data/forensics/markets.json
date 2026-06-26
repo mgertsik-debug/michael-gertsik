@@ -4903,14 +4903,14 @@
     "w": "NO",
     "q": "Anthropic’s “supply chain risk” designation removed by May 8?",
     "s": "anthropics-supply-chain-risk-designation-removed-by",
-    "c": "Politics",
+    "c": "Corporate & M&A",
     "r": 1778308832
   },
   "0xcb166e898bde26a4eea60b1d6f24c8dc95b9bdf7b29407c7d74fb186fada5b95": {
     "w": "NO",
     "q": "Anthropic’s “supply chain risk” designation removed by May 31?",
     "s": "anthropics-supply-chain-risk-designation-removed-by",
-    "c": "Politics",
+    "c": "Corporate & M&A",
     "r": 1780398809
   },
   "0x8775e5be464e0bd1dc56c55b321ec9cc129e5e0bb24bab807bea0b2923cef912": {
@@ -5953,35 +5953,35 @@
     "w": "YES",
     "q": "Critical Discord Incident by March 31, 2026?",
     "s": "critical-discord-incident-by",
-    "c": "Culture",
+    "c": "Crypto Events",
     "r": 1774477497
   },
   "0xf75b0e9fb3698640d00dd693958ed4245044b8a824218e10238cf3dcffa67ff6": {
     "w": "NO",
     "q": "Critical Discord Incident by January 31, 2026?",
     "s": "critical-discord-incident-by",
-    "c": "Culture",
+    "c": "Crypto Events",
     "r": 1769948524
   },
   "0xd9a9621eb0d502ad1d7c2fab14a4e44d720fbfb3b749e9de2b74f0eaeb23efb4": {
     "w": "YES",
     "q": "Critical Discord Incident by June 30, 2026?",
     "s": "critical-discord-incident-by",
-    "c": "Culture",
+    "c": "Crypto Events",
     "r": 1774477499
   },
   "0x4668e29146bcec123e2418eb80586dfb8294fbb5954cb874eb2a6141c35d6abd": {
     "w": "YES",
     "q": "Critical Discord Incident by May 31, 2026?",
     "s": "critical-discord-incident-by",
-    "c": "Culture",
+    "c": "Crypto Events",
     "r": 1774477499
   },
   "0x44c101c4a6cdc8d9afdf952b6a1c02375f63d9736793de21abf949a017556a28": {
     "w": "YES",
     "q": "Critical Discord Incident by April 30, 2026?",
     "s": "critical-discord-incident-by",
-    "c": "Culture",
+    "c": "Crypto Events",
     "r": 1774477493
   },
   "0xd601b601aefef8a07136bf16bd72642827fa65bc14b1ad066cbe5c46987a4745": {
@@ -6471,21 +6471,21 @@
     "w": "NO",
     "q": "Will Trump restart Project Freedom by May 15?",
     "s": "will-trump-restart-project-freedom-by",
-    "c": "Politics",
+    "c": "Military & Defense",
     "r": 1778922421
   },
   "0x9a87a0011494682e4d17a9073059cbbd32ebea4bbc7284219afb5e9a6b4ca8f6": {
     "w": "NO",
     "q": "Will Trump restart Project Freedom by May 31?",
     "s": "will-trump-restart-project-freedom-by",
-    "c": "Politics",
+    "c": "Military & Defense",
     "r": 1780295092
   },
   "0xdfd4d487d004c266493bdf32551d7f018c7eb4b9325f42ac368dd5075eec36a9": {
     "w": "YES",
     "q": "Will Trump restart Project Freedom by June 30?",
     "s": "will-trump-restart-project-freedom-by",
-    "c": "Politics",
+    "c": "Military & Defense",
     "r": 1781397088
   },
   "0x1d4b1bc540b34c8f026efe6c9724cc32301bf0cf185a79e8360e14535d801d80": {
@@ -12287,9 +12287,9 @@
   "0x42911c6ff6bc9f36adb99592a9ecd5e31e14e7dfe9beef7c2b18c36b0db23cc4": {
     "w": "NO",
     "q": "US strikes Iran by January 13, 2026?",
-    "s": "us-strikes-iran-by-january-13-2026-771",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1768377720
   },
   "0xb4b2bf4879327ce2a4900b6aab0decdadda3a7e248ac1151bbb9e55d61ae80f2": {
     "w": "NO",
@@ -12903,16 +12903,16 @@
   "0x905bd0615b38b035e60e69a46e0f185729ace5825a92f6dc39aede1d3ad31a13": {
     "w": "NO",
     "q": "US strikes Iran by February 15, 2026?",
-    "s": "us-strikes-iran-by-february-15-2026",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1771226749
   },
   "0xc734f61dbb7fbf5ff7afac8c18b1f05f13c4b9b408f8f8d6d210a862ebabd00d": {
     "w": "NO",
     "q": "US strikes Iran by February 8, 2026?",
-    "s": "us-strikes-iran-by-february-8-2026",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770628789
   },
   "0x184f4a327edc0cd0af1f409980f6cc8d227fa96855625ce1ae9dad10e80057a1": {
     "w": "NO",
@@ -12924,23 +12924,23 @@
   "0x6bbdeb8773a1470ba1053959a446bb0912b38f6091c8794583612bfa76a81a15": {
     "w": "NO",
     "q": "US strikes Iran by February 6, 2026?",
-    "s": "us-strikes-iran-by-february-6-2026-242-933-289-312-673-611-155-294",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770449211
   },
   "0xb02e8bc0b915c7d6fc79363f84ca301edeb3c5cd7a7c30cf9517cb4a49a96e35": {
     "w": "NO",
     "q": "US strikes Iran by February 13, 2026?",
-    "s": "us-strikes-iran-by-february-13-2026-721-759-497-124-197-797-992-641-418-789-676-262-791-574-169-647-275-931",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1771052533
   },
   "0x3bed62b0b7e3eb52c1f0d8a5d11edad1f74989038fc1cae2889cdbe96a248dfe": {
     "w": "NO",
     "q": "US strikes Iran by February 5, 2026?",
-    "s": "us-strikes-iran-by-february-5-2026",
-    "c": "World",
-    "r": 1770249600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770361603
   },
   "0x38c0342fb672f38ad0990e98d6cc81d021a0c210fdb8c23ff086742b8a873c51": {
     "w": "NO",
@@ -12952,86 +12952,86 @@
   "0xa9f0b0c67a815b423a435c523dc9358d98ab5633de5108fe44e203e8d6c2f062": {
     "w": "NO",
     "q": "US strikes Iran by February 4, 2026?",
-    "s": "us-strikes-iran-by-february-4-2026",
-    "c": "World",
-    "r": 1770163200
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770276217
   },
   "0xb4bc113c6da82db67b6b17d39369de522e61425dd3609b9bf9306d266230b3a7": {
     "w": "NO",
     "q": "US strikes Iran by February 3, 2026?",
-    "s": "us-strikes-iran-by-february-3-2026",
-    "c": "World",
-    "r": 1770076800
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770190262
   },
   "0xb75c745c6d2d6031875955ba01b62af90c622b22852af00391d45fab49ef0aea": {
     "w": "NO",
     "q": "US strikes Iran by January 29, 2026?",
-    "s": "us-strikes-iran-by-january-29-2026-183-883-657-383-499",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769756828
   },
   "0x8fcd8d30e559d75d1f1ac26fb61c118910d271a55ecce8e05367b1a6114bf20e": {
     "w": "NO",
     "q": "US strikes Iran by February 1, 2026?",
-    "s": "us-strikes-iran-by-february-1-2026",
-    "c": "World",
-    "r": 1769904000
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770017448
   },
   "0xabb86b080e9858dcb3f46954010e49b6f539c20036856c7f999395bfd58d01e6": {
     "w": "NO",
     "q": "US strikes Iran by January 31, 2026?",
-    "s": "us-strikes-iran-by-january-31-2026-165",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769930982
   },
   "0x3397bfce4b2b513ae72da122de53f4f3747c9660fd62cb2b980132c6e7e4923d": {
     "w": "NO",
     "q": "US strikes Iran by February 2, 2026?",
-    "s": "us-strikes-iran-by-february-2-2026",
-    "c": "World",
-    "r": 1769990400
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770112500
   },
   "0xfabc0ff190e456ad309ec0559554b4549f90aebcd636d9a6293a89abf5c78722": {
     "w": "NO",
     "q": "US strikes Iran by January 30, 2026?",
-    "s": "us-strikes-iran-by-january-30-2026-273-584-555-114-476",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769844986
   },
   "0x70cdc92881a74fa13b6d861aae79f3b153989f29b285f234bd8be08f723812a9": {
     "w": "NO",
     "q": "US strikes Iran by January 28, 2026?",
-    "s": "us-strikes-iran-by-january-28-2026-117-856-648-735-438",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769670788
   },
   "0x1c9a2a68c5e470cff041f2633405fd8e7799dd599dd30c20622ec7c7d9032f6c": {
     "w": "NO",
     "q": "US strikes Iran by January 27, 2026?",
-    "s": "us-strikes-iran-by-january-27-2026-458-884-547-617-932",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769583971
   },
   "0x843fc1f23d8cfd3df343031312a8a3f0a930ad118c0c0e81a56c21f0ea9ff217": {
     "w": "NO",
     "q": "US strikes Iran by January 23, 2026?",
-    "s": "us-strikes-iran-by-january-23-2026-494-711-798-734-155",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769241338
   },
   "0x7011cb54689f777d1010d94178451ee3c03a6b892e2ace8787abbe85e762bd11": {
     "w": "NO",
     "q": "US strikes Iran by January 24, 2026?",
-    "s": "us-strikes-iran-by-january-24-2026-318",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769327312
   },
   "0x4cca07aafd4267f7ceeb16e4ef7c7d5587cb906a13f5ab404275dad21dd6bff2": {
     "w": "NO",
     "q": "US strikes Iran by January 25, 2026?",
-    "s": "us-strikes-iran-by-january-25-2026-759-796-449",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769411796
   },
   "0xd30db058400adc67ec707baf62fffef82575b140c3a4b5daab341a5c837a4ce9": {
     "w": "NO",
@@ -13211,9 +13211,9 @@
   "0x3488f31e6449f9803f99a8b5dd232c7ad883637f1c86e6953305a2ef19c77f20": {
     "w": "YES",
     "q": "US strikes Iran by February 28, 2026?",
-    "s": "us-strikes-iran-by-february-28-2026-227-967-547-688-589-491-592-418-452-924-384-915-464-672-196-157-993-596-269-535-381-391-471-256-988-997-296-225-762-973-292-827-345-182-558-215-794-879-189-761",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1772271077
   },
   "0x15aa3c1259a716915e068a0d63c3885d2301d29e8982cbb1717ecb9b63d02d95": {
     "w": "YES",
@@ -14121,9 +14121,9 @@
   "0x98c0aa27e741d5bfeb0a06e68bddd256b857fd27597c76c500250db1483c51aa": {
     "w": "YES",
     "q": "US strikes Iran by March 15, 2026?",
-    "s": "us-strikes-iran-by-march-15-2026-176-537-334-314-311-563-139-841-296-929-674-361-128-125-587-277-713-864-314-272-772-416-338-683-554-682-743-939-378-887-219-419-692-473-532-837-119-848-847-469",
-    "c": "World",
-    "r": 1782777600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1772271499
   },
   "0x3e16995cf503447641ca6a27b40f0e6e1151256c1869e9b0082e7bda26463731": {
     "w": "NO",
@@ -16221,9 +16221,9 @@
   "0xe1c67f75aac5b10dc28f1a2fbb79b079fc7f7320abfbd6a950a50c372979569b": {
     "w": "NO",
     "q": "US strikes Iran by February 20, 2026?",
-    "s": "us-strikes-iran-by-february-20-2026-151-468-624-297-614-778-872-127-349-448-499-337-826-553",
-    "c": "World",
-    "r": 1769817600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1771658922
   },
   "0xf7ebe673ed7e71d3846b4f0c74065351d9f7f2717088ea2a517d86ef0d02c7a8": {
     "w": "NO",
@@ -16305,9 +16305,9 @@
   "0x4b02efe53e631ada84681303fd66d79ad615f3d2b6a28b4633d43d935f89af58": {
     "w": "YES",
     "q": "US strikes Iran by March 31, 2026?",
-    "s": "us-strikes-iran-by-march-31-2026-393-881-954",
-    "c": "World",
-    "r": 1782777600
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1772271243
   },
   "0xd69784215865ef81c16f3cb8b0806d43acbcf284982789a7e014d1cef52e7478": {
     "w": "YES",
@@ -17911,5 +17911,831 @@
     "s": "will-trump-sue-powell-by-march-31",
     "c": "Legal & Regulatory",
     "r": 1774915200
+  },
+  "0xe15a1b92153dcc68c313b3601cb230f9d3b3b1eff180ae5f98ee350fbf352e6e": {
+    "w": "YES",
+    "q": "FDA approves Ionis' Olezarsen?",
+    "s": "fda-approves-ionis-olezarsen-06-30-2026",
+    "c": "Legal & Regulatory",
+    "r": 1782383524
+  },
+  "0x0e3c65b0c5a9d8b7f9d3220e559eabcb713c0f99568a8c03cb91e0853785b5d4": {
+    "w": "YES",
+    "q": "Will Monad perform an airdrop by June 30?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1764017271
+  },
+  "0x66db22e407a28f548dfef6e2606e077c8e4d1b2746b1ec9228b8a502853efb8c": {
+    "w": "NO",
+    "q": "Will Monad perform an airdrop by September 30?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1759300063
+  },
+  "0x8744e58e2758baf13f354d6a99d2c436306ec26f677ebad4e051cf937931490d": {
+    "w": "YES",
+    "q": "Will Monad perform an airdrop by December 31?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1764017215
+  },
+  "0x63570f0c846b340c8c3c879ef0fbfd9261c59eff94c5ff1ae8d39941b79ceafb": {
+    "w": "NO",
+    "q": "Will Monad perform an airdrop by October 31?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1761977644
+  },
+  "0x34a8aa834927033bb6ac7bd96c508972611b826ca6d61e59c6d7d0cf3571d463": {
+    "w": "YES",
+    "q": "Will Monad perform an airdrop by November 30?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1764017385
+  },
+  "0xc0cca1d2be477b722cfef3aeeef8b84bd05e09910c307aecb245fc288096bc6c": {
+    "w": "NO",
+    "q": "Will Monad perform an airdrop by November 15?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1763277005
+  },
+  "0xe864641e7e295f714f1384d3e939fd2eca7aeae18908ca9c156029bec6ee1e69": {
+    "w": "YES",
+    "q": "Will Monad perform an airdrop by December 15?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1764017385
+  },
+  "0x2423b6987ae1e0f9a13e5a06140804201103abf0f2476e21dcb2d07e1539ed0f": {
+    "w": "NO",
+    "q": "Will Monad perform an airdrop by November 20?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1763709263
+  },
+  "0x7708848f1afba30580e6f68c1ffce7a2b1a70a8851e4bc8b60daffbf712db861": {
+    "w": "YES",
+    "q": "Will Monad perform an airdrop by November 25?",
+    "s": "monad-airdrop-by",
+    "c": "Crypto Events",
+    "r": 1764018751
+  },
+  "0x46471128dc2d95254dcdfc95efaa4b0e3e95dde4b81257a38f07ef8bb0eae916": {
+    "w": "YES",
+    "q": "US federally charges ex-Cuba leader Raul Castro?",
+    "s": "us-federally-charges-cuba-leader-raul-castro",
+    "c": "Legal & Regulatory",
+    "r": 1779313628
+  },
+  "0x64b14a09a6cf9dc02b840bc83f4dcfd41ca6108544c47ecabc6e5d00bc15fd2e": {
+    "w": "NO",
+    "q": "US strikes Iran by January 14, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1768461032
+  },
+  "0x2d4d7f2eea43913d65c93351621a733f66ec079e111c278b34e8cc9e06ebe751": {
+    "w": "NO",
+    "q": "US strikes Iran by January 15, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1768547318
+  },
+  "0xac4c8f562f7c6f4a191570b07a6cd8926854205a91d6da197a43924bdc4659a3": {
+    "w": "NO",
+    "q": "US strikes Iran by January 18, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1768806370
+  },
+  "0x94d52f34382e9c074fb62d6ad0cf715e4ae799fb58867bbf4b443b8c34a51a09": {
+    "w": "NO",
+    "q": "US strikes Iran by January 17, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1768720510
+  },
+  "0xc40e1cfe1b34a6062a93583328707d6d363d63b5d0234139efcfd66719da11ca": {
+    "w": "NO",
+    "q": "US strikes Iran by December 31, 2025?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1767269913
+  },
+  "0x797d586ad45522306490b0cc9b2f21bdf957f3843476fae99f3bcc2cec83b74b": {
+    "w": "YES",
+    "q": "US strikes Iran by June 30, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1772271305
+  },
+  "0x843913ab7d12cd0603524e2766ce3d128997bd0f64bfc6385a4a579552ecd152": {
+    "w": "NO",
+    "q": "US strikes Iran by January 11, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1768202502
+  },
+  "0xebb6eccd872f55e23da6aaf653a3460299237ebdd0a71bdb58681685fd95eb05": {
+    "w": "NO",
+    "q": "US strikes Iran by January 12, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1768287725
+  },
+  "0xd1047755d35a03b7ceea9923daae56ecf67784446daa63e87eebc471b4b9dbd9": {
+    "w": "NO",
+    "q": "US strikes Iran by January 16, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1768636038
+  },
+  "0x76a213c1f24dd30025a9f20355341a7a0fefcf1499b7c015ebd8493f55794d7a": {
+    "w": "NO",
+    "q": "US strikes Iran by January 26, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1769497699
+  },
+  "0x1b9cfd142b849edf7a886364d9821f7e8049cf7648e97c73f05e68827f516e2e": {
+    "w": "NO",
+    "q": "US strikes Iran by February 19, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1771572398
+  },
+  "0x6c75d784a1595477270d81e764cf5b2b61f9a149fc6d5c7b4b040f6f44870946": {
+    "w": "NO",
+    "q": "US strikes Iran by February 16, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1771312401
+  },
+  "0x22cd37c5d898b14fb912e2f7501cdc76760551c483c9fb9f78f61b21eebfcb24": {
+    "w": "NO",
+    "q": "US strikes Iran by February 7, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770534169
+  },
+  "0xda368e1f843931105e33e4d00c06e20f962ffc233389b8df15f53efc9d3d2984": {
+    "w": "NO",
+    "q": "US strikes Iran by February 9, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770708597
+  },
+  "0xf91604aae685d24b889529b101c599db739db5d883d393d841c0f88924046d27": {
+    "w": "NO",
+    "q": "US strikes Iran by February 10, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770794623
+  },
+  "0x7c39ac9cc39be478f9fc273f78ad5e61cef5869f5b87860cc3f439a9abfa2648": {
+    "w": "NO",
+    "q": "US strikes Iran by February 12, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770967253
+  },
+  "0xde198459d02ee47ff256c5e42210f7956baf2257c99f82b8216dc2f85b23dd71": {
+    "w": "NO",
+    "q": "US strikes Iran by February 11, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1770880823
+  },
+  "0xe209dc6ca6921ff591483aef5a5e8873ab6f59fa69b1d6cbe05b627c71e8ba44": {
+    "w": "NO",
+    "q": "US strikes Iran by February 14, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1771139897
+  },
+  "0xb755d7a41ab845801e7b03e69c763169880c9970d12aaf4a90a40aa97da4c65e": {
+    "w": "NO",
+    "q": "US strikes Iran by February 17, 2026?",
+    "s": "us-strikes-iran-by",
+    "c": "Politics",
+    "r": 1771398452
+  },
+  "0x771de080638c0fd0deff3e2016dfb22f16c1f6edad690c75d1f4cb9b240add51": {
+    "w": "YES",
+    "q": "Russia strike impacts Kyiv municipality during week of March 2, 2026?",
+    "s": "russia-strike-impacts-kyiv-municipality-during-week-of-march-2-2026",
+    "c": "World",
+    "r": 946684800
+  },
+  "0xe9674aadfabfa7171bcee4e38b66f1a7d7e0af538d3718301e7b3cf111e9b5dd": {
+    "w": "NO",
+    "q": "Will OpenAI launch a new consumer hardware product by March 31, 2026?",
+    "s": "will-openai-launch-a-new-consumer-hardware-product-by-march-31-2026",
+    "c": "Tech & Announcements",
+    "r": 946684800
+  },
+  "0xc470b43a8bf0a938e9b17d1ff01b5c52b1cfbc5c352ce96dded8b4e5d5e40997": {
+    "w": "YES",
+    "q": "Will Tô Lâm be the next President of Vietnam?",
+    "s": "will-t-lm-be-the-next-president-of-vietnam",
+    "c": "Politics",
+    "r": 1769299200
+  },
+  "0x90301098126f955f3ce5a03b7fe4c35a3641b233f4c56e88b11070a1b414c61a": {
+    "w": "NO",
+    "q": "Will DeepSeek have the best AI model for coding on March 31?",
+    "s": "will-deepseek-have-the-best-ai-model-for-coding-on-march-31",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x4a0cc84209df8e25f2651148c15ca45841bf02133903a990ad2be56d8337efe5": {
+    "w": "NO",
+    "q": "Will Anthropic have the best AI model for coding on March 31?",
+    "s": "will-anthropic-have-the-best-ai-model-for-coding-on-march-31",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0xaec744acc776760b5ae4ea624392701e5be37f226030347437abdb6df9c1d184": {
+    "w": "NO",
+    "q": "Will Google have the best AI model for coding on March 31?",
+    "s": "will-google-have-the-best-ai-model-for-coding-on-march-31",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0x4ddffdae2038a1f68fa3a1ef927ff832825eb83f6eccd5d78f4830c44c586daf": {
+    "w": "NO",
+    "q": "Will DeepSeek have the best AI model at the end of February 2026?",
+    "s": "will-deepseek-have-the-best-ai-model-at-the-end-of-february-2026",
+    "c": "Tech & Announcements",
+    "r": 1772236800
+  },
+  "0x241ac01c5cdac5f72014a8039b6678faa26f2f93577e6aaf629600f0b5770a1d": {
+    "w": "NO",
+    "q": "Will DeepSeek have the best AI model at the end of June 2026?",
+    "s": "will-deepseek-have-the-best-ai-model-at-the-end-of-june-2026",
+    "c": "Tech & Announcements",
+    "r": 1782777600
+  },
+  "0xff78bad30c99e8eed16b577a70b9fcfe69b83d1c838f238d3f84dcd3d2c94701": {
+    "w": "YES",
+    "q": "US forces in Venezuela again by June 30, 2026?",
+    "s": "us-forces-in-venezuela-again-by-june-30-2026-624",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x15d8e4d8455a834a81e68a9e293b62fdaaa655e0f1c6a6ad610390af807b910d": {
+    "w": "NO",
+    "q": "Maduro mugshot released by January 16?",
+    "s": "maduro-mugshot-released-by-january-16",
+    "c": "World",
+    "r": 1768521600
+  },
+  "0x277f21a0a26b1a2ec9c4980f91f55708880a7cd4c5ab68687fad0c2f6efba698": {
+    "w": "NO",
+    "q": "Will Khamenei leave Iran by Jan 31?",
+    "s": "will-khamenei-leave-iran-by-jan-31-322",
+    "c": "World",
+    "r": 1767916800
+  },
+  "0x23fd2b26c4e095465ba0d2ebce8d5eda57009ddc59aad8b68ab19ca968b41eed": {
+    "w": "NO",
+    "q": "Israel strikes Iran by January 31, 2026?",
+    "s": "israel-strikes-iran-by-january-31-2026-894-994-453",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x460a7418a742438d3f170979f57ddaee36f94f172d58b7cc622461f64d999482": {
+    "w": "NO",
+    "q": "Will Israel strike Lebanon on January 10, 2026?",
+    "s": "will-israel-strike-lebanon-on-january-10-2026",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x8e8e077887e5ba25d3931cdb816efdca642149bf7ea02605c5163f1601bd8421": {
+    "w": "NO",
+    "q": "Will OpenAI have the best AI model at the end of January 2026?",
+    "s": "will-openai-have-the-best-ai-model-at-the-end-of-january-2026",
+    "c": "Tech & Announcements",
+    "r": 1769817600
+  },
+  "0xa7cd6e973edbb5e397698fc3e8c1cb1981ba302200c33024d8a53f4cdc299f93": {
+    "w": "NO",
+    "q": "Will Trump say \"Tariff\" during events with Xi Jinping?",
+    "s": "will-trump-say-tariff-during-events-with-xi-jinping",
+    "c": "Legal & Regulatory",
+    "r": 1778803200
+  },
+  "0xb41202554ee369b3fefa17ae5168a61c88e43fb409c9f1475bf1bac926db9f51": {
+    "w": "YES",
+    "q": "Will Trump say \"Nuclear\" 3+ times at The Villages on May 1?",
+    "s": "will-trump-say-nuclear-3-times-at-the-villages-on-may-1-437-111-722-813-891",
+    "c": "Military & Defense",
+    "r": 1777593600
+  },
+  "0x63b5878dcc66303fd64e01996a30f3ce653048629eaa6ec658f044d294d4767a": {
+    "w": "NO",
+    "q": "Will Leavitt say \"Peace Deal\" during the next White House press briefing?",
+    "s": "will-leavitt-say-peace-deal-during-the-next-white-house-press-briefing",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0xcd22707a80bba2d2ce0622e9a3605d82b766285b50ef20745a1d4bb7435cbd27": {
+    "w": "NO",
+    "q": "Bab el-Mandeb Strait effectively closed by June 22?",
+    "s": "bab-el-mandeb-strait-effectively-closed-by-june-22-183",
+    "c": "Military & Defense",
+    "r": 1782086400
+  },
+  "0xd69278d0e73aa1db4520dba8fb48a0a00a2dfd04e7df26b347bbf3875e5d7393": {
+    "w": "NO",
+    "q": "Saudi Arabia bans US military aircraft by June 30?",
+    "s": "saudi-arabia-bans-us-military-aircraft-by-june-30",
+    "c": "Military & Defense",
+    "r": 1782777600
+  },
+  "0x850af070535461dfd5a8e30fc911daf2406dc75f67e7f98b24266b54fcd92962": {
+    "w": "NO",
+    "q": "Will Trump’s approval rating be between 38.0 and 38.4 on June 19, 2026?",
+    "s": "will-trumps-approval-rating-be-between-38pt0-and-38pt4-on-june-19-2026-20260612214537959",
+    "c": "Legal & Regulatory",
+    "r": 1781827200
+  },
+  "0x17dd7e90c026f199b3c7a049520602679664d85ccfffbf0c4cb4aedd76ceeb21": {
+    "w": "NO",
+    "q": "Will Trump’s approval rating be less than 38.0 on June 19, 2026?",
+    "s": "will-trumps-approval-rating-be-less-than-38pt0-on-june-19-2026-20260612214537958",
+    "c": "Legal & Regulatory",
+    "r": 1781827200
+  },
+  "0x27a7a60a3605b0cc0f41f0f243e6be5f2a6144b0adf59fad803fbc1ca6eeb928": {
+    "w": "NO",
+    "q": "Iran x Oman Strait of Hormuz agreement by June 15?",
+    "s": "iran-x-oman-strait-of-hormuz-agreement-by-june-15",
+    "c": "Military & Defense",
+    "r": 1781481600
+  },
+  "0xf400891222eb9cd2ce99e4d212a9f54d87a52a7b8c1d5d3b880d8185cd56687f": {
+    "w": "YES",
+    "q": "Will Donald Trump sign a U.S. x Iran deal by July 31?",
+    "s": "will-donald-trump-sign-a-uptspt-x-iran-deal-by-july-31-20260611235950067",
+    "c": "World",
+    "r": 1785542400
+  },
+  "0x3317da646f20b7f759245cce958672ec6cd89f48487217bff82e634058d13b35": {
+    "w": "YES",
+    "q": "Will JD Vance sign a U.S. x Iran deal by July 31?",
+    "s": "will-jd-vance-sign-a-uptspt-x-iran-deal-by-july-31-20260611235950068",
+    "c": "World",
+    "r": 1785542400
+  },
+  "0x38545bccf76fa0230056c9c6230455f55621237209f1801acfaa02b12d5e16dd": {
+    "w": "YES",
+    "q": "Will Israel and Lebanon hold a diplomatic meeting by June 7, 2026?",
+    "s": "will-israel-and-lebanon-hold-a-diplomatic-meeting-by-june-7-2026",
+    "c": "World",
+    "r": 1781481600
+  },
+  "0xed2b27cf6f1dc265a4889b2b68be11b8cf85c40de0d755e1b88fd3299cc542a4": {
+    "w": "NO",
+    "q": "Will Vladimir Putin be the next leader out before 2027?",
+    "s": "will-vladimir-putin-be-the-next-leader-out-before-2027-417",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x914f44e9ddd8398774b00faef3349922724b9de9e596b71aa0d0cab4a2453d37": {
+    "w": "YES",
+    "q": "Iran closes its airspace by June 22?",
+    "s": "iran-closes-its-airspace-by-june-22",
+    "c": "Military & Defense",
+    "r": 1782086400
+  },
+  "0x92485347d2c139beb425df7bee78b98805d0eab1eb0cc953cf000e9a287eab7e": {
+    "w": "NO",
+    "q": "Will the Iran ceasefire continue through May 26?",
+    "s": "will-the-iran-ceasefire-continue-through-may-26",
+    "c": "Military & Defense",
+    "r": 1779753600
+  },
+  "0xbdf0bbe0d1fd006aec6deef5482ca94b8ff0ceea73860bda0a337c4ce50d4448": {
+    "w": "NO",
+    "q": "Will the Iran ceasefire continue through May 28?",
+    "s": "will-the-iran-ceasefire-continue-through-may-28",
+    "c": "Military & Defense",
+    "r": 1779926400
+  },
+  "0xe3578450861031a2dedd30c5e0168a56737fadf817acdb8cc1c71d798219bb1f": {
+    "w": "NO",
+    "q": "Israel closes its airspace by May 24?",
+    "s": "israel-closes-its-airspace-by-may-24",
+    "c": "Military & Defense",
+    "r": 1779580800
+  },
+  "0xdccabd4259261ebe59c22f50f7602df939a1feec98fc2a4314db536560120c5f": {
+    "w": "NO",
+    "q": "Will Jared Kushner have a diplomatic meeting with Iran by May 31?",
+    "s": "will-jared-kushner-have-a-diplomatic-meeting-with-iran-by-may-31",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x8b9a5708f7ee0c94c7623ab9a420e2523c85233d7f3a343112b0fd305fa4f303": {
+    "w": "NO",
+    "q": "Will Qatar send warships through the Strait of Hormuz by May 31, 2026?",
+    "s": "will-qatar-send-warships-through-the-strait-of-hormuz-by-may-31-2026",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x8bb861046d70534248fe10aaef5ca28a91fe4c923db024005ea26b86946ca114": {
+    "w": "NO",
+    "q": "Israel withdraws from Lebanon by May 31, 2026?",
+    "s": "israel-withdraws-from-lebanon-by-may-31-2026",
+    "c": "World",
+    "r": 1782777600
+  },
+  "0xbd5922eed56186e904c4f327658e8c0cbd88cd854114d0906208f8b65cce6718": {
+    "w": "NO",
+    "q": "Iran closes its airspace by May 18?",
+    "s": "iran-closes-its-airspace-by-may-18",
+    "c": "Military & Defense",
+    "r": 1779062400
+  },
+  "0x9a8757bf4ecee8ba364603c3195d63c37c4d2700b69f8e4c5f751850bc330c9a": {
+    "w": "NO",
+    "q": "Will another country conduct military action against Iran by April 30, 2026?",
+    "s": "will-another-country-conduct-military-action-against-iran-by-april-30-2026",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0xe6939069d36ad63a9f7fcafa91b627a3f373a3264ab0347c1a5e042c5f7d1f08": {
+    "w": "NO",
+    "q": "Iran agrees to end enrichment of uranium by April 30?",
+    "s": "iran-agrees-to-end-enrichment-of-uranium-by-april-30",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x6b5277be982ad362d2d8ca71ec76d56ac61e2ab9e8b560c4696aec4d128e5e8f": {
+    "w": "NO",
+    "q": "Will Hezbollah disarm by April 30?",
+    "s": "will-hezbollah-disarm-by-april-30-343",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xe051d1d70197f7e493c9c2421b8352f5c1be856c5ceea5014a461e8a7581b5c2": {
+    "w": "NO",
+    "q": "US announces military support of Kurds in Iran by April 30?",
+    "s": "us-announces-military-support-of-kurds-in-iran-by-april-30",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0x2d859e9b62672ab0e90238495c1799f37759f8a2e96b67e240ddbf679428e7c8": {
+    "w": "NO",
+    "q": "Will another country conduct military action against Iran by April 15, 2026?",
+    "s": "will-another-country-conduct-military-action-against-iran-by-april-15-2026",
+    "c": "Military & Defense",
+    "r": 1776211200
+  },
+  "0x935336fb4ec0967091d388593e4e9a14baf7174d30a0fd5dcf8efe47b9e9fdbf": {
+    "w": "NO",
+    "q": "Will Iran strike Pakistan by April 30, 2026?",
+    "s": "will-iran-strike-pakistan-by-april-30-2026",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x0bb02c05626d1f57bb414a2b357e1c28492c071c8633df18f42ab43852968c34": {
+    "w": "NO",
+    "q": "Military action against Iran ends on April 7, 2026?",
+    "s": "military-action-against-iran-ends-on-april-7-2026",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0xa13dd57952f11e7b5d42758b0a59b7eeeca1c7b0b9aaee1b73a1ecbd5e9a44d4": {
+    "w": "NO",
+    "q": "Will Iran strike Azerbaijan by March 31?",
+    "s": "will-iran-strike-azerbaijan-by-march-31",
+    "c": "World",
+    "r": 1772841600
+  },
+  "0x5b7232a950ba3c7887082ace98a8591c7e14fdaf56913cf3f0a6b3b83f42c131": {
+    "w": "NO",
+    "q": "Will Iran strike Pakistan in March?",
+    "s": "will-iran-strike-pakistan-in-march",
+    "c": "World",
+    "r": 1772841600
+  },
+  "0x02f0c60b4f9551c97fe67bc6f02df357de52ca969f0e9159e06a5aca69cd2bf6": {
+    "w": "NO",
+    "q": "Iran agrees to end enrichment of uranium by March 31?",
+    "s": "iran-agrees-to-end-enrichment-of-uranium-by-march-31",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xcc7226e019e769b68c6798f5df11a6ba474d9e60b864e2faecfb8024e23d53e6": {
+    "w": "NO",
+    "q": "Will Iran claim responsibility for Oslo Embassy attack?",
+    "s": "will-iran-claim-responsibility-for-oslo-embassy-attack",
+    "c": "World",
+    "r": 946684800
+  },
+  "0xd5d8a0bbfc7f5921aa9c8a5f99183f534bd43dde6c84e9e0fa4e55ed909e2f73": {
+    "w": "NO",
+    "q": "Will Iran strike Syria in March?",
+    "s": "will-iran-strike-syria-in-march",
+    "c": "World",
+    "r": 1772841600
+  },
+  "0x4c0d19b2918d1193f05cffbd1403e88d817a54d040439fbc1f5e180cd45701a7": {
+    "w": "NO",
+    "q": "Will Israel launch a ground operation in Iran by March 31, 2026?",
+    "s": "will-israel-launch-a-ground-operation-in-iran-by-march-31-2026",
+    "c": "Military & Defense",
+    "r": 1777507200
+  },
+  "0xd8a0743208fe1018a2585ee5fe18ae6db78177ddfe8a96717f5fa275c0b6680e": {
+    "w": "NO",
+    "q": "Will Iran strike Dimona by March 31?",
+    "s": "will-iran-strike-dimona-by-march-31",
+    "c": "World",
+    "r": 946684800
+  },
+  "0x2cb096be1ef4c94e4286b318eb660c61983faa47e88017d241d3967d1bd59ce5": {
+    "w": "YES",
+    "q": "Will Iran strike UAE again in March?",
+    "s": "will-iran-strike-uae-again-in-march",
+    "c": "World",
+    "r": 1772841600
+  },
+  "0x5893f7f9efcf3926cff64b8eceae06c28f4ca178faaa9ee6f445933ef4b9570b": {
+    "w": "NO",
+    "q": "Will Iran successfully target shipping on March 22, 2026?",
+    "s": "will-iran-successfully-target-shipping-on-march-22-2026-455",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x982460624c93de97715ff5323897965b42c7e20ea01daeaad98e6833241d0612": {
+    "w": "NO",
+    "q": "Will the Fed decide differently in the next three decisions (Mar–Apr–Jun)?",
+    "s": "will-the-fed-decide-differently-in-the-next-three-decisions-maraprjun",
+    "c": "Economics",
+    "r": 1781654400
+  },
+  "0x232ae0932dad1b4ca049881715f094c1e424604d2fd3e1b0ad01f0893cb3059f": {
+    "w": "NO",
+    "q": "Israeli parliament dissolved by May 31?",
+    "s": "israeli-parliament-dissolved-by-may-31",
+    "c": "World",
+    "r": 1780185600
+  },
+  "0x88be7d8303a38d545170ae4e891de00dcdc6e888693dc77c009de08cbdaac6f4": {
+    "w": "YES",
+    "q": "Will Abelardo de la Espriella & Iván Cepeda Castro advance to the second round of the 2026 Colombian presidential election?",
+    "s": "will-abelardo-de-la-espriella-ivn-cepeda-castro-advance-to-the-second-round-of-the-2026-colombian-presidential-election",
+    "c": "Elections",
+    "r": 1780185600
+  },
+  "0x5cf6ef5ddb03445ade94ca79a361ffb3b4abe9ec2f9b752b963eb657ca8798b1": {
+    "w": "NO",
+    "q": "Will the US announce a blockade on Iran by June 30?",
+    "s": "will-the-us-announce-a-blockade-on-iran-by-june-30-20260622191116911",
+    "c": "Military & Defense",
+    "r": 1782863940
+  },
+  "0xebcd9c5828dbe6901c9412d9078a8d511403f77ec21e70aba71c3cadd4100a05": {
+    "w": "NO",
+    "q": "Will the US announce withdrawal from MOU negotiations by June 26?",
+    "s": "will-the-us-announce-withdrawal-from-mou-negotiations-by-june-26-20260622192122519",
+    "c": "Tech & Announcements",
+    "r": 1782518340
+  },
+  "0x78b2557d0e743b8bfa1c944ddbb116aabf2a9bd602e1880ede71f8e27dfe363f": {
+    "w": "NO",
+    "q": "Will the US announce withdrawal from MOU negotiations by June 30?",
+    "s": "will-the-us-announce-withdrawal-from-mou-negotiations-by-june-30-20260622192122520",
+    "c": "Tech & Announcements",
+    "r": 1782863940
+  },
+  "0x1dbce4c7cbafaa96756be21a1c2eae4c500b1e4306b623ac2646832e3c760a3b": {
+    "w": "NO",
+    "q": "US x Iran diplomatic meeting by June 26, 2026?",
+    "s": "us-x-iran-diplomatic-meeting-by-june-26-2026-20260622191708358",
+    "c": "World",
+    "r": 1782518340
+  },
+  "0xaa5cdb6830cbfa2ca711b7cf93bd42cf4f8e062d44ea188c0b8ec1fb2924c083": {
+    "w": "NO",
+    "q": "Will Reza Pahlavi lead Iran in 2026?",
+    "s": "will-reza-pahlavi-lead-iran-in-2026",
+    "c": "World",
+    "r": 1798675200
+  },
+  "0xb5202a8a93caf90216c8017805b54c0d68a30344baebff2d42bcfcec401b3dc3": {
+    "w": "YES",
+    "q": "Will \"Obsession\" be the May film with the highest domestic gross on June 30?",
+    "s": "will-obsession-be-the-may-film-with-the-highest-domestic-gross-on-june-30",
+    "c": "Culture",
+    "r": 1782777600
+  },
+  "0x17c1591393e9bfcaa68c89086af37ffc1b44db673c56c8bebe07480759c6038a": {
+    "w": "NO",
+    "q": "US-Iran Final Nuclear Deal by June 30, 2026?",
+    "s": "us-iran-final-nuclear-deal-by-june-30-2026-20260621201255150",
+    "c": "Military & Defense",
+    "r": 1782863940
+  },
+  "0xfcc93de88db8519da63a0f56b47f895b4b5921f116ec7830910fe10ed151bd33": {
+    "w": "YES",
+    "q": "Another US strike on Venezuela by December 31?",
+    "s": "another-us-strike-on-venezuela-by-december-31",
+    "c": "Military & Defense",
+    "r": 1769817600
+  },
+  "0x81a537b379a35e4e17c286d3b37394e94bd74c1779bbe9a13670eb991b201a3a": {
+    "w": "NO",
+    "q": "Will Tarcisio de Freitas win the 2026 Brazilian presidential election?",
+    "s": "will-tarcisio-de-frietas-win-the-2026-brazilian-presidential-election",
+    "c": "Elections",
+    "r": 1791072000
+  },
+  "0x01b730ad821092737766fe8b09e26cd4cb09a8bddf7cb9121e56615ef5693295": {
+    "w": "YES",
+    "q": "Will Israel be in the top 3 at Eurovision 2026?",
+    "s": "will-israel-be-in-the-top-3-at-eurovision-2026",
+    "c": "World",
+    "r": 1778889600
+  },
+  "0x0ad08cab7fb310932104eb5524279673b9b758811b73cd42839974893f797161": {
+    "w": "NO",
+    "q": "Will Israel strike ≥4 countries in April 2026?",
+    "s": "will-israel-strike-4-countries-in-april-2026",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x5f1b1caf70eb994bfff2986727a05a3ac9f7ec8b0da4017f7732596d023e5a07": {
+    "w": "NO",
+    "q": "Will Kristi Noem win the 2028 Republican presidential nomination?",
+    "s": "will-kristi-noem-win-the-2028-republican-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0x149e2cdbf5b3df3142452412c4c9f4e8f39379020ba1bc25c1811a3f43c8ad27": {
+    "w": "NO",
+    "q": "Will Saudi Arabia strike Iran by March 31?",
+    "s": "will-saudi-arabia-strike-iran-by-march-31",
+    "c": "World",
+    "r": 946684800
+  },
+  "0x5cd80b8fd72f37c78260a4f8fa0d5bbaaad3adffcfc2c0705e05ee20b8672908": {
+    "w": "YES",
+    "q": "Will Anthropic have the best AI model at the end of March 2026?",
+    "s": "will-anthropic-have-the-best-ai-model-at-the-end-of-march-2026-437",
+    "c": "Tech & Announcements",
+    "r": 1774915200
+  },
+  "0xc0c812eaa5ae190e9e346aa8325f3c47ccffa8aa0066fea28512ab100b989379": {
+    "w": "NO",
+    "q": "Will Alex Zdan be the Republican nominee for Senate in New Jersey?",
+    "s": "will-alex-zdan-be-the-republican-nominee-for-senate-in-new-jersey-338",
+    "c": "Politics",
+    "r": 1780358400
+  },
+  "0xe02033cef06e942fbe1fdc9cc259abe9682265d349642598ab27ad677083d054": {
+    "w": "NO",
+    "q": "Will 40 ships transit the Strait of Hormuz on any day by May 31?",
+    "s": "will-40-ships-transit-the-strait-of-hormuz-on-any-day-by-may-31",
+    "c": "Military & Defense",
+    "r": 1780185600
+  },
+  "0x822e61527476cabf98927e3aad385c5ecdae7086f945535f2c1fd9ae8dbfa46e": {
+    "w": "NO",
+    "q": "Will George Clooney win the 2028 Democratic presidential nomination?",
+    "s": "will-george-clooney-win-the-2028-democratic-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0x3f21513463b9883fbd5b2f0496397ff7c9f15d0b94751cdfbd0ca8f8c82a594e": {
+    "w": "NO",
+    "q": "Will Israel win the televote for Eurovision 2026?",
+    "s": "will-israel-win-the-televote-for-eurovision-2026",
+    "c": "World",
+    "r": 1778889600
+  },
+  "0x2c6df310dbe1e479c0ac819fb3ac416c92a9c19c5399509f3554636d3db5ac94": {
+    "w": "NO",
+    "q": "Will the Emmanuel Grégoire List win the most citywide list votes in the runoff of the 2026 Paris municipal election by <5%?",
+    "s": "will-the-emmanuel-grgoire-list-win-the-most-citywide-list-votes-in-the-runoff-of-the-2026-paris-municipal-election-by-5",
+    "c": "Elections",
+    "r": 1774137600
+  },
+  "0xca1d1139b0c3a29983407f499476ae642482788e841a277eb86faeeb9fa4a85c": {
+    "w": "NO",
+    "q": "Will John Fetterman win the 2028 Democratic presidential nomination?",
+    "s": "will-john-fetterman-win-the-2028-democratic-presidential-nomination-941",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0xec5f006a67dc2d3b757968aac03b9d6c82b1314e7e43bb484c01f3738648e27f": {
+    "w": "NO",
+    "q": "Will André Ventura win the 1st round of the 2026 Portugal presidential election?",
+    "s": "will-andr-ventura-win-the-1st-round-of-the-2026-portugal-presidential-election",
+    "c": "Elections",
+    "r": 1769299200
+  },
+  "0xf8dbde8b6e038775a673947e59da2de15a2127272b50b9877400fdbf7cfc3026": {
+    "w": "NO",
+    "q": "Will Tom Brady win the 2028 Republican presidential nomination?",
+    "s": "will-tom-brady-win-the-2028-republican-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0xcc55d1e71c5afcc602952ece1a60a729f687ce7d4f731b407c1a6b9339bfc5ce": {
+    "w": "YES",
+    "q": "Will \"Michael\" 2nd Weekend Box Office be between 35m and 38m?",
+    "s": "will-michael-2nd-weekend-box-office-be-between-35m-and-38m",
+    "c": "Culture",
+    "r": 1778457600
+  },
+  "0x00cf5f4a419743e3bbaea3d01537c895ecfd8edba5e539967fe662573de44f23": {
+    "w": "NO",
+    "q": "Israel military action against Yemen by April 15, 2026?",
+    "s": "israel-military-action-against-yemen-by-april-15-2026",
+    "c": "Military & Defense",
+    "r": 1776211200
+  },
+  "0x214093035e429b91df322bd20c55d9f611f741f67472a63f7623a9afc0cffa57": {
+    "w": "NO",
+    "q": "Will Greg Abbott win the 2028 Republican presidential nomination?",
+    "s": "will-greg-abbott-win-the-2028-republican-presidential-nomination",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0xa1f29ddc6bfebb7334386d797989209b740c45bd28f7593d2d85ea852c561cba": {
+    "w": "NO",
+    "q": "US/Israel strike Yemen by March 31?",
+    "s": "usisrael-strike-yemen-by-march-31",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xaf28e7e0324071763ac4f7a96d72968dfb54f98977bad138c39685f2e87c8062": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 9, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-9-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xd185f10a7d0f07e733e02a6811fc2930fb7478166107669fe58bd7ba37aa9895": {
+    "w": "NO",
+    "q": "Will Timothée Chalamet win Best Actor at the 98th Academy Awards?",
+    "s": "will-timothe-chalamet-win-best-actor-at-the-98th-academy-awards",
+    "c": "Culture",
+    "r": 1773532800
+  },
+  "0x939eeb2dea216749bd409bedde483c3f2bfb0e24d4f2d34461c0b21c6e91f010": {
+    "w": "NO",
+    "q": "Will Roy Cooper win the 2028 Democratic presidential nomination?",
+    "s": "will-roy-cooper-win-the-2028-democratic-presidential-nomination-286",
+    "c": "Politics",
+    "r": 1857168000
+  },
+  "0xa6476a06c1458028d5923d3e1c72d4dcd98122747f335101f3408f5c08aa22ca": {
+    "w": "YES",
+    "q": "Will \"Michael\" Opening Weekend Box Office be greater than 80m?",
+    "s": "will-michael-opening-weekend-box-office-be-greater-than-80m",
+    "c": "Culture",
+    "r": 1777248000
+  },
+  "0x6047ba3cf0ea637922d07cbd6dc835ee2c9859644f0bb744758b2b11aaf030b6": {
+    "w": "YES",
+    "q": "Will Anthropic have the #1 AI model at the end of April 2026 (Style Control On)?",
+    "s": "will-anthropic-have-the-1-ai-model-at-the-end-of-april-2026-style-control-on",
+    "c": "Tech & Announcements",
+    "r": 1777507200
+  },
+  "0x4cb414aa5143ac7f34bb58e12cd75e5b0bb142fbe316921b0d3167808a339ea4": {
+    "w": "YES",
+    "q": "Will Ukraine be in the top 10 at Eurovision 2026?",
+    "s": "will-ukraine-be-in-the-top-10-at-eurovision-2026",
+    "c": "World",
+    "r": 1778889600
+  },
+  "0xc28589f4effa41509c87c36535208481f7ab8878a4926a1014d6e525816df729": {
+    "w": "YES",
+    "q": "Will the Freedom Movement (GS) win the most seats in the 2026 Slovenian parliamentary election?",
+    "s": "will-the-freedom-movement-gs-win-the-most-seats-in-the-2026-slovenian-parliamentary-election-529",
+    "c": "Elections",
+    "r": 1774137600
+  },
+  "0xb79b3e4a9eca37f56dbd00bb495be37079050b1bea9759e0281fe8fe475dc5aa": {
+    "w": "NO",
+    "q": "Will Parti conservateur du Québec win the most seats in the 2026 Quebec general election?",
+    "s": "will-parti-conservateur-du-qubec-win-the-most-seats-in-the-2026-quebec-general-election",
+    "c": "Elections",
+    "r": 1791158400
+  },
+  "0xcbf9e16f0ad8bef39c3860dda598df8c4906f737bbed4dc1c65f7e0c07675ab3": {
+    "w": "YES",
+    "q": "Will Anthropic have the best AI model at the end of February 2026?",
+    "s": "will-anthropic-have-the-best-ai-model-at-the-end-of-february-2026",
+    "c": "Tech & Announcements",
+    "r": 1772236800
   }
 }
