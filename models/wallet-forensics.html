@@ -1603,9 +1603,12 @@ class Component extends DCLogic {
       return {
         onClick: () => this.select(s.id),
         onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.select(s.id); } },
-        // ONLY the user-selected card carries the bright glow; every other card is neutral
-        // (no green border) so a single click highlights exactly one wallet.
-        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;transition:transform .18s,border-color .18s,box-shadow .18s;" + GLASS + (isSel ? "border-color:#34D399;box-shadow:0 0 0 1.5px rgba(52,211,153,0.65),0 0 46px -4px rgba(52,211,153,0.75),0 0 18px -6px rgba(52,211,153,0.6),0 10px 26px -18px rgba(0,0,0,0.55);" : ""),
+        // ONLY the user-selected card shows anything: a GREEN border + bright green glow.
+        // Every OTHER card has a fully TRANSPARENT border (no white/grey outline at all) — the
+        // GLASS #1F2A25 border was rendering as a visible light outline around every card, which
+        // is the "white outline" the user kept seeing. Non-selected = just the card fill + a soft
+        // dark drop-shadow, no edge line. So a single click highlights exactly one wallet in green.
+        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;background:#0E1512;border:1px solid " + (isSel ? "#34D399" : "transparent") + ";transition:transform .18s,border-color .18s,box-shadow .18s;" + (isSel ? "box-shadow:0 0 0 1.5px rgba(52,211,153,0.65),0 0 46px -4px rgba(52,211,153,0.75),0 0 18px -6px rgba(52,211,153,0.6),0 10px 26px -18px rgba(0,0,0,0.55);" : "box-shadow:0 8px 24px -18px rgba(0,0,0,0.55);"),
         accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:" + (isSel ? "4px" : "3px") + ";border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 18px 2px rgba(52,211,153,0.95);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
         whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         whoLabel: this.whoLabel(s), why: this.whyLine(s),
