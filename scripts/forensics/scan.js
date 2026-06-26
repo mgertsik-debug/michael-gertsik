@@ -143,6 +143,40 @@ async function run() {
     await poly.sleep(60);
   }
   state._catalog = catalog;        // handed to deep-enrich + persisted in finalize
+
+  // ---- LIVE DISCOVERY FEED ----------------------------------------------------
+  // Pull the most recent trades across ALL of Polymarket (no user filter) so
+  // brand-new wallets are observed the MOMENT they trade, not only when the
+  // resolved-market sweep eventually reaches their markets. Every distinct wallet
+  // is folded into the all-time observed count (HLL) below; any whose trade lands
+  // in a cataloged in-scope RESOLVED market is screened immediately, so a fresh
+  // wallet that just won a long-shot enters the candidate pool the same tick.
+  // This is what drives `observed` toward the full ~300k Polymarket population;
+  // scoring still happens only on RESOLVED records (an open bet can't be scored).
+  let liveTrades = 0, liveNew = 0, liveScreened = 0;
+  try {
+    const recent = await poly.recentTrades({ pages: +ENV.LIVE_PAGES || 12 });
+    liveTrades = recent.length;
+    const liveByMarket = {};
+    for (const t of recent) {
+      const w = t.proxyWallet || t.user || t.maker || t.taker;
+      if (!w) continue;
+      if (!state._reviewedThisRun.has(w)) liveNew++;
+      state._reviewedThisRun.add(w);                          // → all-time observed (HLL)
+      const cond = t.conditionId || t.market || t.condition_id;
+      if (cond && catalog[cond]) (liveByMarket[cond] = liveByMarket[cond] || []).push(t);  // resolved + in-scope ⇒ screenable now
+    }
+    for (const cond of Object.keys(liveByMarket)) {
+      const c = catalog[cond];
+      const mk = { cond, eventGroup: c.s, question: c.q, category: c.c, winner: c.w,
+        url: c.s ? "https://polymarket.com/event/" + c.s : "https://polymarket.com/markets",
+        resolvedMs: c.r ? c.r * 1000 : null };
+      const before = Object.keys(state.screened).length;
+      mergeMarket(state, mk, poly.aggregateMarket(mk, liveByMarket[cond]));
+      liveScreened += Math.max(0, Object.keys(state.screened).length - before);
+    }
+  } catch (e) { log("live feed skipped:", e && e.message); }
+  log("live feed: " + liveTrades + " recent trades · " + liveNew + " new wallets discovered · " + liveScreened + " new resolved candidates screened");
   // `observed` = ALL-TIME DISTINCT wallets ever seen (HyperLogLog sketch, ~4 KB),
   // deduplicated, the single honest top-of-funnel. Every wallet touched this run is
   // folded in; the sketch persists across sweeps. `reviewed` mirrors it (same set,

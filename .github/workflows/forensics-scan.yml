@@ -51,6 +51,9 @@ jobs:
           # slice the sweep has reached (which left avg 4.5 bets/wallet and ~nothing flagged).
           ONDEMAND_PER_RUN: "2000"
           ONDEMAND_PER_WALLET: "100"
+          # Live discovery feed: pages of the global recent-trades stream pulled each
+          # tick so brand-new wallets are folded into `observed` the moment they trade.
+          LIVE_PAGES: "16"
           # Optional: a Polygonscan/Etherscan key gives reliable funding traces
           # (fresh-wallet, cluster funder, cash-out). Without it the job falls
           # back to the public Polygon RPC (POLYGON_RPC) and degrades honestly.

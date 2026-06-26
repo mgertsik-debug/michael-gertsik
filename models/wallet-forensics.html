@@ -797,10 +797,19 @@ class Component extends DCLogic {
         calibration: "weights tuned on the documented multi-wallet defense ring",
         confidenceNote: "Links are probabilistic inferences, not confirmed common ownership.",
       },
+      conviction: {
+        name: "Single high-conviction bet", citation: "lone-insider / one-shot signature (binomial needs n≥5, can't see it)",
+        formula: "fires if  stake ≥ $10,000  AND  entry p ≤ 0.15  AND  held to resolution AND won",
+        symbols: [["stake", "USD committed to the one bet"], ["p", "implied probability at entry"], ["payout", "amount returned"], ["×", "return multiple = payout / stake"]],
+        threshold: "stake ≥ $10k at ≤ 15% implied, held, won — plus ≥ 2 other detectors agreeing",
+        source: "Polymarket trade + settlement record",
+        calibration: "modeled on the DOJ Maduro-capture case (Van Dyke: ~$32k → ~$400k on a long-shot)",
+        confidenceNote: "One bet is not statistically improbable on its own — the signal is its SIZE + conviction + win together, never the lone bet's odds.",
+      },
     };
   }
 
-  findingName(key) { return { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group" }[key] || key; }
+  findingName(key) { return { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet" }[key] || key; }
 
   baselineFor(key, s) {
     if (key === "won") {
@@ -818,6 +827,7 @@ class Component extends DCLogic {
 
   inputsFor(key, s) {
     if (key === "won") return [["n", String(s.marketsCount) + " bets"], ["k", String(s.wins) + " wins"], ["p", (s.avgImplied / 100).toFixed(2)], ["E[X]", s.expectedWins + " expected wins"], ["P", s.improbText]];
+    if (key === "conviction" && s.convBet) return [["stake", "$" + s.convBet.stake.toLocaleString("en-US")], ["p", (s.convBet.entryPct / 100).toFixed(2) + " (" + s.convBet.entryPct + "%)"], ["payout", "$" + s.convBet.payout.toLocaleString("en-US")], ["return", (s.convBet.mult != null ? s.convBet.mult + "\u00d7" : "\u2014")]];
     if (key === "longshot") return [["p\u0304", (s.avgImplied / 100).toFixed(2)], ["n", String(s.marketsCount)], ["\u03c4", "0.20"]];
     if (key === "held") { const k = s.wins; return [["held", String(s.marketsCount)], ["total", String(s.marketsCount)], ["h", "1.00"]]; }
     if (key === "fresh") return [["age", "\u2248 4 days"], ["prior_tx", "0"]];
@@ -1344,7 +1354,7 @@ class Component extends DCLogic {
     });
 
     // findings
-    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group" };
+    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet" };
     const explainMap = {
       fresh: "Created just days before the bets, with no prior history.",
       longshot: "Targeted unlikely outcomes priced around " + sel.avgImplied + "%, where an informed bet pays the most.",
@@ -1352,8 +1362,9 @@ class Component extends DCLogic {
       won: "Won " + sel.winRate + "% of bets the market priced at about " + sel.avgImplied + "%.",
       conceal: "Used tactics that hide the size or the trail of the bets — splitting stakes, decoys, or fast cash-outs.",
       cluster: "Many accounts that were funded together and bet in lockstep, acting as one.",
+      conviction: sel.convBet ? ("Put $" + sel.convBet.stake.toLocaleString("en-US") + " on a " + sel.convBet.entryPct + "%-implied long-shot, held it to resolution, and cashed out $" + sel.convBet.payout.toLocaleString("en-US") + " — a " + (sel.convBet.mult != null ? sel.convBet.mult + "×" : "large") + " return on one outsized bet.") : "A single outsized long-shot bet, held to resolution and won.",
     };
-    const barMap = { fresh: 0.92, longshot: 0.84, held: 1.0, won: 0.97, conceal: 0.78, cluster: 0.9 };
+    const barMap = { fresh: 0.92, longshot: 0.84, held: 1.0, won: 0.97, conceal: 0.78, cluster: 0.9, conviction: 0.95 };
     const contrib = this.contributionMap(sel);
     const findings = (sel.scorecard || []).map((r) => {
       const open = !!st.measure[r.key];

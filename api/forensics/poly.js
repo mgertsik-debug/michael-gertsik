@@ -361,6 +361,26 @@ function positionToBet(p) {
   };
 }
 
+// LIVE DISCOVERY FEED — the most recent trades across ALL of Polymarket (no user
+// filter), newest first. This is how brand-new wallets are seen the MOMENT they
+// trade, instead of only when the resolved-market sweep eventually reaches their
+// markets. Returns raw trade rows (proxyWallet, conditionId, price, outcome, ts…).
+// Paginated + bounded so a tick stays within budget.
+async function recentTrades(opts) {
+  const o = Object.assign({ pages: 12, limit: 500, pageDelayMs: 70, maxRows: 6000 }, opts);
+  const out = [];
+  let offset = 0;
+  for (let p = 0; p < o.pages && out.length < o.maxRows; p++) {
+    const d = await getJSON(DATA + "/trades?limit=" + o.limit + "&offset=" + offset + "&takerOnly=false", { timeout: 8000 }).catch(() => null);
+    const arr = Array.isArray(d) ? d : (d && (d.data || d.trades)) || [];
+    if (!arr.length) break;
+    out.push(...arr); offset += arr.length;
+    if (arr.length < o.limit) break;
+    await sleep(o.pageDelayMs);
+  }
+  return out;
+}
+
 // a wallet's first-ever Polymarket activity timestamp (seconds).
 async function firstSeen(wallet) {
   if (!wallet) return null;
@@ -428,7 +448,7 @@ function aggregateMarket(market, trades) {
 }
 
 module.exports = {
-  getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket,
+  getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket, recentTrades,
   userPositions, positionToBet, userTrades, buildUserRecord, marketsByConds, category, resolvedWinner, isBinary, tradeOutcome,
   GAMMA, DATA, CLOB,
 };
