@@ -394,8 +394,21 @@ async function finalize(state, snapshotTs) {
   const enrichedForCluster = wallets.filter((w) => (w.bets || []).length)
     .map((w) => Object.assign({}, w, { betEvents: Object.keys(w.entryByEvent || {}) }));
   let clusters = [];
-  try { clusters = cluster.buildClusters(enrichedForCluster); }
-  catch (e) { log("cluster pass failed (continuing single-wallet):", e && e.message); }
+  try {
+    // BUCKET BY FUNDER before clustering. A cluster needs a shared funder to clear the
+    // 0.80 link threshold, so wallets that don't share a funder can't cluster anyway —
+    // clustering WITHIN funder-buckets is O(Σ bucket²) instead of O(n²), which is what
+    // lets the screened pool scale to tens of thousands. Skip singletons and giant
+    // exchange-deposit buckets (>CLUSTER_BUCKET_MAX wallets = a hot wallet, not a ring).
+    const CLUSTER_BUCKET_MAX = +ENV.CLUSTER_BUCKET_MAX || 500;
+    const byFunder = {};
+    enrichedForCluster.forEach((w) => { const f = w.funder ? String(w.funder).toLowerCase() : null; if (f) (byFunder[f] = byFunder[f] || []).push(w); });
+    for (const f in byFunder) {
+      const bucket = byFunder[f];
+      if (bucket.length < 2 || bucket.length > CLUSTER_BUCKET_MAX) continue;
+      clusters = clusters.concat(cluster.buildClusters(bucket));
+    }
+  } catch (e) { log("cluster pass failed (continuing single-wallet):", e && e.message); }
   const clustered = new Set();
   const clusterAggs = clusters.map((cl, i) => { cl.members.forEach((m) => clustered.add(m.address)); return cluster.clusterAggregate(cl, i); });
   if (clusters.length) log("cluster pass: " + clusters.length + " ring(s) merged, covering " + clustered.size + " wallets");
