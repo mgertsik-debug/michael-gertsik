@@ -223,10 +223,18 @@ async function userTrades(wallet, opts) {
     } while (rows.length < o.maxTrades && pages < 16);
     return rows;
   }
-  let raw = await page(DATA + "/trades?user=" + encodeURIComponent(wallet) + "&takerOnly=false");
+  // CRITICAL SAFETY: /trades?user= returns GLOBAL recent trades when the user
+  // filter doesn't take (confirmed via raw probe) — so we MUST keep only rows
+  // whose proxyWallet matches the requested address, or we'd score a mix of
+  // other people's trades as one wallet. owner() reads the trade's wallet.
+  const lcw = String(wallet).toLowerCase();
+  const owner = (t) => String(t.proxyWallet || t.user || t.maker || t.taker || t.owner || "").toLowerCase();
+  const mine = (rows) => rows.filter((t) => owner(t) === lcw);
+
+  let raw = mine(await page(DATA + "/trades?user=" + encodeURIComponent(wallet) + "&takerOnly=false"));
   if (!raw.length) {
     const act = await page(DATA + "/activity?user=" + encodeURIComponent(wallet) + "&type=TRADE");
-    raw = act.filter((a) => !a.type || String(a.type).toUpperCase() === "TRADE");
+    raw = mine(act.filter((a) => !a.type || String(a.type).toUpperCase() === "TRADE"));
   }
   const seen = new Set();
   const out = [];
@@ -317,13 +325,26 @@ function positionToBet(p) {
   const totalBought = num(p.totalBought != null ? p.totalBought : (p.initialValue != null ? p.initialValue : size * avg));
   const title = String(p.title || p.question || "").trim();
   const endMs = Date.parse(p.endDate || p.end_date || 0) || 0;
-  const settled = cur <= 0.02 || cur >= 0.98 || p.redeemable === true || (endMs && endMs < Date.now());
+  // SETTLED only when the market has actually RESOLVED on-chain: the holder can
+  // redeem, or the held-outcome price has snapped to ~0/~1. A market whose nominal
+  // end DATE has passed but whose price is still mid-range is an OPEN position — a
+  // match that just ended but hasn't resolved on-chain yet, still tradable. Those
+  // are NOT resolved bets. (Counting them — at curPrice ~0.6, redeemable:false — as
+  // losses is exactly what turned a +$13M sharp's WINNING open positions into a
+  // "−$13K, everything Lost" long-shot loser. endDate<now is NOT a resolution.)
+  const settled = cur <= 0.02 || cur >= 0.98 || p.redeemable === true;
   if (!cond || !settled) return null;
   if (!(avg > 0.0001 && avg < 0.9999)) return null;            // need a real entry odds
-  // Label every settled market (Sports/Crypto included, "Other" when unknown) —
-  // the bettor's improbability is computed over their whole long-shot record;
-  // category drives the baseline/risk weight, it is NOT a gate that shrinks n.
-  const cat = category([], title) || categoryFallback(title);
+  // SCOPE GATE: only markets whose outcome can turn on NONPUBLIC information are
+  // scored. Sports / crypto / weather are decided in public (on the field, by price
+  // discovery) — an edge there is noise, not informed trading — so they are excluded
+  // from the forensic record entirely, not merely down-weighted. category() returns
+  // null for those (and for unmatched markets); null ⇒ drop the bet.
+  const cat = category([], title);
+  if (!cat) return null;
+  // curPrice is the HELD outcome's current price (confirmed against Polymarket's
+  // own profile: NO held at avg 0.542 → curPrice 0.622 → +14.7%). For a resolved
+  // binary that price is ~0 or ~1, so ≥0.5 means the side they held WON.
   const won = cur >= 0.5;
   // Polymarket's OWN realized P/L for this position — authoritative, matches the
   // number on the wallet's Polymarket profile. Prefer it over any reconstruction.

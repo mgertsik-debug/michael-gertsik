@@ -665,7 +665,9 @@ class Component extends DCLogic {
             h("span", null, b.entryOdds + " · " + b.stake + " · "),
             h("span", { style: { color: b.won ? "#34D399" : "#F87171", fontWeight: 600 } }, b.won ? "Won" : "Lost"))))) : null,
       h("div", { style: { fontFamily: mono, fontSize: "9.5px", color: "#5C6661", marginTop: "16px", lineHeight: 1.6 } },
-        "data: " + (src.trades || 0) + " trades · " + (src.tradesResolvable || 0) + " resolvable (" + (src.resolvedOnDemand || 0) + " resolved on-demand, " + (src.catalogSize || 0) + " in catalog) · pattern consistent with informed trading, not proof"));
+        "data: " + (src.trades || 0) + " trades · " + (src.resolvedTotal != null ? src.resolvedTotal : (src.tradesResolvable || 0)) + " resolved position" + ((src.resolvedTotal === 1) ? "" : "s") +
+        (src.outOfScope ? " · " + src.outOfScope + " excluded (sports/crypto/price markets — decided in public)" : "") +
+        " · " + (prof.resolvedBets != null ? prof.resolvedBets : 0) + " scored · pattern consistent with informed trading, not proof"));
   }
 
   componentWillUnmount() { if (this._onResize) window.removeEventListener("resize", this._onResize); }
