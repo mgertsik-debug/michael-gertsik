@@ -332,19 +332,30 @@ function finalize(state, snapshotTs) {
     clusterAggs.length + " clusters · " + payload.subjects.filter((s) => s.newlyFlagged).length + " newly) from " + meta.reviewed + " reviewed");
 
   // ---- bound state.json WITHOUT breaking accumulation. A wallet's record only
-  // matures as the sweep reaches its markets, so we must RETAIN screened wallets
-  // across the sweep (not drop them after one enrichment). When the set exceeds
-  // SCREEN_CAP, evict the LEAST-ACTIVE wallets (oldest last bet) that are not
-  // currently flagged — they're the least likely to ever clear the bar.
+  // matures as the sweep reaches its markets, so we RETAIN screened wallets across
+  // the sweep. When the set exceeds SCREEN_CAP, evict by SIGNAL, not recency: the
+  // screen admits any won long-shot (incl. $5 bets), so a recency cap was crowding
+  // out the actual suspects (big-stake long-shot winners). Keep the wallets most
+  // likely to ever clear the bar — biggest concentrated long-shot stake + most
+  // long-shot wins — and drop the tiny one-off gamblers first.
+  const sigScore = (w) => {
+    const ls = (w.bets || []).filter((b) => num(b.entryPrice) <= 0.35);
+    const wonLs = ls.filter((b) => b.won);
+    const maxStake = wonLs.reduce((m, b) => Math.max(m, num(b.stakeUsd)), 0);
+    const byEvent = {};
+    wonLs.forEach((b) => { const e = b.eventGroup || b.cond; byEvent[e] = (byEvent[e] || 0) + num(b.stakeUsd); });
+    const maxEventStake = Object.values(byEvent).reduce((m, s) => Math.max(m, s), 0);
+    return Math.max(maxStake, maxEventStake) + wonLs.length * 750 + ls.length * 50;
+  };
   const flaggedAddrs = new Set();
   payload.subjects.forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && flaggedAddrs.add(a)));
   const addrs = Object.keys(state.screened);
   if (addrs.length > SCREEN_CAP) {
     const evictable = addrs.filter((a) => !flaggedAddrs.has(a))
-      .sort((a, b) => (state.screened[a].lastTs || 0) - (state.screened[b].lastTs || 0));
+      .sort((a, b) => sigScore(state.screened[a]) - sigScore(state.screened[b]));   // lowest signal first
     const toEvict = evictable.slice(0, addrs.length - SCREEN_CAP);
     toEvict.forEach((a) => delete state.screened[a]);
-    if (toEvict.length) log("evicted " + toEvict.length + " least-active wallets (cap " + SCREEN_CAP + ") · " + Object.keys(state.screened).length + " retained");
+    if (toEvict.length) log("evicted " + toEvict.length + " lowest-signal wallets (cap " + SCREEN_CAP + ") · " + Object.keys(state.screened).length + " retained");
   }
 
   // persist the resolved-market catalog, bounded to the most-recent CATALOG_MAX

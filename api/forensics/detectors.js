@@ -231,22 +231,35 @@ function conviction(bets, opts) {
   const resolved = (bets || []).filter((b) => b && isNum(odds(b)) && typeof b.won === "boolean");
   const wins = resolved.filter((b) => b.won && odds(b) <= o.convictionTau && b.held !== false);
   if (!wins.length) return { key: "conviction", hasData: false };
-  const top = wins.slice().sort((a, b) => (Number(b.stakeUsd) || 0) - (Number(a.stakeUsd) || 0))[0];
-  const stake = Number(top.stakeUsd) || 0;
-  const p = clip(odds(top), 1e-4, 1 - 1e-4);
+  // EVENT-CONCENTRATION: an insider knows ONE thing and bets it hard across ALL the
+  // related markets, so we sum the staked conviction by EVENT, not by single bet.
+  // Van Dyke spread ~$32k across several Maduro-capture date-markets — no single bet
+  // is the signal, the concentrated event position is. (Reduces to single-bet
+  // behaviour when each win is its own event.) p = stake-weighted entry odds.
+  const byEvent = {};
+  for (const b of wins) {
+    const ev = b.eventGroup || b.question || b.cond || "?";
+    const e = byEvent[ev] || (byEvent[ev] = { ev, stake: 0, wsum: 0, market: b.question || ev, markets: 0 });
+    const s = Number(b.stakeUsd) || 0;
+    e.stake += s; e.wsum += s * clip(odds(b), 1e-4, 1 - 1e-4); e.markets++;
+  }
+  const top = Object.values(byEvent).sort((a, b) => b.stake - a.stake)[0];
+  const stake = top.stake;
+  const p = clip(top.stake > 0 ? top.wsum / top.stake : o.convictionTau, 1e-4, 1 - 1e-4);
   const payout = stake > 0 ? Math.round(stake / p) : 0;
   const fires = stake >= o.convictionUsd && p <= o.convictionTau;
   const score = fires
-    ? clip(0.45 + 0.18 * Math.log10(Math.max(1, stake / o.convictionUsd)) + (o.convictionTau - top.entryPrice), 0, 1)
+    ? clip(0.45 + 0.18 * Math.log10(Math.max(1, stake / o.convictionUsd)) + (o.convictionTau - p), 0, 1)
     : clip((stake / o.convictionUsd) * 0.3, 0, 0.39);
   const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+  const where = top.markets > 1 ? (usd(stake) + " across " + top.markets + " markets of one event") : ("a single " + usd(stake) + " bet");
   return {
     key: "conviction", hasData: true, score, fires,
-    stake, entryPrice: +p.toFixed(4), payout, market: top.question || "",
+    stake, entryPrice: +p.toFixed(4), payout, market: top.market || "", markets: top.markets,
     explain: fires
-      ? "A single " + usd(stake) + " bet at ~" + Math.round(p * 100) + "% that paid ~" + usd(payout) +
-        " — a lone high-conviction long-shot, the single-bet insider signature (improbability needs ≥5 bets; this is the confluence path)."
-      : "Largest single long-shot win " + usd(stake) + " at ~" + Math.round(p * 100) + "% — below the high-conviction threshold (" + usd(o.convictionUsd) + ").",
+      ? where + " at ~" + Math.round(p * 100) + "% that paid ~" + usd(payout) +
+        " — a high-conviction long-shot concentrated on one outcome, the single-event insider signature (the binomial needs ≥5 independent events; this is the confluence path)."
+      : "Largest concentrated long-shot position " + usd(stake) + " at ~" + Math.round(p * 100) + "% — below the high-conviction threshold (" + usd(o.convictionUsd) + ").",
   };
 }
 
