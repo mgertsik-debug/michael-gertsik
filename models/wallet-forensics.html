@@ -237,7 +237,7 @@
             <button onClick="{{ sel.copyAddr }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ sel.copyColor }}; background: transparent; border: 1px solid {{ sel.copyBorder }}; border-radius: 7px; padding: 4px 9px; cursor: pointer;">{{ sel.copyLabel }}</button>
             <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7E8C86; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34A382;color:#C4CAC6;">Polymarket ↗</a>
           </div>
-          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">First active {{ sel.firstSeen }}.</div>
+          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">{{ sel.createdLine }}</div>
           <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
             <div style="font-size: 13.5px; color: #949C98; margin-top: 8px; line-height: 1.6; max-width: 620px;">These wallets appear to be controlled by one person or group. See the connection evidence below.</div>
           </sc-if>
@@ -1166,16 +1166,12 @@ class Component extends DCLogic {
 
   whyLine(s) {
     const phrase = { "Military & Defense": "military events", "Politics": "political events", "Elections": "elections", "Economics": "economic events", "Crypto": "crypto events", "Culture": "culture markets", "Sports": "sports markets", "World": "world events" }[s.category] || "these markets";
-    // Two DISTINCT facts, kept separate so neither is misread:
-    //   • the long-shot SIGNAL (win rate / conviction bet) — over the ≤35% subset, this category
-    //   • the wallet's NET P/L — Polymarket's authoritative all-time figure (ALL markets), so it
-    //     is labeled as such, never implied to be the profit from just the long-shots above.
-    const netPL = (s.type === "cluster" ? "pooled P&L " : "net P&L ") + (s.profit || "—");
+    // CONVICTION wallets aren't flagged by their win RATE (which may be unremarkable) —
+    // they're flagged by one big winning long-shot bet. Describe THAT, not "won X%".
     if (s.convictionFlag && s.convBet) {
-      const payout = s.convBet.payout ? ("$" + s.convBet.payout.toLocaleString("en-US")) : null;
-      return "Put $" + (s.convBet.stake || 0).toLocaleString("en-US") + " on a ~" + (s.convBet.entryPct || s.avgImplied) + "% long-shot on " + phrase + (payout ? " and won " + payout : " and won") + " · " + netPL + " all-time.";
+      return "Put " + ("$" + (s.convBet.stake || 0).toLocaleString("en-US")) + " on a ~" + (s.convBet.entryPct || s.avgImplied) + "% long-shot on " + phrase + " and won — about " + s.profit + ".";
     }
-    return "Won " + s.winRate + "% of its long-shot bets on " + phrase + " · " + netPL + " all-time on Polymarket.";
+    return "Won " + s.winRate + "% of long-shot bets on " + phrase + " — about " + s.profit + ".";
   }
 
   depositChips(s) {
@@ -1657,7 +1653,7 @@ class Component extends DCLogic {
 
     const saved = !!st.saved[sel.id];
     const ls = sel.ledgerSummary || {};
-    const summaryLine = ls.markets ? (ls.markets + " long-shot bets · " + ls.winRate + "% won · " + sel.profit + (sel.type === "cluster" ? " pooled P&L" : " net P&L (all-time)")) : "";
+    const summaryLine = ls.markets ? (ls.markets + " bets · " + ls.winRate + "% won · " + sel.profit + " profit") : "";
 
     // ---------- FILTER CONTROL SURFACE ----------
     const chipOn = (on) => "font-family:Inter;font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;border:1px solid " + (on ? "#34D399" : "#1F2A25") + ";color:" + (on ? "#34D399" : "#949C98") + ";background:" + (on ? "rgba(52,211,153,0.12)" : "#0E1512") + ";";
@@ -1735,7 +1731,13 @@ class Component extends DCLogic {
         copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "\u2713 copied" : "\u29c9 copy address",
         copyColor: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#949C98",
         copyBorder: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#243029",
-        firstSeen: sel.firstSeen || "an unrecorded date", isCluster: sel.type === "cluster" && !!sel.cluster,
+        firstSeen: sel.firstSeen || "an unrecorded date",
+        createdLine: sel.type === "cluster"
+          ? ("First active " + (sel.firstSeen || "an unrecorded date") + ".")
+          : (sel.createdOnChain
+              ? ("Wallet created " + (sel.created || sel.firstSeen) + " (on-chain) · first active on Polymarket " + (sel.firstSeen || "—") + ".")
+              : ("First active " + (sel.firstSeen || "an unrecorded date") + ".")),
+        isCluster: sel.type === "cluster" && !!sel.cluster,
         depositChips: this.depositChips(sel),
         concernColor: ct.color, concernGlow: ct.glow, concernBorder: ct.border, concernBg: ct.bg, concernLabel: ct.label,
         heroSentence: sel.heroSentence || ("This " + (sel.type === "cluster" ? "group" : "account") + " won " + sel.winRate + "% of " + sel.marketsCount + " long-shot bets priced near " + sel.avgImplied + "%. A record this strong is very hard to explain by luck. A full evidence file has not yet been compiled for this subject."),

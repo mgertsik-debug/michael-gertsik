@@ -136,16 +136,6 @@ test("NO authoritative P/L: single wallet is DEFERRED, never published with an u
   assert.equal(s, null, "no profile -> defer rather than fabricate");
 });
 
-test("TRIVIAL net profit: improbable record but only +$382 all-time -> dropped (the <$1k case)", () => {
-  // 14/16 at 11% is statistically extreme and the stake clears materiality, but the
-  // account netted a trivial +$382 all-time — not a credible insider. Must not publish.
-  const s = B.buildSubject(agg("0xtiny000000000000000000000000000000aa04", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: { pnlAllTime: 382 } }), 0, {});
-  assert.equal(s, null, "sub-$1k net profit is dropped");
-  // a wallet just over the floor still publishes
-  const ok = B.buildSubject(agg("0xover000000000000000000000000000000aa05", 14, 2, 0.11, "Military & Defense", { stake: 1500, profile: { pnlAllTime: 4200 } }), 0, {});
-  assert.ok(ok && ok.tier, "above the floor publishes");
-});
-
 test("RECONSTRUCTED Iran-ring cluster aggregate -> extreme subject with cluster card", () => {
   const bets = [];
   for (let i = 0; i < 30; i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Q" + i, url: "#", category: "Military & Defense", entryPrice: 0.09, stakeUsd: 20000, outcome: "YES", won: true, held: true, ts: 1700000000 + i, tx: "0x" + i });

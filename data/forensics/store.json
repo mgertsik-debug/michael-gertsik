@@ -9,6 +9,8 @@
       ],
       "idLabel": "0xa7…0193",
       "username": "bigtoetiger",
+      "created": "Oct 25 2024",
+      "createdOnChain": false,
       "firstSeen": "Oct 25 2024",
       "category": "World",
       "marketsCount": 23,
@@ -469,12 +471,534 @@
       "_tradedCount": 125,
       "wins": 11,
       "expectedWins": 3.45,
-      "percentile": 99.951,
-      "percentileN": 2057,
+      "percentile": 99.953,
+      "percentileN": 2131,
       "volumeNum": 249063,
       "volume": "$249K",
       "lastActivity": "119 days ago",
       "firstFlaggedAt": 1782485268,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
+      "id": "w2269",
+      "type": "wallet",
+      "address": "0x1c4cd350bce3cb791daf88ce2034de9b03318d85",
+      "memberAddresses": [
+        "0x1c4cd350bce3cb791daf88ce2034de9b03318d85"
+      ],
+      "idLabel": "0x1c…8d85",
+      "username": "Jydyjyd",
+      "created": "Aug 26 2025",
+      "createdOnChain": false,
+      "firstSeen": "Aug 26 2025",
+      "category": "Military & Defense",
+      "marketsCount": 52,
+      "tier": "watch",
+      "improbText": "1 in 3.1K",
+      "improbDenom": 3085,
+      "improbFull": "1 in 3.1 thousand",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": true,
+      "winRate": 35,
+      "avgImplied": 15,
+      "profit": "$25K",
+      "fired": [
+        "won",
+        "timing",
+        "sizing",
+        "longshot",
+        "fresh"
+      ],
+      "contributions": {
+        "won": 41,
+        "timing": 20,
+        "sizing": 15,
+        "longshot": 14,
+        "fresh": 10
+      },
+      "agreeing": 4,
+      "refId": "WF-2025-268",
+      "cexChips": [],
+      "heroSentence": "This account won 18 of 52 long-shot bets that the market gave roughly a 15 percent chance. By luck you would expect about 7.73 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "2h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~2h after funding, with no prior transactions — a purpose-built wallet.",
+          "inputs": [
+            [
+              "age",
+              "2 h"
+            ],
+            [
+              "prior_tx",
+              "0"
+            ]
+          ]
+        },
+        {
+          "key": "longshot",
+          "metric": "15% avg",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~15% across 55 bets — concentrated in long shots (≤20%).",
+          "inputs": [
+            [
+              "p̄",
+              "0.15"
+            ],
+            [
+              "n",
+              "55 long-shots"
+            ],
+            [
+              "τ",
+              "0.20"
+            ]
+          ]
+        },
+        {
+          "key": "won",
+          "metric": "35% vs 15%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 18 wins in 52 tries at 15% each",
+          "numbers": "Won 18 of 52 independent bets the market priced at ~15% — about 7.73 expected by luck. Probability by chance ≈ 1 in 3.1K (3 correlated bets de-correlated).",
+          "inputs": [
+            [
+              "n",
+              "52 bets"
+            ],
+            [
+              "k",
+              "18 wins"
+            ],
+            [
+              "p",
+              "0.15"
+            ],
+            [
+              "E[X]",
+              "7.73 expected"
+            ],
+            [
+              "P",
+              "1 in 3.1K"
+            ]
+          ]
+        },
+        {
+          "key": "sizing",
+          "metric": "25× median",
+          "method": "within-trader bet-size anomaly",
+          "formula": "largest event position ÷ this wallet's median bet",
+          "numbers": "Largest position $5,128 is ~25× this wallet's median bet ($209) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly).",
+          "inputs": [
+            [
+              "largest",
+              "$5K"
+            ],
+            [
+              "median",
+              "$209"
+            ],
+            [
+              "ratio",
+              "24.5×"
+            ]
+          ]
+        },
+        {
+          "key": "timing",
+          "metric": "3 of 8 late",
+          "method": "informed-entry timing",
+          "formula": "winning long-shots bought within hours of resolution",
+          "numbers": "3 of 8 winning long-shots were bought within 72h of resolution (soonest 37h before) — entering a ~7% outcome right before it happened is the informed-entry signature.",
+          "inputs": [
+            [
+              "late wins",
+              "3 of 8"
+            ],
+            [
+              "soonest",
+              "36.8 h before"
+            ],
+            [
+              "median",
+              "250 h before"
+            ]
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Israel announces Lebanon ceasefire extension by June 7?",
+          "url": "https://polymarket.com/event/israel-announces-lebanon-ceasefire-extension-by",
+          "entryTime": "Jun 03 2026",
+          "ts": 1780517680,
+          "odds": 35,
+          "stakeNum": 1105,
+          "plNum": 2066,
+          "stake": "$1K",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0x4ce9…",
+          "txFull": "0x4ce988eddf2db2e09fc5b590780abee5743721e26ebd93f9c5460eec93799df5"
+        },
+        {
+          "market": "Starmer out by May 15, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "entryTime": "May 11 2026",
+          "ts": 1778530631,
+          "odds": 27,
+          "stakeNum": 1065,
+          "plNum": -1065,
+          "stake": "$1K",
+          "outcome": "Lost",
+          "pl": "−$1K",
+          "tx": "0xa7e6…",
+          "txFull": "0xa7e660037cbd1f1a842a46637d5eee64bc5d799a3fef4f4a8f883850c4f6e03d"
+        },
+        {
+          "market": "Iran closes its airspace by May 8?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-8-754-861",
+          "entryTime": "May 04 2026",
+          "ts": 1777902578,
+          "odds": 20,
+          "stakeNum": 1008,
+          "plNum": -1008,
+          "stake": "$1K",
+          "outcome": "Lost",
+          "pl": "−$1K",
+          "tx": "0xe93c…",
+          "txFull": "0xe93c11bdb740e769ead728ff0ea9b7310ee914d6924a83a222c41b5f9ab0d251"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by April 22, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-april-22-2026-321-831",
+          "entryTime": "Apr 21 2026",
+          "ts": 1776782448,
+          "odds": 16,
+          "stakeNum": 945,
+          "plNum": -945,
+          "stake": "$945",
+          "outcome": "Lost",
+          "pl": "−$945",
+          "tx": "0x666d…",
+          "txFull": "0x666d183335d02f6bff64022d97967233669977f1bf09565cc2d90bd0df8f5383"
+        },
+        {
+          "market": "Will Trump restart Project Freedom by May 31?",
+          "url": "https://polymarket.com/event/will-trump-restart-project-freedom-by",
+          "entryTime": "May 26 2026",
+          "ts": 1779808397,
+          "odds": 20,
+          "stakeNum": 728,
+          "plNum": -728,
+          "stake": "$728",
+          "outcome": "Lost",
+          "pl": "−$728",
+          "tx": "0x01a3…",
+          "txFull": "0x01a3f1905cf6d018523b305911a76f1c77d5cb7ee553b80115cd78aec10f546d"
+        },
+        {
+          "market": "Will 40 ships transit the Strait of Hormuz on any day by June 30, 2026?",
+          "url": "https://polymarket.com/event/will-40-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30-2026",
+          "entryTime": "Jun 19 2026",
+          "ts": 1781873392,
+          "odds": 24,
+          "stakeNum": 710,
+          "plNum": -710,
+          "stake": "$710",
+          "outcome": "Lost",
+          "pl": "−$710",
+          "tx": "0x51fa…",
+          "txFull": "0x51faf7a7e68f859851e37ccfa6e4e436408f947534ef647b07565bf77e648651"
+        },
+        {
+          "market": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-unrestricted-shipping-through-hormuz-by-june-30",
+          "entryTime": "May 28 2026",
+          "ts": 1779978015,
+          "odds": 19,
+          "stakeNum": 689,
+          "plNum": -689,
+          "stake": "$689",
+          "outcome": "Lost",
+          "pl": "−$689",
+          "tx": "0x8958…",
+          "txFull": "0x8958a6dbe57b03338ad9a402b9e877aa67fc4a1764683b592a1fe3513b9a1449"
+        },
+        {
+          "market": "Bab el-Mandeb Strait effectively closed by June 30?",
+          "url": "https://polymarket.com/event/bab-el-mandeb-strait-effectively-closed-by-june-30-571",
+          "entryTime": "Jun 08 2026",
+          "ts": 1780899646,
+          "odds": 12,
+          "stakeNum": 614,
+          "plNum": -614,
+          "stake": "$614",
+          "outcome": "Lost",
+          "pl": "−$614",
+          "tx": "0x293c…",
+          "txFull": "0x293c8a755b2ca9d4662f8411136d49197f13d22e054364b9175d03841d45c4a3"
+        },
+        {
+          "market": "Will Iran strike Israel on March 10?",
+          "url": "https://polymarket.com/event/will-iran-strike-israel-on-march-10",
+          "entryTime": "Mar 08 2026",
+          "ts": 1772936871,
+          "odds": 10,
+          "stakeNum": 431,
+          "plNum": -431,
+          "stake": "$431",
+          "outcome": "Lost",
+          "pl": "−$431",
+          "tx": "0xd722…",
+          "txFull": "0xd72299b9503dcfb1c3837c89906d9ed6f80f8f5fc7f161095d17e795493dd2a1"
+        },
+        {
+          "market": "Iran closes its airspace by May 21?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-21",
+          "entryTime": "May 19 2026",
+          "ts": 1779223717,
+          "odds": 7,
+          "stakeNum": 430,
+          "plNum": -430,
+          "stake": "$430",
+          "outcome": "Lost",
+          "pl": "−$430",
+          "tx": "0x7031…",
+          "txFull": "0x7031b43feb5662f7dbd1fd287a82a861c4d396ac834b973a49ff03755b0e5847"
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by June 30?",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-30-848-925-757-129-337-165",
+          "entryTime": "Jun 06 2026",
+          "ts": 1780757772,
+          "odds": 34,
+          "stakeNum": 340,
+          "plNum": 660,
+          "stake": "$340",
+          "outcome": "Won",
+          "pl": "+$660",
+          "tx": "0x8dbf…",
+          "txFull": "0x8dbf154f78f7def096d98a7bf13385ecad5bbf08c98b9efdead911f102275866"
+        },
+        {
+          "market": "Iran closes its airspace by May 31?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-31-434-443-672-526-188-756",
+          "entryTime": "May 10 2026",
+          "ts": 1778438665,
+          "odds": 34,
+          "stakeNum": 340,
+          "plNum": -340,
+          "stake": "$340",
+          "outcome": "Lost",
+          "pl": "−$340",
+          "tx": "0x1382…",
+          "txFull": "0x1382d28432b11e448157dfe318ef1029992806d75ee1bc1a3bae267e586459c1"
+        },
+        {
+          "market": "Will the Iran ceasefire continue through May 22?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-22",
+          "entryTime": "May 20 2026",
+          "ts": 1779303538,
+          "odds": 5,
+          "stakeNum": 325,
+          "plNum": -325,
+          "stake": "$325",
+          "outcome": "Lost",
+          "pl": "−$325",
+          "tx": "0x9037…",
+          "txFull": "0x9037542264fdff05581055f1bdb485e55243d6a6eabbde502b0ab8fc5699bb6a"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by April 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-april-30-2026-299-459-263-225",
+          "entryTime": "Apr 24 2026",
+          "ts": 1777048796,
+          "odds": 24,
+          "stakeNum": 315,
+          "plNum": -315,
+          "stake": "$315",
+          "outcome": "Lost",
+          "pl": "−$315",
+          "tx": "0xdf6d…",
+          "txFull": "0xdf6daa7178ca74c5135bdb084c2113668bc6f57f09fc05816d97c52f740d44d7"
+        },
+        {
+          "market": "Will France send warships through the Strait of Hormuz by June 30, 2026?",
+          "url": "https://polymarket.com/event/will-france-send-warships-through-the-strait-of-hormuz-by-june-30-2026",
+          "entryTime": "Jun 09 2026",
+          "ts": 1781021829,
+          "odds": 8,
+          "stakeNum": 247,
+          "plNum": -247,
+          "stake": "$247",
+          "outcome": "Lost",
+          "pl": "−$247",
+          "tx": "0x26c0…",
+          "txFull": "0x26c010e5ff96573259d7b1158c6cc7bfae9b81f826bf339df9026b24ed127b75"
+        },
+        {
+          "market": "Will Trump restart Project Freedom by June 30?",
+          "url": "https://polymarket.com/event/will-trump-restart-project-freedom-by",
+          "entryTime": "Jun 03 2026",
+          "ts": 1780499004,
+          "odds": 24,
+          "stakeNum": 240,
+          "plNum": 760,
+          "stake": "$240",
+          "outcome": "Won",
+          "pl": "+$760",
+          "tx": "0xbb76…",
+          "txFull": "0xbb76657aabc46cbbff3133f04395f2dc73becf23a31f143f3a93794c855502cf"
+        },
+        {
+          "market": "U.S. forces seize another oil tanker by April 30?",
+          "url": "https://polymarket.com/event/us-forces-seize-another-oil-tanker-by-april-30",
+          "entryTime": "Apr 16 2026",
+          "ts": 1776332984,
+          "odds": 10,
+          "stakeNum": 238,
+          "plNum": 2167,
+          "stake": "$238",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0x1608…",
+          "txFull": "0x16084dd240be046c3617e59e5ef139e70ee3c248f9847fc7af2e11c9bd7b75b4"
+        },
+        {
+          "market": "Iran agrees to unrestricted shipping through Hormuz by May 31?",
+          "url": "https://polymarket.com/event/iran-agrees-to-unrestricted-shipping-through-hormuz-by-may-31",
+          "entryTime": "May 03 2026",
+          "ts": 1777845932,
+          "odds": 10,
+          "stakeNum": 209,
+          "plNum": -209,
+          "stake": "$209",
+          "outcome": "Lost",
+          "pl": "−$209",
+          "tx": "0xb2cd…",
+          "txFull": "0xb2cd8a5af6e61cc8ec70878e86814377860a60f4a8ea1848196a6e41de9b69db"
+        },
+        {
+          "market": "US x Cuba diplomatic meeting by May 31?",
+          "url": "https://polymarket.com/event/us-x-cuba-diplomatic-meeting-by-may-31",
+          "entryTime": "May 19 2026",
+          "ts": 1779232467,
+          "odds": 34,
+          "stakeNum": 208,
+          "plNum": 405,
+          "stake": "$208",
+          "outcome": "Won",
+          "pl": "+$405",
+          "tx": "0x1721…",
+          "txFull": "0x1721e49a7364448b7fc6643d0790bfe1c5613d723ad8e313511c59fdba7f1227"
+        },
+        {
+          "market": "Will J.D. Vance have a diplomatic meeting with Iran by April 30?",
+          "url": "https://polymarket.com/event/will-jd-vance-have-a-diplomatic-meeting-with-iran-by-april-30",
+          "entryTime": "Apr 19 2026",
+          "ts": 1776607350,
+          "odds": 15,
+          "stakeNum": 192,
+          "plNum": 1108,
+          "stake": "$192",
+          "outcome": "Won",
+          "pl": "+$1K",
+          "tx": "0xdac3…",
+          "txFull": "0xdac35ff2d1e2da81046de7f1bc0ed3936842ad2f0499806d1dd551087b1a23e7"
+        },
+        {
+          "market": "Will Iran conduct a military action against Israel on March 30, 2026?",
+          "url": "https://polymarket.com/event/will-iran-conduct-a-military-action-against-israel-on-march-30-2026-933",
+          "entryTime": "Mar 18 2026",
+          "ts": 1773877927,
+          "odds": 9,
+          "stakeNum": 173,
+          "plNum": -173,
+          "stake": "$173",
+          "outcome": "Lost",
+          "pl": "−$173",
+          "tx": "0x5ea7…",
+          "txFull": "0x5ea7118afa27d24a922e28eea3c3f2596e2ea136fa2fcad3ee3ff1cfe0ecefc2"
+        },
+        {
+          "market": "Iran closes its airspace by May 24?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-24",
+          "entryTime": "May 22 2026",
+          "ts": 1779443728,
+          "odds": 7,
+          "stakeNum": 140,
+          "plNum": -140,
+          "stake": "$140",
+          "outcome": "Lost",
+          "pl": "−$140",
+          "tx": "0xf5cc…",
+          "txFull": "0xf5cc650206bac5c74aac5a97b79cd883513a50fe550f168b2d700a926cb17e47"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by June 17, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-june-17-2026-20260612163100185-516-841",
+          "entryTime": "Jun 15 2026",
+          "ts": 1781519284,
+          "odds": 14,
+          "stakeNum": 117,
+          "plNum": -117,
+          "stake": "$117",
+          "outcome": "Lost",
+          "pl": "−$117",
+          "tx": "0x3a9f…",
+          "txFull": "0x3a9f9448c55d13e17386718ca1f879e87ea50178f5c996f008ad39a1b46d9fca"
+        },
+        {
+          "market": "Will Trump agree to Iranian transit fees in the Strait of Hormuz by June 30?",
+          "url": "https://polymarket.com/event/will-trump-agree-to-iranian-transit-fees-in-the-strait-of-hormuz-by-june-30",
+          "entryTime": "May 31 2026",
+          "ts": 1780207818,
+          "odds": 4,
+          "stakeNum": 115,
+          "plNum": -115,
+          "stake": "$115",
+          "outcome": "Lost",
+          "pl": "−$115",
+          "tx": "0x71e7…",
+          "txFull": "0x71e7d9819a42f65035403fbe20c9d7e8e92d8120e3d743b5af5dc43619e29c67"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 52,
+        "winRate": 35,
+        "realized": "+$25K"
+      },
+      "timeline": {
+        "market": "Israel announces Lebanon ceasefire extension by June 7?",
+        "priceStart": 0.3484381513352274,
+        "priceEnd": 0.95,
+        "entries": [
+          0.3484381513352274
+        ],
+        "resolution": 0.92,
+        "candidates": []
+      },
+      "activityDays": 6,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "profitSource": "authoritative",
+      "profitNum": 24924.514,
+      "_tradedCount": 898,
+      "wins": 18,
+      "expectedWins": 7.8,
+      "percentile": 99.906,
+      "percentileN": 2131,
+      "volumeNum": 1673996,
+      "volume": "$1.7M",
+      "lastActivity": "6 days ago",
+      "firstFlaggedAt": 1782502307,
       "newlyFlagged": true,
       "archived": false
     },
@@ -487,6 +1011,8 @@
       ],
       "idLabel": "0xd2…fa96",
       "username": "KAI2026B3",
+      "created": "Apr 04 2026",
+      "createdOnChain": true,
       "firstSeen": "Apr 05 2026",
       "category": "Military & Defense",
       "marketsCount": 26,
@@ -989,8 +1515,8 @@
       "_tradedCount": 76,
       "wins": 12,
       "expectedWins": 4.16,
-      "percentile": 99.903,
-      "percentileN": 2057,
+      "percentile": 99.859,
+      "percentileN": 2131,
       "volumeNum": 123780,
       "volume": "$124K",
       "lastActivity": "8 days ago",
@@ -1007,6 +1533,8 @@
       ],
       "idLabel": "0xbf…c93c",
       "username": "Megawow",
+      "created": "Mar 28 2025",
+      "createdOnChain": false,
       "firstSeen": "Mar 28 2025",
       "category": "World",
       "marketsCount": 25,
@@ -1486,8 +2014,8 @@
       "_tradedCount": 66,
       "wins": 11,
       "expectedWins": 4.5,
-      "percentile": 99.66,
-      "percentileN": 2057,
+      "percentile": 99.578,
+      "percentileN": 2131,
       "volumeNum": 1122996,
       "volume": "$1.1M",
       "lastActivity": "120 days ago",
@@ -1504,6 +2032,8 @@
       ],
       "idLabel": "0x43…f90d",
       "username": "M888",
+      "created": "Dec 09 2024",
+      "createdOnChain": false,
       "firstSeen": "Dec 09 2024",
       "category": "Military & Defense",
       "marketsCount": 35,
@@ -1793,8 +2323,8 @@
           "txFull": "0x1dabc948385584c9388f18383d9f23cbbef545ccf8b298bc87df829ae477c07e"
         },
         {
-          "market": "US x Iran meeting by April 15, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-meeting-by-april-15-2026-533-583",
+          "market": "(market)",
+          "url": null,
           "entryTime": "Apr 10 2026",
           "ts": 1775832891,
           "odds": 7,
@@ -1905,8 +2435,8 @@
           "txFull": "0xb290209ef64580cdb003e37cd9e05cefafb05fe47ef5172585f425e0244a76a4"
         },
         {
-          "market": "Will Angela Rayner be the next Prime Minister of the United Kingdom in 2026?",
-          "url": "https://polymarket.com/event/will-angela-rayner-be-the-next-prime-minister-of-the-united-kingdom-in-2026-737",
+          "market": "(market)",
+          "url": null,
           "entryTime": "Mar 28 2026",
           "ts": 1774701605,
           "odds": 21,
@@ -1983,8 +2513,8 @@
       "_tradedCount": 1506,
       "wins": 10,
       "expectedWins": 3.85,
-      "percentile": 99.271,
-      "percentileN": 2057,
+      "percentile": 99.249,
+      "percentileN": 2131,
       "volumeNum": 10803703,
       "volume": "$10.8M",
       "lastActivity": "9 days ago",
@@ -2001,6 +2531,8 @@
       ],
       "idLabel": "0x85…bd03",
       "username": "WarriorPooh",
+      "created": "Dec 11 2025",
+      "createdOnChain": false,
       "firstSeen": "Dec 11 2025",
       "category": "Military & Defense",
       "marketsCount": 53,
@@ -2503,8 +3035,8 @@
       "_tradedCount": 489,
       "wins": 17,
       "expectedWins": 8.48,
-      "percentile": 99.222,
-      "percentileN": 2057,
+      "percentile": 99.202,
+      "percentileN": 2131,
       "volumeNum": 8879290,
       "volume": "$8.9M",
       "lastActivity": "3 days ago",
@@ -2521,6 +3053,8 @@
       ],
       "idLabel": "0xc2…adf8",
       "username": "marinerhaz",
+      "created": "Jun 05 2025",
+      "createdOnChain": false,
       "firstSeen": "Jun 05 2025",
       "category": "Military & Defense",
       "marketsCount": 31,
@@ -3023,8 +3557,8 @@
       "_tradedCount": 140,
       "wins": 12,
       "expectedWins": 5.27,
-      "percentile": 99.174,
-      "percentileN": 2057,
+      "percentile": 99.155,
+      "percentileN": 2131,
       "volumeNum": 389020,
       "volume": "$389K",
       "lastActivity": "110 days ago",
@@ -3041,6 +3575,8 @@
       ],
       "idLabel": "0xeb…808a",
       "username": "BigRabbit",
+      "created": "Jun 16 2025",
+      "createdOnChain": false,
       "firstSeen": "Jun 16 2025",
       "category": "Military & Defense",
       "marketsCount": 37,
@@ -3536,18 +4072,18 @@
         "resolution": 0.08,
         "candidates": []
       },
-      "activityDays": 13,
+      "activityDays": 12,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "authoritative",
       "profitNum": 62494.258,
       "_tradedCount": 1947,
       "wins": 10,
       "expectedWins": 4.07,
-      "percentile": 98.882,
-      "percentileN": 2057,
+      "percentile": 98.874,
+      "percentileN": 2131,
       "volumeNum": 20798535,
       "volume": "$20.8M",
-      "lastActivity": "13 days ago",
+      "lastActivity": "12 days ago",
       "firstFlaggedAt": 1782458295,
       "newlyFlagged": true,
       "archived": false
@@ -3561,6 +4097,8 @@
       ],
       "idLabel": "0x74…8988",
       "username": "Datel13",
+      "created": "Oct 19 2025",
+      "createdOnChain": false,
       "firstSeen": "Oct 19 2025",
       "category": "Elections",
       "marketsCount": 6,
@@ -3830,8 +4368,8 @@
       "_tradedCount": 13,
       "wins": 4,
       "expectedWins": 0.96,
-      "percentile": 98.785,
-      "percentileN": 2057,
+      "percentile": 98.78,
+      "percentileN": 2131,
       "volumeNum": 6266,
       "volume": "$6K",
       "lastActivity": "249 days ago",
@@ -3848,6 +4386,8 @@
       ],
       "idLabel": "0x79…a9f1",
       "username": "lmtfalone",
+      "created": "Aug 03 2024",
+      "createdOnChain": false,
       "firstSeen": "Aug 03 2024",
       "category": "Elections",
       "marketsCount": 16,
@@ -4327,8 +4867,8 @@
       "_tradedCount": 1543,
       "wins": 6,
       "expectedWins": 1.92,
-      "percentile": 98.542,
-      "percentileN": 2057,
+      "percentile": 98.545,
+      "percentileN": 2131,
       "volumeNum": 6852660,
       "volume": "$6.9M",
       "lastActivity": "179 days ago",
@@ -4345,6 +4885,8 @@
       ],
       "idLabel": "0xbb…b15e",
       "username": "ongyee",
+      "created": "Jun 03 2025",
+      "createdOnChain": false,
       "firstSeen": "Jun 03 2025",
       "category": "Politics",
       "marketsCount": 7,
@@ -4600,8 +5142,8 @@
       "_tradedCount": 27,
       "wins": 3,
       "expectedWins": 0.49,
-      "percentile": 98.444,
-      "percentileN": 2057,
+      "percentile": 98.451,
+      "percentileN": 2131,
       "volumeNum": 104392,
       "volume": "$104K",
       "lastActivity": "175 days ago",
@@ -4618,6 +5160,8 @@
       ],
       "idLabel": "0xd7…3d98",
       "username": "5275851369",
+      "created": "Feb 27 2026",
+      "createdOnChain": true,
       "firstSeen": "Feb 27 2026",
       "category": "Military & Defense",
       "marketsCount": 9,
@@ -4887,8 +5431,8 @@
       "_tradedCount": 14,
       "wins": 4,
       "expectedWins": 0.99,
-      "percentile": 98.396,
-      "percentileN": 2057,
+      "percentile": 98.405,
+      "percentileN": 2131,
       "volumeNum": 320169,
       "volume": "$320K",
       "lastActivity": "81 days ago",
@@ -4905,6 +5449,8 @@
       ],
       "idLabel": "0x31…8ed9",
       "username": "0x31a56e9E61eD21De08Cbe9524Cdb8eD9-0765984",
+      "created": "Dec 26 2025",
+      "createdOnChain": true,
       "firstSeen": "Dec 27 2025",
       "category": "Military & Defense",
       "marketsCount": 4,
@@ -5121,8 +5667,8 @@
       "_tradedCount": 4,
       "wins": 3,
       "expectedWins": 0.28,
-      "percentile": 90.472,
-      "percentileN": 2057,
+      "percentile": 90.38,
+      "percentileN": 2131,
       "volumeNum": 484417,
       "volume": "$484K",
       "lastActivity": "today",
@@ -5139,6 +5685,8 @@
       ],
       "idLabel": "0x6b…94c5",
       "username": "SBet365",
+      "created": "Dec 29 2025",
+      "createdOnChain": true,
       "firstSeen": "Jan 03 2026",
       "category": "Politics",
       "marketsCount": 3,
@@ -5345,8 +5893,8 @@
       "_tradedCount": 3,
       "wins": 2,
       "expectedWins": 0.33,
-      "percentile": 86.825,
-      "percentileN": 2057,
+      "percentile": 86.438,
+      "percentileN": 2131,
       "volumeNum": 190710,
       "volume": "$191K",
       "lastActivity": "175 days ago",
@@ -5363,6 +5911,8 @@
       ],
       "idLabel": "0x16…714b",
       "username": "Chiwawas",
+      "created": "Dec 23 2025",
+      "createdOnChain": false,
       "firstSeen": "Dec 23 2025",
       "category": "Politics",
       "marketsCount": 2,
@@ -5536,8 +6086,8 @@
       "_tradedCount": 2,
       "wins": 1,
       "expectedWins": 0.24,
-      "percentile": 85.075,
-      "percentileN": 2057,
+      "percentile": 84.796,
+      "percentileN": 2131,
       "volumeNum": 1587379,
       "volume": "$1.6M",
       "lastActivity": "178 days ago",
@@ -5546,34 +6096,34 @@
       "archived": false
     }
   ],
-  "observed": 181180,
-  "reviewed": 181180,
-  "screened": 4052,
-  "totalFlaggedProfit": 1300286,
+  "observed": 182487,
+  "reviewed": 182487,
+  "screened": 4312,
+  "totalFlaggedProfit": 1325210,
   "totalFlaggedProfitText": "$1.3M",
-  "flaggedCount": 14,
-  "scored": 2057,
+  "flaggedCount": 15,
+  "scored": 2131,
   "meta": {
-    "observed": 181180,
-    "reviewed": 181180,
-    "screened": 4052,
-    "scored": 2057,
+    "observed": 182487,
+    "reviewed": 182487,
+    "screened": 4312,
+    "scored": 2131,
     "block": "",
     "snapshot": "Jun 25 2026",
     "recomputed": "Jun 26 2026"
   },
-  "generatedAt": "2026-06-26T19:30:03.509Z",
+  "generatedAt": "2026-06-26T19:39:59.446Z",
   "coverageByCategory": {
-    "Politics": 963,
-    "Military & Defense": 918,
-    "Economics": 165,
-    "Culture": 299,
-    "Elections": 506,
-    "Legal & Regulatory": 141,
-    "Tech & Announcements": 309,
-    "Corporate & M&A": 176,
-    "Crypto Events": 94,
-    "World": 608
+    "Politics": 960,
+    "Military & Defense": 927,
+    "Economics": 179,
+    "Culture": 267,
+    "Elections": 564,
+    "Legal & Regulatory": 127,
+    "Tech & Announcements": 323,
+    "Corporate & M&A": 155,
+    "Crypto Events": 113,
+    "World": 609
   },
   "surpriseMarkets": [
     {
@@ -5599,7 +6149,7 @@
       "hubLabel": null,
       "size": 84,
       "seedFrom": "0x79add3f87e377b0899b935472c07d2c3816ba9f1",
-      "ts": 1782501715,
+      "ts": 1782502307,
       "flaggedCount": 1,
       "members": [
         {
@@ -6785,11 +7335,291 @@
       ]
     },
     {
+      "hub": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+      "hubLabel": null,
+      "size": 54,
+      "seedFrom": "0xc24f0686aae913fd32032ee03eb2db371891adf8",
+      "ts": 1782502307,
+      "flaggedCount": 1,
+      "members": [
+        {
+          "addr": "0xc24f0686aae913fd32032ee03eb2db371891adf8",
+          "flagged": true,
+          "tier": "watch"
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1929347e025d4f5f8d6b2bd2261e2f4efcacd215",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa1ac3ed55921c716bea761fa04d872c59e3bb773",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x21b94a3e67c4a72d3d15f478a696c5175f036092",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8b26cfe32f16251e05e506e5b7de0c170076e333",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3a23f943181408eac424116af7b7790c94cb97a5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3c3af3459474a8913dfc8adc28c27635dfdd125f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x542f2bde75870172c8a7e400581d8e6d9cbf3c62",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf16a342c42df53437c06b0def67438fbe10e3c12",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x07d22a7d23ca6491c37e5cd49fffe1971ac6d781",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6ec0c2f25d323e7779925cc20c3740101f990d9f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf0323c0ead0f57d0e34b9af6786517ffb119909d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa6856796b8d3931b1c514bc083b2ea278da3b965",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xda6b07eb94f699f511a943e9bfc12b64b7fe3486",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4979fd07829c6702b2879dfc4b09a42fbc817b6c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc3060219b14df14dc7f139066adf64638057b51f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x31331ec182777b3e3cf127f4709a8aaa8f76e549",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x90d612fb10218cbb694ac525b7958bc1599e0c1c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc4275c63c772068cdb8a24fc9eb9ef00c0be4c16",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x9a32b1a10504489f9b88106acec79c672630158c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd1b62bd6b3af1c9ab61735389cc28b2767399b31",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2e3ede5a282b0ac1c31f0a19158845c1a9aa24b0",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8c8372c9a22ce6c8d928afe147190957455dbdbf",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1a720be11ea204cb4a7ec26a8ebff5328995e805",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x905f5adc0df1643ce8bd4945aa4e0cf65cdb9cdd",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6866d5862794b63c6a3d26ebaf6229563e38c55b",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5963c83b6e38d766ecf506f39a82e723adc709",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3928b141c2a11c14de7de4e910520ae4ad1da492",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3c402b4c588f7c0ceaeab6914b778e97970a3876",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2f102897fa911f21c524688dbce6b496d941cf76",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xb97fbad20ba4340f0728101d8d292be31073d270",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe724a57d2a86b2a7a8aec4c45a08cdae588b84e5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc00f941dc66944a079192b221db993f4a3cacc98",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd5c0d17ccb9071d27a4f7ed8255f59989b9aee0d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0449e53aa1a3f75133df621d0ee755d5381a934e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe1c83ffbd2f9dce7b73d6dd84c19cee39a23d5e6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x635787466cb7b789a807a35156848f3c265cdb59",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xbc69dcb4b5911a6693fcadc171ce6eed3306bef0",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x69d8eb6aefee5caba2c63abb6d991dc50ce89166",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x90b6a1f8df231cd7fd5cca4fc4a2ee3a25ffc8e5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x44b7e6461af76ae31800ae7b756aff8307d919f3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8b5e4db198ffc7f69f8f11f6592f682717df1d92",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x03508bb71268bba25ecacc8f620e01866650532c",
+          "flagged": false,
+          "tier": null
+        }
+      ]
+    },
+    {
       "hub": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
       "hubLabel": null,
       "size": 52,
       "seedFrom": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
-      "ts": 1782501715,
+      "ts": 1782502307,
       "flaggedCount": 1,
       "members": [
         {
@@ -7055,256 +7885,11 @@
       ]
     },
     {
-      "hub": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
-      "hubLabel": null,
-      "size": 47,
-      "seedFrom": "0x31a56e9e690c621ed21de08cb559e9524cdb8ed9",
-      "ts": 1782501715,
-      "flaggedCount": 1,
-      "members": [
-        {
-          "addr": "0x31a56e9e690c621ed21de08cb559e9524cdb8ed9",
-          "flagged": true,
-          "tier": "elevated"
-        },
-        {
-          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x365e12b47919b0e3bcf1c8cc3ecd8fb88b80560f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4d96190e8d0487d019987cd9df34dd51f617037f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc69b076626ae65cfdce0de5f6a7caad60cb7b0fc",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x01a23b7408650ba910b11740a814071e57fbfbe3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x37943881b103619b62c1b8f28da55e7cdd755547",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x01a4333b6acb5091cf0219646f35e289546f4656",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd63bba35211f27acc4b73c1007605b245537f257",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6734c8996ffe57b39b4fb2176e532173a2b3e241",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x31331ec182777b3e3cf127f4709a8aaa8f76e549",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x90d612fb10218cbb694ac525b7958bc1599e0c1c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc4275c63c772068cdb8a24fc9eb9ef00c0be4c16",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x9a32b1a10504489f9b88106acec79c672630158c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd1b62bd6b3af1c9ab61735389cc28b2767399b31",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2e3ede5a282b0ac1c31f0a19158845c1a9aa24b0",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8c8372c9a22ce6c8d928afe147190957455dbdbf",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1a720be11ea204cb4a7ec26a8ebff5328995e805",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x905f5adc0df1643ce8bd4945aa4e0cf65cdb9cdd",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6866d5862794b63c6a3d26ebaf6229563e38c55b",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea5963c83b6e38d766ecf506f39a82e723adc709",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3928b141c2a11c14de7de4e910520ae4ad1da492",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3c402b4c588f7c0ceaeab6914b778e97970a3876",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2f102897fa911f21c524688dbce6b496d941cf76",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xb97fbad20ba4340f0728101d8d292be31073d270",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xe724a57d2a86b2a7a8aec4c45a08cdae588b84e5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc00f941dc66944a079192b221db993f4a3cacc98",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd5c0d17ccb9071d27a4f7ed8255f59989b9aee0d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0449e53aa1a3f75133df621d0ee755d5381a934e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xe1c83ffbd2f9dce7b73d6dd84c19cee39a23d5e6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x635787466cb7b789a807a35156848f3c265cdb59",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xbc69dcb4b5911a6693fcadc171ce6eed3306bef0",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x69d8eb6aefee5caba2c63abb6d991dc50ce89166",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x90b6a1f8df231cd7fd5cca4fc4a2ee3a25ffc8e5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x44b7e6461af76ae31800ae7b756aff8307d919f3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8b5e4db198ffc7f69f8f11f6592f682717df1d92",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x03508bb71268bba25ecacc8f620e01866650532c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
-          "flagged": false,
-          "tier": null
-        }
-      ]
-    },
-    {
       "hub": "0xf5042e6ffac5a625d4e7848e0b01373d8eb9e222",
       "hubLabel": null,
       "size": 35,
       "seedFrom": "0xbb917b91d7c946d5898f19ab6865e27f850cb15e",
-      "ts": 1782499853,
+      "ts": 1782502307,
       "flaggedCount": 1,
       "members": [
         {
@@ -7485,191 +8070,11 @@
       ]
     },
     {
-      "hub": "0x1929347e025d4f5f8d6b2bd2261e2f4efcacd215",
-      "hubLabel": null,
-      "size": 34,
-      "seedFrom": "0xeb22f4735df6bd5d14e1b5fd10faefa7757d808a",
-      "ts": 1782501715,
-      "flaggedCount": 1,
-      "members": [
-        {
-          "addr": "0xeb22f4735df6bd5d14e1b5fd10faefa7757d808a",
-          "flagged": true,
-          "tier": "watch"
-        },
-        {
-          "addr": "0x1929347e025d4f5f8d6b2bd2261e2f4efcacd215",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xa1ac3ed55921c716bea761fa04d872c59e3bb773",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x21b94a3e67c4a72d3d15f478a696c5175f036092",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8b26cfe32f16251e05e506e5b7de0c170076e333",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3a23f943181408eac424116af7b7790c94cb97a5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3c3af3459474a8913dfc8adc28c27635dfdd125f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x542f2bde75870172c8a7e400581d8e6d9cbf3c62",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf16a342c42df53437c06b0def67438fbe10e3c12",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x07d22a7d23ca6491c37e5cd49fffe1971ac6d781",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6ec0c2f25d323e7779925cc20c3740101f990d9f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf0323c0ead0f57d0e34b9af6786517ffb119909d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xa6856796b8d3931b1c514bc083b2ea278da3b965",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xda6b07eb94f699f511a943e9bfc12b64b7fe3486",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4979fd07829c6702b2879dfc4b09a42fbc817b6c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc3060219b14df14dc7f139066adf64638057b51f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x365e12b47919b0e3bcf1c8cc3ecd8fb88b80560f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4d96190e8d0487d019987cd9df34dd51f617037f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc69b076626ae65cfdce0de5f6a7caad60cb7b0fc",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x01a23b7408650ba910b11740a814071e57fbfbe3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x37943881b103619b62c1b8f28da55e7cdd755547",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x01a4333b6acb5091cf0219646f35e289546f4656",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd63bba35211f27acc4b73c1007605b245537f257",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6734c8996ffe57b39b4fb2176e532173a2b3e241",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
-          "flagged": false,
-          "tier": null
-        }
-      ]
-    },
-    {
       "hub": "0x3a3bd7bb9528e159577f7c2e685cc81a765002e2",
       "hubLabel": null,
       "size": 33,
       "seedFrom": "0x74afbb56351c47e0826cccfff4e36b3302788988",
-      "ts": 1782501715,
+      "ts": 1782502307,
       "flaggedCount": 1,
       "members": [
         {
@@ -7842,13 +8247,13 @@
     {
       "hub": "0xc5d563a36ae78145c45a50134d48a1215220f80a",
       "hubLabel": null,
-      "size": 25,
-      "seedFrom": "0x853c37a959a5791b849e3f3225c7f5963746bd03",
-      "ts": 1782501715,
+      "size": 26,
+      "seedFrom": "0xd7f36194ea51f30d945d47ed3f224a300bf93d98",
+      "ts": 1782502307,
       "flaggedCount": 1,
       "members": [
         {
-          "addr": "0x853c37a959a5791b849e3f3225c7f5963746bd03",
+          "addr": "0xd7f36194ea51f30d945d47ed3f224a300bf93d98",
           "flagged": true,
           "tier": "watch"
         },
@@ -7903,12 +8308,17 @@
           "tier": null
         },
         {
-          "addr": "0x5f1506375d6e66ec33e25179e4d16974ab620415",
+          "addr": "0x039955bb4350aa43f3e9ca6ad6992b034de586e6",
           "flagged": false,
           "tier": null
         },
         {
-          "addr": "0xc011a7e12a19f7b1f670d46f03b03f3342e82dfb",
+          "addr": "0x2f122d715ba86c964cb00a69ca89b7b69b500d47",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xe3478b0bb1a5084567c319096437924948be1964",
           "flagged": false,
           "tier": null
         },
@@ -7975,11 +8385,151 @@
       ]
     },
     {
+      "hub": "0x1929347e025d4f5f8d6b2bd2261e2f4efcacd215",
+      "hubLabel": null,
+      "size": 26,
+      "seedFrom": "0xeb22f4735df6bd5d14e1b5fd10faefa7757d808a",
+      "ts": 1782502307,
+      "flaggedCount": 1,
+      "members": [
+        {
+          "addr": "0xeb22f4735df6bd5d14e1b5fd10faefa7757d808a",
+          "flagged": true,
+          "tier": "watch"
+        },
+        {
+          "addr": "0x1929347e025d4f5f8d6b2bd2261e2f4efcacd215",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa1ac3ed55921c716bea761fa04d872c59e3bb773",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x21b94a3e67c4a72d3d15f478a696c5175f036092",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8b26cfe32f16251e05e506e5b7de0c170076e333",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3a23f943181408eac424116af7b7790c94cb97a5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3c3af3459474a8913dfc8adc28c27635dfdd125f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x542f2bde75870172c8a7e400581d8e6d9cbf3c62",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf16a342c42df53437c06b0def67438fbe10e3c12",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x07d22a7d23ca6491c37e5cd49fffe1971ac6d781",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6ec0c2f25d323e7779925cc20c3740101f990d9f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf0323c0ead0f57d0e34b9af6786517ffb119909d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa6856796b8d3931b1c514bc083b2ea278da3b965",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xda6b07eb94f699f511a943e9bfc12b64b7fe3486",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4979fd07829c6702b2879dfc4b09a42fbc817b6c",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc3060219b14df14dc7f139066adf64638057b51f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "flagged": false,
+          "tier": null
+        }
+      ]
+    },
+    {
       "hub": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
       "hubLabel": null,
       "size": 20,
       "seedFrom": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
-      "ts": 1782501715,
+      "ts": 1782502307,
       "flaggedCount": 1,
       "members": [
         {

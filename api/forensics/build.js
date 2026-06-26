@@ -126,12 +126,6 @@ function validateSubject(ctx) {
   // many losses — not an insider. Require positive realized P/L. (Clusters pool members'
   // P/L and are exempt — handled by the caller passing isCluster.)
   if (!isCluster && !(profitNum > 0)) return "net unprofitable (informed trading is profitable; profit=" + Math.round(profitNum) + ")";
-  // MEANINGFUL profit floor: a wallet that NET a trivial amount (e.g. +$382 all-time) is
-  // not a credible insider even with an improbable long-shot streak — the upside an insider
-  // captures is material. Drop single wallets below the floor. (Clusters pool many members'
-  // P/L → exempt.) Configurable via MIN_PROFIT_USD; default $1,000.
-  const _minProfit = isFinite(ctx.minProfit) ? ctx.minProfit : 0;
-  if (!isCluster && profitNum < _minProfit) return "below net-profit floor (profit=$" + Math.round(profitNum) + " < $" + _minProfit + ")";
   if (!Array.isArray(bets) || !bets.length) return "no bets";
   for (const b of bets) {                                    // every scored bet must be a real resolved Polymarket position
     const ep = num(b.entryPrice);
@@ -308,8 +302,7 @@ function buildSubject(agg, idx, opts, catalog) {
         " percent chance. By luck you would expect about " + won.expectedWins + " wins. A record this strong is consistent with informed trading — not proof of it.");
 
   // ---- PRE-PUBLISH GATE: reject (and log) anything whose numbers don't check out.
-  const _minProfit = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 1000;
-  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster, recordImprobable, minProfit: _minProfit });
+  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster, recordImprobable });
   if (_reason) {
     if (opts && Array.isArray(opts._rejects)) opts._rejects.push({ address: agg.address || ((agg.members || [])[0]) || null, id: agg.id || null, tier, reason: _reason });
     return null;
@@ -322,6 +315,10 @@ function buildSubject(agg, idx, opts, catalog) {
     memberAddresses: isCluster ? (agg.members || []) : [agg.address],
     idLabel: isCluster ? (((agg.members || []).length) + " wallets · 1 entity") : short(agg.address),
     username: agg.pseudonym || (_prof && _prof.username) || null,
+    // on-chain wallet-creation date (Polygonscan) when available, else first Polymarket
+    // activity. `created` is the authoritative creation date the dossier shows.
+    created: dateStr(agg.createdTs) || dateStr(agg.firstSeenTs) || "an unrecorded date",
+    createdOnChain: agg.createdTs != null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
     category, marketsCount: n, tier,
     improbText, improbDenom,
