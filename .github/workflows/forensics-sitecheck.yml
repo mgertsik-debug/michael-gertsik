@@ -1,0 +1,25 @@
+# Live site cache/deploy diagnostic — manual trigger.
+# Fetches the deployed pages from GitHub's network and reports cache headers +
+# version markers, to diagnose stale-content / hard-refresh-doesn't-update issues.
+name: forensics-sitecheck
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: "Base URL to check"
+        required: false
+        default: "https://www.michael-gertsik.com"
+
+jobs:
+  sitecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check deployed pages + cache headers
+        env:
+          SITE: ${{ github.event.inputs.site }}
+        run: node scripts/forensics/sitecheck.js
