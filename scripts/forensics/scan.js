@@ -487,6 +487,56 @@ async function finalize(state, snapshotTs) {
   payload.rings = payload.ringGroups.length;
   log("ring-finder: " + ringsFound + " funding rings walked · " + ringNew + " new sibling wallets queued · " + payload.rings + " rings touch a flagged wallet");
 
+  // ---- ROUTE RINGS INTO THE "GROUPS" TAB: turn each on-chain ring with >=2 betting
+  // members into a CLUSTER SUBJECT, rendered with the full dossier UI. The shared
+  // funder is CONFIRMED on-chain (the key-gated trace), which is stronger evidence
+  // than buildClusters' inferred 0.80 threshold, so we build the cluster directly and
+  // score the COMBINED record through the same suite — it publishes only if it clears
+  // the bar. Members folded into a ring cluster are removed as single subjects.
+  const ringClusterSubjects = [];
+  const absorbed = new Set();
+  Object.values(state.rings).forEach((r, ri) => {
+    const memberW = (r.members || [])
+      .map((a) => state.screened[String(a).toLowerCase()] || state.screened[a])
+      .filter((w) => w && (w.bets || []).length);
+    if (memberW.length < 2) return;                           // need >=2 betting members for a cluster record
+    const edges = [];
+    for (let i = 0; i < memberW.length; i++) for (let j = i + 1; j < memberW.length; j++) {
+      edges.push({ from: memberW[i].address, to: memberW[j].address, w: 0.9, link: 0.9, type: "fund",
+        evidence: "both funded on-chain from " + String(r.hub).slice(0, 10) + "…" + (r.hubLabel ? " (" + r.hubLabel + ")" : "") });
+    }
+    const volOf = (w) => (w.bets || []).reduce((s, b) => s + (Number(b.stakeUsd) || 0), 0);
+    const order = memberW.map((w) => ({ w, vol: volOf(w) })).sort((a, b) => b.vol - a.vol);
+    const nodes = order.map((o, rank) => {
+      const lab = String(o.w.address).slice(0, 6) + "…";
+      if (rank === 0) return { id: o.w.address, x: 0.5, y: 0.5, vol: 1, label: lab };
+      const ang = (2 * Math.PI * (rank - 1)) / Math.max(1, order.length - 1);
+      return { id: o.w.address, x: +(0.5 + 0.4 * Math.cos(ang)).toFixed(3), y: +(0.5 + 0.4 * Math.sin(ang)).toFixed(3),
+        vol: +Math.max(0.3, o.vol / (order[0].vol || 1)).toFixed(2), label: lab };
+    });
+    const cexChips = r.hubLabel ? [String(r.hub).slice(0, 4) + "… " + r.hubLabel] : [];
+    let subj = null;
+    try {
+      const agg = cluster.clusterAggregate({ members: memberW, edges, nodes, cexChips, meanLink: 0.9, isCluster: true }, 9000 + ri);
+      subj = build.buildSubject(agg, 9000 + ri, meta);
+    } catch (_) {}
+    if (subj) {
+      if (!state.flaggedHistory[subj.id]) state.flaggedHistory[subj.id] = NOW_S;
+      subj.firstFlaggedAt = state.flaggedHistory[subj.id];
+      subj.newlyFlagged = (NOW_S - subj.firstFlaggedAt) <= 86400;
+      ringClusterSubjects.push(subj);
+      memberW.forEach((w) => absorbed.add(String(w.address).toLowerCase()));
+    }
+  });
+  if (ringClusterSubjects.length) {
+    build.derive(ringClusterSubjects);
+    payload.subjects = payload.subjects.filter((s) => s.type === "cluster" || !absorbed.has(String(s.address).toLowerCase()));
+    ringClusterSubjects.forEach((s) => payload.subjects.push(s));
+    payload.subjects.sort((a, b) => b.improbDenom - a.improbDenom);
+    payload.clusters = payload.subjects.filter((s) => s.type === "cluster").length;
+    log("ring→cluster: published " + ringClusterSubjects.length + " on-chain ring(s) as Groups clusters");
+  }
+
   log("flagged " + payload.subjects.length + " subjects (" +
     payload.subjects.filter((s) => s.tier === "extreme").length + " extreme · " +
     clusterAggs.length + " clusters · " + payload.subjects.filter((s) => s.newlyFlagged).length + " newly) from " + meta.reviewed + " reviewed");
