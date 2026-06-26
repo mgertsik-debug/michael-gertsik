@@ -1,0 +1,29 @@
+# Real-data wallet probe — manual trigger.
+# -----------------------------------------------------------------------------
+# Runs inside GitHub's network (which CAN reach Polymarket's public API, unlike
+# the Claude build sandbox) and prints the verbatim /positions, /trades,
+# /activity, /value responses plus the full scored output for one or more
+# wallets. Used to verify the field mapping and the Score-Any-Wallet result
+# against live data: dispatch with an address, then read the run log.
+name: forensics-probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      address:
+        description: "Wallet address(es) to probe (space- or comma-separated 0x...)"
+        required: true
+        default: "0x204f72f35326db932158cba6adff0b9a1da95e14"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Probe wallet against live Polymarket API
+        env:
+          ADDR: ${{ github.event.inputs.address }}
+        run: node scripts/forensics/probe-wallet.js
