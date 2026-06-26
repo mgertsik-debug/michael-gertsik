@@ -542,6 +542,18 @@ async function finalize(state, snapshotTs) {
   }
   delete state._reviewedThisRun;
   delete state._catalog;
+  // SHRINK state.json so the pool cap can go high without blowing git's 50MB/file
+  // limit. state.json is committed every tick; at ~8KB/wallet a big pool would exceed
+  // it. The dossier only ever DISPLAYS long-shot bets (≤0.35), so store FULL fields
+  // only for those; favorites/losers keep just the fields scoring needs (stake,
+  // outcome, eventGroup for concentration/sizing; entryPrice/won for P/L). This cuts
+  // the per-wallet footprint several-fold. Scoring already ran above with full data.
+  for (const a in state.screened) {
+    const w = state.screened[a];
+    if (w && Array.isArray(w.bets)) w.bets = w.bets.map((b) => num(b.entryPrice) > 0.35
+      ? { cond: b.cond, entryPrice: b.entryPrice, stakeUsd: b.stakeUsd, won: b.won, outcome: b.outcome, eventGroup: b.eventGroup, category: b.category }
+      : b);
+  }
   write(STATE, state);
   // (STORE was already written above, before housekeeping, so it lands even if the
   // eviction/catalog steps throw.)
