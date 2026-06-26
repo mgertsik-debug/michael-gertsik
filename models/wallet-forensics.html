@@ -25,7 +25,12 @@
   .wf-scroll::-webkit-scrollbar { width: 9px; height: 9px; }
   .wf-scroll::-webkit-scrollbar-thumb { background: #1E2823; border-radius: 5px; }
   .wf-scroll::-webkit-scrollbar-track { background: transparent; }
-  .wf-card:focus-visible { outline: 2px solid #34D399; outline-offset: 2px; }
+  /* No white/default focus ring on the cards — selection is shown ONLY by the green glow
+     (driven by the user's click). Keyboard focus stays accessible with a green ring, never white. */
+  .wf-card { -webkit-tap-highlight-color: transparent; }
+  .wf-card:focus { outline: none !important; }
+  .wf-card:focus:not(:focus-visible) { outline: none !important; box-shadow: none; }
+  .wf-card:focus-visible { outline: none !important; box-shadow: 0 0 0 2px rgba(52,211,153,0.6), 0 0 30px -8px rgba(52,211,153,0.5); }
 </style>
 </helmet>
 <div style="position: relative; overflow: hidden; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #ECEFED; background: #0A0E0D; line-height: 1.55; -webkit-font-smoothing: antialiased; padding: 2px 0 44px;">
