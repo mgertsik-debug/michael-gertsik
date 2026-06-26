@@ -60,6 +60,9 @@ module.exports = async (req, res) => {
     screened: store.screened || 0,
     meta: store.meta || {},
     surpriseMarkets: store.surpriseMarkets || [],   // the haystack: long-shot upsets where money rode in early
+    ringGroups: store.ringGroups || [],             // funding rings that touch a flagged wallet (auto ring-finder)
+    rings: store.rings || 0,
+    coverageByCategory: store.coverageByCategory || {},  // resolved markets cataloged per category (drives the filter)
     generatedAt: store.generatedAt || null,
   });
 };
