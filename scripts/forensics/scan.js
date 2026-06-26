@@ -274,9 +274,13 @@ async function run() {
   const PER_WALLET_ONDEMAND = +ENV.ONDEMAND_PER_WALLET || 80;
   let onDemandResolved = 0;
   let enrichedCount = 0;
-  for (const w of stale) {
-    if (!w._seed && enrichOverBudget()) { log("enrich: hit wall-clock budget after " + enrichedCount + "/" + stale.length + " wallets — wrapping up (reserving time for ring-finder + commit)"); break; }
-    enrichedCount++;
+  // Each wallet's ~6 network round-trips are INDEPENDENT across wallets, so we run a
+  // bounded set CONCURRENTLY — the single biggest throughput win (Node overlaps the
+  // I/O waits; the per-wallet awaits stay ordered). Shared counters/onDemandBudget
+  // mutate only between awaits (single-threaded), so no data race — a tiny budget
+  // overspend is fine. Concurrency itself paces requests, so the per-wallet sleep is gone.
+  const ENRICH_CONCURRENCY = +ENV.ENRICH_CONCURRENCY || 5;
+  async function enrichWallet(w) {
     try {
       const fs0 = await poly.firstSeen(w.address);
       if (fs0) w.firstSeenTs = fs0;
@@ -337,9 +341,16 @@ async function run() {
       }
       w.lastEnrichedTs = NOW_S;
     } catch (_) { /* leave stale; retry next run */ }
-    await poly.sleep(40);
   }
-  log("deep-enriched " + stale.length + " wallets · " + fullRecords + " full position records · " + onDemandResolved + " markets resolved on-demand · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
+  // run the stale list in concurrency-bounded batches; seeds (front of the list)
+  // always run, non-seed batches stop at the wall-clock budget.
+  for (let i = 0; i < stale.length; i += ENRICH_CONCURRENCY) {
+    const batch = stale.slice(i, i + ENRICH_CONCURRENCY);
+    if (!batch.some((w) => w._seed) && enrichOverBudget()) { log("enrich: hit wall-clock budget after " + enrichedCount + "/" + stale.length + " wallets — wrapping up (reserving time for ring-finder + commit)"); break; }
+    await Promise.all(batch.map((w) => enrichWallet(w).catch(() => {})));
+    enrichedCount += batch.length;
+  }
+  log("deep-enriched " + enrichedCount + " wallets (concurrency " + ENRICH_CONCURRENCY + ") · " + fullRecords + " full position records · " + onDemandResolved + " markets resolved on-demand · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
 
   // 6. rolling-coverage invariant
   const ages = Object.values(state.screened).map((w) => (NOW_S - (w.lastEnrichedTs || 0)) / 86400);

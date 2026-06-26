@@ -53,7 +53,10 @@ jobs:
           # and frees most of the budget for ENRICHMENT, which is what actually flags
           # wallets and forms clusters.
           MARKETS_PER_RUN: "120"
-          ENRICH_BATCH: "240"
+          # Enrichment now runs CONCURRENTLY (ENRICH_CONCURRENCY wallets at once), so a
+          # much larger batch fits the budget — coverage climbs ~5× faster per tick.
+          ENRICH_BATCH: "700"
+          ENRICH_CONCURRENCY: "5"
           SCREEN_USD: "2500"
           # Retain a large candidate pool (cheap): 790/800 screened wallets already had a
           # winning long-shot, so the old 800 cap evicted real candidates before their
