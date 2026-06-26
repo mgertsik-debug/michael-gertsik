@@ -1,0 +1,24 @@
+# Real Polymarket Data API probe — manual trigger. Dumps the verbatim API shapes
+# for a wallet so the lookup's field mapping can be made to match Polymarket exactly.
+name: forensics-polyprobe
+
+on:
+  workflow_dispatch:
+    inputs:
+      address:
+        description: "0x wallet to probe"
+        required: false
+        default: "0x204f72f35326db932158cba6adff0b9a1da95e14"
+
+jobs:
+  polyprobe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Probe Polymarket Data API
+        env:
+          ADDR: ${{ github.event.inputs.address }}
+        run: node scripts/forensics/polyprobe.js
