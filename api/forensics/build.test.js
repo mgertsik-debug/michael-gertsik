@@ -52,6 +52,19 @@ test("buildSubject: random/luck wallet (wins at its implied rate) -> not publish
   assert.equal(s, null);
 });
 
+test("buildSubject: MATERIALITY floor — improbable record on trivial stakes is dropped", () => {
+  // a statistically-extreme record (14/16 at 11%) but TINY $20 stakes -> a lucky
+  // gambler, not an insider. max event/total stake is far below the $1k floor -> null.
+  const tiny = B.buildSubject(agg("0xtiny000000000000000000000000000000000001", 14, 2, 0.11, "Military & Defense", { stake: 20 }), 0, {});
+  assert.equal(tiny, null, "sub-$1k-stake record must be filtered out");
+  // same record with real money at risk ($1,500/bet) clears the floor and publishes.
+  const real = B.buildSubject(agg("0xreal000000000000000000000000000000000002", 14, 2, 0.11, "Military & Defense", { stake: 1500 }), 0, {});
+  assert.ok(real && real.tier, "material record publishes");
+  // floor is configurable via opts.materialityUsd: set it sky-high -> even big stakes drop.
+  const gated = B.buildSubject(agg("0xreal000000000000000000000000000000000002", 14, 2, 0.11, "Military & Defense", { stake: 1500 }), 0, { materialityUsd: 1e9 });
+  assert.equal(gated, null);
+});
+
 test("buildPayload: ranks by improbability, carries honest meta, derives fields", () => {
   const strong = agg("0xstrong00000000000000000000000000000000a", 14, 2, 0.10, "Elections");
   const weak = agg("0xweak0000000000000000000000000000000000b", 9, 5, 0.18, "Politics");
