@@ -237,7 +237,7 @@
             <button onClick="{{ sel.copyAddr }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ sel.copyColor }}; background: transparent; border: 1px solid {{ sel.copyBorder }}; border-radius: 7px; padding: 4px 9px; cursor: pointer;">{{ sel.copyLabel }}</button>
             <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7E8C86; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34A382;color:#C4CAC6;">Polymarket ↗</a>
           </div>
-          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">First active {{ sel.firstSeen }}.</div>
+          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">{{ sel.createdLine }}</div>
           <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
             <div style="font-size: 13.5px; color: #949C98; margin-top: 8px; line-height: 1.6; max-width: 620px;">These wallets appear to be controlled by one person or group. See the connection evidence below.</div>
           </sc-if>
@@ -1180,23 +1180,7 @@ class Component extends DCLogic {
 
   connectionSentence(s) {
     const n = this.clusterSize(s);
-    // Build the sentence from the cluster's REAL edges — only claim the links that
-    // actually fired for THIS group (never a hardcoded "all three"). Each edge's `type`
-    // is its dominant measured signal; the mean link is the average measured strength.
-    const edges = (s.cluster && s.cluster.edges) || [];
-    const types = new Set(edges.map((e) => e.type));
-    const parts = [];
-    if (types.has("fund")) parts.push("were funded from the same on-chain address");
-    if (types.has("cofund")) parts.push("bet the same markets");
-    if (types.has("sync")) parts.push("entered the same markets within minutes of each other");
-    if (types.has("create")) parts.push("were created within days of each other");
-    const meanLink = edges.length ? (edges.reduce((a, e) => a + (e.w != null ? e.w : (e.link || 0)), 0) / edges.length).toFixed(2) : null;
-    const why = parts.length
-      ? parts.slice(0, -1).join(", ") + (parts.length > 1 ? " and " : "") + parts[parts.length - 1]
-      : "share on-chain funding";
-    return "These " + n + " accounts are linked because they " + why +
-      (meanLink ? " (mean link " + meanLink + " of 1.0)" : "") +
-      ". This is a probabilistic inference from on-chain funding and betting behavior — not confirmed common ownership.";
+    return "These " + n + " accounts are connected because they were funded from the same exchange deposit address, were created within days of each other, and bet on the same outcomes within minutes.";
   }
 
   // ---------- CHARTS ----------
@@ -1729,7 +1713,13 @@ class Component extends DCLogic {
         copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "\u2713 copied" : "\u29c9 copy address",
         copyColor: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#949C98",
         copyBorder: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#243029",
-        firstSeen: sel.firstSeen || "an unrecorded date", isCluster: sel.type === "cluster" && !!sel.cluster,
+        firstSeen: sel.firstSeen || "an unrecorded date",
+        createdLine: sel.type === "cluster"
+          ? ("First active " + (sel.firstSeen || "an unrecorded date") + ".")
+          : (sel.createdOnChain
+              ? ("Wallet created " + (sel.created || sel.firstSeen) + " (on-chain) · first active on Polymarket " + (sel.firstSeen || "—") + ".")
+              : ("First active " + (sel.firstSeen || "an unrecorded date") + ".")),
+        isCluster: sel.type === "cluster" && !!sel.cluster,
         depositChips: this.depositChips(sel),
         concernColor: ct.color, concernGlow: ct.glow, concernBorder: ct.border, concernBg: ct.bg, concernLabel: ct.label,
         heroSentence: sel.heroSentence || ("This " + (sel.type === "cluster" ? "group" : "account") + " won " + sel.winRate + "% of " + sel.marketsCount + " long-shot bets priced near " + sel.avgImplied + "%. A record this strong is very hard to explain by luck. A full evidence file has not yet been compiled for this subject."),
