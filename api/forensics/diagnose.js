@@ -66,7 +66,16 @@ async function scoreWallet(addr) {
   const byCond = {};
   posBets.forEach((b) => { byCond[b.cond] = b; });          // authoritative first (real avg price + P/L)
   recBets.forEach((b) => { if (!byCond[b.cond]) byCond[b.cond] = b; });  // fill gaps from trades+catalog
-  const bets = Object.values(byCond);
+  const allBets = Object.values(byCond);
+  // SCOPE GATE (lookup side): the trades→catalog path still LABELS out-of-scope
+  // markets (marketsByConds falls back to "Sports"/"Crypto"/"Other"); drop them so
+  // the lookup scores the same in-scope universe as the scanner. Only markets that
+  // can turn on nonpublic info are scored — sports/crypto/weather are decided in
+  // public. This is why a pure sports sharp (swisstony, +$13M on World-Cup NO bets)
+  // must come back as "out of scope", not as a long-shot loser.
+  const OUT_OF_SCOPE = new Set(["Sports", "Crypto", "Weather", "Other"]);
+  const bets = allBets.filter((b) => b && b.category && !OUT_OF_SCOPE.has(b.category));
+  const outOfScope = allBets.length - bets.length;
 
   o.sources = {
     trades: utrades.length,
@@ -75,6 +84,8 @@ async function scoreWallet(addr) {
     fromPositions: posBets.length,
     fromTradesCatalog: recBets.length,
     tradesResolvable: utrades.filter((t) => merged[condOf(t)]).length,
+    resolvedTotal: allBets.length,
+    outOfScope,
   };
   o.resolvedBetsParsed = bets.length;
 
@@ -115,8 +126,11 @@ async function scoreWallet(addr) {
 
   const p = o.profile;
   if (bets.length === 0) {
-    o.verdict = "No resolved bets found for this wallet (" + utrades.length + " trades pulled, " + o.sources.tradesResolvable +
-      " in resolved markets). It may be new, trade only still-open markets, or trade non-binary markets.";
+    o.verdict = outOfScope > 0
+      ? ("Out of scope — this wallet's " + allBets.length + " resolved position" + (allBets.length === 1 ? "" : "s") +
+         " are all in sports / crypto / price markets, which are decided in public, not by nonpublic information. This tool only scores markets where an information edge is possible (elections, military, economics, policy), so no informed-trading signal can be computed for this wallet.")
+      : ("No resolved in-scope bets found for this wallet (" + utrades.length + " trades pulled, " + o.sources.tradesResolvable +
+         " in resolved markets). It may be new, hold only still-open positions, or trade only non-binary / out-of-scope markets.");
   } else if (!dets.won.hasData) {
     o.verdict = "Record: " + p.resolvedBets + " resolved bets · " + p.winRate + " win rate · " + p.profit + " profit · avg odds " + p.avgOdds + ". " +
       "Only " + longshots.length + " long-shot bet" + (longshots.length === 1 ? "" : "s") + " (need 5+) — so no improbability flag, but the full record is shown.";
