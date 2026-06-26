@@ -61,7 +61,11 @@ jobs:
           # Retain a large candidate pool (cheap): 790/800 screened wallets already had a
           # winning long-shot, so the old 800 cap evicted real candidates before their
           # full record (the multi-win pattern that flags) could resolve.
-          SCREEN_CAP: "8000"
+          # Pool cap. Bounded NOT by speed but by state.json's git file size (committed
+          # every tick; 50MB warn / 100MB hard limit). Lean-bet storage (favorites keep
+          # only scoring fields) cut the per-wallet footprint several-fold, so we can hold
+          # a much larger live pool. Start at 12k and tune to the measured state.json size.
+          SCREEN_CAP: "12000"
           # Live-resolve un-cataloged markets so deep-enrich sees each wallet's WHOLE
           # record, not the thin slice the sweep has reached. Bounded to keep the tick fast.
           ONDEMAND_PER_RUN: "600"
