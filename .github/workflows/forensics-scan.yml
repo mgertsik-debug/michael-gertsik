@@ -39,10 +39,18 @@ jobs:
           # ~300k figure is ALL-TIME, ALL-market traders; this tool's scope is the
           # forensically-relevant set — wallets in RESOLVED markets over LOOKBACK.)
           LOOKBACK_DAYS: "365"
-          MARKETS_PER_RUN: "400"
-          ENRICH_BATCH: "400"
+          MARKETS_PER_RUN: "600"
+          ENRICH_BATCH: "600"
           SCREEN_USD: "2500"
-          SCREEN_CAP: "800"
+          # Retain a much larger candidate pool: 790/800 screened wallets already had a
+          # winning long-shot, so the old 800 cap was evicting real candidates before
+          # their full record (the multi-win pattern that actually flags) resolved.
+          SCREEN_CAP: "3000"
+          # Live-resolve up to this many un-cataloged markets per run so deep-enrich
+          # sees each wallet's WHOLE record (hundreds of bets), not just the ~700-market
+          # slice the sweep has reached (which left avg 4.5 bets/wallet and ~nothing flagged).
+          ONDEMAND_PER_RUN: "2000"
+          ONDEMAND_PER_WALLET: "100"
           # Optional: a Polygonscan/Etherscan key gives reliable funding traces
           # (fresh-wallet, cluster funder, cash-out). Without it the job falls
           # back to the public Polygon RPC (POLYGON_RPC) and degrades honestly.

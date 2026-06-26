@@ -77,10 +77,15 @@ function mergeMarket(state, market, positions) {
     // a WIDE net: ANY won long-shot (≤30% implied, any stake) — that's the whole
     // population of potential informed bettors — plus the big-position whale arm.
     // Every admitted wallet's FULL record is pulled and the math decides honestly.
-    const clears = (bet.won && bet.entryPrice <= 0.30) ||
+    const wonLongshot = bet.won && bet.entryPrice <= 0.30;     // the actual candidate population
+    const clears = wonLongshot ||
                    (bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED);
     let w = screened[addr];
-    if (!w && atCap) continue;                                // queue full this tick; catch it next sweep
+    // At cap we STILL admit a won-long-shot (the population we exist to score) —
+    // finalize() evicts the least-active non-flagged wallet to make room. Only the
+    // weaker big-position arm is deferred to the next sweep. Dropping won-long-shots
+    // at the cap was silently starving the flag set.
+    if (!w && atCap && !wonLongshot) continue;
     if (!w && !clears) continue;                              // not yet interesting
     if (!w) { w = screened[addr] = { address: addr, bets: [], firstSeenTs: null, fundingTs: null, funder: null, funderLabel: null, priorTx: null, cashoutLatencyHours: null, lastEnrichedTs: 0, lastTs: 0, lastResolvedMs: 0, entryByEvent: {} }; }
     bet.resolvedMs = market.resolvedMs || null;
@@ -161,6 +166,9 @@ async function run() {
     .slice(0, ENRICH_BATCH);
   let funded = 0;
   let fullRecords = 0;
+  let onDemandBudget = +ENV.ONDEMAND_PER_RUN || 1500;          // bound live CLOB resolution per run
+  const PER_WALLET_ONDEMAND = +ENV.ONDEMAND_PER_WALLET || 80;
+  let onDemandResolved = 0;
   for (const w of stale) {
     try {
       const fs0 = await poly.firstSeen(w.address);
@@ -173,6 +181,27 @@ async function run() {
       try {
         const haveConds = new Set((w.bets || []).map((b) => b.cond));
         const utrades = await poly.userTrades(w.address);
+        // ON-DEMAND RESOLUTION: the static catalog only covers markets the sweep has
+        // reached, so most of a wallet's trades resolve to NOTHING (avg 4.5 bets seen
+        // vs hundreds real) — the engine then can't tell a multi-win insider from a
+        // one-off. Resolve this wallet's UN-cataloged markets live (CLOB winner flag),
+        // keep only in-scope ones, and fold them into the SHARED catalog so every
+        // later wallet benefits too. Bounded per-wallet and per-run to fit the budget.
+        if (onDemandBudget > 0) {
+          const cat = state._catalog || (state._catalog = {});
+          const missing = [];
+          const seenM = new Set();
+          for (const t of utrades) { const c = t.conditionId || t.market || t.condition_id; if (c && !cat[c] && !seenM.has(c)) { seenM.add(c); missing.push(c); } }
+          if (missing.length) {
+            const batch = missing.slice(0, Math.min(PER_WALLET_ONDEMAND, onDemandBudget));
+            const resolved = await poly.marketsByConds(batch).catch(() => ({}));
+            for (const c of Object.keys(resolved)) {
+              if (!poly.category([], resolved[c].q)) continue;   // in-scope only (drop sports/crypto/etc)
+              cat[c] = resolved[c]; onDemandResolved++;
+            }
+            onDemandBudget -= batch.length;
+          }
+        }
         const recBets = poly.buildUserRecord(utrades, state._catalog || {});
         let added = 0;
         recBets.forEach((b) => {
@@ -203,7 +232,7 @@ async function run() {
     } catch (_) { /* leave stale; retry next run */ }
     await poly.sleep(40);
   }
-  log("deep-enriched " + stale.length + " wallets · " + fullRecords + " full position records · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
+  log("deep-enriched " + stale.length + " wallets · " + fullRecords + " full position records · " + onDemandResolved + " markets resolved on-demand · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
 
   // 6. rolling-coverage invariant
   const ages = Object.values(state.screened).map((w) => (NOW_S - (w.lastEnrichedTs || 0)) / 86400);
