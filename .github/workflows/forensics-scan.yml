@@ -120,37 +120,31 @@ jobs:
 
       - name: Commit store + catalog if anything changed
         run: |
-          # NOTE: state.json is NO LONGER committed — it lives in the Actions cache
-          # (off-git). Only the small, Vercel-served outputs are committed: store.json
-          # (read API), markets.json (winner catalog, must accumulate), rejected.json
-          # (pre-publish gate log), harvard-shadow.json (dark-launch diagnostic).
-          if git diff --quiet -- data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json data/forensics/harvard-store.json; then
-            echo "No change this tick."
-            exit 0
-          fi
+          # ONLY the small, Vercel-served DATA outputs are committed: store.json (read API),
+          # markets.json (winner catalog), rejected.json (pre-publish gate log), harvard-shadow
+          # .json (diagnostic), harvard-store.json (Harvard preview). state.json lives off-git
+          # (Actions cache) and is NEVER staged here.
+          #
+          # CRITICAL: the GitHub App token CANNOT push a commit that modifies any file under
+          # .github/workflows/. This run checked out the workflow as of job start, which may be
+          # STALE versus origin (a workflow edit merged meanwhile). If the commit carried that
+          # stale workflow, the push is remote-rejected ("...without `workflows` permission") and
+          # every tick freezes. So we ALWAYS base the commit on the freshest origin and stage ONLY
+          # the data files — the workflow tree in our commit then always equals origin's, and the
+          # push can never touch .github/. The working tree (regenerated data + off-git state.json)
+          # is untouched by the soft/mixed resets, so nothing is lost.
           git config user.email "noreply@anthropic.com"
           git config user.name  "forensics-scan"
-          git add data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json data/forensics/harvard-store.json
-          git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)"
-          # Push with rebase+retry. When two ticks race, the regenerated JSON files
-          # genuinely CONFLICT (each is a full rewrite, not a patch), so a plain
-          # `pull --rebase` aborts mid-rebase and the next push silently reports
-          # "up-to-date" — the tick's results are LOST. That is exactly why the
-          # flagged set was frozen. Resolve deterministically with `-X theirs`
-          # (during a rebase, "theirs" = OUR replayed commit), so this tick's fresh
-          # snapshot always wins the conflict and actually lands.
+          DATA="data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json data/forensics/harvard-store.json"
           for i in 1 2 3 4 5; do
-            if git push origin HEAD:"${GITHUB_REF_NAME}"; then echo "pushed"; exit 0; fi
-            echo "push rejected (attempt $i) — rebasing -X theirs (our fresh snapshot wins) and retrying"
             git fetch origin "${GITHUB_REF_NAME}" || true
-            if ! git rebase -X theirs "origin/${GITHUB_REF_NAME}"; then
-              echo "rebase -X theirs failed; forcing our snapshot onto remote head"
-              git rebase --abort 2>/dev/null || true
-              git reset --soft "origin/${GITHUB_REF_NAME}" 2>/dev/null || true
-              git checkout --ours -- data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json data/forensics/harvard-store.json 2>/dev/null || true
-              git add data/forensics/store.json data/forensics/markets.json data/forensics/rejected.json data/forensics/harvard-shadow.json data/forensics/harvard-store.json
-              git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)" || true
-            fi
+            git reset --soft "origin/${GITHUB_REF_NAME}" 2>/dev/null || true   # base on the freshest origin
+            git reset -q -- . 2>/dev/null || true                              # unstage everything (index = origin)
+            git add $DATA 2>/dev/null || true                                  # stage ONLY data files (never .github/)
+            if git diff --cached --quiet; then echo "No change this tick."; exit 0; fi
+            git commit -m "forensics: advance ledger (enumerate → aggregate → screen → score)" || true
+            if git push origin HEAD:"${GITHUB_REF_NAME}"; then echo "pushed"; exit 0; fi
+            echo "push attempt $i failed — re-syncing onto latest origin and retrying"
             sleep $((i * 3))
           done
           echo "push still failing after retries" >&2
