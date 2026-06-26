@@ -47,6 +47,7 @@ const STATE = path.join(DIR, "state.json");
 const STORE = path.join(DIR, "store.json");
 const REJECTED = path.join(DIR, "rejected.json");   // pre-publish gate: wallets dropped + why
 const SHADOW = path.join(DIR, "harvard-shadow.json"); // dark-launch: what pure-Harvard WOULD flag, on live data
+const HARVARD_STORE = path.join(DIR, "harvard-store.json"); // preview: full Harvard-scored dossiers (same UI shape as store.json)
 const CATALOG = path.join(DIR, "markets.json");   // resolved-market winner catalog (cond -> {w,q,s,c,r})
 const SEEDS = path.join(DIR, "seeds.json");        // publicly-reported wallets to force-enrich + score
 const CATALOG_MAX = +process.env.CATALOG_MAX || 20000;
@@ -711,6 +712,17 @@ async function finalize(state, snapshotTs) {
   write(SHADOW, Object.assign({ generatedAt: monthDay(NOW_S), snapshot: state.snapshotTs }, hs));
   log("harvard shadow: would flag " + hs.total + " (" + (hs.onlyHarvard || 0) + " binomial misses · " +
     (hs.alsoBinomial || 0) + " overlap) · tiers " + JSON.stringify(hs.byTier || {}));
+
+  // ---- HARVARD STORE (preview): the SAME full dossiers the live UI renders, but scored with
+  // the pure-Harvard composite — served at /api/forensics/harvard-subjects and shown by the
+  // preview (wallet-forensics.html?model=harvard). Built over the same single-wallet aggregates;
+  // never touches the published binomial store. Wrapped so a failure here can't break the tick.
+  try {
+    const hMeta = { observed: meta.observed, reviewed: meta.reviewed, screened: meta.screened, snapshot: monthDay(snapshotTs), recomputed: monthDay(NOW_S) };
+    const hPayload = build.buildHarvardPayload(singleAggs, hMeta, state._catalog || {});
+    write(HARVARD_STORE, hPayload);
+    log("harvard store (preview): " + hPayload.flaggedCount + " full Harvard dossiers written");
+  } catch (e) { log("harvard store build failed (non-fatal):", e && e.message); }
 
   // ---- bound state.json WITHOUT breaking accumulation. A wallet's record only
   // matures as the sweep reaches its markets, so we RETAIN screened wallets across

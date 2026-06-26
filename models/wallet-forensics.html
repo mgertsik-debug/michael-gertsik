@@ -626,7 +626,12 @@ class Component extends DCLogic {
   // tool and never present seed data as if it were real.
   loadReal() {
     if (typeof fetch !== "function") return;
-    fetch("/api/forensics/subjects", { cache: "no-store" })
+    // PREVIEW: ?model=harvard (on this page's own URL) points the IDENTICAL UI at the
+    // Harvard-scored dossiers instead of the published binomial store — same format, only the
+    // metrics change. Default (no param) stays on the live binomial endpoint, untouched.
+    let _ep = "/api/forensics/subjects";
+    try { if ((typeof location !== "undefined" ? location.search : "").indexOf("model=harvard") !== -1) _ep = "/api/forensics/harvard-subjects"; } catch (_) {}
+    fetch(_ep, { cache: "no-store" })
       .then((r) => (r && r.ok ? r.json() : null))
       .then((data) => {
         if (!data || !Array.isArray(data.subjects)) return;
@@ -1009,7 +1014,7 @@ class Component extends DCLogic {
     };
   }
 
-  findingName(key) { return { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet" }[key] || key; }
+  findingName(key) { return { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction", baseline: "Base-rate outlier", hProfit: "Profited far more than peers", hBetCross: "Bet far bigger than the market", hBetWithin: "Bet dwarfed its own norm", hLate: "Bought right before the event", hDir: "One-sided, held to the end" }[key] || key; }
 
   baselineFor(key, s) {
     if (key === "won") {
@@ -1343,8 +1348,10 @@ class Component extends DCLogic {
   contributionNode(s) {
     const h = this.h;
     const contrib = this.contributionMap(s);
-    const palette = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86" };
-    const order = ["won", "cluster", "conceal", "longshot", "fresh", "held"].filter((k) => contrib[k] != null);
+    const palette = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#34D399", timing: "#6FE3B6", sizing: "#A78BFA", concentration: "#2BB587", baseline: "#7E8C86", hProfit: "#34D399", hBetCross: "#6FE3B6", hBetWithin: "#A78BFA", hLate: "#2BB587", hDir: "#7E8C86" };
+    // include EVERY contributing signal (no hardcoded whitelist) so the bar + legend sum to 100%
+    // and Harvard's signals (and timing/sizing/concentration) are never silently dropped.
+    const order = Object.keys(contrib).filter((k) => contrib[k] != null && contrib[k] > 0).sort((a, b) => contrib[b] - contrib[a]);
     const bar = order.map((k, i) => h("div", { key: k, title: this.findingName(k) + " · " + contrib[k] + "%", style: { width: contrib[k] + "%", background: palette[k], height: "100%", borderRight: i < order.length - 1 ? "1px solid #090D0C" : "none" } }));
     const legend = order.map((k) => h("div", { key: k, style: { display: "flex", alignItems: "center", gap: "7px", fontFamily: "Inter", fontSize: "11.5px", color: "#949C98" } },
       h("span", { style: { width: "9px", height: "9px", borderRadius: "2px", background: palette[k] } }),
@@ -1616,7 +1623,7 @@ class Component extends DCLogic {
         // showing it next to a "luck" caption made High look weaker than the Notables.
         // Lead with the money instead, matching the dossier hero.
         improbText: s.convictionFlag ? (s.profit || s.improbText) : s.improbText,
-        improbCaption: s.convictionFlag ? ("won on a ~" + s.avgImplied + "% long-shot") : "chance this record is luck",
+        improbCaption: s.improbCaption || (s.convictionFlag ? ("won on a ~" + s.avgImplied + "% long-shot") : "chance this record is luck"),
         concernColor: th.color, concernGlow: th.glow,
         concernLabel: th.label,
         badgeStyle: "display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.07em;padding:2px 8px;border-radius:999px;color:" + th.color + ";border:1px solid " + th.border + ";background:" + th.bg + ";",
@@ -1625,8 +1632,15 @@ class Component extends DCLogic {
     });
 
     // findings
-    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction" };
+    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction",
+      // Harvard composite signals (preview model)
+      hProfit: "Profited far more than peers", hBetCross: "Bet far bigger than the market", hBetWithin: "Bet dwarfed its own norm", hLate: "Bought right before the event", hDir: "One-sided, held to the end" };
     const explainMap = {
+      hProfit: "Earned far more on this market than the other traders in it — outsized profit is the most direct informed-trading signal.",
+      hBetCross: "Staked far more than the typical trader in this market — disproportionate capital on a single mispriced outcome.",
+      hBetWithin: "This bet was many times larger than the wallet's own usual stake — an outlier against its own betting history.",
+      hLate: "Concentrated its buying in the final 48 hours before the event resolved — entering exactly when time-sensitive information is most valuable.",
+      hDir: "Bought one side and held to resolution without hedging — the un-hedged conviction of someone who already knows the answer.",
       fresh: "Created just days before the bets, with no prior history.",
       longshot: "Targeted unlikely outcomes priced around " + sel.avgImplied + "%, where an informed bet pays the most.",
       held: "Never cashed out early or hedged — total conviction in every bet.",

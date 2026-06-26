@@ -4,200 +4,32 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Harvard Composite Model — Preview</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing:border-box; }
-  :root { --bg:#0A0E0D; --panel:#0E1512; --line:#1F2A25; --green:#34D399; --red:#F87171; --ink:#ECEFED; --dim:#949C98; --mute:#6B756F; --mono:'JetBrains Mono',monospace; }
-  html,body { margin:0; background:var(--bg); color:var(--ink); font-family:Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.55; }
-  a { color:var(--green); text-decoration:none; } a:hover { text-decoration:underline; }
-  button { outline:none; } button:focus-visible { box-shadow:0 0 0 2px rgba(52,211,153,0.6); border-radius:8px; }
-  ::selection { background:rgba(52,211,153,0.28); }
-  .wrap { max-width:1200px; margin:0 auto; padding:16px 16px 70px; }
-  .banner { border:1px solid rgba(251,191,36,0.4); background:rgba(251,191,36,0.07); color:#FBBF24; border-radius:12px; padding:11px 15px; font-size:12.5px; display:flex; gap:10px; margin-bottom:14px; }
-  .banner b { color:#FCD34D; }
-  .topbar { display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-bottom:14px; }
-  .title { font-size:18px; font-weight:700; } .title small { display:block; font-weight:400; color:var(--dim); font-size:11.5px; margin-top:2px; }
-  .btn { font-family:Inter; font-size:12px; font-weight:600; color:#06120D; background:var(--green); border:none; border-radius:9px; padding:9px 14px; cursor:pointer; }
-  .updated { font-family:var(--mono); font-size:10.5px; color:var(--mute); } .err { color:var(--red); }
-  /* funnel */
-  .funnel { display:flex; flex-wrap:wrap; align-items:center; gap:6px 4px; border:1px solid var(--line); background:var(--panel); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
-  .fstep { text-align:center; padding:2px 12px; } .fstep .n { font-family:var(--mono); font-size:21px; font-weight:700; } .fstep .l { font-size:10px; color:var(--dim); text-transform:lowercase; letter-spacing:.03em; }
-  .farrow { color:var(--mute); font-size:18px; }
-  .live { width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px 2px rgba(52,211,153,.7); display:inline-block; margin-right:6px; }
-  /* calibration gauge */
-  .gauge { border:1px solid var(--line); background:var(--panel); border-radius:14px; padding:13px 16px; margin-bottom:16px; }
-  .gauge .row { display:flex; flex-wrap:wrap; gap:22px; align-items:baseline; }
-  .gauge .big { font-family:var(--mono); font-size:23px; font-weight:700; }
-  .lab { font-family:var(--mono); font-size:9px; letter-spacing:.12em; color:var(--mute); }
-  .track { position:relative; height:8px; border-radius:6px; background:#0A0E0D; border:1px solid var(--line); margin-top:11px; }
-  .track .target { position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--green); box-shadow:0 0 8px var(--green); }
-  .track .marker { position:absolute; top:-3px; bottom:-3px; width:3px; background:#FBBF24; box-shadow:0 0 8px #FBBF24; }
-  .grid { display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:14px; }
-  @media (max-width:840px){ .grid { grid-template-columns:1fr; } }
-  .panel { border:1px solid var(--line); background:var(--panel); border-radius:16px; }
-  .list { max-height:78vh; overflow:auto; padding:8px; }
-  .card { border:1px solid transparent; border-radius:12px; padding:11px 13px; cursor:pointer; }
-  .card:hover { background:#0C1311; } .card.sel { border-color:var(--green); background:rgba(52,211,153,0.06); box-shadow:0 0 0 1px rgba(52,211,153,.4),0 0 26px -10px rgba(52,211,153,.6); }
-  .card .r1 { display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
-  .card .who { font-family:var(--mono); font-size:12px; } .card .score { font-family:var(--mono); font-size:15px; font-weight:700; color:var(--green); }
-  .card .sub { font-size:11px; color:var(--dim); margin-top:4px; line-height:1.4; } .rank { font-family:var(--mono); font-size:10px; color:var(--mute); }
-  .doss { padding:0; min-height:60vh; }
-  .sec { padding:20px 22px; border-bottom:1px solid #18211D; }
-  .seclab { font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--mute); margin-bottom:11px; } .seclab .dot { color:var(--green); font-size:7px; vertical-align:middle; }
-  .who2 { font-size:18px; font-weight:600; }
-  .chips { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-  .chip { font-family:var(--mono); font-size:11px; color:#C4CAC6; background:#0E1512; border:1px solid #243029; border-radius:7px; padding:4px 9px; cursor:pointer; }
-  .chip:hover { border-color:var(--green); color:var(--green); }
-  .scoreBig { font-family:var(--mono); font-size:42px; font-weight:700; color:var(--green); letter-spacing:-.02em; line-height:1.05; }
-  .band { display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.06em; padding:6px 13px; border-radius:999px; margin-top:8px; }
-  .hero { font-size:14.5px; color:#D7DCD9; max-width:600px; margin-top:14px; line-height:1.6; }
-  .srow { display:grid; grid-template-columns:1fr auto; gap:5px 12px; align-items:center; padding:9px 0; border-top:1px solid #14201B; }
-  .sname { font-size:12.5px; } .sname small { display:block; color:var(--dim); font-size:10.5px; margin-top:2px; }
-  .sval { font-family:var(--mono); font-size:12px; text-align:right; white-space:nowrap; }
-  .bar { grid-column:1/3; height:6px; border-radius:4px; background:#0A0E0D; border:1px solid var(--line); overflow:hidden; } .bar>i { display:block; height:100%; background:linear-gradient(90deg,rgba(148,163,184,.4),var(--green)); }
-  table { width:100%; border-collapse:collapse; font-size:12px; } th { text-align:left; font-family:var(--mono); font-size:9px; letter-spacing:.1em; color:var(--mute); padding:8px 10px; border-bottom:1px solid var(--line); }
-  td { padding:9px 10px; border-bottom:1px solid #14201B; } td.r,th.r { text-align:right; } .pos { color:var(--green); } .neg { color:var(--red); }
-  .empty { padding:54px 22px; text-align:center; color:var(--dim); }
-  .muted { color:var(--dim); } .small { font-size:11px; }
-  svg text { font-family:var(--mono); }
+  html,body { margin:0; height:100%; background:#0A0E0D; font-family:Inter,system-ui,sans-serif; }
+  #bar { position:fixed; top:0; left:0; right:0; z-index:10; display:flex; gap:10px; align-items:center;
+    background:rgba(251,191,36,0.10); border-bottom:1px solid rgba(251,191,36,0.4); color:#FCD34D;
+    font-size:12.5px; line-height:1.4; padding:9px 16px; }
+  #bar b { color:#FDE68A; }
+  #bar .sp { flex:1; }
+  #bar button { font-family:inherit; font-size:12px; font-weight:600; color:#06120D; background:#34D399; border:none; border-radius:8px; padding:7px 12px; cursor:pointer; }
+  #frame { position:absolute; top:44px; left:0; right:0; bottom:0; width:100%; height:calc(100% - 44px); border:0; }
+  @media (max-width:680px){ #bar { font-size:11px; } #frame { top:64px; height:calc(100% - 64px); } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="banner"><span>⚠</span><div><b>Preview — Harvard composite model.</b> This mirrors the live dossier (every section + the on-chain verify links) but scores each wallet with the pure-Harvard “Suspicion Score” (Ofir &amp; Ofir 2026), computed in <b>shadow mode</b> on the live cron data and <b>updated every refresh</b>. Scores are still being <b>calibrated</b> to the paper's scale (target median ≈ 105). Pattern consistent with informed trading — <b>not proof</b>. Presumed innocent.</div></div>
-
-  <div class="topbar">
-    <div class="title">Harvard Composite — Suspicion-Score Preview<small>the live Wallet-Forensics dossier, scored Harvard's way</small></div>
-    <div style="display:flex; gap:10px; align-items:center;"><span class="updated" id="updated">loading…</span><button class="btn" id="refresh">↻ Refresh</button></div>
+  <div id="bar">
+    <div><b>Harvard preview.</b> This is your live Wallet-Forensics dossier — same format, every section + verify links — scored with the pure-Harvard “Suspicion Score.” Computed in shadow mode on live data; scores are still <b>calibrating</b> to the paper's scale (target median ≈ 105). Consistent with informed trading — <b>not proof</b>. Refresh anytime; it stays here and updates.</div>
+    <div class="sp"></div>
+    <button id="rf" type="button">↻ Refresh</button>
   </div>
-
-  <div class="funnel" id="funnel"></div>
-  <div class="gauge" id="gauge"></div>
-  <div id="filters" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:11px;"></div>
-
-  <div class="grid">
-    <div class="panel"><div class="list" id="list"><div class="empty">Loading…</div></div></div>
-    <div class="panel"><div class="doss" id="doss"><div class="empty">Select a wallet to open its dossier.</div></div></div>
-  </div>
-</div>
-
-<script>
-"use strict";
-var SIGNALS = [
-  { key:"zProfitCross",   w:30, name:"Cross-sectional profit (z)",   desc:"profit vs other traders in the same market", kind:"z" },
-  { key:"zBetCross",      w:25, name:"Cross-sectional bet size (z)", desc:"how far above the market's average bet",      kind:"z" },
-  { key:"zBetWithin",     w:20, name:"Within-trader bet size (z)",   desc:"vs this wallet's own typical bet",            kind:"z" },
-  { key:"lateBuyFraction",w:15, name:"Pre-event timing",             desc:"share of buying in the final 48h",            kind:"f" },
-  { key:"directionalScore",w:10,name:"Directional concentration",    desc:"one-sided buy-and-hold vs hedged/sold",       kind:"f" }
-];
-var TIERC = { extreme:{c:"#F87171",bg:"rgba(248,113,113,.12)",b:"rgba(248,113,113,.4)"}, high:{c:"#FBBF24",bg:"rgba(251,191,36,.12)",b:"rgba(251,191,36,.4)"}, notable:{c:"#34D399",bg:"rgba(52,211,153,.12)",b:"rgba(52,211,153,.4)"} };
-function num(x){ var n=Number(x); return isFinite(n)?n:0; }
-function contrib(s,r){ var v=num(r[s.key]); return s.kind==="z"?s.w*v:s.w*(v*100); }
-function usd(v){ v=Math.round(num(v)); var s=v<0?"-":""; v=Math.abs(v); return s+(v>=1e6?"$"+(v/1e6).toFixed(1)+"M":v>=1e3?"$"+Math.round(v/1e3)+"K":"$"+v); }
-function sUsd(v){ v=Math.round(num(v)); return (v>=0?"+":"−")+usd(Math.abs(v)).replace("-",""); }
-function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
-function shortA(a){ a=String(a||""); return a.length>12?a.slice(0,6)+"…"+a.slice(-4):a; }
-function fmtInt(n){ return num(n).toLocaleString("en-US"); }
-function dateS(ts){ if(!ts) return ""; var d=new Date(ts*1000), M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return M[d.getUTCMonth()]+" "+String(d.getUTCDate()).padStart(2,"0")+" "+d.getUTCFullYear(); }
-
-var S = { all:[], rows:[], sel:0, meta:null, filter:"all" };
-function visible(){ return S.filter==="only"?S.all.filter(function(r){return !r.alsoBinomial;}) : S.filter==="both"?S.all.filter(function(r){return r.alsoBinomial;}) : S.all; }
-function renderFilters(){
-  var only=S.all.filter(function(r){return !r.alsoBinomial;}).length, both=S.all.length-only;
-  var defs=[["all","All · "+S.all.length],["only","Harvard-only · "+only],["both","Also binomial · "+both]];
-  var el=document.getElementById("filters");
-  el.innerHTML=defs.map(function(d){ var on=S.filter===d[0];
-    return '<button class="chip" data-f="'+d[0]+'" style="'+(on?"border-color:var(--green);color:var(--green);background:rgba(52,211,153,.12);":"")+'">'+esc(d[1])+'</button>';
-  }).join("")+'<span class="muted small" style="margin-left:4px;">Harvard-only = wallets our binomial misses — the payoff of the switch</span>';
-  Array.prototype.forEach.call(el.querySelectorAll("button"),function(b){ b.onclick=function(){ S.filter=b.getAttribute("data-f"); S.sel=0; applyFilter(); }; });
-}
-function applyFilter(){ S.rows=visible(); if(S.sel>=S.rows.length) S.sel=0; renderFilters(); renderList(); renderDoss(); }
-
-function renderFunnel(d){
-  var ex=(d.byTier&&d.byTier.extreme)||0;
-  var steps=[["observed",d.observed],["above screen",d.screened],["flagged (Harvard)",d.total],["extreme",ex]];
-  document.getElementById("funnel").innerHTML='<span class="live"></span>'+steps.map(function(s,i){
-    return '<div class="fstep"><div class="n">'+fmtInt(s[1])+'</div><div class="l">'+s[0]+'</div></div>'+(i<steps.length-1?'<span class="farrow">→</span>':'');
-  }).join("");
-}
-function renderGauge(d){
-  var ref=d.harvardRef||{median:105.3,highTier:500,max:3987.4}, ours=d.shadowMedianS||0, max=Math.max(ref.max||3987,ours,600);
-  var pos=function(v){return Math.max(0,Math.min(100,(v/max)*100));}, ok=ours>=80&&ours<=160;
-  document.getElementById("gauge").innerHTML=
-    '<div class="row"><div><div class="lab">OUR LIVE SHADOW · MEDIAN S</div><div class="big" style="color:'+(ok?"var(--green)":"#FBBF24")+'">'+(ours||"—")+'</div></div>'+
-    '<div><div class="lab">HARVARD TARGET</div><div class="big" style="color:var(--green)">'+ref.median+'</div></div>'+
-    '<div style="flex:1;min-width:150px;"><div class="lab">CALIBRATION</div><div style="font-size:12.5px;margin-top:4px;color:'+(ok?"var(--green)":"#FBBF24")+'">'+(ok?"✓ in Harvard's range":"calibrating — scores still above the paper's scale")+'</div></div></div>'+
-    '<div class="track" title="yellow = our median · green = Harvard target"><span class="target" style="left:'+pos(ref.median)+'%"></span><span class="marker" style="left:'+pos(ours)+'%"></span></div>';
-}
-function renderList(){
-  var el=document.getElementById("list");
-  if(!S.rows.length){ el.innerHTML='<div class="empty">No Harvard episodes yet — the next cron tick will populate this.</div>'; return; }
-  el.innerHTML=S.rows.map(function(r,i){
-    var badge = !r.alsoBinomial ? '<span style="font-family:var(--mono);font-size:7.5px;font-weight:600;color:#FBBF24;border:1px solid rgba(251,191,36,.45);border-radius:999px;padding:1px 6px;margin-left:6px;vertical-align:middle;">BINOMIAL MISSES</span>' : '';
-    return '<div class="card '+(i===S.sel?"sel":"")+'" data-i="'+i+'"><div class="r1"><span class="who">'+esc(shortA(r.address))+(r.username?' · @'+esc(r.username):"")+badge+'</span><span class="score">'+Math.round(num(r.S))+'</span></div>'+
-      '<div class="sub"><span class="rank">#'+(i+1)+'</span> · '+esc(String(r.market||"market").slice(0,42))+' · '+usd(r.stake)+' @ '+num(r.odds)+'% · '+(r.won?"won":"lost")+'</div></div>';
-  }).join("");
-  Array.prototype.forEach.call(el.querySelectorAll(".card"),function(c){ c.onclick=function(){ S.sel=+c.getAttribute("data-i"); renderList(); renderDoss(); }; });
-}
-function chart(ledger){
-  var L=(ledger||[]).filter(function(b){return num(b.stake)>0;}); if(!L.length) return "";
-  var W=520,H=150,pad=30, maxS=Math.max.apply(null,L.map(function(b){return num(b.stake);}));
-  var x=function(o){return pad+(num(o)/100)*(W-pad-8);}, y=function(s){return H-pad-(num(s)/maxS)*(H-pad-12);};
-  var dots=L.map(function(b){ return '<circle cx="'+x(b.odds).toFixed(1)+'" cy="'+y(b.stake).toFixed(1)+'" r="4.5" fill="'+(b.won?"#34D399":"#F87171")+'" fill-opacity="0.8"/>'; }).join("");
-  return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="margin-top:8px;">'+
-    '<line x1="'+pad+'" y1="'+(H-pad)+'" x2="'+W+'" y2="'+(H-pad)+'" stroke="#1F2A25"/>'+
-    '<line x1="'+pad+'" y1="6" x2="'+pad+'" y2="'+(H-pad)+'" stroke="#1F2A25"/>'+
-    '<text x="'+pad+'" y="'+(H-8)+'" fill="#6B756F" font-size="9">0%</text><text x="'+(W-22)+'" y="'+(H-8)+'" fill="#6B756F" font-size="9">100%</text>'+
-    '<text x="4" y="14" fill="#6B756F" font-size="9">stake</text>'+dots+'</svg>'+
-    '<div class="lab" style="margin-top:2px;">each dot = a resolved bet · x = entry odds · y = stake · green won / red lost</div>';
-}
-function renderDoss(){
-  var el=document.getElementById("doss"), r=S.rows[S.sel];
-  if(!r){ el.innerHTML='<div class="empty">Select a wallet.</div>'; return; }
-  var addr=String(r.address||""), tc=TIERC[r.tier]||TIERC.notable;
-  var parts=SIGNALS.map(function(s){ return {s:s,v:num(r[s.key]),c:contrib(s,r)}; });
-  var maxC=Math.max.apply(null,parts.map(function(p){return Math.abs(p.c);}).concat([1]));
-  var sig=parts.map(function(p){ var val=p.s.kind==="z"?("z = "+p.v.toFixed(2)):((p.v*100).toFixed(0)+"%");
-    return '<div class="srow"><div class="sname">'+esc(p.s.name)+'<small>'+esc(p.s.desc)+' · weight '+p.s.w+'</small></div><div class="sval">'+val+' → +'+Math.round(p.c)+'</div><div class="bar"><i style="width:'+Math.max(2,Math.round(Math.abs(p.c)/maxC*100))+'%"></i></div></div>';
-  }).join("");
-  var led=(r.ledger||[]);
-  var rows=led.map(function(b){ var pl=num(b.pl); var tx=b.tx?('https://polygonscan.com/tx/'+b.tx):(/^0x[0-9a-fA-F]{40}$/.test(addr)?'https://polygonscan.com/address/'+addr:null);
-    return '<tr><td>'+esc(String(b.market||"market").slice(0,40))+'</td><td>'+esc(dateS(b.ts))+'</td><td class="r">'+(num(b.odds)<1?"<1":num(b.odds))+'%</td><td class="r">'+usd(b.stake)+'</td><td class="r">'+(b.won?'<span class="pos">Won</span>':'<span class="neg">Lost</span>')+'</td><td class="r '+(pl>=0?"pos":"neg")+'">'+sUsd(pl)+'</td><td class="r">'+(tx?'<a href="'+tx+'" target="_blank" rel="noopener noreferrer">verify ↗</a>':'—')+'</td></tr>';
-  }).join("");
-  var pmLink = r.username?('https://polymarket.com/@'+encodeURIComponent(r.username)):null;
-  var created = r.createdOnChain&&r.created ? ("Wallet created "+r.created+" (on-chain) · first active on Polymarket "+(r.firstSeen||"—")) : ("First active "+(r.firstSeen||"an unrecorded date"));
-  el.innerHTML=
-    '<div class="sec"><div class="seclab"><span class="dot">●</span> WHO THIS IS</div>'+
-      '<div class="who2">'+esc(shortA(addr))+(r.username?' · @'+esc(r.username):"")+'</div>'+
-      '<div class="chips">'+(/^0x[0-9a-fA-F]{40}$/.test(addr)?'<a class="chip" href="https://polygonscan.com/address/'+addr+'" target="_blank" rel="noopener noreferrer">'+esc(shortA(addr))+' ↗ Polygonscan</a>':"")+
-        (pmLink?'<a class="chip" href="'+pmLink+'" target="_blank" rel="noopener noreferrer">Polymarket ↗</a>':"")+'</div>'+
-      '<div class="muted small" style="margin-top:10px;">'+esc(created)+'.</div></div>'+
-    '<div class="sec" style="text-align:center;">'+
-      '<div class="band" style="color:'+tc.c+';background:'+tc.bg+';border:1px solid '+tc.b+'">SUSPICION SCORE · '+esc(String(r.tier||"").toUpperCase())+' BAND · RANK #'+(S.sel+1)+' of '+S.rows.length+'</div>'+
-      '<div class="scoreBig" style="margin-top:12px;">'+Math.round(num(r.S))+'</div>'+
-      '<div class="lab" style="margin-top:4px;">composite informed-trading score (Harvard 5-signal weighted sum)</div>'+
-      '<p class="hero" style="margin-left:auto;margin-right:auto;">This (wallet, market) episode scores <b>'+Math.round(num(r.S))+'</b> — it bet '+usd(r.stake)+' at '+num(r.odds)+'% implied and '+(r.won?"won":"lost")+(r.episodeProfit!=null?", realising "+sUsd(r.episodeProfit)+" on that bet":"")+'. A high score means the five signals align (big bet, outsized profit, late entry, one-sided). <b>Consistent with informed trading — not proof of it.</b></p>'+
-      (r.alsoBinomial?'<div class="muted small" style="margin-top:8px;">✓ our binomial flags this too</div>':'<div class="small" style="margin-top:8px;color:#FBBF24">Harvard-only — our binomial misses this one</div>')+'</div>'+
-    '<div class="sec"><div class="seclab"><span class="dot">●</span> WHAT DROVE THE SCORE · S = Σ (weight × signal)</div>'+sig+'</div>'+
-    '<div class="sec"><div class="seclab"><span class="dot">●</span> THE BETS THEMSELVES'+(r.betsCount?' · '+r.betsCount+' resolved':'')+'</div>'+
-      (led.length?('<div style="overflow-x:auto;"><table><thead><tr><th>MARKET</th><th>WHEN</th><th class="r">ODDS</th><th class="r">AMOUNT</th><th class="r">RESULT</th><th class="r">PROFIT</th><th class="r">ON-CHAIN</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+chart(led)) : '<div class="muted small">Full bet ledger + verify links populate on the next cron tick (the enriched shadow is regenerating).</div>')+'</div>'+
-    '<div class="sec" style="border-bottom:none;"><div class="lab">METHOD · Ofir &amp; Ofir 2026 — composite informed-trading score</div>'+
-      '<div class="muted small" style="margin-top:6px;line-height:1.65;">Each (wallet, market) episode is scored on five independent signals — cross-sectional profit (30), cross-sectional bet size (25), within-trader bet size (20), pre-event timing (15), directional concentration (10) — combined as a weighted sum. A score is a <b>statistical anomaly</b>, ranked as in the paper&#39;s Table 2. It is <b>consistent with informed trading, not proof</b>. All data is pulled from Polymarket&#39;s public APIs and on-chain Polygon records; every bet links to its transaction. Scores shown here are calibrating to the paper&#39;s published scale.</div></div>';
-}
-function setUpdated(d,err){ var u=document.getElementById("updated"); if(err){ u.innerHTML='<span class="err">'+esc(err)+' · showing last good data</span>'; return; }
-  var when=d&&(d.snapshot||d.generatedAt)?(d.snapshot||new Date(d.generatedAt).toUTCString().replace("GMT","UTC")):"—"; u.textContent="shadow: "+when+" · "+S.rows.length+" episodes · auto-refresh 60s"; }
-function apply(d){ S.meta=d; S.all=(d.top||[]).slice().sort(function(a,b){return num(b.S)-num(a.S);});
-  renderFunnel(d); renderGauge(d); applyFilter(); setUpdated(d,null); }
-function load(){
-  fetch("/api/forensics/harvard-shadow?t="+Date.now(),{cache:"no-store"})
-    .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
-    .then(function(d){ apply(d||{}); })
-    .catch(function(){ if(!S.rows.length){ document.getElementById("list").innerHTML='<div class="empty err">Couldn\'t load right now.<br><span class="muted">Refreshes every cron tick — try Refresh in a moment.</span></div>'; } setUpdated(null,"fetch failed"); });
-}
-document.getElementById("refresh").onclick=load;
-load(); setInterval(load,60000);
-</script>
+  <!-- the REAL UI, pointed at the Harvard-scored endpoint -->
+  <iframe id="frame" src="/models/wallet-forensics.html?model=harvard" title="Harvard-scored Wallet Forensics"></iframe>
+  <script>
+    document.getElementById("rf").onclick = function(){
+      var f = document.getElementById("frame");
+      f.src = "/models/wallet-forensics.html?model=harvard&t=" + Date.now();
+    };
+  </script>
 </body>
 </html>
