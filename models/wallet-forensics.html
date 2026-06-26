@@ -1600,13 +1600,30 @@ class Component extends DCLogic {
   slugFor(sel) { return (sel.refId || (sel.idLabel || "subject")).replace(/[^A-Za-z0-9_-]+/g, "_"); }
 
   download(filename, mime, data) {
+    let url = null;
     try {
       const blob = (data instanceof Uint8Array) ? new Blob([data], { type: mime }) : new Blob([String(data)], { type: mime + ";charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url; a.download = filename; document.body.appendChild(a); a.click();
-      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 400);
-    } catch (e) { /* sandbox may block; the preview in the modal still shows the content */ }
+      url = URL.createObjectURL(blob);
+    } catch (e) { return false; }
+    // Run inside an <iframe>, so a plain in-frame anchor click can be swallowed by
+    // the embedder. Try the TOP document first (same-origin host), then this
+    // document, then open the blob in a new tab — so the file actually lands.
+    const docs = [];
+    try { if (window.top && window.top !== window && window.top.document) docs.push(window.top.document); } catch (_) {}
+    docs.push(document);
+    for (const d of docs) {
+      try {
+        const a = d.createElement("a");
+        a.href = url; a.download = filename; a.rel = "noopener"; a.style.display = "none";
+        (d.body || d.documentElement).appendChild(a);
+        a.click();
+        setTimeout(() => { try { a.remove(); } catch (_) {} }, 1500);
+        setTimeout(() => { try { URL.revokeObjectURL(url); } catch (_) {} }, 6000);
+        return true;
+      } catch (_) { /* try next document */ }
+    }
+    try { (window.top || window).open(url, "_blank"); return true; } catch (_) {}
+    return false;
   }
 
   // full bet ledger as CSV (every real position, not the 6-row preview).

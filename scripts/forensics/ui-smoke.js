@@ -24,7 +24,7 @@ const ok = (name, cond, detail, critical) => { checks.push({ name, pass: !!cond,
   page.on("pageerror", (e) => errors.push("PAGEERROR: " + e.message));
   page.on("console", (m) => { if (m.type() === "error") errors.push("CONSOLE: " + m.text()); });
 
-  const url = SITE + "/models/wallet-forensics.html?v=13";
+  const url = SITE + "/models/wallet-forensics.html?v=16";
   console.log("# loading " + url);
   await page.goto(url, { waitUntil: "networkidle", timeout: 60000 }).catch((e) => errors.push("GOTO: " + e.message));
 
@@ -39,6 +39,20 @@ const ok = (name, cond, detail, critical) => { checks.push({ name, pass: !!cond,
   ok("advanced analytics section renders", await analytics.count() > 0);
   const svgs = await page.locator('svg').count();
   ok("dossier SVG charts present", svgs >= 3, svgs + " svg(s)");
+
+  // 1c) the export actually downloads a file (evidence PDF / bet-list CSV).
+  try {
+    const csvBtn = page.locator('button:has-text("Bet list")').first();
+    if (await csvBtn.count() > 0) {
+      await csvBtn.click();                               // opens the preview modal
+      const dlBtn = page.locator('button:has-text("Download bet list")').first();
+      await dlBtn.waitFor({ state: "visible", timeout: 5000 }).catch(() => {});
+      const dlP = page.waitForEvent("download", { timeout: 6000 }).catch(() => null);
+      await dlBtn.click().catch(() => {});
+      const dl = await dlP;
+      ok("Bet-list export downloads a file", !!dl, dl ? await dl.suggestedFilename() : "no download event");
+    } else { ok("Bet-list export downloads a file", false, "no Bet list button"); }
+  } catch (e) { ok("Bet-list export downloads a file", false, String(e && e.message)); }
 
   // 2) typing an address reveals the SCORE button, click it
   await input.fill(ADDR);
