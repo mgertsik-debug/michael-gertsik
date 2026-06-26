@@ -597,18 +597,16 @@ async function finalize(state, snapshotTs) {
   // the bar. Members folded into a ring cluster are removed as single subjects.
   const ringClusterSubjects = [];
   const absorbed = new Set();
-  // A wallet that ALREADY clears the bar on its OWN record stays a single subject — it is
-  // NOT hidden inside a Group (that was masking individually-HIGH wallets like known
-  // insiders behind a ring). The ring cluster is built only from the members that did NOT
-  // individually publish, so it adds the sub-threshold coordinated wallets without
-  // double-counting; the full ring (incl. the published singles) still renders in the
-  // ringGroups graph for context.
-  const publishedSingles = new Set(payload.subjects.filter((s) => s.type === "wallet").map((s) => String(s.address).toLowerCase()));
+  // A CORROBORATED on-chain ring is a BUNDLE — the forensic unit is the ring (one entity
+  // splitting across wallets), so its members are absorbed into the cluster and shown as the
+  // Group, NOT also as solos (that would double-count and confuse). Solo subjects are the
+  // wallets in NO bundle. A wallet that merely shares a funding service with others, with no
+  // behavioral co-movement, fails the corroboration gate below and stays an independent single.
   Object.values(state.rings).forEach((r, ri) => {
     const memberW = (r.members || [])
       .map((a) => state.screened[String(a).toLowerCase()] || state.screened[a])
-      .filter((w) => w && (w.bets || []).length && !publishedSingles.has(String(w.address).toLowerCase()));
-    if (memberW.length < 2) return;                           // need >=2 NOT-already-published betting members
+      .filter((w) => w && (w.bets || []).length);
+    if (memberW.length < 2) return;                           // need >=2 betting members for a cluster record
     // REAL, MEASURED linkage — not a hardcoded 0.9. Shared on-chain funding alone is weak
     // (two strangers can fund through the same exchange/bridge/relayer), so a Group must
     // also show BEHAVIORAL corroboration: members actually bet the same markets (co-spend)
