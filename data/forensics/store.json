@@ -1,6 +1,185 @@
 {
   "subjects": [
     {
+      "id": "w1878",
+      "type": "wallet",
+      "address": "0xa6b7ebd5ce137c3b5d56f896a52eba71702bd5f3",
+      "memberAddresses": [
+        "0xa6b7ebd5ce137c3b5d56f896a52eba71702bd5f3"
+      ],
+      "idLabel": "0xa6…d5f3",
+      "username": null,
+      "firstSeen": "an unrecorded date",
+      "category": "Politics",
+      "marketsCount": 7,
+      "tier": "watch",
+      "improbText": "1 in 116",
+      "improbDenom": 116,
+      "improbFull": "1 in 116",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": false,
+      "winRate": 71,
+      "avgImplied": 23,
+      "profit": "$2K",
+      "fired": [
+        "won"
+      ],
+      "refId": "WF-1970-877",
+      "cexChips": [],
+      "heroSentence": "This account won 5 of 7 long-shot bets that the market gave roughly a 23 percent chance. By luck you would expect about 1.6 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "won",
+          "metric": "71% vs 23%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 5 wins in 7 tries at 23% each",
+          "numbers": "Won 5 of 7 independent bets the market priced at ~23% — about 1.6 expected by luck. Probability by chance ≈ 1 in 116 (1 correlated bets de-correlated)."
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by June 15, 2026?",
+          "url": "https://polymarket.com/event/trump-announces-us-blockade-of-hormuz-lifted-by",
+          "entryTime": "Jun 13 2026",
+          "ts": 1781361271,
+          "odds": 28,
+          "stakeNum": 744,
+          "plNum": 1898,
+          "stake": "$744",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0x6360…",
+          "txFull": "0x6360ece717b95df8ad491e8091206fc94344c37084334b3ffe4d980482564922"
+        },
+        {
+          "market": "Israel announces suspension of Lebanon offensive by April 17, 2026?",
+          "url": "https://polymarket.com/event/israel-announces-suspension-of-lebanon-offensive-by",
+          "entryTime": "Apr 16 2026",
+          "ts": 1776342400,
+          "odds": 8,
+          "stakeNum": 596,
+          "plNum": -596,
+          "stake": "$596",
+          "outcome": "Lost",
+          "pl": "−$596",
+          "tx": "0x3d38…",
+          "txFull": "0x3d3823004c556eea963469bc596c5822a7db3df4d2c158fc9078c411b1cdf99b"
+        },
+        {
+          "market": "Clavicular charged again by June 30?",
+          "url": "https://polymarket.com/event/clavicular-charged-again-by-june-30",
+          "entryTime": "Mar 27 2026",
+          "ts": 1774575539,
+          "odds": 21,
+          "stakeNum": 199,
+          "plNum": 750,
+          "stake": "$199",
+          "outcome": "Won",
+          "pl": "+$750",
+          "tx": "0x96c5…",
+          "txFull": "0x96c53af5d6856f330a7e14c1939de8b8155548ead0d4d61437acf1d0ad03e1ed"
+        },
+        {
+          "market": "Will JD Vance have a diplomatic meeting with Iran by June 30, 2026?",
+          "url": "https://polymarket.com/event/jd-vance-diplomatic-meeting-with-iran-by-876",
+          "entryTime": "Jun 16 2026",
+          "ts": 1781580406,
+          "odds": 25,
+          "stakeNum": 67,
+          "plNum": -67,
+          "stake": "$67",
+          "outcome": "Lost",
+          "pl": "−$67",
+          "tx": "0x74df…",
+          "txFull": "0x74df49bd4b08f0f90668b9c9a4d5018c9e1d22837fb0d604a8b9d2c751fc435d"
+        },
+        {
+          "market": "Prince Andrew released by February 19?",
+          "url": "https://polymarket.com/event/prince-andrew-released-by",
+          "entryTime": "Feb 19 2026",
+          "ts": 1771527422,
+          "odds": 25,
+          "stakeNum": 40,
+          "plNum": 120,
+          "stake": "$40",
+          "outcome": "Won",
+          "pl": "+$120",
+          "tx": "0x41c4…",
+          "txFull": "0x41c47c17f327bea974bce22dad392493857454c088133fec226284bc8f686925"
+        },
+        {
+          "market": "Trump declassifies new UFO files by June 15?",
+          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
+          "entryTime": "Jun 12 2026",
+          "ts": 1781238325,
+          "odds": 29,
+          "stakeNum": 35,
+          "plNum": 86,
+          "stake": "$35",
+          "outcome": "Won",
+          "pl": "+$86",
+          "tx": "0xd614…",
+          "txFull": "0xd6145f5a9a48666eb93d50a02820bf4eea1f0b248165ba6e1880c576d8d24c03"
+        },
+        {
+          "market": "Congress passes Iran war powers resolution by June 30?",
+          "url": "https://polymarket.com/event/congress-passes-iran-war-powers-resolution-by-june-30",
+          "entryTime": "Jun 03 2026",
+          "ts": 1780522176,
+          "odds": 31,
+          "stakeNum": 10,
+          "plNum": 22,
+          "stake": "$10",
+          "outcome": "Won",
+          "pl": "+$22",
+          "tx": "0xd7b8…",
+          "txFull": "0xd7b828dd29d26797c36b406154676986c9921f87a9c4f7d9085d7adfe7623e71"
+        },
+        {
+          "market": "Trump declassifies new UFO files by May 31?",
+          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
+          "entryTime": "May 28 2026",
+          "ts": 1780003110,
+          "odds": 15,
+          "stakeNum": 1,
+          "plNum": -1,
+          "stake": "$1",
+          "outcome": "Lost",
+          "pl": "−$1",
+          "tx": "0x9ca6…",
+          "txFull": "0x9ca626ac045c36aa9c4a7b8d248561eb4730f2ebf79069195c3a75ad3545eff2"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 7,
+        "winRate": 71,
+        "realized": "+$2K"
+      },
+      "timeline": {
+        "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by June 15, 2026?",
+        "priceStart": 0.28155827050594967,
+        "priceEnd": 0.95,
+        "entries": [
+          0.28155827050594967
+        ],
+        "resolution": 0.92,
+        "candidates": []
+      },
+      "activityDays": 30,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "wins": 5,
+      "expectedWins": 1.61,
+      "percentile": 99.295,
+      "volumeNum": 1692,
+      "volume": "$2K",
+      "profitNum": 2211.648772102471,
+      "lastActivity": "30 days ago",
+      "firstFlaggedAt": 1782448260,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
       "id": "w184",
       "type": "wallet",
       "address": "0x6baf05d193692bb208d616709e27442c910a94c5",
@@ -118,17 +297,17 @@
       "archived": false
     }
   ],
-  "observed": 134300,
-  "reviewed": 134300,
-  "screened": 1558,
+  "observed": 139929,
+  "reviewed": 139929,
+  "screened": 2799,
   "meta": {
-    "observed": 134300,
-    "reviewed": 134300,
-    "screened": 1558,
+    "observed": 139929,
+    "reviewed": 139929,
+    "screened": 2799,
     "block": "",
     "snapshot": "Jun 25 2026",
     "recomputed": "Jun 26 2026"
   },
-  "generatedAt": "2026-06-26T04:15:13.632Z",
+  "generatedAt": "2026-06-26T04:41:11.311Z",
   "clusters": 0
 }
