@@ -193,6 +193,21 @@ function buildSubject(agg, idx, opts, catalog) {
   // episode-based subject path (favorite-odds bets, single-episode headline) — built next, so
   // the working site is never half-broken. harvard.hasData flags a wallet Harvard WOULD flag.
   const harvardTierV = harvard && harvard.hasData ? harvard.tier : null;
+  // SHADOW MODE (dark launch): record EVERY wallet the Harvard composite would flag — even
+  // those our binomial doesn't — to a side channel, BEFORE the publish gates. This runs in
+  // the cron (live data) and writes a diagnostic file, so we can validate pure-Harvard's real
+  // output against the live data without changing the published tier or risking the site.
+  if (harvardTierV && opts && Array.isArray(opts._harvardShadow) && agg.type !== "cluster") {
+    const hb = harvard.bet || {};
+    opts._harvardShadow.push({
+      address: agg.address || null, tier: harvardTierV, S: harvard.S,
+      market: hb.question || (catalog && catalog[hb.cond] && catalog[hb.cond].q) || hb.cond || null,
+      stake: Math.round(num(hb.stakeUsd)), odds: Math.round(num(hb.entryPrice) * 100), won: !!hb.won,
+      zBetCross: harvard.zBetCross, zBetWithin: harvard.zBetWithin, zProfitCross: harvard.zProfitCross,
+      lateBuyFraction: harvard.lateBuyFraction, directionalScore: harvard.directionalScore,
+      alsoBinomial: !!TIER[f.tier],
+    });
+  }
   const tier = TIER[f.tier];
   if (!tier) return null;                                   // unflagged → not published
   const flaggedBy = "binomial";
@@ -460,6 +475,7 @@ function buildPayload(aggregates, meta, catalog) {
   const subjects = [];
   meta = meta || {};
   meta._scoredDenoms = [];                                     // every aggregate's improbability, for the true-rank percentile
+  meta._harvardShadow = [];                                    // SHADOW: every wallet pure-Harvard WOULD flag this run (dark launch)
   (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta, catalog); if (s) subjects.push(s); });
   subjects.sort((a, b) => b.improbDenom - a.improbDenom);
   // TRUE-RANK PERCENTILE: rank each subject's improbability against the population of
@@ -473,6 +489,15 @@ function buildPayload(aggregates, meta, catalog) {
   // current coverage, so it starts small and grows as coverage scales.
   const totalFlaggedProfit = subjects.reduce((a, s) => a + (Number(s.profitNum) || 0), 0);
   const fmtUsd = (v) => (Math.abs(v) >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
+  // SHADOW summary — how pure-Harvard's flag set compares to what we actually publish (binomial).
+  const shadow = (meta._harvardShadow || []).slice().sort((a, b) => (b.S || 0) - (a.S || 0));
+  const harvardShadow = {
+    total: shadow.length,
+    byTier: shadow.reduce((m, r) => { m[r.tier] = (m[r.tier] || 0) + 1; return m; }, {}),
+    alsoBinomial: shadow.filter((r) => r.alsoBinomial).length,   // overlap: Harvard ∩ published
+    onlyHarvard: shadow.filter((r) => !r.alsoBinomial).length,   // Harvard would flag, binomial misses
+    top: shadow.slice(0, 50),                                    // sample for eyeballing on live data
+  };
   return {
     subjects,
     observed: (meta && meta.observed) || 0,
@@ -482,6 +507,7 @@ function buildPayload(aggregates, meta, catalog) {
     totalFlaggedProfitText: fmtUsd(totalFlaggedProfit),
     flaggedCount: subjects.length,
     scored: scoredCount,                                       // wallets actually scored on improbability (percentile denominator)
+    harvardShadow,                                             // dark-launch diagnostic (not shown in UI)
     meta: {
       observed: (meta && meta.observed) || 0,
       reviewed: (meta && meta.reviewed) || 0,

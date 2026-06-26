@@ -46,6 +46,7 @@ const DIR = path.resolve(__dirname, "../../data/forensics");
 const STATE = path.join(DIR, "state.json");
 const STORE = path.join(DIR, "store.json");
 const REJECTED = path.join(DIR, "rejected.json");   // pre-publish gate: wallets dropped + why
+const SHADOW = path.join(DIR, "harvard-shadow.json"); // dark-launch: what pure-Harvard WOULD flag, on live data
 const CATALOG = path.join(DIR, "markets.json");   // resolved-market winner catalog (cond -> {w,q,s,c,r})
 const SEEDS = path.join(DIR, "seeds.json");        // publicly-reported wallets to force-enrich + score
 const CATALOG_MAX = +process.env.CATALOG_MAX || 20000;
@@ -701,6 +702,15 @@ async function finalize(state, snapshotTs) {
   const rejects = (meta._rejects || []).slice(0, 500);
   write(REJECTED, { generatedAt: monthDay(NOW_S), count: rejects.length, rejected: rejects });
   if (rejects.length) log("pre-publish gate: dropped " + rejects.length + " subject(s) that failed validation");
+
+  // ---- SHADOW (dark launch): what pure-Harvard WOULD flag on this tick's live data, written
+  // to a side channel that never touches the published store/tier. Lets us validate the Harvard
+  // composite against real data — overlap with binomial, Harvard-only finds — before any cutover.
+  const hs = payload.harvardShadow || { total: 0, byTier: {}, alsoBinomial: 0, onlyHarvard: 0, top: [] };
+  delete payload.harvardShadow;                       // keep the diagnostic OUT of the public store
+  write(SHADOW, Object.assign({ generatedAt: monthDay(NOW_S), snapshot: state.snapshotTs }, hs));
+  log("harvard shadow: would flag " + hs.total + " (" + (hs.onlyHarvard || 0) + " binomial misses · " +
+    (hs.alsoBinomial || 0) + " overlap) · tiers " + JSON.stringify(hs.byTier || {}));
 
   // ---- bound state.json WITHOUT breaking accumulation. A wallet's record only
   // matures as the sweep reaches its markets, so we RETAIN screened wallets across
