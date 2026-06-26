@@ -52,6 +52,17 @@ const SCREEN_CAP = +ENV.SCREEN_CAP || 600;      // max wallets queued for enrich
 const MAX_STALENESS_DAYS = +ENV.MAX_STALENESS_DAYS || 3;
 const NOW = Date.now();
 const NOW_S = Math.round(NOW / 1000);
+// WALL-CLOCK BUDGET — the GitHub job is hard-killed at timeout-minutes (13m). If the
+// enrich/ring-finder work runs past that, the COMMIT step never runs and the tick's
+// results are LOST (the site never updates). So we self-impose a softer deadline:
+// stop taking on new work once we cross it and go straight to finalize()+commit,
+// leaving generous margin for the push. Coverage accumulates across ticks regardless.
+const SCAN_BUDGET_MS = (+ENV.SCAN_BUDGET_S || 540) * 1000;     // default 9 min (job timeout 13m)
+const RING_RESERVE_MS = (+ENV.RING_RESERVE_S || 120) * 1000;   // hold back ~2 min for the ring-finder
+const DEADLINE = NOW + SCAN_BUDGET_MS;
+const ENRICH_DEADLINE = NOW + SCAN_BUDGET_MS - RING_RESERVE_MS;
+const overBudget = () => Date.now() > DEADLINE;             // hard wrap-up (used by the ring-finder)
+const enrichOverBudget = () => Date.now() > ENRICH_DEADLINE; // earlier — leaves time for ring-tracing
 
 function read(p, fb) { try { return JSON.parse(fs.readFileSync(p, "utf8")); } catch (_) { return fb; } }
 function write(p, obj) { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, JSON.stringify(obj, null, 2) + "\n"); }
@@ -233,7 +244,10 @@ async function run() {
   let onDemandBudget = +ENV.ONDEMAND_PER_RUN || 1500;          // bound live CLOB resolution per run
   const PER_WALLET_ONDEMAND = +ENV.ONDEMAND_PER_WALLET || 80;
   let onDemandResolved = 0;
+  let enrichedCount = 0;
   for (const w of stale) {
+    if (enrichOverBudget()) { log("enrich: hit wall-clock budget after " + enrichedCount + "/" + stale.length + " wallets — wrapping up (reserving time for ring-finder + commit)"); break; }
+    enrichedCount++;
     try {
       const fs0 = await poly.firstSeen(w.address);
       if (fs0) w.firstSeenTs = fs0;
@@ -388,6 +402,7 @@ async function finalize(state, snapshotTs) {
     const RING_BUDGET = +ENV.RING_BUDGET || 12;
     const targets = Array.from(new Set(payload.subjects.flatMap((s) => s.memberAddresses || [s.address]).filter(Boolean))).slice(0, RING_BUDGET);
     for (const addr of targets) {
+      if (overBudget()) { log("ring-finder: hit wall-clock budget — stopping after " + ringsFound + " rings"); break; }
       let net = null;
       try { net = await chain.fundingNetwork(addr, { maxSiblings: 40 }); } catch (_) {}
       if (!net || !net.hub) continue;
