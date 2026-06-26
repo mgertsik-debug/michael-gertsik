@@ -291,3 +291,5 @@ module.exports = async (req, res) => {
   } catch (e) { res.status(200).json({ verdict: "diagnose failed", error: String(e && e.message) }); }
 };
 module.exports.diagnose = diagnose;
+module.exports.scoreWallet = scoreWallet;
+module.exports.rawProbe = rawProbe;
