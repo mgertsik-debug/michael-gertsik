@@ -1,0 +1,39 @@
+# Browser smoke test for the Wallet Forensics tab — manual trigger.
+# -----------------------------------------------------------------------------
+# Runs Playwright (Chromium) inside GitHub Actions against the DEPLOYED site and
+# verifies the interactions reported broken — lookup render, copy-to-clipboard,
+# Polygonscan tx/address links, market links, and zero uncaught JS errors. This
+# is how the browser behaviour gets verified, since the build sandbox can reach
+# neither the site nor the React CDN it loads.
+name: forensics-ui-smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: "Base URL of the deployed site"
+        required: false
+        default: "https://www.michael-gertsik.com"
+      address:
+        description: "Wallet to score in the lookup"
+        required: false
+        default: "0x0711e162e05349de3d87626dea4285d08537f03c"
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Playwright + Chromium
+        run: |
+          npm init -y >/dev/null 2>&1 || true
+          npm i playwright@1.50.1
+          npx playwright install --with-deps chromium
+      - name: Browser smoke test against the deployed forensics tab
+        env:
+          SITE: ${{ github.event.inputs.site }}
+          ADDR: ${{ github.event.inputs.address }}
+        run: node scripts/forensics/ui-smoke.js
