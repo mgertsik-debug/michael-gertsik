@@ -104,7 +104,25 @@ function scoreAggregate(agg) {
 
   const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, conceal: concealD, cluster: clusterD, conviction: convictionD, timing: timingD, concentration: concentrationD, sizing: sizingD };
   const f = D.fuse(dets);
-  return { dets, f, bets, ageDays };
+
+  // ---- HARVARD composite (Ofir & Ofir 2026): score every (wallet, market) EPISODE that
+  // carries cross-sectional inputs (b.hz from the scanner), completing it with the
+  // within-trader bet-size z computed from THIS wallet's own stake distribution. The wallet's
+  // Harvard verdict is its single highest-scoring RETAINED episode (the suspicious bet). This
+  // catches single-bet insiders the per-wallet binomial misses — incl. those who bet favorites.
+  const valForW = valid.map((b) => num(b.stakeUsd)).filter((s) => s > 0);
+  const muW = valForW.length ? valForW.reduce((a, b) => a + b, 0) / valForW.length : 0;
+  const sdW = valForW.length > 1 ? Math.sqrt(valForW.reduce((a, b) => a + (b - muW) * (b - muW), 0) / (valForW.length - 1)) : 0;
+  let bestH = null;
+  for (const b of valid) {
+    if (!b.hz) continue;
+    const zw = sdW > 0 ? +(((num(b.stakeUsd) - muW) / sdW)).toFixed(3) : 0;
+    const ep = D.harvardEpisode(Object.assign({}, b.hz, { zBetWithin: zw }));
+    if (!ep.retained) continue;
+    if (!bestH || ep.S > bestH.S) bestH = Object.assign(ep, { bet: b, tier: D.harvardTier(ep.S) });
+  }
+  const harvard = bestH && bestH.tier ? { hasData: true, ...bestH } : { hasData: false, S: bestH ? bestH.S : 0 };
+  return { dets, f, harvard, bets, ageDays };
 }
 
 /* --------------------------------------------------------------- validate -- */
@@ -161,7 +179,7 @@ function validateSubject(ctx) {
 // if there is not enough data to compute the headline (won.hasData=false), so
 // sub-5-bet wallets are excluded, never scored 0.
 function buildSubject(agg, idx, opts, catalog) {
-  const { dets, f, bets } = scoreAggregate(agg);
+  const { dets, f, harvard, bets } = scoreAggregate(agg);
   // EMPIRICAL PERCENTILE POPULATION: record every aggregate we actually SCORED on the
   // binomial (won.hasData) — flagged or not — so the percentile is a TRUE rank against the
   // wallets we computed improbability for, not the cheaply-screened "reviewed" count. This
@@ -169,8 +187,15 @@ function buildSubject(agg, idx, opts, catalog) {
   if (opts && Array.isArray(opts._scoredDenoms) && dets.won && dets.won.hasData && isFinite(dets.won.improbDenom)) {
     opts._scoredDenoms.push(dets.won.improbDenom);
   }
+  // TIER: the binomial/conviction fuse still DRIVES the published tier (it builds the whole
+  // subject around the ≤35% long-shot subset). The HARVARD composite is computed and carried
+  // on the subject for display + ranking, but switching the live tier to it requires the
+  // episode-based subject path (favorite-odds bets, single-episode headline) — built next, so
+  // the working site is never half-broken. harvard.hasData flags a wallet Harvard WOULD flag.
+  const harvardTierV = harvard && harvard.hasData ? harvard.tier : null;
   const tier = TIER[f.tier];
   if (!tier) return null;                                   // unflagged → not published
+  const flaggedBy = "binomial";
   // question/url are dropped from STORED bets (re-derivable) to keep state.json small;
   // re-hydrate them from the resolved-market catalog (cond -> {q, s}) for display.
   const cat = catalog || (opts && opts.catalog) || {};
@@ -364,6 +389,19 @@ function buildSubject(agg, idx, opts, catalog) {
     // = Polymarket's all-time profile P/L across ALL the wallet's trades — shown as separate
     // context, clearly labeled, so the two scopes are never conflated.
     profitSource: "flagged-bets",
+    // HARVARD composite (Ofir & Ofir 2026), carried for display + ranking. harvardScore is the
+    // wallet's top retained (wallet,market) episode S; harvardWouldFlag = Harvard flags it even
+    // if our binomial doesn't (yet). Drives the upcoming episode-based view.
+    harvardScore: harvard && (harvard.S != null) ? harvard.S : 0,
+    harvardTier: harvardTierV || null,
+    harvardWouldFlag: !!harvardTierV,
+    harvardEpisode: harvard && harvard.hasData ? {
+      market: qOf(harvard.bet || {}), url: urlOf(harvard.bet || {}),
+      stake: Math.round(num((harvard.bet || {}).stakeUsd)), odds: Math.round(num((harvard.bet || {}).entryPrice) * 100),
+      won: !!(harvard.bet || {}).won, tx: (harvard.bet || {}).tx || null,
+      zBetCross: harvard.zBetCross, zBetWithin: harvard.zBetWithin, zProfitCross: harvard.zProfitCross,
+      lateBuyFraction: harvard.lateBuyFraction, directionalScore: harvard.directionalScore,
+    } : null,
     profitNum: Math.round(profitNum),                          // P/L on the flagged bets (reconciles to the ledger)
     accountPnl: accountPL != null ? Math.round(accountPL) : null,
     accountPnlText: accountPL != null ? signedMoney(accountPL) : null,
