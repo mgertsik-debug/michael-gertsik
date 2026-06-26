@@ -203,8 +203,49 @@ async function cashoutAfter(wallet, sinceTs) {
   return { ts: toCex.ts, to: toCex.to, label: toCex.label, latencyHours: +((toCex.ts - sinceTs) / 3600).toFixed(1) };
 }
 
+// FUND-FLOW NETWORK — the Bubblemaps-style ring tracer, but scored. From a subject
+// wallet we (1) find who funded it (inbound USDC), (2) for each funder expand to
+// EVERY OTHER wallet that funder also seeded (the ring), and (3) flag the common
+// funder as the HUB. A single funder seeding many fresh wallets that each won the
+// same surprise is the coordinated-insider / drainer signature (Iran ring, the
+// $3M frontend hack). Needs the scan key (the keyless RPC can't walk the tx graph).
+async function fundingNetwork(wallet, opts) {
+  const o = Object.assign({ maxFunders: 3, maxSiblings: 30, minSeed: 1 }, opts);
+  if (!SCAN_KEY) return { error: "needs POLYGONSCAN_API_KEY", nodes: [], edges: [] };
+  const subj = lc(wallet);
+  const txs = await scanTokenTx(subj);
+  if (!txs) return { error: "no transfer history", nodes: [], edges: [] };
+  const inbound = txs.filter((t) => t.to === subj && t.from !== subj && t.value > 0);
+  const funderTotal = {}, funderFirst = {};
+  for (const t of inbound) { funderTotal[t.from] = (funderTotal[t.from] || 0) + t.value; if (funderFirst[t.from] == null || t.ts < funderFirst[t.from]) funderFirst[t.from] = t.ts; }
+  const funders = Object.keys(funderTotal).sort((a, b) => funderTotal[b] - funderTotal[a]).slice(0, o.maxFunders);
+
+  const nodes = {}; const edges = [];
+  const add = (a, role) => { const k = lc(a); const ex = exchangeLabel(k); const r = ex ? "exchange" : role; if (!nodes[k]) nodes[k] = { addr: k, role: r, label: ex || null }; return nodes[k]; };
+  add(subj, "subject");
+  let hub = null, hubSeeded = -1;
+  for (const f of funders) {
+    add(f, "funder");
+    edges.push({ from: f, to: subj, value: Math.round(funderTotal[f]), ts: funderFirst[f] });
+    if (exchangeLabel(f)) continue;                          // a CEX hot wallet isn't a "ring hub"
+    const ftx = await scanTokenTx(f).catch(() => null);
+    if (!ftx) continue;
+    const out = ftx.filter((t) => t.from === lc(f) && t.to !== lc(f) && t.value > 0);
+    const seededTotal = {}, seededFirst = {};
+    for (const t of out) { seededTotal[t.to] = (seededTotal[t.to] || 0) + t.value; if (seededFirst[t.to] == null || t.ts < seededFirst[t.to]) seededFirst[t.to] = t.ts; }
+    const seeded = Object.keys(seededTotal).filter((a) => a !== subj && !exchangeLabel(a));
+    if (seeded.length > hubSeeded) { hubSeeded = seeded.length; hub = lc(f); }
+    seeded.sort((a, b) => seededTotal[b] - seededTotal[a]).slice(0, o.maxSiblings).forEach((s) => {
+      add(s, "sibling");
+      edges.push({ from: lc(f), to: s, value: Math.round(seededTotal[s]), ts: seededFirst[s] });
+    });
+  }
+  if (hub && nodes[hub]) nodes[hub].role = "hub";
+  return { subject: subj, hub, funders, nodes: Object.values(nodes), edges, ringSize: hubSeeded >= 0 ? hubSeeded + 1 : 1 };
+}
+
 module.exports = {
-  walletFunding, priorTxCount, cashoutAfter, exchangeLabel,
+  walletFunding, priorTxCount, cashoutAfter, exchangeLabel, fundingNetwork, scanTokenTx,
   // exposed for tests / reuse
   padAddr, unpadAddr, usdcAmount, hexToNum, EXCHANGE_LABELS, latestBlock, blockTime,
   USDC, RPC, hasScanKey: () => !!SCAN_KEY,
