@@ -1,0 +1,23 @@
+# Calibrate the detector against KNOWN insider wallets (manual trigger).
+name: forensics-calibrate
+
+on:
+  workflow_dispatch:
+    inputs:
+      addrs:
+        description: "Comma/space-separated 0x wallets"
+        required: false
+        default: "0xa72db1749e9ac2379d49a3c12708325ed17febd4 0x6baf05d193692bb208d616709e27442c910a94c5 0x168b100d7a6620a2f49a455344c2c006eaf1714b"
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Score known insider wallets
+        env:
+          ADDRS: ${{ github.event.inputs.addrs }}
+        run: node scripts/forensics/calibrate.js
