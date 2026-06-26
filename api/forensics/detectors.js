@@ -464,8 +464,59 @@ function fuse(dets, opts) {
   };
 }
 
+/* ============================================================================
+ *  HARVARD composite informed-trading score (Ofir & Ofir, "Informed Trading on
+ *  Prediction Markets", March 2026). The unit is a (wallet, MARKET) EPISODE — a
+ *  single bet in a single market — NOT the wallet's whole record. This is the key
+ *  difference from the binomial path: it flags one outsized, profitable, late,
+ *  directional bet regardless of the wallet's broader history.
+ *
+ *    S = 25·z_bet_cross + 20·z_bet_within + 30·z_profit_cross
+ *        + 15·(late_buy_fraction·100) + 10·(directional_score·100)
+ *
+ *  where (all supplied by the scanner from per-market cross-sections):
+ *    z_bet_cross   = (wallet's buy $ − market mean) / market SD   (vs peers in that market)
+ *    z_bet_within  = (this bet − wallet's own mean) / wallet SD    (vs the wallet's own norm)
+ *    z_profit_cross= (wallet's profit − market mean) / market SD   (vs peers in that market)
+ *    late_buy_fraction = share of buy volume in the final 48h before resolution  [0..1]
+ *    directional_score = one-sidedness (1 = pure buy, held to resolution)         [0..1]
+ *
+ *  RETENTION (Harvard's inclusion gate): keep only episodes where z_bet_cross > 2
+ *  OR z_bet_within > 2 (~top 2.5% by bet size). The scanner also applies Harvard's
+ *  market filters ($10k+ market volume, ≥3 buyers, ≥$500 wallet buy) upstream.
+ * ========================================================================== */
+const HARVARD_W = { betCross: 25, betWithin: 20, profitCross: 30, late: 15, dir: 10 };
+function harvardEpisode(e, opts) {
+  if (!e) return { key: "harvard", hasData: false };
+  const zbc = isNum(e.zBetCross) ? e.zBetCross : 0;
+  const zbw = isNum(e.zBetWithin) ? e.zBetWithin : 0;
+  const zpc = isNum(e.zProfitCross) ? e.zProfitCross : 0;
+  const late = clip(isNum(e.lateBuyFraction) ? e.lateBuyFraction : 0, 0, 1);
+  const dir = clip(isNum(e.directionalScore) ? e.directionalScore : 0, 0, 1);
+  const S = HARVARD_W.betCross * zbc + HARVARD_W.betWithin * zbw + HARVARD_W.profitCross * zpc +
+            HARVARD_W.late * (late * 100) + HARVARD_W.dir * (dir * 100);
+  const retained = zbc > 2 || zbw > 2;   // Harvard top-2.5%-by-bet-size inclusion gate
+  return {
+    key: "harvard", hasData: true, S: +S.toFixed(1), retained,
+    zBetCross: +zbc.toFixed(2), zBetWithin: +zbw.toFixed(2), zProfitCross: +zpc.toFixed(2),
+    lateBuyFraction: +late.toFixed(3), directionalScore: +dir.toFixed(3),
+  };
+}
+// Tier from Harvard's composite S. Calibrated to the paper's flagged distribution
+// (S ranges 40–3987, mean 120.3, median 105.3): notable ≈ median, high ≈ 2×, extreme far out.
+const HARVARD_TIERS = { notable: 90, high: 220, extreme: 600 };
+function harvardTier(S, opts) {
+  const t = Object.assign({}, HARVARD_TIERS, opts && opts.harvardTiers);
+  if (!(S > 0)) return null;
+  if (S >= t.extreme) return "extreme";
+  if (S >= t.high) return "high";
+  if (S >= t.notable) return "notable";
+  return null;
+}
+
 module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
   decorrelate, won, longshot, held, fresh, baseline, concealment, conviction, timing,
   concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk,
+  harvardEpisode, harvardTier, HARVARD_W, HARVARD_TIERS,
 };

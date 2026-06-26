@@ -219,3 +219,26 @@ test("RECONSTRUCTED Iran-ring cluster (9 wallets, ~98% win, fresh, held) -> Extr
   assert.ok(f.agreeing >= 2);
   assert.ok(f.fired.includes("cluster") && f.fired.includes("won"));
 });
+
+test("HARVARD composite: exact weighted-sum formula + retention gate + tiers", () => {
+  // S = 25·zbc + 20·zbw + 30·zpc + 15·(late·100) + 10·(dir·100)
+  const e = D.harvardEpisode({ zBetCross: 3, zBetWithin: 2.5, zProfitCross: 4, lateBuyFraction: 0.5, directionalScore: 1.0 });
+  // 25*3 + 20*2.5 + 30*4 + 15*50 + 10*100 = 75 + 50 + 120 + 750 + 1000 = 1995
+  assert.equal(e.S, 1995, "composite matches Harvard's weighted-sum formula");
+  assert.equal(e.retained, true, "retained when z_bet_cross > 2");
+  assert.equal(D.harvardTier(e.S), "extreme", "S=1995 -> extreme");
+
+  // retention requires z_bet_cross>2 OR z_bet_within>2 — both low => not retained
+  const low = D.harvardEpisode({ zBetCross: 1.2, zBetWithin: 0.9, zProfitCross: 5, lateBuyFraction: 1, directionalScore: 1 });
+  assert.equal(low.retained, false, "not retained when neither bet-size z exceeds 2");
+
+  // tier thresholds
+  assert.equal(D.harvardTier(50), null, "below notable floor -> unflagged");
+  assert.equal(D.harvardTier(120), "notable");
+  assert.equal(D.harvardTier(300), "high");
+  assert.equal(D.harvardTier(700), "extreme");
+
+  // missing/zero inputs degrade gracefully (no NaN)
+  const z = D.harvardEpisode({});
+  assert.equal(z.S, 0); assert.equal(z.retained, false);
+});

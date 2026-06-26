@@ -96,8 +96,12 @@ function mergeMarket(state, market, positions) {
     // a WIDE net: ANY won long-shot (≤30% implied, any stake) — that's the whole
     // population of potential informed bettors — plus the big-position whale arm.
     // Every admitted wallet's FULL record is pulled and the math decides honestly.
-    const wonLongshot = bet.won && bet.entryPrice <= 0.30;     // the actual candidate population
-    const clears = wonLongshot ||
+    const wonLongshot = bet.won && bet.entryPrice <= 0.30;     // the binomial candidate population
+    // HARVARD candidate: an episode whose bet size is in the top ~2.5% of its market
+    // (z_bet_cross > 2) — the inclusion gate from the paper. This admits insiders who bet
+    // FAVORITES or moderate odds (which the long-shot screen misses entirely).
+    const harvardCand = !!(bet.hz && bet.hz.zBetCross > 2);
+    const clears = wonLongshot || harvardCand ||
                    (bet.stakeUsd >= SCREEN_USD && bet.entryPrice <= SCREEN_IMPLIED);
     let w = screened[addr];
     // At cap we STILL admit a won-long-shot (the population we exist to score) —
@@ -758,7 +762,8 @@ async function finalize(state, snapshotTs) {
       const lean = { cond: b.cond, entryPrice: b.entryPrice, won: b.won, stakeUsd: b.stakeUsd,
         outcome: b.outcome, eventGroup: b.eventGroup, category: b.category, ts: b.ts, resolvedMs: b.resolvedMs, held: b.held };
       if (b.pnl != null) lean.pnl = b.pnl;                                   // Polymarket's authoritative P/L
-      if (num(b.entryPrice) <= 0.35 && b.tx) lean.tx = b.tx;                 // tx link only matters for long-shots
+      if (b.hz) lean.hz = b.hz;                                              // Harvard cross-sectional episode inputs
+      if (b.tx) lean.tx = b.tx;                                              // tx for the verify link (Harvard episodes can be any odds)
       return lean;
     });
   }
