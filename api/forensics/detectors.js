@@ -40,10 +40,14 @@ const DEFAULTS = {
   // single high-conviction bet (the lone insider bet the binomial can't see):
   // a large stake (≥$10k) on a DEEP long-shot (≤15% implied) that won + was held.
   convictionUsd: 7500, convictionTau: 0.15,  // event-concentrated stake; calibrated to the confirmed Maduro insiders ($9.9k+)
+  // INFORMED ENTRY TIMING — bought cheap, LATE, right before a surprise it then won.
+  // Van Dyke bet the night before; the Iran ring bought hours before at ~10c. A
+  // winning ≤20%-implied bet entered within this window of resolution is the tell.
+  timingTau: 0.20, timingWindowH: 72,
   // cluster linkage weights (w1 funder, w2 co-spend, w3 sync-entry, w4 create-prox)
   clusterW: [0.40, 0.25, 0.20, 0.15], clusterTau: 0.80,
   // fusion contribution weights (artifact contributionMap + conviction)
-  contribW: { won: 34, cluster: 24, conviction: 22, conceal: 16, longshot: 12, fresh: 8, held: 6 },
+  contribW: { won: 32, cluster: 22, conviction: 20, timing: 16, conceal: 14, longshot: 11, fresh: 8, held: 6 },
   agreeSub: 0.45,                  // a detector "agrees" when its sub-score >= this
   minAgree: 2,                     // High/Extreme needs >= 2 independent detectors
   // win-rate baselines on <=35%-implied bets, by category (ACDC-derived)
@@ -264,6 +268,40 @@ function conviction(bets, opts) {
 }
 
 /* ============================================================================
+ *  6b. INFORMED ENTRY TIMING — the "bought cheap, late, just before the surprise"
+ *  signature shared by every confirmed case (Van Dyke: night before; Iran ring:
+ *  hours before at ~10c). For a wallet's WON deep-long-shots with known entry +
+ *  resolution times, measure how long BEFORE resolution they bought. Entering a
+ *  ≤τ-implied winner within a tight window of the outcome is hard to explain
+ *  without knowing it was coming. Excluded (hasData=false) when timestamps are
+ *  missing, so it never penalises wallets we simply lack timing for. */
+function timing(bets, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  const odds = (b) => (isNum(b.entryPrice) ? b.entryPrice : b.impliedProb);
+  const cand = (bets || []).filter((b) => b && b.won === true && isNum(odds(b)) && odds(b) <= o.timingTau
+    && isNum(b.ts) && b.ts > 0 && isNum(b.resolvedMs) && b.resolvedMs > 0 && b.resolvedMs / 1000 > b.ts);
+  if (!cand.length) return { key: "timing", hasData: false };
+  const hrs = cand.map((b) => (b.resolvedMs / 1000 - b.ts) / 3600);
+  const late = hrs.filter((h) => h <= o.timingWindowH).length;
+  const minH = Math.min.apply(null, hrs);
+  const sorted = hrs.slice().sort((a, b) => a - b);
+  const medianH = sorted[Math.floor(sorted.length / 2)];
+  const fires = late >= 1 && minH <= o.timingWindowH;
+  const score = fires
+    ? clip(0.42 + 0.08 * Math.min(4, late) + (o.timingWindowH - minH) / o.timingWindowH * 0.3, 0, 1)
+    : clip(late * 0.18, 0, 0.39);
+  const fmtH = (h) => (h < 48 ? Math.round(h) + "h" : Math.round(h / 24) + "d");
+  return {
+    key: "timing", hasData: true, fires, score,
+    lateWins: late, n: cand.length, minHours: +minH.toFixed(1), medianHours: +medianH.toFixed(1),
+    explain: fires
+      ? late + " of " + cand.length + " winning long-shots were bought within " + o.timingWindowH + "h of resolution (soonest " + fmtH(minH) +
+        " before) — entering a ~" + Math.round((cand[hrs.indexOf(minH)] ? odds(cand[hrs.indexOf(minH)]) : 0.1) * 100) + "% outcome right before it happened is the informed-entry signature."
+      : "Winning long-shots were entered " + fmtH(medianH) + " before resolution on average — not an unusually late, informed entry.",
+  };
+}
+
+/* ============================================================================
  *  7. CLUSTER — pairwise linkage + cluster build (Meiklejohn-style).
  *  link(a,b) = w1·shared_funder + w2·co_spend + w3·sync_entry + w4·create_prox,
  *  each signal in [0,1]. cluster if mean pairwise link >= τ (0.80). */
@@ -340,6 +378,6 @@ function fuse(dets, opts) {
 
 module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
-  decorrelate, won, longshot, held, fresh, baseline, concealment, conviction,
+  decorrelate, won, longshot, held, fresh, baseline, concealment, conviction, timing,
   clusterLink, clusterScore, fuse, winBaseline, categoryRisk,
 };

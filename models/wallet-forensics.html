@@ -194,7 +194,7 @@
               </div>
               <div style="text-align: right; flex-shrink: 0;">
                 <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 19px; color: {{ s.concernColor }}; letter-spacing: -0.02em; text-shadow: 0 0 18px {{ s.concernGlow }};">{{ s.improbText }}</div>
-                <div style="font-size: 9.5px; color: #6B756F; margin-top: 3px; max-width: 116px; line-height: 1.35;">chance this record is luck</div>
+                <div style="font-size: 9.5px; color: #6B756F; margin-top: 3px; max-width: 116px; line-height: 1.35;">{{ s.improbCaption }}</div>
               </div>
             </div>
           </div>
@@ -965,7 +965,12 @@ class Component extends DCLogic {
       volume: (s) => s.volumeNum,
       recent: (s) => -s.activityDays,
     }[st.sort] || ((s) => s.improbDenom);
-    list = list.slice().sort((a, b) => key(b) - key(a));
+    // TIER FIRST, then the chosen metric within a tier — so the strongest tier
+    // (Extreme > High > Notable) is always on top and the badge order matches the
+    // list order. (A conviction "High" headlines a small 1-in-N because that number
+    // is one bet's odds, not the whole record — the tier reflects the real signature.)
+    const tierRank = (s) => ({ extreme: 3, elevated: 2, watch: 1 }[s.tier] || 0);
+    list = list.slice().sort((a, b) => (tierRank(b) - tierRank(a)) || (key(b) - key(a)));
     return list;
   }
 
@@ -1411,7 +1416,12 @@ class Component extends DCLogic {
         accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 12px 1px rgba(52,211,153,0.7);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
         whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         whoLabel: this.whoLabel(s), why: this.whyLine(s),
-        improbText: s.improbText, concernColor: th.color, concernGlow: th.glow,
+        // For a conviction-path flag the "1 in N" is ONE bet's odds, not the record —
+        // showing it next to a "luck" caption made High look weaker than the Notables.
+        // Lead with the money instead, matching the dossier hero.
+        improbText: s.convictionFlag ? (s.profit || s.improbText) : s.improbText,
+        improbCaption: s.convictionFlag ? ("won on a ~" + s.avgImplied + "% long-shot") : "chance this record is luck",
+        concernColor: th.color, concernGlow: th.glow,
         concernLabel: th.label,
         badgeStyle: "display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.07em;padding:2px 8px;border-radius:999px;color:" + th.color + ";border:1px solid " + th.border + ";background:" + th.bg + ";",
         newlyFlagged: !!s.newlyFlagged, archived: !!s.archived,

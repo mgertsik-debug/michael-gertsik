@@ -95,8 +95,10 @@ function scoreAggregate(agg) {
 
   // single high-conviction bet — the lone insider bet the binomial (n>=5) misses
   const convictionD = D.conviction(bets);
+  // informed entry timing — bought cheap, late, right before the surprise it won
+  const timingD = D.timing(bets);
 
-  const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, conceal: concealD, cluster: clusterD, conviction: convictionD };
+  const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, conceal: concealD, cluster: clusterD, conviction: convictionD, timing: timingD };
   const f = D.fuse(dets);
   return { dets, f, bets, ageDays };
 }
