@@ -924,7 +924,7 @@ class Component extends DCLogic {
 
   // ---------- DERIVED ----------
   catCounts() {
-    const cats = ["Military & Defense", "Politics", "Elections", "Economics", "Crypto", "Culture", "Sports", "World"];
+    const cats = ["Military & Defense", "Politics", "World", "Legal & Regulatory", "Corporate & M&A", "Elections", "Economics", "Crypto Events", "Tech & Announcements", "Culture"];
     const counts = {};
     cats.forEach((c) => (counts[c] = 0));
     this.subjects.forEach((s) => { if (counts[s.category] != null) counts[s.category]++; });
