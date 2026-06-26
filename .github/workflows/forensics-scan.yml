@@ -65,7 +65,7 @@ jobs:
           # every tick; 50MB warn / 100MB hard limit). Lean-bet storage (favorites keep
           # only scoring fields) cut the per-wallet footprint several-fold, so we can hold
           # a much larger live pool. Start at 12k and tune to the measured state.json size.
-          SCREEN_CAP: "8000"
+          SCREEN_CAP: "6000"
           # Live-resolve un-cataloged markets so deep-enrich sees each wallet's WHOLE
           # record, not the thin slice the sweep has reached. Bounded to keep the tick fast.
           ONDEMAND_PER_RUN: "600"
