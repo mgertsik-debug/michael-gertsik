@@ -211,8 +211,8 @@
       "_tradedCount": 6,
       "wins": 5,
       "expectedWins": 0.8,
-      "percentile": 99.917,
-      "percentileN": 2414,
+      "percentile": 99.918,
+      "percentileN": 2440,
       "volumeNum": 9534,
       "volume": "$10K",
       "lastActivity": "119 days ago",
@@ -697,12 +697,251 @@
       "_tradedCount": 125,
       "wins": 11,
       "expectedWins": 3.45,
-      "percentile": 99.876,
-      "percentileN": 2414,
+      "percentile": 99.877,
+      "percentileN": 2440,
       "volumeNum": 249063,
       "volume": "$249K",
       "lastActivity": "119 days ago",
       "firstFlaggedAt": 1782485268,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
+      "id": "w3542",
+      "type": "wallet",
+      "address": "0x29a271bbe0467538520eaa71881f214a21f6a0b1",
+      "memberAddresses": [
+        "0x29a271bbe0467538520eaa71881f214a21f6a0b1"
+      ],
+      "idLabel": "0x29…a0b1",
+      "username": "not-tosheg",
+      "created": "Feb 27 2026",
+      "createdOnChain": false,
+      "firstSeen": "Feb 27 2026",
+      "category": "World",
+      "marketsCount": 5,
+      "tier": "watch",
+      "improbText": "1 in 4.3K",
+      "improbDenom": 4324,
+      "improbFull": "1 in 4.3 thousand",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": true,
+      "winRate": 100,
+      "avgImplied": 19,
+      "profit": "$5K",
+      "fired": [
+        "won",
+        "timing",
+        "longshot",
+        "fresh"
+      ],
+      "contributions": {
+        "won": 48,
+        "timing": 24,
+        "longshot": 16,
+        "fresh": 12
+      },
+      "agreeing": 3,
+      "refId": "WF-2026-541",
+      "cexChips": [],
+      "heroSentence": "This account won 5 of 5 long-shot bets that the market gave roughly a 19 percent chance. By luck you would expect about 0.94 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "0h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet.",
+          "inputs": [
+            [
+              "age",
+              "0 h"
+            ],
+            [
+              "prior_tx",
+              "0"
+            ]
+          ]
+        },
+        {
+          "key": "longshot",
+          "metric": "19% avg",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~19% across 5 bets — concentrated in long shots (≤20%).",
+          "inputs": [
+            [
+              "p̄",
+              "0.19"
+            ],
+            [
+              "n",
+              "5 long-shots"
+            ],
+            [
+              "τ",
+              "0.20"
+            ]
+          ]
+        },
+        {
+          "key": "won",
+          "metric": "100% vs 19%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 5 wins in 5 tries at 19% each",
+          "numbers": "Won 5 of 5 independent bets the market priced at ~19% — about 0.94 expected by luck. Probability by chance ≈ 1 in 4.3K.",
+          "inputs": [
+            [
+              "n",
+              "5 bets"
+            ],
+            [
+              "k",
+              "5 wins"
+            ],
+            [
+              "p",
+              "0.19"
+            ],
+            [
+              "E[X]",
+              "0.94 expected"
+            ],
+            [
+              "P",
+              "1 in 4.3K"
+            ]
+          ]
+        },
+        {
+          "key": "timing",
+          "metric": "1 of 2 late",
+          "method": "informed-entry timing",
+          "formula": "winning long-shots bought within hours of resolution",
+          "numbers": "1 of 2 winning long-shots were bought within 72h of resolution (soonest 12h before) — entering a ~11% outcome right before it happened is the informed-entry signature.",
+          "inputs": [
+            [
+              "late wins",
+              "1 of 2"
+            ],
+            [
+              "soonest",
+              "12.1 h before"
+            ],
+            [
+              "median",
+              "756 h before"
+            ]
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "market": "US strikes Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772193307,
+          "odds": 16,
+          "stakeNum": 250,
+          "plNum": 1313,
+          "stake": "$250",
+          "outcome": "Won",
+          "pl": "+$1K",
+          "tx": "0xa71c…",
+          "txFull": "0xa71c048faa80c9e409fd537fe7d346744206902ed56a2c53dbaa0f0f9bc4e88b"
+        },
+        {
+          "market": "Will US or Israel strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772193253,
+          "odds": 23,
+          "stakeNum": 200,
+          "plNum": 683,
+          "stake": "$200",
+          "outcome": "Won",
+          "pl": "+$683",
+          "tx": "0x171a…",
+          "txFull": "0x171a7f9e7f2d4f0965aa6c5d29e2a7c98e313fb9024c20700ed35bb4320e3181"
+        },
+        {
+          "market": "US strikes Iran by March 1, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-march-1-2026-492",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772193453,
+          "odds": 24,
+          "stakeNum": 200,
+          "plNum": 633,
+          "stake": "$200",
+          "outcome": "Won",
+          "pl": "+$633",
+          "tx": "0xd359…",
+          "txFull": "0xd359483dab7fdd6d058dffbf633e34143b88b1053ee6e4ed1a5de0e7dce1f9d6"
+        },
+        {
+          "market": "Will the US next strike Iran on February 28, 2026 (ET)?",
+          "url": "https://polymarket.com/event/will-the-us-next-strike-iran-on-february-28-2026-et",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772193349,
+          "odds": 11,
+          "stakeNum": 200,
+          "plNum": 1598,
+          "stake": "$200",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0x565c…",
+          "txFull": "0x565c51ba9e53bd29790664b29e6bc5bbdca739aed579739843dfb26732785f5c"
+        },
+        {
+          "market": "Will the US next strike Iran before March 2026 (ET)?",
+          "url": "https://polymarket.com/event/will-the-us-next-strike-iran-before-march-2026-et",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772193711,
+          "odds": 20,
+          "stakeNum": 200,
+          "plNum": 804,
+          "stake": "$200",
+          "outcome": "Won",
+          "pl": "+$804",
+          "tx": "0xcad0…",
+          "txFull": "0xcad060c7826f050e63eedb0286b818ac7b9518ab97893493a9ab560fd2ac6693"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 5,
+        "winRate": 100,
+        "realized": "+$5K"
+      },
+      "timeline": {
+        "market": "US strikes Iran by February 28, 2026?",
+        "priceStart": 0.16,
+        "priceEnd": 0.95,
+        "entries": [
+          0.16
+        ],
+        "resolution": 0.92,
+        "candidates": []
+      },
+      "activityDays": 119,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "profitSource": "flagged-bets",
+      "harvardScore": 0,
+      "harvardTier": null,
+      "harvardWouldFlag": false,
+      "harvardEpisode": null,
+      "profitNum": 5030.001182568794,
+      "accountPnl": 5016,
+      "accountPnlText": "+$5K",
+      "_tradedCount": 5,
+      "wins": 5,
+      "expectedWins": 0.95,
+      "percentile": 99.795,
+      "percentileN": 2440,
+      "volumeNum": 7878,
+      "volume": "$8K",
+      "lastActivity": "119 days ago",
+      "firstFlaggedAt": 1782506597,
       "newlyFlagged": true,
       "archived": false
     },
@@ -1225,8 +1464,8 @@
       "_tradedCount": 76,
       "wins": 12,
       "expectedWins": 4.16,
-      "percentile": 99.793,
-      "percentileN": 2414,
+      "percentile": 99.713,
+      "percentileN": 2440,
       "volumeNum": 123780,
       "volume": "$124K",
       "lastActivity": "8 days ago",
@@ -1753,8 +1992,8 @@
       "_tradedCount": 77,
       "wins": 12,
       "expectedWins": 4.44,
-      "percentile": 99.71,
-      "percentileN": 2414,
+      "percentile": 99.59,
+      "percentileN": 2440,
       "volumeNum": 10780617,
       "volume": "$10.8M",
       "lastActivity": "127 days ago",
@@ -2026,8 +2265,8 @@
       "_tradedCount": 5,
       "wins": 4,
       "expectedWins": 0.65,
-      "percentile": 99.586,
-      "percentileN": 2414,
+      "percentile": 99.467,
+      "percentileN": 2440,
       "volumeNum": 247245,
       "volume": "$247K",
       "lastActivity": "119 days ago",
@@ -2554,8 +2793,8 @@
       "_tradedCount": 2330,
       "wins": 23,
       "expectedWins": 12.41,
-      "percentile": 99.544,
-      "percentileN": 2414,
+      "percentile": 99.426,
+      "percentileN": 2440,
       "volumeNum": 2505462,
       "volume": "$2.5M",
       "lastActivity": "99 days ago",
@@ -3059,8 +3298,8 @@
       "_tradedCount": 66,
       "wins": 11,
       "expectedWins": 4.5,
-      "percentile": 99.42,
-      "percentileN": 2414,
+      "percentile": 99.303,
+      "percentileN": 2440,
       "volumeNum": 1122996,
       "volume": "$1.1M",
       "lastActivity": "120 days ago",
@@ -3564,8 +3803,8 @@
       "_tradedCount": 1506,
       "wins": 10,
       "expectedWins": 3.85,
-      "percentile": 99.254,
-      "percentileN": 2414,
+      "percentile": 99.139,
+      "percentileN": 2440,
       "volumeNum": 10803703,
       "volume": "$10.8M",
       "lastActivity": "9 days ago",
@@ -4092,8 +4331,8 @@
       "_tradedCount": 489,
       "wins": 17,
       "expectedWins": 8.48,
-      "percentile": 99.213,
-      "percentileN": 2414,
+      "percentile": 99.098,
+      "percentileN": 2440,
       "volumeNum": 8879290,
       "volume": "$8.9M",
       "lastActivity": "3 days ago",
@@ -4374,8 +4613,8 @@
       "_tradedCount": 7,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 99.047,
-      "percentileN": 2414,
+      "percentile": 98.934,
+      "percentileN": 2440,
       "volumeNum": 592373,
       "volume": "$592K",
       "lastActivity": "119 days ago",
@@ -4883,8 +5122,8 @@
       "_tradedCount": 72,
       "wins": 17,
       "expectedWins": 9,
-      "percentile": 98.964,
-      "percentileN": 2414,
+      "percentile": 98.852,
+      "percentileN": 2440,
       "volumeNum": 2045021,
       "volume": "$2M",
       "lastActivity": "6 days ago",
@@ -5201,8 +5440,8 @@
           "txFull": "0x6c58434eff206ac2b1ee97e8246e58517844fd91080acc9e19aa5d4b5aad220f"
         },
         {
-          "market": "(market)",
-          "url": null,
+          "market": "Will One Battle After Another win Best Film Editing at the 98th Academy Awards?",
+          "url": "https://polymarket.com/event/will-one-battle-after-another-win-best-film-editing-at-the-98th-academy-awards",
           "entryTime": "Mar 13 2026",
           "ts": 1773384901,
           "odds": 14,
@@ -5369,571 +5608,14 @@
       "_tradedCount": 179,
       "wins": 9,
       "expectedWins": 3.6,
-      "percentile": 98.923,
-      "percentileN": 2414,
+      "percentile": 98.811,
+      "percentileN": 2440,
       "volumeNum": 2136297,
       "volume": "$2.1M",
       "lastActivity": "110 days ago",
       "firstFlaggedAt": 1782502899,
       "newlyFlagged": true,
       "archived": false
-    },
-    {
-      "id": "c9010",
-      "type": "cluster",
-      "address": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
-      "memberAddresses": [
-        "0x744a283ddda3533d6abf89240bfe2f43201a923b",
-        "0xb8fe807aa951e35af53fd0fee36abc303864ce76"
-      ],
-      "idLabel": "2 wallets · 1 entity",
-      "username": null,
-      "created": "Jun 19 2025",
-      "createdOnChain": false,
-      "firstSeen": "Jun 19 2025",
-      "category": "Military & Defense",
-      "marketsCount": 48,
-      "tier": "watch",
-      "improbText": "1 in 196",
-      "improbDenom": 196,
-      "improbFull": "1 in 196",
-      "convictionFlag": false,
-      "convBet": null,
-      "full": true,
-      "winRate": 29,
-      "avgImplied": 14,
-      "profit": "$35K",
-      "fired": [
-        "won",
-        "timing",
-        "sizing",
-        "longshot",
-        "fresh"
-      ],
-      "contributions": {
-        "won": 41,
-        "timing": 20,
-        "sizing": 15,
-        "longshot": 14,
-        "fresh": 10
-      },
-      "agreeing": 4,
-      "refId": "WF-2025-0009",
-      "cexChips": [],
-      "heroSentence": "These 2 wallets appear to be controlled by a single entity (shared on-chain funding + co-ordinated betting). Together they won 14 of 48 long-shot bets the market gave about a 14 percent chance — the pattern you would expect from foreknowledge split across wallets, not luck. Consistent with informed trading by one operator, not proof of it.",
-      "scorecard": [
-        {
-          "key": "fresh",
-          "metric": "0h old",
-          "method": "account-age check",
-          "formula": "age = first bet block − funding block",
-          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet.",
-          "inputs": [
-            [
-              "age",
-              "0 h"
-            ],
-            [
-              "prior_tx",
-              "0"
-            ]
-          ]
-        },
-        {
-          "key": "longshot",
-          "metric": "14% avg",
-          "method": "average odds",
-          "formula": "average of the market's odds at entry",
-          "numbers": "Average entry odds ~14% across 50 bets — concentrated in long shots (≤20%).",
-          "inputs": [
-            [
-              "p̄",
-              "0.14"
-            ],
-            [
-              "n",
-              "50 long-shots"
-            ],
-            [
-              "τ",
-              "0.20"
-            ]
-          ]
-        },
-        {
-          "key": "won",
-          "metric": "29% vs 14%",
-          "method": "luck probability",
-          "formula": "chance of ≥ 14 wins in 48 tries at 14% each",
-          "numbers": "Won 14 of 48 independent bets the market priced at ~14% — about 6.75 expected by luck. Probability by chance ≈ 1 in 196 (2 correlated bets de-correlated).",
-          "inputs": [
-            [
-              "n",
-              "48 bets"
-            ],
-            [
-              "k",
-              "14 wins"
-            ],
-            [
-              "p",
-              "0.14"
-            ],
-            [
-              "E[X]",
-              "6.75 expected"
-            ],
-            [
-              "P",
-              "1 in 196"
-            ]
-          ]
-        },
-        {
-          "key": "sizing",
-          "metric": "46× median",
-          "method": "within-trader bet-size anomaly",
-          "formula": "largest event position ÷ this wallet's median bet",
-          "numbers": "Largest position $63,268 is ~46× this wallet's median bet ($1,379) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly).",
-          "inputs": [
-            [
-              "largest",
-              "$63K"
-            ],
-            [
-              "median",
-              "$1K"
-            ],
-            [
-              "ratio",
-              "45.9×"
-            ]
-          ]
-        },
-        {
-          "key": "timing",
-          "metric": "3 of 4 late",
-          "method": "informed-entry timing",
-          "formula": "winning long-shots bought within hours of resolution",
-          "numbers": "3 of 4 winning long-shots were bought within 72h of resolution (soonest 10h before) — entering a ~10% outcome right before it happened is the informed-entry signature.",
-          "inputs": [
-            [
-              "late wins",
-              "3 of 4"
-            ],
-            [
-              "soonest",
-              "9.8 h before"
-            ],
-            [
-              "median",
-              "12.7 h before"
-            ]
-          ]
-        }
-      ],
-      "ledger": [
-        {
-          "market": "Will the Iranian regime fall by March 31?",
-          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-march-31",
-          "entryTime": "Feb 27 2026",
-          "ts": 1772190703,
-          "odds": 17,
-          "stakeNum": 3247,
-          "plNum": -3247,
-          "stake": "$3K",
-          "outcome": "Lost",
-          "pl": "−$3K",
-          "tx": "0x10d0…",
-          "txFull": "0x10d038547339863bfedcfcf3802482611d3fed6c0424a507f74afc25f4ff756d"
-        },
-        {
-          "market": "Iran closes its airspace by May 24?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-24",
-          "entryTime": "May 18 2026",
-          "ts": 1779116583,
-          "odds": 25,
-          "stakeNum": 2503,
-          "plNum": -2503,
-          "stake": "$3K",
-          "outcome": "Lost",
-          "pl": "−$3K",
-          "tx": "0xad82…",
-          "txFull": "0xad82f838c0b8e765ca526d9e1009eed37689305f030c6b1fd8be98d17b92157a"
-        },
-        {
-          "market": "Iran closes its airspace by May 31?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-31-434-443-672-526-188-756",
-          "entryTime": "May 20 2026",
-          "ts": 1779287217,
-          "odds": 34,
-          "stakeNum": 2500,
-          "plNum": -2500,
-          "stake": "$3K",
-          "outcome": "Lost",
-          "pl": "−$3K",
-          "tx": "0xc813…",
-          "txFull": "0xc8136fd0ce8ec37ff08182da669ce12b035c6bfe3ec8d42c01cc4a69efc06ad5"
-        },
-        {
-          "market": "US x Iran ceasefire by April 30?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-30",
-          "entryTime": "Apr 05 2026",
-          "ts": 1775393789,
-          "odds": 28,
-          "stakeNum": 2000,
-          "plNum": 5218,
-          "stake": "$2K",
-          "outcome": "Won",
-          "pl": "+$5K",
-          "tx": "0x12ae…",
-          "txFull": "0x12aeb3448ac7a44d3f17a5deca7091d2d123f90721ea27831028b5d06e14d765"
-        },
-        {
-          "market": "Will US or Israel strike Iran by February 28, 2026?",
-          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
-          "entryTime": "Feb 27 2026",
-          "ts": 1772201257,
-          "odds": 25,
-          "stakeNum": 1589,
-          "plNum": 4800,
-          "stake": "$2K",
-          "outcome": "Won",
-          "pl": "+$5K",
-          "tx": "0xf279…",
-          "txFull": "0xf2791aae1ec25381ea6e2d1df9f6ffe16ce42eae7238b6cb4c908fa2beddfefd"
-        },
-        {
-          "market": "Iran closes its airspace by May 21?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-21",
-          "entryTime": "May 18 2026",
-          "ts": 1779105711,
-          "odds": 13,
-          "stakeNum": 1501,
-          "plNum": -1501,
-          "stake": "$2K",
-          "outcome": "Lost",
-          "pl": "−$2K",
-          "tx": "0x0ecf…",
-          "txFull": "0x0ecf5728bfdd2b9f2fcbb0be17824e31b11c5d94628c22dfaa51ed928a40d0c0"
-        },
-        {
-          "market": "US strikes Iran by February 28, 2026?",
-          "url": "https://polymarket.com/event/us-strikes-iran-by",
-          "entryTime": "Feb 27 2026",
-          "ts": 1772201151,
-          "odds": 18,
-          "stakeNum": 1488,
-          "plNum": 6911,
-          "stake": "$1K",
-          "outcome": "Won",
-          "pl": "+$7K",
-          "tx": "0x729d…",
-          "txFull": "0x729d44c23e69f9542436137fb76b0a8962036f22b4cc8fd801a4c6f9869edab8"
-        },
-        {
-          "market": "US x Iran ceasefire by April 15?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-15",
-          "entryTime": "Apr 07 2026",
-          "ts": 1775590519,
-          "odds": 23,
-          "stakeNum": 1250,
-          "plNum": 4232,
-          "stake": "$1K",
-          "outcome": "Won",
-          "pl": "+$4K",
-          "tx": "0xf82f…",
-          "txFull": "0xf82f989a1c380ab9e13473c36c0a64f547e38326496f3303f8e34419f76ee19a"
-        },
-        {
-          "market": "Will Israel's Ben Gurion Airport reopen by March 7?",
-          "url": "https://polymarket.com/event/will-israels-ben-gurion-airport-reopen-by-march-7-339-656",
-          "entryTime": "Mar 04 2026",
-          "ts": 1772650061,
-          "odds": 25,
-          "stakeNum": 1040,
-          "plNum": -1040,
-          "stake": "$1K",
-          "outcome": "Lost",
-          "pl": "−$1K",
-          "tx": "0x3588…",
-          "txFull": "0x35889aa2c9c76abd66f1670ed24f440712167a7bc22a32eebea9c7e602df3152"
-        },
-        {
-          "market": "Internet Access restored in Iran by May 31, 2026?",
-          "url": "https://polymarket.com/event/internet-access-restored-in-iran-by-may-31-2026",
-          "entryTime": "Apr 16 2026",
-          "ts": 1776338904,
-          "odds": 30,
-          "stakeNum": 800,
-          "plNum": 1907,
-          "stake": "$800",
-          "outcome": "Won",
-          "pl": "+$2K",
-          "tx": "0xce70…",
-          "txFull": "0xce70ebf15aa5d5e9fb1115d516a7dcfdb2a1012b9ec17544fa08cddd695c5961"
-        },
-        {
-          "market": "Trump announces US x Iran ceasefire over by June 15?",
-          "url": "https://polymarket.com/event/trump-announces-us-x-iran-ceasefire-over-by-june-15-20260607232556275-193",
-          "entryTime": "Jun 11 2026",
-          "ts": 1781179761,
-          "odds": 18,
-          "stakeNum": 750,
-          "plNum": -750,
-          "stake": "$750",
-          "outcome": "Lost",
-          "pl": "−$750",
-          "tx": "0xeee9…",
-          "txFull": "0xeee95c368aaa2190ef31f8261279d113b720e8be0b3f4d2af29591f8f4f275be"
-        },
-        {
-          "market": "Israel strike on Yemen by June 30, 2026?",
-          "url": "https://polymarket.com/event/israel-strike-on-yemen-by-june-30-2026-285-633-267-857",
-          "entryTime": "May 18 2026",
-          "ts": 1779107819,
-          "odds": 26,
-          "stakeNum": 749,
-          "plNum": -749,
-          "stake": "$749",
-          "outcome": "Lost",
-          "pl": "−$749",
-          "tx": "0xd718…",
-          "txFull": "0xd718584b6971dd3aca46becdd735bb585914d1ada2e4466b2190718ed05c9e0c"
-        },
-        {
-          "market": "US x Iran diplomatic meeting by May 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-may-31-2026-283-616",
-          "entryTime": "May 19 2026",
-          "ts": 1779221648,
-          "odds": 17,
-          "stakeNum": 740,
-          "plNum": -740,
-          "stake": "$740",
-          "outcome": "Lost",
-          "pl": "−$740",
-          "tx": "0x2361…",
-          "txFull": "0x23611bc84a74d4a959b19a8bc0f266cf17dde9cdb752c97bf37dda87b95ae5a6"
-        },
-        {
-          "market": "Iran Strike on Israel by February 28?",
-          "url": "https://polymarket.com/event/iran-strike-on-israel-by-february-28",
-          "entryTime": "Feb 27 2026",
-          "ts": 1772201441,
-          "odds": 10,
-          "stakeNum": 678,
-          "plNum": 6067,
-          "stake": "$678",
-          "outcome": "Won",
-          "pl": "+$6K",
-          "tx": "0x0890…",
-          "txFull": "0x08903ce0afb417a5d92abec8b055571e5d972f9e26497a6e3f4ec8f064f11d35"
-        },
-        {
-          "market": "Israel strikes Iran by February 28, 2026?",
-          "url": "https://polymarket.com/event/israel-strikes-iran-by-february-28-2026",
-          "entryTime": "Feb 27 2026",
-          "ts": 1772201103,
-          "odds": 20,
-          "stakeNum": 670,
-          "plNum": 2708,
-          "stake": "$670",
-          "outcome": "Won",
-          "pl": "+$3K",
-          "tx": "0x0fca…",
-          "txFull": "0x0fca4cc8251eb112647c9b79def11c4bfcedab885a00e1605ae766ee2a444cdd"
-        },
-        {
-          "market": "US x Iran permanent peace deal by April 24, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "entryTime": "Apr 22 2026",
-          "ts": 1776816728,
-          "odds": 4,
-          "stakeNum": 567,
-          "plNum": -567,
-          "stake": "$567",
-          "outcome": "Lost",
-          "pl": "−$567",
-          "tx": "0x29a1…",
-          "txFull": "0x29a1442739527cd0d140524e5dfe63ab892ff74691537e513dc6a1d096c1b87e"
-        },
-        {
-          "market": "Will Israel strike Gaza on January 26, 2026?",
-          "url": "https://polymarket.com/event/will-israel-strike-gaza-on-january-26-2026",
-          "entryTime": "Jan 26 2026",
-          "ts": 1769449679,
-          "odds": 14,
-          "stakeNum": 555,
-          "plNum": -555,
-          "stake": "$555",
-          "outcome": "Lost",
-          "pl": "−$555",
-          "tx": "0xe19b…",
-          "txFull": "0xe19b14bb0750129d8bb8bf7126b3b3cc5e75b98bf8699d9c1fa3dcc3abd640e3"
-        },
-        {
-          "market": "US strikes Iran by March 1, 2026?",
-          "url": "https://polymarket.com/event/us-strikes-iran-by-march-1-2026-492",
-          "entryTime": "Feb 27 2026",
-          "ts": 1772229871,
-          "odds": 31,
-          "stakeNum": 500,
-          "plNum": 1113,
-          "stake": "$500",
-          "outcome": "Won",
-          "pl": "+$1K",
-          "tx": "0x64a3…",
-          "txFull": "0x64a3931fd09295647348470a5e27b4bdfc2ed2fdeb952af293e3389d9cc23c81"
-        },
-        {
-          "market": "Will Iran close its airspace by June 30?",
-          "url": "https://polymarket.com/event/will-iran-close-its-airspace-by-june-30-20260609184136054",
-          "entryTime": "Jun 16 2026",
-          "ts": 1781636803,
-          "odds": 9,
-          "stakeNum": 500,
-          "plNum": 4814,
-          "stake": "$500",
-          "outcome": "Won",
-          "pl": "+$5K",
-          "tx": "0xb01f…",
-          "txFull": "0xb01f211b29ceb3ea41e20a623b0afc357feaaccf4726f93d00fea4308064a727"
-        },
-        {
-          "market": "Israel closes its airspace by June 8?",
-          "url": "https://polymarket.com/event/israel-closes-its-airspace-by-june-8",
-          "entryTime": "Jun 08 2026",
-          "ts": 1780911507,
-          "odds": 26,
-          "stakeNum": 499,
-          "plNum": -499,
-          "stake": "$499",
-          "outcome": "Lost",
-          "pl": "−$499",
-          "tx": "0x9f40…",
-          "txFull": "0x9f40a13fab7a36c7590f36ee3aa974e344af00b90ece3feb491e2011847dbad9"
-        },
-        {
-          "market": "Israel strike on the West Bank by December 31?",
-          "url": "https://polymarket.com/event/israel-strike-on-the-west-bank-by-december-31",
-          "entryTime": "Nov 25 2025",
-          "ts": 1764065789,
-          "odds": 22,
-          "stakeNum": 499,
-          "plNum": 1769,
-          "stake": "$499",
-          "outcome": "Won",
-          "pl": "+$2K",
-          "tx": "0x92ee…",
-          "txFull": "0x92ee3325302ea0a05dd7032968c8b32365f43332bb68eb01d0b02d07b4ffc7b0"
-        },
-        {
-          "market": "Iran closes its airspace by June 8?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-8",
-          "entryTime": "Jun 07 2026",
-          "ts": 1780866048,
-          "odds": 1,
-          "stakeNum": 349,
-          "plNum": -349,
-          "stake": "$349",
-          "outcome": "Lost",
-          "pl": "−$349",
-          "tx": "0xec4b…",
-          "txFull": "0xec4b95bdb53bb77019fbdba463ce5a64184478c8458ddf39b1dba099be0cbd73"
-        },
-        {
-          "market": "US x Iran permanent peace deal by May 15, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "entryTime": "May 06 2026",
-          "ts": 1778057826,
-          "odds": 13,
-          "stakeNum": 279,
-          "plNum": -279,
-          "stake": "$279",
-          "outcome": "Lost",
-          "pl": "−$279",
-          "tx": "0xaf79…",
-          "txFull": "0xaf79cf23924beb577dca78803ebe45cdd4f6afc738e71c6719a0dd3686596dcd"
-        },
-        {
-          "market": "Trump announces US x Iran ceasefire over by June 12?",
-          "url": "https://polymarket.com/event/trump-announces-us-x-iran-ceasefire-over-by-june-12-20260607232556274",
-          "entryTime": "Jun 10 2026",
-          "ts": 1781090880,
-          "odds": 7,
-          "stakeNum": 275,
-          "plNum": -275,
-          "stake": "$275",
-          "outcome": "Lost",
-          "pl": "−$275",
-          "tx": "0xc7e2…",
-          "txFull": "0xc7e24ffe8c4e8b5337658f69ab2468ed5afd311f325e6f3c9d0918e630efa51e"
-        }
-      ],
-      "ledgerSummary": {
-        "markets": 48,
-        "winRate": 29,
-        "realized": "+$35K"
-      },
-      "timeline": {
-        "market": "Will the Iranian regime fall by March 31?",
-        "priceStart": 0.1657040902037594,
-        "priceEnd": 0.05,
-        "entries": [
-          0.1657040902037594
-        ],
-        "resolution": 0.08,
-        "candidates": []
-      },
-      "cluster": {
-        "ringValue": "$35K",
-        "size": 2,
-        "nodes": [
-          {
-            "id": "0xb8fe807aa951e35af53fd0fee36abc303864ce76",
-            "x": 0.5,
-            "y": 0.5,
-            "vol": 1,
-            "label": "0xb8fe…"
-          },
-          {
-            "id": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
-            "x": 0.9,
-            "y": 0.5,
-            "vol": 0.3,
-            "label": "0x744a…"
-          }
-        ],
-        "edges": [
-          {
-            "from": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
-            "to": "0xb8fe807aa951e35af53fd0fee36abc303864ce76",
-            "w": 0.02,
-            "link": 0.024,
-            "type": "cofund",
-            "evidence": "bet the same 10% of markets together · both funded on-chain from 0x4d97dcd9…"
-          }
-        ]
-      },
-      "activityDays": 0,
-      "confidenceLimiter": "common-ownership is inferred from funding heuristics, not confirmed identity",
-      "profitSource": "flagged-bets",
-      "harvardScore": 0,
-      "harvardTier": null,
-      "harvardWouldFlag": false,
-      "harvardEpisode": null,
-      "profitNum": 35056.9087399307,
-      "accountPnl": null,
-      "accountPnlText": null,
-      "_tradedCount": null,
-      "firstFlaggedAt": 1782505843,
-      "newlyFlagged": true,
-      "wins": 14,
-      "expectedWins": 6.72,
-      "percentile": 99.327,
-      "volumeNum": 26410,
-      "volume": "$26K",
-      "lastActivity": "today"
     },
     {
       "id": "w1765",
@@ -6454,8 +6136,8 @@
       "_tradedCount": 1947,
       "wins": 10,
       "expectedWins": 4.07,
-      "percentile": 98.799,
-      "percentileN": 2414,
+      "percentile": 98.73,
+      "percentileN": 2440,
       "volumeNum": 20798535,
       "volume": "$20.8M",
       "lastActivity": "12 days ago",
@@ -6722,12 +6404,372 @@
       "_tradedCount": 9,
       "wins": 4,
       "expectedWins": 0.88,
-      "percentile": 98.674,
-      "percentileN": 2414,
+      "percentile": 98.607,
+      "percentileN": 2440,
       "volumeNum": 433538,
       "volume": "$434K",
       "lastActivity": "119 days ago",
       "firstFlaggedAt": 1782505843,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
+      "id": "w3557",
+      "type": "wallet",
+      "address": "0xa1308d9aed0bf6bdd0f4f3c43b89d0804bc405dc",
+      "memberAddresses": [
+        "0xa1308d9aed0bf6bdd0f4f3c43b89d0804bc405dc"
+      ],
+      "idLabel": "0xa1…05dc",
+      "username": "peaceandlove4",
+      "created": "Feb 16 2026",
+      "createdOnChain": true,
+      "firstSeen": "Feb 16 2026",
+      "category": "World",
+      "marketsCount": 12,
+      "tier": "watch",
+      "improbText": "1 in 130",
+      "improbDenom": 130,
+      "improbFull": "1 in 130",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": true,
+      "winRate": 33,
+      "avgImplied": 7,
+      "profit": "$37K",
+      "fired": [
+        "won",
+        "timing",
+        "sizing",
+        "longshot",
+        "fresh"
+      ],
+      "contributions": {
+        "won": 41,
+        "timing": 20,
+        "sizing": 15,
+        "longshot": 14,
+        "fresh": 10
+      },
+      "agreeing": 4,
+      "refId": "WF-2026-556",
+      "cexChips": [],
+      "heroSentence": "This account won 4 of 12 long-shot bets that the market gave roughly a 7 percent chance. By luck you would expect about 0.85 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "0h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet.",
+          "inputs": [
+            [
+              "age",
+              "0 h"
+            ],
+            [
+              "prior_tx",
+              "0"
+            ]
+          ]
+        },
+        {
+          "key": "longshot",
+          "metric": "7% avg",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~7% across 12 bets — concentrated in long shots (≤20%).",
+          "inputs": [
+            [
+              "p̄",
+              "0.07"
+            ],
+            [
+              "n",
+              "12 long-shots"
+            ],
+            [
+              "τ",
+              "0.20"
+            ]
+          ]
+        },
+        {
+          "key": "won",
+          "metric": "33% vs 7%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 4 wins in 12 tries at 7% each",
+          "numbers": "Won 4 of 12 independent bets the market priced at ~7% — about 0.85 expected by luck. Probability by chance ≈ 1 in 130.",
+          "inputs": [
+            [
+              "n",
+              "12 bets"
+            ],
+            [
+              "k",
+              "4 wins"
+            ],
+            [
+              "p",
+              "0.07"
+            ],
+            [
+              "E[X]",
+              "0.85 expected"
+            ],
+            [
+              "P",
+              "1 in 130"
+            ]
+          ]
+        },
+        {
+          "key": "sizing",
+          "metric": "12× median",
+          "method": "within-trader bet-size anomaly",
+          "formula": "largest event position ÷ this wallet's median bet",
+          "numbers": "Largest position $4,898 is ~12× this wallet's median bet ($400) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly).",
+          "inputs": [
+            [
+              "largest",
+              "$5K"
+            ],
+            [
+              "median",
+              "$400"
+            ],
+            [
+              "ratio",
+              "12.2×"
+            ]
+          ]
+        },
+        {
+          "key": "timing",
+          "metric": "1 of 3 late",
+          "method": "informed-entry timing",
+          "formula": "winning long-shots bought within hours of resolution",
+          "numbers": "1 of 3 winning long-shots were bought within 72h of resolution (soonest 47h before) — entering a ~9% outcome right before it happened is the informed-entry signature.",
+          "inputs": [
+            [
+              "late wins",
+              "1 of 3"
+            ],
+            [
+              "soonest",
+              "47.4 h before"
+            ],
+            [
+              "median",
+              "231.2 h before"
+            ]
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Israel strikes Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/israel-strikes-iran-by-february-28-2026",
+          "entryTime": "Feb 16 2026",
+          "ts": 1771269291,
+          "odds": 17,
+          "stakeNum": 4898,
+          "plNum": 24643,
+          "stake": "$5K",
+          "outcome": "Won",
+          "pl": "+$25K",
+          "tx": "0xb09d…",
+          "txFull": "0xb09deb257831656c897dd2688bc4494efcb72289ee272db207eaf1915dfda505"
+        },
+        {
+          "market": "US strikes Iran by March 2, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-march-2-2026",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772210357,
+          "odds": 28,
+          "stakeNum": 1000,
+          "plNum": 2531,
+          "stake": "$1K",
+          "outcome": "Won",
+          "pl": "+$3K",
+          "tx": "0x088b…",
+          "txFull": "0x088b6d2003b4a897ab29072c1eaf9a2f72cb7aaa69c52b1f4403e2ef24cdba4f"
+        },
+        {
+          "market": "Will US or Israel strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "entryTime": "Feb 26 2026",
+          "ts": 1772099622,
+          "odds": 9,
+          "stakeNum": 940,
+          "plNum": 10078,
+          "stake": "$940",
+          "outcome": "Won",
+          "pl": "+$10K",
+          "tx": "0x36ba…",
+          "txFull": "0x36bab1d00dea26b793cd92e86a24428c4067357bd18a3891130bdc4fee711507"
+        },
+        {
+          "market": "US strikes Iran by February 27, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-27-2026",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772214739,
+          "odds": 4,
+          "stakeNum": 700,
+          "plNum": -700,
+          "stake": "$700",
+          "outcome": "Lost",
+          "pl": "−$700",
+          "tx": "0xd08e…",
+          "txFull": "0xd08e3a059498d433e465bbf161c2f42ec8d7c35ab8c8ed554d7c81b12765ae18"
+        },
+        {
+          "market": "US strikes Iran by February 20, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "entryTime": "Feb 17 2026",
+          "ts": 1771310891,
+          "odds": 5,
+          "stakeNum": 500,
+          "plNum": -500,
+          "stake": "$500",
+          "outcome": "Lost",
+          "pl": "−$500",
+          "tx": "0x08b7…",
+          "txFull": "0x08b713276bebe2c36a24a9fa0725cab0a43000cf4b1e5e1d0e754ba8596ef612"
+        },
+        {
+          "market": "US strikes Iran by February 26, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-february-26-2026-368",
+          "entryTime": "Feb 26 2026",
+          "ts": 1772099728,
+          "odds": 2,
+          "stakeNum": 400,
+          "plNum": -400,
+          "stake": "$400",
+          "outcome": "Lost",
+          "pl": "−$400",
+          "tx": "0x83fc…",
+          "txFull": "0x83fce14bab9cde768803dfc124d73eee6d7583a3963cfb507f2202e5fa5cf690"
+        },
+        {
+          "market": "Iran Strike on Israel by February 28?",
+          "url": "https://polymarket.com/event/iran-strike-on-israel-by-february-28",
+          "entryTime": "Feb 18 2026",
+          "ts": 1771404622,
+          "odds": 12,
+          "stakeNum": 300,
+          "plNum": 2205,
+          "stake": "$300",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0xe9c8…",
+          "txFull": "0xe9c84b42f7be430b8e053a22cc611b787f59f7ab46c1f51b7608a200a76b96c4"
+        },
+        {
+          "market": "Will the US next strike Iran on March 5, 2026 (ET)?",
+          "url": "https://polymarket.com/event/will-the-us-next-strike-iran-on-march-5-2026-et",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772199279,
+          "odds": 2,
+          "stakeNum": 100,
+          "plNum": -100,
+          "stake": "$100",
+          "outcome": "Lost",
+          "pl": "−$100",
+          "tx": "0x8254…",
+          "txFull": "0x825404135dc8e108e56c8795a5f5f32fbc1db3f54aa0cf341e453812e8aac17c"
+        },
+        {
+          "market": "Will the US next strike Iran on March 4, 2026 (ET)?",
+          "url": "https://polymarket.com/event/will-the-us-next-strike-iran-on-march-4-2026-et",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772197229,
+          "odds": 2,
+          "stakeNum": 96,
+          "plNum": -96,
+          "stake": "$96",
+          "outcome": "Lost",
+          "pl": "−$96",
+          "tx": "0x49f7…",
+          "txFull": "0x49f7a3d7441823d1d9a0c326c6904a879df952e55e30793412e1a1347f12e799"
+        },
+        {
+          "market": "Will the US next strike Iran on March 9, 2026 (ET)?",
+          "url": "https://polymarket.com/event/will-the-us-next-strike-iran-on-march-9-2026-et",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772197281,
+          "odds": 2,
+          "stakeNum": 95,
+          "plNum": -95,
+          "stake": "$95",
+          "outcome": "Lost",
+          "pl": "−$95",
+          "tx": "0xcefb…",
+          "txFull": "0xcefb92a271d892718599395b8ed0ad1ed6a8c1cb56f4974cd48272d4e169b097"
+        },
+        {
+          "market": "Will the US next strike Iran on March 8, 2026 (ET)?",
+          "url": "https://polymarket.com/event/will-the-us-next-strike-iran-on-march-8-2026-et",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772197263,
+          "odds": 2,
+          "stakeNum": 91,
+          "plNum": -91,
+          "stake": "$91",
+          "outcome": "Lost",
+          "pl": "−$91",
+          "tx": "0xa2e9…",
+          "txFull": "0xa2e9733c31655067333d1a0f2c3bb513e08bb161ed703ba369b0dfb1899fd445"
+        },
+        {
+          "market": "Will France, UK, or Germany strike Iran by February 28?",
+          "url": "https://polymarket.com/event/will-france-uk-or-germany-strike-iran-by-february-28",
+          "entryTime": "Feb 28 2026",
+          "ts": 1772242675,
+          "odds": 1,
+          "stakeNum": 10,
+          "plNum": -10,
+          "stake": "$10",
+          "outcome": "Lost",
+          "pl": "−$10",
+          "tx": "0xd62f…",
+          "txFull": "0xd62f3d453881db8c92e618763298c632bc28b4bc40d25a85f6015aeff2b071a1"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 12,
+        "winRate": 33,
+        "realized": "+$37K"
+      },
+      "timeline": {
+        "market": "Israel strikes Iran by February 28, 2026?",
+        "priceStart": 0.16580314590054496,
+        "priceEnd": 0.95,
+        "entries": [
+          0.16580314590054496
+        ],
+        "resolution": 0.92,
+        "candidates": []
+      },
+      "activityDays": 120,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "profitSource": "flagged-bets",
+      "harvardScore": 0,
+      "harvardTier": null,
+      "harvardWouldFlag": false,
+      "harvardEpisode": null,
+      "profitNum": 37465.28210785588,
+      "accountPnl": 28747,
+      "accountPnlText": "+$29K",
+      "_tradedCount": 12,
+      "wins": 4,
+      "expectedWins": 0.84,
+      "percentile": 98.443,
+      "percentileN": 2440,
+      "volumeNum": 264618,
+      "volume": "$265K",
+      "lastActivity": "120 days ago",
+      "firstFlaggedAt": 1782506597,
       "newlyFlagged": true,
       "archived": false
     },
@@ -7063,14 +7105,571 @@
       "_tradedCount": 15,
       "wins": 5,
       "expectedWins": 1.43,
-      "percentile": 98.509,
-      "percentileN": 2414,
+      "percentile": 98.361,
+      "percentileN": 2440,
       "volumeNum": 769043,
       "volume": "$769K",
       "lastActivity": "119 days ago",
       "firstFlaggedAt": 1782505843,
       "newlyFlagged": true,
       "archived": false
+    },
+    {
+      "id": "c9010",
+      "type": "cluster",
+      "address": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
+      "memberAddresses": [
+        "0x744a283ddda3533d6abf89240bfe2f43201a923b",
+        "0xb8fe807aa951e35af53fd0fee36abc303864ce76"
+      ],
+      "idLabel": "2 wallets · 1 entity",
+      "username": null,
+      "created": "Jun 19 2025",
+      "createdOnChain": false,
+      "firstSeen": "Jun 19 2025",
+      "category": "Military & Defense",
+      "marketsCount": 71,
+      "tier": "watch",
+      "improbText": "1 in 104",
+      "improbDenom": 104,
+      "improbFull": "1 in 104",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": true,
+      "winRate": 24,
+      "avgImplied": 13,
+      "profit": "$33K",
+      "fired": [
+        "won",
+        "timing",
+        "sizing",
+        "longshot",
+        "fresh"
+      ],
+      "contributions": {
+        "won": 41,
+        "timing": 20,
+        "sizing": 15,
+        "longshot": 14,
+        "fresh": 10
+      },
+      "agreeing": 4,
+      "refId": "WF-2025-0009",
+      "cexChips": [],
+      "heroSentence": "These 2 wallets appear to be controlled by a single entity (shared on-chain funding + co-ordinated betting). Together they won 17 of 71 long-shot bets the market gave about a 13 percent chance — the pattern you would expect from foreknowledge split across wallets, not luck. Consistent with informed trading by one operator, not proof of it.",
+      "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "0h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet.",
+          "inputs": [
+            [
+              "age",
+              "0 h"
+            ],
+            [
+              "prior_tx",
+              "0"
+            ]
+          ]
+        },
+        {
+          "key": "longshot",
+          "metric": "13% avg",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~13% across 73 bets — concentrated in long shots (≤20%).",
+          "inputs": [
+            [
+              "p̄",
+              "0.13"
+            ],
+            [
+              "n",
+              "73 long-shots"
+            ],
+            [
+              "τ",
+              "0.20"
+            ]
+          ]
+        },
+        {
+          "key": "won",
+          "metric": "24% vs 13%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 17 wins in 71 tries at 13% each",
+          "numbers": "Won 17 of 71 independent bets the market priced at ~13% — about 9.35 expected by luck. Probability by chance ≈ 1 in 104 (2 correlated bets de-correlated).",
+          "inputs": [
+            [
+              "n",
+              "71 bets"
+            ],
+            [
+              "k",
+              "17 wins"
+            ],
+            [
+              "p",
+              "0.13"
+            ],
+            [
+              "E[X]",
+              "9.35 expected"
+            ],
+            [
+              "P",
+              "1 in 104"
+            ]
+          ]
+        },
+        {
+          "key": "sizing",
+          "metric": "56× median",
+          "method": "within-trader bet-size anomaly",
+          "formula": "largest event position ÷ this wallet's median bet",
+          "numbers": "Largest position $82,784 is ~56× this wallet's median bet ($1,488) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly).",
+          "inputs": [
+            [
+              "largest",
+              "$83K"
+            ],
+            [
+              "median",
+              "$1K"
+            ],
+            [
+              "ratio",
+              "55.6×"
+            ]
+          ]
+        },
+        {
+          "key": "timing",
+          "metric": "5 of 6 late",
+          "method": "informed-entry timing",
+          "formula": "winning long-shots bought within hours of resolution",
+          "numbers": "5 of 6 winning long-shots were bought within 72h of resolution (soonest 10h before) — entering a ~10% outcome right before it happened is the informed-entry signature.",
+          "inputs": [
+            [
+              "late wins",
+              "5 of 6"
+            ],
+            [
+              "soonest",
+              "9.8 h before"
+            ],
+            [
+              "median",
+              "29.2 h before"
+            ]
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Will the Iranian regime fall by March 31?",
+          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-march-31",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772190703,
+          "odds": 17,
+          "stakeNum": 3247,
+          "plNum": -3247,
+          "stake": "$3K",
+          "outcome": "Lost",
+          "pl": "−$3K",
+          "tx": "0x10d0…",
+          "txFull": "0x10d038547339863bfedcfcf3802482611d3fed6c0424a507f74afc25f4ff756d"
+        },
+        {
+          "market": "Iran closes its airspace by May 24?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-24",
+          "entryTime": "May 18 2026",
+          "ts": 1779116583,
+          "odds": 25,
+          "stakeNum": 2503,
+          "plNum": -2503,
+          "stake": "$3K",
+          "outcome": "Lost",
+          "pl": "−$3K",
+          "tx": "0xad82…",
+          "txFull": "0xad82f838c0b8e765ca526d9e1009eed37689305f030c6b1fd8be98d17b92157a"
+        },
+        {
+          "market": "Iran closes its airspace by May 31?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-31-434-443-672-526-188-756",
+          "entryTime": "May 20 2026",
+          "ts": 1779287217,
+          "odds": 34,
+          "stakeNum": 2500,
+          "plNum": -2500,
+          "stake": "$3K",
+          "outcome": "Lost",
+          "pl": "−$3K",
+          "tx": "0xc813…",
+          "txFull": "0xc8136fd0ce8ec37ff08182da669ce12b035c6bfe3ec8d42c01cc4a69efc06ad5"
+        },
+        {
+          "market": "US x Iran ceasefire by April 30?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-30",
+          "entryTime": "Apr 05 2026",
+          "ts": 1775393789,
+          "odds": 28,
+          "stakeNum": 2000,
+          "plNum": 5218,
+          "stake": "$2K",
+          "outcome": "Won",
+          "pl": "+$5K",
+          "tx": "0x12ae…",
+          "txFull": "0x12aeb3448ac7a44d3f17a5deca7091d2d123f90721ea27831028b5d06e14d765"
+        },
+        {
+          "market": "Will US or Israel strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772201257,
+          "odds": 25,
+          "stakeNum": 1589,
+          "plNum": 4800,
+          "stake": "$2K",
+          "outcome": "Won",
+          "pl": "+$5K",
+          "tx": "0xf279…",
+          "txFull": "0xf2791aae1ec25381ea6e2d1df9f6ffe16ce42eae7238b6cb4c908fa2beddfefd"
+        },
+        {
+          "market": "Iran closes its airspace by May 21?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-21",
+          "entryTime": "May 18 2026",
+          "ts": 1779105711,
+          "odds": 13,
+          "stakeNum": 1501,
+          "plNum": -1501,
+          "stake": "$2K",
+          "outcome": "Lost",
+          "pl": "−$2K",
+          "tx": "0x0ecf…",
+          "txFull": "0x0ecf5728bfdd2b9f2fcbb0be17824e31b11c5d94628c22dfaa51ed928a40d0c0"
+        },
+        {
+          "market": "US strikes Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772201151,
+          "odds": 18,
+          "stakeNum": 1488,
+          "plNum": 6911,
+          "stake": "$1K",
+          "outcome": "Won",
+          "pl": "+$7K",
+          "tx": "0x729d…",
+          "txFull": "0x729d44c23e69f9542436137fb76b0a8962036f22b4cc8fd801a4c6f9869edab8"
+        },
+        {
+          "market": "US x Iran ceasefire by April 15?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-15",
+          "entryTime": "Apr 07 2026",
+          "ts": 1775590519,
+          "odds": 23,
+          "stakeNum": 1250,
+          "plNum": 4232,
+          "stake": "$1K",
+          "outcome": "Won",
+          "pl": "+$4K",
+          "tx": "0xf82f…",
+          "txFull": "0xf82f989a1c380ab9e13473c36c0a64f547e38326496f3303f8e34419f76ee19a"
+        },
+        {
+          "market": "Will Israel's Ben Gurion Airport reopen by March 7?",
+          "url": "https://polymarket.com/event/will-israels-ben-gurion-airport-reopen-by-march-7-339-656",
+          "entryTime": "Mar 04 2026",
+          "ts": 1772650061,
+          "odds": 25,
+          "stakeNum": 1040,
+          "plNum": -1040,
+          "stake": "$1K",
+          "outcome": "Lost",
+          "pl": "−$1K",
+          "tx": "0x3588…",
+          "txFull": "0x35889aa2c9c76abd66f1670ed24f440712167a7bc22a32eebea9c7e602df3152"
+        },
+        {
+          "market": "Internet Access restored in Iran by May 31, 2026?",
+          "url": "https://polymarket.com/event/internet-access-restored-in-iran-by-may-31-2026",
+          "entryTime": "Apr 16 2026",
+          "ts": 1776338904,
+          "odds": 30,
+          "stakeNum": 800,
+          "plNum": 1907,
+          "stake": "$800",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0xce70…",
+          "txFull": "0xce70ebf15aa5d5e9fb1115d516a7dcfdb2a1012b9ec17544fa08cddd695c5961"
+        },
+        {
+          "market": "Trump announces US x Iran ceasefire over by June 15?",
+          "url": "https://polymarket.com/event/trump-announces-us-x-iran-ceasefire-over-by-june-15-20260607232556275-193",
+          "entryTime": "Jun 11 2026",
+          "ts": 1781179761,
+          "odds": 18,
+          "stakeNum": 750,
+          "plNum": -750,
+          "stake": "$750",
+          "outcome": "Lost",
+          "pl": "−$750",
+          "tx": "0xeee9…",
+          "txFull": "0xeee95c368aaa2190ef31f8261279d113b720e8be0b3f4d2af29591f8f4f275be"
+        },
+        {
+          "market": "Israel strike on Yemen by June 30, 2026?",
+          "url": "https://polymarket.com/event/israel-strike-on-yemen-by-june-30-2026-285-633-267-857",
+          "entryTime": "May 18 2026",
+          "ts": 1779107819,
+          "odds": 26,
+          "stakeNum": 749,
+          "plNum": -749,
+          "stake": "$749",
+          "outcome": "Lost",
+          "pl": "−$749",
+          "tx": "0xd718…",
+          "txFull": "0xd718584b6971dd3aca46becdd735bb585914d1ada2e4466b2190718ed05c9e0c"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by May 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-may-31-2026-283-616",
+          "entryTime": "May 19 2026",
+          "ts": 1779221648,
+          "odds": 17,
+          "stakeNum": 740,
+          "plNum": -740,
+          "stake": "$740",
+          "outcome": "Lost",
+          "pl": "−$740",
+          "tx": "0x2361…",
+          "txFull": "0x23611bc84a74d4a959b19a8bc0f266cf17dde9cdb752c97bf37dda87b95ae5a6"
+        },
+        {
+          "market": "Iran Strike on Israel by February 28?",
+          "url": "https://polymarket.com/event/iran-strike-on-israel-by-february-28",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772201441,
+          "odds": 10,
+          "stakeNum": 678,
+          "plNum": 6067,
+          "stake": "$678",
+          "outcome": "Won",
+          "pl": "+$6K",
+          "tx": "0x0890…",
+          "txFull": "0x08903ce0afb417a5d92abec8b055571e5d972f9e26497a6e3f4ec8f064f11d35"
+        },
+        {
+          "market": "Israel strikes Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/israel-strikes-iran-by-february-28-2026",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772201103,
+          "odds": 20,
+          "stakeNum": 670,
+          "plNum": 2708,
+          "stake": "$670",
+          "outcome": "Won",
+          "pl": "+$3K",
+          "tx": "0x0fca…",
+          "txFull": "0x0fca4cc8251eb112647c9b79def11c4bfcedab885a00e1605ae766ee2a444cdd"
+        },
+        {
+          "market": "Will Israel conduct military action in Greater Beirut on March 24, 2026?",
+          "url": "https://polymarket.com/event/will-israel-conduct-military-action-in-greater-beirut-on-march-24-2026",
+          "entryTime": "Mar 25 2026",
+          "ts": 1774442115,
+          "odds": 32,
+          "stakeNum": 623,
+          "plNum": -623,
+          "stake": "$623",
+          "outcome": "Lost",
+          "pl": "−$623",
+          "tx": "0x21cd…",
+          "txFull": "0x21cd8b3229b3c3f065a1e3d3dfb9a63a36caaa5c32acef9f01edc2ee8b1b5a0e"
+        },
+        {
+          "market": "US x Iran permanent peace deal by April 24, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "entryTime": "Apr 22 2026",
+          "ts": 1776816728,
+          "odds": 4,
+          "stakeNum": 567,
+          "plNum": -567,
+          "stake": "$567",
+          "outcome": "Lost",
+          "pl": "−$567",
+          "tx": "0x29a1…",
+          "txFull": "0x29a1442739527cd0d140524e5dfe63ab892ff74691537e513dc6a1d096c1b87e"
+        },
+        {
+          "market": "Will Israel strike Gaza on January 26, 2026?",
+          "url": "https://polymarket.com/event/will-israel-strike-gaza-on-january-26-2026",
+          "entryTime": "Jan 26 2026",
+          "ts": 1769449679,
+          "odds": 14,
+          "stakeNum": 555,
+          "plNum": -555,
+          "stake": "$555",
+          "outcome": "Lost",
+          "pl": "−$555",
+          "tx": "0xe19b…",
+          "txFull": "0xe19b14bb0750129d8bb8bf7126b3b3cc5e75b98bf8699d9c1fa3dcc3abd640e3"
+        },
+        {
+          "market": "Will Iran strike Israel on March 3?",
+          "url": "https://polymarket.com/event/will-iran-strike-israel-on-march-3",
+          "entryTime": "Mar 03 2026",
+          "ts": 1772574227,
+          "odds": 10,
+          "stakeNum": 507,
+          "plNum": -507,
+          "stake": "$507",
+          "outcome": "Lost",
+          "pl": "−$507",
+          "tx": "0xd4af…",
+          "txFull": "0xd4af3a8559db22d2a94873209c24af39a5b93a77e8bd6c98a15fb2ebe965cae5"
+        },
+        {
+          "market": "US strikes Iran by March 1, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by-march-1-2026-492",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772229871,
+          "odds": 31,
+          "stakeNum": 500,
+          "plNum": 1113,
+          "stake": "$500",
+          "outcome": "Won",
+          "pl": "+$1K",
+          "tx": "0x64a3…",
+          "txFull": "0x64a3931fd09295647348470a5e27b4bdfc2ed2fdeb952af293e3389d9cc23c81"
+        },
+        {
+          "market": "Will Iran close its airspace by June 30?",
+          "url": "https://polymarket.com/event/will-iran-close-its-airspace-by-june-30-20260609184136054",
+          "entryTime": "Jun 16 2026",
+          "ts": 1781636803,
+          "odds": 9,
+          "stakeNum": 500,
+          "plNum": 4814,
+          "stake": "$500",
+          "outcome": "Won",
+          "pl": "+$5K",
+          "tx": "0xb01f…",
+          "txFull": "0xb01f211b29ceb3ea41e20a623b0afc357feaaccf4726f93d00fea4308064a727"
+        },
+        {
+          "market": "Mojtaba Khamenei leaves Iran by March 31, 2026?",
+          "url": "https://polymarket.com/event/mojtaba-khamenei-leaves-iran-by-march-31-2026",
+          "entryTime": "Mar 16 2026",
+          "ts": 1773646513,
+          "odds": 6,
+          "stakeNum": 500,
+          "plNum": -500,
+          "stake": "$500",
+          "outcome": "Lost",
+          "pl": "−$500",
+          "tx": "0xd6be…",
+          "txFull": "0xd6be8ad9f57994a82c4de641ab8a3d5b8fe3a259ed73e927e24013e65bdf0a13"
+        },
+        {
+          "market": "Israel closes its airspace by June 8?",
+          "url": "https://polymarket.com/event/israel-closes-its-airspace-by-june-8",
+          "entryTime": "Jun 08 2026",
+          "ts": 1780911507,
+          "odds": 26,
+          "stakeNum": 499,
+          "plNum": -499,
+          "stake": "$499",
+          "outcome": "Lost",
+          "pl": "−$499",
+          "tx": "0x9f40…",
+          "txFull": "0x9f40a13fab7a36c7590f36ee3aa974e344af00b90ece3feb491e2011847dbad9"
+        },
+        {
+          "market": "Israel strike on the West Bank by December 31?",
+          "url": "https://polymarket.com/event/israel-strike-on-the-west-bank-by-december-31",
+          "entryTime": "Nov 25 2025",
+          "ts": 1764065789,
+          "odds": 22,
+          "stakeNum": 499,
+          "plNum": 1769,
+          "stake": "$499",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0x92ee…",
+          "txFull": "0x92ee3325302ea0a05dd7032968c8b32365f43332bb68eb01d0b02d07b4ffc7b0"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 71,
+        "winRate": 24,
+        "realized": "+$33K"
+      },
+      "timeline": {
+        "market": "Will the Iranian regime fall by March 31?",
+        "priceStart": 0.1657040902037594,
+        "priceEnd": 0.05,
+        "entries": [
+          0.1657040902037594
+        ],
+        "resolution": 0.08,
+        "candidates": []
+      },
+      "cluster": {
+        "ringValue": "$33K",
+        "size": 2,
+        "nodes": [
+          {
+            "id": "0xb8fe807aa951e35af53fd0fee36abc303864ce76",
+            "x": 0.5,
+            "y": 0.5,
+            "vol": 1,
+            "label": "0xb8fe…"
+          },
+          {
+            "id": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
+            "x": 0.9,
+            "y": 0.5,
+            "vol": 0.3,
+            "label": "0x744a…"
+          }
+        ],
+        "edges": [
+          {
+            "from": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
+            "to": "0xb8fe807aa951e35af53fd0fee36abc303864ce76",
+            "w": 0.01,
+            "link": 0.015,
+            "type": "cofund",
+            "evidence": "bet the same 6% of markets together · both funded on-chain from 0x4d97dcd9…"
+          }
+        ]
+      },
+      "activityDays": 0,
+      "confidenceLimiter": "common-ownership is inferred from funding heuristics, not confirmed identity",
+      "profitSource": "flagged-bets",
+      "harvardScore": 0,
+      "harvardTier": null,
+      "harvardWouldFlag": false,
+      "harvardEpisode": null,
+      "profitNum": 33337.99109925019,
+      "accountPnl": null,
+      "accountPnlText": null,
+      "_tradedCount": null,
+      "firstFlaggedAt": 1782505843,
+      "newlyFlagged": true,
+      "wins": 17,
+      "expectedWins": 9.23,
+      "percentile": 99.288,
+      "volumeNum": 27137,
+      "volume": "$27K",
+      "lastActivity": "today"
     },
     {
       "id": "w2093",
@@ -7358,8 +7957,8 @@
       "_tradedCount": 14,
       "wins": 4,
       "expectedWins": 0.99,
-      "percentile": 98.219,
-      "percentileN": 2414,
+      "percentile": 98.115,
+      "percentileN": 2440,
       "volumeNum": 320169,
       "volume": "$320K",
       "lastActivity": "81 days ago",
@@ -7581,8 +8180,8 @@
       "_tradedCount": 4,
       "wins": 3,
       "expectedWins": 0.28,
-      "percentile": 90.348,
-      "percentileN": 2414,
+      "percentile": 90,
+      "percentileN": 2440,
       "volumeNum": 484417,
       "volume": "$484K",
       "lastActivity": "today",
@@ -7846,7 +8445,7 @@
         },
         {
           "market": "US announces new Iran agreement/ceasefire extension by June 12?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-12-2482",
           "entryTime": "Jun 11 2026",
           "ts": 1781202813,
           "odds": 12,
@@ -8111,8 +8710,8 @@
       "_tradedCount": 929,
       "wins": 4,
       "expectedWins": 5.4,
-      "percentile": 86.247,
-      "percentileN": 2414,
+      "percentile": 86.066,
+      "percentileN": 2440,
       "volumeNum": 60365929,
       "volume": "$60.4M",
       "lastActivity": "9 days ago",
@@ -9933,8 +10532,8 @@
       "_tradedCount": 2,
       "wins": 1,
       "expectedWins": 0.24,
-      "percentile": 84.341,
-      "percentileN": 2414,
+      "percentile": 84.262,
+      "percentileN": 2440,
       "volumeNum": 1587379,
       "volume": "$1.6M",
       "lastActivity": "178 days ago",
@@ -9945,32 +10544,794 @@
   ],
   "observed": 188795,
   "reviewed": 188795,
-  "screened": 4484,
-  "totalFlaggedProfit": 2770862,
+  "screened": 4494,
+  "totalFlaggedProfit": 2811638,
   "totalFlaggedProfitText": "$2.8M",
-  "flaggedCount": 21,
-  "scored": 2414,
+  "flaggedCount": 23,
+  "scored": 2440,
+  "harvardShadow": {
+    "total": 133,
+    "byTier": {
+      "extreme": 119,
+      "high": 5,
+      "notable": 9
+    },
+    "alsoBinomial": 37,
+    "onlyHarvard": 96,
+    "top": [
+      {
+        "address": "0x6ffb4354cbe6e0f9989e3b55564ec5fb8646a834",
+        "tier": "extreme",
+        "S": 3308.5,
+        "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
+        "stake": 230343,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 29.49,
+        "zBetWithin": 2.04,
+        "zProfitCross": 1.02,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x521a8c20563ccc9e1c8ebfe5cfe6c8f9b2f8d12f",
+        "tier": "extreme",
+        "S": 3058.1,
+        "market": "US and Iran sign an agreement by June 15, 2026?",
+        "stake": 599400,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 15.26,
+        "zBetWithin": 0,
+        "zProfitCross": 5.89,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x7c3db723f1d4d8cb9c550095203b686cb11e5c6b",
+        "tier": "extreme",
+        "S": 2971.3,
+        "market": "Will Trump physically sign US x Iran deal?",
+        "stake": 18598,
+        "odds": 70,
+        "won": true,
+        "zBetCross": 6.87,
+        "zBetWithin": 0.78,
+        "zProfitCross": 9.5,
+        "lateBuyFraction": 1,
+        "directionalScore": 0.999,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x7cfe9f1948a5cb3226abe53244a22c94134a74da",
+        "tier": "extreme",
+        "S": 2964.5,
+        "market": "Total Internet Blackout in Iran by June 30, 2026?",
+        "stake": 8708,
+        "odds": 72,
+        "won": true,
+        "zBetCross": 9.29,
+        "zBetWithin": 0.71,
+        "zProfitCross": 7.27,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x4e3de51057ed8c345ff6f5af6534c385927b8554",
+        "tier": "extreme",
+        "S": 2927.9,
+        "market": "US and Iran sign an agreement by June 30, 2026?",
+        "stake": 24257,
+        "odds": 88,
+        "won": true,
+        "zBetCross": 6.77,
+        "zBetWithin": 0.71,
+        "zProfitCross": 8.15,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xf9151529abce6aa8357b99707ec06607cf238720",
+        "tier": "extreme",
+        "S": 2923.2,
+        "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
+        "stake": 19912,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 14.8,
+        "zBetWithin": 2.66,
+        "zProfitCross": -0.01,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x95074f700f93bdf6e62fc965e0832064c0877b04",
+        "tier": "extreme",
+        "S": 2866.6,
+        "market": "US and Iran sign an agreement by July 31, 2026?",
+        "stake": 14842,
+        "odds": 94,
+        "won": true,
+        "zBetCross": 6.35,
+        "zBetWithin": 1.18,
+        "zProfitCross": 6.14,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0xc25427ea224b8f9fa2df801233f944006ed33f73",
+        "tier": "extreme",
+        "S": 2853.6,
+        "market": "Will CDA win 21 or fewer seats in the 2025 Netherlands parliamentary election?",
+        "stake": 10848,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 12.68,
+        "zBetWithin": 1.53,
+        "zProfitCross": 0.2,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x7750f616763150cd5388abdd2ce3700b8d7e5226",
+        "tier": "extreme",
+        "S": 2813.5,
+        "market": "US and Iran sign an agreement by June 22, 2026?",
+        "stake": 37194,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 11.69,
+        "zBetWithin": 1.09,
+        "zProfitCross": -0.02,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x94eb0ee9ff35f5b14f8d3c3be3967e9deba837e6",
+        "tier": "extreme",
+        "S": 2808.9,
+        "market": "Will the GreenLeft–Labour Party alliance win the fourth most seats in the 2025 Netherlands parliamentary election?",
+        "stake": 8212,
+        "odds": 99,
+        "won": true,
+        "zBetCross": 11.7,
+        "zBetWithin": 0.65,
+        "zProfitCross": 0.11,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x01ed5c64d1d8905afd7917d75a5652665f5cca5f",
+        "tier": "extreme",
+        "S": 2794.7,
+        "market": "Will PVV win 26 or fewer seats in the 2025 Netherlands parliamentary election?",
+        "stake": 9707,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 11.21,
+        "zBetWithin": 0.71,
+        "zProfitCross": 0.01,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xa4e65c4bff07b7d6b7466ee631da44d686d1864e",
+        "tier": "extreme",
+        "S": 2787.5,
+        "market": "Will Russia capture Dorozhnie by June 30, 2026?",
+        "stake": 884,
+        "odds": 44,
+        "won": true,
+        "zBetCross": 2.87,
+        "zBetWithin": 0,
+        "zProfitCross": 7.19,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x766e6a0a9c36e603dd0e8b35bede1b70fa3562ef",
+        "tier": "extreme",
+        "S": 2782.7,
+        "market": "Will PVV win 30–32 seats in the 2025 Netherlands parliamentary election?",
+        "stake": 15593,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 10.91,
+        "zBetWithin": 0,
+        "zProfitCross": 0.33,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x2d99e29c4f066ba32098c65e4c7454b277d94ca3",
+        "tier": "extreme",
+        "S": 2769.7,
+        "market": "US and Iran sign an agreement by June 30, 2026?",
+        "stake": 16379,
+        "odds": 88,
+        "won": true,
+        "zBetCross": 4.48,
+        "zBetWithin": 0,
+        "zProfitCross": 5.25,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x000d257d2dc7616feaef4ae0f14600fdf50a758e",
+        "tier": "extreme",
+        "S": 2757.2,
+        "market": "Will Trump physically sign US x Iran deal?",
+        "stake": 23415,
+        "odds": 97,
+        "won": true,
+        "zBetCross": 8.7,
+        "zBetWithin": 0.79,
+        "zProfitCross": 0.79,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x0a543bb97015206f67e1bc5ead7c2d60baf64a03",
+        "tier": "extreme",
+        "S": 2756.2,
+        "market": "Will Jerome Powell depart as Fed Chair before May 15?",
+        "stake": 8711,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 7,
+        "zBetWithin": 2.15,
+        "zProfitCross": 1.27,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x92a6294cd55b9c6ccd57efaffc365ad943118b84",
+        "tier": "extreme",
+        "S": 2754.3,
+        "market": "US and Iran sign an agreement by June 30, 2026?",
+        "stake": 15076,
+        "odds": 88,
+        "won": true,
+        "zBetCross": 4.1,
+        "zBetWithin": 0,
+        "zProfitCross": 5.06,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xe553fe9529b7d25fcc9f3617004c7da0d7c69b32",
+        "tier": "extreme",
+        "S": 2750.9,
+        "market": "Will Russia capture Dorozhnie by June 30, 2026?",
+        "stake": 1192,
+        "odds": 63,
+        "won": true,
+        "zBetCross": 4.01,
+        "zBetWithin": 0.71,
+        "zProfitCross": 4.55,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
+        "tier": "extreme",
+        "S": 2740.8,
+        "market": "Will Trump physically sign US x Iran deal?",
+        "stake": 17364,
+        "odds": 88,
+        "won": true,
+        "zBetCross": 6.4,
+        "zBetWithin": 0,
+        "zProfitCross": 2.69,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x5bb0de4e97698184ead80c80cb17a26cd6f6814b",
+        "tier": "extreme",
+        "S": 2740.7,
+        "market": "US and Iran sign an agreement by June 15, 2026?",
+        "stake": 257019,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 6.47,
+        "zBetWithin": 0,
+        "zProfitCross": 2.63,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xe7bd61ac59883bd4abda5c63865430452ecfebce",
+        "tier": "extreme",
+        "S": 2730.7,
+        "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
+        "stake": 10275,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 8.38,
+        "zBetWithin": 0.93,
+        "zProfitCross": 0.08,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xc8ab97a9089a9ff7e6ef0688e6e591a066946418",
+        "tier": "extreme",
+        "S": 2723.4,
+        "market": "US and Iran sign an agreement by June 15, 2026?",
+        "stake": 199800,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 5,
+        "zBetWithin": 1.79,
+        "zProfitCross": 2.09,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x8be1c4989fc6b6b658081c2fc31388dd90e55731",
+        "tier": "extreme",
+        "S": 2717.7,
+        "market": "Will Russia capture Dorozhnie by July 31, 2026?",
+        "stake": 3419,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 8.18,
+        "zBetWithin": 0.71,
+        "zProfitCross": -0.03,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x493872e789e6fba7bb4b70fedc02c4ebcf2faae6",
+        "tier": "extreme",
+        "S": 2700.4,
+        "market": "Will the JA21 win the fourth most seats in the 2025 Netherlands parliamentary election?",
+        "stake": 9016,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 7,
+        "zBetWithin": 0.8,
+        "zProfitCross": 0.32,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xece443f2c625914008b77c8616713f4421ebdd92",
+        "tier": "extreme",
+        "S": 2694.4,
+        "market": "Will PVV win 26 or fewer seats in the 2025 Netherlands parliamentary election?",
+        "stake": 7247,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 8.31,
+        "zBetWithin": -0.71,
+        "zProfitCross": 0.03,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xa9b44dca52ed35e59ac2a6f49d1203b8155464ed",
+        "tier": "extreme",
+        "S": 2694.1,
+        "market": "Will Democrats 66 win the most seats in the 2025 Netherlands parliamentary election?",
+        "stake": 53292,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 6.69,
+        "zBetWithin": 0,
+        "zProfitCross": 0.89,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
+        "tier": "extreme",
+        "S": 2688.9,
+        "market": "US and Iran sign an agreement by July 31, 2026?",
+        "stake": 7598,
+        "odds": 94,
+        "won": true,
+        "zBetCross": 3.09,
+        "zBetWithin": 1.49,
+        "zProfitCross": 2.73,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x836ffd95ef3cf3c7987612279b2152b11ce6906e",
+        "tier": "extreme",
+        "S": 2688.6,
+        "market": "US and Iran sign an agreement by July 31, 2026?",
+        "stake": 6915,
+        "odds": 92,
+        "won": true,
+        "zBetCross": 2.79,
+        "zBetWithin": 0.71,
+        "zProfitCross": 3.49,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xa49becb692927d455924583b5e3e5788246f4c40",
+        "tier": "extreme",
+        "S": 2687.7,
+        "market": "US and Iran sign an agreement by June 15, 2026?",
+        "stake": 199867,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 5,
+        "zBetWithin": 0,
+        "zProfitCross": 2.09,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xb37aa8834f9baefc6fb3312f59df8ddf0348f1b1",
+        "tier": "extreme",
+        "S": 2675.4,
+        "market": "Total Internet Blackout in Iran by July 31, 2026?",
+        "stake": 2000,
+        "odds": 44,
+        "won": true,
+        "zBetCross": 2.44,
+        "zBetWithin": -0.71,
+        "zProfitCross": 4.29,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x5a218c7ad04135830a45c41aaed7294df7809318",
+        "tier": "extreme",
+        "S": 2666.9,
+        "market": "Total Internet Blackout in Iran by July 31, 2026?",
+        "stake": 2396,
+        "odds": 73,
+        "won": true,
+        "zBetCross": 2.98,
+        "zBetWithin": 3.46,
+        "zProfitCross": 1.44,
+        "lateBuyFraction": 1,
+        "directionalScore": 0.98,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x06fd68ef4a2764e9e1e2457e3b8607879013c0be",
+        "tier": "extreme",
+        "S": 2660,
+        "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
+        "stake": 7193,
+        "odds": 91,
+        "won": true,
+        "zBetCross": 5.27,
+        "zBetWithin": 0,
+        "zProfitCross": 0.95,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xf01ac1aa9fef8eabc5e3c764747aabddaa90f231",
+        "tier": "extreme",
+        "S": 2655,
+        "market": "Total Internet Blackout in Iran by June 30, 2026?",
+        "stake": 3000,
+        "odds": 75,
+        "won": true,
+        "zBetCross": 3.02,
+        "zBetWithin": 0.71,
+        "zProfitCross": 2.18,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xea1cf96f16d14d936fee288e556fe46ee8a14daf",
+        "tier": "extreme",
+        "S": 2648.7,
+        "market": "Will ICEMAN be No.1 for 4 weeks or more?",
+        "stake": 5127,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 6.06,
+        "zBetWithin": 0,
+        "zProfitCross": -0.09,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xd43fc4ecfaf5a3d75d79c4d046d2dced9e9ef1fc",
+        "tier": "extreme",
+        "S": 2643.1,
+        "market": "US and Iran sign an agreement by June 22, 2026?",
+        "stake": 16084,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 4.92,
+        "zBetWithin": 1.16,
+        "zProfitCross": -0.1,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x40604cb1f958c03bea0b18aa43e4cb0d62f33ec3",
+        "tier": "extreme",
+        "S": 2621.3,
+        "market": "US and Iran sign an agreement by June 15, 2026?",
+        "stake": 128232,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 3.17,
+        "zBetWithin": 0,
+        "zProfitCross": 1.41,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xf95268b3c9910617b074f23e3160be9829d8ce76",
+        "tier": "extreme",
+        "S": 2619.1,
+        "market": "Total Internet Blackout in Iran by June 30, 2026?",
+        "stake": 2405,
+        "odds": 77,
+        "won": true,
+        "zBetCross": 2.36,
+        "zBetWithin": 0.71,
+        "zProfitCross": 1.53,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x166a49699aba5d7a9ce3142450062deedf83d7ed",
+        "tier": "extreme",
+        "S": 2617.6,
+        "market": "Will Russia capture Dorozhnie by July 31, 2026?",
+        "stake": 1704,
+        "odds": 98,
+        "won": true,
+        "zBetCross": 3.92,
+        "zBetWithin": 0.71,
+        "zProfitCross": 0.18,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x9a3fa403a6666eef75f92f181fcf13f9c051914a",
+        "tier": "extreme",
+        "S": 2612.8,
+        "market": "US and Iran sign an agreement by June 30, 2026?",
+        "stake": 9750,
+        "odds": 98,
+        "won": true,
+        "zBetCross": 2.56,
+        "zBetWithin": 1.78,
+        "zProfitCross": 0.44,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": true
+      },
+      {
+        "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
+        "tier": "extreme",
+        "S": 2612.1,
+        "market": "Will CDA win 25–27 seats in the 2025 Netherlands parliamentary election?",
+        "stake": 1724,
+        "odds": 99,
+        "won": true,
+        "zBetCross": 5.37,
+        "zBetWithin": -0.53,
+        "zProfitCross": 0.66,
+        "lateBuyFraction": 0.979,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x366600e2990af0bd4abc962f70b85a605fceaab6",
+        "tier": "extreme",
+        "S": 2610.7,
+        "market": "Total Internet Blackout in Iran by July 31, 2026?",
+        "stake": 2268,
+        "odds": 74,
+        "won": true,
+        "zBetCross": 2.81,
+        "zBetWithin": 0,
+        "zProfitCross": 1.35,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xed3aadc9805cab85508320d17d5d572c47e19b17",
+        "tier": "extreme",
+        "S": 2610.1,
+        "market": "Will the Party for Freedom win the second most seats in the 2025 Netherlands parliamentary election?",
+        "stake": 10511,
+        "odds": 99,
+        "won": true,
+        "zBetCross": 4.33,
+        "zBetWithin": 0,
+        "zProfitCross": 0.06,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x4e59cee7a51cb9d1be92dffb5119f9af508ae56a",
+        "tier": "extreme",
+        "S": 2595.7,
+        "market": "Total Internet Blackout in Iran by June 30, 2026?",
+        "stake": 2102,
+        "odds": 78,
+        "won": true,
+        "zBetCross": 2.03,
+        "zBetWithin": 0.71,
+        "zProfitCross": 1.33,
+        "lateBuyFraction": 1,
+        "directionalScore": 0.991,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x21b48e8e2daa01f531fff08b62f2b4df6cff1f06",
+        "tier": "extreme",
+        "S": 2595.6,
+        "market": "Will Russia capture Dorozhnie by June 30, 2026?",
+        "stake": 998,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 3.29,
+        "zBetWithin": 0.32,
+        "zProfitCross": 0.23,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x87ff8c04ddfd0cf51f4270402b87d721a6a57d79",
+        "tier": "extreme",
+        "S": 2595,
+        "market": "US and Iran sign an agreement by June 15, 2026?",
+        "stake": 99900,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 2.44,
+        "zBetWithin": 0,
+        "zProfitCross": 1.14,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xe6c6f1d992367fb31219ae05464fdcfd2b7577b7",
+        "tier": "extreme",
+        "S": 2593,
+        "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
+        "stake": 5162,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 3.74,
+        "zBetWithin": 0,
+        "zProfitCross": -0.02,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x0c3c6cedfc55e5977fd9ad1221b75d25c62a5eea",
+        "tier": "extreme",
+        "S": 2588.9,
+        "market": "Will Russia capture Dorozhnie by June 30, 2026?",
+        "stake": 903,
+        "odds": 95,
+        "won": true,
+        "zBetCross": 2.94,
+        "zBetWithin": 0,
+        "zProfitCross": 0.52,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0x28b255ed9747765be4f44ce484532d4b6bdfa74f",
+        "tier": "extreme",
+        "S": 2579.5,
+        "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
+        "stake": 21122,
+        "odds": 99,
+        "won": true,
+        "zBetCross": 2.63,
+        "zBetWithin": 0,
+        "zProfitCross": 0.46,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xcbfa13c46eb5ff0d73ec9102bf91e3b1a85f1f40",
+        "tier": "extreme",
+        "S": 2576.6,
+        "market": "US and Iran sign an agreement by July 31, 2026?",
+        "stake": 5206,
+        "odds": 98,
+        "won": true,
+        "zBetCross": 2.02,
+        "zBetWithin": 0.71,
+        "zProfitCross": 0.4,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      },
+      {
+        "address": "0xc5aaa8a37f842c3e8e145fdd027b7595eed6ec86",
+        "tier": "extreme",
+        "S": 2568.9,
+        "market": "Will PVV win 27–29 seats in the 2025 Netherlands parliamentary election?",
+        "stake": 2420,
+        "odds": 100,
+        "won": true,
+        "zBetCross": 2.59,
+        "zBetWithin": 0,
+        "zProfitCross": 0.14,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "alsoBinomial": false
+      }
+    ]
+  },
   "meta": {
     "observed": 188795,
     "reviewed": 188795,
-    "screened": 4484,
-    "scored": 2414,
+    "screened": 4494,
+    "scored": 2440,
     "block": "",
     "snapshot": "Jun 25 2026",
     "recomputed": "Jun 26 2026"
   },
-  "generatedAt": "2026-06-26T20:38:51.643Z",
+  "generatedAt": "2026-06-26T20:51:17.622Z",
   "coverageByCategory": {
-    "Politics": 1196,
-    "Military & Defense": 1258,
-    "Economics": 243,
-    "Culture": 382,
-    "Elections": 795,
-    "Legal & Regulatory": 232,
-    "Tech & Announcements": 501,
-    "Corporate & M&A": 227,
-    "Crypto Events": 155,
-    "World": 1024
+    "Politics": 1257,
+    "Military & Defense": 1350,
+    "Economics": 262,
+    "Culture": 418,
+    "Elections": 874,
+    "Legal & Regulatory": 248,
+    "Tech & Announcements": 532,
+    "Corporate & M&A": 245,
+    "Crypto Events": 160,
+    "World": 1139
   },
   "surpriseMarkets": [
     {
@@ -9996,7 +11357,7 @@
       "hubLabel": null,
       "size": 80,
       "seedFrom": "0x2370bd3107d7b5bd55e04a991c613447dc4571cb",
-      "ts": 1782505843,
+      "ts": 1782506597,
       "flaggedCount": 1,
       "members": [
         {
@@ -10811,7 +12172,7 @@
       "hubLabel": null,
       "size": 52,
       "seedFrom": "0x43440ab002eaac9fede6f9d21bea96d84228f90d",
-      "ts": 1782505843,
+      "ts": 1782506597,
       "flaggedCount": 1,
       "members": [
         {
@@ -11081,7 +12442,7 @@
       "hubLabel": null,
       "size": 34,
       "seedFrom": "0x1abe1368601330a310162064e04d3c2628cb6497",
-      "ts": 1782505843,
+      "ts": 1782506597,
       "flaggedCount": 1,
       "members": [
         {
@@ -11441,7 +12802,7 @@
       "hubLabel": null,
       "size": 25,
       "seedFrom": "0x853c37a959a5791b849e3f3225c7f5963746bd03",
-      "ts": 1782505843,
+      "ts": 1782506597,
       "flaggedCount": 1,
       "members": [
         {
@@ -11576,7 +12937,7 @@
       "hubLabel": null,
       "size": 20,
       "seedFrom": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
-      "ts": 1782505843,
+      "ts": 1782506597,
       "flaggedCount": 1,
       "members": [
         {
