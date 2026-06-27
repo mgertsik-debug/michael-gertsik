@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 26 2026",
   "snapshot": 1782411002,
-  "total": 1301,
+  "total": 1304,
   "byTier": {
-    "extreme": 1133,
+    "extreme": 1135,
     "high": 66,
-    "notable": 102
+    "notable": 103
   },
-  "medianS": 2164.8,
-  "p90": 2834,
-  "p95": 3014.4,
+  "medianS": 2187.4,
+  "p90": 2833.1,
+  "p95": 3015.1,
   "p99": 3309.1,
   "minS": 93.1,
   "maxS": 4199.6,
-  "over500": 1148,
-  "alsoBinomial": 435,
-  "onlyHarvard": 866,
-  "observed": 192544,
-  "reviewed": 192544,
-  "screened": 6707,
-  "scored": 2942,
+  "over500": 1151,
+  "alsoBinomial": 444,
+  "onlyHarvard": 860,
+  "observed": 193018,
+  "reviewed": 193018,
+  "screened": 6848,
+  "scored": 3143,
   "top": [
     {
       "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
@@ -1023,7 +1023,7 @@
       "address": "0x72a22d4d155079da8f50c89d4c6c03b6428e7b65",
       "username": "meowtai",
       "tier": "extreme",
-      "S": 3394.3,
+      "S": 3395.3,
       "market": "Will US or Israel strike Iran by January 12, 2026?",
       "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
       "episodeTx": "0xe554ebffb5305ba9b0ca618717c8a5894ffc75817ec7d2221dcce135a398cdbf",
@@ -1032,7 +1032,7 @@
       "won": true,
       "episodeProfit": 624,
       "zBetCross": 25.97,
-      "zBetWithin": 4.47,
+      "zBetWithin": 4.52,
       "zProfitCross": 5.19,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -1040,7 +1040,7 @@
       "firstSeen": "Nov 09 2023",
       "createdOnChain": true,
       "created": "Jul 04 2022",
-      "betsCount": 143,
+      "betsCount": 146,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
@@ -2320,72 +2320,6 @@
       "alsoBinomial": false
     },
     {
-      "address": "0x9bac9cc44f57fbd31a02f4fe08545ccdc8958684",
-      "username": null,
-      "tier": "extreme",
-      "S": 3264.1,
-      "market": "Trump declassifies new UFO files by June 15?",
-      "marketUrl": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
-      "episodeTx": "0x04200204f6f5896ceed76ba7c05ebde039657143118f3feaeebbbbe274509268",
-      "stake": 4029,
-      "odds": 36,
-      "won": true,
-      "episodeProfit": 7017,
-      "zBetCross": 8.5,
-      "zBetWithin": 0.83,
-      "zProfitCross": 17.83,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 4,
-      "ledger": [
-        {
-          "market": "Trump declassifies new UFO files by June 15?",
-          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
-          "ts": 1781248849,
-          "odds": 36,
-          "stake": 4029,
-          "pl": 7017,
-          "won": true,
-          "tx": "0x04200204f6f5896ceed76ba7c05ebde039657143118f3feaeebbbbe274509268"
-        },
-        {
-          "market": "Trump declassifies new UFO files by June 30?",
-          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
-          "ts": 1781248849,
-          "odds": 80,
-          "stake": 3739,
-          "pl": 931,
-          "won": true,
-          "tx": "0xd6a0be45e9221390452f08fe9f63f89424ac9bb0273040bc8a870298955a3376"
-        },
-        {
-          "market": "Trump declassifies new UFO files by June 22?",
-          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
-          "ts": 1781248849,
-          "odds": 66,
-          "stake": 2276,
-          "pl": 1177,
-          "won": true,
-          "tx": "0xf6873d6556392cc877c053c279ba9f7670f6636b42b821d676f1b77528ccd15f"
-        },
-        {
-          "market": "Trump declassifies new UFO files by December 31?",
-          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by",
-          "ts": 1778374058,
-          "odds": 93,
-          "stake": 98,
-          "pl": 8,
-          "won": true,
-          "tx": "0xa3aff48abd7a60a0ba5a81dbea38dbaee312915245debba56c5feea327415d19"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
       "address": "0x293e5821578e7c437adce886ee45c4593ac37674",
       "username": "0x293E5821578e7C437ADcE886Ee45C4593Ac37674-1776558337344",
       "tier": "extreme",
@@ -2550,6 +2484,228 @@
         }
       ],
       "alsoBinomial": false
+    },
+    {
+      "address": "0x9bac9cc44f57fbd31a02f4fe08545ccdc8958684",
+      "username": "mumps",
+      "tier": "extreme",
+      "S": 3250.6,
+      "market": "Trump declassifies new UFO files by June 15?",
+      "marketUrl": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
+      "episodeTx": "0x04200204f6f5896ceed76ba7c05ebde039657143118f3feaeebbbbe274509268",
+      "stake": 4029,
+      "odds": 36,
+      "won": true,
+      "episodeProfit": 7017,
+      "zBetCross": 8.5,
+      "zBetWithin": 0.16,
+      "zProfitCross": 17.83,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 50475,
+      "firstSeen": "Sep 17 2023",
+      "createdOnChain": true,
+      "created": "Sep 17 2023",
+      "betsCount": 49,
+      "ledger": [
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781652253,
+          "odds": 99,
+          "stake": 54821,
+          "pl": 386,
+          "won": true,
+          "tx": "0x538a27a7fbffd0458b2c77380b5e21891f818dbc9781763ecbcf8d859748d0e9"
+        },
+        {
+          "market": "Clavicular pregnancy in 2026?",
+          "url": "https://polymarket.com/event/clavicular-pregnancy-in-2026",
+          "ts": 1777178346,
+          "odds": 57,
+          "stake": 17429,
+          "pl": 13396,
+          "won": true,
+          "tx": "0x92eea2aa1a66ef627ce369fc7ca59ba0b0e5c2cdd24093c224eb39e9946ec39b"
+        },
+        {
+          "market": "Trump declassifies new UFO files by December 31?",
+          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-894",
+          "ts": 1779416831,
+          "odds": 99,
+          "stake": 7952,
+          "pl": 84,
+          "won": true,
+          "tx": "0x816f5becd368e2ae6d2fd3ae50b319281e578c9a52e3f1fc08c96240aa256ef9"
+        },
+        {
+          "market": "Will Trump talk to Vladimir Putin in January?",
+          "url": "https://polymarket.com/event/will-trump-talk-to-vladimir-putin-in-january",
+          "ts": 1769851988,
+          "odds": 57,
+          "stake": 5369,
+          "pl": 4041,
+          "won": true,
+          "tx": "0x01277f8a7f3f9a4749f5eda668a1c7362594e86ac7b335a640c74bd855cdcf83"
+        },
+        {
+          "market": "Will Dick Schoof be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-684",
+          "ts": 1771789988,
+          "odds": 99,
+          "stake": 4690,
+          "pl": 40,
+          "won": true,
+          "tx": "0x90694a527458d02cd3b4ed26c81882138f3c4c31a7fce55bd60e435ec2a61a02"
+        },
+        {
+          "market": "Trump declassifies new UFO files by June 15?",
+          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
+          "ts": 1781248849,
+          "odds": 36,
+          "stake": 4029,
+          "pl": 7017,
+          "won": true,
+          "tx": "0x04200204f6f5896ceed76ba7c05ebde039657143118f3feaeebbbbe274509268"
+        },
+        {
+          "market": "Trump declassifies new UFO files by June 30?",
+          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
+          "ts": 1781248849,
+          "odds": 80,
+          "stake": 3739,
+          "pl": 931,
+          "won": true,
+          "tx": "0xd6a0be45e9221390452f08fe9f63f89424ac9bb0273040bc8a870298955a3376"
+        },
+        {
+          "market": "Trump declassifies new UFO files by May 31?",
+          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-894",
+          "ts": 1779416831,
+          "odds": 91,
+          "stake": 3609,
+          "pl": 366,
+          "won": true,
+          "tx": "0x9d959b41877f4e7f7b6f787ea25a98ff9fae7e33233267abcbff6a4ee530b7be"
+        },
+        {
+          "market": "Will CDU win the second most seats in the 2026 Baden-Württemberg parliamentary elections?",
+          "url": "https://polymarket.com/event/will-cdu-win-the-second-most-seats-in-the-2026-baden-wrttemberg-parliamentary-elections",
+          "ts": 1773066627,
+          "odds": 80,
+          "stake": 2412,
+          "pl": 588,
+          "won": true,
+          "tx": "0x67e63a189e172bc71aff80883b2cb9215c0b7d9f72700406bac38a4c8caff754"
+        },
+        {
+          "market": "Trump declassifies new UFO files by June 22?",
+          "url": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
+          "ts": 1781248849,
+          "odds": 66,
+          "stake": 2276,
+          "pl": 1177,
+          "won": true,
+          "tx": "0xf6873d6556392cc877c053c279ba9f7670f6636b42b821d676f1b77528ccd15f"
+        },
+        {
+          "market": "Tesla launches unsupervised full self driving (FSD) by March 31?",
+          "url": "https://polymarket.com/event/tesla-launches-unsupervised-full-self-driving-fsd-by-march-31",
+          "ts": 1769129798,
+          "odds": 63,
+          "stake": 1810,
+          "pl": 1044,
+          "won": true,
+          "tx": "0x743e98bf9b2943089ff66be1e3ac74a21e922e5936ae736877910e1dc58ba632"
+        },
+        {
+          "market": "Will the US confirm that aliens exist by June 30?",
+          "url": "https://polymarket.com/event/will-the-us-confirm-that-aliens-exist-by-june-30-333",
+          "ts": 1779065151,
+          "odds": 2,
+          "stake": 1620,
+          "pl": -1620,
+          "won": false,
+          "tx": "0x5f2118e602bb62e031bf9e53669df2212fd328474d1183612e07c5c6a60549f9"
+        },
+        {
+          "market": "Jerome Powell out as Fed Chair by May 15, 2026?",
+          "url": "https://polymarket.com/event/jerome-powell-out-as-fed-chair-by-may-15-2026",
+          "ts": 1778704661,
+          "odds": 25,
+          "stake": 1540,
+          "pl": 4521,
+          "won": true,
+          "tx": "0xf935ebf1265966663c90ce311da4a24c030d11da66336fa10f5c9bb40cec1478"
+        },
+        {
+          "market": "Will The Greens win the second most seats in the 2026 Baden-Württemberg parliamentary elections?",
+          "url": "https://polymarket.com/event/will-the-greens-win-the-second-most-seats-in-the-2026-baden-wrttemberg-parliamentary-elections",
+          "ts": 1773064921,
+          "odds": 11,
+          "stake": 1012,
+          "pl": -550,
+          "won": false,
+          "tx": "0xd6dc4cebd4f86aba3bd7252806c3b4cfb0e2fc82213f5d1063b0f4b917979ba7"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0x96489abcb9f583d6835c8ef95ffc923d05a86825",
+      "username": null,
+      "tier": "extreme",
+      "S": 3249.6,
+      "market": "Will US or Israel strike Iran by January 31, 2026?",
+      "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
+      "episodeTx": "0xc8b29ec66febff6c9dd72f2b59fa21ef6e997d843295b2083bf82f1d6ec7264a",
+      "stake": 80772,
+      "odds": 98,
+      "won": true,
+      "episodeProfit": 1655,
+      "zBetCross": 25.04,
+      "zBetWithin": 1.15,
+      "zProfitCross": 3.35,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 3,
+      "ledger": [
+        {
+          "market": "Will US or Israel strike Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1769888398,
+          "odds": 98,
+          "stake": 80772,
+          "pl": 1655,
+          "won": true,
+          "tx": "0xc8b29ec66febff6c9dd72f2b59fa21ef6e997d843295b2083bf82f1d6ec7264a"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by April 21st?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "ts": 1776808468,
+          "odds": 99,
+          "stake": 6758,
+          "pl": 34,
+          "won": true,
+          "tx": "0x9aad10c04e0c8f949047cbb7b6dad994f976a15889a22557e5d60d98bc09e784"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+          "ts": 1772157648,
+          "odds": 53,
+          "stake": 189,
+          "pl": -189,
+          "won": false,
+          "tx": "0x2f6e629dce3c42b3e5e0e12c52eaa18ef9dd050ecf4c750354679df11574d1d5"
+        }
+      ],
+      "alsoBinomial": true
     },
     {
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
@@ -2772,52 +2928,6 @@
         }
       ],
       "alsoBinomial": true
-    },
-    {
-      "address": "0x96489abcb9f583d6835c8ef95ffc923d05a86825",
-      "username": null,
-      "tier": "extreme",
-      "S": 3240.7,
-      "market": "Will US or Israel strike Iran by January 31, 2026?",
-      "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
-      "episodeTx": "0xc8b29ec66febff6c9dd72f2b59fa21ef6e997d843295b2083bf82f1d6ec7264a",
-      "stake": 80772,
-      "odds": 98,
-      "won": true,
-      "episodeProfit": 1655,
-      "zBetCross": 25.04,
-      "zBetWithin": 0.71,
-      "zProfitCross": 3.35,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 2,
-      "ledger": [
-        {
-          "market": "Will US or Israel strike Iran by January 31, 2026?",
-          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
-          "ts": 1769888398,
-          "odds": 98,
-          "stake": 80772,
-          "pl": 1655,
-          "won": true,
-          "tx": "0xc8b29ec66febff6c9dd72f2b59fa21ef6e997d843295b2083bf82f1d6ec7264a"
-        },
-        {
-          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-          "ts": 1772157648,
-          "odds": 53,
-          "stake": 189,
-          "pl": -189,
-          "won": false,
-          "tx": "0x2f6e629dce3c42b3e5e0e12c52eaa18ef9dd050ecf4c750354679df11574d1d5"
-        }
-      ],
-      "alsoBinomial": false
     },
     {
       "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
@@ -3234,122 +3344,6 @@
       "alsoBinomial": false
     },
     {
-      "address": "0x2110ba2a1e18840109482ff4ddc547baeff45850",
-      "username": null,
-      "tier": "extreme",
-      "S": 3180.5,
-      "market": "Starmer out by June 22, 2026?",
-      "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
-      "episodeTx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803",
-      "stake": 14610,
-      "odds": 76,
-      "won": true,
-      "episodeProfit": 4528,
-      "zBetCross": 11.02,
-      "zBetWithin": 1.33,
-      "zProfitCross": 12.61,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 9,
-      "ledger": [
-        {
-          "market": "Gemini 3.5 released by March 31?",
-          "url": "https://polymarket.com/event/gemini-3pt5-released-by-june-30",
-          "ts": 1770892909,
-          "odds": 93,
-          "stake": 15315,
-          "pl": 1094,
-          "won": true,
-          "tx": "0xae3f946cac4fd14584fd871d2c0a7a8829f11f8be512210a409f285a92a9075c"
-        },
-        {
-          "market": "Starmer out by June 22, 2026?",
-          "url": "https://polymarket.com/event/starmer-out-in-2025",
-          "ts": 1782031537,
-          "odds": 76,
-          "stake": 14610,
-          "pl": 4528,
-          "won": true,
-          "tx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803"
-        },
-        {
-          "market": "Gemini 3.2 released by May 22, 2026?",
-          "url": "https://polymarket.com/event/gemini-3pt2-released-by",
-          "ts": 1778237188,
-          "odds": 76,
-          "stake": 12931,
-          "pl": 3993,
-          "won": true,
-          "tx": "0x624efad70d1e494336805f198ed213996181981c1daac624773c96d6cff35e43"
-        },
-        {
-          "market": "UK Cabinet Minister resigns by May 31, 2026?",
-          "url": "https://polymarket.com/event/uk-cabinet-minister-resigns-in-february",
-          "ts": 1778668996,
-          "odds": 98,
-          "stake": 4583,
-          "pl": 78,
-          "won": true,
-          "tx": "0x29522efb61b5270abd7fa210a235567745b726bbf8eca70f874cfe01c9c64d8b"
-        },
-        {
-          "market": "UK Cabinet Minister resigns by February 28, 2026?",
-          "url": "https://polymarket.com/event/uk-cabinet-minister-resigns-in-february",
-          "ts": 1772364865,
-          "odds": 100,
-          "stake": 4477,
-          "pl": 4,
-          "won": true,
-          "tx": "0x84fb5fc27f491deaa74f81a9747ad5c81df50442a8eb5b1d0fba1204b7314736"
-        },
-        {
-          "market": "UK Cabinet Minister resigns by June 30, 2026?",
-          "url": "https://polymarket.com/event/uk-cabinet-minister-resigns-in-february",
-          "ts": 1778760122,
-          "odds": 100,
-          "stake": 1472,
-          "pl": 7,
-          "won": true,
-          "tx": "0xc4ddc93ab5249b2f77dfe4f4bfcc9d12f4efd5b3e7c84b5b615b92896733196f"
-        },
-        {
-          "market": "Trump cabinet member out by March 31, 2026?",
-          "url": "https://polymarket.com/event/trump-cabinet-member-out-by-685",
-          "ts": 1773062139,
-          "odds": 97,
-          "stake": 472,
-          "pl": 16,
-          "won": true,
-          "tx": "0x2e21154655cba4855e2667d42e3aecd3dda4fc0fe28ce822006d7348dd658b41"
-        },
-        {
-          "market": "Gemini 3.5 released by May 31?",
-          "url": "https://polymarket.com/event/gemini-3pt5-released-by-june-30",
-          "ts": 1779097662,
-          "odds": 85,
-          "stake": 243,
-          "pl": 43,
-          "won": true,
-          "tx": "0xbea115f1de4337cdf8bd527d71e53cc72f8e24824b70866a5581618968f4c108"
-        },
-        {
-          "market": "Will Google be the first company to have an AI model hit 1500 on Chatbot Arena by June 30 2026?",
-          "url": "https://polymarket.com/event/which-companys-ai-will-first-hit-1500-on-chatbot-arena-by-june-30",
-          "ts": 1766354432,
-          "odds": 67,
-          "stake": 6,
-          "pl": -6,
-          "won": false,
-          "tx": "0xbe61cf44ec70a4e2df8af3876db829ee4890298f4b37c5af5272dfb55f7b065d"
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
       "address": "0xc5adc0dc256fb943da868b2f8f6e63f13921b0cf",
       "username": null,
       "tier": "extreme",
@@ -3424,6 +3418,172 @@
         }
       ],
       "alsoBinomial": true
+    },
+    {
+      "address": "0x2110ba2a1e18840109482ff4ddc547baeff45850",
+      "username": "George.Smiley",
+      "tier": "extreme",
+      "S": 3175,
+      "market": "Starmer out by June 22, 2026?",
+      "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
+      "episodeTx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803",
+      "stake": 14610,
+      "odds": 76,
+      "won": true,
+      "episodeProfit": 4528,
+      "zBetCross": 11.02,
+      "zBetWithin": 1.06,
+      "zProfitCross": 12.61,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 61790,
+      "firstSeen": "Sep 19 2025",
+      "createdOnChain": true,
+      "created": "May 18 2026",
+      "betsCount": 150,
+      "ledger": [
+        {
+          "market": "Gemini 3.0 Flash released by December 17?",
+          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-17",
+          "ts": 1765847099,
+          "odds": 94,
+          "stake": 66376,
+          "pl": 4500,
+          "won": true,
+          "tx": "0x67e87e65e93f1887660116e78db907d7738bd0ef7a0cfe89bea53be1df0fe027"
+        },
+        {
+          "market": "Gemini 3.0 Flash released by December 15?",
+          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-15",
+          "ts": 1763564991,
+          "odds": 88,
+          "stake": 52835,
+          "pl": 7373,
+          "won": true,
+          "tx": "0x1b773e24971868a17cca0ae679db929b3af775ea25f8178a2b1d9a15e422d34b"
+        },
+        {
+          "market": "Gemini 3.0 Flash released by December 16?",
+          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-16-622",
+          "ts": 1765845757,
+          "odds": 84,
+          "stake": 48107,
+          "pl": 9268,
+          "won": true,
+          "tx": "0xb93221c11099f6ef2a14fae4bf6ce5bddac1cf24267cb78f38318deab53229c0"
+        },
+        {
+          "market": "Will Gemini 3.0 be released on November 18 2025?",
+          "url": "https://polymarket.com/event/will-gemini-3pt0-be-released-on-november-18-2025",
+          "ts": 1763076928,
+          "odds": 66,
+          "stake": 46880,
+          "pl": 23814,
+          "won": true,
+          "tx": "0xb7bbf083d2dbc435bf317748e6d5551f03b5eee2add2c20d8498e75a97982603"
+        },
+        {
+          "market": "Gemini 3.0 Flash released by November 30?",
+          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-november-30",
+          "ts": 1763507217,
+          "odds": 97,
+          "stake": 31801,
+          "pl": 1054,
+          "won": true,
+          "tx": "0x433c6b4b8dcbfe69f5db9e2ed867961c939beaacf088ce74cef111c31a8c9520"
+        },
+        {
+          "market": "Will Gemini 3.2 be released on May 19?",
+          "url": "https://polymarket.com/event/will-gemini-3pt2-be-released-on-may-19",
+          "ts": 1778353909,
+          "odds": 84,
+          "stake": 25164,
+          "pl": 4717,
+          "won": true,
+          "tx": "0x449d0384d7f69878d8942da74c33c506ccebab15799ecfc01555a2f64d6ae1d7"
+        },
+        {
+          "market": "Will Gemini 3.0 be released by November 15?",
+          "url": "https://polymarket.com/event/will-gemini-3pt0-be-released-by-november-15",
+          "ts": 1762354089,
+          "odds": 91,
+          "stake": 22937,
+          "pl": 2209,
+          "won": true,
+          "tx": "0xd5d8f076fab63812eb6912ab54e4b2e25dfe5851857774d5fac0314d2317e645"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran by January 31?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-january-31",
+          "ts": 1768858780,
+          "odds": 97,
+          "stake": 19222,
+          "pl": 678,
+          "won": true,
+          "tx": "0x45da18849ebb479d2d727d2fcb7e69ad649a65b6203df71a63715092502a3398"
+        },
+        {
+          "market": "Starmer out by June 30, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1770225991,
+          "odds": 56,
+          "stake": 18620,
+          "pl": 14480,
+          "won": true,
+          "tx": "0xe60c2abe043d934b0aa793d246cb7c81356a8577d6cdf59a7a62aacc1419ee0f"
+        },
+        {
+          "market": "Supreme Court rules in favor of Trump's tariffs?",
+          "url": "https://polymarket.com/event/will-the-supreme-court-rule-in-favor-of-trumps-tariffs",
+          "ts": 1771601944,
+          "odds": 100,
+          "stake": 17508,
+          "pl": 18,
+          "won": true,
+          "tx": "0x9154703b6a46d36e603947089bd09887a0156622efced39dc2a4fe1443fdc168"
+        },
+        {
+          "market": "Gemini 3.5 released by March 31?",
+          "url": "https://polymarket.com/event/gemini-3pt5-released-by-june-30",
+          "ts": 1770892909,
+          "odds": 93,
+          "stake": 15315,
+          "pl": 1094,
+          "won": true,
+          "tx": "0xae3f946cac4fd14584fd871d2c0a7a8829f11f8be512210a409f285a92a9075c"
+        },
+        {
+          "market": "Will a new Gemini flagship be released by May 22, 2026?",
+          "url": "https://polymarket.com/event/will-a-new-gemini-flagship-be-released-by-may-22-2026",
+          "ts": 1777898026,
+          "odds": 90,
+          "stake": 15121,
+          "pl": 1690,
+          "won": true,
+          "tx": "0xe9f1bd78f4fc3d0276ff2953c259438918e42e855d7d4d65ca8828e6f2fca8d3"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by February 28, 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-february-28-2026",
+          "ts": 1771236119,
+          "odds": 99,
+          "stake": 14775,
+          "pl": 225,
+          "won": true,
+          "tx": "0x64976458c82555e97a8c1635cd3548636c8f9db7cf02b1503a99054450306e54"
+        },
+        {
+          "market": "Starmer out by June 22, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1782031537,
+          "odds": 76,
+          "stake": 14610,
+          "pl": 4528,
+          "won": true,
+          "tx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803"
+        }
+      ],
+      "alsoBinomial": false
     },
     {
       "address": "0x160aa7433e68ef858411323b3cfc8248051bb058",
@@ -4552,6 +4712,62 @@
       "alsoBinomial": false
     },
     {
+      "address": "0xfb745c232f22c2bb9d2b66a1750c07a738601513",
+      "username": null,
+      "tier": "extreme",
+      "S": 3103.8,
+      "market": "US x Iran permanent peace deal by April 30, 2026?",
+      "marketUrl": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+      "episodeTx": "0x1ce950bb752f925c980d41430904b2700b49eb34bccc536891099d4bd757d63d",
+      "stake": 242335,
+      "odds": 100,
+      "won": true,
+      "episodeProfit": 729,
+      "zBetCross": 17.29,
+      "zBetWithin": 1.16,
+      "zProfitCross": 5.15,
+      "lateBuyFraction": 1,
+      "directionalScore": 0.994,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 3,
+      "ledger": [
+        {
+          "market": "US x Iran permanent peace deal by April 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1777550720,
+          "odds": 100,
+          "stake": 242335,
+          "pl": 729,
+          "won": true,
+          "tx": "0x1ce950bb752f925c980d41430904b2700b49eb34bccc536891099d4bd757d63d"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by May 31st?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "ts": 1777668960,
+          "odds": 94,
+          "stake": 4556,
+          "pl": 282,
+          "won": true,
+          "tx": "0xc7fb133502ee7c6bd78d93e379ff5cd3f9f8b5709714458fff7ab1388afbe18f"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by April 30th?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "ts": 1777615110,
+          "odds": 100,
+          "stake": 4355,
+          "pl": 22,
+          "won": true,
+          "tx": "0xfb65665bbea3be50e7c10ab951a0b84ab3d2efac4d30ea5008ca369e9de26b57"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0xd49b42bce7ea10bac53e2901c188cae20ea4bdf9",
       "username": "i18z",
       "tier": "extreme",
@@ -5272,42 +5488,6 @@
       "alsoBinomial": true
     },
     {
-      "address": "0xfb745c232f22c2bb9d2b66a1750c07a738601513",
-      "username": null,
-      "tier": "extreme",
-      "S": 3080.7,
-      "market": "US x Iran permanent peace deal by April 30, 2026?",
-      "marketUrl": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-      "episodeTx": "0x1ce950bb752f925c980d41430904b2700b49eb34bccc536891099d4bd757d63d",
-      "stake": 242335,
-      "odds": 100,
-      "won": true,
-      "episodeProfit": 729,
-      "zBetCross": 17.29,
-      "zBetWithin": 0,
-      "zProfitCross": 5.15,
-      "lateBuyFraction": 1,
-      "directionalScore": 0.994,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 1,
-      "ledger": [
-        {
-          "market": "US x Iran permanent peace deal by April 30, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1777550720,
-          "odds": 100,
-          "stake": 242335,
-          "pl": 729,
-          "won": true,
-          "tx": "0x1ce950bb752f925c980d41430904b2700b49eb34bccc536891099d4bd757d63d"
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
       "address": "0x97f937e0ec5068121db4a4b900140544b09f4e4f",
       "username": null,
       "tier": "extreme",
@@ -5679,8 +5859,8 @@
           "tx": "0x6792ea000c7ed5f14a895a7abb83b92eb444994cec3e67ba0a9a8149e76458b5"
         },
         {
-          "market": "Will Bahrain vs. Syria end in a draw?",
-          "url": "https://polymarket.com/event/fif-bah1-syr-2026-06-09-draw",
+          "market": "0x72cc7de505e6aa50f14270a8768a140f8e2938c1ea154a346f3b74b9285b104a",
+          "url": null,
           "ts": 1780912896,
           "odds": 100,
           "stake": 63474,
