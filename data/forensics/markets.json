@@ -4554,7 +4554,7 @@
     "q": "Russia x Ukraine ceasefire by June 30, 2026?",
     "s": "russia-x-ukraine-ceasefire-by-june-30-2026",
     "c": "Military & Defense",
-    "r": 1782777600
+    "r": 1778355922
   },
   "0xa312499c150a1ca94b788c99f6ae721cbbdfda7679b5d25580fe79d514fdb930": {
     "w": "NO",
@@ -73260,5 +73260,754 @@
     "s": "will-china-gdp-growth-in-q4-2025-be-between-4pt0-and-4pt5",
     "c": "Economics",
     "r": 1769817600
+  },
+  "0x789beb7c6f3f5ca1c45822a403dee2a1d495ed8f7f44e1f50e3db0057691931a": {
+    "w": "YES",
+    "q": "Will Trump say \"Crown\" during Egypt summit?",
+    "s": "will-trump-say-crown-during-egypt-summit",
+    "c": "World",
+    "r": 1760313600
+  },
+  "0xce35ecc87bd6ddc606986cccbf12eb01e7355cc5394eb51ab3e054efbb479a52": {
+    "w": "NO",
+    "q": "Will Trump say \"Houthi\" during speech to Israeli Parliament on October 13?",
+    "s": "will-trump-say-houthi-during-speech-to-israeli-parliament-on-october-13",
+    "c": "World",
+    "r": 1760313600
+  },
+  "0x21b6b80acd95536432c79ad517522c3e192ad65df7fcb4920518a7ff8b76f174": {
+    "w": "YES",
+    "q": "Will Trump say \"Peace\" 5+ times during Egypt summit?",
+    "s": "will-trump-say-peace-5-times-during-egypt-summit",
+    "c": "World",
+    "r": 1760313600
+  },
+  "0xe099310e095cef92526d3410317f1254e1123584c54b5833fa6bbd2a903e2249": {
+    "w": "YES",
+    "q": "Will Trump say \"Biden\" or \"Autopen\" during speech to Israeli Parliament on October 13?",
+    "s": "will-trump-say-biden-or-autopen-during-speech-to-israeli-parliament-on-october-13",
+    "c": "World",
+    "r": 1760313600
+  },
+  "0xbca54c742f388ace2f58fe1c0b7f270d81e5559190f62b384e09541aba025de5": {
+    "w": "YES",
+    "q": "Will Trump say \"Midnight Hammer\" during speech to Israeli Parliament on October 13?",
+    "s": "will-trump-say-midnight-hammer-during-speech-to-israeli-parliament-on-october-13",
+    "c": "World",
+    "r": 1760313600
+  },
+  "0x56fb1352095454afd1c22156cb7471d81336c2e3b75fa102dac88e7b8b8e942d": {
+    "w": "NO",
+    "q": "Will no qualifying diplomatic US-Iran meeting occur by April 30, 2026?",
+    "s": "will-no-qualifying-diplomatic-us-iran-meeting-occur-by-april-30-2026",
+    "c": "World",
+    "r": 1777507200
+  },
+  "0x926220bff337739dc7d1143cc1ae6298f0261259006335b66e84f32aaee0bf1d": {
+    "w": "NO",
+    "q": "Will Trump say \"Biden\" or \"Obama\" 10+ times during Cabinet meeting on March 26?",
+    "s": "will-trump-say-biden-or-obama-10-times-during-cabinet-meeting-on-march-26",
+    "c": "Politics",
+    "r": 1774483200
+  },
+  "0xd7118fc53709b96a1a2c415f5e4f7dfb281cea6fa41ea8f0432028543c6bb195": {
+    "w": "YES",
+    "q": "Will Honeywell International (HON) beat quarterly earnings?",
+    "s": "hon-quarterly-earnings-nongaap-eps-04-23-2026-2pt32",
+    "c": "Corporate & M&A",
+    "r": 1776902400
+  },
+  "0x3436bb3e67561716e03c36c6242c678f1123a1f32f20a947538608910db56833": {
+    "w": "YES",
+    "q": "Will eBay (EBAY) beat quarterly earnings?",
+    "s": "ebay-quarterly-earnings-nongaap-eps-02-18-2026-1pt35",
+    "c": "Corporate & M&A",
+    "r": 1771372800
+  },
+  "0xec1a6445382594b45968ff196c4a8b8226443b905d717aa7eb4cb57c00292156": {
+    "w": "YES",
+    "q": "Will International Business Machines (IBM) beat quarterly earnings?",
+    "s": "ibm-quarterly-earnings-nongaap-eps-04-22-2026-1pt81",
+    "c": "Corporate & M&A",
+    "r": 1776816000
+  },
+  "0xfd80d6eb29ce8fe36eb015b19627a0627a17a8ba3b0e2ff5cdfaec94209ec709": {
+    "w": "YES",
+    "q": "Will eBay (EBAY) beat quarterly earnings?",
+    "s": "ebay-quarterly-earnings-nongaap-eps-04-29-2026-1pt58",
+    "c": "Corporate & M&A",
+    "r": 1777420800
+  },
+  "0xf920b784f65e25fec2be40f223a25ce8090b35821f4a5242babcd8b3b102f8ca": {
+    "w": "YES",
+    "q": "Will Moody's (MCO) beat quarterly earnings?",
+    "s": "mco-quarterly-earnings-nongaap-eps-02-18-2026-3pt44",
+    "c": "Corporate & M&A",
+    "r": 1771372800
+  },
+  "0x4791b5f8da5935820a4866148e91282c23be1e32e8d7ee30301f209b0f21ee90": {
+    "w": "NO",
+    "q": "Will Johnson & Johnson (JNJ) beat quarterly earnings?",
+    "s": "jnj-quarterly-earnings-nongaap-eps-01-21-2026-2pt51",
+    "c": "Corporate & M&A",
+    "r": 1768953600
+  },
+  "0x3558b515ba6483368607cddec743b85f55d47234b18d0ed16ec632ee289d3fac": {
+    "w": "YES",
+    "q": "Will KeyCorp (KEY) beat quarterly earnings?",
+    "s": "key-quarterly-earnings-gaap-eps-01-20-2026-0pt39",
+    "c": "Corporate & M&A",
+    "r": 1768867200
+  },
+  "0x951fda6a6baf97f16d903534095b84dfb20ea35cdd9a35e6854f18f47d6ec69a": {
+    "w": "NO",
+    "q": "Will the Fed decide differently in the next three decisions (Jan–Mar–Apr)?",
+    "s": "will-the-fed-decide-differently-in-the-next-three-decisions-janmarapr",
+    "c": "Economics",
+    "r": 1777420800
+  },
+  "0x556b0f9998158a1ea53bb35cc756872f6427be03ea36a7ab60c1cadff8305e20": {
+    "w": "NO",
+    "q": "Bank of England decreases interest rates by 50+ bps after April 2026 meeting?",
+    "s": "bank-of-england-decreases-interest-rates-by-50-bps-after-april-2026-meeting",
+    "c": "Economics",
+    "r": 1777507200
+  },
+  "0x4b7fc2849abbc37acc11431cdaa33cc27f6da931a4c2e7da700da7f667367277": {
+    "w": "NO",
+    "q": "Bank of England decreases interest rates by 25 bps after April 2026 meeting?",
+    "s": "bank-of-england-decreases-interest-rates-by-25-bps-after-april-2026-meeting",
+    "c": "Economics",
+    "r": 1777507200
+  },
+  "0xea649be6ea3447f3c145a173883c68a89faf4edda1f85109b76baa93b3ee7a87": {
+    "w": "NO",
+    "q": "Will Pete Hegseth win the 2028 US Presidential Election?",
+    "s": "will-pete-hegseth-win-the-2028-us-presidential-election",
+    "c": "Elections",
+    "r": 1857168000
+  },
+  "0xd93f16f9379d970e9f576b7e2c9a734cc3b7996a89c8b9f6af72362599bc7056": {
+    "w": "NO",
+    "q": "Les Wexner arrested by March 31?",
+    "s": "les-wexner-arrested-by-march-31",
+    "c": "Legal & Regulatory",
+    "r": 1774915200
+  },
+  "0x2f99639ab9a476ae229c40a8207fde238dc4bd5adcf79439bbbc0165607e4ab2": {
+    "w": "NO",
+    "q": "Will Marty Supreme win Best Film Editing at the 98th Academy Awards?",
+    "s": "will-marty-supreme-win-best-film-editing-at-the-98th-academy-awards",
+    "c": "Culture",
+    "r": 1773532800
+  },
+  "0x028441ca49d358b80fcef82cc07e3924d5f6d5c03fde55e5a138d3d5f9be35b8": {
+    "w": "NO",
+    "q": "Will the Fed Pause–Cut–Pause in the next three decisions (Mar–Apr–Jun)?",
+    "s": "will-the-fed-pausecutpause-in-the-next-three-decisions-maraprjun",
+    "c": "Economics",
+    "r": 1781654400
+  },
+  "0x83111e684e0351507e8725b998560b5aed24f6047ed2d4a7318eef79b0ebfdbf": {
+    "w": "NO",
+    "q": "Will the Fed Cut–Pause–Pause in the next three decisions (Mar–Apr–Jun)?",
+    "s": "will-the-fed-cutpausepause-in-the-next-three-decisions-maraprjun",
+    "c": "Economics",
+    "r": 1781654400
+  },
+  "0x7e0f54ae66168a233ac177be4e51d83a1a981e1bd1d42476b21d657c870bcf4b": {
+    "w": "NO",
+    "q": "Will the Fed Cut–Cut–Pause in the next three decisions (Mar–Apr–Jun)?",
+    "s": "will-the-fed-cutcutpause-in-the-next-three-decisions-maraprjun",
+    "c": "Economics",
+    "r": 1781654400
+  },
+  "0x2b84316a2019d17e37153ebbcfd6a8a4ccf8ab5db10635c0f176ead6ed4f4368": {
+    "w": "YES",
+    "q": "Will Israel strike Gaza on January 27, 2026?",
+    "s": "will-israel-strike-gaza-on-january-27-2026",
+    "c": "World",
+    "r": 1769817600
+  },
+  "0x9de8ccd966a84cc73e6c714fb41cae6c7401bc30687a3b5dfc5acc3630d4f5ff": {
+    "w": "NO",
+    "q": "Will MicroStrategy announce bankruptcy by May 31?",
+    "s": "will-microstrategy-announce-bankruptcy-by-may-31",
+    "c": "Corporate & M&A",
+    "r": 1748649600
+  },
+  "0xfd405f981b8ccbdc43784ec16cf2fc7978e05f745e69d1c5210d52edd33ddd0c": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 11, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-11-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x13a87282c895f3e3a63d615fdf88a0e315b1d9df6dffb085b28c727c7b835e27": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 17, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-17-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x9820ac217f8493c5e8cc6d08f7e0b89073239769d5174c458b61701f69dd128f": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 18, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-18-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xbaeec92a2e06f9270b40f4438089699ef7eda91925e78d6b6f87339b30677793": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 26, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-26-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x9050e26ffd1fc64f6eb394088f99d6b55ba1481f1dbc15d0a7be67f979128b93": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 25, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-25-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xf52a7728d58887b70636d7e5273a23ab3e43a9400f97d6436e30cb06ad208775": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 28, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-28-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xfe123d59cd97915e6bfa9683fa3e7e830bd393d1ed0fb80ed11990572e29ebe1": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 24, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-24-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x3adf707f2aa0a9673ad8bbfb09424d7d9f5cf28dbc4fe7d926b90bd618249840": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 29, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-29-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x9cdd4ba417719ed7a55e2c37751f8a45a567f7e030400c1288df67f40f125983": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 21, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-21-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x689de55d166ad5c621c523b5c39e8f5618f542946ae96ff4130d8430dca3725a": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 27, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-27-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0xe98b8b9b6bd034d7bf7b2dd3c68a695db1838f71a8675bbed884d30406df659d": {
+    "w": "NO",
+    "q": "Will the US next strike Iran on March 14, 2026 (ET)?",
+    "s": "will-the-us-next-strike-iran-on-march-14-2026-et",
+    "c": "World",
+    "r": 1774915200
+  },
+  "0x770059279b0e2cdf0e50a1f6c624368521ff0574219c506af3f737b1162a4912": {
+    "w": "NO",
+    "q": "Will Trump agree to a tariff agreement with India by November 30?",
+    "s": "will-trump-agree-to-a-tariff-agreement-with-india-by-november-30",
+    "c": "Legal & Regulatory",
+    "r": 1764460800
+  },
+  "0x03844ca80d0fb538d33a06d44c75555fd2288671bb3833c0004e1aeb4b3f04b6": {
+    "w": "NO",
+    "q": "Will Trump’s approval rating be at least 42.0 on February 6, 2026?",
+    "s": "will-trumps-approval-rating-be-at-least-42pt0-on-february-6-2026",
+    "c": "Legal & Regulatory",
+    "r": 1770422400
+  },
+  "0x4628f0afca36ff408a4724e13ecd4c657e40044f2d3bfb47d87d08f6e6adae4e": {
+    "w": "YES",
+    "q": "Will more than 10 Senate Democrats vote in favor of the next government funding bill?",
+    "s": "will-more-than-10-senate-democrats-vote-in-favor-of-the-next-government-funding-bill-721",
+    "c": "Politics",
+    "r": 1774915200
+  },
+  "0x206f4401e1aa61840b27388bb894dc59b39f09a5bcbed7515737c2b5c6c20761": {
+    "w": "NO",
+    "q": "Will Bad Bunny win 0 Grammys?",
+    "s": "will-bad-bunny-win-0-grammys",
+    "c": "Culture",
+    "r": 1769904000
+  },
+  "0x4319532e181605cb15b1bd677759a3bc7f7394b2fdf145195b700eeaedfd5221": {
+    "w": "NO",
+    "q": "Fed rate hike in 2025?",
+    "s": "fed-rate-hike-in-2025",
+    "c": "Economics",
+    "r": 1765324800
+  },
+  "0x1161a32141bb18119d627d6747f1cec4f7de6aeed15abad0e6b1aa8af3b1a844": {
+    "w": "NO",
+    "q": "Israel x Hamas ceasefire cancelled by November 30?",
+    "s": "israel-x-hamas-ceasefire-cancelled-by-november-30-546-524",
+    "c": "Military & Defense",
+    "r": 1761868800
+  },
+  "0xc8c341e9089643a1d87c71555547d1dae6c49e9c262c3cdcfc8323fb658407f4": {
+    "w": "NO",
+    "q": "August jobs report prints negative?",
+    "s": "august-jobs-report-prints-negative",
+    "c": "Economics",
+    "r": 1757030400
+  },
+  "0xb541903f9230d6897dcb6868ac46262c9bafd56f65741554cb4c254c92c16d3f": {
+    "w": "YES",
+    "q": "Will Mike Waltz receive fewer than 49 YEA votes in his UN Ambassador confirmation vote?",
+    "s": "will-mike-waltz-receive-fewer-than-49-yea-votes-in-his-un-ambassador-confirmation-vote",
+    "c": "Politics",
+    "r": 1767139200
+  },
+  "0x9c9662337ad8411f42e157d346105f816e83bcee4e981b4bbe6c4df174309813": {
+    "w": "NO",
+    "q": "Chuck Schumer out as Senate Minority Leader by October 31?",
+    "s": "john-thune-out-as-senate-majority-leader-before-august",
+    "c": "Politics",
+    "r": 1753920000
+  },
+  "0x6f3b62e088281fed415231be9af8d488299ea42a5a9f7edad4a2f885f1ba47ef": {
+    "w": "NO",
+    "q": "Will Elon Musk announce Presidential run in 2025?",
+    "s": "will-elon-musk-announce-presidential-run-in-2025",
+    "c": "Politics",
+    "r": 1767139200
+  },
+  "0xf3fe94a69f78147505d089c4b6434b08c05d388287878f3d774de7db224fd980": {
+    "w": "NO",
+    "q": "Will Michael Bloomberg announce NYC mayoral run before August?",
+    "s": "will-michael-bloomberg-announce-nyc-mayoral-run-before-august",
+    "c": "Tech & Announcements",
+    "r": 1754006400
+  },
+  "0x0141bc972b2f4a4591e471742426c99da055fa513f41de9dfdc449fdfc60747f": {
+    "w": "NO",
+    "q": "US x Iran ceasefire before July?",
+    "s": "us-x-iran-ceasefire-before-july",
+    "c": "Military & Defense",
+    "r": 1751241600
+  },
+  "0xf4d5a6e9dd92f35206aec5ee290d9b33cd2518cd0f1e6ea2403fca399909d098": {
+    "w": "NO",
+    "q": "Negative GDP growth in Q2 2025?",
+    "s": "negative-gdp-growth-in-q2-2025",
+    "c": "Economics",
+    "r": 1753833600
+  },
+  "0x8c256db9fdbdce392fbc4fa94bf229de7f5178c62bf42a976aa0337868b38780": {
+    "w": "NO",
+    "q": "Will Trump’s approval rating be <44.5% on June 27?",
+    "s": "will-trumps-approval-rating-be-44pt5-on-june-27-913",
+    "c": "Legal & Regulatory",
+    "r": 1750982400
+  },
+  "0x580174081f344662e6f9873d1a2ae03e665bb663aa18c53b249dcdabf9080a9f": {
+    "w": "NO",
+    "q": "Will Luiz Inácio Lula da Silva be the first leader out in 2025?",
+    "s": "will-luiz-incio-lula-da-silva-be-the-first-leader-out-in-2025",
+    "c": "Politics",
+    "r": 1767139200
+  },
+  "0x4685c41276496f4f49094cc27abed3f22356851bd53f769c3750fb624adb70cd": {
+    "w": "YES",
+    "q": "Will Iran strike a U.S. facility by Monday June  23?",
+    "s": "will-iran-strike-a-us-facility-by-monday-june-23",
+    "c": "World",
+    "r": 1751241600
+  },
+  "0xb811d71dfb09aa60982c9fb7acce9bb961c31b56fa9d3c884f260caf9b339a58": {
+    "w": "NO",
+    "q": "Will the Vatican host Russia-Ukraine peace talks before September?",
+    "s": "will-the-vatican-host-russia-ukraine-peace-talks",
+    "c": "World",
+    "r": 1756598400
+  },
+  "0x0077857a1825c2e441cb0d8e4259ed6d1ff97c68ea1d5b5dec16bb67182a5725": {
+    "w": "NO",
+    "q": "Will US GDP growth in Q2 2025 be between 0% and -1%?",
+    "s": "will-us-gdp-growth-in-q2-2025-be-between-0-and-1",
+    "c": "Economics",
+    "r": 1751241600
+  },
+  "0xd6c22daa78afa38f19e23ca808052938cfa9388db1b628145587a80c47e6c733": {
+    "w": "YES",
+    "q": "Zohran Mamdani gets the most first-choice votes in the 2025 New York City Mayoral Democratic Primary?",
+    "s": "zohran-mamdani-gets-the-most-first-choice-votes-in-the-2025-new-york-city-mayoral-democratic-primary",
+    "c": "Elections",
+    "r": 1750723200
+  },
+  "0x056922c3d59d4bc1e9897635dba92a7bb9d49418b5ab3681aaeff3b96e996749": {
+    "w": "NO",
+    "q": "Will US GDP growth in Q2 2025 be between -1% and -2%?",
+    "s": "will-us-gdp-growth-in-q2-2025-be-between-1-and-2",
+    "c": "Economics",
+    "r": 1751241600
+  },
+  "0x362c61cfb577a719526b03e7596a3ef3d6d9aadf5292e2e2391c2cdf62892730": {
+    "w": "NO",
+    "q": "Fed increases interest rates by 25+ bps after July 2025 meeting?",
+    "s": "fed-increases-interest-rates-by-25-bps-after-july-2025-meeting",
+    "c": "Economics",
+    "r": 1753833600
+  },
+  "0x2a5313633b2808c4750ae105a0ccedeebb5668eaef7162b02c10086029848a48": {
+    "w": "NO",
+    "q": "Will turnout in the second round of the 2026 Portuguese presidential election be between 52% and 54%?",
+    "s": "will-turnout-in-the-second-round-of-the-2026-portuguese-presidential-election-be-between-52-and-54",
+    "c": "Elections",
+    "r": 1770508800
+  },
+  "0x8413748c69bbf59d48533e19ad5928b297695656373878ca82ae4dd9a45dfcbf": {
+    "w": "NO",
+    "q": "Will Zelenskyy and Putin meet next in Switzerland?",
+    "s": "will-zelenskyy-and-putin-meet-next-in-switzerland",
+    "c": "World",
+    "r": 1759190400
+  },
+  "0x5b8cf0335e7a2113cbd450edbda3d42e57fe5d0e6c5471c936fdf8cff01cbaba": {
+    "w": "NO",
+    "q": "Will Revolut launch their own stablecoin in 2025?",
+    "s": "will-revolut-announce-the-launch-of-their-own-stablecoin-in-2025",
+    "c": "Tech & Announcements",
+    "r": 1767139200
+  },
+  "0x8fb6936ae7f5ee15170825aad109c9939f89bcd9922aa16cb1fb73e034259881": {
+    "w": "NO",
+    "q": "Masoud Pezeshkian out by April 30?",
+    "s": "masoud-pezeshkian-out-by-april-30-427",
+    "c": "Politics",
+    "r": 1777507200
+  },
+  "0xd99c3987d9b996667f9292dd57b6ab85fc23d517a567255a791b12ff2fd83699": {
+    "w": "NO",
+    "q": "Will Gagan Kumar Thapa be the next Prime Minister of Nepal?",
+    "s": "will-gagan-kumar-thapa-be-the-next-prime-minister-of-nepal",
+    "c": "Politics",
+    "r": 1772668800
+  },
+  "0x259d7f4a01e0c80487c2ce6e01dfc7b4df7932a48386be8314818a38daf01ef8": {
+    "w": "YES",
+    "q": "Will Trump say \"Globalist\" or \"Global\" during WEF Address on January 21?",
+    "s": "will-trump-say-globalist-or-global-during-wef-address-on-january-21",
+    "c": "Crypto Events",
+    "r": 1768953600
+  },
+  "0x79dded000a22579fb8246ddfdc704f276dc76c75f003803b189ba8058e693cfc": {
+    "w": "YES",
+    "q": "Will Iran take military action against a Gulf State on March 30, 2026?",
+    "s": "will-iran-take-military-action-against-a-gulf-state-on-march-30-2026",
+    "c": "Military & Defense",
+    "r": 1774915200
+  },
+  "0xc7628d43f0cd0e94ef4e0513c14d790c3e9ff54f078cfe517d8c19eaa900e82b": {
+    "w": "YES",
+    "q": "Will Zelenskyy attend the World Economic Forum?",
+    "s": "will-zelenskyy-attend-the-world-economic-forum",
+    "c": "Economics",
+    "r": 1769126400
+  },
+  "0xab3f883e652c8af0c89b5767a84fabea146ad781a68b35979f983d370fc42b8a": {
+    "w": "NO",
+    "q": "Will \"The Spongebob Movie: Search for SquarePants\" Opening Weekend Box Office be greater than 24m?",
+    "s": "will-the-spongebob-movie-search-for-squarepants-opening-weekend-box-office-be-greater-than-24m",
+    "c": "Culture",
+    "r": 1766361600
+  },
+  "0x76c0c20596c22e4699dcce0970e0bafed1ebe22026caf4626d7d9a49c3b3b6f9": {
+    "w": "YES",
+    "q": "Will Jacob Frey win the 2025 Minneapolis mayoral election?",
+    "s": "will-jacob-frey-win-the-2025-minneapolis-mayoral-election-419",
+    "c": "Elections",
+    "r": 1762214400
+  },
+  "0xc252e9bc09080c0a056c9aa4bd00ce5a8a261c61676cc96ffe84711d4c021977": {
+    "w": "NO",
+    "q": "Hamas leadership out of Qatar before Trump in office?",
+    "s": "hamas-out-of-qatar-before-trump-in-office",
+    "c": "Politics",
+    "r": 1737244800
+  },
+  "0x66a86bed2460bb982e1a9a22d111b08bea41349423ef9e8669570e488cf96de0": {
+    "w": "NO",
+    "q": "Will Trump impose 25% tariff on Mexico or Canada before February?",
+    "s": "will-trump-impose-25-tariff-on-mexicocanada",
+    "c": "Legal & Regulatory",
+    "r": 1738281600
+  },
+  "0xde507497bdd5d63090dfd8e6e29167216c66576bf8d029d87c99bef4e357c696": {
+    "w": "NO",
+    "q": "Fed decreases interest rates by 75+ bps after December 2024 meeting?",
+    "s": "fed-decreases-interest-rates-by-75-bps-after-december-2024-meeting",
+    "c": "Economics",
+    "r": 1734480000
+  },
+  "0x81dc62c84e8f1d9f2cfd4ca576bf0d5ef27d39e0bcf7b12f115a9064ed0c15de": {
+    "w": "NO",
+    "q": "Will Rick Scott be the next Senate Majority Leader?",
+    "s": "will-rick-scott-be-the-next-senate-majority-leader",
+    "c": "Politics",
+    "r": 1751241600
+  },
+  "0xce4529f541a972c181cacaa172b49df58bc3f44cc4c0089d1a2767c7caa0d325": {
+    "w": "NO",
+    "q": "Will Iran strike gulf oil facilities in October?",
+    "s": "will-iran-strike-gulf-oil-facilities-in-october",
+    "c": "World",
+    "r": 1730332800
+  },
+  "0x4f50e8f1136652009ae5c499dfe4252bdd1c806884f8bee72b65346a5b513372": {
+    "w": "NO",
+    "q": "Will Trump say \"border\" 30 or more times during New York rally on October 27?",
+    "s": "will-trump-say-border-30-or-more-times-during-new-york-rally-on-october-27",
+    "c": "World",
+    "r": 1729987200
+  },
+  "0xfa2b0ab5e7778d211a3a6c02c0e799c8dbab32ac6487e59c1e2bff87f0dcb1cd": {
+    "w": "NO",
+    "q": "Will Rosen Plevneliev win the next Bulgarian presidential election?",
+    "s": "will-rosen-plevneliev-win-the-next-bulgarian-presidential-election",
+    "c": "Elections",
+    "r": 1795996800
+  },
+  "0x1ca279b0cc1f024a50e099c80fa1dcb3cd905571375919940b62ea864270022e": {
+    "w": "YES",
+    "q": "Will Kathy Hochul win the 2026 New York Democratic Gubernatorial Primary?",
+    "s": "will-kathy-hochul-win-the-2026-new-york-democratic-gubernatorial-primary",
+    "c": "Military & Defense",
+    "r": 1782172800
+  },
+  "0xb25f40bb52538e79ce94a4173681f2b8f603548e4d83b78c0c5a561d504da67c": {
+    "w": "NO",
+    "q": "Will Hibachi launch a token by June 30, 2026?",
+    "s": "will-hibachi-launch-a-token-by-june-30-2026",
+    "c": "Tech & Announcements",
+    "r": 1798779600
+  },
+  "0x74be00a0d42fca6cbb0f586877774e07c970303e71d803ebfc72a14c5b111f79": {
+    "w": "NO",
+    "q": "Will Yanaki Stoilov win the next Bulgarian presidential election?",
+    "s": "will-yanaki-stoilov-win-the-next-bulgarian-presidential-election",
+    "c": "Elections",
+    "r": 1795996800
+  },
+  "0x6861edbc232cbfb41a299ab4590f571a93a8ab38831467a274ab062a725abfbe": {
+    "w": "NO",
+    "q": "Will Boyko Borissov win the next Bulgarian presidential election?",
+    "s": "will-boyko-borissov-win-the-next-bulgarian-presidential-election",
+    "c": "Elections",
+    "r": 1795996800
+  },
+  "0x7b08f49204307abd96b3eefdc61d680f7d7b77e7a95ada1421497c0c590122b5": {
+    "w": "NO",
+    "q": "Will Natalia Kiselova win the next Bulgarian presidential election?",
+    "s": "will-natalia-kiselova-win-the-next-bulgarian-presidential-election",
+    "c": "Elections",
+    "r": 1795996800
+  },
+  "0x01b9734b91a56ced583a0c7c570a45fe16ffb53176318ecadb0eb522b908e1a4": {
+    "w": "NO",
+    "q": "Will Blagomir Kotsev win the next Bulgarian presidential election?",
+    "s": "will-blagomir-kotsev-win-the-next-bulgarian-presidential-election",
+    "c": "Elections",
+    "r": 1795996800
+  },
+  "0xe20cc3b63541fcf928da9137d47537396b479eeb4185b38a427b03f616a805f0": {
+    "w": "NO",
+    "q": "Will Atanas Atanasov win the next Bulgarian presidential election?",
+    "s": "will-atanas-atanasov-win-the-next-bulgarian-presidential-election",
+    "c": "Elections",
+    "r": 1795996800
+  },
+  "0x6d7a6033bf0ed7696c4aca9d3c2cee834a09b507b2e6542b35d58dd18ec58033": {
+    "w": "YES",
+    "q": "Will Trump say \"Maduro\" this week? (March 15)",
+    "s": "will-trump-say-maduro-this-week-march-15",
+    "c": "World",
+    "r": 1773532800
+  },
+  "0x7ba50f79e73433d09a479b62fec39a86f7807fc232e7854e73eccb969e97c149": {
+    "w": "NO",
+    "q": "Will Trump say \"MIGA\" or \"Make Iran Great Again\" this week? (March 15)",
+    "s": "will-trump-say-miga-or-make-iran-great-again-this-week-march-15",
+    "c": "World",
+    "r": 1773532800
+  },
+  "0x4b9c034001416a0870c00cebed00b7ff0ccb3e49b55fad78296dec3f8cb0ef06": {
+    "w": "YES",
+    "q": "Will Trump say \"Maduro\" this week? (March 8)",
+    "s": "will-trump-say-maduro-this-week-march-8",
+    "c": "World",
+    "r": 1772928000
+  },
+  "0x3e98b1cce4001e971c9b0500408e89e06dd75a1bf2c60e763d0e5f8464a9f6a1": {
+    "w": "NO",
+    "q": "Putin and Zelenskyy shake hands in 2025?",
+    "s": "putin-and-zelenskyy-shake-hands-by-october-31",
+    "c": "World",
+    "r": 1767139200
+  },
+  "0x43d659f9113f849d7248498e2a28b1c8a277e10a5ba70d66b829692d22ccb1a7": {
+    "w": "NO",
+    "q": "Will Trump announce TikTok deal by Thursday?",
+    "s": "will-trump-announce-tiktok-deal-by-thursday",
+    "c": "Tech & Announcements",
+    "r": 1761782400
+  },
+  "0x517d97c0e577d07f9ae2fd32e8d2b67a9dbfb9c9c13b64d60284fc002abb717f": {
+    "w": "YES",
+    "q": "Will Trump agree to a tariff agreement with China in August?",
+    "s": "will-trump-agree-to-a-tariff-agreement-with-china-in-august",
+    "c": "Legal & Regulatory",
+    "r": 1756598400
+  },
+  "0xc6af29e79897695d62009ad9796cd607c12ddf2941bea5e5e553c74e31368dcf": {
+    "w": "NO",
+    "q": "Will Trump remove 10% blanket tariff in 2025?",
+    "s": "will-trump-remove-10-blanket-tariff-in-2025",
+    "c": "Legal & Regulatory",
+    "r": 1767139200
+  },
+  "0xff978244225c5ae27bd68ae7f03a40bea88581f5f119fcbce5eed17ee858908b": {
+    "w": "YES",
+    "q": "US-China tariff agreement before 90 day deadline?",
+    "s": "us-china-tariff-agreement-before-90-day-deadline",
+    "c": "Legal & Regulatory",
+    "r": 1754956800
+  },
+  "0x1474ce0666ae6d2e97042fd74a74fe2475d18b420ba969a8493ef253bd64dd57": {
+    "w": "YES",
+    "q": "Thailand x Cambodia ceasefire by July 31?",
+    "s": "thailand-x-cambodia-ceasefire-by-july-31",
+    "c": "Military & Defense",
+    "r": 1753920000
+  },
+  "0xea287e997529a5975acd567a8cde1d7205a47246a543ffeec92c21192f13d475": {
+    "w": "NO",
+    "q": "Thailand x Cambodia ceasefire by Sunday, July 27?",
+    "s": "thailand-x-cambodia-ceasefire-by-sunday-july-27",
+    "c": "Military & Defense",
+    "r": 1753574400
+  },
+  "0x806cb995b14a4e91d15e8c644862e868a696c334d429c36889e05d926108dbce": {
+    "w": "NO",
+    "q": "30% EU tariff in effect by August 1?",
+    "s": "30-eu-tariff-in-effect-by-august-1",
+    "c": "Legal & Regulatory",
+    "r": 1754006400
+  },
+  "0x663377b78ec981e428ffd0b9add02b23ef535d0894d5cc99303b9f565dde2ada": {
+    "w": "NO",
+    "q": "25% Japan tariff in effect by August 1?",
+    "s": "25-japan-tariff-in-effect-by-august-1",
+    "c": "Legal & Regulatory",
+    "r": 1754006400
+  },
+  "0x06299ab06a783225946e405af4b684da640df545e6e2e5864ae9d76d9847f704": {
+    "w": "YES",
+    "q": "Israel x Iran ceasefire before July 15?",
+    "s": "israel-x-iran-ceasefire-before-july-15",
+    "c": "Military & Defense",
+    "r": 1752537600
+  },
+  "0xe2d37c04daaab16fb7234c36e4fa14bfe1080cf3cf6c799ec03af6b019996d8f": {
+    "w": "NO",
+    "q": "Will Nithya Raman win the first round of the 2026 Los Angeles Mayoral Election?",
+    "s": "will-nithya-raman-win-the-first-round-of-the-2026-los-angeles-mayoral-election",
+    "c": "Elections",
+    "r": 1780358400
+  },
+  "0xcff21408bae4d1c6f2a293c097404979f083d2948af2fb09cf64efb0bbca6bb5": {
+    "w": "NO",
+    "q": "Will Effie Phillips-Staley be the Democratic nominee for NY-17?",
+    "s": "will-effie-phillips-staley-be-the-democratic-nominee-for-ny-17",
+    "c": "Politics",
+    "r": 1782172800
+  },
+  "0x5a2dbd21dc5562742d20b78ffae2d0ee6b942d212b4a5ff8f264c887b880e413": {
+    "w": "NO",
+    "q": "Will Bernie Sanders be the 2028 Democratic Vice-Presidential nominee?",
+    "s": "will-bernie-sanders-be-the-2028-democratic-vice-presidential-nominee",
+    "c": "Politics",
+    "r": 1849478400
+  },
+  "0x744f442de356db04289d1b027065533e28f34f243c7504ce8274980f4568a4da": {
+    "w": "NO",
+    "q": "Will LeBron James be the 2028 Democratic Vice-Presidential nominee?",
+    "s": "will-lebron-james-be-the-2028-democratic-vice-presidential-nominee",
+    "c": "Politics",
+    "r": 1849478400
+  },
+  "0xe1e8c14ce0fd88cc326e63af4006e13b98b94d376f24d5c3009021f9bca5458e": {
+    "w": "NO",
+    "q": "Will Mike Pence announce a presidential run before 2027?",
+    "s": "will-mike-pence-announce-a-presidential-run-before-2027",
+    "c": "Politics",
+    "r": 1798675200
+  },
+  "0x13c466c5e7496d7b1c6d6117f83bf066d56ac28c4db7223b34c5bfe17c2db1b5": {
+    "w": "YES",
+    "q": "Will Warsh say \"FED\" during June Press Conference?",
+    "s": "will-warsh-say-fed-during-june-press-conference-20260608181156656",
+    "c": "Economics",
+    "r": 1781740800
+  },
+  "0x6c0b425903eab2fd17e3171fedb3fe557497de75a2da23dd2db21f2624e9b20a": {
+    "w": "NO",
+    "q": "Will Chip Keating win the 2026 Oklahoma Governor Republican primary election?",
+    "s": "will-chip-keating-win-the-2026-oklahoma-governor-republican-primary-election",
+    "c": "Elections",
+    "r": 1781568000
+  },
+  "0xf0ad4761171cfe3aa0b7911e77d508cbe25742c4bba813dc8cbda45c4e42379c": {
+    "w": "NO",
+    "q": "Will John Fetterman be the 2028 Democratic Vice-Presidential nominee?",
+    "s": "will-john-fetterman-be-the-2028-democratic-vice-presidential-nominee",
+    "c": "Politics",
+    "r": 1849478400
+  },
+  "0xd56bc3dbe780293f76d0c3c2d3c19bbb2607eda6701ac03ea537c8d9a0c6ce2a": {
+    "w": "NO",
+    "q": "Will Oprah Winfrey be the 2028 Democratic Vice-Presidential nominee?",
+    "s": "will-oprah-winfrey-be-the-2028-democratic-vice-presidential-nominee",
+    "c": "Politics",
+    "r": 1849478400
+  },
+  "0x29c903a636b7b4a8c7c0c9b0f28f7a5a64009160d86c3a1d3b7bccd938582c93": {
+    "w": "NO",
+    "q": "Will Liz Cheney be the 2028 Democratic Vice-Presidential nominee?",
+    "s": "will-liz-cheney-be-the-2028-democratic-vice-presidential-nominee",
+    "c": "Politics",
+    "r": 1849478400
+  },
+  "0x13e5de8d18ae2275809fd6c771fefb38cd2c1d2b2f334e8fb9961a0158a43cad": {
+    "w": "NO",
+    "q": "Will Elissa Slotkin win the 2028 Democratic vice-presidential nomination?",
+    "s": "will-elissa-slotkin-win-the-2028-democratic-vice-presidential-nomination",
+    "c": "Politics",
+    "r": 1849478400
+  },
+  "0xa5852c4aff3d295d0174683cbfff9853eef573adaa10113c4047043ad6dff14c": {
+    "w": "NO",
+    "q": "Will Dwayne 'The Rock' Johnson be the 2028 Democratic Vice-Presidential nominee?",
+    "s": "will-dwayne-the-rock-johnson-be-the-2028-democratic-vice-presidential-nominee",
+    "c": "Politics",
+    "r": 1849478400
+  },
+  "0xe164056224dce64487ffd5686783f0bd3b33fa4d1a7b19789b7f173c764c01ed": {
+    "w": "NO",
+    "q": "Will Rahm Emanuel be the 2028 Democratic Vice-Presidential nominee?",
+    "s": "will-rahm-emanuel-be-the-2028-democratic-vice-presidential-nominee",
+    "c": "Politics",
+    "r": 1849478400
   }
 }
