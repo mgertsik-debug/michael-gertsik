@@ -7499,9 +7499,9 @@
   "0x4366ce763418056042fff7c3eb7b49b01d64acbb8d67664de963ce87bbd233c3": {
     "w": "YES",
     "q": "Will the U.S. lift direct Iran OFAC sanctions by June 30, 2026?",
-    "s": "will-the-us-lift-direct-iran-ofac-sanctions-by-june-30-2026-171",
+    "s": "us-lifts-iran-ofac-sanctions-by",
     "c": "Military & Defense",
-    "r": 1782777600
+    "r": 1782144649
   },
   "0xd5637eb90bbff16379b6d87f6b4ac81cf5fbe9916a6c41b50d7d7dabef3cbc2b": {
     "w": "YES",
@@ -19765,7 +19765,7 @@
     "q": "Will Russia capture all of Hryshyne by June 30?",
     "s": "will-russia-capture-all-of-hryshyne-by",
     "c": "Military & Defense",
-    "r": 1782777600
+    "r": 1773479567
   },
   "0x9aa369619d83dde03b384844674fad655f92bab05b034a1c540e78d7f828a37b": {
     "w": "NO",
@@ -29759,9 +29759,9 @@
   "0xaa186ae56bf14e2d7832b894120b12196390648e69e85ade0bfa25dba707ad75": {
     "w": "NO",
     "q": "Will the U.S. lift direct Iran OFAC sanctions by May 31, 2026?",
-    "s": "will-the-us-lift-direct-iran-ofac-sanctions-by-may-31-2026",
+    "s": "us-lifts-iran-ofac-sanctions-by",
     "c": "Military & Defense",
-    "r": 1782777600
+    "r": 1780298300
   },
   "0x8ed9ef25fbd07f6447cf8677b825b333df5daf684c95cbea6570e079b952b642": {
     "w": "NO",
@@ -45635,9 +45635,9 @@
   "0xb396c97d5e2a9a32137cfa128567500faf4413579bfc7d5daf81b76e6cad2cd4": {
     "w": "NO",
     "q": "Will the U.S. lift direct Iran OFAC sanctions by June 17, 2026?",
-    "s": "will-the-us-lift-direct-iran-ofac-sanctions-by-june-17-2026",
+    "s": "us-lifts-iran-ofac-sanctions-by",
     "c": "Military & Defense",
-    "r": 1781654400
+    "r": 1781973769
   },
   "0x65b087ad150a6059e0465ffb4cc8dd01c03722a9da0b3c5c60483eef03ba6b2d": {
     "w": "NO",
@@ -56828,9 +56828,9 @@
   "0xc6fb640291bee85157870161d572995f6ca36da984a85d78f319fbb46c8d0ff4": {
     "w": "NO",
     "q": "Will the U.S. lift direct Iran OFAC sanctions by June 19, 2026?",
-    "s": "will-the-us-lift-direct-iran-ofac-sanctions-by-june-19-2026",
+    "s": "us-lifts-iran-ofac-sanctions-by",
     "c": "Military & Defense",
-    "r": 1781827200
+    "r": 1782151457
   },
   "0xc86c5273f31102ed867a2a3171acb80e45111a8c409dd61c03a3681dcc8eeb4e": {
     "w": "NO",
@@ -74009,5 +74009,47 @@
     "s": "will-rahm-emanuel-be-the-2028-democratic-vice-presidential-nominee",
     "c": "Politics",
     "r": 1849478400
+  },
+  "0x39cc82d6ac8e7252b0f1f6bf2ed7a3bd32412e6312705aa3f460ed3f716a629b": {
+    "w": "NO",
+    "q": "Will the U.S. lift direct Iran OFAC sanctions by June 15, 2026?",
+    "s": "us-lifts-iran-ofac-sanctions-by",
+    "c": "Military & Defense",
+    "r": 1781888761
+  },
+  "0xaba4bb720c6c1b2e48087f5af4a57fd1e9f05814a936e9f6b1c37f10436a34fc": {
+    "w": "NO",
+    "q": "Will François Asselineau win the 2027 French presidential election?",
+    "s": "will-franois-asselineau-win-the-2027-french-presidential-election",
+    "c": "Elections",
+    "r": 1809043200
+  },
+  "0x290b3a5826b17e48ae7166b188767d95df5a9ed0b69fda116d98d0d27d753281": {
+    "w": "NO",
+    "q": "Will Éric Zemmour win the 2027 French presidential election?",
+    "s": "will-ric-zemmour-win-the-2027-french-presidential-election",
+    "c": "Elections",
+    "r": 1809043200
+  },
+  "0x0b298ab2b2cad3308d486c804985c1ede7ea949bde363f44784a3b2a460be788": {
+    "w": "NO",
+    "q": "Will Élisabeth Borne win the 2027 French presidential election?",
+    "s": "will-lisabeth-borne-win-the-2027-french-presidential-election",
+    "c": "Elections",
+    "r": 1809043200
+  },
+  "0x3b51eb6137b7691f7ef6cb9cbdd19bde90bfc7fb047bf50827bb7b7895a3a120": {
+    "w": "NO",
+    "q": "Bank of Japan decreases interest rates after January 2026 meeting?",
+    "s": "bank-of-japan-decreases-interest-rates-after-january-2026-meeting",
+    "c": "Economics",
+    "r": 1769126400
+  },
+  "0x34ed4ad7a7825f168e1084f53e8f60a161579d783b2740e50aa52f710925a136": {
+    "w": "NO",
+    "q": "Will Ségolène Royal win the 2027 French presidential election?",
+    "s": "will-sgolne-royal-win-the-2027-french-presidential-election",
+    "c": "Elections",
+    "r": 1809043200
   }
 }
