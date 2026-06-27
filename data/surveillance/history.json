@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-27T16:46:56.776Z",
+  "updatedAt": "2026-06-27T18:02:22.613Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-2354012",
+      "ts": "18:02 UTC",
+      "platform": "polymarket",
+      "market": "Israel x Hezbollah permanent peace deal by June 30, 2026?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "54 · Elevated",
+      "index": 54,
+      "url": "https://polymarket.com/event/israel-x-hezbollah-permanent-peace-deal-by",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-27T18:02:22.613Z"
+    },
     {
       "id": "pm-1250809",
       "ts": "06:34 UTC",
