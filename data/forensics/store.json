@@ -332,8 +332,8 @@
       "_tradedCount": 36,
       "wins": 9,
       "expectedWins": 2.28,
-      "percentile": 99.949,
-      "percentileN": 3926,
+      "percentile": 99.95,
+      "percentileN": 4031,
       "volumeNum": 220778,
       "volume": "$221K",
       "lastActivity": "120 days ago",
@@ -832,8 +832,8 @@
       "_tradedCount": 125,
       "wins": 12,
       "expectedWins": 3.68,
-      "percentile": 99.924,
-      "percentileN": 3926,
+      "percentile": 99.926,
+      "percentileN": 4031,
       "volumeNum": 249063,
       "volume": "$249K",
       "lastActivity": "120 days ago",
@@ -1052,8 +1052,8 @@
       "_tradedCount": 6,
       "wins": 5,
       "expectedWins": 0.8,
-      "percentile": 99.898,
-      "percentileN": 3926,
+      "percentile": 99.901,
+      "percentileN": 4031,
       "volumeNum": 9534,
       "volume": "$10K",
       "lastActivity": "120 days ago",
@@ -1291,8 +1291,8 @@
       "_tradedCount": 5,
       "wins": 5,
       "expectedWins": 0.95,
-      "percentile": 99.847,
-      "percentileN": 3926,
+      "percentile": 99.851,
+      "percentileN": 4031,
       "volumeNum": 7878,
       "volume": "$8K",
       "lastActivity": "120 days ago",
@@ -1847,8 +1847,8 @@
       "_tradedCount": 76,
       "wins": 12,
       "expectedWins": 4.16,
-      "percentile": 99.796,
-      "percentileN": 3926,
+      "percentile": 99.802,
+      "percentileN": 4031,
       "volumeNum": 123780,
       "volume": "$124K",
       "lastActivity": "9 days ago",
@@ -2408,8 +2408,8 @@
       "_tradedCount": 66,
       "wins": 12,
       "expectedWins": 4.5,
-      "percentile": 99.771,
-      "percentileN": 3926,
+      "percentile": 99.777,
+      "percentileN": 4031,
       "volumeNum": 1122996,
       "volume": "$1.1M",
       "lastActivity": "120 days ago",
@@ -3454,8 +3454,8 @@
       "_tradedCount": 77,
       "wins": 12,
       "expectedWins": 4.44,
-      "percentile": 99.694,
-      "percentileN": 3926,
+      "percentile": 99.702,
+      "percentileN": 4031,
       "volumeNum": 10780617,
       "volume": "$10.8M",
       "lastActivity": "121 days ago",
@@ -3671,7 +3671,7 @@
         "resolution": 0.92,
         "candidates": []
       },
-      "activityDays": 111,
+      "activityDays": 112,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "flagged-bets",
       "harvardScore": 219.2,
@@ -3696,11 +3696,11 @@
       "_tradedCount": 204,
       "wins": 7,
       "expectedWins": 2.16,
-      "percentile": 99.669,
-      "percentileN": 3926,
+      "percentile": 99.677,
+      "percentileN": 4031,
       "volumeNum": 682511,
       "volume": "$683K",
-      "lastActivity": "111 days ago",
+      "lastActivity": "112 days ago",
       "firstFlaggedAt": 1782517850,
       "newlyFlagged": true,
       "archived": false
@@ -3969,8 +3969,8 @@
       "_tradedCount": 5,
       "wins": 4,
       "expectedWins": 0.65,
-      "percentile": 99.542,
-      "percentileN": 3926,
+      "percentile": 99.553,
+      "percentileN": 4031,
       "volumeNum": 247245,
       "volume": "$247K",
       "lastActivity": "120 days ago",
@@ -5113,8 +5113,8 @@
           "txFull": "0x02578fbee3915832d9be7658fd8bf540dbfca621a2194cc25ada6b57d45ace65"
         },
         {
-          "market": "(market)",
-          "url": null,
+          "market": "Will no one dissent the June Fed decision?",
+          "url": "https://polymarket.com/event/will-no-one-dissent-the-june-fed-decision",
           "entryTime": "May 01 2026",
           "ts": 1777639878,
           "odds": 20,
@@ -5253,8 +5253,8 @@
       "_tradedCount": 2330,
       "wins": 23,
       "expectedWins": 12.41,
-      "percentile": 99.516,
-      "percentileN": 3926,
+      "percentile": 99.529,
+      "percentileN": 4031,
       "volumeNum": 2505462,
       "volume": "$2.5M",
       "lastActivity": "100 days ago",
@@ -5528,8 +5528,8 @@
       "_tradedCount": 15,
       "wins": 4,
       "expectedWins": 0.8,
-      "percentile": 99.389,
-      "percentileN": 3926,
+      "percentile": 99.405,
+      "percentileN": 4031,
       "volumeNum": 775878,
       "volume": "$776K",
       "lastActivity": "120 days ago",
@@ -6588,8 +6588,8 @@
       "_tradedCount": 489,
       "wins": 17,
       "expectedWins": 8.48,
-      "percentile": 99.312,
-      "percentileN": 3926,
+      "percentile": 99.33,
+      "percentileN": 4031,
       "volumeNum": 8879290,
       "volume": "$8.9M",
       "lastActivity": "4 days ago",
@@ -7131,8 +7131,8 @@
       "_tradedCount": 55,
       "wins": 9,
       "expectedWins": 3.25,
-      "percentile": 99.287,
-      "percentileN": 3926,
+      "percentile": 99.305,
+      "percentileN": 4031,
       "volumeNum": 5921133,
       "volume": "$5.9M",
       "lastActivity": "66 days ago",
@@ -7413,8 +7413,8 @@
       "_tradedCount": 7,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 99.185,
-      "percentileN": 3926,
+      "percentile": 99.206,
+      "percentileN": 4031,
       "volumeNum": 592373,
       "volume": "$592K",
       "lastActivity": "120 days ago",
@@ -7899,8 +7899,8 @@
       "_tradedCount": 179,
       "wins": 9,
       "expectedWins": 3.6,
-      "percentile": 99.134,
-      "percentileN": 3926,
+      "percentile": 99.157,
+      "percentileN": 4031,
       "volumeNum": 2136297,
       "volume": "$2.1M",
       "lastActivity": "111 days ago",
@@ -8800,8 +8800,8 @@
       "_tradedCount": 72,
       "wins": 17,
       "expectedWins": 9.18,
-      "percentile": 99.083,
-      "percentileN": 3926,
+      "percentile": 99.107,
+      "percentileN": 4031,
       "volumeNum": 2045021,
       "volume": "$2M",
       "lastActivity": "today",
@@ -9583,8 +9583,8 @@
       "_tradedCount": 1506,
       "wins": 10,
       "expectedWins": 3.96,
-      "percentile": 99.058,
-      "percentileN": 3926,
+      "percentile": 99.082,
+      "percentileN": 4031,
       "volumeNum": 10803703,
       "volume": "$10.8M",
       "lastActivity": "10 days ago",
@@ -10515,8 +10515,8 @@
       "_tradedCount": 1947,
       "wins": 10,
       "expectedWins": 4.18,
-      "percentile": 98.981,
-      "percentileN": 3926,
+      "percentile": 99.008,
+      "percentileN": 4031,
       "volumeNum": 20798535,
       "volume": "$20.8M",
       "lastActivity": "13 days ago",
@@ -10783,8 +10783,8 @@
       "_tradedCount": 9,
       "wins": 4,
       "expectedWins": 0.88,
-      "percentile": 98.956,
-      "percentileN": 3926,
+      "percentile": 98.983,
+      "percentileN": 4031,
       "volumeNum": 433538,
       "volume": "$434K",
       "lastActivity": "120 days ago",
@@ -11034,8 +11034,8 @@
       "_tradedCount": 58,
       "wins": 3,
       "expectedWins": 0.45,
-      "percentile": 98.905,
-      "percentileN": 3926,
+      "percentile": 98.933,
+      "percentileN": 4031,
       "volumeNum": 411414,
       "volume": "$411K",
       "lastActivity": "89 days ago",
@@ -11394,8 +11394,8 @@
       "_tradedCount": 12,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 98.803,
-      "percentileN": 3926,
+      "percentile": 98.834,
+      "percentileN": 4031,
       "volumeNum": 264618,
       "volume": "$265K",
       "lastActivity": "120 days ago",
@@ -11735,8 +11735,8 @@
       "_tradedCount": 15,
       "wins": 5,
       "expectedWins": 1.43,
-      "percentile": 98.752,
-      "percentileN": 3926,
+      "percentile": 98.784,
+      "percentileN": 4031,
       "volumeNum": 769043,
       "volume": "$769K",
       "lastActivity": "120 days ago",
@@ -12037,8 +12037,8 @@
       "_tradedCount": 361,
       "wins": 5,
       "expectedWins": 1.6,
-      "percentile": 98.599,
-      "percentileN": 3926,
+      "percentile": 98.636,
+      "percentileN": 4031,
       "volumeNum": 21551157,
       "volume": "$21.6M",
       "lastActivity": "27 days ago",
@@ -12332,13 +12332,13 @@
       "_tradedCount": 14,
       "wins": 4,
       "expectedWins": 0.99,
-      "percentile": 98.523,
-      "percentileN": 3926,
+      "percentile": 98.561,
+      "percentileN": 4031,
       "volumeNum": 320169,
       "volume": "$320K",
       "lastActivity": "82 days ago",
       "firstFlaggedAt": 1782497210,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -12561,7 +12561,7 @@
         "resolution": 0.92,
         "candidates": []
       },
-      "activityDays": 1,
+      "activityDays": 2,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "flagged-bets",
       "harvardScore": 0,
@@ -12574,11 +12574,11 @@
       "_tradedCount": 4,
       "wins": 3,
       "expectedWins": 0.28,
-      "percentile": 91.696,
-      "percentileN": 3926,
+      "percentile": 91.813,
+      "percentileN": 4031,
       "volumeNum": 484417,
       "volume": "$484K",
-      "lastActivity": "today",
+      "lastActivity": "2 days ago",
       "firstFlaggedAt": 1782517850,
       "newlyFlagged": true,
       "archived": false
@@ -13004,8 +13004,8 @@
       "_tradedCount": 612,
       "wins": 5,
       "expectedWins": 2.89,
-      "percentile": 89.429,
-      "percentileN": 3926,
+      "percentile": 89.606,
+      "percentileN": 4031,
       "volumeNum": 15796689,
       "volume": "$15.8M",
       "lastActivity": "123 days ago",
@@ -14064,8 +14064,8 @@
       "_tradedCount": 929,
       "wins": 4,
       "expectedWins": 5.7,
-      "percentile": 88.64,
-      "percentileN": 3926,
+      "percentile": 88.762,
+      "percentileN": 4031,
       "volumeNum": 60365929,
       "volume": "$60.4M",
       "lastActivity": "10 days ago",
@@ -16063,7 +16063,7 @@
           }
         ]
       },
-      "activityDays": 1,
+      "activityDays": 2,
       "confidenceLimiter": "common-ownership is inferred from funding heuristics, not confirmed identity",
       "profitSource": "flagged-bets",
       "harvardScore": 0,
@@ -16081,7 +16081,7 @@
       "percentile": 99.136,
       "volumeNum": 35715,
       "volume": "$36K",
-      "lastActivity": "today"
+      "lastActivity": "2 days ago"
     },
     {
       "id": "w26",
@@ -16273,8 +16273,8 @@
       "_tradedCount": 2,
       "wins": 1,
       "expectedWins": 0.24,
-      "percentile": 87.035,
-      "percentileN": 3926,
+      "percentile": 87.174,
+      "percentileN": 4031,
       "volumeNum": 1587379,
       "volume": "$1.6M",
       "lastActivity": "179 days ago",
@@ -16596,8 +16596,8 @@
       "_tradedCount": 14,
       "wins": 1,
       "expectedWins": 1.2,
-      "percentile": 87.035,
-      "percentileN": 3926,
+      "percentile": 87.174,
+      "percentileN": 4031,
       "volumeNum": 508341,
       "volume": "$508K",
       "lastActivity": "128 days ago",
@@ -16606,33 +16606,33 @@
       "archived": false
     }
   ],
-  "observed": 199718,
-  "reviewed": 199718,
-  "screened": 9558,
+  "observed": 199951,
+  "reviewed": 199951,
+  "screened": 9564,
   "totalFlaggedProfit": 5014218,
   "totalFlaggedProfitText": "$5.0M",
   "flaggedCount": 30,
-  "scored": 3926,
+  "scored": 4031,
   "harvardShadow": {
-    "total": 1893,
+    "total": 1890,
     "byTier": {
-      "extreme": 1661,
-      "high": 98,
+      "extreme": 1657,
+      "high": 99,
       "notable": 134
     },
-    "medianS": 2412.1,
-    "p90": 2859,
+    "medianS": 2413.6,
+    "p90": 2862.4,
     "p95": 3044.1,
     "p99": 3470.9,
     "minS": 91.1,
     "maxS": 4193.9,
-    "over500": 1682,
-    "alsoBinomial": 811,
-    "onlyHarvard": 1082,
-    "observed": 199718,
-    "reviewed": 199718,
-    "screened": 9558,
-    "scored": 3926,
+    "over500": 1679,
+    "alsoBinomial": 813,
+    "onlyHarvard": 1077,
+    "observed": 199951,
+    "reviewed": 199951,
+    "screened": 9564,
+    "scored": 4031,
     "top": [
       {
         "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
@@ -23887,26 +23887,26 @@
     ]
   },
   "meta": {
-    "observed": 199718,
-    "reviewed": 199718,
-    "screened": 9558,
-    "scored": 3926,
+    "observed": 199951,
+    "reviewed": 199951,
+    "screened": 9564,
+    "scored": 4031,
     "block": "",
     "snapshot": "Jun 26 2026",
     "recomputed": "Jun 27 2026"
   },
-  "generatedAt": "2026-06-27T18:13:12.688Z",
+  "generatedAt": "2026-06-27T19:54:05.614Z",
   "coverageByCategory": {
-    "Politics": 1798,
-    "Military & Defense": 1790,
-    "Economics": 453,
-    "Culture": 923,
-    "Elections": 1628,
-    "Legal & Regulatory": 490,
-    "Tech & Announcements": 1067,
-    "Corporate & M&A": 558,
-    "Crypto Events": 292,
-    "World": 1580
+    "Politics": 1816,
+    "Military & Defense": 1808,
+    "Economics": 468,
+    "Culture": 1040,
+    "Elections": 1697,
+    "Legal & Regulatory": 507,
+    "Tech & Announcements": 1087,
+    "Corporate & M&A": 570,
+    "Crypto Events": 299,
+    "World": 1622
   },
   "surpriseMarkets": [
     {
@@ -24965,15 +24965,120 @@
     {
       "hub": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
       "hubLabel": null,
-      "size": 34,
-      "seedFrom": "0x1abe1368601330a310162064e04d3c2628cb6497",
-      "ts": 1782583449,
+      "size": 50,
+      "seedFrom": "0x29a271bbe0467538520eaa71881f214a21f6a0b1",
+      "ts": 1782589499,
       "flaggedCount": 1,
       "members": [
         {
-          "addr": "0x1abe1368601330a310162064e04d3c2628cb6497",
+          "addr": "0x29a271bbe0467538520eaa71881f214a21f6a0b1",
           "flagged": true,
           "tier": "watch"
+        },
+        {
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x365e12b47919b0e3bcf1c8cc3ecd8fb88b80560f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4d96190e8d0487d019987cd9df34dd51f617037f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc69b076626ae65cfdce0de5f6a7caad60cb7b0fc",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x01a23b7408650ba910b11740a814071e57fbfbe3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x37943881b103619b62c1b8f28da55e7cdd755547",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x01a4333b6acb5091cf0219646f35e289546f4656",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd63bba35211f27acc4b73c1007605b245537f257",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6734c8996ffe57b39b4fb2176e532173a2b3e241",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc5d563a36ae78145c45a50134d48a1215220f80a",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd91e80cf2e7be2e162c6513ced06f1dd0da35296",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd42f6a1634a3707e27cbae14ca966068e5d1047d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8698edbefd013db6d087e3d09eefa08e40bc35c1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3cf3e8d5427aed066a7a5926980600f6c3cf87b3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf1bb700a67e3e8a45dc8160a92f4e0405f41bf09",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea03437374e2c315b492f056a7bfd9c910f10aa1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xabdee0c3a7eb10e912de90b22a624e6ec05bc098",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x46edb2757296060e2b875df0a4486f429707c273",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x081db59a44a05af758847948a133a403d09e8c34",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd3898862c6fe7cf5d9c5a8bf99192e068ad53495",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xca5224eb00880cfdf661b289fbdaf9ea26fd3963",
+          "flagged": false,
+          "tier": null
         },
         {
           "addr": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
@@ -25112,31 +25217,6 @@
         },
         {
           "addr": "0x03508bb71268bba25ecacc8f620e01866650532c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x61ef8643cd44c9d9cd9340e270bebe76b36b7775",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x47defa3cb35e4b5c30e4967ec37daebd43489b80",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4cd00e387622c35bddb9b4c962c136462338bc31",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xe3478b0bb1a5084567c319096437924948be1964",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
           "flagged": false,
           "tier": null
         }
@@ -25460,18 +25540,63 @@
     {
       "hub": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
       "hubLabel": null,
-      "size": 20,
-      "seedFrom": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
-      "ts": 1782583449,
+      "size": 21,
+      "seedFrom": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
+      "ts": 1782589499,
       "flaggedCount": 1,
       "members": [
         {
-          "addr": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
+          "addr": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
           "flagged": true,
-          "tier": "watch"
+          "tier": "elevated"
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
         },
         {
           "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
           "flagged": false,
           "tier": null
         },
@@ -25516,52 +25641,12 @@
           "tier": null
         },
         {
-          "addr": "0xf0fc40a635a907ac93924f2d8c36b3e87afef52e",
+          "addr": "0xb8fe807aa951e35af53fd0fee36abc303864ce76",
           "flagged": false,
           "tier": null
         },
         {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "addr": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
           "flagged": false,
           "tier": null
         }
