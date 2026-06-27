@@ -1,11 +1,11 @@
 {
   "generatedAt": "Jun 27 2026",
-  "snapshot": 1782411002,
-  "total": 1799,
+  "snapshot": 1782508571,
+  "total": 1800,
   "byTier": {
-    "extreme": 1585,
-    "high": 83,
-    "notable": 131
+    "extreme": 1584,
+    "high": 84,
+    "notable": 132
   },
   "medianS": 2452.5,
   "p90": 2867.6,
@@ -14,12 +14,12 @@
   "minS": 90.8,
   "maxS": 4193.9,
   "over500": 1604,
-  "alsoBinomial": 715,
-  "onlyHarvard": 1084,
-  "observed": 198984,
-  "reviewed": 198984,
+  "alsoBinomial": 705,
+  "onlyHarvard": 1095,
+  "observed": 199246,
+  "reviewed": 199246,
   "screened": 9414,
-  "scored": 3723,
+  "scored": 3847,
   "top": [
     {
       "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
@@ -3884,6 +3884,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x71751e45a2bcab921419777ac0a2070641ebae4e",
+      "username": "Tenk1994",
+      "tier": "extreme",
+      "S": 3363.9,
+      "market": "Nuclear weapon detonation by June 30?",
+      "marketUrl": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
+      "episodeTx": "0xaced749857fe97152870c5dd74bbb3c7f806751e507a2ca96607207c6401b519",
+      "stake": 19721,
+      "odds": 91,
+      "won": true,
+      "episodeProfit": 1979,
+      "zBetCross": 16.99,
+      "zBetWithin": 4.35,
+      "zProfitCross": 11.73,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 3115,
+      "firstSeen": "Feb 20 2026",
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 21,
+      "ledger": [
+        {
+          "market": "Nuclear weapon detonation by June 30?",
+          "url": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
+          "ts": 1772460719,
+          "odds": 91,
+          "stake": 19721,
+          "pl": 1979,
+          "won": true,
+          "tx": "0xaced749857fe97152870c5dd74bbb3c7f806751e507a2ca96607207c6401b519"
+        },
+        {
+          "market": "Nuclear weapon detonation by March 31?",
+          "url": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
+          "ts": 1772548683,
+          "odds": 94,
+          "stake": 1036,
+          "pl": 64,
+          "won": true,
+          "tx": "0xed51e8c210f2e09e58d183e1a63adba759cc59db418b7069b115888464c6b067"
+        },
+        {
+          "market": "Will Romeu Zema win the 2026 Brazilian presidential election?",
+          "url": "https://polymarket.com/event/will-romeu-zema-win-the-2026-brazilian-presidential-election",
+          "ts": 1779109345,
+          "odds": 95,
+          "stake": 949,
+          "pl": 51,
+          "won": true,
+          "tx": "0x8a5f9c83af01175d1471707a2a0cdb2cacfa00d8bfb898edba96fc21b41255c7"
+        },
+        {
+          "market": "Will Fernando Haddad win the 2026 Brazilian presidential election?",
+          "url": "https://polymarket.com/event/will-fernando-haddad-win-the-2026-brazilian-presidential-election",
+          "ts": 1779308128,
+          "odds": 95,
+          "stake": 285,
+          "pl": 15,
+          "won": true,
+          "tx": "0x0c181b6906776c2ea3f100d5141d5aac4c9311ffafcd650f5092411f5199d26f"
+        },
+        {
+          "market": "Will Michelle Bolsonaro win the 2026 Brazilian presidential election?",
+          "url": "https://polymarket.com/event/will-michelle-bolsonaro-win-the-2026-brazilian-presidential-election",
+          "ts": 1779370781,
+          "odds": 95,
+          "stake": 143,
+          "pl": 8,
+          "won": true,
+          "tx": "0xcfb6ba5947543751ee1cf59f99dd626fb4db6771cec046190517ab89c2fd5a9d"
+        },
+        {
+          "market": "Will Ivan Cepeda Castro win the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/will-ivan-cepeda-castro-win-the-2026-colombian-presidential-election",
+          "ts": 1779030394,
+          "odds": 42,
+          "stake": 63,
+          "pl": -63,
+          "won": false,
+          "tx": "0xe65465e4ec8ec6dd2478106db852d12d567d02007c93518f3bcd19b563860ed8"
+        },
+        {
+          "market": "Will Abelardo de la Espriella  win the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/will-abelardo-de-la-espriella-win-the-2026-colombian-presidential-election",
+          "ts": 1779030557,
+          "odds": 44,
+          "stake": 44,
+          "pl": 56,
+          "won": true,
+          "tx": "0x813a6f5015ec72c762153dc72ac5c72e3a631e3ac8c91f3f2882a6effaec5661"
+        },
+        {
+          "market": "Will IR Iran vs. New Zealand end in a draw?",
+          "url": "https://polymarket.com/event/fifwc-irn-nzl-2026-06-15-draw",
+          "ts": 1781573079,
+          "odds": 30,
+          "stake": 30,
+          "pl": 70,
+          "won": true,
+          "tx": "0xde64ec1f89964a448c0bc13e780b8fb9bcccd1c23f36bd84dd020b9f6f617377"
+        },
+        {
+          "market": "Will Russia capture Rodynske by March 31?",
+          "url": "https://polymarket.com/event/will-russia-capture-rodynske-by-march-31",
+          "ts": 1773320271,
+          "odds": 71,
+          "stake": 21,
+          "pl": -21,
+          "won": false,
+          "tx": "0xfa74616cc901feca3e0062386be17358e88054bf462b3384a2373f15dd3bdcef"
+        },
+        {
+          "market": "US-Iran nuclear deal by April 30?",
+          "url": "https://polymarket.com/event/us-iran-nuclear-deal-by-april-30",
+          "ts": 1776658604,
+          "odds": 66,
+          "stake": 20,
+          "pl": 10,
+          "won": true,
+          "tx": "0x4a2468119c007464ecc0b298df0b81563f133c3b2bea7cc5688658b97b64f066"
+        },
+        {
+          "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by April 30, 2026?",
+          "url": "https://polymarket.com/event/trump-announces-us-blockade-of-hormuz-lifted-by",
+          "ts": 1777124586,
+          "odds": 79,
+          "stake": 16,
+          "pl": 4,
+          "won": true,
+          "tx": "0xfce7402552a129b5eeb249d7f926147bf04f62d2c35b9396bbcf37d4e06448fd"
+        },
+        {
+          "market": "Will Belgium vs. IR Iran end in a draw?",
+          "url": "https://polymarket.com/event/fifwc-bel-irn-2026-06-21-draw",
+          "ts": 1782050788,
+          "odds": 20,
+          "stake": 11,
+          "pl": 44,
+          "won": true,
+          "tx": "0x38ccec036d74ee5a00c7de03fcae1cb72d3475f6a613079ac2a6dca0ad9289fb"
+        },
+        {
+          "market": "Will Ryan Coogler win Best Director at the 98th Academy Awards?",
+          "url": "https://polymarket.com/event/will-ryan-coogler-win-best-director-at-the-98th-academy-awards",
+          "ts": 1773621575,
+          "odds": 5,
+          "stake": 10,
+          "pl": -10,
+          "won": false,
+          "tx": "0x7b5a31fad9d865443d4b58fb316a99511e5b2ea228549f853aeead6a5b82cd13"
+        },
+        {
+          "market": "Will Paloma Valencia win the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/will-paloma-valencia-win-the-2026-colombian-presidential-election",
+          "ts": 1779030405,
+          "odds": 84,
+          "stake": 8,
+          "pl": 2,
+          "won": true,
+          "tx": "0xe9b51b7943e00a16ff3a849aed81537df7b510b3f75c432a72a256734182c841"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x84571f1bf97a5c710cbe51daff2dd4556cc887fd",
       "username": "ZhangMuZhi..",
       "tier": "extreme",
@@ -5879,42 +6045,6 @@
           "pl": 1001,
           "won": true,
           "tx": "0xdae66d780acc9ac2d90f9ae73fb4268e200a37fe7addaea960a4b9f7c650e02b"
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
-      "address": "0x71751e45a2bcab921419777ac0a2070641ebae4e",
-      "username": null,
-      "tier": "extreme",
-      "S": 3276.8,
-      "market": "Nuclear weapon detonation by June 30?",
-      "marketUrl": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
-      "episodeTx": "0xaced749857fe97152870c5dd74bbb3c7f806751e507a2ca96607207c6401b519",
-      "stake": 19721,
-      "odds": 91,
-      "won": true,
-      "episodeProfit": 1979,
-      "zBetCross": 16.99,
-      "zBetWithin": 0,
-      "zProfitCross": 11.73,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 1,
-      "ledger": [
-        {
-          "market": "Nuclear weapon detonation by June 30?",
-          "url": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
-          "ts": 1772460719,
-          "odds": 91,
-          "stake": 19721,
-          "pl": 1979,
-          "won": true,
-          "tx": "0xaced749857fe97152870c5dd74bbb3c7f806751e507a2ca96607207c6401b519"
         }
       ],
       "alsoBinomial": false
