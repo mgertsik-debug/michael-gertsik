@@ -1,6 +1,6 @@
 {
   "generatedAt": "Jun 27 2026",
-  "count": 13,
+  "count": 14,
   "rejected": [
     {
       "address": "0xbb917b91d7c946d5898f19ab6865e27f850cb15e",
@@ -72,13 +72,19 @@
       "address": "0x7b02b2bac2a30ed5e40b7094e734f4c3dc2a4991",
       "id": null,
       "tier": "elevated",
-      "reason": "net unprofitable (informed trading is profitable; profit=-43889)"
+      "reason": "net unprofitable (informed trading is profitable; profit=-44199)"
     },
     {
       "address": "0x4b2d0bbb55b0f92e30edbf2e5f944b089a6af0d4",
       "id": null,
       "tier": "watch",
       "reason": "net unprofitable (informed trading is profitable; profit=-159245)"
+    },
+    {
+      "address": "0x9bd74f5f970fe3d3c5e747fabcdc025fa47796d3",
+      "id": null,
+      "tier": "elevated",
+      "reason": "below net-profit floor (profit=$441 < $5000)"
     }
   ]
 }
