@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-28T18:18:10.034Z",
+  "updatedAt": "2026-06-28T19:54:01.914Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-680919",
+      "ts": "19:54 UTC",
+      "platform": "polymarket",
+      "market": "Aleksandar Vučić out as Serbian President by June 30, 2026?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "52 · Elevated",
+      "index": 52,
+      "url": "https://polymarket.com/event/aleksandar-vui-out-as-serbian-president-by",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-28T19:54:01.914Z"
+    },
     {
       "id": "pm-703257",
       "ts": "12:09 UTC",
