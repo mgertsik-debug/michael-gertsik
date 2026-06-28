@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-28T22:14:35.349Z",
+  "updatedAt": "2026-06-28T23:32:13.337Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-693485",
+      "ts": "23:32 UTC",
+      "platform": "polymarket",
+      "market": "Will Lebanon recognize Israel by June 30?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "54 · Elevated",
+      "index": 54,
+      "url": "https://polymarket.com/event/which-countries-will-recognize-israel-by-june-30",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-28T23:32:13.337Z"
+    },
     {
       "id": "pm-680919",
       "ts": "19:54 UTC",
