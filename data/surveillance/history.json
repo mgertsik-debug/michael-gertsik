@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-28T10:39:41.113Z",
+  "updatedAt": "2026-06-28T12:09:15.602Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-703257",
+      "ts": "12:09 UTC",
+      "platform": "polymarket",
+      "market": "Will the US confirm that aliens exist before 2027?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "52 · Elevated",
+      "index": 52,
+      "url": "https://polymarket.com/event/will-the-us-confirm-that-aliens-exist-before-2027",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-28T12:09:15.602Z"
+    },
     {
       "id": "pm-2643399",
       "ts": "08:21 UTC",
