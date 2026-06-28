@@ -332,8 +332,8 @@
       "_tradedCount": 36,
       "wins": 9,
       "expectedWins": 2.28,
-      "percentile": 99.957,
-      "percentileN": 4635,
+      "percentile": 99.958,
+      "percentileN": 4793,
       "volumeNum": 220778,
       "volume": "$221K",
       "lastActivity": "121 days ago",
@@ -832,8 +832,8 @@
       "_tradedCount": 125,
       "wins": 12,
       "expectedWins": 3.68,
-      "percentile": 99.935,
-      "percentileN": 4635,
+      "percentile": 99.937,
+      "percentileN": 4793,
       "volumeNum": 249063,
       "volume": "$249K",
       "lastActivity": "120 days ago",
@@ -1052,13 +1052,263 @@
       "_tradedCount": 6,
       "wins": 5,
       "expectedWins": 0.8,
-      "percentile": 99.914,
-      "percentileN": 4635,
+      "percentile": 99.917,
+      "percentileN": 4793,
       "volumeNum": 9534,
       "volume": "$10K",
       "lastActivity": "121 days ago",
       "firstFlaggedAt": 1782517850,
       "newlyFlagged": false,
+      "archived": false
+    },
+    {
+      "id": "w8022",
+      "type": "wallet",
+      "address": "0x471e0c5b510dbf6b2570f0fab275321074bde6dd",
+      "memberAddresses": [
+        "0x471e0c5b510dbf6b2570f0fab275321074bde6dd"
+      ],
+      "idLabel": "0x47…e6dd",
+      "username": "0x471E0c5b510DBF6B2570F0fAB275321074BDE6DD-1771240504029",
+      "created": "Feb 16 2026",
+      "createdOnChain": true,
+      "firstSeen": "Feb 16 2026",
+      "category": "Politics",
+      "marketsCount": 5,
+      "tier": "watch",
+      "improbText": "1 in 5.3K",
+      "improbDenom": 5266,
+      "improbFull": "1 in 5.3 thousand",
+      "convictionFlag": false,
+      "convBet": null,
+      "full": true,
+      "winRate": 100,
+      "avgImplied": 18,
+      "profit": "$36K",
+      "fired": [
+        "won",
+        "fresh",
+        "concentration"
+      ],
+      "contributions": {
+        "won": 68,
+        "fresh": 17,
+        "concentration": 15
+      },
+      "agreeing": 2,
+      "refId": "WF-2026-021",
+      "cexChips": [],
+      "heroSentence": "This account won 5 of 5 long-shot bets that the market gave roughly a 18 percent chance. By luck you would expect about 0.9 wins. A record this strong is consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "fresh",
+          "metric": "0h old",
+          "method": "account-age check",
+          "formula": "age = first bet block − funding block",
+          "numbers": "Account first bet ~0h after funding, with no prior transactions — a purpose-built wallet.",
+          "inputs": [
+            [
+              "age",
+              "0 h"
+            ],
+            [
+              "prior_tx",
+              "0"
+            ]
+          ]
+        },
+        {
+          "key": "won",
+          "metric": "100% vs 18%",
+          "method": "luck probability",
+          "formula": "chance of ≥ 5 wins in 5 tries at 18% each",
+          "numbers": "Won 5 of 5 independent bets the market priced at ~18% — about 0.9 expected by luck. Probability by chance ≈ 1 in 5.3K (3 correlated bets de-correlated).",
+          "inputs": [
+            [
+              "n",
+              "5 bets"
+            ],
+            [
+              "k",
+              "5 wins"
+            ],
+            [
+              "p",
+              "0.18"
+            ],
+            [
+              "E[X]",
+              "0.9 expected"
+            ],
+            [
+              "P",
+              "1 in 5.3K"
+            ]
+          ]
+        },
+        {
+          "key": "concentration",
+          "metric": "100% one-way",
+          "method": "directional concentration",
+          "formula": "max(YES, NO stake) ÷ total staked",
+          "numbers": "100% of $12,960 staked one direction (YES), 30% in a single event cluster — the un-hedged, single-thesis concentration of someone betting what they already know.",
+          "inputs": [
+            [
+              "one-way share",
+              "100%"
+            ]
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Will US or Israel strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "entryTime": "Feb 16 2026",
+          "ts": 1771247121,
+          "odds": 17,
+          "stakeNum": 2063,
+          "plNum": 9744,
+          "stake": "$2K",
+          "outcome": "Won",
+          "pl": "+$10K",
+          "tx": "0xdda8…",
+          "txFull": "0xdda8393ebd2c4aa951632a8f9cc7afe088b7897fa19fec2365c5f394cef1a499"
+        },
+        {
+          "market": "US x Iran ceasefire by April 30?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-30",
+          "entryTime": "Apr 01 2026",
+          "ts": 1775059121,
+          "odds": 29,
+          "stakeNum": 1500,
+          "plNum": 3681,
+          "stake": "$2K",
+          "outcome": "Won",
+          "pl": "+$4K",
+          "tx": "0xc888…",
+          "txFull": "0xc888d8143f05a8a60abc5e16d57f652d8e742c0209b7e88b8edb1da774997c80"
+        },
+        {
+          "market": "US x Iran ceasefire by April 7?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-7",
+          "entryTime": "Apr 01 2026",
+          "ts": 1775059023,
+          "odds": 5,
+          "stakeNum": 747,
+          "plNum": 13226,
+          "stake": "$747",
+          "outcome": "Won",
+          "pl": "+$13K",
+          "tx": "0x7080…",
+          "txFull": "0x70806c50685b03f4891632c0673d78c2a619049dcae2ba0182791465cf07a93b"
+        },
+        {
+          "market": "US strikes Iran by March 5, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772191461,
+          "odds": 30,
+          "stakeNum": 684,
+          "plNum": 1598,
+          "stake": "$684",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0x908b…",
+          "txFull": "0x908b866cf41c77c39c127ea1b4c8581b0993f3267e6dfc4dbc30707839fe6835"
+        },
+        {
+          "market": "US x Iran ceasefire by April 15?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-15",
+          "entryTime": "Apr 01 2026",
+          "ts": 1775059047,
+          "odds": 10,
+          "stakeNum": 663,
+          "plNum": 5917,
+          "stake": "$663",
+          "outcome": "Won",
+          "pl": "+$6K",
+          "tx": "0x2b2d…",
+          "txFull": "0x2b2df69794d2efb1b07eaea1b0bad3cd8711ba38727d17e6157d72fedcb2c4d8"
+        },
+        {
+          "market": "US strikes Iran by March 2, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772220845,
+          "odds": 27,
+          "stakeNum": 400,
+          "plNum": 1081,
+          "stake": "$400",
+          "outcome": "Won",
+          "pl": "+$1K",
+          "tx": "0x851c…",
+          "txFull": "0x851cd5ba6cfff705b909a6e67d0e700105f1669dadebc1fb2619e238097d3bad"
+        },
+        {
+          "market": "US strikes Iran by March 1, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772205265,
+          "odds": 27,
+          "stakeNum": 193,
+          "plNum": 522,
+          "stake": "$193",
+          "outcome": "Won",
+          "pl": "+$522",
+          "tx": "0x6d5d…",
+          "txFull": "0x6d5d6a3645e65eeecdaebbb64562634373ad428e15671ec3ded448ac72d30927"
+        },
+        {
+          "market": "US strikes Iran by March 3, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "entryTime": "Feb 27 2026",
+          "ts": 1772220875,
+          "odds": 29,
+          "stakeNum": 150,
+          "plNum": 367,
+          "stake": "$150",
+          "outcome": "Won",
+          "pl": "+$367",
+          "tx": "0xdde7…",
+          "txFull": "0xdde7f7fc40bc9ee3e51bdde52f1109d9b1d229ca847229290f47064183b5885e"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 5,
+        "winRate": 100,
+        "realized": "+$36K"
+      },
+      "timeline": {
+        "market": "Will US or Israel strike Iran by February 28, 2026?",
+        "priceStart": 0.1747297959095301,
+        "priceEnd": 0.95,
+        "entries": [
+          0.1747297959095301
+        ],
+        "resolution": 0.92,
+        "candidates": []
+      },
+      "activityDays": 121,
+      "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
+      "profitSource": "flagged-bets",
+      "harvardScore": 0,
+      "harvardTier": null,
+      "harvardWouldFlag": false,
+      "harvardEpisode": null,
+      "profitNum": 36136.54984433629,
+      "accountPnl": 22878,
+      "accountPnlText": "+$23K",
+      "_tradedCount": 13,
+      "wins": 5,
+      "expectedWins": 0.9,
+      "percentile": 99.896,
+      "percentileN": 4793,
+      "volumeNum": 85417,
+      "volume": "$85K",
+      "lastActivity": "121 days ago",
+      "firstFlaggedAt": 1782661803,
+      "newlyFlagged": true,
       "archived": false
     },
     {
@@ -1291,8 +1541,8 @@
       "_tradedCount": 5,
       "wins": 5,
       "expectedWins": 0.95,
-      "percentile": 99.871,
-      "percentileN": 4635,
+      "percentile": 99.854,
+      "percentileN": 4793,
       "volumeNum": 7878,
       "volume": "$8K",
       "lastActivity": "121 days ago",
@@ -1834,7 +2084,7 @@
         "resolution": 0.08,
         "candidates": []
       },
-      "activityDays": 9,
+      "activityDays": 10,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "flagged-bets",
       "harvardScore": 0,
@@ -1847,11 +2097,11 @@
       "_tradedCount": 76,
       "wins": 12,
       "expectedWins": 4.16,
-      "percentile": 99.806,
-      "percentileN": 4635,
+      "percentile": 99.791,
+      "percentileN": 4793,
       "volumeNum": 123780,
       "volume": "$124K",
-      "lastActivity": "9 days ago",
+      "lastActivity": "10 days ago",
       "firstFlaggedAt": 1782458295,
       "newlyFlagged": false,
       "archived": false
@@ -2191,8 +2441,8 @@
       "_tradedCount": 45,
       "wins": 6,
       "expectedWins": 1.36,
-      "percentile": 99.784,
-      "percentileN": 4635,
+      "percentile": 99.77,
+      "percentileN": 4793,
       "volumeNum": 731067,
       "volume": "$731K",
       "lastActivity": "121 days ago",
@@ -2739,7 +2989,7 @@
         "resolution": 0.92,
         "candidates": []
       },
-      "activityDays": 120,
+      "activityDays": 121,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "flagged-bets",
       "harvardScore": 0,
@@ -2752,11 +3002,11 @@
       "_tradedCount": 66,
       "wins": 12,
       "expectedWins": 4.5,
-      "percentile": 99.763,
-      "percentileN": 4635,
+      "percentile": 99.75,
+      "percentileN": 4793,
       "volumeNum": 1122996,
       "volume": "$1.1M",
-      "lastActivity": "120 days ago",
+      "lastActivity": "121 days ago",
       "firstFlaggedAt": 1782517850,
       "newlyFlagged": false,
       "archived": false
@@ -3798,8 +4048,8 @@
       "_tradedCount": 77,
       "wins": 12,
       "expectedWins": 4.44,
-      "percentile": 99.698,
-      "percentileN": 4635,
+      "percentile": 99.687,
+      "percentileN": 4793,
       "volumeNum": 10780617,
       "volume": "$10.8M",
       "lastActivity": "122 days ago",
@@ -4040,8 +4290,8 @@
       "_tradedCount": 204,
       "wins": 7,
       "expectedWins": 2.16,
-      "percentile": 99.655,
-      "percentileN": 4635,
+      "percentile": 99.645,
+      "percentileN": 4793,
       "volumeNum": 682511,
       "volume": "$683K",
       "lastActivity": "112 days ago",
@@ -4313,8 +4563,8 @@
       "_tradedCount": 5,
       "wins": 4,
       "expectedWins": 0.65,
-      "percentile": 99.547,
-      "percentileN": 4635,
+      "percentile": 99.541,
+      "percentileN": 4793,
       "volumeNum": 247245,
       "volume": "$247K",
       "lastActivity": "121 days ago",
@@ -4589,7 +4839,7 @@
       "wins": 4,
       "expectedWins": 0.8,
       "percentile": 99.374,
-      "percentileN": 4635,
+      "percentileN": 4793,
       "volumeNum": 775878,
       "volume": "$776K",
       "lastActivity": "121 days ago",
@@ -5648,8 +5898,8 @@
       "_tradedCount": 489,
       "wins": 17,
       "expectedWins": 8.48,
-      "percentile": 99.31,
-      "percentileN": 4635,
+      "percentile": 99.311,
+      "percentileN": 4793,
       "volumeNum": 8879290,
       "volume": "$8.9M",
       "lastActivity": "5 days ago",
@@ -6191,8 +6441,8 @@
       "_tradedCount": 55,
       "wins": 9,
       "expectedWins": 3.25,
-      "percentile": 99.288,
-      "percentileN": 4635,
+      "percentile": 99.291,
+      "percentileN": 4793,
       "volumeNum": 5921133,
       "volume": "$5.9M",
       "lastActivity": "67 days ago",
@@ -6698,8 +6948,8 @@
       "_tradedCount": 99,
       "wins": 8,
       "expectedWins": 3.04,
-      "percentile": 99.202,
-      "percentileN": 4635,
+      "percentile": 99.207,
+      "percentileN": 4793,
       "volumeNum": 4642341,
       "volume": "$4.6M",
       "lastActivity": "120 days ago",
@@ -6980,8 +7230,8 @@
       "_tradedCount": 7,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 99.18,
-      "percentileN": 4635,
+      "percentile": 99.186,
+      "percentileN": 4793,
       "volumeNum": 592373,
       "volume": "$592K",
       "lastActivity": "121 days ago",
@@ -7466,8 +7716,8 @@
       "_tradedCount": 179,
       "wins": 9,
       "expectedWins": 3.6,
-      "percentile": 99.137,
-      "percentileN": 4635,
+      "percentile": 99.145,
+      "percentileN": 4793,
       "volumeNum": 2136297,
       "volume": "$2.1M",
       "lastActivity": "112 days ago",
@@ -8367,8 +8617,8 @@
       "_tradedCount": 72,
       "wins": 17,
       "expectedWins": 9.18,
-      "percentile": 99.094,
-      "percentileN": 4635,
+      "percentile": 99.103,
+      "percentileN": 4793,
       "volumeNum": 2045021,
       "volume": "$2M",
       "lastActivity": "today",
@@ -8546,8 +8796,8 @@
           "txFull": "0x759b3901f35891f7f6a9d5a8a6089629467c61d4a76fefa0e92e584dd58928b8"
         },
         {
-          "market": "(market)",
-          "url": null,
+          "market": "Taiwan Presidential Election: Will Lai Ching-te win?",
+          "url": "https://polymarket.com/event/taiwan-presidential-election-will-lai-ching-te-win",
           "entryTime": "Dec 25 2023",
           "ts": 1703495241,
           "odds": 26,
@@ -11510,7 +11760,7 @@
         "resolution": 0.08,
         "candidates": []
       },
-      "activityDays": 13,
+      "activityDays": 0,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "flagged-bets",
       "harvardScore": 2399.8,
@@ -11535,11 +11785,11 @@
       "_tradedCount": 1947,
       "wins": 10,
       "expectedWins": 4.18,
-      "percentile": 99.029,
-      "percentileN": 4635,
+      "percentile": 99.04,
+      "percentileN": 4793,
       "volumeNum": 20798535,
       "volume": "$20.8M",
-      "lastActivity": "13 days ago",
+      "lastActivity": "today",
       "firstFlaggedAt": 1782458295,
       "newlyFlagged": false,
       "archived": false
@@ -11803,8 +12053,8 @@
       "_tradedCount": 9,
       "wins": 4,
       "expectedWins": 0.88,
-      "percentile": 99.008,
-      "percentileN": 4635,
+      "percentile": 99.019,
+      "percentileN": 4793,
       "volumeNum": 433538,
       "volume": "$434K",
       "lastActivity": "121 days ago",
@@ -12054,8 +12304,8 @@
       "_tradedCount": 58,
       "wins": 3,
       "expectedWins": 0.45,
-      "percentile": 98.964,
-      "percentileN": 4635,
+      "percentile": 98.978,
+      "percentileN": 4793,
       "volumeNum": 411414,
       "volume": "$411K",
       "lastActivity": "89 days ago",
@@ -12851,8 +13101,8 @@
       "_tradedCount": 1506,
       "wins": 10,
       "expectedWins": 4.44,
-      "percentile": 98.9,
-      "percentileN": 4635,
+      "percentile": 98.915,
+      "percentileN": 4793,
       "volumeNum": 10803703,
       "volume": "$10.8M",
       "lastActivity": "11 days ago",
@@ -13211,8 +13461,8 @@
       "_tradedCount": 12,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 98.857,
-      "percentileN": 4635,
+      "percentile": 98.873,
+      "percentileN": 4793,
       "volumeNum": 264618,
       "volume": "$265K",
       "lastActivity": "121 days ago",
@@ -13552,8 +13802,8 @@
       "_tradedCount": 15,
       "wins": 5,
       "expectedWins": 1.43,
-      "percentile": 98.813,
-      "percentileN": 4635,
+      "percentile": 98.832,
+      "percentileN": 4793,
       "volumeNum": 769043,
       "volume": "$769K",
       "lastActivity": "121 days ago",
@@ -13854,8 +14104,8 @@
       "_tradedCount": 361,
       "wins": 5,
       "expectedWins": 1.6,
-      "percentile": 98.662,
-      "percentileN": 4635,
+      "percentile": 98.686,
+      "percentileN": 4793,
       "volumeNum": 21551157,
       "volume": "$21.6M",
       "lastActivity": "28 days ago",
@@ -14149,8 +14399,8 @@
       "_tradedCount": 14,
       "wins": 4,
       "expectedWins": 0.99,
-      "percentile": 98.598,
-      "percentileN": 4635,
+      "percentile": 98.623,
+      "percentileN": 4793,
       "volumeNum": 320169,
       "volume": "$320K",
       "lastActivity": "83 days ago",
@@ -14391,8 +14641,8 @@
       "_tradedCount": 4,
       "wins": 3,
       "expectedWins": 0.28,
-      "percentile": 92.017,
-      "percentileN": 4635,
+      "percentile": 92.009,
+      "percentileN": 4793,
       "volumeNum": 484417,
       "volume": "$484K",
       "lastActivity": "2 days ago",
@@ -15497,8 +15747,8 @@
       "_tradedCount": 776,
       "wins": 11,
       "expectedWins": 6.88,
-      "percentile": 92.017,
-      "percentileN": 4635,
+      "percentile": 92.009,
+      "percentileN": 4793,
       "volumeNum": 27121419,
       "volume": "$27.1M",
       "lastActivity": "33 days ago",
@@ -15927,8 +16177,8 @@
       "_tradedCount": 612,
       "wins": 5,
       "expectedWins": 2.89,
-      "percentile": 89.709,
-      "percentileN": 4635,
+      "percentile": 89.756,
+      "percentileN": 4793,
       "volumeNum": 15796689,
       "volume": "$15.8M",
       "lastActivity": "124 days ago",
@@ -16987,8 +17237,8 @@
       "_tradedCount": 929,
       "wins": 4,
       "expectedWins": 5.7,
-      "percentile": 88.954,
-      "percentileN": 4635,
+      "percentile": 89.026,
+      "percentileN": 4793,
       "volumeNum": 60365929,
       "volume": "$60.4M",
       "lastActivity": "11 days ago",
@@ -17303,8 +17553,8 @@
       "_tradedCount": 15,
       "wins": 1,
       "expectedWins": 0.72,
-      "percentile": 88.954,
-      "percentileN": 4635,
+      "percentile": 89.026,
+      "percentileN": 4793,
       "volumeNum": 2508506,
       "volume": "$2.5M",
       "lastActivity": "122 days ago",
@@ -19499,7 +19749,7 @@
         "resolution": 0.92,
         "candidates": []
       },
-      "activityDays": 179,
+      "activityDays": 180,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "flagged-bets",
       "harvardScore": 0,
@@ -19512,11 +19762,11 @@
       "_tradedCount": 2,
       "wins": 1,
       "expectedWins": 0.24,
-      "percentile": 87.487,
-      "percentileN": 4635,
+      "percentile": 87.565,
+      "percentileN": 4793,
       "volumeNum": 1587379,
       "volume": "$1.6M",
-      "lastActivity": "179 days ago",
+      "lastActivity": "180 days ago",
       "firstFlaggedAt": 1782457184,
       "newlyFlagged": false,
       "archived": false
@@ -19835,8 +20085,8 @@
       "_tradedCount": 14,
       "wins": 1,
       "expectedWins": 1.2,
-      "percentile": 87.487,
-      "percentileN": 4635,
+      "percentile": 87.565,
+      "percentileN": 4793,
       "volumeNum": 508341,
       "volume": "$508K",
       "lastActivity": "129 days ago",
@@ -20412,8 +20662,8 @@
       "_tradedCount": 31,
       "wins": 2,
       "expectedWins": 0.6,
-      "percentile": 87.487,
-      "percentileN": 4635,
+      "percentile": 87.565,
+      "percentileN": 4793,
       "volumeNum": 7022986,
       "volume": "$7M",
       "lastActivity": "121 days ago",
@@ -20422,17 +20672,17 @@
       "archived": false
     }
   ],
-  "observed": 201755,
-  "reviewed": 201755,
+  "observed": 201966,
+  "reviewed": 201966,
   "screened": 9764,
-  "totalFlaggedProfit": 6403049,
+  "totalFlaggedProfit": 6439185,
   "totalFlaggedProfitText": "$6.4M",
-  "flaggedCount": 35,
-  "scored": 4635,
+  "flaggedCount": 36,
+  "scored": 4793,
   "harvardShadow": {
-    "total": 1929,
+    "total": 1927,
     "byTier": {
-      "extreme": 1693,
+      "extreme": 1691,
       "high": 105,
       "notable": 131
     },
@@ -20442,13 +20692,13 @@
     "p99": 3469.9,
     "minS": 91.1,
     "maxS": 4193.9,
-    "over500": 1714,
-    "alsoBinomial": 850,
-    "onlyHarvard": 1079,
-    "observed": 201755,
-    "reviewed": 201755,
+    "over500": 1712,
+    "alsoBinomial": 845,
+    "onlyHarvard": 1082,
+    "observed": 201966,
+    "reviewed": 201966,
     "screened": 9764,
-    "scored": 4635,
+    "scored": 4793,
     "top": [
       {
         "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
@@ -21272,9 +21522,9 @@
       },
       {
         "address": "0x00eca75f93d2dba8cd7c7e58cc1f0c26f1b78240",
-        "username": null,
+        "username": "fuxfux007",
         "tier": "extreme",
-        "S": 3871.1,
+        "S": 3861.5,
         "market": "US strikes Iran by March 2, 2026?",
         "marketUrl": "https://polymarket.com/event/us-strikes-iran-by",
         "episodeTx": "0x46ffc9bb1ac46b185440f716a3bb8b5cccbee46323a4dd46e415faa39bebfbbf",
@@ -21283,16 +21533,26 @@
         "won": true,
         "episodeProfit": 70802,
         "zBetCross": 18.83,
-        "zBetWithin": 0,
+        "zBetWithin": -0.48,
         "zProfitCross": 30.01,
         "lateBuyFraction": 1,
         "directionalScore": 1,
-        "accountPnl": null,
-        "firstSeen": null,
+        "accountPnl": -894233,
+        "firstSeen": "Jun 27 2025",
         "createdOnChain": false,
         "created": null,
-        "betsCount": 1,
+        "betsCount": 4,
         "ledger": [
+          {
+            "market": "Will Zohran Mamdani win the 2025 NYC mayoral election?",
+            "url": "https://polymarket.com/event/will-zohran-mamdani-win-the-2025-nyc-mayoral-election",
+            "ts": 1751044653,
+            "odds": 32,
+            "stake": 973855,
+            "pl": -973757,
+            "won": false,
+            "tx": "0x661455f88e42d691cb72c232485a482d2e30df237dd0eed1eac2b5b731961e52"
+          },
           {
             "market": "US strikes Iran by March 2, 2026?",
             "url": "https://polymarket.com/event/us-strikes-iran-by",
@@ -21302,6 +21562,26 @@
             "pl": 70802,
             "won": true,
             "tx": "0x46ffc9bb1ac46b185440f716a3bb8b5cccbee46323a4dd46e415faa39bebfbbf"
+          },
+          {
+            "market": "US strikes Iran by February 23, 2026?",
+            "url": "https://polymarket.com/event/us-strikes-iran-by",
+            "ts": 1771449158,
+            "odds": 23,
+            "stake": 15989,
+            "pl": -15989,
+            "won": false,
+            "tx": "0xe7447dd0d9ec5ccd8e14c570885b5e91f87dc46e0154ea0f09ba12a219537e54"
+          },
+          {
+            "market": "US strikes Iran by February 28, 2026?",
+            "url": "https://polymarket.com/event/us-strikes-iran-by",
+            "ts": 1772226437,
+            "odds": 17,
+            "stake": 5325,
+            "pl": 26710,
+            "won": true,
+            "tx": "0xcc52a6318ec1db81d7d6db41baf89a38d24e692891c79fd44c9057174b620b3e"
           }
         ],
         "alsoBinomial": true
@@ -28303,26 +28583,26 @@
     ]
   },
   "meta": {
-    "observed": 201755,
-    "reviewed": 201755,
+    "observed": 201966,
+    "reviewed": 201966,
     "screened": 9764,
-    "scored": 4635,
+    "scored": 4793,
     "block": "",
     "snapshot": "Jun 28 2026",
     "recomputed": "Jun 28 2026"
   },
-  "generatedAt": "2026-06-28T14:25:19.100Z",
+  "generatedAt": "2026-06-28T15:59:10.472Z",
   "coverageByCategory": {
-    "Politics": 1950,
-    "Military & Defense": 1949,
-    "Economics": 518,
-    "Culture": 1184,
-    "Elections": 1847,
-    "Legal & Regulatory": 586,
-    "Tech & Announcements": 1135,
-    "Corporate & M&A": 622,
-    "Crypto Events": 315,
-    "World": 1832
+    "Politics": 1971,
+    "Military & Defense": 1971,
+    "Economics": 528,
+    "Culture": 1208,
+    "Elections": 1859,
+    "Legal & Regulatory": 597,
+    "Tech & Announcements": 1145,
+    "Corporate & M&A": 630,
+    "Crypto Events": 319,
+    "World": 1864
   },
   "surpriseMarkets": [
     {
@@ -28343,6 +28623,126 @@
   ],
   "clusters": 2,
   "ringGroups": [
+    {
+      "hub": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+      "hubLabel": null,
+      "size": 22,
+      "seedFrom": "0x0ad7f1a66e6b6df6f5ea21852e0ff5d3ad878ad2",
+      "ts": 1782661803,
+      "flaggedCount": 2,
+      "members": [
+        {
+          "addr": "0x0ad7f1a66e6b6df6f5ea21852e0ff5d3ad878ad2",
+          "flagged": true,
+          "tier": "watch"
+        },
+        {
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x365e12b47919b0e3bcf1c8cc3ecd8fb88b80560f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4d96190e8d0487d019987cd9df34dd51f617037f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc69b076626ae65cfdce0de5f6a7caad60cb7b0fc",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x01a23b7408650ba910b11740a814071e57fbfbe3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x37943881b103619b62c1b8f28da55e7cdd755547",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x01a4333b6acb5091cf0219646f35e289546f4656",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd63bba35211f27acc4b73c1007605b245537f257",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6734c8996ffe57b39b4fb2176e532173a2b3e241",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0700cb9b2504c30c55273c323f67faaa23a3267b",
+          "flagged": true,
+          "tier": "watch"
+        },
+        {
+          "addr": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc5d563a36ae78145c45a50134d48a1215220f80a",
+          "flagged": false,
+          "tier": null
+        }
+      ]
+    },
     {
       "hub": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
       "hubLabel": null,
@@ -29383,7 +29783,7 @@
       "hubLabel": null,
       "size": 34,
       "seedFrom": "0x1abe1368601330a310162064e04d3c2628cb6497",
-      "ts": 1782656169,
+      "ts": 1782661803,
       "flaggedCount": 1,
       "members": [
         {
@@ -29739,121 +30139,11 @@
       ]
     },
     {
-      "hub": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
-      "hubLabel": null,
-      "size": 20,
-      "seedFrom": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
-      "ts": 1782656169,
-      "flaggedCount": 1,
-      "members": [
-        {
-          "addr": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
-          "flagged": true,
-          "tier": "watch"
-        },
-        {
-          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x365e12b47919b0e3bcf1c8cc3ecd8fb88b80560f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4d96190e8d0487d019987cd9df34dd51f617037f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc69b076626ae65cfdce0de5f6a7caad60cb7b0fc",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x01a23b7408650ba910b11740a814071e57fbfbe3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x37943881b103619b62c1b8f28da55e7cdd755547",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x01a4333b6acb5091cf0219646f35e289546f4656",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd63bba35211f27acc4b73c1007605b245537f257",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6734c8996ffe57b39b4fb2176e532173a2b3e241",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf0fc40a635a907ac93924f2d8c36b3e87afef52e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
-          "flagged": false,
-          "tier": null
-        }
-      ]
-    },
-    {
       "hub": "0xc5d563a36ae78145c45a50134d48a1215220f80a",
       "hubLabel": null,
-      "size": 17,
+      "size": 19,
       "seedFrom": "0x45b2cb2ae97f7dd81aa20058337a7a8b29b4cbc1",
-      "ts": 1782656169,
+      "ts": 1782661803,
       "flaggedCount": 1,
       "members": [
         {
@@ -29938,6 +30228,16 @@
         },
         {
           "addr": "0x48ecc049f171a8c7758e5d351e5f6c3c6df58f36",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xadb92aa4b2b227bc914a7f2177c168e83b8ef63d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
           "flagged": false,
           "tier": null
         }

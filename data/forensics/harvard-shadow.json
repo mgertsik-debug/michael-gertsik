@@ -1,9 +1,9 @@
 {
   "generatedAt": "Jun 28 2026",
   "snapshot": 1782628669,
-  "total": 1929,
+  "total": 1927,
   "byTier": {
-    "extreme": 1693,
+    "extreme": 1691,
     "high": 105,
     "notable": 131
   },
@@ -13,13 +13,13 @@
   "p99": 3469.9,
   "minS": 91.1,
   "maxS": 4193.9,
-  "over500": 1714,
-  "alsoBinomial": 850,
-  "onlyHarvard": 1079,
-  "observed": 201755,
-  "reviewed": 201755,
+  "over500": 1712,
+  "alsoBinomial": 845,
+  "onlyHarvard": 1082,
+  "observed": 201966,
+  "reviewed": 201966,
   "screened": 9764,
-  "scored": 4635,
+  "scored": 4793,
   "top": [
     {
       "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
@@ -843,9 +843,9 @@
     },
     {
       "address": "0x00eca75f93d2dba8cd7c7e58cc1f0c26f1b78240",
-      "username": null,
+      "username": "fuxfux007",
       "tier": "extreme",
-      "S": 3871.1,
+      "S": 3861.5,
       "market": "US strikes Iran by March 2, 2026?",
       "marketUrl": "https://polymarket.com/event/us-strikes-iran-by",
       "episodeTx": "0x46ffc9bb1ac46b185440f716a3bb8b5cccbee46323a4dd46e415faa39bebfbbf",
@@ -854,16 +854,26 @@
       "won": true,
       "episodeProfit": 70802,
       "zBetCross": 18.83,
-      "zBetWithin": 0,
+      "zBetWithin": -0.48,
       "zProfitCross": 30.01,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
+      "accountPnl": -894233,
+      "firstSeen": "Jun 27 2025",
       "createdOnChain": false,
       "created": null,
-      "betsCount": 1,
+      "betsCount": 4,
       "ledger": [
+        {
+          "market": "Will Zohran Mamdani win the 2025 NYC mayoral election?",
+          "url": "https://polymarket.com/event/will-zohran-mamdani-win-the-2025-nyc-mayoral-election",
+          "ts": 1751044653,
+          "odds": 32,
+          "stake": 973855,
+          "pl": -973757,
+          "won": false,
+          "tx": "0x661455f88e42d691cb72c232485a482d2e30df237dd0eed1eac2b5b731961e52"
+        },
         {
           "market": "US strikes Iran by March 2, 2026?",
           "url": "https://polymarket.com/event/us-strikes-iran-by",
@@ -873,6 +883,26 @@
           "pl": 70802,
           "won": true,
           "tx": "0x46ffc9bb1ac46b185440f716a3bb8b5cccbee46323a4dd46e415faa39bebfbbf"
+        },
+        {
+          "market": "US strikes Iran by February 23, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1771449158,
+          "odds": 23,
+          "stake": 15989,
+          "pl": -15989,
+          "won": false,
+          "tx": "0xe7447dd0d9ec5ccd8e14c570885b5e91f87dc46e0154ea0f09ba12a219537e54"
+        },
+        {
+          "market": "US strikes Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1772226437,
+          "odds": 17,
+          "stake": 5325,
+          "pl": 26710,
+          "won": true,
+          "tx": "0xcc52a6318ec1db81d7d6db41baf89a38d24e692891c79fd44c9057174b620b3e"
         }
       ],
       "alsoBinomial": true
