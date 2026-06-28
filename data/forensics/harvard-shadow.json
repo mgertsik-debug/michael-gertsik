@@ -3,23 +3,23 @@
   "snapshot": 1782628669,
   "total": 1927,
   "byTier": {
-    "extreme": 1691,
+    "extreme": 1692,
     "high": 105,
-    "notable": 131
+    "notable": 130
   },
-  "medianS": 2432.4,
+  "medianS": 2437.9,
   "p90": 2864.4,
   "p95": 3044.1,
   "p99": 3469.9,
   "minS": 91.1,
   "maxS": 4193.9,
-  "over500": 1712,
-  "alsoBinomial": 845,
-  "onlyHarvard": 1082,
-  "observed": 201966,
-  "reviewed": 201966,
-  "screened": 9764,
-  "scored": 4793,
+  "over500": 1713,
+  "alsoBinomial": 844,
+  "onlyHarvard": 1083,
+  "observed": 202173,
+  "reviewed": 202173,
+  "screened": 9765,
+  "scored": 4840,
   "top": [
     {
       "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
