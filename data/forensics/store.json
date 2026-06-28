@@ -332,13 +332,13 @@
       "_tradedCount": 36,
       "wins": 9,
       "expectedWins": 2.28,
-      "percentile": 99.953,
-      "percentileN": 4283,
+      "percentile": 99.954,
+      "percentileN": 4354,
       "volumeNum": 220778,
       "volume": "$221K",
       "lastActivity": "120 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -832,8 +832,8 @@
       "_tradedCount": 125,
       "wins": 12,
       "expectedWins": 3.68,
-      "percentile": 99.93,
-      "percentileN": 4283,
+      "percentile": 99.931,
+      "percentileN": 4354,
       "volumeNum": 249063,
       "volume": "$249K",
       "lastActivity": "120 days ago",
@@ -1052,13 +1052,13 @@
       "_tradedCount": 6,
       "wins": 5,
       "expectedWins": 0.8,
-      "percentile": 99.907,
-      "percentileN": 4283,
+      "percentile": 99.908,
+      "percentileN": 4354,
       "volumeNum": 9534,
       "volume": "$10K",
       "lastActivity": "120 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -1278,7 +1278,7 @@
         "resolution": 0.92,
         "candidates": []
       },
-      "activityDays": 120,
+      "activityDays": 121,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "flagged-bets",
       "harvardScore": 0,
@@ -1291,13 +1291,13 @@
       "_tradedCount": 5,
       "wins": 5,
       "expectedWins": 0.95,
-      "percentile": 99.86,
-      "percentileN": 4283,
+      "percentile": 99.862,
+      "percentileN": 4354,
       "volumeNum": 7878,
       "volume": "$8K",
-      "lastActivity": "120 days ago",
+      "lastActivity": "121 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -1847,8 +1847,8 @@
       "_tradedCount": 76,
       "wins": 12,
       "expectedWins": 4.16,
-      "percentile": 99.79,
-      "percentileN": 4283,
+      "percentile": 99.793,
+      "percentileN": 4354,
       "volumeNum": 123780,
       "volume": "$124K",
       "lastActivity": "9 days ago",
@@ -2408,13 +2408,13 @@
       "_tradedCount": 66,
       "wins": 12,
       "expectedWins": 4.5,
-      "percentile": 99.767,
-      "percentileN": 4283,
+      "percentile": 99.77,
+      "percentileN": 4354,
       "volumeNum": 1122996,
       "volume": "$1.1M",
       "lastActivity": "120 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -3454,13 +3454,13 @@
       "_tradedCount": 77,
       "wins": 12,
       "expectedWins": 4.44,
-      "percentile": 99.696,
-      "percentileN": 4283,
+      "percentile": 99.701,
+      "percentileN": 4354,
       "volumeNum": 10780617,
       "volume": "$10.8M",
       "lastActivity": "121 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -3696,13 +3696,13 @@
       "_tradedCount": 204,
       "wins": 7,
       "expectedWins": 2.16,
-      "percentile": 99.65,
-      "percentileN": 4283,
+      "percentile": 99.655,
+      "percentileN": 4354,
       "volumeNum": 682511,
       "volume": "$683K",
       "lastActivity": "112 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -3969,13 +3969,13 @@
       "_tradedCount": 5,
       "wins": 4,
       "expectedWins": 0.65,
-      "percentile": 99.533,
-      "percentileN": 4283,
+      "percentile": 99.541,
+      "percentileN": 4354,
       "volumeNum": 247245,
       "volume": "$247K",
       "lastActivity": "120 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -5253,13 +5253,13 @@
       "_tradedCount": 2330,
       "wins": 23,
       "expectedWins": 12.41,
-      "percentile": 99.463,
-      "percentileN": 4283,
+      "percentile": 99.472,
+      "percentileN": 4354,
       "volumeNum": 2505462,
       "volume": "$2.5M",
       "lastActivity": "100 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -5528,8 +5528,8 @@
       "_tradedCount": 15,
       "wins": 4,
       "expectedWins": 0.8,
-      "percentile": 99.346,
-      "percentileN": 4283,
+      "percentile": 99.357,
+      "percentileN": 4354,
       "volumeNum": 775878,
       "volume": "$776K",
       "lastActivity": "120 days ago",
@@ -6588,8 +6588,8 @@
       "_tradedCount": 489,
       "wins": 17,
       "expectedWins": 8.48,
-      "percentile": 99.276,
-      "percentileN": 4283,
+      "percentile": 99.288,
+      "percentileN": 4354,
       "volumeNum": 8879290,
       "volume": "$8.9M",
       "lastActivity": "4 days ago",
@@ -7118,7 +7118,7 @@
         "resolution": 0.08,
         "candidates": []
       },
-      "activityDays": 66,
+      "activityDays": 67,
       "confidenceLimiter": "the binomial test assumes each bet is an independent event; correlated events are de-correlated before scoring",
       "profitSource": "flagged-bets",
       "harvardScore": 0,
@@ -7131,13 +7131,13 @@
       "_tradedCount": 55,
       "wins": 9,
       "expectedWins": 3.25,
-      "percentile": 99.253,
-      "percentileN": 4283,
+      "percentile": 99.265,
+      "percentileN": 4354,
       "volumeNum": 5921133,
       "volume": "$5.9M",
-      "lastActivity": "66 days ago",
+      "lastActivity": "67 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -7163,7 +7163,7 @@
         "stake": 20075,
         "entryPct": 14,
         "payout": 143393,
-        "market": "Khamenei out as Supreme Leader of Iran by March 31?",
+        "market": "khamenei-out-as-supreme-leader-of-iran-by-march-31",
         "mult": 7.1
       },
       "full": true,
@@ -7638,8 +7638,8 @@
       "_tradedCount": 99,
       "wins": 8,
       "expectedWins": 3.04,
-      "percentile": 99.159,
-      "percentileN": 4283,
+      "percentile": 99.173,
+      "percentileN": 4354,
       "volumeNum": 4642341,
       "volume": "$4.6M",
       "lastActivity": "120 days ago",
@@ -7920,13 +7920,13 @@
       "_tradedCount": 7,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 99.136,
-      "percentileN": 4283,
+      "percentile": 99.15,
+      "percentileN": 4354,
       "volumeNum": 592373,
       "volume": "$592K",
       "lastActivity": "120 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -8406,13 +8406,13 @@
       "_tradedCount": 179,
       "wins": 9,
       "expectedWins": 3.6,
-      "percentile": 99.089,
-      "percentileN": 4283,
+      "percentile": 99.104,
+      "percentileN": 4354,
       "volumeNum": 2136297,
       "volume": "$2.1M",
       "lastActivity": "111 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -9307,13 +9307,13 @@
       "_tradedCount": 72,
       "wins": 17,
       "expectedWins": 9.18,
-      "percentile": 99.043,
-      "percentileN": 4283,
+      "percentile": 99.058,
+      "percentileN": 4354,
       "volumeNum": 2045021,
       "volume": "$2M",
       "lastActivity": "today",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -10239,8 +10239,8 @@
       "_tradedCount": 1947,
       "wins": 10,
       "expectedWins": 4.18,
-      "percentile": 98.973,
-      "percentileN": 4283,
+      "percentile": 98.989,
+      "percentileN": 4354,
       "volumeNum": 20798535,
       "volume": "$20.8M",
       "lastActivity": "13 days ago",
@@ -10507,13 +10507,13 @@
       "_tradedCount": 9,
       "wins": 4,
       "expectedWins": 0.88,
-      "percentile": 98.949,
-      "percentileN": 4283,
+      "percentile": 98.966,
+      "percentileN": 4354,
       "volumeNum": 433538,
       "volume": "$434K",
       "lastActivity": "120 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -10758,8 +10758,8 @@
       "_tradedCount": 58,
       "wins": 3,
       "expectedWins": 0.45,
-      "percentile": 98.903,
-      "percentileN": 4283,
+      "percentile": 98.921,
+      "percentileN": 4354,
       "volumeNum": 411414,
       "volume": "$411K",
       "lastActivity": "89 days ago",
@@ -11555,8 +11555,8 @@
       "_tradedCount": 1506,
       "wins": 10,
       "expectedWins": 4.44,
-      "percentile": 98.833,
-      "percentileN": 4283,
+      "percentile": 98.852,
+      "percentileN": 4354,
       "volumeNum": 10803703,
       "volume": "$10.8M",
       "lastActivity": "11 days ago",
@@ -11915,13 +11915,13 @@
       "_tradedCount": 12,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 98.786,
-      "percentileN": 4283,
+      "percentile": 98.806,
+      "percentileN": 4354,
       "volumeNum": 264618,
       "volume": "$265K",
       "lastActivity": "120 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -12256,13 +12256,13 @@
       "_tradedCount": 15,
       "wins": 5,
       "expectedWins": 1.43,
-      "percentile": 98.739,
-      "percentileN": 4283,
+      "percentile": 98.76,
+      "percentileN": 4354,
       "volumeNum": 769043,
       "volume": "$769K",
       "lastActivity": "120 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -12559,12 +12559,12 @@
       "wins": 5,
       "expectedWins": 1.6,
       "percentile": 98.599,
-      "percentileN": 4283,
+      "percentileN": 4354,
       "volumeNum": 21551157,
       "volume": "$21.6M",
       "lastActivity": "27 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -12853,8 +12853,8 @@
       "_tradedCount": 14,
       "wins": 4,
       "expectedWins": 0.99,
-      "percentile": 98.529,
-      "percentileN": 4283,
+      "percentile": 98.53,
+      "percentileN": 4354,
       "volumeNum": 320169,
       "volume": "$320K",
       "lastActivity": "82 days ago",
@@ -13095,13 +13095,13 @@
       "_tradedCount": 4,
       "wins": 3,
       "expectedWins": 0.28,
-      "percentile": 91.805,
-      "percentileN": 4283,
+      "percentile": 91.824,
+      "percentileN": 4354,
       "volumeNum": 484417,
       "volume": "$484K",
       "lastActivity": "2 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -13127,7 +13127,7 @@
         "stake": 21136,
         "entryPct": 7,
         "payout": 282331,
-        "market": "Russia x Ukraine ceasefire by May 31, 2026?",
+        "market": "russia-x-ukraine-ceasefire-by-may-31-2026",
         "mult": 13.4
       },
       "full": true,
@@ -13151,7 +13151,7 @@
       "agreeing": 5,
       "refId": "WF-2024-181",
       "cexChips": [],
-      "heroSentence": "This account placed a single $21K bet at roughly 16 percent on “Russia x Ukraine ceasefire by May 31, 2026?” and cashed out about $282K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
+      "heroSentence": "This account placed a single $21K bet at roughly 16 percent on “russia-x-ukraine-ceasefire-by-may-31-2026” and cashed out about $282K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
         {
           "key": "longshot",
@@ -13406,7 +13406,7 @@
         },
         {
           "market": "Will Gemini 3.0 be released by November 30?",
-          "url": "https://polymarket.com/event/gemini-3pt0-released-by",
+          "url": "https://polymarket.com/event/will-gemini-3pt0-be-released-by-november-30-643-555",
           "entryTime": "Oct 31 2025",
           "ts": 1761868800,
           "odds": 19,
@@ -13420,7 +13420,7 @@
         },
         {
           "market": "Will Heather Humphreys win the Irish Presidential Election?",
-          "url": "https://polymarket.com/event/ireland-presidential-election",
+          "url": "https://polymarket.com/event/will-heather-humphreys-win-the-irish-presidential-election",
           "entryTime": "Nov 11 2025",
           "ts": 1762819200,
           "odds": 10,
@@ -13490,7 +13490,7 @@
         },
         {
           "market": "No change in Fed interest rates after December 2025 meeting?",
-          "url": "https://polymarket.com/event/fed-decision-in-december",
+          "url": "https://polymarket.com/event/no-change-in-fed-interest-rates-after-december-2025-meeting",
           "entryTime": "Dec 10 2025",
           "ts": 1765324800,
           "odds": 27,
@@ -13602,7 +13602,7 @@
         },
         {
           "market": "Will Catherine Connolly win the Irish Presidential Election?",
-          "url": "https://polymarket.com/event/ireland-presidential-election",
+          "url": "https://polymarket.com/event/will-catherine-connolly-win-the-irish-presidential-election",
           "entryTime": "Nov 11 2025",
           "ts": 1762819200,
           "odds": 11,
@@ -13672,7 +13672,7 @@
         },
         {
           "market": "Will no Fed rate cuts happen in 2025?",
-          "url": "https://polymarket.com/event/how-many-fed-rate-cuts-in-2025",
+          "url": "https://polymarket.com/event/will-no-fed-rate-cuts-happen-in-2025",
           "entryTime": "Dec 10 2025",
           "ts": 1765324800,
           "odds": 11,
@@ -13770,7 +13770,7 @@
         },
         {
           "market": "Will Gemini 3.0 be released by November 22?",
-          "url": "https://polymarket.com/event/gemini-3pt0-released-by",
+          "url": "https://polymarket.com/event/will-gemini-3pt0-be-released-by-november-22-442",
           "entryTime": "Oct 31 2025",
           "ts": 1761868800,
           "odds": 25,
@@ -13896,7 +13896,7 @@
         },
         {
           "market": "Will 1 Fed rate cut happen in 2025?",
-          "url": "https://polymarket.com/event/how-many-fed-rate-cuts-in-2025",
+          "url": "https://polymarket.com/event/will-1-fed-rate-cut-happen-in-2025",
           "entryTime": "Dec 10 2025",
           "ts": 1765324800,
           "odds": 8,
@@ -13924,7 +13924,7 @@
         },
         {
           "market": "Will Anthropic have a #1 AI model this year?",
-          "url": "https://polymarket.com/event/which-companies-will-have-a-1-ai-model-this-year",
+          "url": "https://polymarket.com/event/will-anthropic-have-a-1-ai-model-this-year",
           "entryTime": "Dec 31 2025",
           "ts": 1767139200,
           "odds": 8,
@@ -13938,7 +13938,7 @@
         },
         {
           "market": "Will Anthropic have the best AI model at the end of November 2025?",
-          "url": "https://polymarket.com/event/which-company-has-best-ai-model-end-of-november",
+          "url": "https://polymarket.com/event/will-anthropic-have-the-best-ai-model-at-the-end-of-november-2025",
           "entryTime": "Nov 30 2025",
           "ts": 1764460800,
           "odds": 2,
@@ -13966,7 +13966,7 @@
         },
         {
           "market": "Will Trump pardon Waddle?",
-          "url": "https://polymarket.com/event/which-turkey-will-trump-pardon-874",
+          "url": "https://polymarket.com/event/will-trump-pardon-waddle-526",
           "entryTime": "Nov 25 2025",
           "ts": 1764028800,
           "odds": 32,
@@ -13994,7 +13994,7 @@
         },
         {
           "market": "Will Trump announce Kevin Hassett as next Fed Chair in 2025?",
-          "url": "https://polymarket.com/event/who-will-trump-announce-as-next-fed-chair",
+          "url": "https://polymarket.com/event/will-trump-announce-kevin-hassett-as-next-fed-chair-in-2025",
           "entryTime": "Dec 31 2025",
           "ts": 1767139200,
           "odds": 2,
@@ -14050,7 +14050,7 @@
         },
         {
           "market": "Fed decreases interest rates by 25 bps after December 2025 meeting?",
-          "url": "https://polymarket.com/event/fed-decision-in-december",
+          "url": "https://polymarket.com/event/fed-decreases-interest-rates-by-25-bps-after-december-2025-meeting",
           "entryTime": "Dec 10 2025",
           "ts": 1765324800,
           "odds": 21,
@@ -14063,8 +14063,8 @@
           "txFull": null
         },
         {
-          "market": "Will JLP (Jamaica Labour Party) win the most seats in the 2025 Jamaica House of Representatives election?",
-          "url": "https://polymarket.com/event/jamaica-house-of-representatives-election-winner",
+          "market": "(market)",
+          "url": null,
           "entryTime": "Sep 03 2025",
           "ts": 1756857600,
           "odds": 18,
@@ -14106,7 +14106,7 @@
         },
         {
           "market": "US x Venezuela military engagement by March 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by",
+          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by-march-31-2026-264-352-211-137-861-788-622-336-869-453",
           "entryTime": "Mar 31 2026",
           "ts": 1774915200,
           "odds": 30,
@@ -14120,7 +14120,7 @@
         },
         {
           "market": "Will 2 Fed rate cuts happen in 2025?",
-          "url": "https://polymarket.com/event/how-many-fed-rate-cuts-in-2025",
+          "url": "https://polymarket.com/event/will-2-fed-rate-cuts-happen-in-2025",
           "entryTime": "Dec 10 2025",
           "ts": 1765324800,
           "odds": 21,
@@ -14148,7 +14148,7 @@
         },
         {
           "market": "Will Zohran Mamdani win the 2025 NYC mayoral election?",
-          "url": "https://polymarket.com/event/new-york-city-mayoral-election",
+          "url": "https://polymarket.com/event/will-zohran-mamdani-win-the-2025-nyc-mayoral-election",
           "entryTime": "Nov 04 2025",
           "ts": 1762214400,
           "odds": 9,
@@ -14201,8 +14201,8 @@
       "_tradedCount": 776,
       "wins": 11,
       "expectedWins": 6.88,
-      "percentile": 91.805,
-      "percentileN": 4283,
+      "percentile": 91.824,
+      "percentileN": 4354,
       "volumeNum": 27121419,
       "volume": "$27.1M",
       "lastActivity": "32 days ago",
@@ -14631,8 +14631,8 @@
       "_tradedCount": 612,
       "wins": 5,
       "expectedWins": 2.89,
-      "percentile": 89.587,
-      "percentileN": 4283,
+      "percentile": 89.642,
+      "percentileN": 4354,
       "volumeNum": 15796689,
       "volume": "$15.8M",
       "lastActivity": "123 days ago",
@@ -15691,13 +15691,13 @@
       "_tradedCount": 929,
       "wins": 4,
       "expectedWins": 5.7,
-      "percentile": 88.793,
-      "percentileN": 4283,
+      "percentile": 88.861,
+      "percentileN": 4354,
       "volumeNum": 60365929,
       "volume": "$60.4M",
       "lastActivity": "10 days ago",
       "firstFlaggedAt": 1782517850,
-      "newlyFlagged": true,
+      "newlyFlagged": false,
       "archived": false
     },
     {
@@ -15723,7 +15723,7 @@
         "stake": 60828,
         "entryPct": 11,
         "payout": 560683,
-        "market": "US strikes Iran by February 28, 2026?",
+        "market": "us-strikes-iran-by",
         "mult": 9.2
       },
       "full": true,
@@ -15747,7 +15747,7 @@
       "agreeing": 5,
       "refId": "WF-2026-210",
       "cexChips": [],
-      "heroSentence": "This account placed a single $61K bet at roughly 12 percent on “US strikes Iran by February 28, 2026?” and cashed out about $561K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
+      "heroSentence": "This account placed a single $61K bet at roughly 12 percent on “us-strikes-iran-by” and cashed out about $561K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
         {
           "key": "longshot",
@@ -16007,8 +16007,8 @@
       "_tradedCount": 15,
       "wins": 1,
       "expectedWins": 0.72,
-      "percentile": 88.793,
-      "percentileN": 4283,
+      "percentile": 88.861,
+      "percentileN": 4354,
       "volumeNum": 2508506,
       "volume": "$2.5M",
       "lastActivity": "121 days ago",
@@ -18216,8 +18216,8 @@
       "_tradedCount": 2,
       "wins": 1,
       "expectedWins": 0.24,
-      "percentile": 87.275,
-      "percentileN": 4283,
+      "percentile": 87.368,
+      "percentileN": 4354,
       "volumeNum": 1587379,
       "volume": "$1.6M",
       "lastActivity": "179 days ago",
@@ -18539,8 +18539,8 @@
       "_tradedCount": 14,
       "wins": 1,
       "expectedWins": 1.2,
-      "percentile": 87.275,
-      "percentileN": 4283,
+      "percentile": 87.368,
+      "percentileN": 4354,
       "volumeNum": 508341,
       "volume": "$508K",
       "lastActivity": "128 days ago",
@@ -18549,13 +18549,13 @@
       "archived": false
     }
   ],
-  "observed": 200631,
-  "reviewed": 200631,
+  "observed": 200885,
+  "reviewed": 200885,
   "screened": 9640,
   "totalFlaggedProfit": 5791387,
   "totalFlaggedProfitText": "$5.8M",
   "flaggedCount": 33,
-  "scored": 4283,
+  "scored": 4354,
   "harvardShadow": {
     "total": 1917,
     "byTier": {
@@ -18570,12 +18570,12 @@
     "minS": 91.1,
     "maxS": 4193.9,
     "over500": 1703,
-    "alsoBinomial": 848,
-    "onlyHarvard": 1069,
-    "observed": 200631,
-    "reviewed": 200631,
+    "alsoBinomial": 851,
+    "onlyHarvard": 1066,
+    "observed": 200885,
+    "reviewed": 200885,
     "screened": 9640,
-    "scored": 4283,
+    "scored": 4354,
     "top": [
       {
         "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
@@ -21072,7 +21072,7 @@
           },
           {
             "market": "Israel x Iran ceasefire broken by March 31, 2026?",
-            "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by",
+            "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by-march-31-2026-312-682",
             "ts": 1774915200,
             "odds": 76,
             "stake": 17132,
@@ -24609,8 +24609,8 @@
             "tx": "0xaee152a1b6d3be2b8f1b267624d7e39ad0fb5617f1fe5e21d648bd7cde76d3f8"
           },
           {
-            "market": "Atalanta BC vs. BV Borussia 09 Dortmund: O/U 2.5",
-            "url": "https://polymarket.com/event/ucl-ata1-bvb-2026-02-25-more-markets",
+            "market": "0x0146a85efb30fb443f42ae7f5e82aebf050e43090ce7c09ec884d199b4d960bb",
+            "url": null,
             "ts": 1771977600,
             "odds": 41,
             "stake": 16948,
@@ -24619,8 +24619,8 @@
             "tx": null
           },
           {
-            "market": "Kraken vs. Blues",
-            "url": "https://polymarket.com/event/nhl-sea-stl-2026-02-26",
+            "market": "0x07506d2d78310c1c7bec51036eb713fc2d8536c7864ba9dda2428b1bcfe51684",
+            "url": null,
             "ts": 1772150400,
             "odds": 44,
             "stake": 3028,
@@ -24649,8 +24649,8 @@
             "tx": "0xbf19e38278f41af9d7c799257e2ea2dc8dd7a418c85162c3658d6b8316800d3e"
           },
           {
-            "market": "Avalanche vs. Senators",
-            "url": "https://polymarket.com/event/nhl-col-ott-2026-01-28",
+            "market": "0xf7bbc4932407cb372a2cad117c5e15a6d01b08a409a31058be5fd1b9d7720c76",
+            "url": null,
             "ts": 1769644800,
             "odds": 25,
             "stake": 2,
@@ -24659,8 +24659,8 @@
             "tx": null
           },
           {
-            "market": "Kraken vs. Ducks: O/U 6.5",
-            "url": "https://polymarket.com/event/nhl-sea-ana-2026-02-03",
+            "market": "0xd7f1459ab6735cd634789f7163a1a981e4476ccbb0d39355066145fe0ce217a3",
+            "url": null,
             "ts": 1770163200,
             "odds": 10,
             "stake": 1,
@@ -26430,26 +26430,26 @@
     ]
   },
   "meta": {
-    "observed": 200631,
-    "reviewed": 200631,
+    "observed": 200885,
+    "reviewed": 200885,
     "screened": 9640,
-    "scored": 4283,
+    "scored": 4354,
     "block": "",
     "snapshot": "Jun 26 2026",
-    "recomputed": "Jun 27 2026"
+    "recomputed": "Jun 28 2026"
   },
-  "generatedAt": "2026-06-27T23:12:13.498Z",
+  "generatedAt": "2026-06-28T00:23:52.763Z",
   "coverageByCategory": {
-    "Politics": 1863,
-    "Military & Defense": 1872,
-    "Economics": 493,
-    "Culture": 1082,
-    "Elections": 1762,
-    "Legal & Regulatory": 525,
-    "Tech & Announcements": 1102,
-    "Corporate & M&A": 593,
-    "Crypto Events": 303,
-    "World": 1734
+    "Politics": 1901,
+    "Military & Defense": 1907,
+    "Economics": 496,
+    "Culture": 1143,
+    "Elections": 1780,
+    "Legal & Regulatory": 532,
+    "Tech & Announcements": 1108,
+    "Corporate & M&A": 596,
+    "Crypto Events": 307,
+    "World": 1771
   },
   "surpriseMarkets": [
     {
@@ -27510,7 +27510,7 @@
       "hubLabel": null,
       "size": 34,
       "seedFrom": "0x1abe1368601330a310162064e04d3c2628cb6497",
-      "ts": 1782601381,
+      "ts": 1782605688,
       "flaggedCount": 1,
       "members": [
         {
@@ -28003,18 +28003,63 @@
     {
       "hub": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
       "hubLabel": null,
-      "size": 20,
-      "seedFrom": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
-      "ts": 1782601381,
+      "size": 21,
+      "seedFrom": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
+      "ts": 1782605688,
       "flaggedCount": 1,
       "members": [
         {
-          "addr": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
+          "addr": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
           "flagged": true,
-          "tier": "watch"
+          "tier": "elevated"
+        },
+        {
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
+          "flagged": false,
+          "tier": null
         },
         {
           "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
           "flagged": false,
           "tier": null
         },
@@ -28059,52 +28104,12 @@
           "tier": null
         },
         {
-          "addr": "0xf0fc40a635a907ac93924f2d8c36b3e87afef52e",
+          "addr": "0xb8fe807aa951e35af53fd0fee36abc303864ce76",
           "flagged": false,
           "tier": null
         },
         {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea5981ca48dc40c950fc1b2496c4a0ef900bb841",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x388911e52bb2eb440b9f03ed24bcef13c93e1499",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d337b38456ce815325e623ca2ab136b8fcb4414",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x56ac4f06c203d9dcfb1bc23a0ab06995de35de67",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x11fae40c66a22907a51c9b248e3dadd57e161f58",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x78f98638a1afd2dd94b3003d8d615ca219fe0dc6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0c192cec48ec514d152982ab18a663f146570b9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8208003b936d73694a90b2da579f85bfcf870cc1",
+          "addr": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
           "flagged": false,
           "tier": null
         }
@@ -28115,7 +28120,7 @@
       "hubLabel": null,
       "size": 12,
       "seedFrom": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
-      "ts": 1782596797,
+      "ts": 1782605688,
       "flaggedCount": 1,
       "members": [
         {

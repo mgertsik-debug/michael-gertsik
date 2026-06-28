@@ -1,5 +1,5 @@
 {
-  "generatedAt": "Jun 27 2026",
+  "generatedAt": "Jun 28 2026",
   "snapshot": 1782508571,
   "total": 1917,
   "byTier": {
@@ -14,12 +14,12 @@
   "minS": 91.1,
   "maxS": 4193.9,
   "over500": 1703,
-  "alsoBinomial": 848,
-  "onlyHarvard": 1069,
-  "observed": 200631,
-  "reviewed": 200631,
+  "alsoBinomial": 851,
+  "onlyHarvard": 1066,
+  "observed": 200885,
+  "reviewed": 200885,
   "screened": 9640,
-  "scored": 4283,
+  "scored": 4354,
   "top": [
     {
       "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
@@ -2516,7 +2516,7 @@
         },
         {
           "market": "Israel x Iran ceasefire broken by March 31, 2026?",
-          "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by",
+          "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by-march-31-2026-312-682",
           "ts": 1774915200,
           "odds": 76,
           "stake": 17132,
@@ -6053,8 +6053,8 @@
           "tx": "0xaee152a1b6d3be2b8f1b267624d7e39ad0fb5617f1fe5e21d648bd7cde76d3f8"
         },
         {
-          "market": "Atalanta BC vs. BV Borussia 09 Dortmund: O/U 2.5",
-          "url": "https://polymarket.com/event/ucl-ata1-bvb-2026-02-25-more-markets",
+          "market": "0x0146a85efb30fb443f42ae7f5e82aebf050e43090ce7c09ec884d199b4d960bb",
+          "url": null,
           "ts": 1771977600,
           "odds": 41,
           "stake": 16948,
@@ -6063,8 +6063,8 @@
           "tx": null
         },
         {
-          "market": "Kraken vs. Blues",
-          "url": "https://polymarket.com/event/nhl-sea-stl-2026-02-26",
+          "market": "0x07506d2d78310c1c7bec51036eb713fc2d8536c7864ba9dda2428b1bcfe51684",
+          "url": null,
           "ts": 1772150400,
           "odds": 44,
           "stake": 3028,
@@ -6093,8 +6093,8 @@
           "tx": "0xbf19e38278f41af9d7c799257e2ea2dc8dd7a418c85162c3658d6b8316800d3e"
         },
         {
-          "market": "Avalanche vs. Senators",
-          "url": "https://polymarket.com/event/nhl-col-ott-2026-01-28",
+          "market": "0xf7bbc4932407cb372a2cad117c5e15a6d01b08a409a31058be5fd1b9d7720c76",
+          "url": null,
           "ts": 1769644800,
           "odds": 25,
           "stake": 2,
@@ -6103,8 +6103,8 @@
           "tx": null
         },
         {
-          "market": "Kraken vs. Ducks: O/U 6.5",
-          "url": "https://polymarket.com/event/nhl-sea-ana-2026-02-03",
+          "market": "0xd7f1459ab6735cd634789f7163a1a981e4476ccbb0d39355066145fe0ce217a3",
+          "url": null,
           "ts": 1770163200,
           "odds": 10,
           "stake": 1,
