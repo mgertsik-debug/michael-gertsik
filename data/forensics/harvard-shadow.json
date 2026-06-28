@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 28 2026",
   "snapshot": 1782628669,
-  "total": 1994,
+  "total": 1996,
   "byTier": {
-    "extreme": 1732,
-    "high": 112,
-    "notable": 150
+    "extreme": 1734,
+    "high": 113,
+    "notable": 149
   },
-  "medianS": 2347.9,
+  "medianS": 2341.4,
   "p90": 2854.9,
   "p95": 3037.7,
   "p99": 3469.9,
   "minS": 90,
   "maxS": 4193.9,
-  "over500": 1754,
-  "alsoBinomial": 845,
-  "onlyHarvard": 1149,
-  "observed": 202653,
-  "reviewed": 202653,
-  "screened": 9840,
-  "scored": 5053,
+  "over500": 1757,
+  "alsoBinomial": 839,
+  "onlyHarvard": 1157,
+  "observed": 203058,
+  "reviewed": 203058,
+  "screened": 9841,
+  "scored": 5186,
   "top": [
     {
       "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
