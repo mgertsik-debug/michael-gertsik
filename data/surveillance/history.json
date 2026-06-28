@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-28T00:14:26.570Z",
+  "updatedAt": "2026-06-28T04:54:56.074Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-2683710",
+      "ts": "04:54 UTC",
+      "platform": "polymarket",
+      "market": "Strait of Hormuz traffic returns to normal by July 7?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "54 · Elevated",
+      "index": 54,
+      "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-july-7-20260625174256255",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-28T04:54:56.074Z"
+    },
     {
       "id": "pm-2374271",
       "ts": "21:46 UTC",
