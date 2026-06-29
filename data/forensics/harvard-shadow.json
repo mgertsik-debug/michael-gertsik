@@ -9,17 +9,17 @@
   },
   "medianS": 711.7,
   "p90": 1404.8,
-  "p95": 1569.8,
+  "p95": 1570.9,
   "p99": 1979.2,
   "minS": 533.3,
   "maxS": 1979.2,
   "over500": 90,
-  "alsoBinomial": 33,
-  "onlyHarvard": 57,
-  "observed": 203945,
-  "reviewed": 203945,
-  "screened": 9930,
-  "scored": 5402,
+  "alsoBinomial": 31,
+  "onlyHarvard": 59,
+  "observed": 204113,
+  "reviewed": 204113,
+  "screened": 9935,
+  "scored": 5511,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -189,7 +189,7 @@
     },
     {
       "address": "0x0b456320f37660a51bc582c9a9cfb26612bf2c71",
-      "username": null,
+      "username": "rickyspa",
       "tier": "extreme",
       "S": 1917.3,
       "market": "Will John Ternus be the next CEO of Apple?",
@@ -204,10 +204,10 @@
       "zProfitCross": 31.89,
       "lateBuyFraction": 0,
       "directionalScore": 0.087,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
+      "accountPnl": -160,
+      "firstSeen": "Jan 21 2026",
+      "createdOnChain": true,
+      "created": "Jan 21 2026",
       "betsCount": 2,
       "ledger": [
         {
@@ -235,7 +235,7 @@
     },
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
-      "username": null,
+      "username": "greenfia",
       "tier": "extreme",
       "S": 1903,
       "market": "Will John Ternus be the next CEO of Apple?",
@@ -250,8 +250,8 @@
       "zProfitCross": 31.75,
       "lateBuyFraction": 0,
       "directionalScore": 0.085,
-      "accountPnl": null,
-      "firstSeen": null,
+      "accountPnl": 191,
+      "firstSeen": "Jan 21 2026",
       "createdOnChain": false,
       "created": null,
       "betsCount": 2,
@@ -446,6 +446,172 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
+      "username": "redlioneye",
+      "tier": "extreme",
+      "S": 1570.9,
+      "market": "Will Netflix close Warner Bros. acquisition by end of 2026?",
+      "marketUrl": "https://polymarket.com/event/will-netflix-close-warner-brothers-acquisition-by-end-of-2026",
+      "episodeTx": "0x649f600b4e5a041895f2052539f54978ad4c6393888412d5fae1620062951abc",
+      "stake": 16320,
+      "odds": 75,
+      "won": true,
+      "episodeProfit": 5461,
+      "zBetCross": 16.18,
+      "zBetWithin": 6.06,
+      "zProfitCross": 28.91,
+      "lateBuyFraction": 0,
+      "directionalScore": 0.984,
+      "accountPnl": -7945,
+      "firstSeen": "May 14 2021",
+      "createdOnChain": true,
+      "created": "May 11 2021",
+      "betsCount": 62,
+      "ledger": [
+        {
+          "market": "Will Netflix close Warner Bros. acquisition by end of 2026?",
+          "url": "https://polymarket.com/event/will-netflix-close-warner-brothers-acquisition-by-end-of-2026",
+          "ts": 1766418197,
+          "odds": 75,
+          "stake": 16320,
+          "pl": 5461,
+          "won": true,
+          "tx": "0x649f600b4e5a041895f2052539f54978ad4c6393888412d5fae1620062951abc"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 22, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779314304,
+          "odds": 93,
+          "stake": 6566,
+          "pl": 460,
+          "won": true,
+          "tx": "0xe63f613eea143c0b8b713e7a43bea17ebc364ad4ebaaeeb76e903a928053ec4a"
+        },
+        {
+          "market": "US strikes Iran by January 13, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768304967,
+          "odds": 95,
+          "stake": 5073,
+          "pl": 271,
+          "won": true,
+          "tx": "0x9c662d9511a89f189a577819c7b319b2794d494728ebcea7d1451ca8ec4db60a"
+        },
+        {
+          "market": "Will UAE strike Iran by March 31?",
+          "url": "https://polymarket.com/event/will-uae-strike-iran-by-march-31",
+          "ts": 1773028811,
+          "odds": 64,
+          "stake": 4512,
+          "pl": 2488,
+          "won": true,
+          "tx": "0x7a1730874d023098465e9aa399284f9e161538e84af0756d756d1ce1c9700dc7"
+        },
+        {
+          "market": "US x Iran ceasefire by April 30?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-30",
+          "ts": 1773111115,
+          "odds": 55,
+          "stake": 4502,
+          "pl": -4502,
+          "won": false,
+          "tx": "0xb9fd312fbf22d6d53b73da69e41c70a4eef552e1addb8b9abf8320edd9237a4c"
+        },
+        {
+          "market": "Starmer out by May 19, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1778762588,
+          "odds": 86,
+          "stake": 4033,
+          "pl": 658,
+          "won": true,
+          "tx": "0x9886fc9e5f8f5cf2013a1610d48baaae6a04be7106b639edd4a8c244b9b76d64"
+        },
+        {
+          "market": "US strikes Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1769286966,
+          "odds": 77,
+          "stake": 3956,
+          "pl": 1158,
+          "won": true,
+          "tx": "0x7da6fec92f6b7981006cca7004a9bf4441f98411261a0533fb9e6e911fbeff22"
+        },
+        {
+          "market": "US-Iran nuclear deal by May 31?",
+          "url": "https://polymarket.com/event/us-iran-nuclear-deal-by-may-31-974",
+          "ts": 1779616546,
+          "odds": 80,
+          "stake": 3688,
+          "pl": 944,
+          "won": true,
+          "tx": "0x990a2dee827509a3f9fca167187ffd80f4bd90b21b565c17cf596ec8d27beebe"
+        },
+        {
+          "market": "US x Iran ceasefire by April 15?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-15",
+          "ts": 1774095885,
+          "odds": 47,
+          "stake": 3292,
+          "pl": -3292,
+          "won": false,
+          "tx": "0xf0ed4a7850f51d60da1ab76a2644dade9f1f63547b88734c3d91fc7e525094ca"
+        },
+        {
+          "market": "US forces enter Iran by April 30?",
+          "url": "https://polymarket.com/event/us-forces-enter-iran-by-april-30-899",
+          "ts": 1775045947,
+          "odds": 39,
+          "stake": 3220,
+          "pl": -3220,
+          "won": false,
+          "tx": "0x0567f0c336ceceb22421c98a4daad34832296e7b7b644d6de380f543f7948923"
+        },
+        {
+          "market": "Starmer out by May 15, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1778540770,
+          "odds": 69,
+          "stake": 3058,
+          "pl": 1349,
+          "won": true,
+          "tx": "0x598b0e176d27380532f40cd82af4fdc4b3c6d8cbc7a3bb3db09960bff6822013"
+        },
+        {
+          "market": "US x Iran ceasefire extended by April 21, 2026?",
+          "url": "https://polymarket.com/event/will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
+          "ts": 1776040337,
+          "odds": 42,
+          "stake": 2850,
+          "pl": 3922,
+          "won": true,
+          "tx": "0x6b26e0a598d8f485ec738ca75dec8ef9bc17f66a252dcda96ae1e45fcf9ed2dd"
+        },
+        {
+          "market": "US x Iran ceasefire by May 31?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-may-825",
+          "ts": 1775134475,
+          "odds": 55,
+          "stake": 2750,
+          "pl": -2750,
+          "won": false,
+          "tx": "0xdf401c9d4c984ef12e20779fcc0a0aaf3e656341a6cc9bfedf1acefcf0f6f1f2"
+        },
+        {
+          "market": "Iran closes its airspace by May 31?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-31-434-443-672-526-188-756",
+          "ts": 1777753990,
+          "odds": 44,
+          "stake": 2741,
+          "pl": -2741,
+          "won": false,
+          "tx": "0xc8aa339ca06c1b191d5b831e380f21e336c64df7119a366e12efffc807d78822"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x00eca75f93d2dba8cd7c7e58cc1f0c26f1b78240",
       "username": "fuxfux007",
       "tier": "extreme",
@@ -507,92 +673,6 @@
           "pl": 26710,
           "won": true,
           "tx": "0xcc52a6318ec1db81d7d6db41baf89a38d24e692891c79fd44c9057174b620b3e"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
-      "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
-      "username": null,
-      "tier": "extreme",
-      "S": 1509.9,
-      "market": "Will Netflix close Warner Bros. acquisition by end of 2026?",
-      "marketUrl": "https://polymarket.com/event/will-netflix-close-warner-brothers-acquisition-by-end-of-2026",
-      "episodeTx": "0x649f600b4e5a041895f2052539f54978ad4c6393888412d5fae1620062951abc",
-      "stake": 16320,
-      "odds": 75,
-      "won": true,
-      "episodeProfit": 5461,
-      "zBetCross": 16.18,
-      "zBetWithin": 1.99,
-      "zProfitCross": 28.91,
-      "lateBuyFraction": 0,
-      "directionalScore": 0.984,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 6,
-      "ledger": [
-        {
-          "market": "Will Netflix close Warner Bros. acquisition by end of 2026?",
-          "url": "https://polymarket.com/event/will-netflix-close-warner-brothers-acquisition-by-end-of-2026",
-          "ts": 1766418197,
-          "odds": 75,
-          "stake": 16320,
-          "pl": 5461,
-          "won": true,
-          "tx": "0x649f600b4e5a041895f2052539f54978ad4c6393888412d5fae1620062951abc"
-        },
-        {
-          "market": "Starmer out by May 19, 2026?",
-          "url": "https://polymarket.com/event/starmer-out-in-2025",
-          "ts": 1778762588,
-          "odds": 86,
-          "stake": 4033,
-          "pl": 658,
-          "won": true,
-          "tx": "0x9886fc9e5f8f5cf2013a1610d48baaae6a04be7106b639edd4a8c244b9b76d64"
-        },
-        {
-          "market": "Trump announces end of military operations against Iran by March 7th?",
-          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
-          "ts": 1772382741,
-          "odds": 78,
-          "stake": 1727,
-          "pl": 487,
-          "won": true,
-          "tx": "0xae008d85fb6020d34f82233b9563efd269059ee465f9645ac39b4b3512171fed"
-        },
-        {
-          "market": "US takes a stake in Spirit Airlines by May 31?",
-          "url": "https://polymarket.com/event/us-takes-a-stake-in-spirit-airlines-by-may-31",
-          "ts": 1776881702,
-          "odds": 57,
-          "stake": 1233,
-          "pl": 937,
-          "won": true,
-          "tx": "0x42757c59dbfc3a97470070fb03d99419928126bec81e603d92cd3e5795fa0ea9"
-        },
-        {
-          "market": "Trump announces end of military operations against Iran by May 31st?",
-          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
-          "ts": 1777672050,
-          "odds": 0,
-          "stake": 378,
-          "pl": -378,
-          "won": false,
-          "tx": "0x72aff62878a70b2608cbf63e7df16538517e3e32d2089f432a4b8840948fee5a"
-        },
-        {
-          "market": "Will Monad perform an airdrop by November 25?",
-          "url": "https://polymarket.com/event/monad-airdrop-by",
-          "ts": 1763814819,
-          "odds": 9,
-          "stake": 100,
-          "pl": -100,
-          "won": false,
-          "tx": "0xbdaed59846a0f703302450163ba8e198f8e1ee13bcd512012c800b1289d3ec41"
         }
       ],
       "alsoBinomial": true
@@ -5264,72 +5344,6 @@
       "alsoBinomial": false
     },
     {
-      "address": "0x662ce90c51d613a2975a536272e477ab7c38bfe7",
-      "username": null,
-      "tier": "notable",
-      "S": 741.8,
-      "market": "Will Maduro's rule survive a US military engagement?",
-      "marketUrl": "https://polymarket.com/event/will-the-maduro-regime-survive-a-us-military-engagement",
-      "episodeTx": "0x92583119834af70ec972afbe4f6639bf29f53a5dcdf294a5ce7a309f5147da8b",
-      "stake": 8562,
-      "odds": 74,
-      "won": true,
-      "episodeProfit": 2979,
-      "zBetCross": 5.43,
-      "zBetWithin": 1.5,
-      "zProfitCross": 15.27,
-      "lateBuyFraction": 0,
-      "directionalScore": 0.147,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 4,
-      "ledger": [
-        {
-          "market": "Will Maduro's rule survive a US military engagement?",
-          "url": "https://polymarket.com/event/will-the-maduro-regime-survive-a-us-military-engagement",
-          "ts": 1763308877,
-          "odds": 74,
-          "stake": 8562,
-          "pl": 2979,
-          "won": true,
-          "tx": "0x92583119834af70ec972afbe4f6639bf29f53a5dcdf294a5ce7a309f5147da8b"
-        },
-        {
-          "market": "Will US or Israel strike Iran by January 31, 2026?",
-          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
-          "ts": 1769812908,
-          "odds": 8,
-          "stake": 337,
-          "pl": -337,
-          "won": false,
-          "tx": "0x3d3c05bc65cd54511c7581a1c161add6651a3e9fdac79f43ab0fbaa6057cbf98"
-        },
-        {
-          "market": "Trump cabinet member out by December 31, 2025?",
-          "url": "https://polymarket.com/event/trump-cabinet-member-out-by",
-          "ts": 1764082461,
-          "odds": 83,
-          "stake": 166,
-          "pl": 35,
-          "won": true,
-          "tx": "0x3fb25466ea21281d94f998dc0adbee8b405148b5af101658d1a1f08126f03762"
-        },
-        {
-          "market": "Maduro out by November 30, 2025?",
-          "url": "https://polymarket.com/event/maduro-out-in-2025",
-          "ts": 1764275275,
-          "odds": 99,
-          "stake": 1,
-          "pl": 0,
-          "won": true,
-          "tx": "0xa3bd372d735ab63d299d92568bd9a76e14e8d9081e5109c3d24a665c15cd524b"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
       "address": "0xbb8e6477bcb4d0a79449507c607d36fd228fb243",
       "username": "Generator",
       "tier": "notable",
@@ -5912,6 +5926,172 @@
         }
       ],
       "alsoBinomial": true
+    },
+    {
+      "address": "0x662ce90c51d613a2975a536272e477ab7c38bfe7",
+      "username": "ondra123",
+      "tier": "notable",
+      "S": 734.7,
+      "market": "Will Maduro's rule survive a US military engagement?",
+      "marketUrl": "https://polymarket.com/event/will-the-maduro-regime-survive-a-us-military-engagement",
+      "episodeTx": "0x92583119834af70ec972afbe4f6639bf29f53a5dcdf294a5ce7a309f5147da8b",
+      "stake": 8562,
+      "odds": 74,
+      "won": true,
+      "episodeProfit": 2979,
+      "zBetCross": 5.43,
+      "zBetWithin": 1.02,
+      "zProfitCross": 15.27,
+      "lateBuyFraction": 0,
+      "directionalScore": 0.147,
+      "accountPnl": -2867,
+      "firstSeen": "Apr 10 2025",
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 228,
+      "ledger": [
+        {
+          "market": "Israel x Hamas ceasefire by September 30?",
+          "url": "https://polymarket.com/event/israel-x-hamas-ceasefire-by-september-30",
+          "ts": 1754135426,
+          "odds": 91,
+          "stake": 42232,
+          "pl": 4291,
+          "won": true,
+          "tx": "0x0556dca45bb5ddb6024febc5db22e90b8d46644f330b34117956169068c22503"
+        },
+        {
+          "market": "Lisa Cook out as Fed Governor by September 30?",
+          "url": "https://polymarket.com/event/lisa-cook-out-as-fed-governor-by-september-30",
+          "ts": 1756326763,
+          "odds": 90,
+          "stake": 32739,
+          "pl": 3816,
+          "won": true,
+          "tx": "0x60c98853a20b54ed9760e59060aadb8fe833b71b1547c029e7d37142a18bafd6"
+        },
+        {
+          "market": "Fed decreases interest rates by 50+ bps after September 2025 meeting?",
+          "url": "https://polymarket.com/event/fed-decreases-interest-rates-by-50-bps-after-september-2025-meeting",
+          "ts": 1756328215,
+          "odds": 90,
+          "stake": 31438,
+          "pl": 3550,
+          "won": true,
+          "tx": "0x76dd668de16c0ab3d4f7ef162544ac6561eeb8758a7729844dade2ff7a78b73e"
+        },
+        {
+          "market": "US x Venezuela military engagement by November 30?",
+          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by-november-30-216-397-226-467-735-374-192-441-421-482-389",
+          "ts": 1762279813,
+          "odds": 83,
+          "stake": 25187,
+          "pl": 5063,
+          "won": true,
+          "tx": "0x9f5e8611e0835a2dafa6e2f8d5d7cd72baf7b7c77ac9641f9a755408e24af677"
+        },
+        {
+          "market": "Will the US not strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/will-the-us-not-strike-iran-by-february-28-2026",
+          "ts": 1769628190,
+          "odds": 77,
+          "stake": 24044,
+          "pl": -24044,
+          "won": false,
+          "tx": "0xb7883cf841d1740d901655a9d07038d67559f62dd43785fa7331f7ef4e20d006"
+        },
+        {
+          "market": "Will the US not strike Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/will-the-us-not-strike-iran-by-january-31-2026-314",
+          "ts": 1768303707,
+          "odds": 82,
+          "stake": 20669,
+          "pl": 4558,
+          "won": true,
+          "tx": "0x6821ecc67e6078084ba549457a2b21a82c0f3a37e91545a5ade483a958595107"
+        },
+        {
+          "market": "Israel strikes Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/israel-strikes-iran-by-january-31-2026-894-994-453",
+          "ts": 1767906646,
+          "odds": 75,
+          "stake": 19993,
+          "pl": 6525,
+          "won": true,
+          "tx": "0x988ce57ef0b93ee0ef8fb441d78d1ad36aff688350a01b3bf64dbc4ca7367c31"
+        },
+        {
+          "market": "No change in Fed interest rates after July 2025 meeting?",
+          "url": "https://polymarket.com/event/no-change-in-fed-interest-rates-after-july-2025-meeting",
+          "ts": 1752998549,
+          "odds": 96,
+          "stake": 18950,
+          "pl": 809,
+          "won": true,
+          "tx": "0x9dbf13665fa208f7fd4d0dcb525e5f10ce54a35a58272fd624c4344e67f4ae83"
+        },
+        {
+          "market": "Nuclear weapon detonation in 2025?",
+          "url": "https://polymarket.com/event/nuclear-weapon-detonation-in-2025",
+          "ts": 1762374285,
+          "odds": 92,
+          "stake": 13340,
+          "pl": 1160,
+          "won": true,
+          "tx": "0x49da0743882a9ae79d73f95fe570ca72db8b2d24253b92eb193cf60cce1fbbb1"
+        },
+        {
+          "market": "Israel x Hamas ceasefire by September 15?",
+          "url": "https://polymarket.com/event/israel-x-hamas-ceasefire-by-september-15",
+          "ts": 1753992552,
+          "odds": 70,
+          "stake": 13321,
+          "pl": 5726,
+          "won": true,
+          "tx": "0x848df15e52464428dc71146cda8ca0f998a1f233382d5ba588b21653ed7178e9"
+        },
+        {
+          "market": "Israel military action against Iran in July?",
+          "url": "https://polymarket.com/event/israel-military-action-against-iran-in-july",
+          "ts": 1753097638,
+          "odds": 95,
+          "stake": 13220,
+          "pl": 766,
+          "won": true,
+          "tx": "0xf6ddc3d4e93c90ddaffa2385cc8258028345eb6c50e0e5e888c1ae6e6d66748f"
+        },
+        {
+          "market": "U.S. x Russia Nuclear deal by December 31?",
+          "url": "https://polymarket.com/event/us-x-russia-nuclear-deal-by-december-31",
+          "ts": 1762374337,
+          "odds": 94,
+          "stake": 11994,
+          "pl": 731,
+          "won": true,
+          "tx": "0x8595e8a49a609e50a1173862631ccf60234c98ccecd27679cbe61a2a59019f0e"
+        },
+        {
+          "market": "Israel x Hamas ceasefire by August 31?",
+          "url": "https://polymarket.com/event/israel-x-hamas-ceasefire-by-august-31",
+          "ts": 1752569659,
+          "odds": 57,
+          "stake": 11844,
+          "pl": 8969,
+          "won": true,
+          "tx": "0xcfbd783eef25c2453b6e8ae02290ceaf9bf97107f7850cbdbc8183fa7a786edf"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire in 2025?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-in-2025",
+          "ts": 1762373349,
+          "odds": 94,
+          "stake": 11048,
+          "pl": 703,
+          "won": true,
+          "tx": "0xbca3cfbf36205e29d5f07c680e0f5b994a34b4def9d36a9dd374c0c0b01bab2c"
+        }
+      ],
+      "alsoBinomial": false
     },
     {
       "address": "0xe32f0d8b087faa6cce0f6fdacb3264dece06ce26",
