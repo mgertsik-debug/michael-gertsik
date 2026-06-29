@@ -4,8 +4,8 @@
   "total": 90,
   "byTier": {
     "extreme": 13,
-    "high": 18,
-    "notable": 59
+    "high": 17,
+    "notable": 60
   },
   "medianS": 711.7,
   "p90": 1404.8,
@@ -14,12 +14,12 @@
   "minS": 533.3,
   "maxS": 1979.2,
   "over500": 90,
-  "alsoBinomial": 31,
-  "onlyHarvard": 59,
-  "observed": 204113,
-  "reviewed": 204113,
-  "screened": 9935,
-  "scored": 5511,
+  "alsoBinomial": 32,
+  "onlyHarvard": 58,
+  "observed": 204166,
+  "reviewed": 204166,
+  "screened": 9937,
+  "scored": 5586,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -4492,172 +4492,6 @@
       "alsoBinomial": true
     },
     {
-      "address": "0x83a296505eb520c9d35823571204ced41fd69452",
-      "username": null,
-      "tier": "high",
-      "S": 810.3,
-      "market": "Will the US strike Iran next?",
-      "marketUrl": "https://polymarket.com/event/next-country-us-strikes-918",
-      "episodeTx": "0x66e20be2ec7d2fb1222c030547bb4ec61e7c5e5b7c4f543afed2e5b6d553749a",
-      "stake": 9663,
-      "odds": 87,
-      "won": true,
-      "episodeProfit": 1495,
-      "zBetCross": 6.37,
-      "zBetWithin": 3.26,
-      "zProfitCross": 15.85,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 20,
-      "ledger": [
-        {
-          "market": "Will the US strike Iran next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-918",
-          "ts": 1769189380,
-          "odds": 87,
-          "stake": 9663,
-          "pl": 1495,
-          "won": true,
-          "tx": "0x66e20be2ec7d2fb1222c030547bb4ec61e7c5e5b7c4f543afed2e5b6d553749a"
-        },
-        {
-          "market": "Will the Party for Freedom win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1761769859,
-          "odds": 76,
-          "stake": 5262,
-          "pl": 1628,
-          "won": true,
-          "tx": "0x1818bdf8d96f39fa3d10cd0818dfbaba1ef4017e2caeb0d20f1335a4f7b7e3ee"
-        },
-        {
-          "market": "Will the US strike Syria next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-759",
-          "ts": 1768075542,
-          "odds": 91,
-          "stake": 4905,
-          "pl": 499,
-          "won": true,
-          "tx": "0x860133d9dee542743ef35f721e949d23e68fe994d57e9efb9574ca220e0a4549"
-        },
-        {
-          "market": "Will the Democrats 66 win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1761783101,
-          "odds": 62,
-          "stake": 2974,
-          "pl": 1798,
-          "won": true,
-          "tx": "0x7f8514662d7845a37b98a942b17a09c35cbea86542f31ecb03a9a6acaed129e6"
-        },
-        {
-          "market": "Maduro out by March 31, 2026?",
-          "url": "https://polymarket.com/event/maduro-out-in-2025",
-          "ts": 1767424629,
-          "odds": 75,
-          "stake": 2187,
-          "pl": 724,
-          "won": true,
-          "tx": "0x4df2cbbdfc52a9da589cc77abfbda6e4f18b3aa1a3fae109cb1d66210b56472e"
-        },
-        {
-          "market": "Will the US strike Iran next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-759",
-          "ts": 1768075708,
-          "odds": 96,
-          "stake": 2063,
-          "pl": 92,
-          "won": true,
-          "tx": "0x3c0e64bbba8cc84097898d946943df2dde7e00846a7400b34d65ee98ae1b7587"
-        },
-        {
-          "market": "Trump cabinet member out by June 30, 2026?",
-          "url": "https://polymarket.com/event/trump-cabinet-member-out-by",
-          "ts": 1770160304,
-          "odds": 95,
-          "stake": 813,
-          "pl": 44,
-          "won": true,
-          "tx": "0x94faabc8687587d355a8d33c6ed1608d4fb2b1573b007b407478f8e661388193"
-        },
-        {
-          "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
-          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
-          "ts": 1772538237,
-          "odds": 93,
-          "stake": 599,
-          "pl": 42,
-          "won": true,
-          "tx": "0x512500637cb11726b2669ec1461f85aeb52ba1b80b81e2e4b58c3b4f2f31131d"
-        },
-        {
-          "market": "Will the US strike Somalia next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-918",
-          "ts": 1769189356,
-          "odds": 75,
-          "stake": 508,
-          "pl": 170,
-          "won": true,
-          "tx": "0x139d1b485b9d720c0e5ed7b597f6bee9bb4c140ddae67c09dca169e4a48509f4"
-        },
-        {
-          "market": "Will the Democrats 66 win the third most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-3nd-most-seats-in-netherlands-election",
-          "ts": 1761768039,
-          "odds": 95,
-          "stake": 226,
-          "pl": 13,
-          "won": true,
-          "tx": "0x726d39aea8056b085dab05a42e2f19b07718c083b04a4f6e2b3cab70987f496d"
-        },
-        {
-          "market": "Will Nancy Pelosi announce her retirement by November 30?",
-          "url": "https://polymarket.com/event/will-nancy-pelosi-announce-her-retirement-by",
-          "ts": 1762270569,
-          "odds": 69,
-          "stake": 206,
-          "pl": 94,
-          "won": true,
-          "tx": "0x79daff89ec24d5a71bd2cc53daca751854de54dd17662fc2f119a384b2fe2153"
-        },
-        {
-          "market": "Will the US strike Somalia next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-759",
-          "ts": 1768075862,
-          "odds": 6,
-          "stake": 194,
-          "pl": -194,
-          "won": false,
-          "tx": "0x301a63098d54c4311369804399576c503b2e2951aec5a6523f4ffdb0f4b0e9b6"
-        },
-        {
-          "market": "Will the GreenLeft–Labour Party alliance win the fourth most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
-          "ts": 1761847333,
-          "odds": 90,
-          "stake": 159,
-          "pl": 17,
-          "won": true,
-          "tx": "0xae36afefc3d1beb76a1bddef61e7f52e5a9defdcf97f45545af9f9727b6952f1"
-        },
-        {
-          "market": "Will PVV win 33 or more seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/dutch-parliamentary-election-pvv-seats",
-          "ts": 1761768031,
-          "odds": 94,
-          "stake": 151,
-          "pl": 10,
-          "won": true,
-          "tx": "0xd8c4d3837384e9725d20772bed0feee2a86f947e21ec19cfbf3b3e9d42ea6b60"
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
       "address": "0x2b76c1d12cd928b1d95a6d2c7f1e6f6e7f14edef",
       "username": "idfinsider0228",
       "tier": "notable",
@@ -5006,8 +4840,174 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x83a296505eb520c9d35823571204ced41fd69452",
+      "username": ".jeet",
+      "tier": "notable",
+      "S": 772.4,
+      "market": "Will the US strike Iran next?",
+      "marketUrl": "https://polymarket.com/event/next-country-us-strikes-918",
+      "episodeTx": "0x66e20be2ec7d2fb1222c030547bb4ec61e7c5e5b7c4f543afed2e5b6d553749a",
+      "stake": 9663,
+      "odds": 87,
+      "won": true,
+      "episodeProfit": 1495,
+      "zBetCross": 6.37,
+      "zBetWithin": 0.73,
+      "zProfitCross": 15.85,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 52189,
+      "firstSeen": "Jul 01 2025",
+      "createdOnChain": true,
+      "created": "Jul 01 2025",
+      "betsCount": 139,
+      "ledger": [
+        {
+          "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1769731094,
+          "odds": 98,
+          "stake": 84429,
+          "pl": 1752,
+          "won": true,
+          "tx": "0xbb924d19c32323260103351c169a870884036b7dc6c0411cda6f6419050dd57e"
+        },
+        {
+          "market": "US strikes Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768076660,
+          "odds": 75,
+          "stake": 49877,
+          "pl": 16232,
+          "won": true,
+          "tx": "0x13a51e8ddebaab54727461dde0877adaff85fcd3eede2eb89669cba6ad1a08c4"
+        },
+        {
+          "market": "US strikes Iran by January 14, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768328881,
+          "odds": 68,
+          "stake": 30875,
+          "pl": 14808,
+          "won": true,
+          "tx": "0x48e10b9c036789dd25ace53f2514fa9b14709286cbef89b9e68890f8bdae2621"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by end of 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+          "ts": 1765302864,
+          "odds": 46,
+          "stake": 23711,
+          "pl": 27496,
+          "won": true,
+          "tx": "0xb05f496d6c2ea43c1ba579d274c768e6369bba2a932c46d2fb749dc37841909b"
+        },
+        {
+          "market": "Will Trump nominate Kevin Hassett as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1768576814,
+          "odds": 85,
+          "stake": 15747,
+          "pl": 2833,
+          "won": true,
+          "tx": "0x78f15a970ac19d1018d98aaf93bf9e541712c3783ff83e01e470c3fb40c82d15"
+        },
+        {
+          "market": "US strikes Iran by January 16, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768147988,
+          "odds": 79,
+          "stake": 14037,
+          "pl": 3816,
+          "won": true,
+          "tx": "0xf5ab917f7cf0597866d515280665764e653007ae9df0e3a4cc4ae5c4f456ffff"
+        },
+        {
+          "market": "US strikes Iran by January 15, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768328649,
+          "odds": 54,
+          "stake": 10572,
+          "pl": 9179,
+          "won": true,
+          "tx": "0x2a99dbc91c18a5f57ca2fbf4fe7a8e48e760133166bd5db91ca18f89af664bc0"
+        },
+        {
+          "market": "Will the US strike Iran next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-918",
+          "ts": 1769189380,
+          "odds": 87,
+          "stake": 9663,
+          "pl": 1495,
+          "won": true,
+          "tx": "0x66e20be2ec7d2fb1222c030547bb4ec61e7c5e5b7c4f543afed2e5b6d553749a"
+        },
+        {
+          "market": "Will Venezuela give the US oil by January 31?",
+          "url": "https://polymarket.com/event/will-venezuela-give-the-us-oil-by-january-31",
+          "ts": 1768061638,
+          "odds": 75,
+          "stake": 8944,
+          "pl": 2921,
+          "won": true,
+          "tx": "0x4d455cf15ccf0e85e4b199f3aee86f256aca1bde3a7a6c56f9e44ac00304ed91"
+        },
+        {
+          "market": "Will Trump nominate Rick Rieder as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1768694432,
+          "odds": 55,
+          "stake": 8220,
+          "pl": 6763,
+          "won": true,
+          "tx": "0x25fdae5737b3a5e839162a1440b0473429239fcaedb413767fa37051b4d6496b"
+        },
+        {
+          "market": "Lighter Airdrop on December 29?",
+          "url": "https://polymarket.com/event/lighter-airdrop-on-december-29",
+          "ts": 1767007823,
+          "odds": 76,
+          "stake": 7745,
+          "pl": 2460,
+          "won": true,
+          "tx": "0x73911e526da1811b28eaae9610b8fb9837c01561d2724417e9eb878364452a4c"
+        },
+        {
+          "market": "Will Trump talk to Vladimir Putin in January?",
+          "url": "https://polymarket.com/event/will-trump-talk-to-vladimir-putin-in-january",
+          "ts": 1769767238,
+          "odds": 75,
+          "stake": 7739,
+          "pl": -7739,
+          "won": false,
+          "tx": "0xc206dbfdd848b72b8dbe90f1388bc6f4b399ebee20e8fe7855fd98252672071e"
+        },
+        {
+          "market": "Will Donald Trump not announce a new nominee for Chair of the Federal Reserve before February 2026?",
+          "url": "https://polymarket.com/event/will-donald-trump-not-announce-a-new-nominee-for-chair-of-the-federal-reserve-before-february-2026",
+          "ts": 1768327181,
+          "odds": 78,
+          "stake": 7370,
+          "pl": -7370,
+          "won": false,
+          "tx": "0xbfe138e3e18c2f9530dc84e168d27ac6fcfe142e3d16834aa879fa0a4eccc2bf"
+        },
+        {
+          "market": "Next US strike on Syria on December 19?",
+          "url": "https://polymarket.com/event/next-us-strike-on-syria-on-december-19",
+          "ts": 1766182571,
+          "odds": 98,
+          "stake": 6746,
+          "pl": 105,
+          "won": true,
+          "tx": "0xa9cc69bd96dd959619797c1fb7d4a58088111b79d1bca7386ddf3192c33363fe"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0x869f68ca4c2ad4062e2e7b29a147f7a0413a7a8b",
-      "username": null,
+      "username": "kidpoker42",
       "tier": "notable",
       "S": 769.7,
       "market": "US federally charges ex-Cuba leader Raul Castro?",
@@ -5022,10 +5022,10 @@
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
+      "accountPnl": 59006,
+      "firstSeen": "Jan 24 2026",
+      "createdOnChain": true,
+      "created": "Jan 24 2026",
       "betsCount": 1,
       "ledger": [
         {
