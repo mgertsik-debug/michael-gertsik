@@ -374,7 +374,7 @@ function buildSubject(agg, idx, opts, catalog) {
   if (fired.includes("profitCross") && dets.profitCross.hasData)
     push("profitCross", "z = " + dets.profitCross.z, "cross-sectional profit (Harvard z_profit_cross)",
       "z = (this wallet's profit − market mean) ÷ market SD, over peers in the SAME market", dets.profitCross.explain,
-      [["z_profit_cross", String(dets.profitCross.z)], ["market", dets.profitCross.market ? String(dets.profitCross.market).slice(0, 48) : "—"], ["chance if normal", dets.profitCross.denomText]]);
+      [["z_profit_cross", String(dets.profitCross.z)], ["market", dets.profitCross.market ? String(dets.profitCross.market).slice(0, 48) : "—"]]);
 
   // timeline from the single largest winning bet's price path (if the scanner
   // attached one); candidates stay clearly unverified.
@@ -806,16 +806,14 @@ function buildPayload(aggregates, meta, catalog) {
   meta._scoredDenoms = [];                                     // every aggregate's improbability, for the true-rank percentile
   meta._harvardShadow = [];                                    // SHADOW: every wallet pure-Harvard WOULD flag this run (dark launch)
   (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta, catalog); if (s) subjects.push(s); });
-  // FAVORITES PASS — catch the favorite-betting informed trader the long-shot binomial is blind
-  // to (Harvard's Trump-2024 archetype). Only wallets NOT already published by the binomial, and
-  // only on a real cross-sectional profit outlier (profitCross fires) over the full record.
-  const _publishedAddrs = new Set(subjects.map((s) => (s.address || "").toLowerCase()).filter(Boolean));
-  (aggregates || []).forEach((agg, i) => {
-    if (!agg || agg.type === "cluster" || !agg.address) return;
-    if (_publishedAddrs.has(String(agg.address).toLowerCase())) return;   // already flagged by the binomial — no double dossier
-    const s = buildFavoriteSubject(agg, i, meta, catalog);
-    if (s) { subjects.push(s); _publishedAddrs.add(String(agg.address).toLowerCase()); }
-  });
+  // FAVORITES PASS — DISABLED. The standalone cross-sectional-profit path produced mass false
+  // positives: it flagged net-LOSING, high-volume gamblers as "extreme informed traders" because a
+  // wallet can out-profit peers in ONE market (high z_profit_cross) while losing money overall, and
+  // the normal-tail "1 in N" is invalid for heavy-tailed profit. Harvard only used z_profit_cross
+  // INSIDE a heavily-filtered, labeled-validated composite — standalone on our data it is noise.
+  // profitCross stays only as a CORROBORATING signal inside the binomial path (where the wallet has
+  // already cleared the strict ≥5-long-shot, P≤0.01, ≥2-agreeing statistical bar). Do NOT re-enable
+  // buildFavoriteSubject as a publish path until it is validated against ground truth.
   subjects.sort((a, b) => b.improbDenom - a.improbDenom);
   // TRUE-RANK PERCENTILE: rank each subject's improbability against the population of
   // wallets we actually SCORED this run (not the cheaply-screened "reviewed" count). The

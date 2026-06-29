@@ -258,17 +258,16 @@ function profitCross(bets, opts) {
   const fires = best.z >= o.profitCrossTau;
   const raw = clip(best.z / 8, 0, 1);                            // ramps to 1 by z≈8 (extreme outliers)
   const b = best.bet || {};
-  // Honest "1 in N": the chance a trader lands this many SDs above the market's mean profit
-  // purely by chance, IF peer profits were normally distributed. It is a tail probability of an
-  // assumed-normal distribution, NOT a binomial over independent bets — captioned as such.
-  const tail = normalUpperTail(best.z);
-  const denom = tail != null && tail > 0 ? improbDenom(tail) : Infinity;
+  // NOTE: we deliberately do NOT convert this z into a "1-in-N chance of luck". Trader-profit
+  // distributions in a market are heavy-tailed, NOT normal, so a normal-tail probability for a z
+  // of 8+ yields a fabricated astronomical figure. profitCross is a relative-rank CORROBORATING
+  // signal (how far above peers), not a standalone improbability — report only the z.
   return { key: "profitCross", hasData: true, score: fires ? clip(0.45 + raw * 0.55, 0, 1) : clip(raw * 0.4, 0, 0.4),
-    z: +best.z.toFixed(2), fires, won: !!b.won, denom, denomText: improbText(denom),
+    z: +best.z.toFixed(2), fires, won: !!b.won,
     market: b.question || null, cond: b.cond || null, url: b.url || null, tx: b.tx || null, ts: b.ts || null,
     stakeUsd: isNum(b.stakeUsd) ? b.stakeUsd : null, entryPrice: isNum(b.entryPrice) ? b.entryPrice : null,
     explain: "Profited " + best.z.toFixed(1) + " standard deviations more than the other traders in the same market" +
-      (fires ? " — a cross-sectional profit outlier (Harvard's strongest informed-trading signal), works even on favorite-odds bets." : ".") };
+      (fires ? " — a cross-sectional profit outlier; here it only corroborates a wallet already flagged by the statistical record." : ".") };
 }
 
 /* 6. CONCEAL — concealment signatures. Fires only if >= 2 tactics co-occur. */
