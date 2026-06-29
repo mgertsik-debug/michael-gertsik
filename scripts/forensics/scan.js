@@ -36,6 +36,8 @@ const validate = require("../../api/forensics/validate.js");
 const chain = require("../../api/forensics/chain.js");
 const cluster = require("../../api/forensics/cluster.js");
 const hll = require("../../api/forensics/hll.js");
+const external = require("../../api/forensics/external.js");   // GDELT + Federal Register (news/regulatory env)
+const D = require("../../api/forensics/detectors.js");         // for entity extraction + news/reg detectors
 
 // numeric coerce — used by the eviction sigScore (and anywhere a bet field may be a
 // string/undefined). Was referenced but never defined, so finalize() threw
@@ -713,6 +715,49 @@ async function finalize(state, snapshotTs) {
   // so a bug in eviction/catalog-trim can never again discard a tick's results.
   // (A "num is not defined" crash in eviction silently froze the site for hours:
   // finalize threw before write(STORE), the top-level catch exited 0, and the
+  // ---- INFO-ENVIRONMENT enrichment (news-blackout + Federal Register) for the TOP flagged subjects.
+  // Network-bound, so it is STRICTLY bounded + DEADLINE-GATED + wrapped: it runs ONLY with comfortable
+  // margin before the soft deadline (which itself leaves ~5 min before the job timeout), tops out at
+  // NEWS_TOP subjects, short per-call timeouts, and yields immediately when time gets tight — so it
+  // can NEVER re-freeze the pipeline (the published store does not depend on it). Each call attaches a
+  // news-blackout / Federal-Register corroborator (raises suspicion, never the statistical tier).
+  try {
+    const NEWS_TOP = Math.min(+ENV.NEWS_TOP || 14, 24);
+    const NEWS_GUARD_MS = 120 * 1000;                            // need ≥2 min of headroom before the soft deadline
+    const winH = D.DEFAULTS.newsWindowH || 24;
+    if (Date.now() < DEADLINE - NEWS_GUARD_MS) {
+      const ranked = payload.subjects.slice().sort((a, b) => (b.suspicion || 0) - (a.suspicion || 0)).slice(0, NEWS_TOP);
+      let enriched = 0, blackouts = 0, fed = 0;
+      for (const s of ranked) {
+        if (Date.now() >= DEADLINE - NEWS_GUARD_MS) break;       // bail the moment time is tight
+        const lead = (s.ledger || []).filter((r) => r && r.market && r.market !== "(market)")
+          .sort((a, b) => (b.stakeNum || 0) - (a.stakeNum || 0))[0];
+        if (!lead || !(lead.ts > 0)) continue;
+        const ents = D.extractEntities(lead.market);
+        if (!ents.length) continue;
+        const outsized = (lead.stakeNum || 0) >= 1000;
+        let nbRes = null, frRes = null;
+        try {
+          const cnt = await external.gdeltArticleCount(ents[0], lead.ts - winH * 3600, lead.ts, { timeoutMs: 4000 });
+          nbRes = D.newsBlackout({ articleCount: cnt, windowHours: winH, outsized, entity: ents[0], hasQuery: true });
+        } catch (_) {}
+        try {
+          const fm = await external.fedRegisterMatches(ents, { anchorSec: lead.ts, windowDays: 21, timeoutMs: 4000 });
+          frRes = D.fedRegister({ hasQuery: true, entity: fm.entity, matches: fm.matches });
+        } catch (_) {}
+        build.enrichInfoSignals(s, nbRes, frRes);
+        if (nbRes && nbRes.fires) blackouts++;
+        if (frRes && frRes.fires) fed++;
+        enriched++;
+      }
+      // re-sort by the (possibly lifted) suspicion so the rank reflects the new corroborators
+      payload.subjects.sort((a, b) => (b.suspicion - a.suspicion) || (b.improbDenom - a.improbDenom));
+      log("info-env: enriched " + enriched + " top subjects · " + blackouts + " news-blackout · " + fed + " Federal-Register match");
+    } else {
+      log("info-env: skipped (insufficient time budget) — subjects published without news/reg corroborators");
+    }
+  } catch (e) { log("info-env enrichment failed (non-fatal):", e && e.message); }
+
   // commit step saw no change.) The published store does not depend on housekeeping.
   write(STORE, payload);
 

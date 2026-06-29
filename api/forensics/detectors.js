@@ -84,7 +84,13 @@ const DEFAULTS = {
   // provisions a NEW PROXY WALLET PER USER at first deposit, so almost every account is "fresh"
   // (new wallet, no prior tx). It is a near-constant here, not a purpose-built-wallet tell, so it
   // gets a low display weight and is excluded from the favorite-path anti-whale gate (see build.js).
-  contribW: { won: 26, crossCat: 22, timing: 18, cluster: 18, concentration: 12, conceal: 12, repeat: 10, fresh: 5, conviction: 6, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 },
+  // newsBlackout (12) is a TIMING-dimension corroborator — a direct "traded ahead of public info"
+  // proxy — weighted alongside conceal/concentration, never above timing(18) itself. fedRegister (6)
+  // is the noisiest signal (regulatory-doc matching), so it gets a deliberately LOW corroborator
+  // weight and can never carry a flag alone.
+  contribW: { won: 26, crossCat: 22, timing: 18, cluster: 18, newsBlackout: 12, concentration: 12, conceal: 12, repeat: 10, conviction: 6, fedRegister: 6, fresh: 5, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 },
+  newsWindowH: 24,            // pre-entry window for the news-blackout query (hours)
+  newsBlackoutFloor: 0,       // ≤ this many matching articles in the window = a blackout
   agreeSub: 0.45,                  // a detector "agrees" when its sub-score >= this
   minAgree: 2,                     // High/Extreme needs >= 2 independent detectors
   // win-rate baselines on <=35%-implied bets, by category (ACDC-derived)
@@ -593,6 +599,107 @@ function clusterScore(edges, nWallets, opts) {
 }
 
 /* ============================================================================
+ *  ENTITY EXTRACTION — the accuracy crux for the news/regulatory signals. A naive scanner queries
+ *  the raw market text and matches junk (the competitor matched "day moving average transit" and a
+ *  fisheries doc instead of "Strait of Hormuz"). We pull SPECIFIC named entities only: runs of
+ *  Title-Case words (keeping internal connectors so "Strait of Hormuz" stays intact) and ALL-CAPS
+ *  acronyms (OFAC, OPEC, IMF), with generic market/finance words stop-listed out. Returns entities
+ *  ranked most-specific-first (more words, then longer). An empty result means "no precise entity to
+ *  query" → the news/reg detectors stay no-data rather than guessing. Pure + dependency-free. */
+const ENTITY_STOP = new Set([
+  "will", "the", "a", "an", "be", "by", "before", "after", "above", "below", "between", "than", "over",
+  "under", "of", "and", "or", "to", "in", "on", "at", "as", "is", "are", "was", "were", "yes", "no", "not",
+  "more", "less", "least", "reach", "hit", "reported", "this", "that", "these", "those", "market", "markets",
+  "price", "prices", "odds", "trade", "trades", "average", "moving", "total", "count", "calls", "value",
+  "level", "rate", "number", "day", "days", "week", "month", "year", "win", "wins", "won", "lose", "end",
+  "january", "february", "march", "april", "may", "june", "july", "august", "september", "october",
+  "november", "december", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "q1", "q2", "q3", "q4",
+]);
+const ENT_CONN = new Set(["of", "the", "and", "for", "de", "du", "von", "&", "-"]);
+function extractEntities(question) {
+  if (!question || typeof question !== "string") return [];
+  const toks = question.replace(/[?,;:()"""''.]/g, " ").split(/\s+/).filter(Boolean);
+  const isCap = (w) => /^[A-Z][A-Za-z0-9&/-]*$/.test(w);
+  const isAcr = (w) => /^[A-Z]{2,6}$/.test(w);
+  const runs = []; let cur = [];
+  for (let i = 0; i < toks.length; i++) {
+    const w = toks[i];
+    if (isCap(w)) cur.push(w);
+    else if (cur.length && ENT_CONN.has(w.toLowerCase()) && i + 1 < toks.length && isCap(toks[i + 1])) cur.push(w.toLowerCase()); // keep connector inside a run
+    else { if (cur.length) runs.push(cur); cur = []; }
+  }
+  if (cur.length) runs.push(cur);
+  const ents = [];
+  for (const r0 of runs) {
+    const r = r0.slice();
+    while (r.length && (ENTITY_STOP.has(r[0].toLowerCase()) || ENT_CONN.has(r[0].toLowerCase()))) r.shift();        // trim leading stop/connector
+    while (r.length && (ENTITY_STOP.has(r[r.length - 1].toLowerCase()) || ENT_CONN.has(r[r.length - 1].toLowerCase()))) r.pop(); // trim trailing
+    if (!r.length) continue;
+    const content = r.filter((w) => !ENTITY_STOP.has(w.toLowerCase()) && !ENT_CONN.has(w.toLowerCase()));
+    if (!content.length) continue;                                  // all-generic run → not an entity
+    if (content.length === 1 && !isAcr(content[0]) && content[0].length <= 3) continue;  // a lone tiny cap word is noise
+    ents.push(r.join(" "));
+  }
+  toks.forEach((w) => { if (isAcr(w) && !ENTITY_STOP.has(w.toLowerCase())) ents.push(w); });   // standalone acronyms
+  const uniq = Array.from(new Set(ents.map((s) => s.trim()))).filter((s) => s.length >= 2);
+  uniq.sort((a, b) => (b.split(/\s+/).length - a.split(/\s+/).length) || (b.length - a.length)); // most words, then longest
+  return uniq.slice(0, 4);
+}
+
+/* ============================================================================
+ *  NEWS-BLACKOUT (information-asymmetry timing signal, GDELT). The tell isn't a big bet — it's a big
+ *  CONFIDENT bet placed when the topic was QUIET in the news (they were ahead of the public, not
+ *  reacting to it). Anchored on the bet's entry time: count global news articles matching the
+ *  market's entity in the [t_bet − window] pre-entry window. Fires ONLY when the window is empty
+ *  (a real blackout) AND the bet was OUTSIZED/informed — so it sharpens the timing dimension instead
+ *  of adding noise. hasData=false when we had no precise entity to query or the fetch failed (we do
+ *  not penalise markets we couldn't check). Sharper paired with the price-shock anchor: price moved
+ *  + no public news beforehand = strong "traded ahead of public info".
+ *    x = { articleCount (int|null), windowHours, outsized (bool), entity, hasQuery (bool) } */
+function newsBlackout(x, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  if (!x || x.hasQuery !== true || !isNum(x.articleCount)) return { key: "newsBlackout", hasData: false };
+  const wh = isNum(x.windowHours) ? x.windowHours : (o.newsWindowH || 24);
+  const floor = isNum(o.newsBlackoutFloor) ? o.newsBlackoutFloor : 0;       // ≤ this many articles = blackout
+  const blackout = x.articleCount <= floor;
+  const outsized = x.outsized === true;
+  const fires = blackout && outsized;                                       // only a blackout UNDER a big informed bet
+  const score = fires ? 0.6 : (blackout ? 0.3 : clip(0.2 - x.articleCount * 0.02, 0, 0.25));
+  return {
+    key: "newsBlackout", hasData: true, fires, score,
+    articleCount: x.articleCount, windowHours: wh, entity: x.entity || null, outsized,
+    explain: fires
+      ? "No public news matching “" + (x.entity || "the market topic") + "” in the " + wh + "h before this outsized bet — the information-asymmetry signature: trading ahead of the public, not reacting to it."
+      : blackout
+        ? "News was quiet (“" + (x.entity || "topic") + "”, " + wh + "h pre-bet) but the bet wasn't outsized — not flagged on timing alone."
+        : x.articleCount + " article(s) matched “" + (x.entity || "topic") + "” in the " + wh + "h before the bet — the bet may just be reacting to public news.",
+  };
+}
+
+/* ============================================================================
+ *  FEDERAL-REGISTER MATCH (regulatory-insider corroborator). For policy/world markets, a bet that
+ *  lines up with a recent regulatory action (sanctions, agency rule) on the EXACT subject is a
+ *  policy-insider tell (the Maduro/sanctions, IDF/Iran archetypes). PRECISION IS THE WHOLE POINT —
+ *  a fuzzy term search false-matches (a fisheries doc to a shipping market). So this fires ONLY on
+ *  matches the data layer already PRECISION-FILTERED: the market's specific entity must appear in the
+ *  document's TITLE or ABSTRACT (substring), not just be a fuzzy relevance hit. Deliberately LOW
+ *  weight — it corroborates, never flags alone. hasData=false without a precise entity to query.
+ *    x = { matches: [{title, agency, date, url}] (already title/abstract-filtered), entity, hasQuery } */
+function fedRegister(x, opts) {
+  if (!x || x.hasQuery !== true || !Array.isArray(x.matches)) return { key: "fedRegister", hasData: false };
+  const n = x.matches.length;
+  const fires = n >= 1;
+  const top = x.matches[0] || {};
+  return {
+    key: "fedRegister", hasData: true, fires, score: fires ? clip(0.4 + 0.1 * Math.min(3, n), 0, 0.6) : 0,
+    nDocs: n, entity: x.entity || null, top: fires ? { title: top.title || null, agency: top.agency || null, date: top.date || null, url: top.url || null } : null,
+    explain: fires
+      ? n + " recent Federal Register document(s) match “" + (x.entity || "this market") + "” in the title — e.g. “" + String(top.title || "").slice(0, 80) + "”" + (top.agency ? " (" + top.agency + ")" : "") + ". A regulatory action on the exact subject this wallet bet."
+      : "No recent Federal Register document matches “" + (x.entity || "this market") + "” on the title — no regulatory-insider corroboration.",
+  };
+}
+
+/* ============================================================================
  *  FUSION -> tier. Combine FIRED detectors with the artifact contribution
  *  weights (won 34, cluster 24, conceal 16, longshot 12, fresh 8, held 6),
  *  renormalised over fired only. The TIER is gated: Extreme/High require the
@@ -728,5 +835,6 @@ module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
   decorrelate, won, crossCat, longshot, held, fresh, baseline, profitCross, concealment, conviction, timing, repeat,
   concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk, normalUpperTail,
+  extractEntities, newsBlackout, fedRegister,
   harvardEpisode, harvardTier, HARVARD_W, HARVARD_TIERS,
 };
