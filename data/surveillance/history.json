@@ -1,10 +1,36 @@
 {
-  "updatedAt": "2026-06-29T11:58:32.026Z",
+  "updatedAt": "2026-06-29T16:02:38.986Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-2535468",
+      "ts": "16:02 UTC",
+      "platform": "polymarket",
+      "market": "Strait of Hormuz traffic returns to normal by July 15?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "50 · Elevated",
+      "index": 50,
+      "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-july-15",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-29T16:02:38.986Z"
+    },
+    {
+      "id": "pm-2646918",
+      "ts": "16:02 UTC",
+      "platform": "polymarket",
+      "market": "Will the next diplomatic US-Iran meeting be in Qatar by September 30, 2026?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "54 · Elevated",
+      "index": 54,
+      "url": "https://polymarket.com/event/where-will-the-next-next-round-of-us-iran-peace-talks-beptptpt-20260623023740663",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-29T16:02:38.986Z"
+    },
     {
       "id": "pm-2682437",
       "ts": "11:58 UTC",
