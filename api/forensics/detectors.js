@@ -700,6 +700,35 @@ function fedRegister(x, opts) {
 }
 
 /* ============================================================================
+ *  WATCHLIST (trade-time, PRE-resolution) score. The real-time complement to the resolved engine:
+ *  score a single OPEN-market trade the instant it lands, with no knowledge of the outcome — so it
+ *  can't use won/profit (our precision anchors), which is why it's an EARLY-WARNING signal, not
+ *  proof. Mirrors our philosophy (being INFORMED/EARLY outweighs being BIG): a news-blackout under a
+ *  big bet scores highest; raw size lowest. A flagged trade later HARDENS into a forensic case (if it
+ *  wins and the wallet flags) or self-clears (the reconcile runs in the scanner on resolution).
+ *    x = { sizeUsd, marketSizes:[usd…] (other trades in this market), poolUsd?, newsBlackout(bool), fedRegister(bool) } */
+const WATCH_W = { size: 5, whale: 4, pool: 3, blackout: 6, fedReg: 3 };   // informed(blackout) > size; fedReg low (noisy)
+function watchlistScore(x, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  x = x || {};
+  const sizes = (x.marketSizes || []).filter((s) => isNum(s) && s > 0);
+  const mu = sizes.length ? sizes.reduce((a, b) => a + b, 0) / sizes.length : 0;
+  const sd = sizes.length > 1 ? Math.sqrt(sizes.reduce((a, b) => a + (b - mu) * (b - mu), 0) / (sizes.length - 1)) : 0;
+  const sorted = sizes.slice().sort((a, b) => a - b);
+  const p90 = sorted.length ? sorted[Math.floor(0.9 * (sorted.length - 1))] : 0;
+  const z = sd > 0 ? (x.sizeUsd - mu) / sd : 0;
+  const whaleX = p90 > 0 ? x.sizeUsd / p90 : 0;
+  const poolPct = isNum(x.poolUsd) && x.poolUsd > 0 ? x.sizeUsd / x.poolUsd : 0;
+  const fired = []; let score = 0;
+  if (z >= 3) { fired.push("size"); score += WATCH_W.size; }              // outsized vs this market's trades
+  if (whaleX >= 10) { fired.push("whale"); score += WATCH_W.whale; }      // dwarfs the 90th-percentile trade
+  if (poolPct >= 0.02) { fired.push("pool"); score += WATCH_W.pool; }     // a large slice of the whole pool
+  if (x.newsBlackout === true) { fired.push("blackout"); score += WATCH_W.blackout; } // bet ahead of the news
+  if (x.fedRegister === true) { fired.push("fedReg"); score += WATCH_W.fedReg; }
+  return { score, fired, sizeZ: +z.toFixed(1), whaleX: +whaleX.toFixed(1), poolPct: +(poolPct * 100).toFixed(2), p90: Math.round(p90) };
+}
+
+/* ============================================================================
  *  FUSION -> tier. Combine FIRED detectors with the artifact contribution
  *  weights (won 34, cluster 24, conceal 16, longshot 12, fresh 8, held 6),
  *  renormalised over fired only. The TIER is gated: Extreme/High require the
@@ -835,6 +864,6 @@ module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
   decorrelate, won, crossCat, longshot, held, fresh, baseline, profitCross, concealment, conviction, timing, repeat,
   concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk, normalUpperTail,
-  extractEntities, newsBlackout, fedRegister,
+  extractEntities, newsBlackout, fedRegister, watchlistScore, WATCH_W,
   harvardEpisode, harvardTier, HARVARD_W, HARVARD_TIERS,
 };

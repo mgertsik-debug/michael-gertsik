@@ -74,6 +74,8 @@ module.exports = async (req, res) => {
     rings: store.rings || 0,
     coverageByCategory: store.coverageByCategory || {},  // resolved markets cataloged per category (drives the filter)
     validation: store.validation || null,            // permutation null test + per-detector win-rate lift (items 4+5)
+    watchlist: Array.isArray(store.watchlist) ? store.watchlist : [],   // LIVE WATCHLIST: pre-resolution trade-time flags
+    watchlistMeta: store.watchlistMeta || { total: (store.watchlist || []).length, watching: 0, promoted: 0 },
     generatedAt: store.generatedAt || null,
   });
 };

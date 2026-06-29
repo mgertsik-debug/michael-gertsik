@@ -758,6 +758,79 @@ async function finalize(state, snapshotTs) {
     }
   } catch (e) { log("info-env enrichment failed (non-fatal):", e && e.message); }
 
+  // ---- LIVE WATCHLIST (real-time, PRE-resolution). The early-warning complement to the resolved
+  // engine: score OUTSIZED trades on OPEN markets the moment they land, then HARDEN each into a
+  // forensic case (if it later wins AND the wallet becomes a published suspect) or self-clear it on
+  // resolution. Fully ISOLATED: persists in state.watchlist (off-git cache, survives ticks), emits
+  // into store.json (so it commits without a workflow edit), deadline-gated + wrapped — the resolved
+  // store never depends on it. The per-market size distribution comes from the live feed itself (no
+  // extra per-market fetches), so the added network is just the feed + bounded news/reg on candidates.
+  try {
+    state.watchlist = state.watchlist || {};
+    const cat = state._catalog || {};
+    const flaggedLc = new Set();
+    payload.subjects.forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && flaggedLc.add(String(a).toLowerCase())));
+    // 1) RECONCILE: entries whose market has resolved → promote (won + wallet now flagged) or clear; retire stale.
+    let promoted = 0, cleared = 0;
+    for (const id of Object.keys(state.watchlist)) {
+      const e = state.watchlist[id];
+      const c = cat[e.cond];
+      if (e.status === "watching" && c && c.w != null) {
+        const won = String(c.w).toUpperCase() === String(e.outcome).toUpperCase();
+        const flagged = flaggedLc.has(String(e.wallet).toLowerCase());
+        e.status = (won && flagged) ? "promoted" : "cleared";
+        e.won = won; e.walletFlagged = flagged; e.resolvedTs = NOW_S;
+        if (e.status === "promoted") promoted++; else cleared++;
+      }
+      if ((e.resolvedTs && NOW_S - e.resolvedTs > 7 * 86400) || (NOW_S - (e.ts || NOW_S) > 30 * 86400)) delete state.watchlist[id];
+    }
+    // 2) ADD new candidates from the live feed (open markets, outsized BUYS), bounded + deadline-gated.
+    const WL_GUARD_MS = 120 * 1000;
+    const winH2 = D.DEFAULTS.newsWindowH || 24;
+    let added = 0, scored = 0;
+    if (Date.now() < DEADLINE - WL_GUARD_MS) {
+      const ocOf = (t) => { const o = String(t.outcome != null ? t.outcome : (t.outcomeIndex === 0 ? "Yes" : t.outcomeIndex === 1 ? "No" : "")).trim().toUpperCase(); return (o === "YES" || o === "0") ? "YES" : (o === "NO" || o === "1") ? "NO" : o; };
+      const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 4, 6) });
+      const trades = (feed || []).map((t) => ({
+        wallet: t.proxyWallet || t.user || t.maker || t.taker,
+        cond: t.conditionId || t.market || t.condition_id,
+        sizeUsd: num(t.size) * num(t.price), price: num(t.price), ts: num(t.timestamp || t.matchTime || t.time),
+        outcome: ocOf(t), title: t.title || t.question || null, slug: t.slug || t.eventSlug || null, side: String(t.side || "").toUpperCase(),
+      })).filter((t) => t.wallet && t.cond && t.ts > 0 && t.sizeUsd > 0 && t.side !== "SELL" && !(cat[t.cond] && cat[t.cond].w != null)); // OPEN markets, buys
+      const byMarket = {}; trades.forEach((t) => (byMarket[t.cond] = byMarket[t.cond] || []).push(t.sizeUsd));
+      const cands = trades.filter((t) => t.sizeUsd >= (+ENV.WATCH_MIN_USD || 2500)).sort((a, b) => b.sizeUsd - a.sizeUsd);
+      const seen = new Set();
+      for (const t of cands) {
+        if (Date.now() >= DEADLINE - WL_GUARD_MS || scored >= Math.min(+ENV.WATCH_TOP || 10, 16)) break;
+        const id = t.cond + "|" + String(t.wallet).toLowerCase();
+        if (state.watchlist[id] || seen.has(id)) continue; seen.add(id);
+        const marketSizes = (byMarket[t.cond] || []).filter((s) => s !== t.sizeUsd);   // peer trades in this market
+        const ents = D.extractEntities(t.title || "");
+        let nb = false, fr = false;
+        if (ents.length) {
+          try { const cnt = await external.gdeltArticleCount(ents[0], t.ts - winH2 * 3600, t.ts, { timeoutMs: 3500 }); nb = (cnt === 0); } catch (_) {}
+          try { const fm = await external.fedRegisterMatches(ents, { anchorSec: t.ts, windowDays: 21, timeoutMs: 3500 }); fr = (fm.matches.length > 0); } catch (_) {}
+        }
+        const sc = D.watchlistScore({ sizeUsd: t.sizeUsd, marketSizes, newsBlackout: nb, fedRegister: fr });
+        scored++;
+        if (sc.score >= (+ENV.WATCH_SCORE || 6)) {
+          state.watchlist[id] = {
+            id, cond: t.cond, wallet: t.wallet, market: t.title || "(market)",
+            url: t.slug ? "https://polymarket.com/event/" + t.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
+            sizeUsd: Math.round(t.sizeUsd), ts: t.ts, firstSeen: monthDay(NOW_S), status: "watching",
+            score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, newsBlackout: nb, fedRegister: fr,
+          };
+          added++;
+        }
+      }
+    }
+    // 3) EMIT into store.json (committed): promoted first, then watching, then cleared; newest first.
+    const rank = { promoted: 3, watching: 2, cleared: 1 };
+    payload.watchlist = Object.values(state.watchlist).sort((a, b) => (rank[b.status] - rank[a.status]) || ((b.ts || 0) - (a.ts || 0))).slice(0, 150);
+    payload.watchlistMeta = { total: payload.watchlist.length, watching: payload.watchlist.filter((e) => e.status === "watching").length, promoted: payload.watchlist.filter((e) => e.status === "promoted").length };
+    log("watchlist: " + payload.watchlist.length + " entries · +" + added + " new (" + scored + " scored) · " + promoted + " promoted · " + cleared + " cleared this tick");
+  } catch (e) { log("watchlist failed (non-fatal):", e && e.message); payload.watchlist = Object.values(state.watchlist || {}); }
+
   // commit step saw no change.) The published store does not depend on housekeeping.
   write(STORE, payload);
 
