@@ -1557,7 +1557,7 @@
       "address": "0x614dc8d3542c12103d2c6a3553fd761e391d1546",
       "username": "mr.ozi",
       "tier": "extreme",
-      "S": 1113.4,
+      "S": 1113.5,
       "market": "US strikes Iran by March 8, 2026?",
       "marketUrl": "https://polymarket.com/event/us-strikes-iran-by",
       "episodeTx": "0xe87a5cc8f4333393c18e9854b5f9a5b66c5e015c6de3c42fc707744916d63dcb",
@@ -1566,15 +1566,15 @@
       "won": true,
       "episodeProfit": 33808,
       "zBetCross": 13.23,
-      "zBetWithin": 0.1,
+      "zBetWithin": 0.11,
       "zProfitCross": 21.18,
       "lateBuyFraction": 1,
       "directionalScore": 0.593,
-      "accountPnl": 619203,
+      "accountPnl": 620863,
       "firstSeen": "Jul 16 2024",
       "createdOnChain": true,
       "created": "Jul 16 2024",
-      "betsCount": 92,
+      "betsCount": 93,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
@@ -1783,8 +1783,8 @@
           "tx": null
         },
         {
-          "market": "0x82d046bdd7aa14261cc0cce710eb7dd127dc32a3a819c88696c8706dc5b4dd23",
-          "url": null,
+          "market": "Will US GDP growth in Q3 2025 be between 3.0% and 3.5%?",
+          "url": "https://polymarket.com/event/will-us-gdp-growth-in-q2-2025-be-between-3pt0-and-3pt5-533",
           "ts": 1761782400,
           "odds": 14,
           "stake": 2139,
@@ -3660,7 +3660,7 @@
         },
         {
           "market": "Another US strike on Venezuela by January 10?",
-          "url": "https://polymarket.com/event/another-us-strike-on-venezuela-by-january-10",
+          "url": "https://polymarket.com/event/another-us-strike-on-venezuela-by",
           "ts": 1769817600,
           "odds": 9,
           "stake": 35437,
