@@ -10,14 +10,14 @@
   "medianS": 704.3,
   "p90": 1368.1,
   "p95": 1572,
-  "p99": 1979.9,
+  "p99": 1980,
   "minS": 531,
-  "maxS": 1979.9,
+  "maxS": 1980,
   "over500": 94,
   "alsoBinomial": 35,
   "onlyHarvard": 59,
-  "observed": 220403,
-  "reviewed": 220403,
+  "observed": 220544,
+  "reviewed": 220544,
   "screened": 10172,
   "scored": 6026,
   "top": [
@@ -25,7 +25,7 @@
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
       "username": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA9604",
       "tier": "extreme",
-      "S": 1979.9,
+      "S": 1980,
       "market": "US-Iran nuclear deal before 2027?",
       "marketUrl": "https://polymarket.com/event/us-iran-nuclear-deal-before-2027",
       "episodeTx": "0x3ec880dd912908adf9b805180d26996adb1f8cf5b4d5570a6da5caf6d2e15bbe",
@@ -34,15 +34,15 @@
       "won": true,
       "episodeProfit": 9057,
       "zBetCross": 33.31,
-      "zBetWithin": 0.84,
+      "zBetWithin": 0.85,
       "zProfitCross": 32.53,
       "lateBuyFraction": 0,
       "directionalScore": 0,
-      "accountPnl": 142256,
+      "accountPnl": 141859,
       "firstSeen": "Apr 12 2026",
       "createdOnChain": true,
       "created": "Apr 12 2026",
-      "betsCount": 155,
+      "betsCount": 156,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of May?",
@@ -76,7 +76,7 @@
         },
         {
           "market": "US x Iran diplomatic meeting by May 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-may-31-2026-283-616",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-329",
           "ts": 1778803200,
           "odds": 1,
           "stake": 73413,
@@ -86,7 +86,7 @@
         },
         {
           "market": "US announces new Iran agreement/ceasefire extension by May 28?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-may-28",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by",
           "ts": 1779926400,
           "odds": 0,
           "stake": 60277,
@@ -96,7 +96,7 @@
         },
         {
           "market": "US announces new Iran agreement/ceasefire extension by May 25?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-may-25",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by",
           "ts": null,
           "odds": 1,
           "stake": 49300,
@@ -116,7 +116,7 @@
         },
         {
           "market": "US announces new Iran agreement/ceasefire extension by May 27?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-may-27",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by",
           "ts": 1779840000,
           "odds": 1,
           "stake": 42275,
@@ -132,7 +132,7 @@
           "stake": 41848,
           "pl": 5967,
           "won": true,
-          "tx": null
+          "tx": "0xa4e80f285f711a6d36a52b769ae168aec8c1dcbc5ee60a76906031b21f78e432"
         },
         {
           "market": "US-Iran nuclear deal before 2027?",
@@ -146,7 +146,7 @@
         },
         {
           "market": "US announces new Iran agreement/ceasefire extension by June 15?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-15-2889-539",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by",
           "ts": 1780012800,
           "odds": 1,
           "stake": 30219,
@@ -156,7 +156,7 @@
         },
         {
           "market": "Israel withdraws from Lebanon by May 31, 2026?",
-          "url": "https://polymarket.com/event/israel-withdraws-from-lebanon-by-may-31-2026",
+          "url": "https://polymarket.com/event/israel-withdraws-from-lebanon-by",
           "ts": 1782777600,
           "odds": 4,
           "stake": 29079,
@@ -176,7 +176,7 @@
         },
         {
           "market": "Internet Access restored in Iran by May 31, 2026?",
-          "url": "https://polymarket.com/event/internet-access-restored-in-iran-by-may-31-2026",
+          "url": "https://polymarket.com/event/internet-access-restored-in-iran-by",
           "ts": 1773446400,
           "odds": 17,
           "stake": 24899,
