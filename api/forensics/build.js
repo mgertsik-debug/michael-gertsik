@@ -769,12 +769,12 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
   const z = (x) => (num(x)).toFixed(2);
   // 5 Harvard signal cards (UI renders these in the identical "what drove the flag" format).
   const sc = [
-    { key: "hProfit", metric: "z = " + z(harvard.zProfitCross), method: "Cross-sectional profit", formula: "z = (profit − μ_market) / σ_market · weight 30",
-      numbers: "profit " + z(harvard.zProfitCross) + " SD above the market's average trader", inputs: [["z_profit_cross", z(harvard.zProfitCross)], ["weight", "30"], ["+S", String(Math.round(W.profitCross * num(harvard.zProfitCross)))]] },
-    { key: "hBetCross", metric: "z = " + z(harvard.zBetCross), method: "Cross-sectional bet size", formula: "z = (stake − μ_market) / σ_market · weight 25",
-      numbers: "bet " + z(harvard.zBetCross) + " SD above the market's average stake", inputs: [["z_bet_cross", z(harvard.zBetCross)], ["weight", "25"], ["+S", String(Math.round(W.betCross * num(harvard.zBetCross)))]] },
-    { key: "hBetWithin", metric: "z = " + z(harvard.zBetWithin), method: "Within-trader bet size", formula: "z = (stake − μ_wallet) / σ_wallet · weight 20",
-      numbers: "bet " + z(harvard.zBetWithin) + " SD above this wallet's own typical stake", inputs: [["z_bet_within", z(harvard.zBetWithin)], ["weight", "20"], ["+S", String(Math.round(W.betWithin * num(harvard.zBetWithin)))]] },
+    { key: "hProfit", metric: "z = " + z(harvard.zProfitCross), method: "Cross-sectional profit", formula: "z = (profit − μ_market) / σ_market · weight " + W.profitCross,
+      numbers: "profit " + z(harvard.zProfitCross) + " SD above the market's average trader", inputs: [["z_profit_cross", z(harvard.zProfitCross)], ["weight", String(W.profitCross)], ["+S", String(Math.round(W.profitCross * num(harvard.zProfitCross)))]] },
+    { key: "hBetCross", metric: "z = " + z(harvard.zBetCross), method: "Cross-sectional bet size", formula: "z = (stake − μ_market) / σ_market · weight " + W.betCross,
+      numbers: "bet " + z(harvard.zBetCross) + " SD above the market's average stake", inputs: [["z_bet_cross", z(harvard.zBetCross)], ["weight", String(W.betCross)], ["+S", String(Math.round(W.betCross * num(harvard.zBetCross)))]] },
+    { key: "hBetWithin", metric: "z = " + z(harvard.zBetWithin), method: "Within-trader bet size", formula: "z = (stake − μ_wallet) / σ_wallet · weight " + W.betWithin,
+      numbers: "bet " + z(harvard.zBetWithin) + " SD above this wallet's own typical stake", inputs: [["z_bet_within", z(harvard.zBetWithin)], ["weight", String(W.betWithin)], ["+S", String(Math.round(W.betWithin * num(harvard.zBetWithin)))]] },
     { key: "hLate", metric: Math.round(num(harvard.lateBuyFraction) * 100) + "% late", method: "Pre-event timing (context only)", formula: "fraction of buys in the final 48h — NOT scored (saturated on partial data)",
       numbers: Math.round(num(harvard.lateBuyFraction) * 100) + "% of buying was in the final 48h before resolution", inputs: [["late_buy_fraction", num(harvard.lateBuyFraction).toFixed(2)], ["scored?", "no — context only"]] },
     { key: "hDir", metric: Math.round(num(harvard.directionalScore) * 100) + "% one-sided", method: "Directional concentration (context only)", formula: "1 − sold/bought — NOT scored (saturated on partial data)",

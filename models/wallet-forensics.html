@@ -1083,7 +1083,7 @@ class Component extends DCLogic {
     // and keep the weight table IN SYNC with detectors.js DEFAULTS.contribW so every
     // detector (incl. conviction/timing/concentration/sizing) gets a real share.
     if (s.contributions && Object.keys(s.contributions).length) return s.contributions;
-    const weight = { won: 28, profitCross: 26, cluster: 20, conviction: 16, sizing: 14, timing: 12, conceal: 10, fresh: 8, concentration: 6, longshot: 5, held: 4, baseline: 4 };
+    const weight = { won: 30, cluster: 22, conceal: 14, concentration: 14, fresh: 10, timing: 8, conviction: 6, sizing: 6, profitCross: 6, longshot: 4, held: 4, baseline: 4 };
     const fired = (s.fired || []).filter((k) => weight[k] != null);
     const total = fired.reduce((a, k) => a + weight[k], 0) || 1;
     const out = {};

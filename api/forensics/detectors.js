@@ -66,7 +66,14 @@ const DEFAULTS = {
   // isn't double-counted; our on-chain moat (cluster/fresh) Harvard lacks is preserved; the weak
   // descriptive signals (longshot/held) are trimmed. Provisional — the validation job re-sets
   // these from each detector's MEASURED correlation with winning.
-  contribW: { won: 28, profitCross: 26, cluster: 20, conviction: 16, sizing: 14, timing: 12, conceal: 10, fresh: 8, concentration: 6, longshot: 5, held: 4 },
+  // REALIGNED to measured predictive power (per-detector win-rate validation) + signal TYPE.
+  // DISPLAY-ONLY: these set the "% of flag" breakdown, NOT the flag decision (that's the binomial
+  // P-value + ≥2 agreement). won (binomial) measured the strongest predictor (+19.5) → highest.
+  // The on-chain structural signals Harvard lacks — cluster (common ownership), concealment,
+  // fresh (purpose-built) — and concentration (measured +10.7, was under-weighted) are elevated.
+  // The bet-mechanics signals — sizing, conviction, profitCross — measured negative/noisy lift and
+  // are trimmed (profitCross was 26 with a −15 measured lift; it's a corroborator, not a predictor).
+  contribW: { won: 30, cluster: 22, conceal: 14, concentration: 14, fresh: 10, timing: 8, conviction: 6, sizing: 6, profitCross: 6, longshot: 4, held: 4, baseline: 4 },
   agreeSub: 0.45,                  // a detector "agrees" when its sub-score >= this
   minAgree: 2,                     // High/Extreme needs >= 2 independent detectors
   // win-rate baselines on <=35%-implied bets, by category (ACDC-derived)
@@ -541,7 +548,12 @@ function fuse(dets, opts) {
  *  OR z_bet_within > 2 (~top 2.5% by bet size). The scanner also applies Harvard's
  *  market filters ($10k+ market volume, ≥3 buyers, ≥$500 wallet buy) upstream.
  * ========================================================================== */
-const HARVARD_W = { betCross: 25, betWithin: 20, profitCross: 30, late: 15, dir: 10 };
+// WEIGHTS — rebalanced toward PROFIT. For insider detection, being RIGHT against the odds
+// (profit vs peers) is more diagnostic than betting BIG (bet size), so profit now dominates
+// (40) over the two bet-size signals (20 + 15). This deviates from Harvard's locked 25/20/30
+// (validated on their full data) — owned as ours, because betting big is what made whales score
+// high. late/dir remain context-only (unused in the score). betCross/betWithin/profitCross are scored.
+const HARVARD_W = { betCross: 20, betWithin: 15, profitCross: 40, late: 15, dir: 10 };
 // SCORED signals = the three reliable cross-sections (bet vs market, bet vs own norm, profit vs
 // peers). late_buy_fraction + directional_score are COMPUTED and DISPLAYED as context but EXCLUDED
 // from the score: on a partial per-market trade sample they saturate near 1.0 and add a constant
@@ -575,7 +587,7 @@ function harvardEpisode(e, opts) {
 // distribution — material profit ≥ $1k, entry odds ≤ 70%, winners only — where the score runs
 // median ~350, p90 ~730. NOT the paper's absolute scale (our per-market cross-sections use a partial
 // trade sample, which inflates the z's). Ranks suspicion within our data: extreme ≈ top ~5%.
-const HARVARD_TIERS = { notable: 350, high: 540, extreme: 970 };
+const HARVARD_TIERS = { notable: 530, high: 810, extreme: 1110 };
 function harvardTier(S, opts) {
   const t = Object.assign({}, HARVARD_TIERS, opts && opts.harvardTiers);
   if (!(S > 0)) return null;
