@@ -447,18 +447,9 @@
           </div>
         </sc-if>
 
-        <!-- ============ TAB 2B: WALLET FORENSICS ============ -->
-        <!-- Retrospective wallet-forensics engine (Polymarket only). Embedded
-             frameless on the canvas; its own Design Component runtime lives at
-             /models/wallet-forensics.html and pulls real subjects from the
-             scheduled job via /api/forensics/subjects. -->
-        <sc-if value="{{ isForensics }}" hint-placeholder-val="{{ false }}">
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <iframe src="{{ forensics.src }}" title="Wallet Forensics — Polymarket" loading="lazy"
-              allow="clipboard-read; clipboard-write"
-              style="width:100%;height:1640px;border:0;background:transparent;display:block;border-radius:12px;overflow:hidden"></iframe>
-          </div>
-        </sc-if>
+        <!-- Wallet Forensics moved out into its own top-level interactive model
+             ("Polymarket Insider Forensics", /models/insider-forensics.html),
+             which carries both the Suspicious Trades and Suspect Wallets views. -->
 
         <!-- ============ TAB 3: CASE FILES ============ -->
         <sc-if value="{{ isCases }}" hint-placeholder-val="{{ false }}">
@@ -1868,7 +1859,7 @@ class Component extends DCLogic {
     const C = this.C, s = this.state;
     const active = s.activeTab || this.props.defaultTab || 'engine';
     const setTab = (id)=> ()=> this.setState({ activeTab:id });
-    const tabsDef = [['engine','Engine'],['surveillance','Surveillance'],['forensics','Wallet Forensics'],['cases','Case Files'],['duty','Duty & Materiality'],['tracker','Tracker']];
+    const tabsDef = [['engine','Engine'],['surveillance','Surveillance'],['cases','Case Files'],['duty','Duty & Materiality'],['tracker','Tracker']];
     const tabs = tabsDef.map(([id,label])=>{
       const on = active===id;
       return { id, label, active:on,
@@ -2177,9 +2168,9 @@ class Component extends DCLogic {
 
     return {
       tabs, active,
-      isEngine: active==='engine', isSurv: active==='surveillance', isForensics: active==='forensics', isCases: active==='cases',
+      isEngine: active==='engine', isSurv: active==='surveillance', isCases: active==='cases',
       isDuty: active==='duty', isTracker: active==='tracker',
-      engine, surv, forensics:{ src:'/models/wallet-forensics.html?v=48' }, cases, duty, tracker
+      engine, surv, cases, duty, tracker
     };
   }
 
