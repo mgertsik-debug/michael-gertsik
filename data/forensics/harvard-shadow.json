@@ -1,11 +1,11 @@
 {
   "generatedAt": "Jun 29 2026",
   "snapshot": 1782768019,
-  "total": 92,
+  "total": 94,
   "byTier": {
     "extreme": 14,
-    "high": 16,
-    "notable": 62
+    "high": 17,
+    "notable": 63
   },
   "medianS": 704.3,
   "p90": 1368.1,
@@ -13,11 +13,11 @@
   "p99": 1979.9,
   "minS": 531,
   "maxS": 1979.9,
-  "over500": 92,
+  "over500": 94,
   "alsoBinomial": 35,
-  "onlyHarvard": 57,
-  "observed": 219727,
-  "reviewed": 219727,
+  "onlyHarvard": 59,
+  "observed": 219860,
+  "reviewed": 219860,
   "screened": 10170,
   "scored": 6024,
   "top": [
@@ -2535,6 +2535,172 @@
           "pl": -140,
           "won": false,
           "tx": "0x4c0ad44fd9af44a5bf3b75de9a17469095dc83b8c60424859c3e14fce7846621"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
+      "username": "cigarettes",
+      "tier": "high",
+      "S": 1008,
+      "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+      "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
+      "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
+      "stake": 63949,
+      "odds": 89,
+      "won": true,
+      "episodeProfit": 7516,
+      "zBetCross": 17.55,
+      "zBetWithin": 8.02,
+      "zProfitCross": 13.42,
+      "lateBuyFraction": 0,
+      "directionalScore": 0.999,
+      "accountPnl": 1352881,
+      "firstSeen": "Sep 23 2024",
+      "createdOnChain": true,
+      "created": "Sep 23 2024",
+      "betsCount": 432,
+      "ledger": [
+        {
+          "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1748993906,
+          "odds": 100,
+          "stake": 66697,
+          "pl": 68,
+          "won": true,
+          "tx": "0xae99903093bf3cd0232a44e0fc6d08da8266585eea49a1449237ef56e5cb45c2"
+        },
+        {
+          "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1758327602,
+          "odds": 89,
+          "stake": 63949,
+          "pl": 7516,
+          "won": true,
+          "tx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301"
+        },
+        {
+          "market": "Will the Christian Democratic Appeal win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1758022936,
+          "odds": 92,
+          "stake": 56708,
+          "pl": 5242,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Conservative Liberals win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1757979248,
+          "odds": 99,
+          "stake": 52915,
+          "pl": 332,
+          "won": true,
+          "tx": "0x8d22d2a823e9ccd7cdf5ac1b4d80556ee56d550736fc38aba94c8b9bc0b6423b"
+        },
+        {
+          "market": "Will Forum for Democracy win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1753978854,
+          "odds": 100,
+          "stake": 46989,
+          "pl": 56,
+          "won": true,
+          "tx": "0x5824c795ae9f66eb4388dad87abb3ffccddb2ccf19691b863063efe430439bed"
+        },
+        {
+          "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761010716,
+          "odds": 96,
+          "stake": 42597,
+          "pl": 1561,
+          "won": true,
+          "tx": "0xd69866238493f3b79987f934ce79742f0e22f5fecc483399d6f8b7d5a35d1fa2"
+        },
+        {
+          "market": "Will the Farmer–Citizen Movement win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1755554837,
+          "odds": 100,
+          "stake": 31746,
+          "pl": 54,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761806533,
+          "odds": 95,
+          "stake": 29964,
+          "pl": 1446,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1753847731,
+          "odds": 100,
+          "stake": 20922,
+          "pl": 21,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+          "ts": 1749227473,
+          "odds": 93,
+          "stake": 19334,
+          "pl": 1394,
+          "won": true,
+          "tx": "0xb8fe9f749c604a72cae9e80e8c30d215021aa35ea1b7e4f2dff8d61367cb8139"
+        },
+        {
+          "market": "Will the Democrats 66 win the second most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+          "ts": 1749218652,
+          "odds": 90,
+          "stake": 18961,
+          "pl": 2208,
+          "won": true,
+          "tx": "0x242a2f7f211b7d58a25e8675b3e5257301f41d56015b99da23ae0b2e70d1a07d"
+        },
+        {
+          "market": "Will Trump nominate James B. Bullard as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1761642283,
+          "odds": 100,
+          "stake": 18409,
+          "pl": 33,
+          "won": true,
+          "tx": "0xc7febf5779817a39e7f72c9d9a8c5b484f26a4d9154a37f6dbe39418f844702b"
+        },
+        {
+          "market": "Will Trump nominate Howard Lutnick as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1764806215,
+          "odds": 100,
+          "stake": 16820,
+          "pl": 17,
+          "won": true,
+          "tx": "0x6d669bb233839a61bbe0c4a1d066956b8381f767147b8d5330d9f422c7a6dd9a"
+        },
+        {
+          "market": "Will the Party for the Animals win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1748993906,
+          "odds": 100,
+          "stake": 16573,
+          "pl": 17,
+          "won": true,
+          "tx": null
         }
       ],
       "alsoBinomial": false
@@ -7061,172 +7227,6 @@
           "pl": 1432,
           "won": true,
           "tx": "0x1ac30a094a397025d7f118ad21be939d0cdb78117214af16dd9b8a2761029c57"
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
-      "address": "0xb6756421bd99a7cd51e1c205766d7e51d93d3d65",
-      "username": "0xB6756421bd99A7cd51e1c205766d7E51D93d3D65-1756688450800",
-      "tier": "notable",
-      "S": 667.5,
-      "market": "Will an FBI top ten most wanted fugitive be captured by June 2026?",
-      "marketUrl": "https://polymarket.com/event/will-an-fbi-top-ten-most-wanted-fugitive-be-captured-by-june-2026",
-      "episodeTx": "0x5693f77adf81b881742409f60aa0a6d031cceae519666cf76f2d301ba0ce41b0",
-      "stake": 7032,
-      "odds": 87,
-      "won": true,
-      "episodeProfit": 1049,
-      "zBetCross": 7.58,
-      "zBetWithin": 1.43,
-      "zProfitCross": 12.36,
-      "lateBuyFraction": 0,
-      "directionalScore": 0,
-      "accountPnl": 1267,
-      "firstSeen": "Oct 06 2025",
-      "createdOnChain": true,
-      "created": "Oct 06 2025",
-      "betsCount": 83,
-      "ledger": [
-        {
-          "market": "TikTok sale announced in 2025?",
-          "url": "https://polymarket.com/event/tiktok-sale-announced-in-2025-386-821-248",
-          "ts": 1766417237,
-          "odds": 96,
-          "stake": 16880,
-          "pl": 664,
-          "won": true,
-          "tx": "0x3a78f5816df2c3b834eb90a078918a1ad3e3471e1d8f1e8c40f350047f55e000"
-        },
-        {
-          "market": "Will María Corina Machado enter Venezuela by January 31?",
-          "url": "https://polymarket.com/event/will-mara-corina-machado-enter-venezuela-by-january-31-859-245",
-          "ts": 1767532755,
-          "odds": 80,
-          "stake": 16525,
-          "pl": 4226,
-          "won": true,
-          "tx": "0xe405f9be1d76247423e546733bdd30ebd5254f55780342a59cb62ea77531aee6"
-        },
-        {
-          "market": "Will the U.S. invade Venezuela by December 31, 2025?",
-          "url": "https://polymarket.com/event/will-the-us-invade-venezuela-in-2025",
-          "ts": 1760641069,
-          "odds": 90,
-          "stake": 16190,
-          "pl": 1740,
-          "won": true,
-          "tx": "0x08a67145ca1dca10c6ce5201a9127ae4f2e14d97461081595a01169a88776d70"
-        },
-        {
-          "market": "100% tariff on China in effect by November 1?",
-          "url": "https://polymarket.com/event/100-tariff-on-china-in-effect-by-november-1",
-          "ts": 1760853801,
-          "odds": 86,
-          "stake": 11236,
-          "pl": 1835,
-          "won": true,
-          "tx": "0x110b6af2a6603e5507f3fda4172c012d861abd20f468e66ee158fb3dc81d2575"
-        },
-        {
-          "market": "US strike on Colombia by March 31?",
-          "url": "https://polymarket.com/event/us-strike-on-colombia-by-march-31",
-          "ts": 1767561649,
-          "odds": 95,
-          "stake": 10239,
-          "pl": 548,
-          "won": true,
-          "tx": "0xacf585d7cb518167b867ee7f2bd8fb4f0f1284e52a5ad387a7ec6a4068be01cf"
-        },
-        {
-          "market": "Will Venezuela give the US oil by January 31?",
-          "url": "https://polymarket.com/event/will-venezuela-give-the-us-oil-by-january-31",
-          "ts": 1767897416,
-          "odds": 86,
-          "stake": 8500,
-          "pl": 1355,
-          "won": true,
-          "tx": "0x7ea1db613a63ebff07a30c06bc9941c0d554e3069e06132bd1cdcda375d25409"
-        },
-        {
-          "market": "Will an FBI top ten most wanted fugitive be captured by June 2026?",
-          "url": "https://polymarket.com/event/will-an-fbi-top-ten-most-wanted-fugitive-be-captured-by-june-2026",
-          "ts": 1768707284,
-          "odds": 87,
-          "stake": 7032,
-          "pl": 1049,
-          "won": true,
-          "tx": "0x5693f77adf81b881742409f60aa0a6d031cceae519666cf76f2d301ba0ce41b0"
-        },
-        {
-          "market": "Trump meets Xi, Putin, and Kim by December 31?",
-          "url": "https://polymarket.com/event/trump-meets-xi-putin-and-kim-by-december-31",
-          "ts": 1762286965,
-          "odds": 96,
-          "stake": 7000,
-          "pl": 326,
-          "won": true,
-          "tx": "0x86b664da13184831c760856116ed20d6a384bb6b834a3fb959ca3cd4ff047229"
-        },
-        {
-          "market": "US forces in Venezuela by January 31, 2026?",
-          "url": "https://polymarket.com/event/us-forces-in-venezuela-by-january-31-2026",
-          "ts": 1767441699,
-          "odds": 98,
-          "stake": 6874,
-          "pl": 105,
-          "won": true,
-          "tx": "0x7005812e915e3451c4223e1aabda413d2e175e5b42626f6bfbe5f2ac2d37d3bb"
-        },
-        {
-          "market": "Will Don Lemon be criminally charged?",
-          "url": "https://polymarket.com/event/will-don-lemon-be-criminally-charged",
-          "ts": 1769794330,
-          "odds": 98,
-          "stake": 5278,
-          "pl": 87,
-          "won": true,
-          "tx": "0xf726b0e11814e634744ab132a648e6be96c08b9e20011e647e010705fb7e0633"
-        },
-        {
-          "market": "Will Trump create a tariff dividend in 2025?",
-          "url": "https://polymarket.com/event/will-trump-create-a-tariff-dividend-in-2025",
-          "ts": 1762728111,
-          "odds": 94,
-          "stake": 3958,
-          "pl": 268,
-          "won": true,
-          "tx": "0xd1010a66649ed0290c56b6a51f0f83956f3a80b451f424c1dbf04072bd967cca"
-        },
-        {
-          "market": "US forces in Venezuela again by June 30, 2026?",
-          "url": "https://polymarket.com/event/us-forces-in-venezuela-again-by-june-30-2026-624",
-          "ts": 1767898078,
-          "odds": 81,
-          "stake": 3350,
-          "pl": -3350,
-          "won": false,
-          "tx": "0x39f896668fd889b9726015dfc2e0b5e21ba8958d150a502f68d15cc686cc4bfa"
-        },
-        {
-          "market": "Will Maduro's rule survive a US military engagement?",
-          "url": "https://polymarket.com/event/will-the-maduro-regime-survive-a-us-military-engagement",
-          "ts": 1763423169,
-          "odds": 91,
-          "stake": 3125,
-          "pl": 312,
-          "won": true,
-          "tx": "0x4b0637e5998c7b967b9b499c60b0c6e30cc4cedd0dc4a4331e6514cc95b607dd"
-        },
-        {
-          "market": "Will the U.S. invade Venezuela by March 31, 2026?",
-          "url": "https://polymarket.com/event/will-the-us-invade-venezuela-by-march-31-2026-255",
-          "ts": 1762286883,
-          "odds": 90,
-          "stake": 3000,
-          "pl": 315,
-          "won": true,
-          "tx": "0x6265023a74ae193765f3923b5d6616589695a98036c926ccd230a7a4b76034db"
         }
       ],
       "alsoBinomial": false
