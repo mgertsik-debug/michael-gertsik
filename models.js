@@ -76,7 +76,7 @@ const MODELS = [
     title: "Polymarket Insider Forensics",
     summary: "Catch prediction-market insiders two ways: by suspicious wallets (accounts whose winning records are too unlikely to be chance) and by suspicious trades (individual bets that carry the fingerprint of informed trading). Every flag links to the on-chain transaction and shows the exact math.",
     status: "live",
-    src: "/models/insider-forensics.html?v=1",
+    src: "/models/insider-forensics.html?v=2",
   },
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────

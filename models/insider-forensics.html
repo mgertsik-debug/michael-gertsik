@@ -120,7 +120,7 @@
 
   <!-- TRADES (beta) -->
   <div id="view-trades" class="hide">
-    <div class="dash" id="dash"></div>
+    <div id="dash"></div>
     <div class="banner warn">
       <b>BETA — scores still calibrating.</b> One row = one suspicious <i>trade</i> (the Harvard per-trade approach). The
       <b>scores and tiers are not final</b>: the per-market signals are computed on an incomplete trade sample, which inflates
@@ -150,7 +150,7 @@
 </div>
 
 <script>
-  var DATA = [], sortBy = 'recent', OPEN = {};
+  var DATA = [], sortBy = 'recent', OPEN = {}, META = {};
   var SIG = {
     hProfit:  { name:"Profited far more than the market", eli5:"In this one market, this wallet made far more money than everyone else who bet in it. Out-earning the whole room on a single position is a strong sign they knew something — and it works even on favorite-odds bets." },
     hBetCross:{ name:"Bet far bigger than the market",   eli5:"They staked way more than the typical bettor in this market — like everyone betting $5 and this person betting $500. Betting that much more than the crowd on one outcome shows unusual confidence." },
@@ -174,6 +174,7 @@
       return '<div class="legrow"><div class="ln">'+esc(SIG[k].name)+'</div><div class="ld">'+esc(SIG[k].eli5)+(SIG[k].low?' <span class="lowconf">'+esc(SIG[k].low)+'</span>':'')+'</div></div>';
     }).join('');
   }
+  function fmtInt(n){ n=Math.round(Number(n)||0); return n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(n>=1e4?0:1).replace(/\.0$/,'')+'K':String(n); }
   function renderDash(){
     var n=DATA.length;
     var prof=DATA.reduce(function(a,s){return a+(Number(s.profitNum)||0);},0);
@@ -181,12 +182,21 @@
     var t={extreme:0,elevated:0,watch:0}; DATA.forEach(function(s){ if(t[s.tier]!=null)t[s.tier]++; });
     var scores=DATA.map(function(s){return Number(s.harvardScore)||0;}).sort(function(a,b){return a-b;});
     var med=scores.length?Math.round(scores[Math.floor(scores.length/2)]):0;
-    document.getElementById('dash').innerHTML =
-      stat('TRADES FLAGGED', n, 'wallet × market episodes')
+    // COVERAGE funnel — makes clear the scan is huge; only the strict-gated tip is flagged.
+    var cov='<div style="font-family:var(--mono);font-size:11.5px;color:var(--sub);margin-bottom:12px;">'
+      + '<b style="color:#C4CAC6;">'+fmtInt(META.marketsCovered)+'</b> resolved markets scanned · '
+      + '<b style="color:#C4CAC6;">'+fmtInt(META.observed)+'</b> wallets observed → '
+      + '<b style="color:#C4CAC6;">'+fmtInt(META.screened)+'</b> screened → '
+      + '<b style="color:#C4CAC6;">'+fmtInt(META.scored)+'</b> scored → '
+      + '<b style="color:var(--grn);">'+n+'</b> trades cleared every gate. The small flagged count is by design — strict profit + against-the-odds gates keep only high-confidence trades.</div>';
+    document.getElementById('dash').innerHTML = cov
+    + '<div class="dash" style="margin-bottom:0;">'
+    + stat('TRADES FLAGGED', n, 'of '+fmtInt(META.scored)+' scored episodes')
     + stat('COMBINED PROFIT', usd(prof), 'realized P/L on the flagged trades', true)
-    + stat('MARKETS', Object.keys(mkts).length, 'distinct markets')
+    + stat('FLAGGED MARKETS', Object.keys(mkts).length, 'markets with a flagged trade')
     + '<div class="stat"><div class="k">BY TIER</div><div class="tierline"><span class="e">'+t.extreme+' extreme</span><span class="h">'+t.elevated+' elevated</span><span class="w">'+t.watch+' watch</span></div><div class="s">suspicion tier (beta)</div></div>'
-    + stat('MEDIAN SCORE', med, 'composite (calibration pending)');
+    + stat('MEDIAN SCORE', med, 'composite (calibration pending)')
+    + '</div>';
   }
   function stat(k,v,s,hl){ return '<div class="stat'+(hl?' hl':'')+'"><div class="k">'+k+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>'; }
 
@@ -259,6 +269,7 @@
   function load(){
     fetch('/api/forensics/harvard-subjects',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
       DATA=(d&&d.subjects)||[];
+      META={ marketsCovered:(d&&d.marketsCovered)||0, observed:(d&&d.observed)||0, screened:(d&&d.screened)||0, scored:(d&&d.scored)||0 };
       document.getElementById('n-trades').textContent='· '+DATA.length;
       document.getElementById('stamp').textContent=(d&&d.generatedAt)?('updated '+new Date(d.generatedAt).toLocaleString()):'';
       renderDash(); renderLegend(); render();

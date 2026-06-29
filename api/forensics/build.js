@@ -826,9 +826,11 @@ function buildHarvardPayload(aggregates, meta, catalog) {
   derive(subjects, null);
   const totalFlaggedProfit = subjects.reduce((a, s) => a + (Number(s.profitNum) || 0), 0);
   const fmtUsd = (v) => (Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
+  const marketsCovered = catalog ? Object.keys(catalog).length : 0;   // resolved markets scanned (the real coverage)
   return {
     model: "harvard", subjects,
     observed: (meta && meta.observed) || 0, reviewed: (meta && meta.reviewed) || 0, screened: (meta && meta.screened) || 0, scored: n,
+    marketsCovered,
     totalFlaggedProfit: Math.round(totalFlaggedProfit), totalFlaggedProfitText: fmtUsd(totalFlaggedProfit),
     flaggedCount: n,
     meta: { observed: (meta && meta.observed) || 0, reviewed: (meta && meta.reviewed) || 0, screened: (meta && meta.screened) || 0, scored: n, snapshot: (meta && meta.snapshot) || "", recomputed: (meta && meta.recomputed) || "" },

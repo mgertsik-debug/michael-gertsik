@@ -57,6 +57,7 @@ module.exports = async (req, res) => {
     totalFlaggedProfitText: store.totalFlaggedProfitText || "$0",
     flaggedCount: store.flaggedCount != null ? store.flaggedCount : (store.subjects || []).length,
     observed: store.observed || (store.meta && store.meta.observed) || 0,
+    marketsCovered: store.marketsCovered || 0,    // resolved markets scanned (real coverage)
     generatedAt: store.generatedAt || null,
   });
 };
