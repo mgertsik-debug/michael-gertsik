@@ -114,16 +114,8 @@
         </div>
       </sc-if>
 
-      <!-- STATISTICAL VALIDATION (permutation null test over the flagged set, items 4+5) -->
-      <sc-if value="{{ hasValidation }}" hint-placeholder-val="{{ false }}">
-        <div style="border:1px solid #2C3A33;background:rgba(11,16,14,0.4);border-radius:12px;padding:13px 16px;margin-bottom:14px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:6px;">VALIDATION · PERMUTATION TEST</div>
-          <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#34D399;">{{ validationHeadline }}</span>
-            <span style="font-size:11.5px;color:#949C98;line-height:1.5;">{{ validationLine }}</span>
-          </div>
-        </div>
-      </sc-if>
+      <!-- STATISTICAL VALIDATION moved into the METHODOLOGY & SOURCES drawer (below) so the
+           whole-set permutation test isn't mistaken for a single-wallet number. -->
 
       <!-- CONTROL SURFACE -->
       <div style="margin-bottom: 12px;">
@@ -488,6 +480,17 @@
           </button>
           <sc-if value="{{ methodologyOpen }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top: 10px; border: 1px solid #1F2A25; border-radius: 12px; overflow: hidden;">
+              <!-- WHOLE-SET VALIDATION (permutation null test) — lives here, in the appendix, because it
+                   measures the ENTIRE flagged population, not this one wallet. -->
+              <sc-if value="{{ hasValidation }}" hint-placeholder-val="{{ false }}">
+                <div style="padding: 14px 16px; border-bottom: 1px solid #141C18; background: #0B100E;">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:6px;">VALIDATION · PERMUTATION TEST <span style="color:#3A433E;">· whole flagged set, not this wallet</span></div>
+                  <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#34D399;">{{ validationHeadline }}</span>
+                    <span style="font-size:11.5px;color:#949C98;line-height:1.5;">{{ validationLine }}</span>
+                  </div>
+                </div>
+              </sc-if>
               <sc-for list="{{ methods }}" as="m" hint-placeholder-count="6">
                 <div style="padding: 14px 16px; border-bottom: 1px solid #141C18; background: #0B100E;">
                   <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
