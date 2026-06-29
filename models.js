@@ -76,7 +76,7 @@ const MODELS = [
     title: "Polymarket Insider Forensics",
     summary: "Catch prediction-market insiders in one ranked view: accounts whose winning records are too unlikely to be chance, plus — folded in as additional detectors — favorite-odds bets that simply out-profit the whole market. Every flag links to the on-chain transaction and shows the exact math.",
     status: "live",
-    src: "/models/insider-forensics.html?v=17",
+    src: "/models/insider-forensics.html?v=18",
   },
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────
