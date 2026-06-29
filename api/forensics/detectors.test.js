@@ -445,3 +445,27 @@ test("softened gate: small net-positive profit is a TIER CAP, not an exclusion",
   assert.ok(/net unprofitable/.test(B.validateSubject(Object.assign({}, ctx, { profitNum: -500 }))), "net loser still rejected");
   assert.ok(/below net-profit floor/.test(B.validateSubject(Object.assign({}, ctx, { profitNum: 100 }))), "below the $250 materiality floor -> rejected");
 });
+
+test("corrKey + de-correlation: date-ladder variants of one event collapse to one", () => {
+  // 6 correlated "US strikes Iran by <date>" wins must read as ONE event, not 6
+  const bets = [];
+  for (const d of ["February 28","March 1","March 2","March 3","March 4","March 5"]) {
+    bets.push({ impliedProb: 0.10, won: true, question: "US strikes Iran by " + d + ", 2026?" });
+  }
+  // 5 genuinely independent winning events (so n=6 >= the binomial minimum and it scores)
+  bets.push({ impliedProb: 0.10, won: true, question: "Maduro out by February 28, 2026?" });
+  bets.push({ impliedProb: 0.10, won: true, question: "Netanyahu out by June 30?" });
+  bets.push({ impliedProb: 0.12, won: true, question: "Khamenei out as Supreme Leader of Iran by Feb 28?" });
+  bets.push({ impliedProb: 0.15, won: true, question: "US x Venezuela military engagement by Jan 15?" });
+  bets.push({ impliedProb: 0.12, won: true, question: "Will Trump pardon someone by April?" });
+  const r = D.won(bets);
+  assert.ok(r.hasData, "scored");
+  assert.equal(r.n, 6, "1 collapsed Iran-strike event + 5 independent = 6 events (not 11)");
+  assert.ok(r.collapsed >= 5, "the 6 correlated Iran-strike bets collapsed to 1 (>=5 removed)");
+});
+
+test("corrKey: distinct underlying events keep distinct keys", () => {
+  assert.equal(D.corrKey("US strikes Iran by March 1, 2026?"), D.corrKey("Will the US next strike Iran on Feb 27 (ET)?"), "same event, diff phrasing/date => same key");
+  assert.notEqual(D.corrKey("US strikes Iran by March 1?"), D.corrKey("US x Venezuela military engagement by Jan 15?"), "different region => different key");
+  assert.notEqual(D.corrKey("US strikes Iran by March 1?"), D.corrKey("Maduro out by Feb 28?"), "different topic => different key");
+});
