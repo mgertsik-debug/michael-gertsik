@@ -168,7 +168,7 @@
     document.getElementById('view-wallets').className=watch?'hide':'';
     document.getElementById('t-watch').className='tab'+(watch?' on':'');
     document.getElementById('t-wallets').className='tab'+(watch?'':' on');
-    var f=document.getElementById('wf'); if(!/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=54';
+    var f=document.getElementById('wf'); if(!/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=55';
     location.hash=which;
   }
   var LAST_GEN=null;
@@ -179,7 +179,7 @@
   }
   function reloadDossiers(){
     var f=document.getElementById('wf');
-    if(/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=54&t='+Date.now();
+    if(/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=55&t='+Date.now();
   }
   // Poll the read API. The data only changes when a new scan deploys (~every 15 min); when the
   // generatedAt advances we ALSO reload the dossier iframe, so the whole page reflects the new scan

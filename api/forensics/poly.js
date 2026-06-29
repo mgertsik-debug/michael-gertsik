@@ -41,7 +41,7 @@ function category(tags, question) {
   const s = (tags.join(" ") + " " + question).toLowerCase();
   // ---- EXCLUDE: outcomes decided in PUBLIC — by skill on the field, by open price
   // discovery, or by nature. An "edge" there is handicapping/luck, not secret info. ----
-  if (/\bsport|nfl|nba|wnba|mlb|nhl|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|golf|\bf1\b|grand prix|\bmatch\b|\bgame\b|league|playoff|super ?bowl|world cup|lakers|celtics|yankees|warriors|chiefs|win game|moneyline|to score|goalscorer|points|rebounds|\bmvp\b/.test(s)) return null;
+  if (/\bsport|nfl|nba|wnba|mlb|nhl|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|golf|\bf1\b|grand prix|\bmatch\b|\bgame\b|league|playoff|super ?bowl|world cup|lakers|celtics|yankees|warriors|chiefs|win game|moneyline|to score|goalscorer|points|rebounds|\bmvp\b|exact score|scoreline|\bscore\b|fifa|uefa|\bolympic|premier league|la liga|champions league|shootout|knockout|quarter-?final|semi-?final|\bcricket\b|\brugby\b|nascar|formula ?1/.test(s)) return null;
   // PRICE TARGETS only (pure price discovery). Crypto/stock EVENTS — listings, hacks,
   // ETF approvals — are insider-tradeable and caught in the INCLUDE block below.
   if (/price (of|target|above|below|reach|hit|prediction)|hit \$|reach \$|above \$|below \$|\$[0-9]|close (above|below)|all-time high|\bath\b|market ?cap|flippening|trade(s| at| above| below)/.test(s)) return null;
