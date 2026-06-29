@@ -571,11 +571,11 @@ function harvardEpisode(e, opts) {
     lateBuyFraction: +late.toFixed(3), directionalScore: +dir.toFixed(3),
   };
 }
-// Tier from the composite S (the three reliable cross-sectional signals, winners-only). Calibrated
-// to OUR gated distribution — median ~180, p90 ~530 — NOT the paper's absolute scale, because our
-// per-market cross-sections are computed on a partial trade sample (which inflates the z's). These
-// rank suspicion within our data honestly: extreme ≈ top ~3% of surviving (winning, outsized) trades.
-const HARVARD_TIERS = { notable: 180, high: 420, extreme: 860 };
+// Tier from the composite S (the three reliable cross-sectional signals). Calibrated to OUR gated
+// distribution — material profit ≥ $1k, entry odds ≤ 70%, winners only — where the score runs
+// median ~350, p90 ~730. NOT the paper's absolute scale (our per-market cross-sections use a partial
+// trade sample, which inflates the z's). Ranks suspicion within our data: extreme ≈ top ~5%.
+const HARVARD_TIERS = { notable: 350, high: 540, extreme: 970 };
 function harvardTier(S, opts) {
   const t = Object.assign({}, HARVARD_TIERS, opts && opts.harvardTiers);
   if (!(S > 0)) return null;
