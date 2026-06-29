@@ -88,7 +88,7 @@
   <!-- SUSPECT WALLETS (resolved / proof) -->
   <div id="view-wallets">
     <div class="banner ok">
-      <b>Live &amp; validated.</b> Each row is one suspicious <i>account</i>, ranked by a composite suspicion score with the binomial improbability as its validated backbone (+18&nbsp;SD on a 10,000-shuffle permutation test; false positives removed). Click any wallet for its full dossier — bets, on-chain links, and the exact math.
+      <b>Live &amp; validated.</b> Each row is one suspicious <i>account</i>, <b>newest detection first</b>, leading with the <b>money won</b> on its flagged bets and the odds against pure chance. Re-sort any time by Most&nbsp;suspicious, Most&nbsp;money&nbsp;won, or Longest&nbsp;odds. The whole flagged set beats chance by +18&nbsp;SD on a 10,000-shuffle permutation test (false positives removed). Click any wallet for its full dossier — bets, on-chain links, and the exact math.
     </div>
     <iframe id="wf" src="about:blank" title="Suspect Wallets"></iframe>
   </div>
@@ -168,16 +168,32 @@
     document.getElementById('view-wallets').className=watch?'hide':'';
     document.getElementById('t-watch').className='tab'+(watch?' on':'');
     document.getElementById('t-wallets').className='tab'+(watch?'':' on');
-    var f=document.getElementById('wf'); if(!/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=53';
+    var f=document.getElementById('wf'); if(!/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=54';
     location.hash=which;
   }
-  function load(){
+  var LAST_GEN=null;
+  function scanStamp(gen,n){
+    if(!gen) return '· '+n+' wallets';
+    var clk=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:true}).format(new Date(gen));
+    return '· '+n+' wallets · last scan '+clk+' ET · auto-refreshing';
+  }
+  function reloadDossiers(){
+    var f=document.getElementById('wf');
+    if(/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=54&t='+Date.now();
+  }
+  // Poll the read API. The data only changes when a new scan deploys (~every 15 min); when the
+  // generatedAt advances we ALSO reload the dossier iframe, so the whole page reflects the new scan
+  // without the user manually refreshing. A manual refresh always shows the newest deployed scan.
+  function load(initial){
     fetch('/api/forensics/subjects',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
       var n=((d&&d.subjects)||[]).length;
+      var gen=d&&d.generatedAt;
       document.getElementById('n-wallets').textContent='· '+n;
-      document.getElementById('stamp').textContent=(d&&d.generatedAt)?('· '+n+' wallets · updated '+new Date(d.generatedAt).toLocaleString()):('· '+n+' wallets');
+      document.getElementById('stamp').textContent=scanStamp(gen,n);
       WL=(d&&d.watchlist)||[]; WMETA=(d&&d.watchlistMeta)||{};
       renderWatch();
+      if(!initial && gen && gen!==LAST_GEN) reloadDossiers();   // a NEWER scan landed → refresh everything
+      LAST_GEN=gen;
     }).catch(function(){ document.getElementById('wrows').innerHTML='<tr><td colspan="9" class="empty">Could not load the feed.</td></tr>'; });
   }
   // Real-time New-York clock (America/New_York handles EST/EDT automatically). Ticks every second.
