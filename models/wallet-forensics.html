@@ -15,39 +15,18 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; background: #0A0E0D; }
   @keyframes wf-fadeup { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes wf-glow { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+  @keyframes wf-breathe { 0%,100% { opacity: .55; transform: scale(1); } 50% { opacity: 1; transform: scale(1.35); } }
+  @keyframes wf-aurora { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
   @keyframes wf-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes wf-spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-  @keyframes wf-halo { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: .8; } 50% { transform: translate(-50%,-50%) scale(1.07); opacity: 1; } }
+  @keyframes wf-halo2 { 0%,100% { transform: scale(1); opacity: .65; } 50% { transform: scale(1.06); opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
   }
   .wf-scroll::-webkit-scrollbar { width: 9px; height: 9px; }
   .wf-scroll::-webkit-scrollbar-thumb { background: #1E2823; border-radius: 5px; }
   .wf-scroll::-webkit-scrollbar-track { background: transparent; }
-  /* NEVER show the browser's white/blue default focus ring on ANY interactive element in this
-     component (cards, the "+ show the math" toggles, export buttons, links, the search box,
-     selects, anything tabbable). Mouse clicks show NO ring at all; keyboard navigation gets an
-     accessible GREEN ring via :focus-visible — never white, never blue. */
-  * { -webkit-tap-highlight-color: transparent; }
-  button, a, select, input, textarea, summary, [tabindex], [role="button"], .wf-card { outline: none !important; }
-  button:focus, a:focus, select:focus, input:focus, textarea:focus, summary:focus,
-  [tabindex]:focus, [role="button"]:focus, .wf-card:focus { outline: none !important; }
-  :focus:not(:focus-visible) { outline: none !important; }
-  button:focus-visible, a:focus-visible, select:focus-visible, [tabindex]:focus-visible,
-  [role="button"]:focus-visible, .wf-card:focus-visible {
-    outline: none !important; border-radius: 8px;
-    box-shadow: 0 0 0 2px rgba(52,211,153,0.6), 0 0 22px -8px rgba(52,211,153,0.5);
-  }
-  /* text inputs keep their own border treatment, just a green (not blue) focus glow */
-  input:focus-visible, textarea:focus-visible { outline: none !important; box-shadow: 0 0 0 1px rgba(52,211,153,0.5); }
-  /* Clicking a card must never paint the browser's white/blue text-selection highlight over its
-     labels (e.g. "$51K account P&L (all trades)"). The card is a button — its text is not meant to
-     be hand-selected (there's a dedicated copy control), so suppress selection on the card subtree. */
-  .wf-card, .wf-card * { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
-  /* Anywhere text IS selectable, tint the highlight green instead of the OS default white/blue. */
-  ::selection { background: rgba(52,211,153,0.28); color: #ECEFED; }
-  ::-moz-selection { background: rgba(52,211,153,0.28); color: #ECEFED; }
+  .wf-card:focus-visible { outline: 2px solid #34D399; outline-offset: 2px; }
 </style>
 </helmet>
 <div style="position: relative; overflow: hidden; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #ECEFED; background: #0A0E0D; line-height: 1.55; -webkit-font-smoothing: antialiased; padding: 2px 0 44px;">
@@ -60,42 +39,64 @@
   <div style="position: relative; z-index: 1;">
 
   <!-- ZONE 1 — HEADER BAND -->
-  <div style="position: relative; overflow: hidden; background: #0E1512; border: 1px solid #1F2A25; border-radius: 16px; box-shadow: 0 0 34px -18px rgba(52,211,153,0.2), 0 10px 26px -18px rgba(0,0,0,0.5); padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; margin-bottom: 18px;">
-    <div style="min-width: 240px;">
-      <div style="display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: #A78BFA;">
-        <span style="width: 8px; height: 8px; border-radius: 50%; background: #A78BFA; box-shadow: 0 0 12px 3px rgba(167,139,250,0.7);"></span>
-        WALLET FORENSICS · POLYMARKET
+  <div style="position: relative; overflow: hidden; background: #0E1512; border: 1px solid #1F2A25; border-radius: 16px; box-shadow: 0 0 40px -20px rgba(52,211,153,0.25), 0 10px 26px -18px rgba(0,0,0,0.55); padding: 18px 22px; margin-bottom: 18px;">
+    <div style="position: absolute; left: 0; top: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(52,211,153,0.4), transparent);"></div>
+    <!-- row 1: brand + clock -->
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; justify-content: space-between;">
+      <div style="min-width: 240px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="width: 9px; height: 9px; border-radius: 2px; background: #34D399; box-shadow: 0 0 12px 2px rgba(52,211,153,0.7); flex-shrink: 0;"></span>
+          <span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap;">Polymarket Insider Forensics</span>
+        </div>
+        <div title="{{ snapshotTitle }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6B756F; margin-top: 8px;">· {{ corpus.flagged }} flagged · {{ snapshotLabel }} · auto-refreshing</div>
       </div>
-      <div style="font-size: 16px; color: #ECEFED; margin-top: 10px; max-width: 460px; font-weight: 500;">Bettors whose winning records are too unlikely to be chance.</div>
-      <div style="display: flex; align-items: center; gap: 4px; margin-top: 14px; flex-wrap: wrap;">
-        <sc-for list="{{ funnelSteps }}" as="step" hint-placeholder-count="4">
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3A433E; margin: 0 2px;">{{ step.arrow }}</span>
-          <span style="display: inline-flex; align-items: baseline; gap: 5px; background: #090D0C; border: 1px solid #1F2A25; border-radius: 7px; padding: 4px 9px;">
-            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; color: {{ step.color }};">{{ step.val }}</span>
-            <span style="font-family: Inter; font-size: 10.5px; color: #6B756F;">{{ step.label }}</span>
-          </span>
-        </sc-for>
+      <div style="text-align: right;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 600; letter-spacing: 0.02em; color: #ECEFED; white-space: nowrap;">{{ clock }}</div>
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 5px;">
+          <span style="{{ liveDotStyle }}"></span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6FE3B6;">NEW YORK · LIVE FEED</span>
+        </div>
       </div>
     </div>
-    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #949C98; text-align: right;">Observed <span style="color: #ECEFED;">{{ corpus.observed }}</span> wallets · <span style="color: #FBBF24;">{{ corpus.flagged }}</span> flagged</div>
-      <div style="display: flex; flex-direction: column; gap: 4px;">
-        <div style="display: flex; align-items: center; gap: 9px; background: #0E1512; border: 1px solid {{ searchBorder }}; border-radius: 10px; padding: 10px 13px; min-width: 280px; box-shadow: inset 0 0 16px -8px rgba(52,211,153,0.18);">
-          <span style="color: #5C6661; font-size: 13px;">⌕</span>
-          <input value="{{ search }}" onInput="{{ onSearch }}" onKeyDown="{{ onSearchKey }}" placeholder="Paste a 0x wallet to score it, or filter the list" style="background: transparent; border: none; outline: none; color: #ECEFED; font-family: 'JetBrains Mono', monospace; font-size: 12px; width: 100%;" />
-          <sc-if value="{{ isAddressQuery }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ runLookup }}" style="flex-shrink:0; background:#34D399; color:#06120D; border:none; border-radius:7px; padding:5px 10px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:0.05em; cursor:pointer;">SCORE ↵</button>
-          </sc-if>
-        </div>
+    <!-- row 2: tabs + search -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px;">
+      <div style="display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #34D399; background: rgba(52,211,153,0.1); border: 1px solid #34D399; border-radius: 10px; padding: 9px 14px; box-shadow: 0 0 20px -8px rgba(52,211,153,0.6);">SUSPECT WALLETS <span style="color: #2BB587;">· {{ corpus.flagged }}</span></div>
+      <a href="Live Watchlist.dc.html" style="display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #949C98; background: #0E1512; border: 1px solid #1F2A25; border-radius: 10px; padding: 9px 14px;" style-hover="border-color:#2C3A33;color:#ECEFED;">LIVE WATCHLIST <span style="font-size: 8.5px; font-weight: 700; letter-spacing: 0.1em; color: #06120D; background: #FBBF24; border-radius: 4px; padding: 2px 5px;">BETA</span> <span style="color: #6B756F;">· 3</span></a>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #34D399; border: 1px solid rgba(52,211,153,0.4); border-radius: 999px; padding: 6px 11px; background: rgba(52,211,153,0.07);">LIVE DATA</span>
+      <div style="display: flex; align-items: center; gap: 9px; background: #090D0C; border: 1px solid {{ searchBorder }}; border-radius: 10px; padding: 9px 12px; min-width: 220px; margin-left: auto; flex: 1; max-width: 340px;">
+        <span style="color: #5C6661; font-size: 13px;">⌕</span>
+        <input value="{{ search }}" onInput="{{ onSearch }}" onKeyDown="{{ onSearchKey }}" placeholder="Paste a 0x wallet to score it, or filter the list" style="background: transparent; border: none; outline: none; color: #ECEFED; font-family: 'JetBrains Mono', monospace; font-size: 12px; width: 100%;" />
         <sc-if value="{{ isAddressQuery }}" hint-placeholder-val="{{ false }}">
-          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:#6B756F; padding-left:2px;">press Score to run the full engine on this wallet live</div>
+          <button onClick="{{ runLookup }}" style="flex-shrink:0; background:#34D399; color:#06120D; border:none; border-radius:7px; padding:5px 10px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:0.05em; cursor:pointer;">SCORE ↵</button>
         </sc-if>
+      </div>
+    </div>
+    <!-- row 3: funnel + combined profit -->
+    <div style="display: flex; flex-wrap: wrap; gap: 18px 24px; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 16px; border-top: 1px solid #141C18;">
+      <div style="min-width: 0;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 10px;">DETECTION FUNNEL</div>
+        <div style="display: flex; align-items: center; gap: 2px; flex-wrap: wrap;">
+          <sc-for list="{{ funnelSteps }}" as="step" hint-placeholder-count="4">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #34A382; margin: 0 4px;">{{ step.arrow }}</span>
+            <span style="display: inline-flex; flex-direction: column; gap: 2px; background: #090D0C; border: 1px solid {{ step.border }}; border-radius: 9px; padding: 8px 12px; box-shadow: {{ step.shadow }};">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: {{ step.color }}; letter-spacing: -0.01em;">{{ step.val }}</span>
+              <span style="font-family: Inter; font-size: 10px; color: #6B756F;">{{ step.label }}</span>
+            </span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position: relative; text-align: right; min-width: 200px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F;">COMBINED PROFIT ON THE FLAGGED BETS</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 42px; font-weight: 700; color: #34D399; letter-spacing: -0.02em; line-height: 1.05; margin-top: 6px; text-shadow: 0 0 30px rgba(52,211,153,0.45);">{{ combinedProfit }}</div>
+        <div style="height: 2px; width: 100%; margin-top: 6px; border-radius: 2px; background: linear-gradient(90deg, transparent, #34D399, #6FE3B6, transparent); box-shadow: 0 0 14px rgba(52,211,153,0.5); {{ auroraAnim }}"></div>
+        <div style="font-size: 11.5px; color: #949C98; margin-top: 8px; max-width: 300px; margin-left: auto; line-height: 1.45;">combined realized P&amp;L on the flagged bets across {{ aggCount }} flagged accounts — grows with coverage.</div>
       </div>
     </div>
   </div>
 
-  <!-- (Funding rings now surface as cluster subjects under the "Groups" filter, not a
-       top panel. The surprising-markets discovery panel was removed from the top.) -->
+  <!-- DISCOVERY PANELS (surprising markets + detected funding rings) -->
+  {{ surpriseMarketsNode }}
+  {{ ringGroupsNode }}
 
   <!-- ZONE 2 — TWO PANE (rendered only when the job has flagged real subjects) -->
   <sc-if value="{{ hasSubjects }}" hint-placeholder-val="{{ true }}">
@@ -103,20 +104,6 @@
 
     <!-- LEFT: FLAGGED BETTORS -->
     <div>
-      <!-- AGGREGATE INFORMED-TRADING P&L (comparable in kind to the Harvard $143M est.) -->
-      <sc-if value="{{ hasAggProfit }}" hint-placeholder-val="{{ false }}">
-        <div style="border:1px solid #2C3A33;background:linear-gradient(165deg,rgba(52,211,153,0.06),rgba(11,16,14,0.4));border-radius:12px;padding:14px 16px;margin-bottom:14px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:5px;">COMBINED PROFIT ON THE FLAGGED BETS</div>
-          <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:25px;font-weight:700;color:#34D399;">{{ aggProfitText }}</span>
-            <span style="font-size:11.5px;color:#949C98;line-height:1.5;">combined realized P&amp;L on the flagged bets across {{ aggCount }} flagged accounts (the flagged bets only — not account-wide trading) · comparable in kind to the research's anomalous-profit estimate · grows with coverage</span>
-          </div>
-        </div>
-      </sc-if>
-
-      <!-- STATISTICAL VALIDATION moved into the METHODOLOGY & SOURCES drawer (below) so the
-           whole-set permutation test isn't mistaken for a single-wallet number. -->
-
       <!-- CONTROL SURFACE -->
       <div style="margin-bottom: 12px;">
         <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
@@ -160,7 +147,7 @@
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 8px;">CATEGORY</div>
             <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
               <sc-for list="{{ categoryChips }}" as="c" hint-placeholder-count="8">
-                <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}<span style="opacity:0.5; margin-left:5px;">{{ c.badge }}</span></button>
+                <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}<span style="opacity:0.5; margin-left:5px;">{{ c.count }}</span></button>
               </sc-for>
             </div>
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 10px;">THRESHOLDS</div>
@@ -211,25 +198,31 @@
           </div>
         </sc-if>
         <sc-for list="{{ subjects }}" as="s" hint-placeholder-count="6">
-          <div class="wf-card" tabindex="0" onClick="{{ s.onClick }}" onKeyDown="{{ s.onKeyDown }}" style="{{ s.cardStyle }}" style-hover="transform:translateY(-2px);border-color:rgba(52,211,153,0.28);box-shadow:0 10px 26px -18px rgba(0,0,0,0.5);">
+          <div class="wf-card" tabindex="0" onClick="{{ s.onClick }}" onKeyDown="{{ s.onKeyDown }}" style="{{ s.cardStyle }}" style-hover="transform:translateY(-2px);border-color:#34D399;box-shadow:0 0 0 1px rgba(52,211,153,0.22),0 0 24px -12px rgba(52,211,153,0.3),0 10px 26px -18px rgba(0,0,0,0.5);">
             <div style="{{ s.accentStyle }}"></div>
             <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;">
               <div style="min-width: 0;">
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 7px; flex-wrap: wrap;">
                   <span style="font-size: 13.5px; font-weight: 600; color: {{ s.whoColor }};">{{ s.whoGlyph }}{{ s.whoLabel }}</span>
                   <span style="{{ s.badgeStyle }}">{{ s.concernLabel }}</span>
-                  <sc-if value="{{ s.newlyFlagged }}" hint-placeholder-val="{{ false }}">
-                    <span title="newly flagged in the latest snapshot" style="display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:0.1em;color:#34D399;border:1px solid rgba(52,211,153,0.45);border-radius:999px;padding:2px 7px;background:rgba(52,211,153,0.08);"><span style="width:5px;height:5px;border-radius:50%;background:#34D399;box-shadow:0 0 7px #34d399;"></span>NEW</span>
-                  </sc-if>
-                  <sc-if value="{{ s.archived }}" hint-placeholder-val="{{ false }}">
-                    <span title="aged past the active lookback window — still queryable" style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.1em;color:#6B756F;border:1px solid #1F2A25;border-radius:999px;padding:2px 7px;">ARCHIVE</span>
+                  <sc-if value="{{ s.isNew }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.1em; color: #06120D; background: #34D399; border-radius: 4px; padding: 2px 6px; box-shadow: 0 0 12px -2px rgba(52,211,153,0.7);">NEW</span>
                   </sc-if>
                 </div>
                 <div style="font-size: 12px; color: #949C98; margin-top: 7px; line-height: 1.45; max-width: 280px;">{{ s.why }}</div>
+                <div style="display: flex; align-items: center; gap: 5px; margin-top: 10px;">
+                  <sc-for list="{{ s.spark }}" as="d" hint-placeholder-count="6">
+                    <span style="{{ d.style }}"></span>
+                  </sc-for>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: #5C6661; margin-left: 4px;">{{ s.firedLabel }} fired</span>
+                </div>
               </div>
-              <div style="text-align: right; flex-shrink: 0;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 19px; color: {{ s.concernColor }}; letter-spacing: -0.02em; text-shadow: 0 0 18px {{ s.concernGlow }};">{{ s.improbText }}</div>
-                <div style="font-size: 9.5px; color: #6B756F; margin-top: 3px; max-width: 116px; line-height: 1.35;">{{ s.improbCaption }}</div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0;">
+                {{ s.gaugeNode }}
+                <div style="text-align: right;">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 17px; color: {{ s.concernColor }}; letter-spacing: -0.02em; text-shadow: 0 0 18px {{ s.concernGlow }};">{{ s.moneyWon }}</div>
+                  <div style="font-size: 9px; color: #6B756F; margin-top: 2px; max-width: 120px; line-height: 1.3;">{{ s.oddsCaption }}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -242,11 +235,12 @@
 
       <!-- ACTION BAR -->
       <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 16px 22px; border-bottom: 1px solid #1B2521;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-right: auto;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> EVIDENCE FILE · {{ sel.refId }}</div>
-        <button onClick="{{ act.exportPdf }}" style="display:flex;align-items:center;gap:6px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);color:#34D399;font-family:Inter;font-size:12px;font-weight:600;padding:9px 13px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(52,211,153,0.18);box-shadow:0 0 20px -6px rgba(52,211,153,0.5);">↧ Download evidence file</button>
-        <button onClick="{{ act.exportCsv }}" style="display:flex;align-items:center;gap:6px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);color:#34D399;font-family:Inter;font-size:12px;font-weight:600;padding:9px 13px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(52,211,153,0.18);box-shadow:0 0 20px -6px rgba(52,211,153,0.5);">↧ Bet list</button>
-        <button onClick="{{ act.referral }}" style="display:flex;align-items:center;gap:6px;background:#34D399;border:1px solid #34D399;color:#06120D;font-family:Inter;font-size:12px;font-weight:700;padding:9px 14px;border-radius:9px;cursor:pointer;box-shadow:0 0 24px -8px rgba(52,211,153,0.7);" style-hover="background:#4CE0AC;">⊞ Build referral packet</button>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; flex: 1 0 100%; margin-bottom: 4px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> EVIDENCE FILE · {{ sel.refId }}</div>
+        <button onClick="{{ act.exportPdf }}" style="display:flex;align-items:center;gap:6px;flex:0 0 auto;white-space:nowrap;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);color:#34D399;font-family:Inter;font-size:12px;font-weight:600;padding:9px 13px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(52,211,153,0.18);box-shadow:0 0 20px -6px rgba(52,211,153,0.5);">↧ Download evidence file</button>
+        <button onClick="{{ act.exportCsv }}" style="display:flex;align-items:center;gap:6px;flex:0 0 auto;white-space:nowrap;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);color:#34D399;font-family:Inter;font-size:12px;font-weight:600;padding:9px 13px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(52,211,153,0.18);box-shadow:0 0 20px -6px rgba(52,211,153,0.5);">↧ Bet list</button>
+        <button onClick="{{ act.referral }}" style="display:flex;align-items:center;gap:6px;flex:0 0 auto;white-space:nowrap;background:#34D399;border:1px solid #34D399;color:#06120D;font-family:Inter;font-size:12px;font-weight:700;padding:9px 14px;border-radius:9px;cursor:pointer;box-shadow:0 0 24px -8px rgba(52,211,153,0.7);" style-hover="background:#4CE0AC;">⊞ Build referral packet</button>
         <button onClick="{{ act.save }}" style="{{ saveStyle }}">{{ saveIcon }} {{ saveLabel }}</button>
+        <button onClick="{{ act.permalink }}" style="display:flex;align-items:center;gap:6px;flex:0 0 auto;white-space:nowrap;background:transparent;border:1px solid #1F2A25;color:#949C98;font-family:Inter;font-size:12px;padding:9px 12px;border-radius:9px;cursor:pointer;" style-hover="border-color:#34D399;color:#ECEFED;">{{ permalinkLabel }}</button>
       </div>
 
       <div class="wf-scroll" style="max-height: {{ dossierMaxH }}; overflow-y: {{ dossierOverflow }};">
@@ -255,52 +249,56 @@
         <div style="padding: 24px 24px 20px; border-bottom: 1px solid #18211D; animation: wf-fadeup 0.4s ease both;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-bottom: 12px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> WHO THIS IS</div>
           <div style="font-size: 19px; font-weight: 600; color: {{ sel.whoColor }};">{{ sel.whoGlyph }}{{ sel.whoLabel }}</div>
-          <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
-            <a href="{{ sel.scanUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ECEFED; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34D399;color:#34D399;">{{ sel.addrShort }} ↗ Polygonscan</a>
-            <button onClick="{{ sel.copyAddr }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ sel.copyColor }}; background: transparent; border: 1px solid {{ sel.copyBorder }}; border-radius: 7px; padding: 4px 9px; cursor: pointer;">{{ sel.copyLabel }}</button>
-            <sc-if value="{{ sel.hasPolymarket }}" hint-placeholder-val="{{ true }}">
-              <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7E8C86; text-decoration: none; background: #0E1512; border: 1px solid #243029; border-radius: 7px; padding: 4px 9px;" style-hover="border-color:#34A382;color:#C4CAC6;">Polymarket ↗</a>
-            </sc-if>
-          </div>
-          <div style="font-size: 13.5px; color: #949C98; margin-top: 10px;">{{ sel.createdLine }}</div>
+          <div style="font-size: 13.5px; color: #949C98; margin-top: 8px;">First active {{ sel.firstSeen }}.</div>
           <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
             <div style="font-size: 13.5px; color: #949C98; margin-top: 8px; line-height: 1.6; max-width: 620px;">These wallets appear to be controlled by one person or group. See the connection evidence below.</div>
           </sc-if>
           <div style="display: flex; align-items: center; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B756F;">linked funding</span>
             <sc-for list="{{ sel.depositChips }}" as="d" hint-placeholder-count="2">
-              <span title="{{ d.addr }}" style="font-family: Inter; font-size: 12px; color: #C4CAC6; background: #0E1512; border: 1px solid #1F2A25; border-radius: 7px; padding: 5px 10px;">{{ d.label }}</span>
+              <span title="{{ d.addr }}" style="font-family: Inter; font-size: 12px; color: #C4CAC6; background: #0E1512; border: 1px solid #1F2A25; border-radius: 7px; padding: 5px 10px; white-space: nowrap;">{{ d.label }}</span>
             </sc-for>
           </div>
         </div>
 
         <!-- 2 · THE HEADLINE (SIGNATURE) -->
-        <div style="position: relative; padding: 46px 24px 40px; text-align: center; border-bottom: 1px solid #18211D; overflow: hidden;">
-          <div style="position: absolute; left: 50%; top: 44%; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, {{ sel.concernGlow }}, transparent 66%); filter: blur(10px); animation: wf-halo 4.5s ease-in-out infinite; pointer-events: none;"></div>
-          <svg viewBox="0 0 320 320" style="position: absolute; left: 50%; top: 44%; transform: translate(-50%,-50%); width: 320px; height: 320px; pointer-events: none;">
-            <circle cx="160" cy="160" r="128" fill="none" stroke="{{ sel.concernColor }}" stroke-width="1" stroke-dasharray="2 12" opacity="0.45" style="transform-origin: 160px 160px; animation: wf-spin 26s linear infinite;"></circle>
-            <circle cx="160" cy="160" r="104" fill="none" stroke="{{ sel.concernColor }}" stroke-width="1" stroke-dasharray="1 16" opacity="0.3" style="transform-origin: 160px 160px; animation: wf-spin-rev 34s linear infinite;"></circle>
-          </svg>
-          <div style="position: relative;">
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #949C98;">{{ heroEyebrow }}</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 68px; line-height: 1; color: {{ sel.concernColor }}; margin: 16px 0 6px; letter-spacing: -0.03em; text-shadow: 0 0 36px {{ sel.concernGlow }};">{{ heroDisplay }}</div>
-            <div style="font-size: 13px; color: #949C98;">{{ heroCaption }}</div>
-            <div style="display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; border: 1px solid {{ sel.concernBorder }}; background: {{ sel.concernBg }}; color: {{ sel.concernColor }}; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; padding: 7px 15px; border-radius: 999px; box-shadow: 0 0 26px -8px {{ sel.concernGlow }};">{{ sel.concernLabel }}</div>
-            <p style="font-family: Inter; font-size: 16px; color: #D7DCD9; max-width: 580px; margin: 22px auto 0; line-height: 1.65;">{{ sel.heroSentence }}</p>
-            <sc-if value="{{ sel.full }}" hint-placeholder-val="{{ true }}">
-              <div style="max-width: 640px; margin: 26px auto 0; text-align: left; display: flex; flex-direction: column; gap: 14px;">
-                <div>
-                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 7px;">WHERE THIS SITS AMONG ALL SCORED LONG-SHOT BETTORS</div>
-                  {{ percentileStripNode }}
-                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{ sel.concernColor }}; margin-top: 8px;">{{ sel.percentileText }}</div>
-                </div>
-                {{ confidenceMeterNode }}
-              </div>
-            </sc-if>
+        <div style="position: relative; padding: 24px 24px 22px; border-bottom: 1px solid #18211D; overflow: hidden;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #949C98; text-align: center;"><span style="color:{{ sel.concernColor }};font-size:7px;vertical-align:middle;">●</span> WHY IT IS FLAGGED</div>
+
+          <!-- signature stage — spinning rings frame a clean center; number never overlaps -->
+          <div style="position: relative; height: 168px; max-width: 420px; margin: 48px auto 0; display: flex; align-items: center; justify-content: center;">
+            {{ signatureNode }}
+            <div style="position: relative; z-index: 2; text-align: center;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 27px; line-height: 1; color: {{ sel.concernColor }}; letter-spacing: -0.02em; text-shadow: 0 0 16px {{ sel.concernGlow }}; white-space: nowrap;">{{ heroDisplay }}</div>
+              <div style="font-size: 10.5px; color: #949C98; margin-top: 7px;">chance this winning record is luck</div>
+            </div>
+          </div>
+
+          <!-- improbability meter — quiet marker on a log rarity scale -->
+          <div style="max-width: 520px; margin: 28px auto 0;">
+            {{ improbMeterNode }}
+          </div>
+
+          <!-- verdict + plain-English (clean stacked flow, no overlap) -->
+          <div style="text-align: center; margin-top: 18px;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid {{ sel.concernBorder }}; background: {{ sel.concernBg }}; color: {{ sel.concernColor }}; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; padding: 7px 15px; border-radius: 999px; box-shadow: 0 0 26px -8px {{ sel.concernGlow }};">{{ sel.concernLabel }}</div>
+            <p style="font-family: Inter; font-size: 14px; color: #D7DCD9; max-width: 580px; margin: 16px auto 0; line-height: 1.6;">{{ sel.heroSentence }}</p>
           </div>
         </div>
 
         <sc-if value="{{ sel.full }}" hint-placeholder-val="{{ true }}">
+
+        <!-- 2b · WHERE THIS SITS (own band) -->
+        <div style="padding: 22px 24px; border-bottom: 1px solid #18211D;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 12px;">WHERE THIS SITS AMONG ALL REVIEWED BETTORS</div>
+          {{ percentileStripNode }}
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{ sel.concernColor }}; margin-top: 12px;">{{ sel.percentileText }}</div>
+        </div>
+
+        <!-- 2c · DETECTOR AGREEMENT (own band) -->
+        <div style="padding: 22px 24px; border-bottom: 1px solid #18211D;">
+          {{ confidenceMeterNode }}
+        </div>
 
         <!-- 3 · WHAT WE FOUND -->
         <div style="padding: 24px; border-bottom: 1px solid #18211D;">
@@ -333,18 +331,10 @@
                 </div>
                 <button onClick="{{ f.onToggle }}" style="background: transparent; border: none; color: #6B756F; font-family: 'JetBrains Mono', monospace; font-size: 11px; cursor: pointer; white-space: nowrap; flex-shrink: 0;" style-hover="color:#34D399;">{{ f.caret }}</button>
               </div>
-              <sc-if value="{{ f.link }}" hint-placeholder-val="{{ '' }}">
-                <a href="{{ f.link }}" target="_blank" rel="noopener" style="display:inline-block;margin-top:11px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#34D399;text-decoration:none;border:1px solid rgba(52,211,153,0.4);border-radius:7px;padding:7px 11px;background:rgba(52,211,153,0.06);">{{ f.linkLabel }}</a>
-              </sc-if>
               <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
                 <div style="margin: 13px 0 2px; background: #090D0C; border: 1px solid #1B2521; border-radius: 10px; padding: 16px 16px 14px;">
                   <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #34D399;">METHOD · {{ f.method }}</div>
                   <div style="font-size: 11.5px; color: #6B756F; margin-top: 4px;">{{ f.citation }}</div>
-
-                  <div style="margin-top: 13px; background: rgba(52,211,153,0.05); border: 1px solid #1B2521; border-radius: 8px; padding: 11px 13px;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6FE3B6; margin-bottom: 5px;">IN PLAIN WORDS</div>
-                    <div style="font-size: 12.5px; color: #C4CAC6; line-height: 1.6;">{{ f.eli5 }}</div>
-                  </div>
 
                   <div style="margin-top: 13px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 8px; padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #D7DCD9; overflow-x: auto; white-space: nowrap;">{{ f.formula }}</div>
                   <div style="display: flex; flex-wrap: wrap; gap: 5px 18px; margin-top: 9px;">
@@ -388,7 +378,6 @@
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> THE BETS THEMSELVES</div>
             <div style="font-size: 11px; color: #6B756F;">click a column to sort</div>
           </div>
-          <div style="font-size: 11.5px; color: #6B756F; line-height: 1.5; margin: -4px 0 12px;">Amounts and profit are rounded for display (e.g. $1,488 shows as $1K) — exact values reconcile to Polymarket's position P/L. The on-chain link is the <span style="color:#8A938F;">entry trade</span> (proof the bet was placed, and when); profit is realized later at resolution in a separate redemption transaction, so a single tx won't show the P/L.</div>
           <div class="wf-scroll" style="overflow-x: auto; border: 1px solid #1B2521; border-radius: 12px;">
             <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 620px;">
               <thead>
@@ -468,7 +457,6 @@
           <div style="position: relative; overflow: hidden; border: 1px solid #2C3A33; background: linear-gradient(165deg, rgba(52,211,153,0.05), rgba(11,16,14,0.4)); border-radius: 14px; padding: 22px 24px;">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #34D399; margin-bottom: 12px;">A PATTERN, NOT A VERDICT</div>
             <p style="font-size: 14.5px; color: #D7DCD9; line-height: 1.75; margin: 0;">This shows a winning record extraordinarily unlikely to be luck. It does not prove who these people are, what they knew, or that they broke the law. Confirming that requires records only the exchange or a regulator can obtain. Everyone is presumed innocent. This is an investigative lead, not legal advice.</p>
-            <p style="font-size: 12px; color: #7E8C86; line-height: 1.65; margin: 12px 0 0; border-top: 1px solid #1F2A25; padding-top: 12px;">Methodology inspired by the peer-reviewed prediction-market informed-trading research it builds on: the <strong style="color:#A7B0AB;">Harvard Law School</strong> composite-signal study (93,000 Polymarket markets, March 2026) and the <strong style="color:#A7B0AB;">London Business School &amp; Yale</strong> "expert winners" study (1.72M accounts, 2025). This tool operationalizes and extends their five-signal framework with exact per-wallet binomial improbability, de-correlation, and on-chain funding-graph clustering. All trade data is pulled from Polymarket's public APIs.</p>
           </div>
         </div>
 
@@ -480,17 +468,6 @@
           </button>
           <sc-if value="{{ methodologyOpen }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top: 10px; border: 1px solid #1F2A25; border-radius: 12px; overflow: hidden;">
-              <!-- WHOLE-SET VALIDATION (permutation null test) — lives here, in the appendix, because it
-                   measures the ENTIRE flagged population, not this one wallet. -->
-              <sc-if value="{{ hasValidation }}" hint-placeholder-val="{{ false }}">
-                <div style="padding: 14px 16px; border-bottom: 1px solid #141C18; background: #0B100E;">
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:6px;">VALIDATION · PERMUTATION TEST <span style="color:#3A433E;">· whole flagged set, not this wallet</span></div>
-                  <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;">
-                    <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#34D399;">{{ validationHeadline }}</span>
-                    <span style="font-size:11.5px;color:#949C98;line-height:1.5;">{{ validationLine }}</span>
-                  </div>
-                </div>
-              </sc-if>
               <sc-for list="{{ methods }}" as="m" hint-placeholder-count="6">
                 <div style="padding: 14px 16px; border-bottom: 1px solid #141C18; background: #0B100E;">
                   <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
@@ -615,8 +592,10 @@ class Component extends DCLogic {
       network: { loading: false, data: null, addr: null, hoverNode: null },
       copied: {},
       chartHover: null,
+      permalinkCopied: false,
       heroProg: 0,
       corpusProg: 0,
+      tick: 0,
       reduce: false,
       vw: (typeof window !== "undefined" ? window.innerWidth : 1280),
     };
@@ -626,38 +605,38 @@ class Component extends DCLogic {
     this._onResize = () => { clearTimeout(this._rz); this._rz = setTimeout(() => this.setState({ vw: window.innerWidth }), 120); };
     window.addEventListener("resize", this._onResize);
     this.state.reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this._clock = setInterval(() => this.setState((s) => ({ tick: s.tick + 1 })), 1000);
     this.loadReal();
     // LIVE: re-poll the scheduled job's store so the counts + flagged set update
-    // without a reload (the job commits a fresh snapshot every ~15 min; polling every
-    // 90s catches it within ~1.5 min of landing). applyRealData only re-renders when
-    // the data actually changed.
+    // without a reload. applyRealData only re-renders when the data actually changed.
     this._poll = setInterval(() => this.loadReal(), 90000);
     if (this.state.reduce || this.props.animateCounts === false) { this.setState({ heroProg: 1, corpusProg: 1 }); return; }
     this.animate("corpusProg", 1100);
     this.animate("heroProg", 1300);
   }
 
+  componentWillUnmount() {
+    try { clearInterval(this._poll); } catch (_) {}
+    try { clearInterval(this._clock); } catch (_) {}
+    try { window.removeEventListener("resize", this._onResize); } catch (_) {}
+  }
+
   // ---------- REAL DATA ----------
   // Pre-snapshot metadata (zeros until the scheduled job has run at least once).
   emptyMeta() {
-    return { observed: 0, reviewed: 0, screened: 0, block: "", snapshot: "", recomputed: "" };
+    return { observed: 0, reviewed: 0, screened: 0, scored: 0, block: "", snapshot: "", recomputed: "" };
   }
 
   // Pull the live forensic snapshot from the scheduled job's store. On any
-  // failure (or an empty store) we stay in sample mode — we never blank the
-  // tool and never present seed data as if it were real.
+  // failure (or an empty store) we stay in the honest empty state.
   loadReal() {
     if (typeof fetch !== "function") return;
-    // PREVIEW: ?model=harvard (on this page's own URL) points the IDENTICAL UI at the
-    // Harvard-scored dossiers instead of the published binomial store — same format, only the
-    // metrics change. Default (no param) stays on the live binomial endpoint, untouched.
     let _ep = "/api/forensics/subjects";
     try { if ((typeof location !== "undefined" ? location.search : "").indexOf("model=harvard") !== -1) _ep = "/api/forensics/harvard-subjects"; } catch (_) {}
     fetch(_ep, { cache: "no-store" })
       .then((r) => (r && r.ok ? r.json() : null))
       .then((data) => {
         if (!data || !Array.isArray(data.subjects)) return;
-        // skip the re-render if the snapshot hasn't changed since last poll (avoids flicker)
         const stamp = (data.generatedAt || "") + "|" + data.subjects.length + "|" + (data.reviewed || 0);
         if (stamp === this._lastStamp) return;
         this._lastStamp = stamp;
@@ -666,16 +645,30 @@ class Component extends DCLogic {
       .catch(() => {});
   }
 
-  componentWillUnmount() { try { clearInterval(this._poll); } catch (_) {} try { window.removeEventListener("resize", this._onResize); } catch (_) {} }
+  applyRealData(data) {
+    this.subjects = Array.isArray(data.subjects) ? data.subjects : [];
+    this.surpriseMarkets = Array.isArray(data.surpriseMarkets) ? data.surpriseMarkets : [];
+    this.ringGroups = Array.isArray(data.ringGroups) ? data.ringGroups : [];
+    this.coverageByCategory = (data.coverageByCategory && typeof data.coverageByCategory === "object") ? data.coverageByCategory : {};
+    this.totalFlaggedProfit = data.totalFlaggedProfit || 0;
+    this.totalFlaggedProfitText = data.totalFlaggedProfitText || null;
+    this.validation = (data.validation && typeof data.validation === "object") ? data.validation : null;
+    this.isSample = false;
+    this.meta = {
+      observed: data.observed != null ? data.observed : (data.meta && data.meta.observed) || 0,
+      reviewed: data.reviewed != null ? data.reviewed : (data.meta && data.meta.reviewed) || this.subjects.length,
+      screened: data.screened != null ? data.screened : (data.meta && data.meta.screened) || 0,
+      scored: data.scored != null ? data.scored : (data.meta && data.meta.scored) || 0,
+      block: (data.meta && data.meta.block) || data.block || "",
+      snapshot: (data.meta && data.meta.snapshot) || data.snapshot || "",
+      recomputed: (data.meta && data.meta.recomputed) || data.recomputed || (data.meta && data.meta.snapshot) || "",
+      generatedAt: data.generatedAt || (data.meta && data.meta.generatedAt) || null,
+    };
+    const first = this.subjects[0];
+    this.setState({ selectedId: first ? first.id : null, measure: {}, hoverEdge: null, _v: (this.state._v || 0) + 1 });
+  }
 
-  // Apply the live snapshot. IMPORTANT: update the metadata (reviewed / screened
-  // / snapshot) even when there are zero flagged subjects yet — otherwise the
-  // honest empty state shows "0 reviewed · awaiting snapshot" while the job has
-  // in fact reviewed tens of thousands of bettors. Subjects populate the list
-  // only when non-empty.
-  // SURPRISE MARKETS — the proactive discovery surface: resolved markets where an
-  // unlikely outcome won and money rode in early. This is the haystack to examine,
-  // independent of whether anyone has been flagged yet.
+  // SURPRISE MARKETS — proactive discovery surface.
   surpriseMarketsNode() {
     const h = this.h, mono = "'JetBrains Mono', monospace";
     const list = (this.surpriseMarkets || []).slice(0, 12);
@@ -707,10 +700,6 @@ class Component extends DCLogic {
       list.map(row));
   }
 
-  // DETECTED GROUPS — funding rings the scanner found automatically by tracing each
-  // flagged wallet's on-chain USDC funder and pulling in the siblings that funder
-  // also seeded (the Iran-style "one funder, many fresh accounts" pattern). Each
-  // group is a hub (shared funder) + the wallets it bankrolled; ⚑ = flagged member.
   ringGroupsNode() {
     const h = this.h, mono = "'JetBrains Mono', monospace";
     const groups = (this.ringGroups || []).slice(0, 12);
@@ -739,29 +728,6 @@ class Component extends DCLogic {
       groups.map(group));
   }
 
-  applyRealData(data) {
-    this.subjects = Array.isArray(data.subjects) ? data.subjects : [];
-    this.surpriseMarkets = Array.isArray(data.surpriseMarkets) ? data.surpriseMarkets : [];
-    this.ringGroups = Array.isArray(data.ringGroups) ? data.ringGroups : [];
-    this.coverageByCategory = (data.coverageByCategory && typeof data.coverageByCategory === "object") ? data.coverageByCategory : {};
-    this.totalFlaggedProfit = data.totalFlaggedProfit || 0;
-    this.totalFlaggedProfitText = data.totalFlaggedProfitText || null;
-    this.validation = (data.validation && typeof data.validation === "object") ? data.validation : null;
-    this.isSample = false;
-    this.meta = {
-      observed: data.observed != null ? data.observed : (data.meta && data.meta.observed) || 0,
-      reviewed: data.reviewed != null ? data.reviewed : (data.meta && data.meta.reviewed) || this.subjects.length,
-      screened: data.screened != null ? data.screened : (data.meta && data.meta.screened) || 0,
-      scored: data.scored != null ? data.scored : (data.meta && data.meta.scored) || 0,
-      block: (data.meta && data.meta.block) || data.block || "",
-      snapshot: (data.meta && data.meta.snapshot) || data.snapshot || "",
-      recomputed: (data.meta && data.meta.recomputed) || data.recomputed || (data.meta && data.meta.snapshot) || "",
-      generatedAt: data.generatedAt || (data.meta && data.meta.generatedAt) || null,   // exact scan timestamp (proves freshness)
-    };
-    const first = this.subjects[0];
-    this.setState({ selectedId: first ? first.id : null, measure: {}, hoverEdge: null, _v: (this.state._v || 0) + 1 });
-  }
-
   // ---------- SCORE ANY WALLET (live lookup) ----------
   isAddr(s) { return /^0x[0-9a-fA-F]{40}$/.test(String(s || "").trim()); }
 
@@ -779,7 +745,7 @@ class Component extends DCLogic {
       .then((data) => this.setState({ lookup: { open: true, loading: false, error: null, data, addr } }))
       .catch((err) => this.setState({ lookup: { open: true, loading: false, error: String(err && err.message || err), data: null, addr } }));
   }
-  // FUND-FLOW NETWORK — trace the wallet's on-chain funding ring on demand.
+
   runNetwork(addr) {
     const a = String(addr || this.state.lookup.addr || "").trim().toLowerCase();
     if (!this.isAddr(a) || typeof fetch !== "function") return;
@@ -789,9 +755,7 @@ class Component extends DCLogic {
       .then((data) => this.setState({ network: { loading: false, data, addr: a, hoverNode: null } }))
       .catch((err) => this.setState({ network: { loading: false, data: { error: String(err && err.message || err), nodes: [] }, addr: a, hoverNode: null } }));
   }
-  // Radial fund-flow graph: the hub (common funder) at center, the wallets it seeded
-  // around it; subject ringed green, flagged ring-members red, exchanges grey. Edges
-  // carry the USDC flow. One hub seeding many flagged wallets = a coordinated ring.
+
   fundNetworkNode() {
     const h = this.h, mono = "'JetBrains Mono', monospace", net = this.state.network;
     if (!net || (!net.loading && !net.data)) return null;
@@ -808,7 +772,6 @@ class Component extends DCLogic {
     others.forEach((n, i) => { const a = (i / Math.max(1, others.length)) * Math.PI * 2 - Math.PI / 2; pos[n.addr] = { x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) }; });
     const col = (n) => n.addr === d.subject ? "#34D399" : n.flagged ? "#F87171" : n.role === "hub" ? "#A78BFA" : n.role === "exchange" ? "#6B756F" : "#7E8C86";
     const rad = (n) => n.role === "hub" ? 13 : n.addr === d.subject ? 11 : n.flagged ? 10 : 7;
-    const usd = (v) => v >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : v >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v);
     const edgeEls = edges.map((e, i) => { const a = pos[e.from], b = pos[e.to]; if (!a || !b) return null;
       return h("line", { key: "e" + i, x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: "#34A382", strokeOpacity: 0.35, strokeWidth: Math.max(0.6, Math.min(3, Math.log10(Math.max(10, e.value)) - 1)) }); });
     const hov = net.hoverNode;
@@ -860,7 +823,6 @@ class Component extends DCLogic {
     const copiedAddr = !!(this.state.copied && this.state.copied[addr]);
     const link = (href, label, color) => h("a", { href, target: "_blank", rel: "noopener noreferrer",
       style: { fontFamily: mono, fontSize: "10px", color: color || "#34D399", textDecoration: "none", border: "1px solid " + (color || "#34D399") + "55", borderRadius: "6px", padding: "3px 8px", whiteSpace: "nowrap" } }, label);
-    // exact binomial math, spelled out with this wallet's real numbers
     const mathNode = (won.hasData === false || won.n == null) ? null : (() => {
       const n = won.n, k = won.k, p = won.p, exp = (n * p);
       return h("div", { style: { marginTop: "12px", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "14px 16px" } },
@@ -881,8 +843,6 @@ class Component extends DCLogic {
           (d.polymarket && d.polymarket.username) ? link("https://polymarket.com/@" + encodeURIComponent(d.polymarket.username), "Polymarket ↗", "#7E8C86") : null),
         h("span", { style: { fontFamily: mono, fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em", color: tc, border: "1px solid " + tc + "66", background: tc + "14", borderRadius: "999px", padding: "4px 11px" } }, flagged ? tier.toUpperCase() : "NOT FLAGGED")),
       h("p", { style: { fontSize: "14px", lineHeight: 1.6, color: "#D7DCD9", margin: "14px 0 16px" } }, d.verdict || ""),
-      // POLYMARKET PROFILE — the wallet's OWN Polymarket numbers, verbatim from their
-      // API (matches the profile page exactly), so the lookup mirrors Polymarket.
       (d.polymarket && (d.polymarket.pnlAllTime != null || d.polymarket.value != null || d.polymarket.traded != null)) ? (() => {
         const pm = d.polymarket;
         const pnlC = (pm.pnlAllTime || 0) >= 0 ? "#34D399" : "#F87171";
@@ -896,14 +856,12 @@ class Component extends DCLogic {
             row("VOLUME", pm.volume != null ? this.fmtUsd(pm.volume) : "—"),
             row("PORTFOLIO", pm.value != null ? this.fmtUsd(pm.value) : "—")));
       })() : null,
-      // ALWAYS-ON PROFILE — works for any wallet
       h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(96px,1fr))", gap: "14px", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "15px 16px" } },
         row("RESOLVED BETS", String(prof.resolvedBets != null ? prof.resolvedBets : "—")),
         row("WIN RATE", prof.winRate || "—"),
         row("PROFIT", prof.profit || "—", profitColor),
         row("AVG ODDS", prof.avgOdds || "—"),
         row("LONG-SHOTS", (prof.longShotBets != null ? prof.longShotBets + " · " + (prof.longShotWinRate || "—") : "—"))),
-      // FORENSIC IMPROBABILITY — only when there are >=5 long-shots to score
       won.hasData === false ? null
         : h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(110px,1fr))", gap: "14px", background: "rgba(52,211,153,0.04)", border: "1px solid " + tc + "44", borderRadius: "10px", padding: "15px 16px", marginTop: "12px" } },
             row("CHANCE BY LUCK", won.improbText || "—", tc),
@@ -936,8 +894,6 @@ class Component extends DCLogic {
         " · " + (prof.resolvedBets != null ? prof.resolvedBets : 0) + " scored · pattern consistent with informed trading, not proof"));
   }
 
-  componentWillUnmount() { if (this._onResize) window.removeEventListener("resize", this._onResize); }
-
   animate(key, dur) {
     const start = performance.now();
     const step = () => {
@@ -950,7 +906,7 @@ class Component extends DCLogic {
   }
 
   select(id) {
-    this.setState({ selectedId: id, heroProg: this.state.reduce ? 1 : 0, measure: {}, hoverEdge: null });
+    this.setState({ selectedId: id, heroProg: this.state.reduce ? 1 : 0, measure: {}, hoverEdge: null, permalinkCopied: false });
     if (!this.state.reduce) setTimeout(() => this.animate("heroProg", 1100), 0);
     if (window.innerWidth < 760) {
       setTimeout(() => {
@@ -960,31 +916,23 @@ class Component extends DCLogic {
     }
   }
 
-  // ---------- DATA ----------
-  buildSubjects() {
-    // Sample data intentionally removed — this tool ships REAL data only.
-    // Subjects come exclusively from /api/forensics/subjects (the scheduled
-    // job output); until then the view shows its honest empty state.
-    return [];
-  }
-
   // ---------- METHODOLOGY LIBRARY (real, defined methods) ----------
   methodLib() {
     return {
       won: {
-        name: "Binomial improbability", citation: "Keown\u2013Pinkerton event-study basis \u00b7 binomial tail test",
-        formula: "P(X \u2265 k) = \u03a3 C(n,i) \u00b7 p\u2071 \u00b7 (1\u2212p)\u207f\u207b\u2071",
-        symbols: [["n", "bets placed"], ["k", "bets won"], ["p", "avg implied probability at entry"], ["E[X]", "expected wins = n\u00b7p"]],
-        threshold: "Extreme if P \u2264 1\u00d710\u207b\u2076 \u00b7 High if P \u2264 1\u00d710\u207b\u2074",
-        source: "Polymarket CLOB price history \u00b7 resolved-market outcomes",
+        name: "Binomial improbability", citation: "Keown–Pinkerton event-study basis · binomial tail test",
+        formula: "P(X ≥ k) = Σ C(n,i) · pⁱ · (1−p)ⁿ⁻ⁱ",
+        symbols: [["n", "bets placed"], ["k", "bets won"], ["p", "avg implied probability at entry"], ["E[X]", "expected wins = n·p"]],
+        threshold: "Extreme if P ≤ 1×10⁻⁶ · High if P ≤ 1×10⁻⁴",
+        source: "Polymarket CLOB price history · resolved-market outcomes",
         calibration: "calibrated against the documented Iran-ring defense cluster",
-        confidenceNote: "Assumes bets are independent; correlated events (one underlying outcome) would weaken this \u2014 see limitations.",
+        confidenceNote: "Assumes bets are independent; correlated events (one underlying outcome) would weaken this — see limitations.",
       },
       longshot: {
-        name: "Long-shot selection", citation: "favourite\u2013longshot bias literature (Thaler\u2013Ziemba)",
-        formula: "p\u0304 = (1/n) \u00b7 \u03a3 p\u1d62  ,  flag if p\u0304 \u2264 \u03c4",
-        symbols: [["p\u1d62", "implied probability of bet i"], ["n", "bets"], ["\u03c4", "long-shot threshold = 0.20"]],
-        threshold: "contributes if p\u0304 \u2264 0.20",
+        name: "Long-shot selection", citation: "favourite–longshot bias literature (Thaler–Ziemba)",
+        formula: "p̄ = (1/n) · Σ pᵢ  ,  flag if p̄ ≤ τ",
+        symbols: [["pᵢ", "implied probability of bet i"], ["n", "bets"], ["τ", "long-shot threshold = 0.20"]],
+        threshold: "contributes if p̄ ≤ 0.20",
         source: "Polymarket CLOB entry-price snapshots",
         calibration: "threshold set at the 10th percentile of reviewed entry odds",
         confidenceNote: "Low average odds alone are not suspicious; weighted only alongside win-rate.",
@@ -993,16 +941,16 @@ class Component extends DCLogic {
         name: "Hold-to-resolution rate", citation: "disposition-effect inversion (Odean 1998)",
         formula: "h = held_to_resolution / total_positions",
         symbols: [["h", "hold rate"], ["held", "positions kept to close"], ["total", "positions"]],
-        threshold: "contributes if h \u2265 0.90",
+        threshold: "contributes if h ≥ 0.90",
         source: "on-chain position + settlement events",
         calibration: "baseline drawn from full reviewed population",
         confidenceNote: "High conviction is legal; informative only with an abnormal win-rate.",
       },
       fresh: {
         name: "Wallet-age / funding recency", citation: "fresh-wallet heuristic (Chainalysis-style)",
-        formula: "age = first_bet_block \u2212 funding_block",
+        formula: "age = first_bet_block − funding_block",
         symbols: [["age", "blocks from funding to first bet"], ["prior_tx", "transactions before first bet"]],
-        threshold: "contributes if age \u2264 14 days and prior_tx = 0",
+        threshold: "contributes if age ≤ 14 days and prior_tx = 0",
         source: "on-chain funding trace",
         calibration: "matches the Iran-ring fresh-wallet pattern",
         confidenceNote: "A new wallet is not wrongdoing; it raises the prior on a purpose-built account.",
@@ -1010,17 +958,17 @@ class Component extends DCLogic {
       conceal: {
         name: "Concealment-signature detector", citation: "structuring / order-splitting analysis",
         formula: "score = f(split_ratio, decoy_ratio, cashout_latency)",
-        symbols: [["split_ratio", "one bet spread across linked wallets"], ["decoy_ratio", "tiny orders / real orders"], ["cashout_latency", "resolution \u2192 off-platform time"]],
-        threshold: "contributes if \u2265 2 tactics co-occur",
+        symbols: [["split_ratio", "one bet spread across linked wallets"], ["decoy_ratio", "tiny orders / real orders"], ["cashout_latency", "resolution → off-platform time"]],
+        threshold: "contributes if ≥ 2 tactics co-occur",
         source: "on-chain transfer graph + exchange deposit tags",
         calibration: "tactics drawn from documented evasion cases",
         confidenceNote: "Each tactic has innocent explanations; the detector fires only on combinations.",
       },
       cluster: {
         name: "Wallet-cluster linkage", citation: "common-input + shared-funding heuristics (Meiklejohn et al.)",
-        formula: "link(a,b) = w\u2081\u00b7shared_funder + w\u2082\u00b7co_spend + w\u2083\u00b7sync_entry + w\u2084\u00b7create_prox",
-        symbols: [["link", "0\u20131 link confidence"], ["w\u2081\u208b\u2084", "detector weights"]],
-        threshold: "cluster if mean pairwise link \u2265 0.80",
+        formula: "link(a,b) = w₁·shared_funder + w₂·co_spend + w₃·sync_entry + w₄·create_prox",
+        symbols: [["link", "0–1 link confidence"], ["w₁₋₄", "detector weights"]],
+        threshold: "cluster if mean pairwise link ≥ 0.80",
         source: "on-chain funding + co-spend graph",
         calibration: "weights tuned on the documented multi-wallet defense ring",
         confidenceNote: "Links are probabilistic inferences, not confirmed common ownership.",
@@ -1060,7 +1008,7 @@ class Component extends DCLogic {
   baselineFor(key, s) {
     if (key === "won") {
       const b = { "Military & Defense": "52% on military markets", "Politics": "25% on political markets", "Elections": "25% on political markets" }[s.category] || "14% across all categories";
-      return "Normal win rate on bets at \u2264 35% implied odds: " + b + ". This subject: " + s.winRate + "%.";
+      return "Normal win rate on bets at ≤ 35% implied odds: " + b + ". This subject: " + s.winRate + "%.";
     }
     return this.methodLib()[key] ? ({
       longshot: "Median entry odds across reviewed bettors: 41%. This subject: " + s.avgImplied + "%.",
@@ -1073,20 +1021,16 @@ class Component extends DCLogic {
 
   inputsFor(key, s) {
     if (key === "won") return [["n", String(s.marketsCount) + " bets"], ["k", String(s.wins) + " wins"], ["p", (s.avgImplied / 100).toFixed(2)], ["E[X]", s.expectedWins + " expected wins"], ["P", s.improbText]];
-    if (key === "conviction" && s.convBet) return [["stake", "$" + s.convBet.stake.toLocaleString("en-US")], ["p", (s.convBet.entryPct / 100).toFixed(2) + " (" + s.convBet.entryPct + "%)"], ["payout", "$" + s.convBet.payout.toLocaleString("en-US")], ["return", (s.convBet.mult != null ? s.convBet.mult + "\u00d7" : "\u2014")]];
-    if (key === "longshot") return [["p\u0304", (s.avgImplied / 100).toFixed(2)], ["n", String(s.marketsCount)], ["\u03c4", "0.20"]];
+    if (key === "conviction" && s.convBet) return [["stake", "$" + s.convBet.stake.toLocaleString("en-US")], ["p", (s.convBet.entryPct / 100).toFixed(2) + " (" + s.convBet.entryPct + "%)"], ["payout", "$" + s.convBet.payout.toLocaleString("en-US")], ["return", (s.convBet.mult != null ? s.convBet.mult + "×" : "—")]];
+    if (key === "longshot") return [["p̄", (s.avgImplied / 100).toFixed(2)], ["n", String(s.marketsCount)], ["τ", "0.20"]];
     if (key === "held") { const k = s.wins; return [["held", String(s.marketsCount)], ["total", String(s.marketsCount)], ["h", "1.00"]]; }
-    if (key === "fresh") return [["age", "\u2248 4 days"], ["prior_tx", "0"]];
-    if (key === "conceal") return [["tactics", "2\u20133 co-occurring"], ["cashout_latency", "\u2248 3 h"]];
+    if (key === "fresh") return [["age", "≈ 4 days"], ["prior_tx", "0"]];
+    if (key === "conceal") return [["tactics", "2–3 co-occurring"], ["cashout_latency", "≈ 3 h"]];
     if (key === "cluster") return [["wallets", String(this.clusterSize(s))], ["mean link", "0.88"], ["funders", s.cexChips ? String(s.cexChips.length) : "1"]];
     return [];
   }
 
   contributionMap(s) {
-    // Prefer the backend's AUTHORITATIVE split (renormalised over fired detectors with
-    // the real weights). Only fall back to a local recompute for older/sample records,
-    // and keep the weight table IN SYNC with detectors.js DEFAULTS.contribW so every
-    // detector (incl. conviction/timing/concentration/sizing) gets a real share.
     if (s.contributions && Object.keys(s.contributions).length) return s.contributions;
     const weight = { won: 26, crossCat: 22, timing: 18, cluster: 18, concentration: 12, conceal: 12, newsBlackout: 12, repeat: 10, fedRegister: 6, fresh: 5, conviction: 6, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 };
     const fired = (s.fired || []).filter((k) => weight[k] != null);
@@ -1101,8 +1045,6 @@ class Component extends DCLogic {
     return {
       method: lib.name || entry.method, citation: lib.citation || "",
       formula: lib.formula || entry.formula, symbols: lib.symbols || [],
-      // prefer the backend's AUTHORITATIVE per-detector input bindings (this wallet's real
-      // ages, latencies, link scores); fall back to the local map only for older records.
       inputs: (Array.isArray(entry.inputs) && entry.inputs.length) ? entry.inputs : this.inputsFor(entry.key, s),
       result: entry.metric, interpretation: entry.numbers,
       baseline: this.baselineFor(entry.key, s),
@@ -1112,6 +1054,12 @@ class Component extends DCLogic {
   }
 
   funnel() { return { observed: this.meta.observed || 0, reviewed: this.meta.reviewed, screened: this.meta.screened, flagged: this.subjects.length, high: this.subjects.filter((x) => x.tier === "elevated" || x.tier === "extreme").length }; }
+
+  clockStr(tick) {
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2, "0"), mm = String(d.getMinutes()).padStart(2, "0"), ss = String(d.getSeconds()).padStart(2, "0");
+    return hh + ":" + mm + ":" + ss;
+  }
 
   provenance(s) {
     return {
@@ -1127,9 +1075,6 @@ class Component extends DCLogic {
     const counts = {};
     cats.forEach((c) => (counts[c] = 0));
     this.subjects.forEach((s) => { if (counts[s.category] != null) counts[s.category]++; });
-    // Show every category the scanner is COVERING (cataloged resolved markets), not
-    // just the ones with a flag yet — `count` is flagged subjects, `scanned` is
-    // resolved markets reviewed. A category with coverage but 0 flags still appears.
     const cov = this.coverageByCategory || {};
     const present = cats.filter((c) => counts[c] > 0 || (cov[c] || 0) > 0);
     return present.map((c) => ({ name: c, count: counts[c], scanned: cov[c] || 0 }));
@@ -1171,10 +1116,6 @@ class Component extends DCLogic {
       volume: (s) => s.volumeNum,
       recent: (s) => -s.activityDays,
     }[st.sort] || ((s) => (s.firstFlaggedAt || 0));
-    // "Most recently detected" is a LIVE FEED: pure chronological, newest first, NOT tier-gated —
-    // the order is time, so it never implies a suspiciousness ranking (which is exactly what made a
-    // bigger "1 in X" look mis-ranked below a smaller one). Every OTHER sort keeps tier-first so the
-    // strongest tier stays on top and the badge order matches the list order.
     const tierRank = (s) => ({ extreme: 3, elevated: 2, watch: 1 }[s.tier] || 0);
     list = list.slice().sort(st.sort === "detected"
       ? (a, b) => (key(b) - key(a)) || (tierRank(b) - tierRank(a))
@@ -1191,12 +1132,11 @@ class Component extends DCLogic {
     const st = this.state;
     const fn = this.funnel();
     const haveSnap = !!(this.meta.recomputed || this.meta.snapshot);
+    const cp = st.corpusProg;
     return {
       hasSubjects: false, emptyState: true, surpriseMarketsNode: this.surpriseMarketsNode(), ringGroupsNode: this.ringGroupsNode(),
       hasAggProfit: !!(this.totalFlaggedProfit > 0 && this.totalFlaggedProfitText), aggProfitText: this.totalFlaggedProfitText || "$0", aggCount: this.fmtInt(this.subjects.length),
       isSample: false, notSample: true,
-      // "data as of" mirrors the last SCAN-RUN date (recomputed), not the newest resolved
-      // market — so it shows today and advances every day the cron runs.
       snapshotLabel: haveSnap ? this.stampText("data as of ") : "awaiting first snapshot",
       snapshotTitle: "Recomputed " + (this.meta.recomputed || "—") + " · newest resolved market " + (this.meta.snapshot || "—") + ".",
       showAmbient: this.props.ambientGlow !== false,
@@ -1205,16 +1145,20 @@ class Component extends DCLogic {
       onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),
       lookup: st.lookup, lookupBody: this.lookupNode(), closeLookup: () => this.closeLookup(),
       stop: (e) => e.stopPropagation(),
+      clock: this.clockStr(st.tick),
+      liveDotStyle: "width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px 2px rgba(52,211,153,0.7);" + (st.reduce ? "" : "animation:wf-breathe 2.2s ease-in-out infinite;"),
+      auroraAnim: st.reduce ? "" : "animation:wf-aurora 3.4s ease-in-out infinite;",
+      combinedProfit: this.totalFlaggedProfitText || "$0",
       corpus: {
         observed: this.fmtInt(this.meta.observed || 0),
         wallets: this.fmtInt(this.meta.reviewed || 0), flagged: 0,
         asOf: this.stampText("updated "),
       },
       funnelSteps: [
-        { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", arrow: "" },
-        { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", arrow: "→" },
-        { k: "flagged", label: "flagged", val: "0", color: "#34D399", arrow: "→" },
-        { k: "high", label: "high", val: "0", color: "#FBBF24", arrow: "→" },
+        { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", border: "#1F2A25", shadow: "none", arrow: "" },
+        { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", border: "rgba(111,227,182,0.3)", shadow: "0 0 18px -10px rgba(111,227,182,0.5)", arrow: "→" },
+        { k: "flagged", label: "flagged", val: "0", color: "#34D399", border: "rgba(52,211,153,0.4)", shadow: "0 0 20px -8px rgba(52,211,153,0.55)", arrow: "→" },
+        { k: "high", label: "high", val: "0", color: "#F87171", border: "rgba(248,113,113,0.4)", shadow: "0 0 20px -8px rgba(248,113,113,0.5)", arrow: "→" },
       ],
       modal: { open: false }, modalBody: null,
       emptyTitle: haveSnap ? "No bettors meet the bar yet" : "Scanning Polymarket…",
@@ -1239,9 +1183,6 @@ class Component extends DCLogic {
 
   whyLine(s) {
     const phrase = { "Military & Defense": "military events", "Politics": "political events", "Elections": "elections", "Economics": "economic events", "Crypto": "crypto events", "Culture": "culture markets", "Sports": "sports markets", "World": "world events" }[s.category] || "these markets";
-    // The P/L shown is the profit ON THE FLAGGED long-shot bets (it reconciles to the bet
-    // table). The wallet's account-wide Polymarket P/L is appended only as labeled context
-    // when it differs materially — never conflated with the flagged-bet profit.
     const flaggedPL = (s.type === "cluster" ? "+" + (s.profit || "—") + " across the bundle" : "+" + (s.profit || "—") + " on those bets");
     const acct = (s.accountPnlText && s.type !== "cluster") ? " · " + s.accountPnlText + " account P&L (all trades)" : "";
     if (s.convictionFlag && s.convBet) {
@@ -1257,9 +1198,6 @@ class Component extends DCLogic {
 
   connectionSentence(s) {
     const n = this.clusterSize(s);
-    // Build the sentence from the cluster's REAL edges — only claim the links that
-    // actually fired for THIS group (never a hardcoded "all three"). Each edge's `type`
-    // is its dominant measured signal; the mean link is the average measured strength.
     const edges = (s.cluster && s.cluster.edges) || [];
     const types = new Set(edges.map((e) => e.type));
     const parts = [];
@@ -1308,7 +1246,7 @@ class Component extends DCLogic {
       const a = pos[e.from], b = pos[e.to];
       const active = hov && hov.from === e.from && hov.to === e.to;
       if (!active) return null;
-      return h("text", { key: "w" + i, x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 - 4, fill: edgeColor[e.type], fontSize: 9.5, fontFamily: "'JetBrains Mono', monospace", textAnchor: "middle" }, edgeShort[e.type] + " \u00b7 " + wOf(e).toFixed(2));
+      return h("text", { key: "w" + i, x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 - 4, fill: edgeColor[e.type], fontSize: 9.5, fontFamily: "'JetBrains Mono', monospace", textAnchor: "middle" }, edgeShort[e.type] + " · " + wOf(e).toFixed(2));
     });
     const nodes = c.nodes.map((nd, i) => {
       const p = pos[nd.id];
@@ -1329,8 +1267,8 @@ class Component extends DCLogic {
     const summary = h("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 14px", marginTop: "12px", padding: "10px 13px", background: "#090D0C", border: "1px solid #1F2A25", borderRadius: "10px" } },
       h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#34D399" } }, "LINK STRENGTH"),
       h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "12.5px", color: "#ECEFED" } }, "mean pairwise link " + meanLink),
-      h("span", { style: { fontFamily: "Inter", fontSize: "12px", color: "#6B756F" } }, c.edges.length + " links \u00b7 " + c.nodes.length + " wallets \u00b7 cluster threshold 0.80"),
-      h("span", { style: { fontFamily: "Inter", fontSize: "11.5px", color: meanLink >= 0.8 ? "#34D399" : "#FBBF24" } }, meanLink >= 0.8 ? "above threshold \u2014 probable common ownership" : "below threshold \u2014 weak linkage")
+      h("span", { style: { fontFamily: "Inter", fontSize: "12px", color: "#6B756F" } }, c.edges.length + " links · " + c.nodes.length + " wallets · cluster threshold 0.80"),
+      h("span", { style: { fontFamily: "Inter", fontSize: "11.5px", color: meanLink >= 0.8 ? "#34D399" : "#FBBF24" } }, meanLink >= 0.8 ? "above threshold — probable common ownership" : "below threshold — weak linkage")
     );
     const tip = hov ? h("div", { style: { marginTop: "12px", background: "#090D0C", border: "1px solid " + edgeColor[hov.type], borderRadius: "10px", padding: "11px 13px" } },
       h("div", { style: { display: "flex", justifyContent: "space-between", gap: "10px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: edgeColor[hov.type], marginBottom: "5px", letterSpacing: "0.08em" } },
@@ -1342,6 +1280,75 @@ class Component extends DCLogic {
         h("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { minWidth: 540, display: "block" } }, edges, edgeWtLabels, nodes)
       ),
       summary, legend, tip
+    );
+  }
+
+  signatureNode(s) {
+    const h = this.h;
+    const th = this.concernTheme(s.tier);
+    const c = th.color;
+    const rgb = { extreme: "248,113,113", elevated: "251,191,36", watch: "148,163,184" }[s.tier] || "52,211,153";
+    const reduce = this.state.reduce;
+    const A = (v) => (reduce ? "none" : v);
+    const cx = 150, cy = 150;
+    const ticks = [];
+    const N = 72;
+    for (let i = 0; i < N; i++) {
+      const a = (i / N) * Math.PI * 2, major = i % 6 === 0, len = major ? 9 : 4, r1 = 142, r0 = 142 - len;
+      ticks.push(h("line", { key: "t" + i, x1: cx + Math.cos(a) * r0, y1: cy + Math.sin(a) * r0, x2: cx + Math.cos(a) * r1, y2: cy + Math.sin(a) * r1, stroke: c, strokeWidth: major ? 1 : 0.6, opacity: major ? 0.24 : 0.1 }));
+    }
+    const parts = [0, 1, 2, 3, 4].map((k) => { const a = (k / 5) * Math.PI * 2 - Math.PI / 2; return h("circle", { key: "p" + k, cx: cx + Math.cos(a) * 128, cy: cy + Math.sin(a) * 128, r: 1.8, fill: c, opacity: 0.7, style: { filter: "drop-shadow(0 0 4px " + c + ")" } }); });
+    const svg = h("svg", { viewBox: "0 0 300 300", style: { position: "absolute", inset: 0, margin: "auto", width: 250, height: 250, overflow: "visible", pointerEvents: "none" } },
+      ticks,
+      h("circle", { cx, cy, r: 138, fill: "none", stroke: c, strokeWidth: 1, strokeDasharray: "2 12", opacity: 0.22, style: { transformOrigin: "150px 150px", animation: A("wf-spin 38s linear infinite") } }),
+      h("circle", { cx, cy, r: 120, fill: "none", stroke: c, strokeWidth: 1, strokeDasharray: "1 16", opacity: 0.14, style: { transformOrigin: "150px 150px", animation: A("wf-spin-rev 48s linear infinite") } }),
+      h("g", { style: { transformOrigin: "150px 150px", animation: A("wf-spin 24s linear infinite") } }, parts)
+    );
+    const D = (st) => h("div", { style: st });
+    return h("div", { style: { position: "absolute", inset: 0, pointerEvents: "none" } },
+      D({ position: "absolute", inset: 0, margin: "auto", width: 256, height: 256, borderRadius: "50%", background: "radial-gradient(circle, rgba(" + rgb + ",0.1), transparent 60%)", filter: "blur(26px)", animation: A("wf-halo2 6s ease-in-out infinite") }),
+      D({ position: "absolute", inset: 0, margin: "auto", width: 244, height: 244, borderRadius: "50%", background: "conic-gradient(from 0deg, transparent 0deg, transparent 258deg, rgba(" + rgb + ",0.2) 324deg, rgba(" + rgb + ",0.6) 356deg, transparent 360deg)", WebkitMask: "radial-gradient(circle, transparent 62%, #000 63%)", mask: "radial-gradient(circle, transparent 62%, #000 63%)", animation: A("wf-spin 9s linear infinite") }),
+      svg,
+      D({ position: "absolute", inset: 0, margin: "auto", width: 194, height: 194, borderRadius: "50%", background: "radial-gradient(circle, #0E1512 0%, #0E1512 44%, rgba(14,21,18,0.55) 60%, transparent 73%)" })
+    );
+  }
+
+  improbMeterNode(s) {
+    const h = this.h;
+    const prog = this.state.heroProg;
+    const th = this.concernTheme(s.tier);
+    const W = 600, H = 76, padX = 16, trackY = 34, trackH = 8;
+    const lo = 2, hi = 8;
+    const lg = Math.max(lo, Math.min(hi, Math.log10(Math.max(100, s.improbDenom || 100))));
+    const x = (v) => padX + ((v - lo) / (hi - lo)) * (W - 2 * padX);
+    const markLg = lo + (lg - lo) * prog;
+    const mx = x(markLg);
+    const clampL = (px) => Math.max(padX + 18, Math.min(W - padX - 18, px));
+    const gid = "imeter-" + s.id;
+    const tickDefs = [[2, "1 in 100"], [4, "1 in 10K"], [6, "1 in 1M"], [8, "1 in 100M"]];
+    const ticks = tickDefs.map(([v, lab], i) => h("g", { key: "tk" + i },
+      h("line", { x1: x(v), y1: trackY - 5, x2: x(v), y2: trackY + trackH + 5, stroke: "#243029", strokeWidth: 1 }),
+      h("text", { x: i === 0 ? padX : i === tickDefs.length - 1 ? W - padX : x(v), y: trackY + trackH + 22, fill: "#5C6661", fontSize: 9.5, fontFamily: "'JetBrains Mono', monospace", textAnchor: i === 0 ? "start" : i === tickDefs.length - 1 ? "end" : "middle" }, lab)
+    ));
+    return h("div", { style: { width: "100%" } },
+      h("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", overflow: "visible" } },
+        h("defs", null, h("linearGradient", { id: gid, x1: "0", y1: "0", x2: "1", y2: "0" },
+          h("stop", { offset: "0%", stopColor: "#34D399" }),
+          h("stop", { offset: "55%", stopColor: "#FBBF24" }),
+          h("stop", { offset: "100%", stopColor: "#F87171" })
+        )),
+        h("rect", { x: padX, y: trackY, width: W - 2 * padX, height: trackH, rx: trackH / 2, fill: "#12201A" }),
+        h("rect", { x: padX, y: trackY, width: Math.max(0, mx - padX), height: trackH, rx: trackH / 2, fill: "url(#" + gid + ")", opacity: 0.5 }),
+        ticks,
+        h("g", { opacity: prog },
+          h("text", { x: clampL(mx), y: trackY - 13, fill: "#8A938F", fontSize: 8.5, fontWeight: 600, letterSpacing: "0.1em", fontFamily: "'JetBrains Mono', monospace", textAnchor: "middle" }, "THIS SUBJECT"),
+          h("line", { x1: mx, y1: trackY - 5, x2: mx, y2: trackY + trackH + 5, stroke: th.color, strokeWidth: 1.5, opacity: 0.85 }),
+          h("circle", { cx: mx, cy: trackY + trackH / 2, r: 4.5, fill: th.color, style: { filter: "drop-shadow(0 0 4px " + th.glow + ")" } })
+        )
+      ),
+      h("div", { style: { display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", color: "#46504B", marginTop: "3px", letterSpacing: "0.05em" } },
+        h("span", null, "← more common"), h("span", null, "statistically impossible →")
+      )
     );
   }
 
@@ -1374,39 +1381,29 @@ class Component extends DCLogic {
 
   confidenceMeterNode(s) {
     const h = this.h;
-    // The independent-detector suite is 12 (detectors.js contribW): won, longshot, held, fresh,
-    // conceal, cluster, conviction, timing, sizing, concentration, baseline, profitCross. The old
-    // hardcoded 6 produced "7 of 6" once more detectors were added. Cap fired at the roster so the
-    // count is always coherent.
     const ROSTER = 12;
-    // DENOMINATOR = detectors that actually HAD DATA for this wallet (could fire), not the full
-    // 12-detector roster. Most of the roster is archetype-/data-specific (cluster needs a ring;
-    // conceal/fresh need on-chain enrichment; conviction is a one-big-bet archetype) and is EXCLUDED
-    // when unmeasurable \u2014 counting those as "failed to agree" made a strong wallet read "4 of 12"
-    // (a fake 33% pass rate) when only ~7 were even measurable. Fall back to the roster only for
-    // legacy subjects that predate the field.
     const measured = (s.detectorsMeasured && s.detectorsMeasured > 0) ? Math.min(s.detectorsMeasured, ROSTER) : ROSTER;
     const fired = Math.min((s.fired || []).length, measured), total = measured;
     const level = s.tier === "extreme" ? "high concern" : s.tier === "elevated" ? "moderate-to-high concern" : "moderate concern";
     const segs = [];
     for (let i = 0; i < total; i++) segs.push(h("div", { key: i, style: { flex: 1, height: "9px", borderRadius: "3px", background: i < fired ? "#34D399" : "#16201B", boxShadow: i < fired ? "0 0 10px -2px rgba(52,211,153,0.6)" : "none", transition: "background .3s" } }));
     const skipped = ROSTER - total;
-    const lbl = { fontFamily: "\u0027JetBrains Mono\u0027, monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F" };
+    const lbl = { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F" };
     const para = (c) => ({ fontFamily: "Inter", fontSize: "12px", color: c || "#8A938F", lineHeight: 1.55 });
     return h("div", { style: { background: "#090D0C", border: "1px solid #1F2A25", borderRadius: "12px", padding: "16px 18px" } },
       (s.suspicion != null ? h("div", { style: { marginBottom: "15px", paddingBottom: "15px", borderBottom: "1px solid #16201B" } },
         h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "6px" } },
           h("span", { style: lbl }, "SUSPICION SCORE"),
-          h("span", { style: { fontFamily: "\u0027JetBrains Mono\u0027, monospace", fontSize: "17px", color: "#FBBF24", fontWeight: 700 } }, s.suspicion + " / 100")),
-        h("div", { style: para() }, "One number, 0\u2013100, for how suspicious this account looks \u2014 used only to RANK this wallet against every other flagged account (higher = nearer the top of the list). It climbs with how improbable the wallet\u2019s winning record is and how many independent red flags fired. At " + s.suspicion + ", this wallet sits at " + level + ".")) : null),
+          h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "17px", color: "#FBBF24", fontWeight: 700 } }, s.suspicion + " / 100")),
+        h("div", { style: para() }, "One number, 0–100, for how suspicious this account looks — used only to RANK this wallet against every other flagged account (higher = nearer the top of the list). It climbs with how improbable the wallet’s winning record is and how many independent red flags fired. At " + s.suspicion + ", this wallet sits at " + level + ".")) : null),
       h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "9px" } },
         h("span", { style: lbl }, "RED-FLAG TESTS THAT FIRED"),
-        h("span", { style: { fontFamily: "\u0027JetBrains Mono\u0027, monospace", fontSize: "13px", color: "#34D399", fontWeight: 600 } }, fired + " of " + total)),
+        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#34D399", fontWeight: 600 } }, fired + " of " + total)),
       h("div", { style: { display: "flex", gap: "5px", marginBottom: "10px" } }, segs),
-      h("div", { style: para("#949C98") }, "We ran " + total + " independent tests this account had enough data to support, and " + fired + " came back positive. Each test is a different way to catch informed trading \u2014 improbably good wins, suspicious last-minute timing, hidden shared funding, betting before any news broke, and so on. They don\u2019t overlap, so the more that agree, the harder the record is to explain as luck." + (skipped > 0 ? " (" + skipped + " more test" + (skipped === 1 ? "" : "s") + " in our full set of " + ROSTER + " needed data this wallet doesn\u2019t have \u2014 skipped, not failed, so they neither help nor hurt.)" : "")),
+      h("div", { style: para("#949C98") }, "We ran " + total + " independent tests this account had enough data to support, and " + fired + " came back positive. Each test is a different way to catch informed trading — improbably good wins, suspicious last-minute timing, hidden shared funding, betting before any news broke, and so on. They don’t overlap, so the more that agree, the harder the record is to explain as luck." + (skipped > 0 ? " (" + skipped + " more test" + (skipped === 1 ? "" : "s") + " in our full set of " + ROSTER + " needed data this wallet doesn’t have — skipped, not failed, so they neither help nor hurt.)" : "")),
       h("div", { style: { display: "flex", gap: "9px", marginTop: "12px", paddingTop: "12px", borderTop: "1px solid #16201B" } },
-        h("span", { style: { fontFamily: "\u0027JetBrains Mono\u0027, monospace", fontSize: "9px", letterSpacing: "0.1em", color: "#6B756F", flexShrink: 0, marginTop: "2px", width: "78px" } }, "WHY NOT HIGHER"),
-        h("span", { style: para("#8A938F") }, (s.confidenceLimiter || "\u2014")))
+        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "0.1em", color: "#6B756F", flexShrink: 0, marginTop: "2px", width: "78px" } }, "WHY NOT HIGHER"),
+        h("span", { style: para("#8A938F") }, (s.confidenceLimiter || "—")))
     );
   }
 
@@ -1414,8 +1411,6 @@ class Component extends DCLogic {
     const h = this.h;
     const contrib = this.contributionMap(s);
     const palette = { won: "#34D399", crossCat: "#5EEAD4", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#34D399", timing: "#FBBF24", repeat: "#F0ABFC", newsBlackout: "#FBBF24", fedRegister: "#5EEAD4", sizing: "#A78BFA", concentration: "#2BB587", baseline: "#7E8C86", profitCross: "#34D399", hProfit: "#34D399", hBetCross: "#6FE3B6", hBetWithin: "#A78BFA", hLate: "#2BB587", hDir: "#7E8C86" };
-    // include EVERY contributing signal (no hardcoded whitelist) so the bar + legend sum to 100%
-    // and Harvard's signals (and timing/sizing/concentration) are never silently dropped.
     const order = Object.keys(contrib).filter((k) => contrib[k] != null && contrib[k] > 0).sort((a, b) => contrib[b] - contrib[a]);
     const bar = order.map((k, i) => h("div", { key: k, title: this.findingName(k) + " · " + contrib[k] + "%", style: { width: contrib[k] + "%", background: palette[k], height: "100%", borderRight: i < order.length - 1 ? "1px solid #090D0C" : "none" } }));
     const legend = order.map((k) => h("div", { key: k, style: { display: "flex", alignItems: "center", gap: "7px", fontFamily: "Inter", fontSize: "11.5px", color: "#949C98" } },
@@ -1428,17 +1423,9 @@ class Component extends DCLogic {
   }
 
   // ---------- ADVANCED INTERACTIVE ANALYTICS ----------
-  // A suite of real-data charts driven entirely by the subject's resolved ledger:
-  //   (1) cumulative realized P/L over time, (2) every bet as a stake×entry-odds
-  //   bubble (the "big money on long-shots that won" signature), (3) the evidence
-  //   decomposition with each detector's measured value. All hover-interactive.
   fmtUsd(n) { const a = Math.abs(n), sg = n < 0 ? "−" : ""; if (a >= 1e6) return sg + "$" + (a / 1e6).toFixed(2).replace(/\.?0+$/, "") + "M"; if (a >= 1e3) return sg + "$" + (a / 1e3).toFixed(1).replace(/\.0$/, "") + "K"; return sg + "$" + Math.round(a); }
   analyticsNode(s) {
     const h = this.h;
-    // Derive numeric fields. Newer scans store stakeNum/plNum/ts directly; for
-    // subjects written by an earlier scan, parse them from the display strings
-    // ("$15K", "+$78K", "Jan 03 2026") so the charts render NOW, not only after the
-    // next scan rewrites the ledger.
     const pNum = (v) => { if (typeof v === "number") return v; let t = String(v == null ? "" : v).replace(/[$,\s]/g, "").replace(/−/g, "-"); let m = parseFloat(t); if (!isFinite(m)) return 0; if (/b/i.test(t)) m *= 1e9; else if (/m/i.test(t)) m *= 1e6; else if (/k/i.test(t)) m *= 1e3; return m; };
     const tNum = (b) => (b.ts && isFinite(b.ts)) ? b.ts : (b.entryTime ? (Math.round(Date.parse(b.entryTime) / 1000) || 0) : 0);
     const L = (s.ledger || []).map((b, i) => Object.assign({}, b, {
@@ -1457,7 +1444,6 @@ class Component extends DCLogic {
     const setHov = (o) => () => this.setState({ chartHover: o });
     const clearHov = () => this.setState({ chartHover: null });
 
-    // ---------- (1) cumulative realized P/L over time ----------
     const W = 680, H = 210, pl = 46, pr = 14, pt = 16, pb = 40;
     const byTime = L.slice().sort((a, b) => (a.ts || 0) - (b.ts || 0));
     let cum = 0; const pts = byTime.map((b, i) => { cum += (b.plNum || 0); return { b, i, cum }; });
@@ -1494,7 +1480,6 @@ class Component extends DCLogic {
       h("text", { x: pl, y: H - 8, fill: "#5C6661", fontSize: 8.5, fontFamily: mono }, byTime[0] && byTime[0].entryTime || ""),
       h("text", { x: W - pr, y: H - 8, fill: "#5C6661", fontSize: 8.5, fontFamily: mono, textAnchor: "end" }, byTime[byTime.length - 1] && byTime[byTime.length - 1].entryTime || ""));
 
-    // ---------- (2) stake × entry-odds bubble scatter ----------
     const W2 = 680, H2 = 230, m2 = { l: 50, r: 16, t: 16, b: 40 };
     const maxStake = Math.max(...L.map((b) => b.stakeNum), 1);
     const rOf = (v) => 4 + 16 * Math.sqrt(v / maxStake);
@@ -1520,7 +1505,6 @@ class Component extends DCLogic {
       xgrid, sgrid, bubbles, scHover,
       h("text", { x: (m2.l + W2 - m2.r) / 2, y: H2 - 4, fill: "#5C6661", fontSize: 8.5, fontFamily: mono, textAnchor: "middle" }, "entry odds (implied probability) → longer shots to the left"));
 
-    // ---------- (3) evidence decomposition with measured values ----------
     const contrib = this.contributionMap(s);
     const order = Object.keys(contrib).sort((a, b) => contrib[b] - contrib[a]);
     const measured = {}; (s.scorecard || []).forEach((c) => (measured[c.key] = c.metric));
@@ -1567,7 +1551,6 @@ class Component extends DCLogic {
     const path = curve.slice(0, Math.max(2, visN)).map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
     const gridY = [0, 0.5, 1].map((g, i) => h("line", { key: "g" + i, x1: padX, y1: y(g), x2: W - padX, y2: y(g), stroke: "#ECEFED", strokeOpacity: 0.05 }));
 
-    // greedy row-packing so adjacent entry labels never overlap
     const rowRight = [];
     const entries = tl.entries.map((f, i) => {
       const cx = x(f);
@@ -1612,18 +1595,45 @@ class Component extends DCLogic {
     );
   }
 
+  // ---------- CARD VISUALS (design) ----------
+  suspicionOf(s) {
+    if (s.suspicion != null) return s.suspicion;
+    const lg = Math.log10(Math.max(10, s.improbDenom || 1e4));
+    const fc = (s.fired || []).length;
+    return Math.max(20, Math.min(99, Math.round((24 + 7 * lg + 2.5 * fc) * 10) / 10));
+  }
+  gaugeNode(score, size) {
+    const h = this.h;
+    const f = Math.max(0, Math.min(1, score / 100));
+    const col = f < 0.45 ? { c: "#34D399", g: "rgba(52,211,153,0.6)" } : f < 0.72 ? { c: "#FBBF24", g: "rgba(251,191,36,0.55)" } : { c: "#F87171", g: "rgba(248,113,113,0.6)" };
+    const r = size / 2 - 4, cx = size / 2, cy = size / 2;
+    const start = 135, end = 405;
+    const pol = (deg) => { const a = (deg * Math.PI) / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
+    const arc = (a0, a1, color, w, glow) => { const p0 = pol(a0), p1 = pol(a1); const large = a1 - a0 > 180 ? 1 : 0; return h("path", { d: "M" + p0[0].toFixed(1) + " " + p0[1].toFixed(1) + " A" + r + " " + r + " 0 " + large + " 1 " + p1[0].toFixed(1) + " " + p1[1].toFixed(1), fill: "none", stroke: color, strokeWidth: w, strokeLinecap: "round", style: glow ? { filter: "drop-shadow(0 0 5px " + col.g + ")" } : null }); };
+    const big = size > 80, fs = big ? 26 : 12.5;
+    return h("svg", { width: size, height: size, viewBox: "0 0 " + size + " " + size, style: { flexShrink: 0, overflow: "visible" } },
+      arc(start, end, "#16201B", big ? 8 : 4.5, false),
+      f > 0.01 ? arc(start, start + (end - start) * f, col.c, big ? 8 : 4.5, true) : null,
+      h("text", { x: cx, y: cy + fs / 3, textAnchor: "middle", fill: col.c, fontSize: fs, fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }, big ? Number(score).toFixed(1) : String(Math.round(score)))
+    );
+  }
+  signalSpark(s, color) {
+    const order = ["won", "longshot", "held", "fresh", "conceal", "cluster"];
+    const fired = s.fired || [];
+    return order.map((k) => ({ style: "width:7px;height:7px;border-radius:50%;background:" + (fired.includes(k) ? color : "#1B2521") + ";box-shadow:" + (fired.includes(k) ? "0 0 7px " + color : "none") + ";" }));
+  }
+
   // ---------- LEDGER ----------
   ledgerRows(s) {
     const st = this.state;
     if (!s.ledger) return [];
-    const rows = s.ledger.map((r, i) => ({ ...r, entryIdx: i, plNum: parseFloat(r.pl.replace(/[^0-9.\-\u2212]/g, "").replace("\u2212", "-")), entryTime: r.entryTime || this.entryTime(s, i) }));
+    const rows = s.ledger.map((r, i) => ({ ...r, entryIdx: i, plNum: parseFloat(String(r.pl).replace(/[^0-9.\-−]/g, "").replace("−", "-")), entryTime: r.entryTime || this.entryTime(s, i) }));
     const key = st.ledgerSort;
-    const accessor = { entryIdx: (r) => r.entryIdx, entryTime: (r) => r.entryIdx, odds: (r) => r.odds, stake: (r) => parseFloat(r.stake.replace(/[^0-9.]/g, "")), outcome: (r) => (r.outcome === "Won" ? 1 : 0), pl: (r) => r.plNum, market: (r) => r.market };
+    const accessor = { entryIdx: (r) => r.entryIdx, entryTime: (r) => r.entryIdx, odds: (r) => r.odds, stake: (r) => parseFloat(String(r.stake).replace(/[^0-9.]/g, "")), outcome: (r) => (r.outcome === "Won" ? 1 : 0), pl: (r) => r.plNum, market: (r) => r.market };
     const acc = accessor[key] || accessor.entryIdx;
     rows.sort((a, b) => (acc(a) < acc(b) ? -1 : acc(a) > acc(b) ? 1 : 0) * st.ledgerDir);
     return rows.map((r) => ({
       market: r.market, entryTime: r.entryTime, odds: r.odds,
-      // a deep long-shot entered below 1% rounds to 0 — show "<1%", never a misleading "0%".
       oddsText: (Number(r.odds) > 0 && Number(r.odds) < 1) || (Number(r.odds) === 0) ? "<1%" : (r.odds + "%"),
       stake: r.stake, outcome: r.outcome, pl: r.pl,
       tx: r.tx, plColor: r.plNum >= 0 ? "#34D399" : "#F87171",
@@ -1662,7 +1672,7 @@ class Component extends DCLogic {
 
     const seg = (active) => "font-family:Inter;font-size:12px;padding:6px 11px;border-radius:8px;cursor:pointer;border:1px solid " + (active ? "#34D399" : "#1F2A25") + ";color:" + (active ? "#34D399" : "#949C98") + ";background:" + (active ? "rgba(52,211,153,0.12)" : "#0E1512") + ";";
     const typeOptions = [["all", "Everyone"], ["wallets", "Single wallets"], ["clusters", "Groups"]].map(([v, l]) => ({ label: l, style: seg(st.type === v), onClick: () => this.setState({ type: v }) }));
-    const concernOptions = [["all", "All"], ["elevated", "High"], ["watch", "Notable"]].map(([v, l]) => ({ label: l, style: seg(st.tier === v), onClick: () => this.setState({ tier: v }) }));
+    const concernOptions = [["all", "All"], ["extreme", "Extreme"], ["elevated", "High"], ["watch", "Notable"]].map(([v, l]) => ({ label: l, style: seg(st.tier === v), onClick: () => this.setState({ tier: v }) }));
     const shortN = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : String(n));
     const categoryChips = cc.map((c) => ({
       label: c.name, count: c.count, badge: c.count > 0 ? String(c.count) : (c.scanned > 0 ? "⌕" + shortN(c.scanned) : "0"),
@@ -1670,42 +1680,39 @@ class Component extends DCLogic {
       style: "font-family:Inter;font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;border:1px solid " + (st.cats.includes(c.name) ? "#34D399" : "#1F2A25") + ";color:" + (st.cats.includes(c.name) ? "#34D399" : "#949C98") + ";background:" + (st.cats.includes(c.name) ? "rgba(52,211,153,0.12)" : "transparent") + ";",
     }));
 
+    const orderedIds = list.map((x) => x.id);
     const subjects = list.map((s) => {
       const th = this.concernTheme(s.tier);
       const isSel = s.id === sel.id;
       return {
         onClick: () => this.select(s.id),
-        onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.select(s.id); } },
-        // ONLY the user-selected card shows anything: a GREEN border + bright green glow.
-        // Every OTHER card has a fully TRANSPARENT border (no white/grey outline at all) — the
-        // GLASS #1F2A25 border was rendering as a visible light outline around every card, which
-        // is the "white outline" the user kept seeing. Non-selected = just the card fill + a soft
-        // dark drop-shadow, no edge line. So a single click highlights exactly one wallet in green.
-        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;background:#0E1512;border:1px solid " + (isSel ? "#34D399" : "transparent") + ";transition:transform .18s,border-color .18s,box-shadow .18s;" + (isSel ? "box-shadow:0 0 0 1.5px rgba(52,211,153,0.65),0 0 46px -4px rgba(52,211,153,0.75),0 0 18px -6px rgba(52,211,153,0.6),0 10px 26px -18px rgba(0,0,0,0.55);" : "box-shadow:0 8px 24px -18px rgba(0,0,0,0.55);"),
-        accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:" + (isSel ? "4px" : "3px") + ";border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 18px 2px rgba(52,211,153,0.95);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
-        whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
+        onKeyDown: (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.select(s.id); return; }
+          if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+            const i = orderedIds.indexOf(s.id);
+            const ni = e.key === "ArrowDown" ? Math.min(orderedIds.length - 1, i + 1) : Math.max(0, i - 1);
+            this.select(orderedIds[ni]);
+            setTimeout(() => { const cards = document.querySelectorAll('.wf-card'); if (cards[ni]) cards[ni].focus(); }, 0);
+          }
+        },
+        cardStyle: "position:relative;flex-shrink:0;overflow:hidden;border-radius:16px;padding:" + cardPad + ";cursor:pointer;outline:none;transition:transform .18s,border-color .18s,box-shadow .18s;" + GLASS + (isSel ? "border-color:#34D399;box-shadow:0 0 0 1px rgba(52,211,153,0.3),0 0 26px -12px rgba(52,211,153,0.35),0 10px 26px -18px rgba(0,0,0,0.55);" : ""),
+        accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 12px 1px rgba(52,211,153,0.7);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
+        whoGlyph: s.type === "cluster" ? "◇ " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         whoLabel: this.whoLabel(s), why: this.whyLine(s),
-        // UNIFORM HEADLINE: every row leads with MONEY WON on the flagged bets — the ONE number every
-        // subject has, so the headline reads in the same unit across every flag path (binomial /
-        // cross-category / conviction / favorite) and every sort/filter. The path-specific statistic
-        // ("1 in N chance it's luck" / "Nσ over peers") drops to the caption. We do NOT headline the
-        // 0–100 score (its false precision made "65 < 66" read as contradicting "2.7M > 193K"); the
-        // list is ordered by recency, not score, so the order never implies a suspiciousness ranking.
-        improbText: (s.profit || s.improbText),
-        improbCaption: (s.convictionFlag
-          ? ("won on a ~" + s.avgImplied + "% long-shot")
-          : ((s.improbText ? s.improbText + " — " : "") + (s.improbCaption || "chance this record is luck"))),
-        concernColor: th.color, concernGlow: th.glow,
+        improbText: s.improbText, concernColor: th.color, concernGlow: th.glow,
         concernLabel: th.label,
+        isNew: !!s.newlyFlagged,
+        moneyWon: s.profit, oddsCaption: (s.improbText ? s.improbText + " chance this is luck" : "chance this record is luck"),
+        gaugeNode: this.gaugeNode(this.suspicionOf(s), 42),
+        spark: this.signalSpark(s, th.color), firedLabel: (s.fired || []).length + "/6",
         badgeStyle: "display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.07em;padding:2px 8px;border-radius:999px;color:" + th.color + ";border:1px solid " + th.border + ";background:" + th.bg + ";",
-        newlyFlagged: !!s.newlyFlagged, archived: !!s.archived,
       };
     });
 
     // findings
     const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", crossCat: "Near-perfect across many markets", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", repeat: "Hit several separate surprises", newsBlackout: "Bet during a news blackout", fedRegister: "Matches a regulatory filing", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction",
       baseline: "Won past the break-even rate", profitCross: "Profited far more than the market",
-      // Harvard composite signals (preview model)
       hProfit: "Profited far more than peers", hBetCross: "Bet far bigger than the market", hBetWithin: "Bet dwarfed its own norm", hLate: "Bought right before the event", hDir: "One-sided, held to the end" };
     const explainMap = {
       crossCat: "Won almost every bet across many DIFFERENT markets at ordinary odds — a near-perfect record over diverse, moderate-priced markets is improbable in a way the long-shot test can't see (it only looks at cheap bets).",
@@ -1730,8 +1737,6 @@ class Component extends DCLogic {
       sizing: "The informed bet was many times larger than this wallet's normal stake — its own betting history makes the size an outlier.",
       concentration: "Put nearly every dollar one direction on a single event cluster — the un-hedged, single-thesis betting of someone who already knows the answer.",
     };
-    // ELI5 — "explain like I'm 5" for EVERY methodology. Keyed by detector type, so one map
-    // covers every wallet. Plain words: what we calculated, and why/how it points to a tip-off.
     const eli5Map = {
       won: "Imagine a game where the market says 'this almost never happens.' We counted how many of those long-shot bets this person still WON, then worked out the chance of being that lucky by accident. The '1 in N' number is that chance — a tiny number means luck almost certainly can't explain it, so they probably knew something.",
       crossCat: "This person bet on lots of different things at normal odds — not just risky long shots — and still won almost every time. We added up how many they SHOULD have won by luck and how many they actually won. Being almost perfect across many different bets is really hard to do by chance, so it looks like they kept knowing answers other people didn't.",
@@ -1756,14 +1761,7 @@ class Component extends DCLogic {
       hDir: "We checked whether they picked one side and stuck with it or hedged with a backup. They went one-sided and held with no backup — the move of someone who isn't worried, because they already know how it ends.",
     };
     const contrib = this.contributionMap(sel);
-    // bar width = the detector's REAL contribution share, normalised so the top
-    // contributor fills the bar. This keeps the bar and the "% of flag" consistent
-    // (no more full bar next to 0%).
     const maxContrib = Math.max(1, ...(sel.scorecard || []).map((r) => contrib[r.key] || 0));
-    // CORROBORATORS (news-blackout, Federal Register) are added AFTER the flag is decided. They do
-    // NOT drive the statistical flag (so they carry no "% of flag"); instead they raise the wallet's
-    // SUSPICION RANKING. Labelling them with a 0% share read as "useless" and confused users — so we
-    // badge them "corroborating" and the card explains exactly what they add and when.
     const CORROB = { fedRegister: 1, newsBlackout: 1 };
     const findings = (sel.scorecard || []).map((r) => {
       const open = !!st.measure[r.key];
@@ -1776,7 +1774,7 @@ class Component extends DCLogic {
         isCorrob,
         barPct: isCorrob ? "0%" : Math.round((cpct / maxContrib) * 100) + "%",
         contribPct: isCorrob ? "corroborating" : cpct + "% of flag",
-        open, caret: open ? "\u2212 hide the math" : "+ show the math",
+        open, caret: open ? "− hide the math" : "+ show the math",
         method: en.method, citation: en.citation, formula: en.formula,
         symbols: en.symbols.map((p) => ({ sym: p[0], def: p[1] })),
         inputs: en.inputs.map((p) => ({ k: p[0], v: p[1] })),
@@ -1789,21 +1787,14 @@ class Component extends DCLogic {
 
     const colDef = [["market", "MARKET", "left"], ["entryTime", "WHEN", "left"], ["odds", "ODDS", "right"], ["stake", "AMOUNT", "right"], ["outcome", "RESULT", "center"], ["pl", "PROFIT", "right"], ["tx", "ON-CHAIN", "right"]];
     const ledgerCols = colDef.map(([k, l, al]) => ({
-      label: l, arrow: st.ledgerSort === k ? (st.ledgerDir > 0 ? " \u2191" : " \u2193") : "",
+      label: l, arrow: st.ledgerSort === k ? (st.ledgerDir > 0 ? " ↑" : " ↓") : "",
       onClick: () => this.sortLedger(k),
       style: "padding:11px 13px;text-align:" + al + ";font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.1em;color:#6B756F;cursor:pointer;white-space:nowrap;font-weight:600;" + (st.ledgerSort === k ? "color:#34D399;" : ""),
     }));
 
     const denom = sel.improbDenom * st.heroProg;
-    // Conviction-path flags (a lone outsized long-shot the binomial can't see) lead
-    // with the MONEY, not the weak 1-in-N of a single de-correlated bet — the signal
-    // is the size + conviction + win, so show the realized profit up front.
     const convHero = !!sel.convictionFlag;
     const heroDisplay = convHero ? (sel.profit || "+$0") : ("1 in " + this.fmtBig(Math.max(1, denom)));
-    const heroEyebrow = convHero ? "THE HIGH-CONVICTION BET" : "WHY IT IS FLAGGED";
-    const heroCaption = convHero
-      ? ("won on a long-shot the market priced near " + sel.avgImplied + "%")
-      : "chance this winning record is luck";
 
     const corpus = { observed: this.fmtInt(Math.round((this.meta.observed || 0) * st.corpusProg)),
       wallets: this.fmtInt(Math.round(this.meta.reviewed * st.corpusProg)), flagged: Math.round(this.subjects.length * st.corpusProg),
@@ -1825,21 +1816,23 @@ class Component extends DCLogic {
     if (st.tier !== "all") active.push({ label: this.concernTheme(st.tier).label + " tier", clear: () => this.setState({ tier: "all" }) });
     st.cats.forEach((c) => active.push({ label: c, clear: () => this.toggleCat(c) }));
     if (st.timeWindow !== "all") active.push({ label: ({ "90d": "last 90 days", "12mo": "last 12 months", custom: "custom range" })[st.timeWindow], clear: () => this.setState({ timeWindow: "all" }) });
-    if (st.minImprob > 0) active.push({ label: "\u2265 1 in " + this.fmtBig(st.minImprob), clear: () => this.setState({ minImprob: 0 }) });
-    if (st.minProfit > 0) active.push({ label: "\u2265 " + this.fmtMoney(st.minProfit) + " profit", clear: () => this.setState({ minProfit: 0 }) });
+    if (st.minImprob > 0) active.push({ label: "≥ 1 in " + this.fmtBig(st.minImprob), clear: () => this.setState({ minImprob: 0 }) });
+    if (st.minProfit > 0) active.push({ label: "≥ " + this.fmtMoney(st.minProfit) + " profit", clear: () => this.setState({ minProfit: 0 }) });
     sigDefs.forEach(([k, l]) => { if (st.sig[k]) active.push({ label: l, clear: () => this.setState({ sig: { ...st.sig, [k]: false } }) }); });
-    if (st.search.trim()) active.push({ label: "\u201c" + st.search.trim() + "\u201d", clear: () => this.setState({ search: "" }) });
+    if (st.search.trim()) active.push({ label: "“" + st.search.trim() + "”", clear: () => this.setState({ search: "" }) });
     const activeChips = active.map((a) => ({ label: a.label, clear: a.clear, style: "display:inline-flex;align-items:center;gap:7px;font-family:Inter;font-size:11px;padding:4px 9px;border-radius:999px;cursor:pointer;border:1px solid rgba(52,211,153,0.4);color:#34D399;background:rgba(52,211,153,0.1);" }));
     const hasActive = active.length > 0;
-    const resultReadout = "showing " + list.length + " of " + this.subjects.length + " flagged \u00b7 filtered from " + this.fmtInt(this.meta.reviewed) + " reviewed";
+    const resultReadout = "showing " + list.length + " of " + this.subjects.length + " flagged · filtered from " + this.fmtInt(this.meta.reviewed) + " reviewed";
 
     const fn = this.funnel();
+    const cp = st.corpusProg;
     const funnelSteps = [
-      { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", arrow: "" },
-      { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", arrow: "\u2192" },
-      { k: "flagged", label: "flagged", val: String(fn.flagged), color: "#34D399", arrow: "\u2192" },
-      { k: "high", label: "high", val: String(fn.high), color: "#FBBF24", arrow: "\u2192" },
+      { k: "observed", label: "observed", val: this.fmtInt(Math.round(fn.observed * cp)), color: "#7E8C86", border: "#1F2A25", shadow: "none", arrow: "" },
+      { k: "screened", label: "above screen", val: this.fmtInt(Math.round(fn.screened * cp)), color: "#6FE3B6", border: "rgba(111,227,182,0.3)", shadow: "0 0 18px -10px rgba(111,227,182,0.5)", arrow: "→" },
+      { k: "flagged", label: "flagged", val: this.fmtInt(Math.round(fn.flagged * cp)), color: "#34D399", border: "rgba(52,211,153,0.4)", shadow: "0 0 20px -8px rgba(52,211,153,0.55)", arrow: "→" },
+      { k: "high", label: "high", val: this.fmtInt(Math.round(fn.high * cp)), color: "#F87171", border: "rgba(248,113,113,0.4)", shadow: "0 0 20px -8px rgba(248,113,113,0.5)", arrow: "→" },
     ];
+    const combinedProfit = this.totalFlaggedProfitText || (this.totalFlaggedProfit > 0 ? this.fmtMoney(this.totalFlaggedProfit) : "$0");
 
     const ml = this.methodLib();
     const methods = Object.keys(ml).map((k) => ({ name: ml[k].name, citation: ml[k].citation, formula: ml[k].formula, threshold: ml[k].threshold, source: ml[k].source, calibration: ml[k].calibration }));
@@ -1864,17 +1857,20 @@ class Component extends DCLogic {
       sortOptions: sortOptions.map(([v, l]) => ({ value: v, label: l })),
       toggleAdvanced: () => this.setState({ advancedOpen: !st.advancedOpen }), advancedOpen: st.advancedOpen,
       advancedBtnStyle: "display:flex;align-items:center;gap:7px;font-family:Inter;font-size:12px;padding:8px 13px;border-radius:9px;cursor:pointer;border:1px solid " + (st.advancedOpen || hasActive ? "#34D399" : "#1F2A25") + ";color:" + (st.advancedOpen || hasActive ? "#34D399" : "#949C98") + ";background:#0E1512;",
-      advancedCaret: st.advancedOpen ? "\u2212" : "+",
+      advancedCaret: st.advancedOpen ? "−" : "+",
       timeWindow: st.timeWindow, isCustom: st.timeWindow === "custom",
       customFrom: st.customFrom, customTo: st.customTo,
       onCustomFrom: (e) => this.setState({ customFrom: e.target.value }), onCustomTo: (e) => this.setState({ customTo: e.target.value }),
       minImprob: st.minImprob, minProfit: st.minProfit,
-      minImprobMax: 9100000, minProfitMax: 2400000,
+      minImprobMax: this.minImprobMax(), minProfitMax: this.minProfitMax(),
       onMinImprob: (e) => this.setState({ minImprob: +e.target.value }), onMinProfit: (e) => this.setState({ minProfit: +e.target.value }),
       minImprobLabel: st.minImprob > 0 ? "1 in " + this.fmtBig(st.minImprob) : "any",
       minProfitLabel: st.minProfit > 0 ? this.fmtMoney(st.minProfit) : "any",
       activeChips, hasActive, clearAll: () => this.clearAllFilters(), resultReadout,
-      funnelSteps,
+      funnelSteps, combinedProfit,
+      clock: this.clockStr(st.tick),
+      liveDotStyle: "width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px 2px rgba(52,211,153,0.7);" + (st.reduce ? "" : "animation:wf-breathe 2.2s ease-in-out infinite;"),
+      auroraAnim: st.reduce ? "" : "animation:wf-aurora 3.4s ease-in-out infinite;",
 
       showAmbient, listGap,
       gridCols: narrow ? "1fr" : "minmax(300px, 0.54fr) minmax(0, 1fr)",
@@ -1884,17 +1880,13 @@ class Component extends DCLogic {
 
       sel: {
         refId: sel.refId || ("WF-2026-" + String(this.subjects.indexOf(sel) + 100)),
-        whoLabel: this.whoLabel(sel), whoGlyph: sel.type === "cluster" ? "\u25c7 " : "", whoColor: sel.type === "cluster" ? "#C4B5FD" : "#ECEFED",
-        addrShort: (() => { const a = sel.address || sel.idLabel || ""; return a.length > 12 ? a.slice(0, 6) + "\u2026" + a.slice(-4) : a; })(),
+        whoLabel: this.whoLabel(sel), whoGlyph: sel.type === "cluster" ? "◇ " : "", whoColor: sel.type === "cluster" ? "#C4B5FD" : "#ECEFED",
+        addrShort: (() => { const a = sel.address || sel.idLabel || ""; return a.length > 12 ? a.slice(0, 6) + "…" + a.slice(-4) : a; })(),
         scanUrl: "https://polygonscan.com/address/" + (sel.address || sel.idLabel || ""),
-        // Polymarket profiles load by USERNAME, not wallet address — so the link uses the
-        // @handle (https://polymarket.com/@<username>). When the wallet has no Polymarket
-        // username the profile isn't reachable, so the link is hidden rather than pointing at
-        // a dead address URL.
         polymarketUrl: sel.username ? ("https://polymarket.com/@" + encodeURIComponent(sel.username)) : null,
         hasPolymarket: !!sel.username,
         copyAddr: () => this.copyText(sel.address || sel.idLabel || "", "dossier:" + sel.id),
-        copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "\u2713 copied" : "\u29c9 copy address",
+        copyLabel: (st.copied && st.copied["dossier:" + sel.id]) ? "✓ copied" : "⧉ copy address",
         copyColor: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#949C98",
         copyBorder: (st.copied && st.copied["dossier:" + sel.id]) ? "#34D399" : "#243029",
         firstSeen: sel.firstSeen || "an unrecorded date",
@@ -1919,12 +1911,14 @@ class Component extends DCLogic {
         provSources: prov.sources, provBlock: prov.block, provSnapshot: prov.snapshot, provRecomputed: prov.recomputed,
       },
 
-      heroDisplay, heroEyebrow, heroCaption, findings, contributionNode,
+      heroDisplay, findings, contributionNode,
+      signatureNode: this.signatureNode(sel),
+      improbMeterNode: this.improbMeterNode(sel),
       percentileStripNode: this.percentileStripNode(sel),
       confidenceMeterNode: this.confidenceMeterNode(sel),
       methods,
       toggleMethodology: () => this.setState({ methodologyOpen: !st.methodologyOpen }), methodologyOpen: st.methodologyOpen,
-      methodologyCaret: st.methodologyOpen ? "\u2212 collapse" : "+ expand",
+      methodologyCaret: st.methodologyOpen ? "− collapse" : "+ expand",
       clusterGraphNode: sel.cluster ? this.clusterGraphNode(sel) : null,
       analyticsNode: this.analyticsNode(sel),
       timelineNode: this.timelineNode(sel),
@@ -1939,15 +1933,25 @@ class Component extends DCLogic {
 
       act: {
         exportPdf: () => this.openModal("pdf"), exportCsv: () => this.openModal("csv"),
-        referral: () => this.openModal("referral"),
+        referral: () => this.openModal("referral"), permalink: () => this.copyPermalink(),
         save: () => this.setState({ saved: { ...st.saved, [sel.id]: !saved } }),
         close: () => this.setState({ modal: { open: false } }),
       },
-      saveStyle: "display:flex;align-items:center;gap:6px;background:" + (saved ? "rgba(52,211,153,0.18)" : "transparent") + ";border:1px solid " + (saved ? "#34D399" : "#243029") + ";color:" + (saved ? "#34D399" : "#949C98") + ";font-family:Inter;font-size:12px;padding:9px 12px;border-radius:9px;cursor:pointer;" + (saved ? "box-shadow:0 0 18px -6px rgba(52,211,153,0.5);" : ""),
-      saveIcon: saved ? "\u2605" : "\u2606", saveLabel: saved ? "Saved" : "Save",
+      saveStyle: "display:flex;align-items:center;gap:6px;flex:0 0 auto;white-space:nowrap;background:" + (saved ? "rgba(52,211,153,0.18)" : "transparent") + ";border:1px solid " + (saved ? "#34D399" : "#243029") + ";color:" + (saved ? "#34D399" : "#949C98") + ";font-family:Inter;font-size:12px;padding:9px 12px;border-radius:9px;cursor:pointer;" + (saved ? "box-shadow:0 0 18px -6px rgba(52,211,153,0.5);" : ""),
+      saveIcon: saved ? "★" : "☆", saveLabel: saved ? "Saved" : "Save",
+      permalinkLabel: st.permalinkCopied ? "✓ copied" : "⧉ Copy link",
 
       modal: st.modal, modalBody: this.modalBody(sel),
     };
+  }
+
+  minImprobMax() {
+    const m = Math.max(0, ...this.subjects.map((s) => s.improbDenom || 0));
+    return m > 0 ? m : 9100000;
+  }
+  minProfitMax() {
+    const m = Math.max(0, ...this.subjects.map((s) => s.profitNum || 0));
+    return m > 0 ? m : 2400000;
   }
 
   modalBody(sel) {
@@ -1957,7 +1961,7 @@ class Component extends DCLogic {
     const kind = st.modal.kind;
     if (kind === "csv") {
       const head = "market,when,odds,amount,result,profit,tx";
-      const lines = (sel.ledger || []).slice(0, 6).map((r, i) => '"' + r.market.slice(0, 30) + '\u2026",' + this.entryTime(sel, i) + "," + r.odds + "%," + r.stake.replace(/[$,]/g, "") + "," + r.outcome + "," + r.pl.replace(/[$,\u2212]/g, (m) => (m === "\u2212" ? "-" : "")) + "," + r.tx);
+      const lines = (sel.ledger || []).slice(0, 6).map((r, i) => '"' + String(r.market).slice(0, 30) + '…",' + (r.entryTime || this.entryTime(sel, i)) + "," + r.odds + "%," + String(r.stake).replace(/[$,]/g, "") + "," + r.outcome + "," + String(r.pl).replace(/[$,−]/g, (m) => (m === "−" ? "-" : "")) + "," + (r.txFull || r.tx || ""));
       return h("div", null,
         h("p", { style: { fontSize: "14px", color: "#D7DCD9", marginTop: 0, lineHeight: 1.6 } }, "The full bet list for " + this.whoLabel(sel) + " is ready as a spreadsheet (" + (sel.ledger || []).length + " rows). Preview:"),
         h("pre", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#949C98", background: "#090D0C", border: "1px solid #1B2521", borderRadius: "10px", padding: "13px", overflowX: "auto", lineHeight: 1.7 } }, [head, ...lines].join("\n")),
@@ -1980,10 +1984,10 @@ class Component extends DCLogic {
     if (kind === "referral") {
       const items = ["Cover summary (auto-drafted)", "The evidence file (PDF)", "How every finding was measured", "The full bet list (spreadsheet)", "On-chain links for every bet"];
       return h("div", null,
-        h("div", { style: { display: "inline-flex", alignItems: "center", gap: "7px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#34D399", border: "1px solid rgba(52,211,153,0.4)", borderRadius: "999px", padding: "5px 11px", marginBottom: "14px", boxShadow: "0 0 18px -6px rgba(52,211,153,0.6)" } }, "\u2713 PACKET READY"),
+        h("div", { style: { display: "inline-flex", alignItems: "center", gap: "7px", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#34D399", border: "1px solid rgba(52,211,153,0.4)", borderRadius: "999px", padding: "5px 11px", marginBottom: "14px", boxShadow: "0 0 18px -6px rgba(52,211,153,0.6)" } }, "✓ PACKET READY"),
         h("div", { style: { background: "#090D0C", border: "1px solid #1B2521", borderRadius: "12px", padding: "15px 17px", marginBottom: "13px" } },
           items.map((it, i) => h("div", { key: i, style: { display: "flex", alignItems: "center", gap: "11px", padding: "8px 0", borderBottom: i < items.length - 1 ? "1px solid #141C18" : "none" } },
-            h("span", { style: { color: "#34D399", fontSize: "13px" } }, "\u2713"),
+            h("span", { style: { color: "#34D399", fontSize: "13px" } }, "✓"),
             h("span", { style: { fontSize: "13.5px", color: "#D7DCD9" } }, it)
           ))
         ),
@@ -2011,9 +2015,6 @@ class Component extends DCLogic {
       const blob = (data instanceof Uint8Array) ? new Blob([data], { type: mime }) : new Blob([String(data)], { type: mime + ";charset=utf-8" });
       url = URL.createObjectURL(blob);
     } catch (e) { return false; }
-    // Run inside an <iframe>, so a plain in-frame anchor click can be swallowed by
-    // the embedder. Try the TOP document first (same-origin host), then this
-    // document, then open the blob in a new tab — so the file actually lands.
     const docs = [];
     try { if (window.top && window.top !== window && window.top.document) docs.push(window.top.document); } catch (_) {}
     docs.push(document);
@@ -2032,7 +2033,6 @@ class Component extends DCLogic {
     return false;
   }
 
-  // full bet ledger as CSV (every real position, not the 6-row preview).
   csvFor(sel) {
     const head = "market,when,odds,amount,result,profit,tx";
     const rows = (sel.ledger || []).map((r, i) => [
@@ -2076,7 +2076,6 @@ class Component extends DCLogic {
       "Attached: evidence file (PDF), methodology appendix, full bet list (CSV), on-chain source index."].join("\n");
   }
 
-  // dossier as plain text lines for the PDF.
   dossierLines(sel) {
     const L = [];
     L.push(["EVIDENCE FILE · " + (sel.refId || ""), 9, false]);
@@ -2096,7 +2095,6 @@ class Component extends DCLogic {
     return L;
   }
 
-  // minimal, valid single-font PDF writer (Helvetica, paginated). Returns Uint8Array.
   buildPdf(lines) {
     const enc = (s) => { const o = []; for (let i = 0; i < s.length; i++) o.push(s.charCodeAt(i) & 0xff); return o; };
     const esc = (s) => String(s).replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
@@ -2110,12 +2108,10 @@ class Component extends DCLogic {
     }
     if (cur.length) pages.push(cur);
     const objs = []; const add = (s) => { objs.push(s); return objs.length; };
-    // 1 catalog, 2 pages, fonts 3/4, then per-page [content,page]
     const fontReg = 3, fontBold = 4;
     const pageObjNums = []; const contentObjNums = [];
-    let n = 4; // objects 1..4 reserved (catalog, pages, 2 fonts)
+    let n = 4;
     pages.forEach(() => { contentObjNums.push(++n); pageObjNums.push(++n); });
-    const parts = [];
     const xref = []; let offset = 0;
     const out = [];
     const pushStr = (s) => { const b = enc(s); for (const c of b) out.push(c); offset += b.length; };
@@ -2132,8 +2128,8 @@ class Component extends DCLogic {
       writeObj(contentObjNums[i], "<< /Length " + enc(stream).length + " >>\nstream\n" + stream + "\nendstream");
       writeObj(pageObjNums[i], "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 " + PW + " " + PH + "] /Resources << /Font << /F1 " + fontReg + " 0 R /F2 " + fontBold + " 0 R >> >> /Contents " + contentObjNums[i] + " 0 R >>");
     });
+    const total = 4 + pages.length * 2 + 1;
     const xrefStart = offset;
-    const total = objs.length + 1; // include obj 0
     let xs = "xref\n0 " + total + "\n0000000000 65535 f \n";
     for (let i = 1; i < total; i++) { xs += String(xref[i] || 0).padStart(10, "0") + " 00000 n \n"; }
     xs += "trailer\n<< /Size " + total + " /Root 1 0 R >>\nstartxref\n" + xrefStart + "\n%%EOF";
@@ -2141,7 +2137,6 @@ class Component extends DCLogic {
     return new Uint8Array(out);
   }
 
-  // store-only (no compression) ZIP writer with CRC32 — a genuine .zip archive.
   buildZip(files) {
     const enc = (s) => { const o = []; for (let i = 0; i < s.length; i++) o.push(s.charCodeAt(i) & 0xff); return o; };
     const table = (() => { const t = []; for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); t[n] = c >>> 0; } return t; })();
@@ -2165,6 +2160,7 @@ class Component extends DCLogic {
   }
 
   doExport(kind, sel) {
+    sel = sel || this.selSubject();
     const slug = this.slugFor(sel);
     if (kind === "csv") { this.download(slug + "_bets.csv", "text/csv", this.csvFor(sel)); return; }
     if (kind === "pdf") { this.download(slug + "_evidence.pdf", "application/pdf", this.buildPdf(this.dossierLines(sel))); return; }
@@ -2185,7 +2181,6 @@ class Component extends DCLogic {
     this.setState({ modal: { open: true, kind, eyebrow } });
   }
 
-  // Full looked-up record as CSV (every resolved in-scope bet, real fields).
   lookupCsv(d) {
     const head = "market,date,category,entry_odds,stake,outcome,result,net_pl,tx_hash";
     const rows = (d.ledger || []).map((b) => [
@@ -2195,16 +2190,9 @@ class Component extends DCLogic {
     ].join(","));
     return [head, ...rows].join("\n");
   }
-  // Real clipboard write with a legacy execCommand fallback (works inside the
-  // same-origin iframe; the host grants clipboard-write via the iframe `allow`).
+
   writeClipboard(text) {
     const t = String(text || "");
-    // The async Clipboard API can REJECT silently inside a sandboxed iframe (no
-    // clipboard-write permission), which previously left nothing on the clipboard
-    // while the UI still flashed "copied". So we ALWAYS keep the execCommand path as a
-    // fallback: try the async API and, on any rejection, fall through to execCommand;
-    // if the API is unavailable, go straight to execCommand. execCommand("copy") works
-    // in a sandboxed iframe that has allow-scripts, given the click user-gesture.
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(t).catch(() => this._execCopy(t));
@@ -2231,13 +2219,12 @@ class Component extends DCLogic {
     this.setState({ copied: { ...this.state.copied, [key]: true } });
     setTimeout(() => this.setState({ copied: { ...this.state.copied, [key]: false } }), 1600);
   }
+  copyPermalink() { this.setState({ permalinkCopied: true }); setTimeout(() => this.setState({ permalinkCopied: false }), 1800); }
   toggleCat(name) { const cats = this.state.cats.includes(name) ? this.state.cats.filter((c) => c !== name) : [...this.state.cats, name]; this.setState({ cats }); }
   sortLedger(k) { if (this.state.ledgerSort === k) this.setState({ ledgerDir: this.state.ledgerDir * -1 }); else this.setState({ ledgerSort: k, ledgerDir: 1 }); }
   clearAllFilters() { this.setState({ type: "all", tier: "all", cats: [], timeWindow: "all", customFrom: "", customTo: "", minImprob: 0, minProfit: 0, sig: { conceal: false, fresh: false, cluster: false, held: false }, search: "" }); }
   fmtMoney(n) { return n >= 1e6 ? "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : "$" + Math.round(n / 1e3) + "K"; }
   fmtInt(n) { return n.toLocaleString("en-US"); }
-  // exact scan freshness — date + UTC time from the store's generatedAt, so the live
-  // cadence is VISIBLE (each ~15-min cron commit advances this). Falls back to the date.
   stampText(prefix) {
     const g = this.meta && this.meta.generatedAt;
     if (g) { try {
