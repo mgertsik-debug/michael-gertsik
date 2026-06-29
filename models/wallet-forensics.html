@@ -1083,7 +1083,7 @@ class Component extends DCLogic {
     // and keep the weight table IN SYNC with detectors.js DEFAULTS.contribW so every
     // detector (incl. conviction/timing/concentration/sizing) gets a real share.
     if (s.contributions && Object.keys(s.contributions).length) return s.contributions;
-    const weight = { won: 26, crossCat: 22, timing: 18, cluster: 18, concentration: 12, conceal: 12, fresh: 10, repeat: 10, conviction: 6, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 };
+    const weight = { won: 26, crossCat: 22, timing: 18, cluster: 18, concentration: 12, conceal: 12, repeat: 10, fresh: 5, conviction: 6, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 };
     const fired = (s.fired || []).filter((k) => weight[k] != null);
     const total = fired.reduce((a, k) => a + weight[k], 0) || 1;
     const out = {};
@@ -1386,6 +1386,9 @@ class Component extends DCLogic {
       h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "10px" } },
         h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F" } }, "DETECTOR AGREEMENT"),
         h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#34D399", fontWeight: 600 } }, fired + " of " + total)),
+      (s.suspicion != null ? h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "10px", paddingBottom: "10px", borderBottom: "1px solid #16201B" } },
+        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F" } }, "SUSPICION SCORE · RANK KEY"),
+        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#FBBF24", fontWeight: 600 } }, s.suspicion + " / 100")) : null),
       h("div", { style: { display: "flex", gap: "5px", marginBottom: "10px" } }, segs),
       h("div", { style: { display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" } },
         h("span", { style: { fontFamily: "Inter", fontSize: "12.5px", color: "#ECEFED", fontWeight: 600 } }, level),

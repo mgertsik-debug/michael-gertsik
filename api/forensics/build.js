@@ -607,12 +607,15 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
     .filter((k) => dets[k] && dets[k].hasData && (k === "cluster" ? dets[k].isCluster : dets[k].fires));
   // ANTI-WHALE DISCRIMINATOR — the crux. A cross-sectional profit outlier on a favorite is, on its
   // own, indistinguishable from a smart whale we have no business accusing. What separates an
-  // INFORMED favorite bet from a whale is on-chain STRUCTURE: a purpose-built (fresh) wallet,
-  // concealment tactics, or a coordinated cluster. Require ≥1 such STRUCTURAL signal to flag at
-  // all. sizing/concentration are whale-like (a big concentrated bet) and do NOT count here —
-  // they corroborate but cannot be the basis. On data without chain enrichment this flags few or
-  // none; that is correct — better to miss a favorite-insider than to re-accuse a whale.
-  const STRUCTURAL = ["fresh", "conceal", "cluster"];
+  // INFORMED favorite bet from a whale is on-chain STRUCTURE: concealment tactics or a coordinated
+  // cluster. NOTE — `fresh` was REMOVED from this set after a live scan showed it fired on 75% of
+  // wallets: Polymarket provisions a NEW PROXY WALLET PER USER at first deposit, so almost every
+  // account looks "fresh" (new wallet, no prior tx, funded just before its first bet). It is NOT a
+  // purpose-built-wallet signature here, so it can't be the anti-whale gate. Require concealment or
+  // a funding cluster — genuinely hard to fake. sizing/concentration are whale-like and don't count.
+  // On data without chain enrichment this flags few or none; that is correct — better to miss a
+  // favorite-insider than to re-accuse a whale.
+  const STRUCTURAL = ["conceal", "cluster"];
   const structural = corro.filter((k) => STRUCTURAL.includes(k));
   if (!structural.length) return null;
   // Tier from the cross-sectional profit z AND structural corroboration. "extreme" needs a strong
@@ -874,7 +877,10 @@ function suspicionScore(s) {
   const imp = Math.min(1, log10(s.improbDenom || 1) / 12);          // statistical improbability (validated backbone, saturates ~1e12)
   const breadth = Math.min(1, (s.detectorsFired || fired.length || s.agreeing || 0) / 5);  // independent corroboration
   const timingOn = fired.indexOf("timing") >= 0 || fired.indexOf("crossCat") >= 0 ? 1 : 0; // pre-event timing / cross-category
-  const structOn = (fired.indexOf("fresh") >= 0 || fired.indexOf("conceal") >= 0 || fired.indexOf("cluster") >= 0) ? 1 : 0; // purpose-built / coordinated
+  // purpose-built / coordinated structure. `fresh` is EXCLUDED — it fires on ~75% of Polymarket
+  // wallets (per-user proxy wallets are inherently fresh), so it's a near-constant that discriminates
+  // nothing; only concealment / funding-cluster are genuine structural tells.
+  const structOn = (fired.indexOf("conceal") >= 0 || fired.indexOf("cluster") >= 0) ? 1 : 0;
   const mag = Math.min(1, log10(Math.abs(s.profitNum || 0)) / 6);   // realized magnitude (saturates ~$1M)
   const score = 0.34 * imp + 0.20 * breadth + 0.16 * timingOn + 0.20 * mag + 0.10 * structOn;
   return Math.round(score * 1000) / 10;                             // 0..100, one decimal
