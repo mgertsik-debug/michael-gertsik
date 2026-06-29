@@ -415,6 +415,19 @@ test("fedRegister: fires only on precision-filtered title matches, low score", (
   assert.equal(D.fedRegister({ hasQuery: false }).hasData, false);
 });
 
+test("watchlistScore: trade-time score weights INFORMED over BIG; news-blackout dominates", () => {
+  const peers = [100, 120, 90, 110, 130, 95, 105]; // a market where everyone trades ~$100
+  // a $5k trade here is a huge outlier in size AND vs p90; with a news blackout it should top out.
+  const informed = D.watchlistScore({ sizeUsd: 5000, marketSizes: peers, poolUsd: 200000, newsBlackout: true, fedRegister: false });
+  assert.ok(informed.fired.includes("size") && informed.fired.includes("whale") && informed.fired.includes("blackout"), "outsized + whale + blackout: " + JSON.stringify(informed.fired));
+  // a same-size trade WITHOUT the blackout scores strictly lower — informed > big.
+  const justBig = D.watchlistScore({ sizeUsd: 5000, marketSizes: peers, poolUsd: 200000, newsBlackout: false, fedRegister: false });
+  assert.ok(informed.score > justBig.score, "the news-blackout (informed) signal raises the score above raw size");
+  // a normal-sized trade in line with peers fires nothing.
+  const normal = D.watchlistScore({ sizeUsd: 105, marketSizes: peers, poolUsd: 200000 });
+  assert.equal(normal.score, 0, "an in-distribution trade is not an outlier");
+});
+
 test("softened gate: small net-positive profit is a TIER CAP, not an exclusion", () => {
   // validateSubject floor is now a tiny materiality ($250), not $5k — a $2k-profit improbable single
   // wallet is published (the tier cap handles confidence), but a net loser is still rejected.
