@@ -7,7 +7,7 @@
     "high": 17,
     "notable": 61
   },
-  "medianS": 704.4,
+  "medianS": 704.3,
   "p90": 1366.6,
   "p95": 1570.9,
   "p99": 1979.9,
@@ -16,9 +16,9 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 210537,
-  "reviewed": 210537,
-  "screened": 10082,
+  "observed": 210680,
+  "reviewed": 210680,
+  "screened": 10083,
   "scored": 5926,
   "top": [
     {
@@ -6345,7 +6345,7 @@
       "address": "0x35bbbad2415fe5e39b12da9a316cdc80b022009b",
       "username": "MisTKy",
       "tier": "notable",
-      "S": 704.4,
+      "S": 704.3,
       "market": "Khamenei out as Supreme Leader of Iran by June 30?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-june-30-747",
       "episodeTx": "0x32ef5f41e9291becfbf95aea309e4fc8c1c74162c922214d84b1f3c394c4adc5",
@@ -6354,15 +6354,15 @@
       "won": true,
       "episodeProfit": 14507,
       "zBetCross": 3.04,
-      "zBetWithin": 0.23,
+      "zBetWithin": 0.22,
       "zProfitCross": 16,
       "lateBuyFraction": 1,
       "directionalScore": 0.919,
-      "accountPnl": 249220,
+      "accountPnl": 252435,
       "firstSeen": "Jan 11 2026",
       "createdOnChain": true,
       "created": "Jan 11 2026",
-      "betsCount": 126,
+      "betsCount": 129,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -6403,6 +6403,16 @@
           "pl": 3611,
           "won": true,
           "tx": null
+        },
+        {
+          "market": "Strait of Hormuz traffic returns to normal by end of June?",
+          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+          "ts": 1781865152,
+          "odds": 91,
+          "stake": 51921,
+          "pl": 4940,
+          "won": true,
+          "tx": "0xe865f4b40da095fcb219b972549f9659584d902a51559e811e8617211e7d085a"
         },
         {
           "market": "Will Abelardo de la Espriella  win the 2026 Colombian presidential election?",
@@ -6492,16 +6502,6 @@
           "stake": 21921,
           "pl": -21921,
           "won": false,
-          "tx": null
-        },
-        {
-          "market": "US x Iran permanent peace deal by July 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1781513274,
-          "odds": 94,
-          "stake": 21328,
-          "pl": 1431,
-          "won": true,
           "tx": null
         }
       ],
