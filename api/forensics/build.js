@@ -1049,20 +1049,21 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
       numbers: "bet " + z(harvard.zBetCross) + " SD above the market's average stake", inputs: [["z_bet_cross", z(harvard.zBetCross)], ["weight", String(W.betCross)], ["+S", String(Math.round(W.betCross * num(harvard.zBetCross)))]] },
     { key: "hBetWithin", metric: "z = " + z(harvard.zBetWithin), method: "Within-trader bet size", formula: "z = (stake − μ_wallet) / σ_wallet · weight " + W.betWithin,
       numbers: "bet " + z(harvard.zBetWithin) + " SD above this wallet's own typical stake", inputs: [["z_bet_within", z(harvard.zBetWithin)], ["weight", String(W.betWithin)], ["+S", String(Math.round(W.betWithin * num(harvard.zBetWithin)))]] },
-    { key: "hLate", metric: Math.round(num(harvard.lateBuyFraction) * 100) + "% late", method: "Pre-event timing (context only)", formula: "fraction of buys in the final 48h — NOT scored (saturated on partial data)",
-      numbers: Math.round(num(harvard.lateBuyFraction) * 100) + "% of buying was in the final 48h before resolution", inputs: [["late_buy_fraction", num(harvard.lateBuyFraction).toFixed(2)], ["scored?", "no — context only"]] },
-    { key: "hDir", metric: Math.round(num(harvard.directionalScore) * 100) + "% one-sided", method: "Directional concentration (context only)", formula: "1 − sold/bought — NOT scored (saturated on partial data)",
-      numbers: Math.round(num(harvard.directionalScore) * 100) + "% one-directional (held, not hedged)", inputs: [["directional_score", num(harvard.directionalScore).toFixed(2)], ["scored?", "no — context only"]] },
+    { key: "hLate", metric: Math.round(num(harvard.lateBuyFraction) * 100) + "% late", method: "Pre-event timing", formula: "late_buy_fraction (share of buys in the final 48h) · weight " + W.late,
+      numbers: Math.round(num(harvard.lateBuyFraction) * 100) + "% of buying was in the final 48h before resolution", inputs: [["late_buy_fraction", num(harvard.lateBuyFraction).toFixed(2)], ["weight", String(W.late)], ["+S", String(Math.round(W.late * num(harvard.lateBuyFraction)))]] },
+    { key: "hDir", metric: Math.round(num(harvard.directionalScore) * 100) + "% one-sided", method: "Directional concentration", formula: "directional_score (1 − sold/bought) · weight " + W.dir,
+      numbers: Math.round(num(harvard.directionalScore) * 100) + "% one-directional (held, not hedged)", inputs: [["directional_score", num(harvard.directionalScore).toFixed(2)], ["weight", String(W.dir)], ["+S", String(Math.round(W.dir * num(harvard.directionalScore)))]] },
   ];
-  // contribution split — ONLY the three SCORED cross-sectional signals (late/dir are context, not
-  // scored). Normalised over the positive contributors.
-  const rawC = { hProfit: W.profitCross * num(harvard.zProfitCross), hBetCross: W.betCross * num(harvard.zBetCross), hBetWithin: W.betWithin * num(harvard.zBetWithin) };
+  // contribution split over ALL FIVE scored signals (profit/bet-cross/bet-within z's + late + dir),
+  // normalised over the positive contributors. late/dir enter on [0,1] so their share is small —
+  // exactly the paper's intended 15/10 weighting against the dominant z-spine.
+  const rawC = { hProfit: W.profitCross * num(harvard.zProfitCross), hBetCross: W.betCross * num(harvard.zBetCross), hBetWithin: W.betWithin * num(harvard.zBetWithin), hLate: W.late * num(harvard.lateBuyFraction), hDir: W.dir * num(harvard.directionalScore) };
   const posSum = Object.values(rawC).reduce((a, v) => a + Math.max(0, v), 0) || 1;
   const contributions = {}; Object.keys(rawC).forEach((k) => { contributions[k] = Math.max(0, Math.round((Math.max(0, rawC[k]) / posSum) * 100)); });
   const lead = valid.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd))[0];
   const timeline = lead ? { market: qOf(lead), priceStart: num(lead.entryPrice), priceEnd: lead.won ? 0.95 : 0.05, entries: [num(lead.entryPrice)], resolution: lead.won ? 0.92 : 0.08, candidates: [] } : {};
   const epOdds = Math.round(num(hb.entryPrice) * 100);
-  const heroSentence = "This account's most anomalous (wallet, market) episode scores " + S + " on the composite suspicion score — it bet " + money(hb.stakeUsd) + " at about " + epOdds + "% on “" + String(qOf(hb)).slice(0, 70) + "”" + (hb.won ? ", and won" : "") + ". The score combines three cross-sectional signals — out-profiting the market, an outsized bet vs peers, and an outsized bet vs its own norm — and only retains episodes that actually won and out-profited the market; late entry and one-sided conviction are shown as context. Consistent with informed trading — not proof of it.";
+  const heroSentence = "This account's most anomalous (wallet, market) episode scores " + S + " on the Harvard composite — it bet " + money(hb.stakeUsd) + " at about " + epOdds + "% on “" + String(qOf(hb)).slice(0, 70) + "”" + (hb.won ? ", and won" : "") + ". The score combines all five signals — out-profiting the market, an outsized bet vs peers, an outsized bet vs its own norm, buying late (final 48h), and one-sided conviction — weighted as in Ofir & Ofir (profit/size dominate; timing and directionality are minor). We additionally retain only episodes that actually won and out-profited the market. Consistent with informed trading — not proof of it.";
   return {
     id: "h" + (idx + 1), type: "wallet", address: agg.address || null, memberAddresses: [agg.address],
     idLabel: short(agg.address), username: agg.pseudonym || (_prof && _prof.username) || null,
