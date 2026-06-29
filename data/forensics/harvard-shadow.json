@@ -16,10 +16,10 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 214239,
-  "reviewed": 214239,
+  "observed": 214343,
+  "reviewed": 214343,
   "screened": 10093,
-  "scored": 5961,
+  "scored": 5964,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -847,7 +847,7 @@
       "address": "0x561980da1d2d808c406b14d4a3cdf8bc621bee5b",
       "username": "strikerpen",
       "tier": "extreme",
-      "S": 1412.8,
+      "S": 1414.6,
       "market": "Will Craig Federighi be the next CEO of Apple?",
       "marketUrl": "https://polymarket.com/event/next-ceo-of-apple",
       "episodeTx": "0xca13bb14a2a4e05a7ab6f0174157921789a482e973142e16c5cd784e4bcd3ddc",
@@ -856,15 +856,15 @@
       "won": true,
       "episodeProfit": 465,
       "zBetCross": 16.78,
-      "zBetWithin": -0.24,
+      "zBetWithin": -0.12,
       "zProfitCross": 27.02,
       "lateBuyFraction": 0,
       "directionalScore": 0,
-      "accountPnl": 298,
+      "accountPnl": 249,
       "firstSeen": "Jan 18 2026",
       "createdOnChain": true,
       "created": "Jan 18 2026",
-      "betsCount": 10,
+      "betsCount": 13,
       "ledger": [
         {
           "market": "Will 60 or more of senators vote “Yea” for Trump’s Fed Chair nominee?",
@@ -925,6 +925,36 @@
           "pl": -1738,
           "won": false,
           "tx": "0x885e16270f5ffab089ce0dd86c646984e27e7d55286ec588e6165de2c9f797ae"
+        },
+        {
+          "market": "Will Jeff Colyer win the 2026 Kansas Governor Republican primary election?",
+          "url": "https://polymarket.com/event/will-jeff-colyer-win-the-2026-kansas-governor-republican-primary-election",
+          "ts": 1769300376,
+          "odds": 72,
+          "stake": 1358,
+          "pl": 523,
+          "won": true,
+          "tx": "0x200616ea1a013ab411e36c7a1fdcdd5959e1fd954dc85efea9e5dc7fca2f3095"
+        },
+        {
+          "market": "Will Jared Moskowitz be the Democratic nominee for Senate in Florida?",
+          "url": "https://polymarket.com/event/will-jared-moskowitz-be-the-democratic-nominee-for-senate-in-florida",
+          "ts": 1769300368,
+          "odds": 59,
+          "stake": 1319,
+          "pl": 933,
+          "won": true,
+          "tx": "0x5ce04bd797773ce46e0a2889c2af942b329bc16a72281701371cf3c16f292b4b"
+        },
+        {
+          "market": "Will Lovable announce bankruptcy before 2027?",
+          "url": "https://polymarket.com/event/will-lovable-announce-bankruptcy-before-2027-725-658",
+          "ts": 1769302960,
+          "odds": 86,
+          "stake": 1093,
+          "pl": 175,
+          "won": true,
+          "tx": "0x4229accc2a8095d2cc765fbda584cacafbc60fa1de0bdc4d4589e6b7ae3857ab"
         },
         {
           "market": "Claudio Tapia out as AFA President by July 19, 2026?",
