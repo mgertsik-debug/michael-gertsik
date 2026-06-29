@@ -93,10 +93,13 @@ const FAV_MAX_ODDS = +process.env.FAV_MAX_ODDS || 0.90;              // entry-od
 const FAV_PROFIT_Z = +process.env.FAV_PROFIT_Z || 2;                 // z_profit_cross firing threshold
 function scoreAggregate(agg) {
   const valid = (agg.bets || []).filter((b) => b && typeof b.won === "boolean" && D.isNum(num(b.entryPrice)));
+  // CORRELATION KEY — collapse date-ladder / re-phrased variants of ONE event so the binomial
+  // and cross-category tests count independent events, not correlated re-bets (see detectors.corrKey).
+  valid.forEach((b) => { if (b.corrKey == null) b.corrKey = D.corrKey(b.question || b.market || null); });
   // The SUBJECT is the bettor's long-shot record: only bets entered at ≤35%
   // implied. Favorites aren't the anomaly and would dilute the binomial.
   const bets = valid.filter((b) => num(b.entryPrice) <= LONGSHOT_MAX);
-  const betsForWon = bets.map((b) => ({ impliedProb: num(b.entryPrice), won: !!b.won, eventGroup: b.eventGroup }));
+  const betsForWon = bets.map((b) => ({ impliedProb: num(b.entryPrice), won: !!b.won, eventGroup: b.eventGroup, corrKey: b.corrKey, question: b.question }));
   const wonD = D.won(betsForWon);
 
   const impliedProbs = bets.map((b) => num(b.entryPrice));
@@ -487,6 +490,11 @@ function buildSubject(agg, idx, opts, catalog) {
     createdOnChain: agg.createdTs != null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
     category, marketsCount: n, tier,
+    // FLAG FAMILY — which test published this subject. Only "binomial-record" carries a true
+    // binomial luck-probability (P = 1/improbDenom) drawn from the scored population, so the
+    // Benjamini–Hochberg FDR control applies to that family ONLY; conviction (single-bet odds)
+    // and clusters (a different unit) are exempt.
+    flagFamily: isCluster ? "cluster" : (convOnly ? "conviction" : "binomial-record"),
     improbText, improbDenom,
     improbFull: String(improbText).replace("M", " million").replace("B", " billion").replace("K", " thousand"),
     convictionFlag: convOnly,
@@ -750,7 +758,7 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
     improbFull: "this wallet out-profited the other traders in that market by " + z.toFixed(1) + " standard deviations",
     improbCaption: "profit margin vs the market's other traders",
     percentile: D.clip(50 + z * 8 + sc2 * 4, 50, 99.5),
-    convictionFlag: false, full: ledger.length >= 1,
+    convictionFlag: false, full: ledger.length >= 1, flagFamily: "favorite",
     winRate, avgImplied: epOdds, profit: signedMoney(epPL), fired, contributions, agreeing: fired.length,
     detectorsMeasured: Object.values(dets).filter((d) => d && d.hasData).length, detectorsFired: fired.length,
     refId: agg.refId || ("WF-F-" + String(1000 + idx).slice(1)), cexChips: agg.cexChips || [],
@@ -865,7 +873,7 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
     category: dominantCategory(valid), marketsCount: cc.n, tier,
     improbText: cc.improbText, improbDenom: cc.improbDenom, improbFull: String(cc.improbText).replace("M", " million").replace("B", " billion").replace("K", " thousand"),
     improbCaption: "chance this cross-category record is luck",
-    convictionFlag: false, full: ledger.length >= 1,
+    convictionFlag: false, full: ledger.length >= 1, flagFamily: "crossCat",
     winRate, avgImplied: cc.meanImplied, profit: money(netPL), fired, contributions, agreeing: corro.length,
     detectorsMeasured: Object.values(dets).filter((d) => d && d.hasData).length, detectorsFired: fired.length,
     refId: agg.refId || ("WF-X-" + String(1000 + idx).slice(1)), cexChips: agg.cexChips || [],
@@ -957,6 +965,14 @@ function derive(all, scoredPop) {
     s.activityDays = s.activityDays != null ? s.activityDays : (30 + idx * 17);
     s.lastActivity = s.activityDays <= 1 ? "today" : s.activityDays + " days ago";
     s.suspicion = suspicionScore(s);                          // composite default ranking (improbability + breadth + timing + magnitude + structure)
+    // TIER ALIGNED TO THE GAUGE — the badge (Extreme / High / Notable) and the 0–100 suspicion
+    // gauge must never disagree. Before, each publish path set its own tier, so a single big
+    // "1 in 8" conviction bet read "High" next to a green 32 gauge while a 1-in-700 record read
+    // "Notable" next to a yellow 63. Bin the FINAL tier from the suspicion score using the SAME
+    // cutoffs as the gauge colour (≥72 → Extreme/red, ≥45 → High/amber, else Notable/green), so
+    // a higher gauge always means an equal-or-hotter badge. (Publish GATES already ran on the
+    // path tier above; this only re-labels what's shown + how it ranks/filters.)
+    s.tier = s.suspicion >= 72 ? "extreme" : s.suspicion >= 45 ? "elevated" : "watch";
     delete s._profitNum; delete s._profileVolume;
   });
   return all;
@@ -1075,6 +1091,23 @@ function buildHarvardPayload(aggregates, meta, catalog) {
 }
 
 /* ----------------------------------------------------------------- payload -- */
+// Benjamini–Hochberg FDR threshold. Given the p-values of EVERY test in a family (here: each
+// scored wallet's binomial "this record is luck" probability) and a target false-discovery rate
+// q, returns the largest p* such that calling everything with p ≤ p* "flagged" keeps the EXPECTED
+// share of false flags ≤ q. As the number of wallets tested (m) grows, p* tightens automatically,
+// so widening discovery never inflates the expected false-positive COUNT. Returns the input's max
+// p when fewer than `minPop` tests exist (too small a family to correct — leave the fixed bar in
+// place), and 0 when nothing clears.
+function bhThreshold(pvals, q, minPop) {
+  const m = pvals.length;
+  if (!m || !(q > 0)) return 1;
+  if (m < (minPop || 0)) return 1;                            // family too small to FDR-correct → don't tighten
+  const sorted = pvals.slice().sort((a, b) => a - b);
+  let pStar = 0;
+  for (let i = 0; i < m; i++) { if (sorted[i] <= ((i + 1) / m) * q) pStar = sorted[i]; }  // largest k with P(k) ≤ (k/m)q
+  return pStar;
+}
+
 // Build the full read-API payload from a list of aggregates + scan metadata.
 // Subjects are ranked most-improbable first (the default public view).
 function buildPayload(aggregates, meta, catalog) {
@@ -1083,6 +1116,27 @@ function buildPayload(aggregates, meta, catalog) {
   meta._scoredDenoms = [];                                     // every aggregate's improbability, for the true-rank percentile
   meta._harvardShadow = [];                                    // SHADOW: every wallet pure-Harvard WOULD flag this run (dark launch)
   (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta, catalog); if (s) subjects.push(s); });
+  // FALSE-DISCOVERY-RATE CONTROL (binomial-record family). Testing thousands of wallets at a
+  // fixed "1 in N" bar would, by chance alone, flag some — the multiple-comparisons problem. BH
+  // computes an ADAPTIVE threshold over the full scored population so the EXPECTED fraction of
+  // false flags stays ≤ q. We apply min(fixedBar, p*) — it can only TIGHTEN, never loosen, the
+  // existing notable bar, so it strictly removes the weakest flags and never weakens a strong one.
+  // Only the binomial-record family carries a true binomial p; conviction/cluster/crossCat/favorite
+  // subjects (different quantities) are exempt and corrected on their own terms.
+  const FDR_Q = +process.env.FDR_Q || 0.10;
+  const FDR_MIN_POP = +process.env.FDR_MIN_POP || 500;        // need a real population before correcting
+  const fdrPop = (meta._scoredDenoms || []).map((d) => 1 / Math.max(1, d));
+  const pStar = bhThreshold(fdrPop, FDR_Q, FDR_MIN_POP);
+  const fixedBar = D.DEFAULTS.pNotable;
+  const fdrCut = Math.min(fixedBar, pStar);
+  let fdrDropped = 0;
+  for (let i = subjects.length - 1; i >= 0; i--) {
+    const s = subjects[i];
+    if (s.flagFamily !== "binomial-record") continue;
+    const p = 1 / Math.max(1, s.improbDenom || 1);
+    if (p > fdrCut) { subjects.splice(i, 1); fdrDropped++; }  // didn't survive multiple-testing correction
+  }
+  meta._fdr = { q: FDR_Q, pStar, fixedBar, effectiveCut: fdrCut, scored: fdrPop.length, droppedBinomial: fdrDropped };
   // FAVORITES / CROSS-SECTIONAL PASS — folds Harvard's favorite-odds archetype into this ONE wallet
   // store (option B: one source of truth, no separate "Suspicious Trades" view). It catches the
   // informed trader who bet a FAVORITE and simply out-profited the market — invisible to the ≤35%
@@ -1160,6 +1214,7 @@ function buildPayload(aggregates, meta, catalog) {
       reviewed: (meta && meta.reviewed) || 0,
       screened: (meta && meta.screened) || 0,
       scored: scoredCount,
+      fdr: meta._fdr || null,                                  // multiple-testing control summary (q, threshold, dropped)
       block: (meta && meta.block) || "",
       snapshot: (meta && meta.snapshot) || "",
       recomputed: (meta && meta.recomputed) || (meta && meta.snapshot) || "",
@@ -1205,4 +1260,4 @@ function enrichInfoSignals(subject, nb, fr) {
   return subject;
 }
 
-module.exports = { scoreAggregate, buildSubject, buildFavoriteSubject, buildCrossCatSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, suspicionScore, enrichInfoSignals, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };
+module.exports = { scoreAggregate, buildSubject, buildFavoriteSubject, buildCrossCatSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, suspicionScore, bhThreshold, enrichInfoSignals, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };

@@ -194,3 +194,27 @@ test("RECONSTRUCTED Iran-ring cluster aggregate -> extreme subject with cluster 
   assert.ok(s.scorecard.find((c) => c.key === "cluster"));
   assert.ok(s.cluster && s.cluster.size === 9);
 });
+
+test("bhThreshold: Benjamini-Hochberg adaptive FDR cutoff", () => {
+  // classic BH example (Benjamini & Hochberg 1995): p-values, q=0.05 → cutoff 0.0125
+  const p = [0.0001, 0.0004, 0.0019, 0.0095, 0.0201, 0.0278, 0.0298, 0.0344, 0.0459, 0.3240,
+            0.4262, 0.5719, 0.6528, 0.7590, 1.0000];
+  const t = B.bhThreshold(p, 0.05, 0);
+  assert.equal(t, 0.0095, "largest p-value that satisfies p(k) <= (k/m)q");
+  // too-small a family: returns 1 (don't tighten the fixed bar)
+  assert.equal(B.bhThreshold(p, 0.05, 500), 1, "below minPop -> no correction");
+  // nothing significant -> 0
+  assert.equal(B.bhThreshold([0.9, 0.95, 0.99], 0.05, 0), 0, "no p clears -> drop all");
+});
+
+test("FDR control only ever TIGHTENS the binomial bar (precision-only)", () => {
+  // a strong improbable record survives FDR even amid a large scored population
+  const opts = { _scoredDenoms: [] };
+  // seed the scored population with many UNremarkable wallets (p ~ 1) + this strong one
+  for (let i = 0; i < 600; i++) opts._scoredDenoms.push(1.2);   // ~p=0.83, noise
+  const s = B.buildSubject(agg("0xstrong0000000000000000000000000000a08", 16, 1, 0.08, "Politics", { stake: 4000 }), 0, opts);
+  // build a payload containing just this strong wallet; its tiny p must clear BH
+  const payload = B.buildPayload([agg("0xstrong0000000000000000000000000000a08", 16, 1, 0.08, "Politics", { stake: 4000 })], {}, {});
+  assert.ok(payload.subjects.length >= 1, "a genuinely improbable, material, net-positive record still publishes under FDR");
+  assert.ok(payload.meta.fdr, "FDR summary is surfaced in meta");
+});

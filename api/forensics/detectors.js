@@ -158,16 +158,50 @@ function improbText(denom) {
 }
 
 /* ============================================================================
+ *  CORRELATION KEY — the underlying event a bet really tracks, so date-ladder and
+ *  re-phrased variants of ONE event collapse together. The per-market event slug is
+ *  too fine: "US strikes Iran by Feb 28 / Mar 1 / Mar 2 / next strike on Feb 23 /
+ *  military action against Iran by Sunday" are ALL one bet — will the US attack Iran —
+ *  that resolve together, but each has its own slug. Winning 20 of them is ONE correct
+ *  call, not 20 independent long-shot wins; counting them independently massively
+ *  inflates the binomial. We key on the market's salient ENTITIES (extractEntities) plus
+ *  a coarse action class (military / regime-change / ceasefire / election), so those
+ *  variants share a key and de-correlate to a single effective event. */
+const ACT_MIL = /strik|attack|militar|\bwar\b|engage|bomb|invad|missile|nuclear|troop|forces|\bhit\b/;
+const ACT_REG = /\bout\b|leave|leav|\bfall\b|falls|resign|oust|removed|remove|step ?down|\bexit\b|impeach|overthrow/;
+const ACT_PEACE = /ceasefire|cease-fire|\bpeace\b|truce|\bdeal\b|agreement/;
+const ACT_ELEC = /\bwin\b|\bwins\b|elect|nominee|preside|primary/;
+function corrKeyOf(question) {
+  if (!question || typeof question !== "string") return null;
+  const ents = extractEntities(question);
+  if (!ents.length) return null;
+  const top = ents.slice(0, 2).map((e) => e.toLowerCase().replace(/[^a-z0-9]+/g, "")).filter(Boolean).sort();
+  if (!top.length) return null;
+  const s = question.toLowerCase();
+  const act = ACT_MIL.test(s) ? "mil" : ACT_REG.test(s) ? "reg" : ACT_PEACE.test(s) ? "peace" : ACT_ELEC.test(s) ? "elec" : "x";
+  return top.join("-") + "|" + act;
+}
+// The grouping key for de-correlation: an explicit corrKey wins, else derive it from the
+// question, else fall back to the event slug, else treat the bet as its own singleton event.
+function betGroupKey(b, idx) {
+  if (b && b.corrKey != null) return "c:" + b.corrKey;
+  const ck = corrKeyOf(b && (b.question || b.market));
+  if (ck) return "c:" + ck;
+  if (b && b.eventGroup != null) return "g:" + b.eventGroup;
+  return "s:" + idx;
+}
+
+/* ============================================================================
  *  DE-CORRELATION — collapse bets on the SAME underlying outcome.
  *  Many bets on one event (correlated) would inflate the binomial. We collapse
- *  each `eventGroup` to ONE effective bet: won = did they (net) win that event,
- *  p = mean implied across the group. Bets with no eventGroup are singletons.
+ *  each correlation group to ONE effective bet: won = did they (net) win that event,
+ *  p = mean implied across the group. Bets with no group are singletons.
  *  Returns { n, k, p, collapsed } over independent effective bets. */
 function decorrelate(bets) {
   const groups = new Map();
   for (let idx = 0; idx < bets.length; idx++) {
     const b = bets[idx];
-    const key = b.eventGroup != null ? "g:" + b.eventGroup : "s:" + idx;
+    const key = betGroupKey(b, idx);
     const g = groups.get(key) || { ps: [], wins: 0, n: 0 };
     g.ps.push(clip(b.impliedProb, 1e-6, 1 - 1e-6)); g.n++; if (b.won) g.wins++;
     groups.set(key, g);
@@ -219,13 +253,13 @@ function crossCat(bets, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   if (!Array.isArray(bets)) return { key: "crossCat", hasData: false };
   const resolved = bets
-    .map((b) => ({ impliedProb: isNum(b.impliedProb) ? b.impliedProb : (isNum(b.entryPrice) ? b.entryPrice : null), won: b.won, eventGroup: b.eventGroup }))
+    .map((b) => ({ impliedProb: isNum(b.impliedProb) ? b.impliedProb : (isNum(b.entryPrice) ? b.entryPrice : null), won: b.won, eventGroup: b.eventGroup, corrKey: b.corrKey, question: b.question }))
     .filter((b) => isNum(b.impliedProb) && typeof b.won === "boolean");
   if (resolved.length < o.minBets) return { key: "crossCat", hasData: false, reason: "fewer than " + o.minBets + " resolved bets" };
   // de-correlate to independent events (same collapse as the binomial), keeping each event's odds.
   const groups = new Map();
   resolved.forEach((b, idx) => {
-    const key = b.eventGroup != null ? "g:" + b.eventGroup : "s:" + idx;
+    const key = betGroupKey(b, idx);
     const g = groups.get(key) || { ps: [], wins: 0, n: 0 };
     g.ps.push(clip(b.impliedProb, 1e-6, 1 - 1e-6)); g.n++; if (b.won) g.wins++;
     groups.set(key, g);
@@ -475,11 +509,13 @@ function repeat(bets, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   const odds = (b) => (isNum(b.entryPrice) ? b.entryPrice : b.impliedProb);
   const surpriseTau = isNum(o.repeatSurpriseTau) ? o.repeatSurpriseTau : 0.5;   // "against the odds" = won at ≤50%
-  const events = new Map();                                    // eventGroup -> { won surprising? , when }
-  for (const b of (bets || [])) {
+  const events = new Map();                                    // correlation group -> { won surprising? , when }
+  for (let i = 0; i < (bets || []).length; i++) {
+    const b = bets[i];
     if (!b || b.won !== true || !isNum(odds(b)) || odds(b) > surpriseTau) continue;
-    const ev = b.eventGroup || b.cond || b.question;
-    if (ev == null) continue;
+    // count DISTINCT underlying events (same correlation key as the binomial) — so a date-ladder
+    // of one event ("US strikes Iran by Feb 28 / Mar 1 / …") counts ONCE, not as many "repeats".
+    const ev = betGroupKey(b, i);
     const cur = events.get(ev) || { ts: b.ts || 0, odds: odds(b) };
     if ((b.ts || 0) < cur.ts || !cur.ts) cur.ts = b.ts || cur.ts;
     cur.odds = Math.min(cur.odds, odds(b));
@@ -890,6 +926,6 @@ module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
   decorrelate, won, crossCat, longshot, held, fresh, baseline, profitCross, concealment, conviction, timing, repeat,
   concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk, normalUpperTail,
-  extractEntities, newsBlackout, fedRegister, watchlistScore, WATCH_W,
+  extractEntities, corrKey: corrKeyOf, betGroupKey, newsBlackout, fedRegister, watchlistScore, WATCH_W,
   harvardEpisode, harvardTier, HARVARD_W, HARVARD_TIERS,
 };
