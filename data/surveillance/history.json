@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-29T06:47:29.558Z",
+  "updatedAt": "2026-06-29T11:58:32.026Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-2682437",
+      "ts": "11:58 UTC",
+      "platform": "polymarket",
+      "market": "Will Elon Musk post 40-64 tweets from June 27 to June 29, 2026?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "60 · Elevated",
+      "index": 60,
+      "url": "https://polymarket.com/event/elon-musk-of-tweets-june-27-june-29",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-29T11:58:32.026Z"
+    },
     {
       "id": "pm-693485",
       "ts": "23:32 UTC",
