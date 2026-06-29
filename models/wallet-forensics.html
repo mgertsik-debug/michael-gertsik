@@ -1116,7 +1116,7 @@ class Component extends DCLogic {
         { k: "observed", label: "observed", val: this.fmtInt(fn.observed), color: "#7E8C86", border: "#1F2A25", shadow: "none", arrow: "" },
         { k: "screened", label: "above screen", val: this.fmtInt(fn.screened), color: "#6FE3B6", border: "rgba(111,227,182,0.3)", shadow: "0 0 18px -10px rgba(111,227,182,0.5)", arrow: "→" },
         { k: "flagged", label: "flagged", val: "0", color: "#34D399", border: "rgba(52,211,153,0.4)", shadow: "0 0 20px -8px rgba(52,211,153,0.55)", arrow: "→" },
-        { k: "high", label: "high", val: "0", color: "#F87171", border: "rgba(248,113,113,0.4)", shadow: "0 0 20px -8px rgba(248,113,113,0.5)", arrow: "→" },
+        { k: "high", label: "high", val: "0", color: "#FBBF24", border: "rgba(251,191,36,0.4)", shadow: "0 0 20px -8px rgba(251,191,36,0.5)", arrow: "→" },
       ],
       modal: { open: false }, modalBody: null,
       emptyTitle: haveSnap ? "No bettors meet the bar yet" : "Scanning Polymarket…",
@@ -1353,7 +1353,7 @@ class Component extends DCLogic {
         h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "6px" } },
           h("span", { style: lbl }, "SUSPICION SCORE"),
           h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "17px", color: "#FBBF24", fontWeight: 700 } }, s.suspicion + " / 100")),
-        h("div", { style: para() }, "One number, 0–100, for how suspicious this account looks — used only to RANK this wallet against every other flagged account (higher = nearer the top of the list). It climbs with how improbable the wallet’s winning record is and how many independent red flags fired. At " + s.suspicion + ", this wallet sits at " + level + ".")) : null),
+        h("div", { style: para() }, "One number, 0–100, for how suspicious this account looks — used only to RANK this wallet against every other flagged account (higher = nearer the top of the list). It is driven mainly by two things you can see on the card: how improbable the winning record is (the “1 in N”) and how many independent red-flag tests fired (the dots). Bet size nudges it only as a minor tiebreaker — so a wallet with more flags and a more improbable record always outranks a bigger-money wallet with fewer flags. At " + s.suspicion + ", this wallet sits at " + level + ".")) : null),
       h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "9px" } },
         h("span", { style: lbl }, "RED-FLAG TESTS THAT FIRED"),
         h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#34D399", fontWeight: 600 } }, fired + " of " + total)),
@@ -1806,7 +1806,7 @@ class Component extends DCLogic {
       { k: "observed", label: "observed", val: this.fmtInt(Math.round(fn.observed * cp)), color: "#7E8C86", border: "#1F2A25", shadow: "none", arrow: "" },
       { k: "screened", label: "above screen", val: this.fmtInt(Math.round(fn.screened * cp)), color: "#6FE3B6", border: "rgba(111,227,182,0.3)", shadow: "0 0 18px -10px rgba(111,227,182,0.5)", arrow: "→" },
       { k: "flagged", label: "flagged", val: this.fmtInt(Math.round(fn.flagged * cp)), color: "#34D399", border: "rgba(52,211,153,0.4)", shadow: "0 0 20px -8px rgba(52,211,153,0.55)", arrow: "→" },
-      { k: "high", label: "high", val: this.fmtInt(Math.round(fn.high * cp)), color: "#F87171", border: "rgba(248,113,113,0.4)", shadow: "0 0 20px -8px rgba(248,113,113,0.5)", arrow: "→" },
+      { k: "high", label: "high", val: this.fmtInt(Math.round(fn.high * cp)), color: "#FBBF24", border: "rgba(251,191,36,0.4)", shadow: "0 0 20px -8px rgba(251,191,36,0.5)", arrow: "→" },
     ];
     const combinedProfit = this.totalFlaggedProfitText || (this.totalFlaggedProfit > 0 ? this.fmtMoney(this.totalFlaggedProfit) : "$0");
 

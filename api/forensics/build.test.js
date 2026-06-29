@@ -153,14 +153,24 @@ test("NO profile: still publishes on the flagged-bet P/L (profile only adds cont
   assert.equal(s.accountPnl, null, "no account context when the profile is unavailable");
 });
 
-test("TRIVIAL flagged-bet profit: improbable record but the flagged bets net under the $5k floor -> dropped", () => {
+test("TRIVIAL flagged-bet profit: improbable record but the flagged bets net under the floor -> dropped", () => {
   // improbable rate but tiny stakes -> the flagged bets net only a few hundred dollars. No solo
   // insider risks exposure for that, so it's dropped. (Clusters are exempt — a bundle splits.)
   const s = B.buildSubject(agg("0xtiny000000000000000000000000000000aa04", 6, 2, 0.12, "Military & Defense", { stake: 40, lossStake: 400 }), 0, {});
-  assert.equal(s, null, "sub-$5k flagged-bet profit is dropped");
+  assert.equal(s, null, "sub-floor flagged-bet profit (tiny stakes) is dropped");
   // a wallet whose flagged bets clear the floor still publishes
   const ok = B.buildSubject(agg("0xover000000000000000000000000000000aa05", 14, 2, 0.11, "Military & Defense", { stake: 1500 }), 0, {});
   assert.ok(ok && ok.tier, "flagged-bet profit above the floor publishes");
+});
+
+test("NET-LOSING ACCOUNT: improbable, material long-shot streak but all-time P/L < 0 -> dropped", () => {
+  // The edgeseekr case: a real but tiny improbable streak on an account that LOST money overall
+  // (−$23 all-time). An insider profits; a net-loser who got lucky on a few bets is not informed.
+  const s = B.buildSubject(agg("0xloss000000000000000000000000000000aa06", 14, 2, 0.11, "Politics", { stake: 1500, profile: { pnlAllTime: -23, volume: 30000, traded: 464, username: "edgeseekr" } }), 0, {});
+  assert.equal(s, null, "net-negative all-time account P/L is dropped even with an improbable record");
+  // same record, account net-positive -> publishes (the streak itself is fine; only the loss gates it)
+  const ok = B.buildSubject(agg("0xprof000000000000000000000000000000aa07", 14, 2, 0.11, "Politics", { stake: 1500, profile: { pnlAllTime: 9000, volume: 30000, traded: 464, username: "winner" } }), 0, {});
+  assert.ok(ok && ok.tier, "net-positive account with the same record publishes");
 });
 
 test("RECONSTRUCTED Iran-ring cluster aggregate -> extreme subject with cluster card", () => {

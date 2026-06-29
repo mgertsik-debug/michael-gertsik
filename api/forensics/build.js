@@ -203,6 +203,10 @@ function validateSubject(ctx) {
   // many losses — not an insider. Require positive realized P/L. (Clusters pool members'
   // P/L and are exempt — handled by the caller passing isCluster.)
   if (!isCluster && !(profitNum > 0)) return "net unprofitable (informed trading is profitable; profit=" + Math.round(profitNum) + ")";
+  // ACCOUNT-LEVEL net loss: even with a profitable long-shot subset, a wallet whose ALL-TIME
+  // Polymarket P/L is negative is not a credible insider — they lost money overall. Drop it when
+  // the authoritative account P/L is known and ≤ 0. (Clusters pool members' P/L → exempt.)
+  if (!isCluster && ctx.accountPL != null && ctx.accountPL <= 0) return "account net-negative (all-time P/L=$" + Math.round(ctx.accountPL) + ")";
   // MEANINGFUL profit floor: a wallet that NET a trivial amount (e.g. +$382 all-time) is
   // not a credible insider even with an improbable long-shot streak — the upside an insider
   // captures is material. Drop single wallets below the floor. (Clusters pool many members'
@@ -463,8 +467,8 @@ function buildSubject(agg, idx, opts, catalog) {
   // watch tier above), not deleted. We keep only a tiny materiality floor so dust isn't flagged;
   // validateSubject still requires NET-POSITIVE P/L (informed trading is profitable). Clusters are
   // exempt (a bundle splits the position; the ring is the unit). Configurable via MIN_PROFIT_USD.
-  const _minProfit = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 250;
-  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster, recordImprobable, minProfit: _minProfit });
+  const _minProfit = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 1000;
+  const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster, recordImprobable, minProfit: _minProfit, accountPL });
   if (_reason) {
     if (opts && Array.isArray(opts._rejects)) opts._rejects.push({ address: agg.address || ((agg.members || [])[0]) || null, id: agg.id || null, tier, reason: _reason });
     return null;
@@ -632,6 +636,7 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
   const fired = ["profitCross"].concat(corro);
   const _prof = agg.profile || null;
   const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
+  if (accountPL != null && accountPL <= 0) return null;       // net-losing account → not an insider
   const wins = valid.filter((b) => b.won).length;
   const winRate = valid.length ? Math.round(100 * wins / valid.length) : 0;
 
@@ -782,6 +787,18 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
   if (corro.length < 2) return null;
   const netPL = valid.reduce((a, b) => a + betPL(b), 0);
   if (!(netPL > 0)) return null;                              // informed trading is profitable
+  // MATERIALITY — crossCat previously skipped the money gate the binomial/favorites paths
+  // enforce, so a statistically-odd record on trivial $5–40 stakes leaked into "notable". Apply
+  // the SAME bar: a real amount AT RISK (total or single-event stake) AND a material flagged
+  // profit. A lucky small gambler is not an insider — nobody risks exposure for a few hundred
+  // dollars. (Clusters pool members' money and are handled by buildSubject.)
+  const _stakeTotal = valid.reduce((a, b) => a + num(b.stakeUsd), 0);
+  const _byEvent = {}; valid.forEach((b) => { const e = b.eventGroup || b.cond || b.question; _byEvent[e] = (_byEvent[e] || 0) + num(b.stakeUsd); });
+  const _material = Math.max(_stakeTotal, Object.values(_byEvent).reduce((m, x) => Math.max(m, x), 0));
+  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
+  if (_material < MATERIALITY_USD) return null;               // immaterial stake → not published
+  const MIN_FLAGGED = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 1000;
+  if (!(netPL >= MIN_FLAGGED)) return null;                   // trivial flagged profit → dropped
   // TIER capped at elevated — the normal-tail approximation is conservative in the extreme, so a
   // mixed-odds record is never "extreme" on this path alone (matches fuse()'s crossCat cap).
   const tier = cc.P <= D.DEFAULTS.pHigh ? "elevated" : "watch";
@@ -795,6 +812,9 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
   };
   const _prof = agg.profile || null;
   const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
+  // NET-LOSING ACCOUNT — an insider profits; a wallet that LOST money all-time (e.g. −$23) that
+  // happened to win a few small political long-shots is a lucky gambler, not informed. Drop it.
+  if (accountPL != null && accountPL <= 0) return null;
   const wins = valid.filter((b) => b.won).length;
   const winRate = valid.length ? Math.round(100 * wins / valid.length) : 0;
   const ledger = valid.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd)).slice(0, 200).map((b) => ({
@@ -875,14 +895,22 @@ function suspicionScore(s) {
   const log10 = (x) => Math.log(Math.max(1, x)) / Math.LN10;
   const fired = Array.isArray(s.fired) ? s.fired : [];
   const imp = Math.min(1, log10(s.improbDenom || 1) / 12);          // statistical improbability (validated backbone, saturates ~1e12)
-  const breadth = Math.min(1, (s.detectorsFired || fired.length || s.agreeing || 0) / 5);  // independent corroboration
+  // CORROBORATION — how many independent red-flag tests fired. Scaled out to 9 (not 5) so that
+  // MORE flags genuinely raises the score across the real 0–9 range we see: a wallet with 9/12
+  // fired must never rank below one with 7/12, all else equal. The old /5 cap saturated at 5,
+  // making 7 and 9 indistinguishable and letting bet-size break the tie the WRONG way.
+  const breadth = Math.min(1, (s.detectorsFired || fired.length || s.agreeing || 0) / 9);
   const timingOn = fired.indexOf("timing") >= 0 || fired.indexOf("crossCat") >= 0 || fired.indexOf("newsBlackout") >= 0 ? 1 : 0; // pre-event timing / cross-category / news-blackout
   // purpose-built / coordinated structure. `fresh` is EXCLUDED — it fires on ~75% of Polymarket
   // wallets (per-user proxy wallets are inherently fresh), so it's a near-constant that discriminates
   // nothing; only concealment / funding-cluster are genuine structural tells.
   const structOn = (fired.indexOf("conceal") >= 0 || fired.indexOf("cluster") >= 0) ? 1 : 0;
   const mag = Math.min(1, log10(Math.abs(s.profitNum || 0)) / 6);   // realized magnitude (saturates ~$1M)
-  const score = 0.34 * imp + 0.20 * breadth + 0.16 * timingOn + 0.20 * mag + 0.10 * structOn;
+  // WEIGHTS — improbability + corroboration DOMINATE (the two things the card shows: "1 in N" and
+  // "X/12 fired"), so the score is legible: more improbable and/or more flags ⇒ higher. Bet-size
+  // (mag) is only a minor tiebreaker — it must NOT let a weak-improbability, fewer-flag whale
+  // outrank a more-improbable, more-corroborated wallet (the old 0.20 mag weight did exactly that).
+  const score = 0.42 * imp + 0.30 * breadth + 0.08 * timingOn + 0.14 * mag + 0.06 * structOn;
   return Math.round(score * 1000) / 10;                             // 0..100, one decimal
 }
 
