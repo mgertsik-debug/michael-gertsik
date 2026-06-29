@@ -16,8 +16,8 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 217197,
-  "reviewed": 217197,
+  "observed": 217281,
+  "reviewed": 217281,
   "screened": 10119,
   "scored": 5981,
   "top": [
@@ -630,13 +630,13 @@
       "directionalScore": 1,
       "accountPnl": -894233,
       "firstSeen": "Jun 27 2025",
-      "createdOnChain": false,
-      "created": null,
+      "createdOnChain": true,
+      "created": "Jun 27 2025",
       "betsCount": 4,
       "ledger": [
         {
           "market": "Will Zohran Mamdani win the 2025 NYC mayoral election?",
-          "url": "https://polymarket.com/event/will-zohran-mamdani-win-the-2025-nyc-mayoral-election",
+          "url": "https://polymarket.com/event/new-york-city-mayoral-election",
           "ts": 1751044653,
           "odds": 32,
           "stake": 973855,
