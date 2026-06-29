@@ -394,6 +394,7 @@
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> THE BETS THEMSELVES</div>
             <div style="font-size: 11px; color: #6B756F;">click a column to sort</div>
           </div>
+          <div style="font-size: 11.5px; color: #6B756F; line-height: 1.5; margin: -4px 0 12px;">Amounts and profit are rounded for display (e.g. $1,488 shows as $1K) — exact values reconcile to Polymarket's position P/L. The on-chain link is the <span style="color:#8A938F;">entry trade</span> (proof the bet was placed, and when); profit is realized later at resolution in a separate redemption transaction, so a single tx won't show the P/L.</div>
           <div class="wf-scroll" style="overflow-x: auto; border: 1px solid #1B2521; border-radius: 12px;">
             <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 620px;">
               <thead>
@@ -414,7 +415,7 @@
                     <td style="padding: 11px 13px; color: #C4CAC6; text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">{{ row.stake }}</td>
                     <td style="padding: 11px 13px; text-align: center; white-space: nowrap;"><span style="{{ row.outcomeStyle }}">{{ row.outcome }}</span></td>
                     <td style="padding: 11px 13px; text-align: right; white-space: nowrap; color: {{ row.plColor }}; font-weight: 600; font-family: 'JetBrains Mono', monospace;">{{ row.pl }}</td>
-                    <td style="padding: 11px 13px; text-align: right; white-space: nowrap;"><a href="{{ row.txUrl }}" target="_blank" rel="noopener noreferrer" style="color: #34D399; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px;" style-hover="text-decoration:underline;">{{ row.txLabel }}</a></td>
+                    <td style="padding: 11px 13px; text-align: right; white-space: nowrap;"><a href="{{ row.txUrl }}" target="_blank" rel="noopener noreferrer" title="{{ row.txTitle }}" style="color: #34D399; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px;" style-hover="text-decoration:underline;">{{ row.txLabel }}</a></td>
                   </tr>
                 </sc-for>
               </tbody>
@@ -916,7 +917,7 @@ class Component extends DCLogic {
                 : h("span", { style: { color: "#ECEFED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, b.market),
               h("span", { style: { color: "#6B756F", fontSize: "9.5px" } }, b.date + " · " + b.entryOdds + " implied · " + b.stake + " · NET " + b.pl)),
             h("div", { style: { display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 } },
-              b.txFull ? h("a", { href: "https://polygonscan.com/tx/" + b.txFull, target: "_blank", rel: "noopener noreferrer", title: b.txFull, style: { color: "#34D399", fontSize: "9.5px", textDecoration: "none" } }, "verify ↗") : null,
+              b.txFull ? h("a", { href: "https://polygonscan.com/tx/" + b.txFull, target: "_blank", rel: "noopener noreferrer", title: "Entry trade on-chain (proves the bet + its timestamp). Profit is realized later at resolution in a separate redemption tx — a single tx won't show the P/L.", style: { color: "#34D399", fontSize: "9.5px", textDecoration: "none" } }, "entry tx ↗") : null,
               h("span", { style: { color: b.won ? "#34D399" : "#F87171", fontWeight: 600 } }, b.won ? "Won" : "Lost"))))) ) : null,
       h("div", { style: { marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" } },
         (d.ledger && d.ledger.length) ? h("button", { onClick: () => this.download((addr || "wallet").slice(0, 10) + "_record.csv", "text/csv", this.lookupCsv(d)),
@@ -1604,7 +1605,8 @@ class Component extends DCLogic {
       tx: r.tx, plColor: r.plNum >= 0 ? "#34D399" : "#F87171",
       marketUrl: r.url || (r.eventSlug ? "https://polymarket.com/event/" + r.eventSlug : "https://polymarket.com/markets"),
       txUrl: (r.txFull || r.tx) ? ("https://polygonscan.com/tx/" + (r.txFull || r.tx)) : "https://polygonscan.com/address/" + (s.address || s.idLabel || ""),
-      txLabel: (r.txFull || r.tx) ? "verify ↗" : "on-chain ↗",
+      txLabel: (r.txFull || r.tx) ? "entry tx ↗" : "on-chain ↗",
+      txTitle: "Entry trade on-chain (proves the bet was placed at this timestamp). Profit is realized later at resolution in a separate redemption transaction — a single tx will not show the P/L. The P/L matches Polymarket's position record for this market.",
       outcomeStyle: r.outcome === "Won"
         ? "font-family:Inter;font-size:11px;font-weight:600;color:#34D399;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.35);border-radius:5px;padding:3px 9px;box-shadow:0 0 12px -4px rgba(52,211,153,0.5);"
         : "font-family:Inter;font-size:11px;font-weight:600;color:#949C98;background:rgba(148,148,148,0.07);border:1px solid #243029;border-radius:5px;padding:3px 9px;",
