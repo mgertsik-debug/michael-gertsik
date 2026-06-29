@@ -16,10 +16,10 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 218283,
-  "reviewed": 218283,
+  "observed": 218314,
+  "reviewed": 218314,
   "screened": 10164,
-  "scored": 6013,
+  "scored": 6014,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -4750,7 +4750,7 @@
       "zProfitCross": 14.03,
       "lateBuyFraction": 0,
       "directionalScore": 0,
-      "accountPnl": 13003,
+      "accountPnl": 13002,
       "firstSeen": "Dec 26 2025",
       "createdOnChain": false,
       "created": null,
@@ -4768,7 +4768,7 @@
         },
         {
           "market": "US x Venezuela military engagement by December 31?",
-          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by-december-31-391-819-722-945-174-285-817-971-353-859-836-598-255-382-192-983",
+          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by",
           "ts": 1766710181,
           "odds": 1,
           "stake": 6046,
@@ -4818,7 +4818,7 @@
         },
         {
           "market": "Will the Iran ceasefire continue through May 22?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-22",
+          "url": "https://polymarket.com/event/iran-ceasefire-continues-through",
           "ts": 1779481670,
           "odds": 5,
           "stake": 1000,
@@ -4838,7 +4838,7 @@
         },
         {
           "market": "Will the next US x Venezuela military engagement occur on December 26?",
-          "url": "https://polymarket.com/event/will-there-be-a-us-x-venezuela-military-engagement-on-december-26",
+          "url": "https://polymarket.com/event/next-us-x-venezuela-military-engagement-on",
           "ts": 1766710153,
           "odds": 4,
           "stake": 100,
@@ -4848,7 +4848,7 @@
         },
         {
           "market": "Will the next US x Venezuela military engagement occur on December 25?",
-          "url": "https://polymarket.com/event/will-there-be-a-us-x-venezuela-military-engagement-on-december-25",
+          "url": "https://polymarket.com/event/next-us-x-venezuela-military-engagement-on",
           "ts": 1766710141,
           "odds": 3,
           "stake": 100,
