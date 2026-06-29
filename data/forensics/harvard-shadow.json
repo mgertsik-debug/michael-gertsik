@@ -19,7 +19,7 @@
   "observed": 218645,
   "reviewed": 218645,
   "screened": 10168,
-  "scored": 6019,
+  "scored": 6020,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -4883,7 +4883,7 @@
       "address": "0x83a296505eb520c9d35823571204ced41fd69452",
       "username": ".jeet",
       "tier": "notable",
-      "S": 772.4,
+      "S": 772.9,
       "market": "Will the US strike Iran next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-918",
       "episodeTx": "0x66e20be2ec7d2fb1222c030547bb4ec61e7c5e5b7c4f543afed2e5b6d553749a",
@@ -4892,7 +4892,7 @@
       "won": true,
       "episodeProfit": 1495,
       "zBetCross": 6.37,
-      "zBetWithin": 0.73,
+      "zBetWithin": 0.77,
       "zProfitCross": 15.85,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -4900,7 +4900,7 @@
       "firstSeen": "Jul 01 2025",
       "createdOnChain": true,
       "created": "Jul 01 2025",
-      "betsCount": 139,
+      "betsCount": 165,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
@@ -4933,6 +4933,16 @@
           "tx": "0x48e10b9c036789dd25ace53f2514fa9b14709286cbef89b9e68890f8bdae2621"
         },
         {
+          "market": "Will Yaxel Lendeborg win the 2025-2026 Naismith Men's College Player of the Year Award?",
+          "url": "https://polymarket.com/event/will-yaxel-lendeborg-win-the-2025-2026-naismith-mens-college-player-of-the-year-award",
+          "ts": 1767179923,
+          "odds": 98,
+          "stake": 28910,
+          "pl": 590,
+          "won": true,
+          "tx": "0x5a8ece56622ae05df7cb6f15bff46d1b039a3f2233983aece5743c1a1bd11b7a"
+        },
+        {
           "market": "Russia x Ukraine ceasefire by end of 2026?",
           "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
           "ts": 1765302864,
@@ -4961,6 +4971,26 @@
           "pl": 3816,
           "won": true,
           "tx": "0xf5ab917f7cf0597866d515280665764e653007ae9df0e3a4cc4ae5c4f456ffff"
+        },
+        {
+          "market": "Will Omar Cooper win the 2025–2026 Biletnikoff Award?",
+          "url": "https://polymarket.com/event/cfb-2025-26-biletnikoff-award-winner-omar-cooper-winner",
+          "ts": 1764276375,
+          "odds": 95,
+          "stake": 11400,
+          "pl": 600,
+          "won": true,
+          "tx": "0x28ec1db0f13af2d0e8b4da33ea9832625ae96edf4d2fb335b510d4bbf53702c2"
+        },
+        {
+          "market": "U.S. forces seize another oil ship by January 16, 2026?",
+          "url": "https://polymarket.com/event/us-forces-seize-another-oil-ship-by-january-16-2026",
+          "ts": 1768483030,
+          "odds": 96,
+          "stake": 11137,
+          "pl": 491,
+          "won": true,
+          "tx": "0xca29b38904a5d3e6d80c9061d5c78118469e182a7d19632bd876fb652c797c4d"
         },
         {
           "market": "US strikes Iran by January 15, 2026?",
@@ -5011,36 +5041,6 @@
           "pl": 2460,
           "won": true,
           "tx": "0x73911e526da1811b28eaae9610b8fb9837c01561d2724417e9eb878364452a4c"
-        },
-        {
-          "market": "Will Trump talk to Vladimir Putin in January?",
-          "url": "https://polymarket.com/event/will-trump-talk-to-vladimir-putin-in-january",
-          "ts": 1769767238,
-          "odds": 75,
-          "stake": 7739,
-          "pl": -7739,
-          "won": false,
-          "tx": "0xc206dbfdd848b72b8dbe90f1388bc6f4b399ebee20e8fe7855fd98252672071e"
-        },
-        {
-          "market": "Will Donald Trump not announce a new nominee for Chair of the Federal Reserve before February 2026?",
-          "url": "https://polymarket.com/event/will-donald-trump-not-announce-a-new-nominee-for-chair-of-the-federal-reserve-before-february-2026",
-          "ts": 1768327181,
-          "odds": 78,
-          "stake": 7370,
-          "pl": -7370,
-          "won": false,
-          "tx": "0xbfe138e3e18c2f9530dc84e168d27ac6fcfe142e3d16834aa879fa0a4eccc2bf"
-        },
-        {
-          "market": "Next US strike on Syria on December 19?",
-          "url": "https://polymarket.com/event/next-us-strike-on-syria-on-december-19",
-          "ts": 1766182571,
-          "odds": 98,
-          "stake": 6746,
-          "pl": 105,
-          "won": true,
-          "tx": "0xa9cc69bd96dd959619797c1fb7d4a58088111b79d1bca7386ddf3192c33363fe"
         }
       ],
       "alsoBinomial": true
