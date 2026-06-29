@@ -426,7 +426,8 @@ test("watchlistScore: trade-time score weights INFORMED over BIG; news-blackout 
   const peers = [100, 120, 90, 110, 130, 95, 105]; // a market where everyone trades ~$100
   // a $5k trade here is a huge outlier in size AND vs p90; with a news blackout it should top out.
   const informed = D.watchlistScore({ sizeUsd: 5000, marketSizes: peers, poolUsd: 200000, newsBlackout: true, fedRegister: false });
-  assert.ok(informed.fired.includes("size") && informed.fired.includes("whale") && informed.fired.includes("blackout"), "outsized + whale + blackout: " + JSON.stringify(informed.fired));
+  // size+whale are merged into ONE "outsized" magnitude signal (scored once), so we assert that + blackout.
+  assert.ok(informed.fired.includes("outsized") && informed.fired.includes("blackout") && !informed.fired.includes("whale"), "outsized (merged) + blackout: " + JSON.stringify(informed.fired));
   // a same-size trade WITHOUT the blackout scores strictly lower — informed > big.
   const justBig = D.watchlistScore({ sizeUsd: 5000, marketSizes: peers, poolUsd: 200000, newsBlackout: false, fedRegister: false });
   assert.ok(informed.score > justBig.score, "the news-blackout (informed) signal raises the score above raw size");

@@ -841,7 +841,7 @@ async function finalize(state, snapshotTs) {
             url: md.slug ? "https://polymarket.com/event/" + md.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
             sizeUsd: Math.round(t.sizeUsd), ts: t.ts, firstSeen: monthDay(NOW_S), status: "watching",
             // drawer evidence (real): pool share, the matched Federal-Register doc, and the news-blackout entity
-            score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, poolPct: sc.poolPct,
+            score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, poolPct: sc.poolPct, nPeers: sc.nPeers,
             newsBlackout: nb, fedRegister: fr, fedDoc, blackoutEntity: nb ? (ents[0] || null) : null,
           };
           added++;

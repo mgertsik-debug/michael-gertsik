@@ -722,25 +722,36 @@ function fedRegister(x, opts) {
  *  big bet scores highest; raw size lowest. A flagged trade later HARDENS into a forensic case (if it
  *  wins and the wallet flags) or self-clears (the reconcile runs in the scanner on resolution).
  *    x = { sizeUsd, marketSizes:[usd…] (other trades in this market), poolUsd?, newsBlackout(bool), fedRegister(bool) } */
-const WATCH_W = { size: 5, whale: 4, pool: 3, blackout: 6, fedReg: 3 };   // informed(blackout) > size; fedReg low (noisy)
+const WATCH_W = { outsized: 5, pool: 3, blackout: 6, fedReg: 3 };   // magnitude scored ONCE (size+whale are one dimension); informed(blackout) > magnitude; fedReg low
 function watchlistScore(x, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   x = x || {};
   const sizes = (x.marketSizes || []).filter((s) => isNum(s) && s > 0);
-  const mu = sizes.length ? sizes.reduce((a, b) => a + b, 0) / sizes.length : 0;
-  const sd = sizes.length > 1 ? Math.sqrt(sizes.reduce((a, b) => a + (b - mu) * (b - mu), 0) / (sizes.length - 1)) : 0;
+  const nPeers = sizes.length;
+  const mu = nPeers ? sizes.reduce((a, b) => a + b, 0) / nPeers : 0;
+  const sd = nPeers > 1 ? Math.sqrt(sizes.reduce((a, b) => a + (b - mu) * (b - mu), 0) / (nPeers - 1)) : 0;
   const sorted = sizes.slice().sort((a, b) => a - b);
   const p90 = sorted.length ? sorted[Math.floor(0.9 * (sorted.length - 1))] : 0;
   const z = sd > 0 ? (x.sizeUsd - mu) / sd : 0;
   const whaleX = p90 > 0 ? x.sizeUsd / p90 : 0;
   const poolPct = isNum(x.poolUsd) && x.poolUsd > 0 ? x.sizeUsd / x.poolUsd : 0;
+  // MINIMUM SAMPLE GUARD. A z-score over a handful of peer trades is noise — with 2–3 trades the
+  // std-dev is unstable and a single outlier yields a spurious 3σ; the 90th-percentile "whale" check
+  // is just "the max" until there are ~enough trades. So size/whale only FIRE when the market has at
+  // least `watchMinPeers` other trades (default 6). Raw z/whaleX are still REPORTED for transparency.
+  const minPeers = isNum(o.watchMinPeers) ? o.watchMinPeers : 6;
+  const enoughPeers = nPeers >= minPeers;
   const fired = []; let score = 0;
-  if (z >= 3) { fired.push("size"); score += WATCH_W.size; }              // outsized vs this market's trades
-  if (whaleX >= 10) { fired.push("whale"); score += WATCH_W.whale; }      // dwarfs the 90th-percentile trade
+  // SIZE (z-score vs mean) and WHALE (ratio to 90th-pct) are two views of ONE dimension — this
+  // trade's size relative to the market's other trades. Scoring them separately double-counted
+  // magnitude (5+4=9) and let raw bet size outrank the news-blackout tell (6), inverting the
+  // intended "informed beats big." So they collapse into a SINGLE "outsized" signal, scored once;
+  // z and whaleX remain as diagnostics. Fires if EITHER threshold is crossed (with enough peers).
+  if (enoughPeers && (z >= 3 || whaleX >= 10)) { fired.push("outsized"); score += WATCH_W.outsized; }
   if (poolPct >= 0.02) { fired.push("pool"); score += WATCH_W.pool; }     // a large slice of the whole pool
   if (x.newsBlackout === true) { fired.push("blackout"); score += WATCH_W.blackout; } // bet ahead of the news
   if (x.fedRegister === true) { fired.push("fedReg"); score += WATCH_W.fedReg; }
-  return { score, fired, sizeZ: +z.toFixed(1), whaleX: +whaleX.toFixed(1), poolPct: +(poolPct * 100).toFixed(2), p90: Math.round(p90) };
+  return { score, fired, sizeZ: +z.toFixed(1), whaleX: +whaleX.toFixed(1), poolPct: +(poolPct * 100).toFixed(2), p90: Math.round(p90), nPeers, enoughPeers };
 }
 
 /* ============================================================================

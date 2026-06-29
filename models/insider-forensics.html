@@ -32,6 +32,7 @@
   @keyframes wf-scan { 0%{transform:translateY(0);opacity:0} 8%{opacity:.7} 92%{opacity:.7} 100%{transform:translateY(1700px);opacity:0} }
   @keyframes wf-fresh { 0%,100%{opacity:.5} 50%{opacity:1;box-shadow:0 0 16px -3px rgba(52,211,153,.7)} }
   @keyframes wf-drawer { from{opacity:.5;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes wf-rowpop { 0%{box-shadow:0 0 0 1px rgba(52,211,153,.25),0 0 0 0 rgba(52,211,153,0)} 45%{box-shadow:0 0 0 1.5px rgba(52,211,153,.6),0 0 46px -3px rgba(52,211,153,.8)} 100%{box-shadow:0 0 0 1px rgba(52,211,153,.3),0 0 34px -6px rgba(52,211,153,.5)} }
   @media (prefers-reduced-motion: reduce){ .wl *{animation:none !important} }
   .wl-scroll::-webkit-scrollbar{ width:9px;height:9px; }
   .wl-scroll::-webkit-scrollbar-thumb{ background:#1E2823;border-radius:5px; }
@@ -131,13 +132,15 @@
 
   // ===================== LIVE WATCHLIST (ported design · vanilla · real data) =====================
   var WSIG = {
-    blackout:{ label:"news blackout", weight:6, style:"info", tip:"Zero matching news in the 24h before the bet — weighted highest" },
+    blackout:{ label:"news blackout", weight:6, style:"info", tip:"Nothing in the world's news matched this market's topic in the 24h before the bet. Betting big before there's any public news is the clearest 'they knew first' tell — so it's weighted highest (6)." },
+    outsized:{ label:"outsized trade", weight:5, style:"hot", tip:"This bet is far bigger than the other trades on this market — ≥3σ above the typical trade, or 10×+ the 90th-percentile trade. (One combined 'unusually large bet' signal, counted once.)" },
+    pool:{ label:"large % of pool", weight:3, style:"hot", tip:"A single trade is a large share of the market's total liquidity." },
+    fedReg:{ label:"Federal Register", weight:3, style:"info", tip:"A recent U.S. regulatory filing names this market's exact subject — corroborating, low weight." },
+    // legacy keys kept so rows scored before the size+whale merge still render
     size:{ label:"outsized vs market", weight:5, style:"hot", tip:"Trade size ≥ 3σ above peer trades on this market" },
-    whale:{ label:"lone whale", weight:4, style:"hot", tip:"10×+ larger than the 90th-percentile trade on this market" },
-    pool:{ label:"large % of pool", weight:3, style:"hot", tip:"A single trade is a large share of the market's liquidity" },
-    fedReg:{ label:"Federal Register", weight:3, style:"info", tip:"A regulatory filing matches the exact market subject" }
+    whale:{ label:"lone whale", weight:4, style:"hot", tip:"10×+ the 90th-percentile trade on this market" }
   };
-  var WGMAX = 18;
+  var WGMAX = 17;
   var WGRID = "88px minmax(180px,1.7fr) 132px 86px 78px minmax(170px,1.3fr) 92px 108px 60px";
   var wlState = { expandedId:null, sort:'recency', search:'', quick:{blackout:false,big:false,hardened:false}, legendOpen:false, copied:null };
 
@@ -177,14 +180,16 @@
 
   function wlEvidence(e){
     var out='';
-    var diag='<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">'
+    var diag='<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:'+((e.nPeers!=null&&e.nPeers<6)?'8px':'14px')+';">'
       + wlDiag('SIZE Z-SCORE',(e.sizeZ!=null?e.sizeZ+'σ':'—'),(e.signals||[]).indexOf('size')>=0)
       + wlDiag('WHALE MULTIPLE',(e.whaleX!=null?e.whaleX+'×':'—'),(e.signals||[]).indexOf('whale')>=0)
       + wlDiag('% OF POOL',(e.poolPct!=null&&e.poolPct>0?e.poolPct+'%':'—'),(e.signals||[]).indexOf('pool')>=0)
+      + wlDiag('PEER TRADES',(e.nPeers!=null?String(e.nPeers):'—'),false)
       + '</div>';
+    if(e.nPeers!=null && e.nPeers<6) diag+='<div style="font-size:11.5px;color:#FBBF24;line-height:1.5;margin-bottom:14px;">Only '+e.nPeers+' comparable trade'+(e.nPeers===1?'':'s')+' on this market — too few for a reliable size z-score, so the outsized-trade flag is held back here.</div>';
     if(e.newsBlackout){ out+='<div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.3);border-radius:9px;padding:12px 14px;margin-bottom:10px;">'
-      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#34D399;margin-bottom:6px;">NEWS BLACKOUT</div>'
-      + '<div style="font-size:12.5px;color:#C9CFCB;line-height:1.55;">No public news matched “'+esc(e.blackoutEntity||"this market's topic")+'” in the 24h before this outsized bet — trading ahead of the public story.</div></div>'; }
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#34D399;margin-bottom:6px;">NEWS BLACKOUT · why it counts most</div>'
+      + '<div style="font-size:12.5px;color:#C9CFCB;line-height:1.55;">We searched the world’s news for “'+esc(e.blackoutEntity||"this market's topic")+'” in the 24 hours before this bet and found <b style="color:#ECEFED;">nothing</b>. Putting down a big, confident bet on something the press hasn’t even reported yet is the clearest sign of acting on private information — so it’s weighted highest (6 of the score).</div></div>'; }
     if(e.fedRegister){ var ft=(e.fedDoc&&e.fedDoc.title)?esc(e.fedDoc.title):"A regulatory filing matched this market's exact subject."; var fl=(e.fedDoc&&e.fedDoc.url)?'<a href="'+esc(e.fedDoc.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#34D399;text-decoration:none;display:inline-block;margin-top:8px;">view filing ↗</a>':'';
       out+='<div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.3);border-radius:9px;padding:12px 14px;">'
       + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#34D399;margin-bottom:6px;">FEDERAL REGISTER MATCH</div>'
@@ -224,8 +229,15 @@
     var copied=wlState.copied===id;
     var name=(e.market&&e.market!=='(market)')?e.market:'(market)';
     var chips=(e.signals||[]).map(function(k){ var s=WSIG[k]; return s?wlChip(s.style,s.label,s.tip):''; }).join('');
-    var rowStyle="display:grid;grid-template-columns:"+WGRID+";gap:14px;align-items:center;padding:13px 16px;cursor:pointer;outline:none;transition:background .18s;"+(expanded?"background:rgba(52,211,153,.06);":"");
-    var r='<div style="border-top:1px solid #141C18;">'
+    // EXPANDED rows pop OUT of the flat list: a glowing green-bordered, rounded, inset card with a
+    // one-shot pulse — so a clicked trade and its drawer read as one distinct unit and never blur
+    // into the neighbouring rows. Collapsed rows stay flat with a hairline divider.
+    var rowStyle="display:grid;grid-template-columns:"+WGRID+";gap:14px;align-items:center;padding:13px 16px;cursor:pointer;outline:none;transition:background .18s;"
+      + (expanded?"background:linear-gradient(180deg,rgba(52,211,153,.1),rgba(52,211,153,.04));border-left:3px solid #34D399;":"border-left:3px solid transparent;");
+    var wrap=expanded
+      ? "border:1px solid rgba(52,211,153,.5);border-radius:13px;margin:10px 8px;background:rgba(52,211,153,.03);overflow:hidden;position:relative;z-index:2;animation:wf-rowpop .55s ease forwards;"
+      : "border-top:1px solid #141C18;";
+    var r='<div style="'+wrap+'">'
       + '<div class="wl-row" tabindex="0" onclick="wlExpand(\''+id+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wlExpand(\''+id+'\');}" style="'+rowStyle+'">'
       + '<div style="min-width:0;font-family:\'JetBrains Mono\',monospace;font-size:12.5px;color:#ECEFED;">'+esc(ago(e.ts))+'</div>'
       + '<div style="min-width:0;"><a href="'+esc(e.url||'#')+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:13px;color:#ECEFED;text-decoration:none;border-bottom:1px solid rgba(52,211,153,.35);line-height:1.4;">'+esc(name)+' <span style="color:#34D399;">↗</span></a></div>'
@@ -289,7 +301,11 @@
       + '<span style="flex-shrink:0;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;color:#FBBF24;padding-top:1px;">⚠ EARLY WARNING</span>'
       + '<p style="margin:0;font-size:13px;color:#C9CFCB;line-height:1.6;">Early warning, not proof. One row = one outsized trade on an <span style="color:#FBBF24;">open market</span>, scored at placement. A confident whale who’s simply wrong looks like an insider until the market resolves. Each entry hardens into a flagged wallet or self-clears.</p></div>';
     var footer='<div style="margin-top:18px;text-align:center;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#6B756F;line-height:1.6;">Consistent with informed trading — <span style="color:#949C98;">not proof of it.</span> Live scores use trade-time signals only; they cannot yet use win or profit.</span></div>';
-    document.getElementById('wl-dyn').innerHTML = banner+stats+legend+toolbar+'<div style="margin-top:12px;border:1px solid #1F2A25;border-radius:14px;overflow:hidden;background:#0B100E;"><div id="wl-feed">'+wlFeedHTML()+'</div></div>'+footer;
+    // always-visible explainer for THE SCORE (users shouldn't have to expand a row to learn what it is)
+    var scoreHelp='<div style="display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:11px 15px;background:#0E1512;border:1px solid #1F2A25;border-radius:11px;">'
+      + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.12em;color:#34D399;padding-top:3px;flex-shrink:0;">◷ THE SCORE</span>'
+      + '<span style="font-size:12px;color:#949C98;line-height:1.6;">A trade’s <b style="color:#C4CAC6;">score</b> simply adds up the red flags that fired on it: <span style="color:#34D399;">news&nbsp;blackout&nbsp;+6</span> (bet before any public news — the strongest tell, so it counts most), <span style="color:#FBBF24;">outsized&nbsp;trade&nbsp;+5</span> (far bigger than other trades here), <span style="color:#FBBF24;">large&nbsp;%&nbsp;of&nbsp;pool&nbsp;+3</span>, and <span style="color:#34D399;">Federal&nbsp;Register&nbsp;+3</span> (a regulatory filing on the exact subject). Add them up → max ~17. Higher = more, stronger early-warning flags; the dial glows <span style="color:#34D399;">green</span> → <span style="color:#FBBF24;">amber</span> → <span style="color:#F87171;">red</span>. Click any row for the full breakdown. It’s an early-warning score from signals available <i>at placement</i> only — it can’t yet use whether the bet won.</span></div>';
+    document.getElementById('wl-dyn').innerHTML = banner+stats+legend+toolbar+scoreHelp+'<div style="margin-top:12px;border:1px solid #1F2A25;border-radius:14px;overflow:hidden;background:#0B100E;"><div id="wl-feed">'+wlFeedHTML()+'</div></div>'+footer;
   }
   // ---- interaction handlers ----
   function wlExpand(id){ wlState.expandedId = (wlState.expandedId===id?null:id); renderWatch(); }
