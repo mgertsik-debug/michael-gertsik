@@ -16,10 +16,10 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 206375,
-  "reviewed": 206375,
+  "observed": 206541,
+  "reviewed": 206541,
   "screened": 10054,
-  "scored": 5751,
+  "scored": 5760,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -1803,8 +1803,8 @@
           "tx": null
         },
         {
-          "market": "0x0cd53c5a833fa34db56d219593c1e65bafd96ffa6b6067f6ebb69fadcf43b8b3",
-          "url": null,
+          "market": "Will US GDP growth in Q3 2025 be between 2.5% and 3.0%?",
+          "url": "https://polymarket.com/event/will-us-gdp-growth-in-q2-2025-be-between-2pt5-and-3pt0-847",
           "ts": 1761782400,
           "odds": 16,
           "stake": 2093,
@@ -1864,7 +1864,7 @@
         },
         {
           "market": "Will Lori Chavez-DeRemer be the first to leave the Trump Cabinet before 2027?",
-          "url": "https://polymarket.com/event/will-lori-chavez-deremer-be-the-first-to-leave-the-trump-cabinet-before-2027-629",
+          "url": "https://polymarket.com/event/who-will-be-the-first-to-leave-the-trump-cabinet-828",
           "ts": 1768078068,
           "odds": 76,
           "stake": 1506,
