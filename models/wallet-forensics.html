@@ -1682,14 +1682,16 @@ class Component extends DCLogic {
         accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:" + (isSel ? "4px" : "3px") + ";border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 18px 2px rgba(52,211,153,0.95);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
         whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         whoLabel: this.whoLabel(s), why: this.whyLine(s),
-        // CARD HEADLINE: lead with the two numbers a person actually reads — the long-shot ODDS
-        // ("1 in N", the strongest single piece of evidence) and the MONEY WON. We deliberately do
-        // NOT headline the 0–100 suspicion score here: showing a false-precision "65/100" next to a
-        // bigger-odds "1 in 2.7M" let two rows read as "65 < 66" while "2.7M > 193K" — a visible
-        // contradiction. The 0–100 score still lives in the dossier (explained), and the list is
-        // ordered by RECENCY, not by score, so the order never implies a suspiciousness ranking.
-        improbText: (s.convictionFlag ? (s.profit || s.improbText) : s.improbText),
-        improbCaption: ((s.improbCaption || (s.convictionFlag ? ("won on a ~" + s.avgImplied + "% long-shot") : "chance this record is luck")) + (s.profit && !s.convictionFlag ? " · " + s.profit + " won" : "")),
+        // UNIFORM HEADLINE: every row leads with MONEY WON on the flagged bets — the ONE number every
+        // subject has, so the headline reads in the same unit across every flag path (binomial /
+        // cross-category / conviction / favorite) and every sort/filter. The path-specific statistic
+        // ("1 in N chance it's luck" / "Nσ over peers") drops to the caption. We do NOT headline the
+        // 0–100 score (its false precision made "65 < 66" read as contradicting "2.7M > 193K"); the
+        // list is ordered by recency, not score, so the order never implies a suspiciousness ranking.
+        improbText: (s.profit || s.improbText),
+        improbCaption: (s.convictionFlag
+          ? ("won on a ~" + s.avgImplied + "% long-shot")
+          : ((s.improbText ? s.improbText + " — " : "") + (s.improbCaption || "chance this record is luck"))),
         concernColor: th.color, concernGlow: th.glow,
         concernLabel: th.label,
         badgeStyle: "display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.07em;padding:2px 8px;border-radius:999px;color:" + th.color + ";border:1px solid " + th.border + ";background:" + th.bg + ";",
