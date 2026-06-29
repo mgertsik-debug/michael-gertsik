@@ -67,6 +67,7 @@ module.exports = async (req, res) => {
     ringGroups: store.ringGroups || [],             // funding rings that touch a flagged wallet (auto ring-finder)
     rings: store.rings || 0,
     coverageByCategory: store.coverageByCategory || {},  // resolved markets cataloged per category (drives the filter)
+    validation: store.validation || null,            // permutation null test + per-detector win-rate lift (items 4+5)
     generatedAt: store.generatedAt || null,
   });
 };

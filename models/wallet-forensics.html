@@ -115,6 +115,17 @@
         </div>
       </sc-if>
 
+      <!-- STATISTICAL VALIDATION (permutation null test over the flagged set, items 4+5) -->
+      <sc-if value="{{ hasValidation }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid #2C3A33;background:rgba(11,16,14,0.4);border-radius:12px;padding:13px 16px;margin-bottom:14px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#6B756F;margin-bottom:6px;">VALIDATION · PERMUTATION TEST</div>
+          <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#34D399;">{{ validationHeadline }}</span>
+            <span style="font-size:11.5px;color:#949C98;line-height:1.5;">{{ validationLine }}</span>
+          </div>
+        </div>
+      </sc-if>
+
       <!-- CONTROL SURFACE -->
       <div style="margin-bottom: 12px;">
         <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
@@ -724,6 +735,7 @@ class Component extends DCLogic {
     this.coverageByCategory = (data.coverageByCategory && typeof data.coverageByCategory === "object") ? data.coverageByCategory : {};
     this.totalFlaggedProfit = data.totalFlaggedProfit || 0;
     this.totalFlaggedProfitText = data.totalFlaggedProfitText || null;
+    this.validation = (data.validation && typeof data.validation === "object") ? data.validation : null;
     this.isSample = false;
     this.meta = {
       observed: data.observed != null ? data.observed : (data.meta && data.meta.observed) || 0,
@@ -831,7 +843,7 @@ class Component extends DCLogic {
       h("div", { style: { fontFamily: mono, fontSize: "15px", fontWeight: 600, color: color || "#ECEFED" } }, val));
     const fired = (fz.fired || []);
     const prof = d.profile || {};
-    const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", conceal: "concealment", cluster: "group", conviction: "single big bet" };
+    const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", conceal: "concealment", cluster: "group", conviction: "single big bet", profitCross: "out-profited market", baseline: "beat break-even", timing: "late entry", sizing: "outsized bet", concentration: "one-sided" };
     const profitColor = (prof.profitNum || 0) >= 0 ? "#34D399" : "#F87171";
     const addr = d.user || lk.addr || "";
     const copiedAddr = !!(this.state.copied && this.state.copied[addr]);
@@ -1011,10 +1023,28 @@ class Component extends DCLogic {
         calibration: "modeled on the DOJ Maduro-capture case (Van Dyke: ~$32k → ~$400k on a long-shot)",
         confidenceNote: "One bet is not statistically improbable on its own — the signal is its SIZE + conviction + win together, never the lone bet's odds.",
       },
+      profitCross: {
+        name: "Cross-sectional profit (z_profit_cross)", citation: "Ofir & Ofir, “Informed Trading on Prediction Markets” (Harvard, 2026) · highest-weighted composite signal",
+        formula: "z = (wallet_profit − μ_market) / σ_market ,  over the OTHER traders in the SAME market",
+        symbols: [["z", "SDs above the market's mean trader profit"], ["μ_market", "mean profit of all traders in the market"], ["σ_market", "SD of trader profit in the market"], ["1 in N", "normal-tail chance of this margin by luck"]],
+        threshold: "contributes if z ≥ 2 · favorites dossier if z ≥ 2 and material",
+        source: "Polymarket per-market trader P/L cross-section (≥ 3 buyers, ≥ $10k volume)",
+        calibration: "Harvard's strongest signal; works at ANY odds, so it catches the favorite-betting insider the ≤ 35% long-shot test is structurally blind to (their $13M Trump-2024 example)",
+        confidenceNote: "The “1 in N” assumes peer profits are roughly normal — it ranks how far this wallet out-earned the market, it does not prove intent.",
+      },
+      baseline: {
+        name: "Win rate vs payoff break-even", citation: "favourite–longshot payoff asymmetry · break-even = average entry price",
+        formula: "lift = win_rate − break_even ,  break_even = avg entry price (buy at 80¢ → need 80%)",
+        symbols: [["win_rate", "realized share of bets won"], ["break_even", "win rate needed to not lose money at these prices"], ["lift", "points above break-even"]],
+        threshold: "contributes if lift > 5 points",
+        source: "Polymarket entry prices + resolved outcomes",
+        calibration: "payoff-aware: a 55% win rate buying 80¢ favorites is LOSING money — measured against break-even, not a flat 50%",
+        confidenceNote: "Beating break-even is necessary but not sufficient; weighted only alongside the other signals.",
+      },
     };
   }
 
-  findingName(key) { return { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction", baseline: "Base-rate outlier", hProfit: "Profited far more than peers", hBetCross: "Bet far bigger than the market", hBetWithin: "Bet dwarfed its own norm", hLate: "Bought right before the event", hDir: "One-sided, held to the end" }[key] || key; }
+  findingName(key) { return { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction", baseline: "Won past the break-even rate", profitCross: "Profited far more than the market", hProfit: "Profited far more than peers", hBetCross: "Bet far bigger than the market", hBetWithin: "Bet dwarfed its own norm", hLate: "Bought right before the event", hDir: "One-sided, held to the end" }[key] || key; }
 
   baselineFor(key, s) {
     if (key === "won") {
@@ -1047,7 +1077,7 @@ class Component extends DCLogic {
     // and keep the weight table IN SYNC with detectors.js DEFAULTS.contribW so every
     // detector (incl. conviction/timing/concentration/sizing) gets a real share.
     if (s.contributions && Object.keys(s.contributions).length) return s.contributions;
-    const weight = { won: 32, cluster: 22, conviction: 20, timing: 16, conceal: 14, sizing: 12, longshot: 11, fresh: 8, concentration: 7, held: 6 };
+    const weight = { won: 28, profitCross: 26, cluster: 20, conviction: 16, sizing: 14, timing: 12, conceal: 10, fresh: 8, concentration: 6, longshot: 5, held: 4, baseline: 4 };
     const fired = (s.fired || []).filter((k) => weight[k] != null);
     const total = fired.reduce((a, k) => a + weight[k], 0) || 1;
     const out = {};
@@ -1348,7 +1378,7 @@ class Component extends DCLogic {
   contributionNode(s) {
     const h = this.h;
     const contrib = this.contributionMap(s);
-    const palette = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#34D399", timing: "#6FE3B6", sizing: "#A78BFA", concentration: "#2BB587", baseline: "#7E8C86", hProfit: "#34D399", hBetCross: "#6FE3B6", hBetWithin: "#A78BFA", hLate: "#2BB587", hDir: "#7E8C86" };
+    const palette = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#34D399", timing: "#6FE3B6", sizing: "#A78BFA", concentration: "#2BB587", baseline: "#7E8C86", profitCross: "#34D399", hProfit: "#34D399", hBetCross: "#6FE3B6", hBetWithin: "#A78BFA", hLate: "#2BB587", hDir: "#7E8C86" };
     // include EVERY contributing signal (no hardcoded whitelist) so the bar + legend sum to 100%
     // and Harvard's signals (and timing/sizing/concentration) are never silently dropped.
     const order = Object.keys(contrib).filter((k) => contrib[k] != null && contrib[k] > 0).sort((a, b) => contrib[b] - contrib[a]);
@@ -1459,7 +1489,7 @@ class Component extends DCLogic {
     const contrib = this.contributionMap(s);
     const order = Object.keys(contrib).sort((a, b) => contrib[b] - contrib[a]);
     const measured = {}; (s.scorecard || []).forEach((c) => (measured[c.key] = c.metric));
-    const pal = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#FBBF24", baseline: "#5EEAD4" };
+    const pal = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#FBBF24", baseline: "#5EEAD4", profitCross: "#34D399", timing: "#6FE3B6", sizing: "#A78BFA", concentration: "#2BB587" };
     const maxC = Math.max(...order.map((k) => contrib[k]), 1);
     const bars = order.map((k) => h("div", { key: k, style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "9px" } },
       h("div", { style: { width: "120px", flexShrink: 0, fontFamily: "Inter", fontSize: "11.5px", color: "#C4CAC6", textAlign: "right" } }, this.findingName(k)),
@@ -1633,9 +1663,12 @@ class Component extends DCLogic {
 
     // findings
     const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction",
+      baseline: "Won past the break-even rate", profitCross: "Profited far more than the market",
       // Harvard composite signals (preview model)
       hProfit: "Profited far more than peers", hBetCross: "Bet far bigger than the market", hBetWithin: "Bet dwarfed its own norm", hLate: "Bought right before the event", hDir: "One-sided, held to the end" };
     const explainMap = {
+      baseline: "Won more often than the break-even rate implied by its own entry prices — at 80¢ you must win 80% just to not lose money, so this is profit above the payoff-adjusted bar, not a flat 50%.",
+      profitCross: "Profited far more on this market than the other traders in it — out-earning the whole market on a single position is the favorite-odds informed-trading signal the long-shot test cannot see (works at any odds).",
       hProfit: "Earned far more on this market than the other traders in it — outsized profit is the most direct informed-trading signal.",
       hBetCross: "Staked far more than the typical trader in this market — disproportionate capital on a single mispriced outcome.",
       hBetWithin: "This bet was many times larger than the wallet's own usual stake — an outlier against its own betting history.",
@@ -1738,6 +1771,9 @@ class Component extends DCLogic {
       corpus,
       hasSubjects: true, emptyState: false, surpriseMarketsNode: this.surpriseMarketsNode(), ringGroupsNode: this.ringGroupsNode(),
       hasAggProfit: !!(this.totalFlaggedProfit > 0 && this.totalFlaggedProfitText), aggProfitText: this.totalFlaggedProfitText || "$0", aggCount: this.fmtInt(this.subjects.length),
+      hasValidation: !!(this.validation && this.validation.permutation && this.validation.permutation.hasData),
+      validationHeadline: (this.validation && this.validation.permutation && this.validation.permutation.hasData) ? ("+" + this.validation.permutation.zScore + " SD") : "",
+      validationLine: (this.validation && this.validation.permutation && this.validation.permutation.hasData) ? this.validation.permutation.statement : "",
       isSample: this.isSample, notSample: !this.isSample,
       isAddressQuery: this.isAddr(st.search), searchBorder: this.isAddr(st.search) ? "#34D399" : "#1F2A25",
       onSearchKey: (e) => this.onSearchKey(e), runLookup: () => this.runLookup(),
