@@ -542,6 +542,11 @@ function fuse(dets, opts) {
  *  market filters ($10k+ market volume, ≥3 buyers, ≥$500 wallet buy) upstream.
  * ========================================================================== */
 const HARVARD_W = { betCross: 25, betWithin: 20, profitCross: 30, late: 15, dir: 10 };
+// SCORED signals = the three reliable cross-sections (bet vs market, bet vs own norm, profit vs
+// peers). late_buy_fraction + directional_score are COMPUTED and DISPLAYED as context but EXCLUDED
+// from the score: on a partial per-market trade sample they saturate near 1.0 and add a constant
+// ~2,500 to every episode, which let big LOSING bets score "extreme". They return to the score once
+// full per-market trade history makes them informative.
 function harvardEpisode(e, opts) {
   if (!e) return { key: "harvard", hasData: false };
   // The cross-sectional bet z (z_bet_cross) is the spine of the composite and its retention
@@ -553,18 +558,24 @@ function harvardEpisode(e, opts) {
   const zpc = isNum(e.zProfitCross) ? e.zProfitCross : 0;
   const late = clip(isNum(e.lateBuyFraction) ? e.lateBuyFraction : 0, 0, 1);
   const dir = clip(isNum(e.directionalScore) ? e.directionalScore : 0, 0, 1);
-  const S = HARVARD_W.betCross * zbc + HARVARD_W.betWithin * zbw + HARVARD_W.profitCross * zpc +
-            HARVARD_W.late * (late * 100) + HARVARD_W.dir * (dir * 100);
-  const retained = zbc > 2 || zbw > 2;   // Harvard top-2.5%-by-bet-size inclusion gate
+  const S = HARVARD_W.betCross * zbc + HARVARD_W.betWithin * zbw + HARVARD_W.profitCross * zpc;
+  // PROFITABILITY GATE: informed trading is PROFITABLE. Retain only episodes that WON and
+  // out-profited their peers (z_profit_cross > 0), on top of Harvard's outsized-bet gate. This is
+  // what stops a big LOSING bet from scoring high just because it was large/late/one-sided.
+  const won = e.won === true;
+  const profitable = won && zpc > 0;
+  const retained = (zbc > 2 || zbw > 2) && profitable;
   return {
-    key: "harvard", hasData: true, S: +S.toFixed(1), retained,
+    key: "harvard", hasData: true, S: +S.toFixed(1), retained, profitable, won,
     zBetCross: +zbc.toFixed(2), zBetWithin: +zbw.toFixed(2), zProfitCross: +zpc.toFixed(2),
     lateBuyFraction: +late.toFixed(3), directionalScore: +dir.toFixed(3),
   };
 }
-// Tier from Harvard's composite S. Calibrated to the paper's flagged distribution
-// (S ranges 40–3987, mean 120.3, median 105.3): notable ≈ median, high ≈ 2×, extreme far out.
-const HARVARD_TIERS = { notable: 90, high: 220, extreme: 600 };
+// Tier from the composite S (the three reliable cross-sectional signals, winners-only). Calibrated
+// to OUR gated distribution — median ~180, p90 ~530 — NOT the paper's absolute scale, because our
+// per-market cross-sections are computed on a partial trade sample (which inflates the z's). These
+// rank suspicion within our data honestly: extreme ≈ top ~3% of surviving (winning, outsized) trades.
+const HARVARD_TIERS = { notable: 180, high: 420, extreme: 860 };
 function harvardTier(S, opts) {
   const t = Object.assign({}, HARVARD_TIERS, opts && opts.harvardTiers);
   if (!(S > 0)) return null;

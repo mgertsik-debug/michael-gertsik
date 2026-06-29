@@ -220,29 +220,35 @@ test("RECONSTRUCTED Iran-ring cluster (9 wallets, ~98% win, fresh, held) -> Extr
   assert.ok(f.fired.includes("cluster") && f.fired.includes("won"));
 });
 
-test("HARVARD composite: exact weighted-sum formula + retention gate + tiers", () => {
-  // S = 25·zbc + 20·zbw + 30·zpc + 15·(late·100) + 10·(dir·100)
-  const e = D.harvardEpisode({ zBetCross: 3, zBetWithin: 2.5, zProfitCross: 4, lateBuyFraction: 0.5, directionalScore: 1.0 });
-  // 25*3 + 20*2.5 + 30*4 + 15*50 + 10*100 = 75 + 50 + 120 + 750 + 1000 = 1995
-  assert.equal(e.S, 1995, "composite matches Harvard's weighted-sum formula");
-  assert.equal(e.retained, true, "retained when z_bet_cross > 2");
-  assert.equal(D.harvardTier(e.S), "extreme", "S=1995 -> extreme");
+test("HARVARD composite: 3-signal score + profitability gate + tiers", () => {
+  // SCORE = 25·zbc + 20·zbw + 30·zpc  (late/dir are context, NOT scored)
+  const e = D.harvardEpisode({ zBetCross: 12, zBetWithin: 2.5, zProfitCross: 8, lateBuyFraction: 0.5, directionalScore: 1.0, won: true });
+  // 25*12 + 20*2.5 + 30*8 = 300 + 50 + 240 = 590  (late/dir excluded)
+  assert.equal(e.S, 590, "score is the 3 reliable cross-sections only — late/dir excluded");
+  assert.equal(e.retained, true, "retained: outsized bet AND won AND out-profited peers");
+  assert.equal(e.profitable, true);
+  assert.equal(D.harvardTier(e.S), "high", "S=590 -> high (590 in [420,860))");
 
-  // retention requires z_bet_cross>2 OR z_bet_within>2 — both low => not retained
-  const low = D.harvardEpisode({ zBetCross: 1.2, zBetWithin: 0.9, zProfitCross: 5, lateBuyFraction: 1, directionalScore: 1 });
-  assert.equal(low.retained, false, "not retained when neither bet-size z exceeds 2");
+  // PROFITABILITY GATE: a big LOSING bet (or one that under-profited peers) is NOT retained,
+  // however large/late/one-sided — this is the fix for losers scoring high.
+  const loser = D.harvardEpisode({ zBetCross: 12, zBetWithin: 5, zProfitCross: -4, lateBuyFraction: 1, directionalScore: 1, won: false });
+  assert.equal(loser.retained, false, "lost the bet -> not retained even with huge bet-size z");
+  const underProfit = D.harvardEpisode({ zBetCross: 12, zBetWithin: 5, zProfitCross: -1, lateBuyFraction: 1, directionalScore: 1, won: true });
+  assert.equal(underProfit.retained, false, "won but under-profited peers (zProfit<0) -> not retained");
 
-  // tier thresholds
-  assert.equal(D.harvardTier(50), null, "below notable floor -> unflagged");
-  assert.equal(D.harvardTier(120), "notable");
-  assert.equal(D.harvardTier(300), "high");
-  assert.equal(D.harvardTier(700), "extreme");
+  // retention also requires z_bet_cross>2 OR z_bet_within>2 (outsized bet), even for winners
+  const small = D.harvardEpisode({ zBetCross: 1.2, zBetWithin: 0.9, zProfitCross: 5, won: true });
+  assert.equal(small.retained, false, "not retained when neither bet-size z exceeds 2");
 
-  // missing cross-sectional z (the spine of the composite) degrades to NO-DATA — never a
-  // fabricated S=0 that could be scored/retained (honesty rule).
+  // tier thresholds (calibrated to our gated distribution)
+  assert.equal(D.harvardTier(100), null, "below notable floor -> unflagged");
+  assert.equal(D.harvardTier(250), "notable");
+  assert.equal(D.harvardTier(500), "high");
+  assert.equal(D.harvardTier(900), "extreme");
+
+  // missing cross-sectional z degrades to NO-DATA — never a fabricated S=0 (honesty rule).
   const z = D.harvardEpisode({});
   assert.equal(z.hasData, false, "no measurable z_bet_cross -> hasData:false, not a fake S=0");
-  // a measured z_bet_cross with the rest absent still scores (rest default to 0 honestly)
-  const partial = D.harvardEpisode({ zBetCross: 3 });
+  const partial = D.harvardEpisode({ zBetCross: 3, won: true });
   assert.equal(partial.hasData, true); assert.equal(partial.S, 75, "25*3 with others 0");
 });
