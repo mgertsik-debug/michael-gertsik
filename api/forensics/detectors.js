@@ -80,7 +80,11 @@ const DEFAULTS = {
   // heavily (8 → 18). crossCat (near-perfect cross-category record) and repeat (early-and-right on
   // multiple separate events) are added as first-class diagnostic signals. profit/bet-size signals
   // (profitCross/sizing) are trimmed — being RIGHT and EARLY is more diagnostic than betting big.
-  contribW: { won: 26, crossCat: 22, timing: 18, cluster: 18, concentration: 12, conceal: 12, fresh: 10, repeat: 10, conviction: 6, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 },
+  // NOTE: `fresh` trimmed 10 → 5. A live scan showed it fires on ~75% of wallets — Polymarket
+  // provisions a NEW PROXY WALLET PER USER at first deposit, so almost every account is "fresh"
+  // (new wallet, no prior tx). It is a near-constant here, not a purpose-built-wallet tell, so it
+  // gets a low display weight and is excluded from the favorite-path anti-whale gate (see build.js).
+  contribW: { won: 26, crossCat: 22, timing: 18, cluster: 18, concentration: 12, conceal: 12, repeat: 10, fresh: 5, conviction: 6, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 },
   agreeSub: 0.45,                  // a detector "agrees" when its sub-score >= this
   minAgree: 2,                     // High/Extreme needs >= 2 independent detectors
   // win-rate baselines on <=35%-implied bets, by category (ACDC-derived)
@@ -272,7 +276,13 @@ function held(x, opts) {
       (fires ? " — held ≥" + Math.round(o.heldTau * 100) + "% of positions to the outcome; the conviction signature." : ".") };
 }
 
-/* 4. FRESH — wallet age + funding recency. Fires if age <= 14d AND prior_tx = 0. */
+/* 4. FRESH — wallet age + funding recency. Fires if age <= 14d AND prior_tx = 0.
+ *  LIMITATION (Polymarket): this is a WEAK signal here. Polymarket gives each user a fresh PROXY
+ *  wallet at first deposit, so ~75% of accounts trip this (new wallet, no prior tx, funded just
+ *  before the first bet) — it is NOT the purpose-built-wallet tell it is on a normal EOA. Kept for
+ *  context + a low contribution weight, but it does NOT gate the favorite path and barely moves the
+ *  composite. A meaningful "purpose-built" signal here would need the funding SOURCE + single-market
+ *  focus, not just wallet age. */
 function fresh(x, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   if (!x || !isNum(x.ageDays) || !isNum(x.priorTx)) return { key: "fresh", hasData: false };

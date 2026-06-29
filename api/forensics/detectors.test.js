@@ -263,7 +263,8 @@ function favAgg(over) {
   const fund = 1699000000, first = fund + 5 * 86400;          // 5-day-old wallet (fresh fires when priorTx=0)
   const base = {
     address: "0xFAVdeadbeef0000000000000000000000000001",
-    firstSeenTs: first, fundingTs: fund, priorTx: 0,           // fresh = STRUCTURAL corroborator
+    firstSeenTs: first, fundingTs: fund, priorTx: 0,           // (fresh fires, but it no longer gates — proxy-wallet noise)
+    conceal: { splitRatio: 0.6, cashoutLatencyHours: 2 },      // 2 concealment tactics = the real STRUCTURAL corroborator
     profile: { username: "fave-insider", pnlAllTime: 26000, volume: 60000 },
     bets: [
       // the flagged episode: a big WINNING bet on a FAVORITE (65%), outsized + out-profited peers
@@ -278,7 +279,7 @@ function favAgg(over) {
   return Object.assign(base, over || {});
 }
 
-test("FAVORITE path: genuine favorite-insider (won + outsized + net-profitable + fresh) -> flagged", () => {
+test("FAVORITE path: genuine favorite-insider (won + outsized + net-profitable + concealment) -> flagged", () => {
   const s = B.buildFavoriteSubject(favAgg(), 0, {}, {});
   assert.ok(s, "should publish a favorite subject");
   assert.equal(s.flaggedBy, "cross-sectional-profit");
@@ -287,10 +288,16 @@ test("FAVORITE path: genuine favorite-insider (won + outsized + net-profitable +
   assert.ok(!/1 in/.test(s.improbText), "no invalid normal-tail '1 in N' for heavy-tailed profit");
 });
 
-test("FAVORITE path: bare whale on a favorite (no fresh/conceal/cluster) -> NOT flagged", () => {
-  // same outsized winning favorite + net profit, but an OLD wallet with prior history and no
-  // concealment/cluster -> zero STRUCTURAL signals -> the anti-whale discriminator rejects it.
-  const s = B.buildFavoriteSubject(favAgg({ priorTx: 500, firstSeenTs: 1699000000 + 400 * 86400 }), 0, {}, {});
+test("FAVORITE path: FRESH-ONLY (no concealment/cluster) -> NOT flagged (Polymarket proxy-wallet fix)", () => {
+  // a winning outsized net-profitable favorite, FRESH wallet but NO concealment/cluster. fresh fires
+  // on ~75% of Polymarket wallets (per-user proxy wallets), so it no longer satisfies the anti-whale
+  // gate — otherwise the favorite path waves through whales. Only conceal/cluster count now.
+  const s = B.buildFavoriteSubject(favAgg({ conceal: null }), 0, {}, {});
+  assert.equal(s, null, "fresh alone is proxy-wallet noise on Polymarket — not a structural insider tell");
+});
+
+test("FAVORITE path: bare whale on a favorite (old wallet, no structure) -> NOT flagged", () => {
+  const s = B.buildFavoriteSubject(favAgg({ priorTx: 500, firstSeenTs: 1699000000 + 400 * 86400, conceal: null }), 0, {}, {});
   assert.equal(s, null, "a smart whale with no on-chain structure must not pollute the validated view");
 });
 
