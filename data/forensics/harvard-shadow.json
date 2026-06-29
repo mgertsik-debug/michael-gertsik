@@ -1,11 +1,11 @@
 {
   "generatedAt": "Jun 29 2026",
   "snapshot": 1782628669,
-  "total": 91,
+  "total": 92,
   "byTier": {
     "extreme": 14,
     "high": 16,
-    "notable": 61
+    "notable": 62
   },
   "medianS": 704.3,
   "p90": 1368.1,
@@ -13,11 +13,11 @@
   "p99": 1979.9,
   "minS": 531,
   "maxS": 1979.9,
-  "over500": 91,
-  "alsoBinomial": 34,
+  "over500": 92,
+  "alsoBinomial": 35,
   "onlyHarvard": 57,
-  "observed": 218865,
-  "reviewed": 218865,
+  "observed": 219167,
+  "reviewed": 219167,
   "screened": 10170,
   "scored": 6024,
   "top": [
