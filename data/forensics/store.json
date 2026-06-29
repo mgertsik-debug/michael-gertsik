@@ -1,7 +1,7 @@
 {
   "subjects": [
     {
-      "id": "x5263",
+      "id": "x5265",
       "type": "wallet",
       "address": "0x16b48a8e75ff7c514b8d51bc4292d7eb3d71168f",
       "memberAddresses": [
@@ -37,7 +37,7 @@
       "agreeing": 2,
       "detectorsMeasured": 9,
       "detectorsFired": 3,
-      "refId": "WF-X-262",
+      "refId": "WF-X-264",
       "cexChips": [],
       "heroSentence": "This account won 69 of 99 bets across markets the blended odds priced at about 49 percent — roughly 48.97 expected by luck (4.55 standard deviations above chance, about 1 in 369.3K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -1907,17 +1907,17 @@
       "wins": 65,
       "expectedWins": 48.51,
       "percentile": 99.999,
-      "percentileN": 5586,
+      "percentileN": 5652,
       "volumeNum": 106879,
       "volume": "$107K",
       "lastActivity": "74 days ago",
       "suspicion": 54.4,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x4839",
+      "id": "x4840",
       "type": "wallet",
       "address": "0xdf903ee52261f475ee5a02f9189acdb7cdba41f0",
       "memberAddresses": [
@@ -1961,7 +1961,7 @@
       "agreeing": 6,
       "detectorsMeasured": 11,
       "detectorsFired": 7,
-      "refId": "WF-X-838",
+      "refId": "WF-X-839",
       "cexChips": [],
       "heroSentence": "This account won 78 of 128 bets across markets the blended odds priced at about 46 percent — roughly 58.26 expected by luck (4.41 standard deviations above chance, about 1 in 193.4K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -4325,17 +4325,17 @@
       "wins": 67,
       "expectedWins": 58.88,
       "percentile": 99.999,
-      "percentileN": 5586,
+      "percentileN": 5652,
       "volumeNum": 1340715,
       "volume": "$1.3M",
       "lastActivity": "9 days ago",
       "suspicion": 65.8,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w5126",
+      "id": "w5128",
       "type": "wallet",
       "address": "0x9bd74f5f970fe3d3c5e747fabcdc025fa47796d3",
       "memberAddresses": [
@@ -4373,7 +4373,7 @@
       "agreeing": 3,
       "detectorsMeasured": 8,
       "detectorsFired": 4,
-      "refId": "WF-2024-125",
+      "refId": "WF-2024-127",
       "cexChips": [],
       "heroSentence": "This account won 35 of 94 long-shot bets that the market gave roughly a 18 percent chance. By luck you would expect about 16.98 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -5845,17 +5845,17 @@
       "wins": 35,
       "expectedWins": 16.92,
       "percentile": 99.982,
-      "percentileN": 5586,
+      "percentileN": 5652,
       "volumeNum": 148440,
       "volume": "$148K",
       "lastActivity": "2 days ago",
       "suspicion": 39.1,
-      "firstFlaggedAt": 1782706986,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x4466",
+      "id": "x4467",
       "type": "wallet",
       "address": "0x9a3fa403a6666eef75f92f181fcf13f9c051914a",
       "memberAddresses": [
@@ -5897,7 +5897,7 @@
       "agreeing": 5,
       "detectorsMeasured": 12,
       "detectorsFired": 6,
-      "refId": "WF-X-465",
+      "refId": "WF-X-466",
       "cexChips": [],
       "heroSentence": "This account won 105 of 121 bets across markets the blended odds priced at about 74 percent — roughly 89.51 expected by luck (4.05 standard deviations above chance, about 1 in 38.2K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -8225,17 +8225,17 @@
       "wins": 104,
       "expectedWins": 89.54,
       "percentile": 99.982,
-      "percentileN": 5586,
+      "percentileN": 5652,
       "volumeNum": 14805475,
       "volume": "$14.8M",
       "lastActivity": "2 days ago",
       "suspicion": 64.5,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x9466",
+      "id": "x9468",
       "type": "wallet",
       "address": "0x5b9115312cb4fc2b2b57c65045e611092f222709",
       "memberAddresses": [
@@ -8275,7 +8275,7 @@
       "agreeing": 4,
       "detectorsMeasured": 11,
       "detectorsFired": 5,
-      "refId": "WF-X-0465",
+      "refId": "WF-X-0467",
       "cexChips": [],
       "heroSentence": "This account won 113 of 129 bets across markets the blended odds priced at about 76 percent — roughly 97.79 expected by luck (3.99 standard deviations above chance, about 1 in 30.4K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -10315,17 +10315,17 @@
       "wins": 108,
       "expectedWins": 98.04,
       "percentile": 99.982,
-      "percentileN": 5586,
+      "percentileN": 5652,
       "volumeNum": 1972845,
       "volume": "$2M",
       "lastActivity": "32 days ago",
       "suspicion": 62.9,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w3387",
+      "id": "w3388",
       "type": "wallet",
       "address": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
       "memberAddresses": [
@@ -10369,7 +10369,7 @@
       "agreeing": 7,
       "detectorsMeasured": 10,
       "detectorsFired": 7,
-      "refId": "WF-2025-386",
+      "refId": "WF-2025-387",
       "cexChips": [],
       "heroSentence": "This account won 9 of 12 long-shot bets that the market gave roughly a 19 percent chance. By luck you would expect about 2.3 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -10664,13 +10664,13 @@
       "_tradedCount": 36,
       "wins": 9,
       "expectedWins": 2.28,
-      "percentile": 99.964,
-      "percentileN": 5586,
+      "percentile": 99.965,
+      "percentileN": 5652,
       "volumeNum": 220778,
       "volume": "$221K",
       "lastActivity": "122 days ago",
       "suspicion": 63.3,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782475315,
       "newlyFlagged": false,
       "archived": false
     },
@@ -11173,8 +11173,8 @@
       "_tradedCount": 125,
       "wins": 12,
       "expectedWins": 3.68,
-      "percentile": 99.946,
-      "percentileN": 5586,
+      "percentile": 99.947,
+      "percentileN": 5652,
       "volumeNum": 249063,
       "volume": "$249K",
       "lastActivity": "121 days ago",
@@ -11923,8 +11923,8 @@
       "_tradedCount": 524,
       "wins": 31,
       "expectedWins": 21.84,
-      "percentile": 99.946,
-      "percentileN": 5586,
+      "percentile": 99.947,
+      "percentileN": 5652,
       "volumeNum": 131794,
       "volume": "$132K",
       "lastActivity": "63 days ago",
@@ -11934,7 +11934,7 @@
       "archived": false
     },
     {
-      "id": "x5170",
+      "id": "x5172",
       "type": "wallet",
       "address": "0xffb0b9b292e406fd250854a35a0c9bd5612afa37",
       "memberAddresses": [
@@ -11970,7 +11970,7 @@
       "agreeing": 2,
       "detectorsMeasured": 11,
       "detectorsFired": 3,
-      "refId": "WF-X-169",
+      "refId": "WF-X-171",
       "cexChips": [],
       "heroSentence": "This account won 150 of 178 bets across markets the blended odds priced at about 74 percent — roughly 131.38 expected by luck (3.82 standard deviations above chance, about 1 in 15.1K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -14847,13 +14847,13 @@
       "_tradedCount": 754,
       "wins": 146,
       "expectedWins": 131.72,
-      "percentile": 99.946,
-      "percentileN": 5586,
+      "percentile": 99.947,
+      "percentileN": 5652,
       "volumeNum": 1250194,
       "volume": "$1.3M",
       "lastActivity": "14 days ago",
       "suspicion": 55.2,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -17297,8 +17297,8 @@
       "_tradedCount": 2108,
       "wins": 61,
       "expectedWins": 53.55,
-      "percentile": 99.946,
-      "percentileN": 5586,
+      "percentile": 99.947,
+      "percentileN": 5652,
       "volumeNum": 2527479,
       "volume": "$2.5M",
       "lastActivity": "11 days ago",
@@ -17308,7 +17308,7 @@
       "archived": false
     },
     {
-      "id": "x2766",
+      "id": "x2767",
       "type": "wallet",
       "address": "0xd950ef37b32702061d63e44a8475c360193cad1b",
       "memberAddresses": [
@@ -17348,7 +17348,7 @@
       "agreeing": 4,
       "detectorsMeasured": 10,
       "detectorsFired": 5,
-      "refId": "WF-X-765",
+      "refId": "WF-X-766",
       "cexChips": [],
       "heroSentence": "This account won 93 of 114 bets across markets the blended odds priced at about 68 percent — roughly 77.18 expected by luck (3.72 standard deviations above chance, about 1 in 10.2K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -19541,18 +19541,18 @@
       "_tradedCount": 2057,
       "wins": 88,
       "expectedWins": 77.52,
-      "percentile": 99.946,
-      "percentileN": 5586,
+      "percentile": 99.947,
+      "percentileN": 5652,
       "volumeNum": 2678022,
       "volume": "$2.7M",
       "lastActivity": "9 days ago",
       "suspicion": 60.8,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w3485",
+      "id": "w3486",
       "type": "wallet",
       "address": "0x9007438bed2f690fe52f158dab0ea9dbf32de26f",
       "memberAddresses": [
@@ -19592,7 +19592,7 @@
       "agreeing": 5,
       "detectorsMeasured": 9,
       "detectorsFired": 5,
-      "refId": "WF-2026-484",
+      "refId": "WF-2026-485",
       "cexChips": [],
       "heroSentence": "This account won 5 of 5 long-shot bets that the market gave roughly a 16 percent chance. By luck you would expect about 0.81 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -19768,18 +19768,18 @@
       "_tradedCount": 6,
       "wins": 5,
       "expectedWins": 0.8,
-      "percentile": 99.928,
-      "percentileN": 5586,
+      "percentile": 99.929,
+      "percentileN": 5652,
       "volumeNum": 9534,
       "volume": "$10K",
       "lastActivity": "122 days ago",
       "suspicion": 59.6,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782505843,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w9398",
+      "id": "w9400",
       "type": "wallet",
       "address": "0x078523be4de2ddd9185125e4e62c09e5e54ea475",
       "memberAddresses": [
@@ -19817,7 +19817,7 @@
       "agreeing": 4,
       "detectorsMeasured": 8,
       "detectorsFired": 4,
-      "refId": "WF-2026-0397",
+      "refId": "WF-2026-0399",
       "cexChips": [],
       "heroSentence": "This account won 8 of 12 long-shot bets that the market gave roughly a 16 percent chance. By luck you would expect about 1.95 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -20098,18 +20098,18 @@
       "_tradedCount": 33,
       "wins": 8,
       "expectedWins": 1.92,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 43725,
       "volume": "$44K",
       "lastActivity": "86 days ago",
       "suspicion": 38.2,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x6017",
+      "id": "x6019",
       "type": "wallet",
       "address": "0xaa99a6c279d34492683db6ff1818aa1f8485dbbf",
       "memberAddresses": [
@@ -20151,7 +20151,7 @@
       "agreeing": 5,
       "detectorsMeasured": 12,
       "detectorsFired": 6,
-      "refId": "WF-X-016",
+      "refId": "WF-X-018",
       "cexChips": [],
       "heroSentence": "This account won 128 of 205 bets across markets the blended odds priced at about 52 percent — roughly 106.4 expected by luck (3.61 standard deviations above chance, about 1 in 6.6K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -23052,18 +23052,18 @@
       "_tradedCount": 598,
       "wins": 125,
       "expectedWins": 106.6,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 1692088,
       "volume": "$1.7M",
       "lastActivity": "3 days ago",
       "suspicion": 62.2,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x9708",
+      "id": "x9710",
       "type": "wallet",
       "address": "0x83a296505eb520c9d35823571204ced41fd69452",
       "memberAddresses": [
@@ -23105,7 +23105,7 @@
       "agreeing": 5,
       "detectorsMeasured": 12,
       "detectorsFired": 6,
-      "refId": "WF-X-0707",
+      "refId": "WF-X-0709",
       "cexChips": [],
       "heroSentence": "This account won 68 of 105 bets across markets the blended odds priced at about 51 percent — roughly 53.52 expected by luck (3.61 standard deviations above chance, about 1 in 6.4K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -25152,13 +25152,13 @@
       "_tradedCount": 673,
       "wins": 66,
       "expectedWins": 53.55,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 4466622,
       "volume": "$4.5M",
       "lastActivity": "118 days ago",
       "suspicion": 63.9,
-      "firstFlaggedAt": 1782709377,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -25570,8 +25570,8 @@
       "_tradedCount": 39,
       "wins": 14,
       "expectedWins": 7.8,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 479160,
       "volume": "$479K",
       "lastActivity": "14 days ago",
@@ -25581,7 +25581,7 @@
       "archived": false
     },
     {
-      "id": "x4274",
+      "id": "x4275",
       "type": "wallet",
       "address": "0xe2708be26f7c14f7a9a7f383f666ea7979890fc7",
       "memberAddresses": [
@@ -25623,7 +25623,7 @@
       "agreeing": 5,
       "detectorsMeasured": 11,
       "detectorsFired": 6,
-      "refId": "WF-X-273",
+      "refId": "WF-X-274",
       "cexChips": [],
       "heroSentence": "This account won 29 of 33 bets across markets the blended odds priced at about 62 percent — roughly 20.5 expected by luck (3.58 standard deviations above chance, about 1 in 5.9K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -26242,13 +26242,13 @@
       "_tradedCount": 42,
       "wins": 29,
       "expectedWins": 20.46,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 691018,
       "volume": "$691K",
       "lastActivity": "38 days ago",
       "suspicion": 62.7,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -28434,8 +28434,8 @@
       "_tradedCount": 2470,
       "wins": 83,
       "expectedWins": 65.88,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 2679870,
       "volume": "$2.7M",
       "lastActivity": "8 days ago",
@@ -28445,7 +28445,7 @@
       "archived": false
     },
     {
-      "id": "x5135",
+      "id": "x5137",
       "type": "wallet",
       "address": "0x98d04f9eb52d08ef9697f6eb8d7cfe8d46e5f14a",
       "memberAddresses": [
@@ -28485,7 +28485,7 @@
       "agreeing": 4,
       "detectorsMeasured": 10,
       "detectorsFired": 5,
-      "refId": "WF-X-134",
+      "refId": "WF-X-136",
       "cexChips": [],
       "heroSentence": "This account won 135 of 161 bets across markets the blended odds priced at about 74 percent — roughly 119.01 expected by luck (3.57 standard deviations above chance, about 1 in 5.6K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -30860,18 +30860,18 @@
       "_tradedCount": 987,
       "wins": 134,
       "expectedWins": 119.14,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 2122224,
       "volume": "$2.1M",
       "lastActivity": "46 days ago",
       "suspicion": 61.8,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x3886",
+      "id": "x3887",
       "type": "wallet",
       "address": "0x29489e05e52aaf42c5323fec26b814793901788a",
       "memberAddresses": [
@@ -30911,7 +30911,7 @@
       "agreeing": 4,
       "detectorsMeasured": 11,
       "detectorsFired": 5,
-      "refId": "WF-X-885",
+      "refId": "WF-X-886",
       "cexChips": [],
       "heroSentence": "This account won 35 of 56 bets across markets the blended odds priced at about 44 percent — roughly 24.87 expected by luck (3.57 standard deviations above chance, about 1 in 5.5K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -31872,18 +31872,18 @@
       "_tradedCount": 125,
       "wins": 34,
       "expectedWins": 24.64,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 70893,
       "volume": "$71K",
       "lastActivity": "9 days ago",
       "suspicion": 56.9,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x2700",
+      "id": "x2701",
       "type": "wallet",
       "address": "0xefddc1d3285d0fe1b9f2aa06e04901f527a08370",
       "memberAddresses": [
@@ -31921,7 +31921,7 @@
       "agreeing": 3,
       "detectorsMeasured": 10,
       "detectorsFired": 4,
-      "refId": "WF-X-699",
+      "refId": "WF-X-700",
       "cexChips": [],
       "heroSentence": "This account won 88 of 121 bets across markets the blended odds priced at about 60 percent — roughly 72.47 expected by luck (3.56 standard deviations above chance, about 1 in 5.3K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -34274,18 +34274,18 @@
       "_tradedCount": 841,
       "wins": 81,
       "expectedWins": 72.6,
-      "percentile": 99.91,
-      "percentileN": 5586,
+      "percentile": 99.912,
+      "percentileN": 5652,
       "volumeNum": 566451,
       "volume": "$566K",
       "lastActivity": "17 days ago",
       "suspicion": 55.3,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w8024",
+      "id": "w8026",
       "type": "wallet",
       "address": "0x471e0c5b510dbf6b2570f0fab275321074bde6dd",
       "memberAddresses": [
@@ -34325,7 +34325,7 @@
       "agreeing": 4,
       "detectorsMeasured": 11,
       "detectorsFired": 5,
-      "refId": "WF-2026-023",
+      "refId": "WF-2026-025",
       "cexChips": [],
       "heroSentence": "This account won 5 of 5 long-shot bets that the market gave roughly a 18 percent chance. By luck you would expect about 0.9 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -34531,18 +34531,18 @@
       "_tradedCount": 13,
       "wins": 5,
       "expectedWins": 0.9,
-      "percentile": 99.893,
-      "percentileN": 5586,
+      "percentile": 99.894,
+      "percentileN": 5652,
       "volumeNum": 85417,
       "volume": "$85K",
       "lastActivity": "121 days ago",
       "suspicion": 45.7,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x6977",
+      "id": "x6979",
       "type": "wallet",
       "address": "0x9675fb778c0b905348aa868a2b9a894c28b9e252",
       "memberAddresses": [
@@ -34580,7 +34580,7 @@
       "agreeing": 3,
       "detectorsMeasured": 11,
       "detectorsFired": 4,
-      "refId": "WF-X-976",
+      "refId": "WF-X-978",
       "cexChips": [],
       "heroSentence": "This account won 70 of 86 bets across markets the blended odds priced at about 66 percent — roughly 56.52 expected by luck (3.52 standard deviations above chance, about 1 in 4.6K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -36079,18 +36079,18 @@
       "_tradedCount": 126,
       "wins": 68,
       "expectedWins": 56.76,
-      "percentile": 99.875,
-      "percentileN": 5586,
+      "percentile": 99.876,
+      "percentileN": 5652,
       "volumeNum": 47727,
       "volume": "$48K",
       "lastActivity": "33 days ago",
       "suspicion": 54.6,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w3541",
+      "id": "w3542",
       "type": "wallet",
       "address": "0x29a271bbe0467538520eaa71881f214a21f6a0b1",
       "memberAddresses": [
@@ -36132,7 +36132,7 @@
       "agreeing": 5,
       "detectorsMeasured": 9,
       "detectorsFired": 6,
-      "refId": "WF-2026-540",
+      "refId": "WF-2026-541",
       "cexChips": [],
       "heroSentence": "This account won 5 of 5 long-shot bets that the market gave roughly a 19 percent chance. By luck you would expect about 0.94 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -36325,13 +36325,13 @@
       "_tradedCount": 5,
       "wins": 5,
       "expectedWins": 0.95,
-      "percentile": 99.857,
-      "percentileN": 5586,
+      "percentile": 99.858,
+      "percentileN": 5652,
       "volumeNum": 7878,
       "volume": "$8K",
       "lastActivity": "122 days ago",
       "suspicion": 58.6,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782506597,
       "newlyFlagged": false,
       "archived": false
     },
@@ -39087,8 +39087,8 @@
       "_tradedCount": 1513,
       "wins": 114,
       "expectedWins": 105.6,
-      "percentile": 99.857,
-      "percentileN": 5586,
+      "percentile": 99.858,
+      "percentileN": 5652,
       "volumeNum": 535936,
       "volume": "$536K",
       "lastActivity": "2 days ago",
@@ -41103,13 +41103,259 @@
       "_tradedCount": 705,
       "wins": 85,
       "expectedWins": 76,
-      "percentile": 99.857,
-      "percentileN": 5586,
+      "percentile": 99.858,
+      "percentileN": 5652,
       "volumeNum": 5578341,
       "volume": "$5.6M",
       "lastActivity": "5 days ago",
       "suspicion": 61.8,
       "firstFlaggedAt": 1782708052,
+      "newlyFlagged": true,
+      "archived": false
+    },
+    {
+      "id": "x9885",
+      "type": "wallet",
+      "address": "0xbdbfff7c559bbf7c278c4075a98afad38d5cbd68",
+      "memberAddresses": [
+        "0xbdbfff7c559bbf7c278c4075a98afad38d5cbd68"
+      ],
+      "idLabel": "0xbd…bd68",
+      "username": "Hubmc38",
+      "created": "Mar 18 2026",
+      "createdOnChain": true,
+      "firstSeen": "Mar 26 2026",
+      "category": "Politics",
+      "marketsCount": 8,
+      "tier": "watch",
+      "improbText": "1 in 3.5K",
+      "improbDenom": 3474,
+      "improbFull": "1 in 3.5 thousand",
+      "improbCaption": "chance this cross-category record is luck",
+      "convictionFlag": false,
+      "full": true,
+      "winRate": 63,
+      "avgImplied": 38,
+      "profit": "$3K",
+      "fired": [
+        "crossCat",
+        "longshot",
+        "baseline",
+        "repeat"
+      ],
+      "contributions": {
+        "crossCat": 55,
+        "longshot": 10,
+        "baseline": 10,
+        "repeat": 25
+      },
+      "agreeing": 3,
+      "detectorsMeasured": 10,
+      "detectorsFired": 4,
+      "refId": "WF-X-0884",
+      "cexChips": [],
+      "heroSentence": "This account won 5 of 8 bets across markets the blended odds priced at about 38 percent — roughly 3.01 expected by luck (3.44 standard deviations above chance, about 1 in 3.5K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
+      "scorecard": [
+        {
+          "key": "crossCat",
+          "metric": "5 of 8 · 38%",
+          "method": "cross-category accuracy",
+          "formula": "Poisson-binomial: z = (wins − Σpᵢ) / √Σpᵢ(1−pᵢ) over ALL resolved bets at their own odds",
+          "numbers": "Won 5 of 8 bets across markets the blended odds priced at ~38% — about 3.0 expected by luck (3.4σ above chance, ≈ 1 in 3.5K). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
+          "inputs": [
+            [
+              "n",
+              "8 events"
+            ],
+            [
+              "k",
+              "5 wins"
+            ],
+            [
+              "E[X]",
+              "3.01 expected"
+            ],
+            [
+              "z",
+              "3.44"
+            ],
+            [
+              "P",
+              "1 in 3.5K"
+            ]
+          ]
+        },
+        {
+          "key": "longshot",
+          "metric": "longshot",
+          "method": "average odds",
+          "formula": "average of the market's odds at entry",
+          "numbers": "Average entry odds ~4% across 5 bets — concentrated in long shots (≤20%).",
+          "inputs": []
+        },
+        {
+          "key": "baseline",
+          "metric": "baseline",
+          "method": "win rate vs break-even",
+          "formula": "realized win rate − payoff-implied break-even rate",
+          "numbers": "Won 40% — break-even at these entry prices is ~4% (you must win at your average buy price just to not lose money). +36 points above break-even.",
+          "inputs": []
+        },
+        {
+          "key": "repeat",
+          "metric": "repeat",
+          "method": "repeat-offender across events",
+          "formula": "distinct surprising events won over time",
+          "numbers": "Won against the odds in 2 separate events — being early-and-right on multiple unrelated surprises is a repeat-offender pattern, not one lucky hit.",
+          "inputs": []
+        }
+      ],
+      "ledger": [
+        {
+          "market": "Will Israel strike 10 countries in 2026?",
+          "url": "https://polymarket.com/event/will-israel-strike-10-countries-in-2026",
+          "entryTime": "Mar 27 2026",
+          "ts": 1774579253,
+          "odds": 97,
+          "stakeNum": 1619,
+          "plNum": 43,
+          "stake": "$2K",
+          "outcome": "Won",
+          "pl": "+$43",
+          "tx": "0x4c1d…",
+          "txFull": "0x4c1df6a9f3d8012312dbc44cb7d61429048dadf7e17fe0b5a555cbb46530c2e6"
+        },
+        {
+          "market": "Will Tulsi Gabbard be the next to leave the Trump Cabinet before 2027?",
+          "url": "https://polymarket.com/event/who-will-be-the-next-to-leave-the-trump-cabinet-967",
+          "entryTime": "Mar 27 2026",
+          "ts": 1774622697,
+          "odds": 91,
+          "stakeNum": 1532,
+          "plNum": 148,
+          "stake": "$2K",
+          "outcome": "Won",
+          "pl": "+$148",
+          "tx": "0x8a3d…",
+          "txFull": "0x8a3dae77f286694edcb34b898bb7c042bd03bdcde0feb7d26a4bee10d59393c1"
+        },
+        {
+          "market": "Will Scottish National Party win the most seats in the 2026 Scottish Parliament election?",
+          "url": "https://polymarket.com/event/will-scottish-national-party-win-the-most-seats-in-the-2026-scottish-parliament-election",
+          "entryTime": "Mar 27 2026",
+          "ts": 1774590517,
+          "odds": 3,
+          "stakeNum": 116,
+          "plNum": -116,
+          "stake": "$116",
+          "outcome": "Lost",
+          "pl": "−$116",
+          "tx": "0x83ee…",
+          "txFull": "0x83ee23d70b7af07be1855e8c45a1a80adb1009e2a1ad31a9caefda5f21798bc3"
+        },
+        {
+          "market": "Will Trump and Putin meet next in another EU country?",
+          "url": "https://polymarket.com/event/will-trump-and-putin-meet-next-in-another-european-country-954-837-364",
+          "entryTime": "Mar 27 2026",
+          "ts": 1774583033,
+          "odds": 4,
+          "stakeNum": 80,
+          "plNum": -80,
+          "stake": "$80",
+          "outcome": "Lost",
+          "pl": "−$80",
+          "tx": "0xe75c…",
+          "txFull": "0xe75cc654742e70a9e9ce02d4637b9a87746195d8b030885597181cf84d4e8ab0"
+        },
+        {
+          "market": "Will Abelardo de la Espriella win the 1st round of the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/will-abelardo-de-la-espriella-win-the-1st-round-of-the-2026-colombian-presidential-election",
+          "entryTime": "Mar 27 2026",
+          "ts": 1774625393,
+          "odds": 4,
+          "stakeNum": 72,
+          "plNum": 1642,
+          "stake": "$72",
+          "outcome": "Won",
+          "pl": "+$2K",
+          "tx": "0x70f2…",
+          "txFull": "0x70f25e9d0752aaa090f19c3e4176c26be339f00484724baacd4b66449db05b3a"
+        },
+        {
+          "market": "Will Tran Luu Quang be the next Prime Minister of Vietnam?",
+          "url": "https://polymarket.com/event/will-trn-lu-quang-be-the-next-prime-minister-of-vietnam",
+          "entryTime": "Mar 27 2026",
+          "ts": 1774628063,
+          "odds": 3,
+          "stakeNum": 65,
+          "plNum": -65,
+          "stake": "$65",
+          "outcome": "Lost",
+          "pl": "−$65",
+          "tx": "0xb7a0…",
+          "txFull": "0xb7a095af3e98f56e5c0fdb54b77b8ac10b51fa367eeb5e502f236ddc44c9ae6f"
+        },
+        {
+          "market": "Will Andy Burnham be the next Prime Minister of the United Kingdom in 2026?",
+          "url": "https://polymarket.com/event/will-andy-burnham-be-the-next-prime-minister-of-the-united-kingdom-in-2026-882",
+          "entryTime": "Mar 27 2026",
+          "ts": 1774591443,
+          "odds": 3,
+          "stakeNum": 50,
+          "plNum": 1465,
+          "stake": "$50",
+          "outcome": "Won",
+          "pl": "+$1K",
+          "tx": "0xcb1d…",
+          "txFull": "0xcb1d489eb342981972ec5f014059b21c7c34e1b93285621dff43b608b1f54d32"
+        },
+        {
+          "market": "Will the May 2026 unemployment rate be 4.5%?",
+          "url": "https://polymarket.com/event/will-the-may-2026-unemployment-rate-be-4pt5",
+          "entryTime": "Jun 04 2026",
+          "ts": 1780555606,
+          "odds": 94,
+          "stakeNum": 19,
+          "plNum": 1,
+          "stake": "$19",
+          "outcome": "Won",
+          "pl": "+$1",
+          "tx": "0xc38a…",
+          "txFull": "0xc38a7481c35d54233eeb1778be2a28ec84e3c10fefb02680994bee761120cdae"
+        }
+      ],
+      "ledgerSummary": {
+        "markets": 8,
+        "winRate": 63,
+        "realized": "+$3K"
+      },
+      "timeline": {
+        "market": "Will Israel strike 10 countries in 2026?",
+        "priceStart": 0.974,
+        "priceEnd": 0.95,
+        "entries": [
+          0.974
+        ],
+        "resolution": 0.92,
+        "candidates": []
+      },
+      "activityDays": 94,
+      "confidenceLimiter": "the cross-category test uses a normal approximation over mixed odds; it ranks how improbable the record is, it does not prove intent",
+      "profitSource": "cross-category",
+      "flaggedBy": "cross-category",
+      "profitNum": 3038.495566870788,
+      "accountPnl": 1,
+      "accountPnlText": "+$1",
+      "_tradedCount": 22,
+      "wins": 5,
+      "expectedWins": 3.04,
+      "percentile": 99.858,
+      "percentileN": 5652,
+      "volumeNum": 72328,
+      "volume": "$72K",
+      "lastActivity": "94 days ago",
+      "suspicion": 53.6,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -41321,8 +41567,8 @@
       "_tradedCount": 1787,
       "wins": 4,
       "expectedWins": 1.85,
-      "percentile": 99.857,
-      "percentileN": 5586,
+      "percentile": 99.858,
+      "percentileN": 5652,
       "volumeNum": 412551,
       "volume": "$413K",
       "lastActivity": "87 days ago",
@@ -41983,8 +42229,8 @@
       "_tradedCount": 159,
       "wins": 23,
       "expectedWins": 15.95,
-      "percentile": 99.857,
-      "percentileN": 5586,
+      "percentile": 99.858,
+      "percentileN": 5652,
       "volumeNum": 20940,
       "volume": "$21K",
       "lastActivity": "60 days ago",
@@ -41994,7 +42240,7 @@
       "archived": false
     },
     {
-      "id": "x8797",
+      "id": "x8799",
       "type": "wallet",
       "address": "0xf1ffb6f81ac01f43f17a212bda8d0a55b1da9a20",
       "memberAddresses": [
@@ -42036,7 +42282,7 @@
       "agreeing": 5,
       "detectorsMeasured": 11,
       "detectorsFired": 6,
-      "refId": "WF-X-796",
+      "refId": "WF-X-798",
       "cexChips": [],
       "heroSentence": "This account won 59 of 80 bets across markets the blended odds priced at about 57 percent — roughly 45.68 expected by luck (3.39 standard deviations above chance, about 1 in 2.8K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -43425,13 +43671,13 @@
       "_tradedCount": 163,
       "wins": 56,
       "expectedWins": 45.6,
-      "percentile": 99.821,
-      "percentileN": 5586,
+      "percentile": 99.823,
+      "percentileN": 5652,
       "volumeNum": 271269,
       "volume": "$271K",
       "lastActivity": "121 days ago",
       "suspicion": 59.2,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -43988,8 +44234,8 @@
       "_tradedCount": 76,
       "wins": 12,
       "expectedWins": 4.16,
-      "percentile": 99.803,
-      "percentileN": 5586,
+      "percentile": 99.805,
+      "percentileN": 5652,
       "volumeNum": 123780,
       "volume": "$124K",
       "lastActivity": "10 days ago",
@@ -43999,7 +44245,7 @@
       "archived": false
     },
     {
-      "id": "x4148",
+      "id": "x4149",
       "type": "wallet",
       "address": "0xf6099a9eacfef24a4161bd857fbfbcd36cdfe68b",
       "memberAddresses": [
@@ -44037,7 +44283,7 @@
       "agreeing": 3,
       "detectorsMeasured": 10,
       "detectorsFired": 4,
-      "refId": "WF-X-147",
+      "refId": "WF-X-148",
       "cexChips": [],
       "heroSentence": "This account won 32 of 44 bets across markets the blended odds priced at about 50 percent — roughly 22.05 expected by luck (3.37 standard deviations above chance, about 1 in 2.7K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -45270,18 +45516,18 @@
       "_tradedCount": 2979,
       "wins": 25,
       "expectedWins": 22,
-      "percentile": 99.803,
-      "percentileN": 5586,
+      "percentile": 99.805,
+      "percentileN": 5652,
       "volumeNum": 637114,
       "volume": "$637K",
       "lastActivity": "2 days ago",
       "suspicion": 49.9,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x9026",
+      "id": "x9028",
       "type": "wallet",
       "address": "0xa1f4076c4bcf9d6f97fe05c090d4c1f782adc3d1",
       "memberAddresses": [
@@ -45321,7 +45567,7 @@
       "agreeing": 4,
       "detectorsMeasured": 11,
       "detectorsFired": 5,
-      "refId": "WF-X-0025",
+      "refId": "WF-X-0027",
       "cexChips": [],
       "heroSentence": "This account won 14 of 16 bets across markets the blended odds priced at about 71 percent — roughly 11.33 expected by luck (3.37 standard deviations above chance, about 1 in 2.7K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -45680,18 +45926,18 @@
       "_tradedCount": 191,
       "wins": 13,
       "expectedWins": 11.36,
-      "percentile": 99.803,
-      "percentileN": 5586,
+      "percentile": 99.805,
+      "percentileN": 5652,
       "volumeNum": 94340,
       "volume": "$94K",
       "lastActivity": "121 days ago",
       "suspicion": 53.7,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x4471",
+      "id": "x4472",
       "type": "wallet",
       "address": "0x6ffb4354cbe6e0f9989e3b55564ec5fb8646a834",
       "memberAddresses": [
@@ -45733,7 +45979,7 @@
       "agreeing": 5,
       "detectorsMeasured": 11,
       "detectorsFired": 6,
-      "refId": "WF-X-470",
+      "refId": "WF-X-471",
       "cexChips": [],
       "heroSentence": "This account won 72 of 98 bets across markets the blended odds priced at about 64 percent — roughly 62.38 expected by luck (3.34 standard deviations above chance, about 1 in 2.4K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -47402,18 +47648,18 @@
       "_tradedCount": 12095,
       "wins": 70,
       "expectedWins": 62.72,
-      "percentile": 99.803,
-      "percentileN": 5586,
+      "percentile": 99.805,
+      "percentileN": 5652,
       "volumeNum": 40084340,
       "volume": "$40.1M",
       "lastActivity": "2 days ago",
       "suspicion": 62.8,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x4955",
+      "id": "x4957",
       "type": "wallet",
       "address": "0x5ee92d7b06c97aad086c29e0f82c468dcd362673",
       "memberAddresses": [
@@ -47453,7 +47699,7 @@
       "agreeing": 4,
       "detectorsMeasured": 10,
       "detectorsFired": 5,
-      "refId": "WF-X-954",
+      "refId": "WF-X-956",
       "cexChips": [],
       "heroSentence": "This account won 11 of 15 bets across markets the blended odds priced at about 35 percent — roughly 5.32 expected by luck (3.34 standard deviations above chance, about 1 in 2.4K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -47756,18 +48002,18 @@
       "_tradedCount": 31,
       "wins": 11,
       "expectedWins": 5.25,
-      "percentile": 99.803,
-      "percentileN": 5586,
+      "percentile": 99.805,
+      "percentileN": 5652,
       "volumeNum": 578617,
       "volume": "$579K",
       "lastActivity": "9 days ago",
       "suspicion": 60.4,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w7561",
+      "id": "w7563",
       "type": "wallet",
       "address": "0xd721ee218a84e35c2d4437bf509b2195afd1e215",
       "memberAddresses": [
@@ -47811,7 +48057,7 @@
       "agreeing": 6,
       "detectorsMeasured": 10,
       "detectorsFired": 7,
-      "refId": "WF-2024-560",
+      "refId": "WF-2024-562",
       "cexChips": [],
       "heroSentence": "This account won 6 of 8 long-shot bets that the market gave roughly a 17 percent chance. By luck you would expect about 1.35 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -48116,13 +48362,13 @@
       "_tradedCount": 45,
       "wins": 6,
       "expectedWins": 1.36,
-      "percentile": 99.785,
-      "percentileN": 5586,
+      "percentile": 99.788,
+      "percentileN": 5652,
       "volumeNum": 731067,
       "volume": "$731K",
       "lastActivity": "122 days ago",
       "suspicion": 62,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -50266,8 +50512,8 @@
       "_tradedCount": 501,
       "wins": 68,
       "expectedWins": 51.24,
-      "percentile": 99.785,
-      "percentileN": 5586,
+      "percentile": 99.788,
+      "percentileN": 5652,
       "volumeNum": 83799,
       "volume": "$84K",
       "lastActivity": "58 days ago",
@@ -50277,7 +50523,7 @@
       "archived": false
     },
     {
-      "id": "x3638",
+      "id": "x3639",
       "type": "wallet",
       "address": "0x8bd604030967e786fe3a06644770d67e89fc36d5",
       "memberAddresses": [
@@ -50319,7 +50565,7 @@
       "agreeing": 5,
       "detectorsMeasured": 11,
       "detectorsFired": 6,
-      "refId": "WF-X-637",
+      "refId": "WF-X-638",
       "cexChips": [],
       "heroSentence": "This account won 12 of 19 bets across markets the blended odds priced at about 38 percent — roughly 7.28 expected by luck (3.3 standard deviations above chance, about 1 in 2.1K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -50700,13 +50946,13 @@
       "_tradedCount": 111,
       "wins": 11,
       "expectedWins": 7.22,
-      "percentile": 99.785,
-      "percentileN": 5586,
+      "percentile": 99.788,
+      "percentileN": 5652,
       "volumeNum": 4409,
       "volume": "$4K",
       "lastActivity": "122 days ago",
       "suspicion": 52.1,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -52766,8 +53012,8 @@
       "_tradedCount": 506,
       "wins": 75,
       "expectedWins": 60.48,
-      "percentile": 99.785,
-      "percentileN": 5586,
+      "percentile": 99.788,
+      "percentileN": 5652,
       "volumeNum": 3240995,
       "volume": "$3.2M",
       "lastActivity": "74 days ago",
@@ -52777,7 +53023,7 @@
       "archived": false
     },
     {
-      "id": "x3674",
+      "id": "x3675",
       "type": "wallet",
       "address": "0x7cc031d44c923654221df42fc737de6e68e66278",
       "memberAddresses": [
@@ -52815,7 +53061,7 @@
       "agreeing": 3,
       "detectorsMeasured": 11,
       "detectorsFired": 4,
-      "refId": "WF-X-673",
+      "refId": "WF-X-674",
       "cexChips": [],
       "heroSentence": "This account won 135 of 198 bets across markets the blended odds priced at about 58 percent — roughly 114.91 expected by luck (3.29 standard deviations above chance, about 1 in 2K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -55700,13 +55946,13 @@
       "_tradedCount": 915,
       "wins": 133,
       "expectedWins": 114.84,
-      "percentile": 99.785,
-      "percentileN": 5586,
+      "percentile": 99.788,
+      "percentileN": 5652,
       "volumeNum": 51256,
       "volume": "$51K",
       "lastActivity": "80 days ago",
       "suspicion": 51.8,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -58326,8 +58572,8 @@
       "_tradedCount": 635,
       "wins": 114,
       "expectedWins": 100.11,
-      "percentile": 99.785,
-      "percentileN": 5586,
+      "percentile": 99.788,
+      "percentileN": 5652,
       "volumeNum": 66142,
       "volume": "$66K",
       "lastActivity": "2 days ago",
@@ -58337,7 +58583,7 @@
       "archived": false
     },
     {
-      "id": "x4633",
+      "id": "x4634",
       "type": "wallet",
       "address": "0x12b8e7c160f3ced67a22b7eadf764cd1c2c4479c",
       "memberAddresses": [
@@ -58381,7 +58627,7 @@
       "agreeing": 6,
       "detectorsMeasured": 12,
       "detectorsFired": 7,
-      "refId": "WF-X-632",
+      "refId": "WF-X-633",
       "cexChips": [],
       "heroSentence": "This account won 97 of 101 bets across markets the blended odds priced at about 89 percent — roughly 89.58 expected by luck (3.24 standard deviations above chance, about 1 in 1.7K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -59459,7 +59705,7 @@
           "txFull": "0x02b37084d6e448a91150a6f63e29a15ba1d6685d09d7c2ac4f077f45504da8e2"
         },
         {
-          "market": "(market)",
+          "market": "Will Recep Tayyip Erdogan sign a U.S. x Iran deal by July 31?",
           "url": "https://polymarket.com/event/will-recep-tayyip-erdogan-sign-a-uptspt-x-iran-deal-by-july-31-20260611235950080",
           "entryTime": "Jun 15 2026",
           "ts": 1781540646,
@@ -60128,18 +60374,18 @@
       "_tradedCount": 204,
       "wins": 92,
       "expectedWins": 89.89,
-      "percentile": 99.785,
-      "percentileN": 5586,
+      "percentile": 99.788,
+      "percentileN": 5652,
       "volumeNum": 2300720,
       "volume": "$2.3M",
       "lastActivity": "12 days ago",
       "suspicion": 60.1,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w3383",
+      "id": "w3384",
       "type": "wallet",
       "address": "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c",
       "memberAddresses": [
@@ -60181,7 +60427,7 @@
       "agreeing": 4,
       "detectorsMeasured": 10,
       "detectorsFired": 6,
-      "refId": "WF-2025-382",
+      "refId": "WF-2025-383",
       "cexChips": [],
       "heroSentence": "This account won 12 of 25 long-shot bets that the market gave roughly a 18 percent chance. By luck you would expect about 4.51 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -60696,18 +60942,18 @@
       "_tradedCount": 66,
       "wins": 12,
       "expectedWins": 4.5,
-      "percentile": 99.767,
-      "percentileN": 5586,
+      "percentile": 99.77,
+      "percentileN": 5652,
       "volumeNum": 1122996,
       "volume": "$1.1M",
       "lastActivity": "121 days ago",
       "suspicion": 46.3,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782475315,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "x5568",
+      "id": "x5570",
       "type": "wallet",
       "address": "0x25a74e4d0795b842a4e8e934620781e3c5f48b7c",
       "memberAddresses": [
@@ -60745,7 +60991,7 @@
       "agreeing": 3,
       "detectorsMeasured": 10,
       "detectorsFired": 4,
-      "refId": "WF-X-567",
+      "refId": "WF-X-569",
       "cexChips": [],
       "heroSentence": "This account won 115 of 123 bets across markets the blended odds priced at about 86 percent — roughly 106.26 expected by luck (3.24 standard deviations above chance, about 1 in 1.7K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -62594,13 +62840,13 @@
       "_tradedCount": 768,
       "wins": 114,
       "expectedWins": 105.78,
-      "percentile": 99.767,
-      "percentileN": 5586,
+      "percentile": 99.77,
+      "percentileN": 5652,
       "volumeNum": 2054624,
       "volume": "$2.1M",
       "lastActivity": "14 days ago",
       "suspicion": 53.9,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -65518,8 +65764,8 @@
       "_tradedCount": 510,
       "wins": 127,
       "expectedWins": 113.56,
-      "percentile": 99.749,
-      "percentileN": 5586,
+      "percentile": 99.752,
+      "percentileN": 5652,
       "volumeNum": 10038,
       "volume": "$10K",
       "lastActivity": "14 days ago",
@@ -65529,7 +65775,7 @@
       "archived": false
     },
     {
-      "id": "w3801",
+      "id": "w3802",
       "type": "wallet",
       "address": "0x1abe1368601330a310162064e04d3c2628cb6497",
       "memberAddresses": [
@@ -65575,7 +65821,7 @@
       "agreeing": 7,
       "detectorsMeasured": 11,
       "detectorsFired": 8,
-      "refId": "WF-2026-800",
+      "refId": "WF-2026-801",
       "cexChips": [],
       "heroSentence": "This account won 12 of 37 long-shot bets that the market gave roughly a 12 percent chance. By luck you would expect about 4.35 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -66586,13 +66832,13 @@
       "_tradedCount": 77,
       "wins": 12,
       "expectedWins": 4.44,
-      "percentile": 99.714,
-      "percentileN": 5586,
+      "percentile": 99.717,
+      "percentileN": 5652,
       "volumeNum": 10780617,
       "volume": "$10.8M",
       "lastActivity": "123 days ago",
       "suspicion": 72.8,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782495126,
       "newlyFlagged": false,
       "archived": false
     },
@@ -69218,8 +69464,8 @@
       "_tradedCount": 2725,
       "wins": 101,
       "expectedWins": 91.56,
-      "percentile": 99.696,
-      "percentileN": 5586,
+      "percentile": 99.699,
+      "percentileN": 5652,
       "volumeNum": 14100537,
       "volume": "$14.1M",
       "lastActivity": "7 days ago",
@@ -69229,7 +69475,7 @@
       "archived": false
     },
     {
-      "id": "x9601",
+      "id": "x9603",
       "type": "wallet",
       "address": "0x983683cd6788ae767738a1ddb6a66da4d5e79e73",
       "memberAddresses": [
@@ -69269,7 +69515,7 @@
       "agreeing": 4,
       "detectorsMeasured": 11,
       "detectorsFired": 5,
-      "refId": "WF-X-0600",
+      "refId": "WF-X-0602",
       "cexChips": [],
       "heroSentence": "This account won 111 of 126 bets across markets the blended odds priced at about 80 percent — roughly 100.25 expected by luck (3.13 standard deviations above chance, about 1 in 1.1K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -71224,13 +71470,13 @@
       "_tradedCount": 178,
       "wins": 108,
       "expectedWins": 100.8,
-      "percentile": 99.696,
-      "percentileN": 5586,
+      "percentile": 99.699,
+      "percentileN": 5652,
       "volumeNum": 2057,
       "volume": "$2K",
       "lastActivity": "11 days ago",
       "suspicion": 50.6,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -71564,8 +71810,8 @@
       "_tradedCount": 5236,
       "wins": 6,
       "expectedWins": 2.66,
-      "percentile": 99.678,
-      "percentileN": 5586,
+      "percentile": 99.682,
+      "percentileN": 5652,
       "volumeNum": 47762,
       "volume": "$48K",
       "lastActivity": "13 days ago",
@@ -71575,7 +71821,7 @@
       "archived": false
     },
     {
-      "id": "w4544",
+      "id": "w4545",
       "type": "wallet",
       "address": "0x4e171f2bfe7435ae0701e086dc8870d621335aac",
       "memberAddresses": [
@@ -71611,7 +71857,7 @@
       "agreeing": 2,
       "detectorsMeasured": 10,
       "detectorsFired": 3,
-      "refId": "WF-2026-543",
+      "refId": "WF-2026-544",
       "cexChips": [],
       "heroSentence": "This account won 7 of 9 long-shot bets that the market gave roughly a 24 percent chance. By luck you would expect about 2.13 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -71801,13 +72047,13 @@
       "_tradedCount": 204,
       "wins": 7,
       "expectedWins": 2.16,
-      "percentile": 99.678,
-      "percentileN": 5586,
+      "percentile": 99.682,
+      "percentileN": 5652,
       "volumeNum": 682511,
       "volume": "$683K",
       "lastActivity": "113 days ago",
       "suspicion": 34.2,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782517251,
       "newlyFlagged": false,
       "archived": false
     },
@@ -73269,8 +73515,8 @@
       "_tradedCount": 693,
       "wins": 52,
       "expectedWins": 39.56,
-      "percentile": 99.678,
-      "percentileN": 5586,
+      "percentile": 99.682,
+      "percentileN": 5652,
       "volumeNum": 73148,
       "volume": "$73K",
       "lastActivity": "122 days ago",
@@ -73280,7 +73526,7 @@
       "archived": false
     },
     {
-      "id": "x7324",
+      "id": "x7326",
       "type": "wallet",
       "address": "0xea300cc5c9e63a64fb4c278fb418c0a21560f2a9",
       "memberAddresses": [
@@ -73316,7 +73562,7 @@
       "agreeing": 2,
       "detectorsMeasured": 10,
       "detectorsFired": 3,
-      "refId": "WF-X-323",
+      "refId": "WF-X-325",
       "cexChips": [],
       "heroSentence": "This account won 40 of 58 bets across markets the blended odds priced at about 52 percent — roughly 30.4 expected by luck (3.08 standard deviations above chance, about 1 in 975). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -74569,18 +74815,18 @@
       "_tradedCount": 122,
       "wins": 41,
       "expectedWins": 30.16,
-      "percentile": 99.678,
-      "percentileN": 5586,
+      "percentile": 99.682,
+      "percentileN": 5652,
       "volumeNum": 66484,
       "volume": "$66K",
       "lastActivity": "11 days ago",
       "suspicion": 48.5,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x3900",
+      "id": "x3901",
       "type": "wallet",
       "address": "0x51a86fe763d28695ff8c1d0cf6670161c6dbd398",
       "memberAddresses": [
@@ -74616,7 +74862,7 @@
       "agreeing": 2,
       "detectorsMeasured": 9,
       "detectorsFired": 3,
-      "refId": "WF-X-899",
+      "refId": "WF-X-900",
       "cexChips": [],
       "heroSentence": "This account won 20 of 31 bets across markets the blended odds priced at about 46 percent — roughly 14.13 expected by luck (3.05 standard deviations above chance, about 1 in 862). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -75127,18 +75373,18 @@
       "_tradedCount": 56,
       "wins": 20,
       "expectedWins": 14.26,
-      "percentile": 99.642,
-      "percentileN": 5586,
+      "percentile": 99.646,
+      "percentileN": 5652,
       "volumeNum": 22173,
       "volume": "$22K",
       "lastActivity": "140 days ago",
       "suspicion": 47.1,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x8698",
+      "id": "x8700",
       "type": "wallet",
       "address": "0xb56d004837544b202b660caeb951a9579db2d20b",
       "memberAddresses": [
@@ -75174,7 +75420,7 @@
       "agreeing": 2,
       "detectorsMeasured": 9,
       "detectorsFired": 3,
-      "refId": "WF-X-697",
+      "refId": "WF-X-699",
       "cexChips": [],
       "heroSentence": "This account won 42 of 52 bets across markets the blended odds priced at about 62 percent — roughly 32.33 expected by luck (3.04 standard deviations above chance, about 1 in 837). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -76035,18 +76281,18 @@
       "_tradedCount": 343,
       "wins": 41,
       "expectedWins": 32.24,
-      "percentile": 99.642,
-      "percentileN": 5586,
+      "percentile": 99.646,
+      "percentileN": 5652,
       "volumeNum": 121756,
       "volume": "$122K",
       "lastActivity": "121 days ago",
       "suspicion": 43.9,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w3355",
+      "id": "w3356",
       "type": "wallet",
       "address": "0x90ed00b05063b3e45abea79c9a5359b81a75eecb",
       "memberAddresses": [
@@ -76084,7 +76330,7 @@
       "agreeing": 2,
       "detectorsMeasured": 9,
       "detectorsFired": 4,
-      "refId": "WF-2026-354",
+      "refId": "WF-2026-355",
       "cexChips": [],
       "heroSentence": "This account won 11 of 26 long-shot bets that the market gave roughly a 16 percent chance. By luck you would expect about 4.13 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -76533,18 +76779,18 @@
       "_tradedCount": 35,
       "wins": 11,
       "expectedWins": 4.16,
-      "percentile": 99.624,
-      "percentileN": 5586,
+      "percentile": 99.628,
+      "percentileN": 5652,
       "volumeNum": 59195,
       "volume": "$59K",
       "lastActivity": "33 days ago",
       "suspicion": 33.7,
-      "firstFlaggedAt": 1782706986,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "x5113",
+      "id": "x5115",
       "type": "wallet",
       "address": "0x1ff3349904221421fb671bfd20706abc5b3c6d83",
       "memberAddresses": [
@@ -76582,7 +76828,7 @@
       "agreeing": 3,
       "detectorsMeasured": 10,
       "detectorsFired": 4,
-      "refId": "WF-X-112",
+      "refId": "WF-X-114",
       "cexChips": [],
       "heroSentence": "This account won 10 of 12 bets across markets the blended odds priced at about 44 percent — roughly 5.29 expected by luck (3.02 standard deviations above chance, about 1 in 790). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -76849,13 +77095,13 @@
       "_tradedCount": 175,
       "wins": 10,
       "expectedWins": 5.28,
-      "percentile": 99.606,
-      "percentileN": 5586,
+      "percentile": 99.611,
+      "percentileN": 5652,
       "volumeNum": 26191,
       "volume": "$26K",
       "lastActivity": "9 days ago",
       "suspicion": 48.6,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -77483,8 +77729,8 @@
       "_tradedCount": 897,
       "wins": 29,
       "expectedWins": 25.28,
-      "percentile": 99.606,
-      "percentileN": 5586,
+      "percentile": 99.611,
+      "percentileN": 5652,
       "volumeNum": 243301,
       "volume": "$243K",
       "lastActivity": "87 days ago",
@@ -77494,7 +77740,7 @@
       "archived": false
     },
     {
-      "id": "x3384",
+      "id": "x3385",
       "type": "wallet",
       "address": "0x415358e18a2d1b60f7e98387dd6560c4f5769f91",
       "memberAddresses": [
@@ -77534,7 +77780,7 @@
       "agreeing": 4,
       "detectorsMeasured": 9,
       "detectorsFired": 5,
-      "refId": "WF-X-383",
+      "refId": "WF-X-384",
       "cexChips": [],
       "heroSentence": "This account won 30 of 33 bets across markets the blended odds priced at about 74 percent — roughly 24.5 expected by luck (3.01 standard deviations above chance, about 1 in 763). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -78117,18 +78363,18 @@
       "_tradedCount": 316,
       "wins": 30,
       "expectedWins": 24.42,
-      "percentile": 99.606,
-      "percentileN": 5586,
+      "percentile": 99.611,
+      "percentileN": 5652,
       "volumeNum": 20674,
       "volume": "$21K",
       "lastActivity": "122 days ago",
       "suspicion": 51.5,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w3424",
+      "id": "w3425",
       "type": "wallet",
       "address": "0x0ad7f1a66e6b6df6f5ea21852e0ff5d3ad878ad2",
       "memberAddresses": [
@@ -78174,7 +78420,7 @@
       "agreeing": 7,
       "detectorsMeasured": 10,
       "detectorsFired": 8,
-      "refId": "WF-2026-423",
+      "refId": "WF-2026-424",
       "cexChips": [],
       "heroSentence": "This account won 4 of 5 long-shot bets that the market gave roughly a 13 percent chance. By luck you would expect about 0.67 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -78397,18 +78643,18 @@
       "_tradedCount": 5,
       "wins": 4,
       "expectedWins": 0.65,
-      "percentile": 99.588,
-      "percentileN": 5586,
+      "percentile": 99.593,
+      "percentileN": 5652,
       "volumeNum": 247245,
       "volume": "$247K",
       "lastActivity": "121 days ago",
       "suspicion": 71.1,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782505843,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w2425",
+      "id": "w2426",
       "type": "wallet",
       "address": "0x45b2cb2ae97f7dd81aa20058337a7a8b29b4cbc1",
       "memberAddresses": [
@@ -78452,7 +78698,7 @@
       "agreeing": 5,
       "detectorsMeasured": 10,
       "detectorsFired": 7,
-      "refId": "WF-2025-424",
+      "refId": "WF-2025-425",
       "cexChips": [],
       "heroSentence": "This account won 23 of 73 long-shot bets that the market gave roughly a 17 percent chance. By luck you would expect about 12.4 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -79688,18 +79934,18 @@
       "_tradedCount": 2330,
       "wins": 23,
       "expectedWins": 12.41,
-      "percentile": 99.535,
-      "percentileN": 5586,
+      "percentile": 99.54,
+      "percentileN": 5652,
       "volumeNum": 2505462,
       "volume": "$2.5M",
       "lastActivity": "102 days ago",
       "suspicion": 56.7,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782502899,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "f7245",
+      "id": "f7247",
       "type": "wallet",
       "address": "0x8150e354ae531297cdc2bc7771fbc024cf18d03f",
       "memberAddresses": [
@@ -79744,7 +79990,7 @@
       "agreeing": 7,
       "detectorsMeasured": 10,
       "detectorsFired": 7,
-      "refId": "WF-F-244",
+      "refId": "WF-F-246",
       "cexChips": [],
       "heroSentence": "This account did not need a long-shot record — it bet $16K at about 55% on “US strikes Iran by March 15, 2026?” and won, profiting 5.3 standard deviations more than the other traders in that same market. Out-profiting the whole market on a single position is the favorite-odds informed-trading signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -80092,12 +80338,12 @@
       "volume": "$1.5M",
       "lastActivity": "122 days ago",
       "suspicion": 51.6,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "f9164",
+      "id": "f9166",
       "type": "wallet",
       "address": "0x45f2736ab887ab27f9d33b2855b22eccfe58ac3c",
       "memberAddresses": [
@@ -80143,7 +80389,7 @@
       "agreeing": 7,
       "detectorsMeasured": 10,
       "detectorsFired": 7,
-      "refId": "WF-F-0163",
+      "refId": "WF-F-0165",
       "cexChips": [],
       "heroSentence": "This account did not need a long-shot record — it bet $3K at about 26% on “US strikes Iran by March 7, 2026?” and won, profiting 4.1 standard deviations more than the other traders in that same market. Out-profiting the whole market on a single position is the favorite-odds informed-trading signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -80550,12 +80796,12 @@
       "volume": "$3.3M",
       "lastActivity": "122 days ago",
       "suspicion": 50.7,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "f5488",
+      "id": "f5490",
       "type": "wallet",
       "address": "0x71e11e0fc20a2adf27026fbf8674b38f8ff945f0",
       "memberAddresses": [
@@ -80598,7 +80844,7 @@
       "agreeing": 6,
       "detectorsMeasured": 10,
       "detectorsFired": 6,
-      "refId": "WF-F-487",
+      "refId": "WF-F-489",
       "cexChips": [],
       "heroSentence": "This account did not need a long-shot record — it bet $2K at about 49% on “Russia x Ukraine ceasefire by June 30, 2027?” and won, profiting 3.7 standard deviations more than the other traders in that same market. Out-profiting the whole market on a single position is the favorite-odds informed-trading signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -81787,12 +82033,12 @@
       "volume": "$3.2M",
       "lastActivity": "25 days ago",
       "suspicion": 48.3,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "f4699",
+      "id": "f4700",
       "type": "wallet",
       "address": "0x4e25605fd905e9972efc0f4d8814530c655cd7a7",
       "memberAddresses": [
@@ -81834,7 +82080,7 @@
       "agreeing": 5,
       "detectorsMeasured": 10,
       "detectorsFired": 5,
-      "refId": "WF-F-698",
+      "refId": "WF-F-699",
       "cexChips": [],
       "heroSentence": "This account did not need a long-shot record — it bet $13K at about 81% on “Khamenei out as Supreme Leader of Iran by June 30?” and won, profiting 3.2 standard deviations more than the other traders in that same market. Out-profiting the whole market on a single position is the favorite-odds informed-trading signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -84745,12 +84991,12 @@
       "volume": "$68.8M",
       "lastActivity": "68 days ago",
       "suspicion": 48.9,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w6379",
+      "id": "w6381",
       "type": "wallet",
       "address": "0x514550b8f94f24e3bd5fca1c8af19e985fb71f46",
       "memberAddresses": [
@@ -84794,7 +85040,7 @@
       "agreeing": 6,
       "detectorsMeasured": 11,
       "detectorsFired": 7,
-      "refId": "WF-2026-378",
+      "refId": "WF-2026-380",
       "cexChips": [],
       "heroSentence": "This account won 4 of 5 long-shot bets that the market gave roughly a 16 percent chance. By luck you would expect about 0.79 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -85028,18 +85274,18 @@
       "_tradedCount": 15,
       "wins": 4,
       "expectedWins": 0.8,
-      "percentile": 99.445,
-      "percentileN": 5586,
+      "percentile": 99.452,
+      "percentileN": 5652,
       "volumeNum": 775878,
       "volume": "$776K",
       "lastActivity": "122 days ago",
       "suspicion": 45.9,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "f7267",
+      "id": "f7269",
       "type": "wallet",
       "address": "0x20feb9e0eb8e9b7196fa59c90cb6143ba0ebf411",
       "memberAddresses": [
@@ -85080,7 +85326,7 @@
       "agreeing": 4,
       "detectorsMeasured": 8,
       "detectorsFired": 4,
-      "refId": "WF-F-266",
+      "refId": "WF-F-268",
       "cexChips": [],
       "heroSentence": "This account did not need a long-shot record — it bet $9K at about 74% on “US strikes Iran by December 31, 2026?” and won, profiting 2.7 standard deviations more than the other traders in that same market. Out-profiting the whole market on a single position is the favorite-odds informed-trading signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -85667,7 +85913,7 @@
       "volume": "$146K",
       "lastActivity": "125 days ago",
       "suspicion": 44.7,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -86747,8 +86993,8 @@
       "_tradedCount": 489,
       "wins": 17,
       "expectedWins": 8.48,
-      "percentile": 99.356,
-      "percentileN": 5586,
+      "percentile": 99.345,
+      "percentileN": 5652,
       "volumeNum": 8879290,
       "volume": "$8.9M",
       "lastActivity": "5 days ago",
@@ -86758,7 +87004,7 @@
       "archived": false
     },
     {
-      "id": "w4349",
+      "id": "w4350",
       "type": "wallet",
       "address": "0xd7375270e4769d3cc31885773070a5f12d5bbe95",
       "memberAddresses": [
@@ -86800,7 +87046,7 @@
       "agreeing": 4,
       "detectorsMeasured": 10,
       "detectorsFired": 6,
-      "refId": "WF-2026-348",
+      "refId": "WF-2026-349",
       "cexChips": [],
       "heroSentence": "This account won 9 of 25 long-shot bets that the market gave roughly a 13 percent chance. By luck you would expect about 3.37 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -87297,18 +87543,18 @@
       "_tradedCount": 55,
       "wins": 9,
       "expectedWins": 3.25,
-      "percentile": 99.338,
-      "percentileN": 5586,
+      "percentile": 99.328,
+      "percentileN": 5652,
       "volumeNum": 5921133,
       "volume": "$5.9M",
       "lastActivity": "68 days ago",
       "suspicion": 44.6,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782513873,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w9178",
+      "id": "w9180",
       "type": "wallet",
       "address": "0x291adaba375917634e686b6ae5a7524fc07747f6",
       "memberAddresses": [
@@ -87350,7 +87596,7 @@
       "agreeing": 5,
       "detectorsMeasured": 11,
       "detectorsFired": 6,
-      "refId": "WF-2026-0177",
+      "refId": "WF-2026-0179",
       "cexChips": [],
       "heroSentence": "This account won 4 of 5 long-shot bets that the market gave roughly a 18 percent chance. By luck you would expect about 0.9 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -87557,18 +87803,18 @@
       "_tradedCount": 6,
       "wins": 4,
       "expectedWins": 0.9,
-      "percentile": 99.266,
-      "percentileN": 5586,
+      "percentile": 99.257,
+      "percentileN": 5652,
       "volumeNum": 35081,
       "volume": "$35K",
       "lastActivity": "113 days ago",
       "suspicion": 56.4,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w2616",
+      "id": "w2617",
       "type": "wallet",
       "address": "0x714f682e577a6892ee921290fd6ad213d11266d5",
       "memberAddresses": [
@@ -87610,7 +87856,7 @@
       "agreeing": 4,
       "detectorsMeasured": 10,
       "detectorsFired": 6,
-      "refId": "WF-2025-615",
+      "refId": "WF-2025-616",
       "cexChips": [],
       "heroSentence": "This account won 52 of 177 long-shot bets that the market gave roughly a 21 percent chance. By luck you would expect about 36.91 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -90351,18 +90597,18 @@
       "_tradedCount": 1125,
       "wins": 51,
       "expectedWins": 37.17,
-      "percentile": 99.23,
-      "percentileN": 5586,
+      "percentile": 99.222,
+      "percentileN": 5652,
       "volumeNum": 524902,
       "volume": "$525K",
       "lastActivity": "12 days ago",
       "suspicion": 54.4,
-      "firstFlaggedAt": 1782706986,
-      "newlyFlagged": true,
+      "firstFlaggedAt": 1782466460,
+      "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w7079",
+      "id": "w7081",
       "type": "wallet",
       "address": "0x4dfd481c16d9995b809780fd8a9808e8689f6e4a",
       "memberAddresses": [
@@ -90418,7 +90664,7 @@
       "agreeing": 8,
       "detectorsMeasured": 13,
       "detectorsFired": 10,
-      "refId": "WF-2024-078",
+      "refId": "WF-2024-080",
       "cexChips": [],
       "heroSentence": "This account won 8 of 16 long-shot bets that the market gave roughly a 19 percent chance. By luck you would expect about 3 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -90886,18 +91132,18 @@
       "_tradedCount": 99,
       "wins": 8,
       "expectedWins": 3.04,
-      "percentile": 99.212,
-      "percentileN": 5586,
+      "percentile": 99.204,
+      "percentileN": 5652,
       "volumeNum": 4642341,
       "volume": "$4.6M",
       "lastActivity": "121 days ago",
       "suspicion": 60.4,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w3432",
+      "id": "w3433",
       "type": "wallet",
       "address": "0x2370bd3107d7b5bd55e04a991c613447dc4571cb",
       "memberAddresses": [
@@ -90941,7 +91187,7 @@
       "agreeing": 6,
       "detectorsMeasured": 9,
       "detectorsFired": 7,
-      "refId": "WF-2026-431",
+      "refId": "WF-2026-432",
       "cexChips": [],
       "heroSentence": "This account won 4 of 7 long-shot bets that the market gave roughly a 12 percent chance. By luck you would expect about 0.82 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -91175,18 +91421,18 @@
       "_tradedCount": 7,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 99.194,
-      "percentileN": 5586,
+      "percentile": 99.186,
+      "percentileN": 5652,
       "volumeNum": 592373,
       "volume": "$592K",
       "lastActivity": "122 days ago",
       "suspicion": 42.9,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782505843,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w2628",
+      "id": "w2629",
       "type": "wallet",
       "address": "0xda9ed03eb10640d411b35b3773c7af9aade1ac09",
       "memberAddresses": [
@@ -91230,7 +91476,7 @@
       "agreeing": 5,
       "detectorsMeasured": 11,
       "detectorsFired": 7,
-      "refId": "WF-2026-627",
+      "refId": "WF-2026-628",
       "cexChips": [],
       "heroSentence": "This account won 9 of 18 long-shot bets that the market gave roughly a 20 percent chance. By luck you would expect about 3.69 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -91668,18 +91914,18 @@
       "_tradedCount": 179,
       "wins": 9,
       "expectedWins": 3.6,
-      "percentile": 99.159,
-      "percentileN": 5586,
+      "percentile": 99.151,
+      "percentileN": 5652,
       "volumeNum": 2136297,
       "volume": "$2.1M",
       "lastActivity": "112 days ago",
       "suspicion": 57.8,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782502899,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w3298",
+      "id": "w3299",
       "type": "wallet",
       "address": "0x01d17b8f5b8559b7577e3cd6b059c72b4e7d12a4",
       "memberAddresses": [
@@ -91721,7 +91967,7 @@
       "agreeing": 4,
       "detectorsMeasured": 11,
       "detectorsFired": 6,
-      "refId": "WF-2025-297",
+      "refId": "WF-2025-298",
       "cexChips": [],
       "heroSentence": "This account won 17 of 51 long-shot bets that the market gave roughly a 18 percent chance. By luck you would expect about 9.06 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -92576,18 +92822,18 @@
       "_tradedCount": 72,
       "wins": 17,
       "expectedWins": 9.18,
-      "percentile": 99.123,
-      "percentileN": 5586,
+      "percentile": 99.115,
+      "percentileN": 5652,
       "volumeNum": 2045021,
       "volume": "$2M",
       "lastActivity": "today",
       "suspicion": 58.5,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782504844,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w9512",
+      "id": "w9514",
       "type": "wallet",
       "address": "0xeb54562f0132336a725d1303f6110136161dd452",
       "memberAddresses": [
@@ -92633,7 +92879,7 @@
       "agreeing": 6,
       "detectorsMeasured": 12,
       "detectorsFired": 8,
-      "refId": "WF-2026-0511",
+      "refId": "WF-2026-0513",
       "cexChips": [],
       "heroSentence": "This account won 10 of 27 long-shot bets that the market gave roughly a 16 percent chance. By luck you would expect about 4.28 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -93295,13 +93541,13 @@
       "_tradedCount": 5957,
       "wins": 10,
       "expectedWins": 4.32,
-      "percentile": 99.105,
-      "percentileN": 5586,
+      "percentile": 99.098,
+      "percentileN": 5652,
       "volumeNum": 577739,
       "volume": "$578K",
       "lastActivity": "9 days ago",
       "suspicion": 52.7,
-      "firstFlaggedAt": 1782708052,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -94243,8 +94489,8 @@
       "_tradedCount": 1947,
       "wins": 10,
       "expectedWins": 4.18,
-      "percentile": 99.051,
-      "percentileN": 5586,
+      "percentile": 99.045,
+      "percentileN": 5652,
       "volumeNum": 20798535,
       "volume": "$20.8M",
       "lastActivity": "today",
@@ -94545,8 +94791,8 @@
       "_tradedCount": 13,
       "wins": 4,
       "expectedWins": 0.96,
-      "percentile": 99.051,
-      "percentileN": 5586,
+      "percentile": 99.045,
+      "percentileN": 5652,
       "volumeNum": 6266,
       "volume": "$6K",
       "lastActivity": "252 days ago",
@@ -94556,7 +94802,7 @@
       "archived": false
     },
     {
-      "id": "w3481",
+      "id": "w3482",
       "type": "wallet",
       "address": "0x6111335632d75cca323f05cf202bce3645a7cbff",
       "memberAddresses": [
@@ -94596,7 +94842,7 @@
       "agreeing": 4,
       "detectorsMeasured": 8,
       "detectorsFired": 5,
-      "refId": "WF-2026-480",
+      "refId": "WF-2026-481",
       "cexChips": [],
       "heroSentence": "This account won 4 of 8 long-shot bets that the market gave roughly a 11 percent chance. By luck you would expect about 0.87 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -94820,18 +95066,18 @@
       "_tradedCount": 9,
       "wins": 4,
       "expectedWins": 0.88,
-      "percentile": 99.033,
-      "percentileN": 5586,
+      "percentile": 99.027,
+      "percentileN": 5652,
       "volumeNum": 433538,
       "volume": "$434K",
       "lastActivity": "122 days ago",
       "suspicion": 41.3,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782505843,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w5535",
+      "id": "w5537",
       "type": "wallet",
       "address": "0x92622f40a1f8cd57fd81688b361260b3d7fdbcb8",
       "memberAddresses": [
@@ -94873,7 +95119,7 @@
       "agreeing": 5,
       "detectorsMeasured": 11,
       "detectorsFired": 6,
-      "refId": "WF-2023-534",
+      "refId": "WF-2023-536",
       "cexChips": [],
       "heroSentence": "This account won 3 of 5 long-shot bets that the market gave roughly a 9 percent chance. By luck you would expect about 0.47 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -95066,13 +95312,13 @@
       "_tradedCount": 58,
       "wins": 3,
       "expectedWins": 0.45,
-      "percentile": 98.997,
-      "percentileN": 5586,
+      "percentile": 98.992,
+      "percentileN": 5652,
       "volumeNum": 411414,
       "volume": "$411K",
       "lastActivity": "90 days ago",
       "suspicion": 55.4,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -95858,8 +96104,8 @@
       "_tradedCount": 1506,
       "wins": 10,
       "expectedWins": 4.44,
-      "percentile": 98.926,
-      "percentileN": 5586,
+      "percentile": 98.903,
+      "percentileN": 5652,
       "volumeNum": 10803703,
       "volume": "$10.8M",
       "lastActivity": "12 days ago",
@@ -95869,7 +96115,7 @@
       "archived": false
     },
     {
-      "id": "w3556",
+      "id": "w3557",
       "type": "wallet",
       "address": "0xa1308d9aed0bf6bdd0f4f3c43b89d0804bc405dc",
       "memberAddresses": [
@@ -95913,7 +96159,7 @@
       "agreeing": 6,
       "detectorsMeasured": 9,
       "detectorsFired": 7,
-      "refId": "WF-2026-555",
+      "refId": "WF-2026-556",
       "cexChips": [],
       "heroSentence": "This account won 4 of 12 long-shot bets that the market gave roughly a 7 percent chance. By luck you would expect about 0.85 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -96225,13 +96471,13 @@
       "_tradedCount": 12,
       "wins": 4,
       "expectedWins": 0.84,
-      "percentile": 98.89,
-      "percentileN": 5586,
+      "percentile": 98.868,
+      "percentileN": 5652,
       "volumeNum": 264618,
       "volume": "$265K",
       "lastActivity": "122 days ago",
       "suspicion": 57.2,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782506597,
       "newlyFlagged": false,
       "archived": false
     },
@@ -96756,8 +97002,8 @@
       "_tradedCount": 223,
       "wins": 8,
       "expectedWins": 3.08,
-      "percentile": 98.872,
-      "percentileN": 5586,
+      "percentile": 98.832,
+      "percentileN": 5652,
       "volumeNum": 66786,
       "volume": "$67K",
       "lastActivity": "118 days ago",
@@ -96767,7 +97013,7 @@
       "archived": false
     },
     {
-      "id": "w3393",
+      "id": "w3394",
       "type": "wallet",
       "address": "0x0700cb9b2504c30c55273c323f67faaa23a3267b",
       "memberAddresses": [
@@ -96809,7 +97055,7 @@
       "agreeing": 5,
       "detectorsMeasured": 9,
       "detectorsFired": 6,
-      "refId": "WF-2026-392",
+      "refId": "WF-2026-393",
       "cexChips": [],
       "heroSentence": "This account won 5 of 11 long-shot bets that the market gave roughly a 13 percent chance. By luck you would expect about 1.42 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -97104,18 +97350,18 @@
       "_tradedCount": 15,
       "wins": 5,
       "expectedWins": 1.43,
-      "percentile": 98.854,
-      "percentileN": 5586,
+      "percentile": 98.815,
+      "percentileN": 5652,
       "volumeNum": 769043,
       "volume": "$769K",
       "lastActivity": "121 days ago",
       "suspicion": 59.2,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782505843,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w8945",
+      "id": "w8947",
       "type": "wallet",
       "address": "0xd7758c933fefe2aa74224c4707b1841ccf8f7ca4",
       "memberAddresses": [
@@ -97157,7 +97403,7 @@
       "agreeing": 5,
       "detectorsMeasured": 9,
       "detectorsFired": 6,
-      "refId": "WF-2026-944",
+      "refId": "WF-2026-946",
       "cexChips": [],
       "heroSentence": "This account won 4 of 6 long-shot bets that the market gave roughly a 17 percent chance. By luck you would expect about 1.02 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -97378,13 +97624,13 @@
       "_tradedCount": 13,
       "wins": 4,
       "expectedWins": 1.02,
-      "percentile": 98.765,
-      "percentileN": 5586,
+      "percentile": 98.726,
+      "percentileN": 5652,
       "volumeNum": 13482,
       "volume": "$13K",
       "lastActivity": "122 days ago",
       "suspicion": 53.2,
-      "firstFlaggedAt": 1782706986,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -97918,8 +98164,8 @@
       "_tradedCount": 1543,
       "wins": 6,
       "expectedWins": 1.92,
-      "percentile": 98.765,
-      "percentileN": 5586,
+      "percentile": 98.726,
+      "percentileN": 5652,
       "volumeNum": 6852660,
       "volume": "$6.9M",
       "lastActivity": "174 days ago",
@@ -98206,8 +98452,8 @@
       "_tradedCount": 27,
       "wins": 3,
       "expectedWins": 0.49,
-      "percentile": 98.711,
-      "percentileN": 5586,
+      "percentile": 98.673,
+      "percentileN": 5652,
       "volumeNum": 104392,
       "volume": "$104K",
       "lastActivity": "177 days ago",
@@ -98217,7 +98463,7 @@
       "archived": false
     },
     {
-      "id": "w5015",
+      "id": "w5017",
       "type": "wallet",
       "address": "0xcf19c420814435ffb1c459588208ed23a7ee6402",
       "memberAddresses": [
@@ -98259,7 +98505,7 @@
       "agreeing": 5,
       "detectorsMeasured": 10,
       "detectorsFired": 6,
-      "refId": "WF-2026-014",
+      "refId": "WF-2026-016",
       "cexChips": [],
       "heroSentence": "This account won 5 of 8 long-shot bets that the market gave roughly a 20 percent chance. By luck you would expect about 1.57 wins. A record this strong is consistent with informed trading — not proof of it.",
       "scorecard": [
@@ -98522,14 +98768,14 @@
       "_tradedCount": 361,
       "wins": 5,
       "expectedWins": 1.6,
-      "percentile": 98.711,
-      "percentileN": 5586,
+      "percentile": 98.673,
+      "percentileN": 5652,
       "volumeNum": 21551157,
       "volume": "$21.6M",
       "lastActivity": "28 days ago",
       "suspicion": 45.7,
-      "firstFlaggedAt": 1782517850,
-      "newlyFlagged": false,
+      "firstFlaggedAt": 1782709925,
+      "newlyFlagged": true,
       "archived": false
     },
     {
@@ -98824,8 +99070,8 @@
       "_tradedCount": 14,
       "wins": 4,
       "expectedWins": 0.99,
-      "percentile": 98.657,
-      "percentileN": 5586,
+      "percentile": 98.62,
+      "percentileN": 5652,
       "volumeNum": 320169,
       "volume": "$320K",
       "lastActivity": "84 days ago",
@@ -98835,7 +99081,7 @@
       "archived": false
     },
     {
-      "id": "w7184",
+      "id": "w7186",
       "type": "wallet",
       "address": "0xfd2b117412a698f322b0cd18d6827dad262b8e50",
       "memberAddresses": [
@@ -98887,7 +99133,7 @@
       "agreeing": 7,
       "detectorsMeasured": 12,
       "detectorsFired": 8,
-      "refId": "WF-2024-183",
+      "refId": "WF-2024-185",
       "cexChips": [],
       "heroSentence": "This account placed a single $21K bet at roughly 16 percent on “russia-x-ukraine-ceasefire-by-may-31-2026” and cashed out about $282K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
@@ -99944,18 +100190,18 @@
       "_tradedCount": 776,
       "wins": 11,
       "expectedWins": 6.88,
-      "percentile": 92.32,
-      "percentileN": 5586,
+      "percentile": 92.233,
+      "percentileN": 5652,
       "volumeNum": 27121419,
       "volume": "$27.1M",
       "lastActivity": "34 days ago",
       "suspicion": 56.7,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w2957",
+      "id": "w2958",
       "type": "wallet",
       "address": "0x31a56e9e690c621ed21de08cb559e9524cdb8ed9",
       "memberAddresses": [
@@ -100003,7 +100249,7 @@
       "agreeing": 6,
       "detectorsMeasured": 9,
       "detectorsFired": 6,
-      "refId": "WF-2025-956",
+      "refId": "WF-2025-957",
       "cexChips": [],
       "heroSentence": "This account placed a single $33K bet at roughly 7 percent on “maduro-out-in-2025” and cashed out about $437K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
@@ -100191,18 +100437,18 @@
       "_tradedCount": 4,
       "wins": 3,
       "expectedWins": 0.28,
-      "percentile": 92.32,
-      "percentileN": 5586,
+      "percentile": 92.233,
+      "percentileN": 5652,
       "volumeNum": 484417,
       "volume": "$484K",
       "lastActivity": "3 days ago",
       "suspicion": 41.9,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782459452,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w9317",
+      "id": "w9319",
       "type": "wallet",
       "address": "0x384fdc42f4f9cdee6b311c5d0dba6f81eb4658ad",
       "memberAddresses": [
@@ -100248,7 +100494,7 @@
       "agreeing": 5,
       "detectorsMeasured": 9,
       "detectorsFired": 5,
-      "refId": "WF-2026-0316",
+      "refId": "WF-2026-0318",
       "cexChips": [],
       "heroSentence": "This account placed a single $8K bet at roughly 9 percent on “will-tamilaga-vettri-kazhagam-tvk-win-the-most-seats-in-the-2026-tamil” and cashed out about $85K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
@@ -100385,18 +100631,18 @@
       "_tradedCount": 116,
       "wins": 1,
       "expectedWins": 0.09,
-      "percentile": 90.87,
-      "percentileN": 5586,
+      "percentile": 90.782,
+      "percentileN": 5652,
       "volumeNum": 889436,
       "volume": "$889K",
       "lastActivity": "9 days ago",
       "suspicion": 55.2,
-      "firstFlaggedAt": 1782698080,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w5631",
+      "id": "w5633",
       "type": "wallet",
       "address": "0xb1a279adb096d316b1b168993e8ed976d3cd372a",
       "memberAddresses": [
@@ -100444,7 +100690,7 @@
       "agreeing": 5,
       "detectorsMeasured": 12,
       "detectorsFired": 6,
-      "refId": "WF-2024-630",
+      "refId": "WF-2024-632",
       "cexChips": [],
       "heroSentence": "This account placed a single $13K bet at roughly 17 percent on “russia-x-ukraine-ceasefire-by-june-30-2026” and cashed out about $130K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
@@ -100829,18 +101075,18 @@
       "_tradedCount": 612,
       "wins": 5,
       "expectedWins": 2.89,
-      "percentile": 90.1,
-      "percentileN": 5586,
+      "percentile": 90.021,
+      "percentileN": 5652,
       "volumeNum": 15796689,
       "volume": "$15.8M",
       "lastActivity": "124 days ago",
       "suspicion": 39.9,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
     {
-      "id": "w3592",
+      "id": "w3593",
       "type": "wallet",
       "address": "0x53e55bc7cb3d67ad177c023ce891ad076a9d6177",
       "memberAddresses": [
@@ -100890,7 +101136,7 @@
       "agreeing": 7,
       "detectorsMeasured": 13,
       "detectorsFired": 7,
-      "refId": "WF-2024-591",
+      "refId": "WF-2024-592",
       "cexChips": [],
       "heroSentence": "This account placed a single $24K bet at roughly 15 percent on “usisrael-strikes-iran-by” and cashed out about $214K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
@@ -101901,18 +102147,18 @@
       "_tradedCount": 929,
       "wins": 4,
       "expectedWins": 5.7,
-      "percentile": 89.295,
-      "percentileN": 5586,
+      "percentile": 89.207,
+      "percentileN": 5652,
       "volumeNum": 60365929,
       "volume": "$60.4M",
       "lastActivity": "11 days ago",
       "suspicion": 58.1,
-      "firstFlaggedAt": 1782517850,
+      "firstFlaggedAt": 1782475315,
       "newlyFlagged": false,
       "archived": false
     },
     {
-      "id": "w7213",
+      "id": "w7215",
       "type": "wallet",
       "address": "0x1caa6a7ad0c6916aef7b67946de2e57ad24846a0",
       "memberAddresses": [
@@ -101960,7 +102206,7 @@
       "agreeing": 5,
       "detectorsMeasured": 11,
       "detectorsFired": 6,
-      "refId": "WF-2026-212",
+      "refId": "WF-2026-214",
       "cexChips": [],
       "heroSentence": "This account placed a single $61K bet at roughly 12 percent on “us-strikes-iran-by” and cashed out about $561K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
@@ -102222,13 +102468,13 @@
       "_tradedCount": 15,
       "wins": 1,
       "expectedWins": 0.72,
-      "percentile": 89.295,
-      "percentileN": 5586,
+      "percentile": 89.207,
+      "percentileN": 5652,
       "volumeNum": 2508506,
       "volume": "$2.5M",
       "lastActivity": "122 days ago",
       "suspicion": 57.3,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -104267,7 +104513,7 @@
       "suspicion": 65.8
     },
     {
-      "id": "w7407",
+      "id": "w7409",
       "type": "wallet",
       "address": "0x5ed3561e39d6c9a9622c6f84a782537df7f9b19e",
       "memberAddresses": [
@@ -104319,7 +104565,7 @@
       "agreeing": 8,
       "detectorsMeasured": 11,
       "detectorsFired": 8,
-      "refId": "WF-2026-406",
+      "refId": "WF-2026-408",
       "cexChips": [],
       "heroSentence": "This account placed a single $65K bet at roughly 12 percent on “us-strikes-iran-by” and cashed out about $514K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
@@ -104840,13 +105086,13 @@
       "_tradedCount": 31,
       "wins": 2,
       "expectedWins": 0.6,
-      "percentile": 87.934,
-      "percentileN": 5586,
+      "percentile": 87.845,
+      "percentileN": 5652,
       "volumeNum": 7022986,
       "volume": "$7M",
       "lastActivity": "122 days ago",
       "suspicion": 57.4,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     },
@@ -105042,8 +105288,8 @@
       "_tradedCount": 2,
       "wins": 1,
       "expectedWins": 0.24,
-      "percentile": 87.934,
-      "percentileN": 5586,
+      "percentile": 87.845,
+      "percentileN": 5652,
       "volumeNum": 1587379,
       "volume": "$1.6M",
       "lastActivity": "180 days ago",
@@ -105053,7 +105299,7 @@
       "archived": false
     },
     {
-      "id": "w6376",
+      "id": "w6378",
       "type": "wallet",
       "address": "0x776f7fb93be970d678068e00674b54af0ff10478",
       "memberAddresses": [
@@ -105099,7 +105345,7 @@
       "agreeing": 5,
       "detectorsMeasured": 10,
       "detectorsFired": 5,
-      "refId": "WF-2026-375",
+      "refId": "WF-2026-377",
       "cexChips": [],
       "heroSentence": "This account placed a single $16K bet at roughly 12 percent on “us-strikes-iran-by” and cashed out about $132K. One bet is not statistically improbable on its own — but a lone, outsized, high-conviction long-shot like this, alongside the other signals, is the single-bet informed-trading signature. Consistent with informed trading, not proof of it.",
       "scorecard": [
@@ -105375,24 +105621,24 @@
       "_tradedCount": 14,
       "wins": 1,
       "expectedWins": 1.2,
-      "percentile": 87.934,
-      "percentileN": 5586,
+      "percentile": 87.845,
+      "percentileN": 5652,
       "volumeNum": 508341,
       "volume": "$508K",
       "lastActivity": "129 days ago",
       "suspicion": 39.3,
-      "firstFlaggedAt": 1782697059,
+      "firstFlaggedAt": 1782709925,
       "newlyFlagged": true,
       "archived": false
     }
   ],
-  "observed": 204166,
-  "reviewed": 204166,
-  "screened": 9937,
-  "totalFlaggedProfit": 7494662,
+  "observed": 204320,
+  "reviewed": 204320,
+  "screened": 9939,
+  "totalFlaggedProfit": 7497700,
   "totalFlaggedProfitText": "$7.5M",
-  "flaggedCount": 97,
-  "scored": 5586,
+  "flaggedCount": 98,
+  "scored": 5652,
   "harvardShadow": {
     "total": 90,
     "byTier": {
@@ -105409,10 +105655,10 @@
     "over500": 90,
     "alsoBinomial": 32,
     "onlyHarvard": 58,
-    "observed": 204166,
-    "reviewed": 204166,
-    "screened": 9937,
-    "scored": 5586,
+    "observed": 204320,
+    "reviewed": 204320,
+    "screened": 9939,
+    "scored": 5652,
     "top": [
       {
         "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -112567,26 +112813,26 @@
     ]
   },
   "meta": {
-    "observed": 204166,
-    "reviewed": 204166,
-    "screened": 9937,
-    "scored": 5586,
+    "observed": 204320,
+    "reviewed": 204320,
+    "screened": 9939,
+    "scored": 5652,
     "block": "",
     "snapshot": "Jun 28 2026",
     "recomputed": "Jun 29 2026"
   },
-  "generatedAt": "2026-06-29T05:10:08.107Z",
+  "generatedAt": "2026-06-29T05:19:17.970Z",
   "coverageByCategory": {
-    "Politics": 2136,
-    "Military & Defense": 2126,
-    "Economics": 568,
-    "Culture": 1336,
-    "Elections": 2026,
+    "Politics": 2130,
+    "Military & Defense": 2127,
+    "Economics": 569,
+    "Culture": 1343,
+    "Elections": 2028,
     "Legal & Regulatory": 663,
-    "Tech & Announcements": 1242,
-    "Corporate & M&A": 689,
-    "Crypto Events": 364,
-    "World": 2004
+    "Tech & Announcements": 1236,
+    "Corporate & M&A": 679,
+    "Crypto Events": 360,
+    "World": 2013
   },
   "surpriseMarkets": [
     {
@@ -112624,31 +112870,31 @@
   "validation": {
     "permutation": {
       "hasData": true,
-      "nBets": 5704,
-      "observedWins": 3712,
-      "expectedWins": 2961.9,
+      "nBets": 5712,
+      "observedWins": 3717,
+      "expectedWins": 2964.9,
       "sd": 27.97,
-      "zScore": 26.8,
+      "zScore": 26.9,
       "avgImplied": 51.9,
       "iters": 10000,
-      "simMeanWins": 2962.3,
+      "simMeanWins": 2965.3,
       "pEmpirical": 0,
       "pText": "p < 1e-4",
-      "statement": "Across 5704 flagged bets the market priced at an average of 51.9%, the flagged wallets won 3712 where the market's own odds expect about 2962 — 26.8 standard deviations above chance (p < 1e-4, 10,000-shuffle permutation test). Consistent with informed trading across the set — not proof for any one wallet."
+      "statement": "Across 5712 flagged bets the market priced at an average of 51.9%, the flagged wallets won 3717 where the market's own odds expect about 2965 — 26.9 standard deviations above chance (p < 1e-4, 10,000-shuffle permutation test). Consistent with informed trading across the set — not proof for any one wallet."
     },
     "perDetector": [
       {
         "key": "crossCat",
-        "firedN": 50,
+        "firedN": 51,
         "notFiredN": 47,
-        "firedWinRate": 71.9,
+        "firedWinRate": 71.7,
         "notFiredWinRate": 52,
-        "lift": 19.9,
+        "lift": 19.7,
         "reliable": true
       },
       {
         "key": "repeat",
-        "firedN": 88,
+        "firedN": 89,
         "notFiredN": 9,
         "firedWinRate": 63.7,
         "notFiredWinRate": 47.7,
@@ -112658,7 +112904,7 @@
       {
         "key": "hBetCross",
         "firedN": 4,
-        "notFiredN": 93,
+        "notFiredN": 94,
         "firedWinRate": 62.5,
         "notFiredWinRate": 62.2,
         "lift": 0.3,
@@ -112667,7 +112913,7 @@
       {
         "key": "concentration",
         "firedN": 14,
-        "notFiredN": 83,
+        "notFiredN": 84,
         "firedWinRate": 60.9,
         "notFiredWinRate": 62.5,
         "lift": -1.5,
@@ -112676,16 +112922,16 @@
       {
         "key": "fresh",
         "firedN": 56,
-        "notFiredN": 41,
+        "notFiredN": 42,
         "firedWinRate": 61.3,
-        "notFiredWinRate": 63.6,
+        "notFiredWinRate": 63.5,
         "lift": -2.3,
         "reliable": true
       },
       {
         "key": "profitCross",
         "firedN": 26,
-        "notFiredN": 71,
+        "notFiredN": 72,
         "firedWinRate": 58.3,
         "notFiredWinRate": 63.7,
         "lift": -5.4,
@@ -112694,7 +112940,7 @@
       {
         "key": "conceal",
         "firedN": 7,
-        "notFiredN": 90,
+        "notFiredN": 91,
         "firedWinRate": 56.7,
         "notFiredWinRate": 62.7,
         "lift": -6,
@@ -112703,7 +112949,7 @@
       {
         "key": "timing",
         "firedN": 45,
-        "notFiredN": 52,
+        "notFiredN": 53,
         "firedWinRate": 58.9,
         "notFiredWinRate": 65.1,
         "lift": -6.2,
@@ -112711,9 +112957,9 @@
       },
       {
         "key": "longshot",
-        "firedN": 77,
+        "firedN": 78,
         "notFiredN": 20,
-        "firedWinRate": 60,
+        "firedWinRate": 60.1,
         "notFiredWinRate": 70.8,
         "lift": -10.7,
         "reliable": true
@@ -112721,7 +112967,7 @@
       {
         "key": "held",
         "firedN": 8,
-        "notFiredN": 89,
+        "notFiredN": 90,
         "firedWinRate": 52.4,
         "notFiredWinRate": 63.1,
         "lift": -10.8,
@@ -112730,16 +112976,16 @@
       {
         "key": "sizing",
         "firedN": 51,
-        "notFiredN": 46,
+        "notFiredN": 47,
         "firedWinRate": 56.6,
-        "notFiredWinRate": 68.5,
-        "lift": -11.9,
+        "notFiredWinRate": 68.4,
+        "lift": -11.8,
         "reliable": true
       },
       {
         "key": "won",
         "firedN": 38,
-        "notFiredN": 59,
+        "notFiredN": 60,
         "firedWinRate": 53.9,
         "notFiredWinRate": 67.6,
         "lift": -13.7,
@@ -112747,17 +112993,17 @@
       },
       {
         "key": "baseline",
-        "firedN": 51,
+        "firedN": 52,
         "notFiredN": 46,
-        "firedWinRate": 55.5,
+        "firedWinRate": 55.7,
         "notFiredWinRate": 69.7,
-        "lift": -14.2,
+        "lift": -14,
         "reliable": true
       },
       {
         "key": "hLate",
         "firedN": 4,
-        "notFiredN": 93,
+        "notFiredN": 94,
         "firedWinRate": 47.8,
         "notFiredWinRate": 62.9,
         "lift": -15.1,
@@ -112766,7 +113012,7 @@
       {
         "key": "hDir",
         "firedN": 3,
-        "notFiredN": 94,
+        "notFiredN": 95,
         "firedWinRate": 42,
         "notFiredWinRate": 62.9,
         "lift": -20.9,
@@ -112775,15 +113021,15 @@
       {
         "key": "conviction",
         "firedN": 11,
-        "notFiredN": 86,
+        "notFiredN": 87,
         "firedWinRate": 43.2,
         "notFiredWinRate": 64.7,
         "lift": -21.5,
         "reliable": true
       }
     ],
-    "flaggedCount": 97,
-    "computedAt": 1782709377
+    "flaggedCount": 98,
+    "computedAt": 1782709925
   },
   "ringGroups": [
     {
@@ -112791,7 +113037,7 @@
       "hubLabel": null,
       "size": 60,
       "seedFrom": "0xdf903ee52261f475ee5a02f9189acdb7cdba41f0",
-      "ts": 1782709377,
+      "ts": 1782709925,
       "flaggedCount": 2,
       "members": [
         {
@@ -113101,7 +113347,7 @@
       "hubLabel": null,
       "size": 95,
       "seedFrom": "0x5b9115312cb4fc2b2b57c65045e611092f222709",
-      "ts": 1782709377,
+      "ts": 1782709925,
       "flaggedCount": 1,
       "members": [
         {
@@ -113991,7 +114237,7 @@
       "hubLabel": null,
       "size": 67,
       "seedFrom": "0x98d04f9eb52d08ef9697f6eb8d7cfe8d46e5f14a",
-      "ts": 1782709377,
+      "ts": 1782709925,
       "flaggedCount": 1,
       "members": [
         {
@@ -114336,7 +114582,7 @@
       "hubLabel": null,
       "size": 47,
       "seedFrom": "0xd721ee218a84e35c2d4437bf509b2195afd1e215",
-      "ts": 1782709377,
+      "ts": 1782709925,
       "flaggedCount": 1,
       "members": [
         {
@@ -114581,7 +114827,7 @@
       "hubLabel": null,
       "size": 35,
       "seedFrom": "0x9a3fa403a6666eef75f92f181fcf13f9c051914a",
-      "ts": 1782709377,
+      "ts": 1782709925,
       "flaggedCount": 1,
       "members": [
         {
@@ -114951,7 +115197,7 @@
       "hubLabel": null,
       "size": 30,
       "seedFrom": "0xaa99a6c279d34492683db6ff1818aa1f8485dbbf",
-      "ts": 1782709377,
+      "ts": 1782709925,
       "flaggedCount": 1,
       "members": [
         {
@@ -115111,7 +115357,7 @@
       "hubLabel": null,
       "size": 21,
       "seedFrom": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
-      "ts": 1782709377,
+      "ts": 1782709925,
       "flaggedCount": 1,
       "members": [
         {
