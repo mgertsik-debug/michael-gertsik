@@ -387,6 +387,34 @@ test("crossCat publish path: moderate-odds serial winner is published over the F
   assert.equal(payload.subjects.filter((x) => x.flaggedBy === "cross-category").length, 1);
 });
 
+test("extractEntities: pulls SPECIFIC entities, drops generic market words (the fisheries fix)", () => {
+  const ents = D.extractEntities("Will the 7-day moving average of transit calls through the Strait of Hormuz as reported by the IMF PortWatch be above 60 before August 1, 2026?");
+  assert.ok(ents.includes("Strait of Hormuz"), "keeps the multi-word entity intact (connector preserved): " + JSON.stringify(ents));
+  assert.ok(ents.some((e) => /PortWatch/.test(e)), "captures IMF PortWatch");
+  assert.ok(!ents.some((e) => /moving|average|transit/i.test(e)), "drops the generic phrase that caused the competitor's false match");
+  // ranked most-specific first
+  assert.equal(ents[0].split(/\s+/).length >= 2, true, "multi-word entity ranks first");
+  // a vague market yields nothing precise -> the news/reg detectors stay no-data (correct)
+  assert.deepEqual(D.extractEntities("Will the price be above 50 this week?"), [], "no proper entity -> empty");
+});
+
+test("newsBlackout: fires only on an empty window UNDER an outsized bet", () => {
+  const fire = D.newsBlackout({ articleCount: 0, windowHours: 24, outsized: true, entity: "Strait of Hormuz", hasQuery: true });
+  assert.equal(fire.fires, true, "0 articles + outsized = blackout flag");
+  const quietSmall = D.newsBlackout({ articleCount: 0, windowHours: 24, outsized: false, entity: "X", hasQuery: true });
+  assert.equal(quietSmall.fires, false, "quiet but not outsized -> not flagged on timing alone");
+  const loud = D.newsBlackout({ articleCount: 9, windowHours: 24, outsized: true, entity: "X", hasQuery: true });
+  assert.equal(loud.fires, false, "news was present -> the bet may just be reacting to it");
+  assert.equal(D.newsBlackout({ hasQuery: false }).hasData, false, "no entity to query -> no-data, not a fabricated flag");
+});
+
+test("fedRegister: fires only on precision-filtered title matches, low score", () => {
+  const m = D.fedRegister({ hasQuery: true, entity: "Venezuela", matches: [{ title: "Blocking Property of the Government of Venezuela", agency: "OFAC", date: "2026-06-20", url: "x" }] });
+  assert.equal(m.fires, true); assert.ok(m.score <= 0.6, "corroborator-level score, never dominant");
+  assert.equal(D.fedRegister({ hasQuery: true, entity: "Venezuela", matches: [] }).fires, false, "no title match -> no fire (kills the fisheries FP)");
+  assert.equal(D.fedRegister({ hasQuery: false }).hasData, false);
+});
+
 test("softened gate: small net-positive profit is a TIER CAP, not an exclusion", () => {
   // validateSubject floor is now a tiny materiality ($250), not $5k — a $2k-profit improbable single
   // wallet is published (the tier cap handles confidence), but a net loser is still rejected.

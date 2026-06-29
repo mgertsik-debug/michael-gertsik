@@ -876,7 +876,7 @@ function suspicionScore(s) {
   const fired = Array.isArray(s.fired) ? s.fired : [];
   const imp = Math.min(1, log10(s.improbDenom || 1) / 12);          // statistical improbability (validated backbone, saturates ~1e12)
   const breadth = Math.min(1, (s.detectorsFired || fired.length || s.agreeing || 0) / 5);  // independent corroboration
-  const timingOn = fired.indexOf("timing") >= 0 || fired.indexOf("crossCat") >= 0 ? 1 : 0; // pre-event timing / cross-category
+  const timingOn = fired.indexOf("timing") >= 0 || fired.indexOf("crossCat") >= 0 || fired.indexOf("newsBlackout") >= 0 ? 1 : 0; // pre-event timing / cross-category / news-blackout
   // purpose-built / coordinated structure. `fresh` is EXCLUDED — it fires on ~75% of Polymarket
   // wallets (per-user proxy wallets are inherently fresh), so it's a near-constant that discriminates
   // nothing; only concealment / funding-cluster are genuine structural tells.
