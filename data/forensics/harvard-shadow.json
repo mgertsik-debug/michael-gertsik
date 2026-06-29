@@ -18,8 +18,8 @@
   "onlyHarvard": 58,
   "observed": 213082,
   "reviewed": 213082,
-  "screened": 10091,
-  "scored": 5941,
+  "screened": 10092,
+  "scored": 5946,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -5188,6 +5188,172 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x2110ba2a1e18840109482ff4ddc547baeff45850",
+      "username": "George.Smiley",
+      "tier": "notable",
+      "S": 742.7,
+      "market": "Starmer out by June 22, 2026?",
+      "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
+      "episodeTx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803",
+      "stake": 14610,
+      "odds": 76,
+      "won": true,
+      "episodeProfit": 4528,
+      "zBetCross": 11.02,
+      "zBetWithin": 1.19,
+      "zProfitCross": 12.61,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 61880,
+      "firstSeen": "Sep 19 2025",
+      "createdOnChain": true,
+      "created": "Sep 19 2025",
+      "betsCount": 176,
+      "ledger": [
+        {
+          "market": "Gemini 3.0 Flash released by December 17?",
+          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-17",
+          "ts": 1765847099,
+          "odds": 94,
+          "stake": 66376,
+          "pl": 4500,
+          "won": true,
+          "tx": "0x67e87e65e93f1887660116e78db907d7738bd0ef7a0cfe89bea53be1df0fe027"
+        },
+        {
+          "market": "Gemini 3.0 Flash released by December 15?",
+          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-15",
+          "ts": 1763564991,
+          "odds": 88,
+          "stake": 52835,
+          "pl": 7373,
+          "won": true,
+          "tx": "0x1b773e24971868a17cca0ae679db929b3af775ea25f8178a2b1d9a15e422d34b"
+        },
+        {
+          "market": "Gemini 3.0 Flash released by December 16?",
+          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-16-622",
+          "ts": 1765845757,
+          "odds": 84,
+          "stake": 48107,
+          "pl": 9268,
+          "won": true,
+          "tx": "0xb93221c11099f6ef2a14fae4bf6ce5bddac1cf24267cb78f38318deab53229c0"
+        },
+        {
+          "market": "Will Gemini 3.0 be released on November 18 2025?",
+          "url": "https://polymarket.com/event/will-gemini-3pt0-be-released-on-november-18-2025",
+          "ts": 1763076928,
+          "odds": 66,
+          "stake": 46880,
+          "pl": 23814,
+          "won": true,
+          "tx": "0xb7bbf083d2dbc435bf317748e6d5551f03b5eee2add2c20d8498e75a97982603"
+        },
+        {
+          "market": "Gemini 3.0 Flash released by November 30?",
+          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-november-30",
+          "ts": 1763507217,
+          "odds": 97,
+          "stake": 31801,
+          "pl": 1054,
+          "won": true,
+          "tx": "0x433c6b4b8dcbfe69f5db9e2ed867961c939beaacf088ce74cef111c31a8c9520"
+        },
+        {
+          "market": "Will Gemini 3.2 be released on May 19?",
+          "url": "https://polymarket.com/event/will-gemini-3pt2-be-released-on-may-19",
+          "ts": 1778353909,
+          "odds": 84,
+          "stake": 25164,
+          "pl": 4717,
+          "won": true,
+          "tx": "0x449d0384d7f69878d8942da74c33c506ccebab15799ecfc01555a2f64d6ae1d7"
+        },
+        {
+          "market": "Will Gemini 3.0 be released by November 15?",
+          "url": "https://polymarket.com/event/will-gemini-3pt0-be-released-by-november-15",
+          "ts": 1762354089,
+          "odds": 91,
+          "stake": 22937,
+          "pl": 2209,
+          "won": true,
+          "tx": "0xd5d8f076fab63812eb6912ab54e4b2e25dfe5851857774d5fac0314d2317e645"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran by January 31?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-january-31",
+          "ts": 1768858780,
+          "odds": 97,
+          "stake": 19222,
+          "pl": 678,
+          "won": true,
+          "tx": "0x45da18849ebb479d2d727d2fcb7e69ad649a65b6203df71a63715092502a3398"
+        },
+        {
+          "market": "Starmer out by June 30, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1770225991,
+          "odds": 56,
+          "stake": 18620,
+          "pl": 14480,
+          "won": true,
+          "tx": "0xe60c2abe043d934b0aa793d246cb7c81356a8577d6cdf59a7a62aacc1419ee0f"
+        },
+        {
+          "market": "Supreme Court rules in favor of Trump's tariffs?",
+          "url": "https://polymarket.com/event/will-the-supreme-court-rule-in-favor-of-trumps-tariffs",
+          "ts": 1771601944,
+          "odds": 100,
+          "stake": 17508,
+          "pl": 18,
+          "won": true,
+          "tx": "0x9154703b6a46d36e603947089bd09887a0156622efced39dc2a4fe1443fdc168"
+        },
+        {
+          "market": "Gemini 3.5 released by March 31?",
+          "url": "https://polymarket.com/event/gemini-3pt5-released-by-june-30",
+          "ts": 1770892909,
+          "odds": 93,
+          "stake": 15315,
+          "pl": 1094,
+          "won": true,
+          "tx": "0xae3f946cac4fd14584fd871d2c0a7a8829f11f8be512210a409f285a92a9075c"
+        },
+        {
+          "market": "Will a new Gemini flagship be released by May 22, 2026?",
+          "url": "https://polymarket.com/event/will-a-new-gemini-flagship-be-released-by-may-22-2026",
+          "ts": 1777898026,
+          "odds": 90,
+          "stake": 15121,
+          "pl": 1690,
+          "won": true,
+          "tx": "0xe9f1bd78f4fc3d0276ff2953c259438918e42e855d7d4d65ca8828e6f2fca8d3"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by February 28, 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-february-28-2026",
+          "ts": 1771236119,
+          "odds": 99,
+          "stake": 14775,
+          "pl": 225,
+          "won": true,
+          "tx": "0x64976458c82555e97a8c1635cd3548636c8f9db7cf02b1503a99054450306e54"
+        },
+        {
+          "market": "Starmer out by June 22, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1782031537,
+          "odds": 76,
+          "stake": 14610,
+          "pl": 4528,
+          "won": true,
+          "tx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x8365a0c9908dca494abaf0b90584162b474ce9a6",
       "username": "Retired-Davis",
       "tier": "notable",
@@ -5515,172 +5681,6 @@
           "pl": 5836,
           "won": true,
           "tx": "0x99d8a3217ce5a81bfc16c103d1774ba370fe54ee5ada754726cb9f65f472e4dd"
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
-      "address": "0x2110ba2a1e18840109482ff4ddc547baeff45850",
-      "username": "George.Smiley",
-      "tier": "notable",
-      "S": 740.7,
-      "market": "Starmer out by June 22, 2026?",
-      "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
-      "episodeTx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803",
-      "stake": 14610,
-      "odds": 76,
-      "won": true,
-      "episodeProfit": 4528,
-      "zBetCross": 11.02,
-      "zBetWithin": 1.06,
-      "zProfitCross": 12.61,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": 61790,
-      "firstSeen": "Sep 19 2025",
-      "createdOnChain": true,
-      "created": "May 18 2026",
-      "betsCount": 150,
-      "ledger": [
-        {
-          "market": "Gemini 3.0 Flash released by December 17?",
-          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-17",
-          "ts": 1765847099,
-          "odds": 94,
-          "stake": 66376,
-          "pl": 4500,
-          "won": true,
-          "tx": "0x67e87e65e93f1887660116e78db907d7738bd0ef7a0cfe89bea53be1df0fe027"
-        },
-        {
-          "market": "Gemini 3.0 Flash released by December 15?",
-          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-15",
-          "ts": 1763564991,
-          "odds": 88,
-          "stake": 52835,
-          "pl": 7373,
-          "won": true,
-          "tx": "0x1b773e24971868a17cca0ae679db929b3af775ea25f8178a2b1d9a15e422d34b"
-        },
-        {
-          "market": "Gemini 3.0 Flash released by December 16?",
-          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-december-16-622",
-          "ts": 1765845757,
-          "odds": 84,
-          "stake": 48107,
-          "pl": 9268,
-          "won": true,
-          "tx": "0xb93221c11099f6ef2a14fae4bf6ce5bddac1cf24267cb78f38318deab53229c0"
-        },
-        {
-          "market": "Will Gemini 3.0 be released on November 18 2025?",
-          "url": "https://polymarket.com/event/will-gemini-3pt0-be-released-on-november-18-2025",
-          "ts": 1763076928,
-          "odds": 66,
-          "stake": 46880,
-          "pl": 23814,
-          "won": true,
-          "tx": "0xb7bbf083d2dbc435bf317748e6d5551f03b5eee2add2c20d8498e75a97982603"
-        },
-        {
-          "market": "Gemini 3.0 Flash released by November 30?",
-          "url": "https://polymarket.com/event/gemini-3pt0-flash-released-by-november-30",
-          "ts": 1763507217,
-          "odds": 97,
-          "stake": 31801,
-          "pl": 1054,
-          "won": true,
-          "tx": "0x433c6b4b8dcbfe69f5db9e2ed867961c939beaacf088ce74cef111c31a8c9520"
-        },
-        {
-          "market": "Will Gemini 3.2 be released on May 19?",
-          "url": "https://polymarket.com/event/will-gemini-3pt2-be-released-on-may-19",
-          "ts": 1778353909,
-          "odds": 84,
-          "stake": 25164,
-          "pl": 4717,
-          "won": true,
-          "tx": "0x449d0384d7f69878d8942da74c33c506ccebab15799ecfc01555a2f64d6ae1d7"
-        },
-        {
-          "market": "Will Gemini 3.0 be released by November 15?",
-          "url": "https://polymarket.com/event/will-gemini-3pt0-be-released-by-november-15",
-          "ts": 1762354089,
-          "odds": 91,
-          "stake": 22937,
-          "pl": 2209,
-          "won": true,
-          "tx": "0xd5d8f076fab63812eb6912ab54e4b2e25dfe5851857774d5fac0314d2317e645"
-        },
-        {
-          "market": "Khamenei out as Supreme Leader of Iran by January 31?",
-          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-january-31",
-          "ts": 1768858780,
-          "odds": 97,
-          "stake": 19222,
-          "pl": 678,
-          "won": true,
-          "tx": "0x45da18849ebb479d2d727d2fcb7e69ad649a65b6203df71a63715092502a3398"
-        },
-        {
-          "market": "Starmer out by June 30, 2026?",
-          "url": "https://polymarket.com/event/starmer-out-in-2025",
-          "ts": 1770225991,
-          "odds": 56,
-          "stake": 18620,
-          "pl": 14480,
-          "won": true,
-          "tx": "0xe60c2abe043d934b0aa793d246cb7c81356a8577d6cdf59a7a62aacc1419ee0f"
-        },
-        {
-          "market": "Supreme Court rules in favor of Trump's tariffs?",
-          "url": "https://polymarket.com/event/will-the-supreme-court-rule-in-favor-of-trumps-tariffs",
-          "ts": 1771601944,
-          "odds": 100,
-          "stake": 17508,
-          "pl": 18,
-          "won": true,
-          "tx": "0x9154703b6a46d36e603947089bd09887a0156622efced39dc2a4fe1443fdc168"
-        },
-        {
-          "market": "Gemini 3.5 released by March 31?",
-          "url": "https://polymarket.com/event/gemini-3pt5-released-by-june-30",
-          "ts": 1770892909,
-          "odds": 93,
-          "stake": 15315,
-          "pl": 1094,
-          "won": true,
-          "tx": "0xae3f946cac4fd14584fd871d2c0a7a8829f11f8be512210a409f285a92a9075c"
-        },
-        {
-          "market": "Will a new Gemini flagship be released by May 22, 2026?",
-          "url": "https://polymarket.com/event/will-a-new-gemini-flagship-be-released-by-may-22-2026",
-          "ts": 1777898026,
-          "odds": 90,
-          "stake": 15121,
-          "pl": 1690,
-          "won": true,
-          "tx": "0xe9f1bd78f4fc3d0276ff2953c259438918e42e855d7d4d65ca8828e6f2fca8d3"
-        },
-        {
-          "market": "Russia x Ukraine ceasefire by February 28, 2026?",
-          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-february-28-2026",
-          "ts": 1771236119,
-          "odds": 99,
-          "stake": 14775,
-          "pl": 225,
-          "won": true,
-          "tx": "0x64976458c82555e97a8c1635cd3548636c8f9db7cf02b1503a99054450306e54"
-        },
-        {
-          "market": "Starmer out by June 22, 2026?",
-          "url": "https://polymarket.com/event/starmer-out-in-2025",
-          "ts": 1782031537,
-          "odds": 76,
-          "stake": 14610,
-          "pl": 4528,
-          "won": true,
-          "tx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803"
         }
       ],
       "alsoBinomial": false
