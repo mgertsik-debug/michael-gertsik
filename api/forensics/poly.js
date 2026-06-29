@@ -482,6 +482,25 @@ function aggregateMarket(market, trades) {
   let lastTradeTs = 0;
   for (const t of trades) { const ts = num(t.timestamp || t.matchTime || t.time); if (ts > lastTradeTs) lastTradeTs = ts; }
   const lateAnchor = lastTradeTs || resolvedSec || null;
+  // EVENT ANCHOR (price-shock): the timing detector should measure entries against WHEN THE INFO HIT
+  // — the moment the market repriced — not the official resolution (which can lag the news by days).
+  // We derive it from the SAME trade series already in hand: bin trades into hourly mean prices in
+  // time order, and take the start of the bucket with the largest absolute price jump from the prior
+  // bucket as the shock timestamp. HONEST CAVEAT: the trade sample is truncated, so this anchor is
+  // approximate — but it still beats resolution-anchoring whenever resolution lags the event.
+  const shockTs = (() => {
+    const px = trades.map((t) => ({ ts: num(t.timestamp || t.matchTime || t.time), p: num(t.price) }))
+      .filter((x) => x.ts > 0 && x.p > 0 && x.p < 1).sort((a, b) => a.ts - b.ts);
+    if (px.length < 8) return null;                          // too few trades to locate a shock honestly
+    const BUCKET = 3600;                                     // hourly buckets
+    const buckets = new Map();
+    for (const x of px) { const b = Math.floor(x.ts / BUCKET); const e = buckets.get(b) || { ts: b * BUCKET, sum: 0, n: 0 }; e.sum += x.p; e.n++; buckets.set(b, e); }
+    const seq = Array.from(buckets.values()).sort((a, b) => a.ts - b.ts).map((e) => ({ ts: e.ts, p: e.sum / e.n }));
+    if (seq.length < 3) return null;
+    let best = 0, bestTs = null;
+    for (let i = 1; i < seq.length; i++) { const d = Math.abs(seq[i].p - seq[i - 1].p); if (d > best) { best = d; bestTs = seq[i].ts; } }
+    return best >= 0.15 ? bestTs : null;                     // require a real repricing (≥15c move)
+  })();
   for (const t of trades) {
     const w = t.proxyWallet || t.user || t.maker || t.taker;
     if (!w) continue;
@@ -543,6 +562,7 @@ function aggregateMarket(market, trades) {
       stakeUsd: Math.round(e.costUsd), outcome: e.outcome,
       won: p.won, held: e.soldShares < 0.03 * e.boughtShares,
       ts: isFinite(e.firstTs) ? e.firstTs : (resolvedSec || null),
+      shockTs: shockTs || null,                              // price-shock anchor for event-anchored timing
       tx: e.tx || null,
       // Harvard episode inputs (cross-sectional). z_bet_within is added later by build.js
       // from the wallet's full betting history (its own baseline across markets).

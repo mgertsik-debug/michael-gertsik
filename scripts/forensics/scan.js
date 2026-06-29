@@ -790,6 +790,7 @@ async function finalize(state, snapshotTs) {
       // shows tx links for those). Everything scoring needs is retained.
       const lean = { cond: b.cond, entryPrice: b.entryPrice, won: b.won, stakeUsd: b.stakeUsd,
         outcome: b.outcome, eventGroup: b.eventGroup, category: b.category, ts: b.ts, resolvedMs: b.resolvedMs, held: b.held };
+      if (b.shockTs != null) lean.shockTs = b.shockTs;                        // price-shock anchor for event-anchored timing
       if (b.pnl != null) lean.pnl = b.pnl;                                   // Polymarket's authoritative P/L
       if (b.hz) lean.hz = b.hz;                                              // Harvard cross-sectional episode inputs
       if (b.tx) lean.tx = b.tx;                                              // tx for the verify link (Harvard episodes can be any odds)

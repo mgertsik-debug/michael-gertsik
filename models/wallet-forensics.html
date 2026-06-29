@@ -849,7 +849,7 @@ class Component extends DCLogic {
       h("div", { style: { fontFamily: mono, fontSize: "15px", fontWeight: 600, color: color || "#ECEFED" } }, val));
     const fired = (fz.fired || []);
     const prof = d.profile || {};
-    const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", conceal: "concealment", cluster: "group", conviction: "single big bet", profitCross: "out-profited market", baseline: "beat break-even", timing: "late entry", sizing: "outsized bet", concentration: "one-sided" };
+    const nameMap = { fresh: "fresh wallet", longshot: "long-shots", held: "held to end", won: "improbable wins", crossCat: "cross-category record", conceal: "concealment", cluster: "group", conviction: "single big bet", profitCross: "out-profited market", repeat: "repeat offender", baseline: "beat break-even", timing: "pre-event entry", sizing: "outsized bet", concentration: "one-sided" };
     const profitColor = (prof.profitNum || 0) >= 0 ? "#34D399" : "#F87171";
     const addr = d.user || lk.addr || "";
     const copiedAddr = !!(this.state.copied && this.state.copied[addr]);
@@ -1083,7 +1083,7 @@ class Component extends DCLogic {
     // and keep the weight table IN SYNC with detectors.js DEFAULTS.contribW so every
     // detector (incl. conviction/timing/concentration/sizing) gets a real share.
     if (s.contributions && Object.keys(s.contributions).length) return s.contributions;
-    const weight = { won: 30, cluster: 22, conceal: 14, concentration: 14, fresh: 10, timing: 8, conviction: 6, sizing: 6, profitCross: 6, longshot: 4, held: 4, baseline: 4 };
+    const weight = { won: 26, crossCat: 22, timing: 18, cluster: 18, concentration: 12, conceal: 12, fresh: 10, repeat: 10, conviction: 6, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 };
     const fired = (s.fired || []).filter((k) => weight[k] != null);
     const total = fired.reduce((a, k) => a + weight[k], 0) || 1;
     const out = {};
@@ -1396,7 +1396,7 @@ class Component extends DCLogic {
   contributionNode(s) {
     const h = this.h;
     const contrib = this.contributionMap(s);
-    const palette = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#34D399", timing: "#6FE3B6", sizing: "#A78BFA", concentration: "#2BB587", baseline: "#7E8C86", profitCross: "#34D399", hProfit: "#34D399", hBetCross: "#6FE3B6", hBetWithin: "#A78BFA", hLate: "#2BB587", hDir: "#7E8C86" };
+    const palette = { won: "#34D399", crossCat: "#5EEAD4", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#34D399", timing: "#FBBF24", repeat: "#F0ABFC", sizing: "#A78BFA", concentration: "#2BB587", baseline: "#7E8C86", profitCross: "#34D399", hProfit: "#34D399", hBetCross: "#6FE3B6", hBetWithin: "#A78BFA", hLate: "#2BB587", hDir: "#7E8C86" };
     // include EVERY contributing signal (no hardcoded whitelist) so the bar + legend sum to 100%
     // and Harvard's signals (and timing/sizing/concentration) are never silently dropped.
     const order = Object.keys(contrib).filter((k) => contrib[k] != null && contrib[k] > 0).sort((a, b) => contrib[b] - contrib[a]);
@@ -1507,7 +1507,7 @@ class Component extends DCLogic {
     const contrib = this.contributionMap(s);
     const order = Object.keys(contrib).sort((a, b) => contrib[b] - contrib[a]);
     const measured = {}; (s.scorecard || []).forEach((c) => (measured[c.key] = c.metric));
-    const pal = { won: "#34D399", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#FBBF24", baseline: "#5EEAD4", profitCross: "#34D399", timing: "#6FE3B6", sizing: "#A78BFA", concentration: "#2BB587" };
+    const pal = { won: "#34D399", crossCat: "#5EEAD4", cluster: "#A78BFA", conceal: "#2BB587", longshot: "#6FE3B6", fresh: "#C4B5FD", held: "#7E8C86", conviction: "#FBBF24", baseline: "#5EEAD4", profitCross: "#34D399", timing: "#FBBF24", repeat: "#F0ABFC", sizing: "#A78BFA", concentration: "#2BB587" };
     const maxC = Math.max(...order.map((k) => contrib[k]), 1);
     const bars = order.map((k) => h("div", { key: k, style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "9px" } },
       h("div", { style: { width: "120px", flexShrink: 0, fontFamily: "Inter", fontSize: "11.5px", color: "#C4CAC6", textAlign: "right" } }, this.findingName(k)),
@@ -1681,11 +1681,13 @@ class Component extends DCLogic {
     });
 
     // findings
-    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction",
+    const nameMap = { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", crossCat: "Near-perfect across many markets", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", repeat: "Hit several separate surprises", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction",
       baseline: "Won past the break-even rate", profitCross: "Profited far more than the market",
       // Harvard composite signals (preview model)
       hProfit: "Profited far more than peers", hBetCross: "Bet far bigger than the market", hBetWithin: "Bet dwarfed its own norm", hLate: "Bought right before the event", hDir: "One-sided, held to the end" };
     const explainMap = {
+      crossCat: "Won almost every bet across many DIFFERENT markets at ordinary odds — a near-perfect record over diverse, moderate-priced markets is improbable in a way the long-shot test can't see (it only looks at cheap bets).",
+      repeat: "Was early and right on SEVERAL separate surprising events over time — one lucky surprise is luck; hitting multiple unrelated ones is a pattern.",
       baseline: "Won more often than the break-even rate implied by its own entry prices — at 80¢ you must win 80% just to not lose money, so this is profit above the payoff-adjusted bar, not a flat 50%.",
       profitCross: "Profited far more on this market than the other traders in it — out-earning the whole market on a single position is the favorite-odds informed-trading signal the long-shot test cannot see (works at any odds).",
       hProfit: "Earned far more on this market than the other traders in it — outsized profit is the most direct informed-trading signal.",
@@ -1708,6 +1710,8 @@ class Component extends DCLogic {
     // covers every wallet. Plain words: what we calculated, and why/how it points to a tip-off.
     const eli5Map = {
       won: "Imagine a game where the market says 'this almost never happens.' We counted how many of those long-shot bets this person still WON, then worked out the chance of being that lucky by accident. The '1 in N' number is that chance — a tiny number means luck almost certainly can't explain it, so they probably knew something.",
+      crossCat: "This person bet on lots of different things at normal odds — not just risky long shots — and still won almost every time. We added up how many they SHOULD have won by luck and how many they actually won. Being almost perfect across many different bets is really hard to do by chance, so it looks like they kept knowing answers other people didn't.",
+      repeat: "We looked at whether they got lucky just once or kept showing up early-and-right on different surprises. They hit SEVERAL separate ones. Winning one surprise can be luck; calling several unrelated surprises is a pattern, like a kid who 'guesses' the test answers every single week.",
       longshot: "We measured how unlikely the things they bet on were. Long shots are where you make the most money IF you secretly know they'll happen. We averaged how 'unlikely' their bets were — very low odds means they were hunting the big informed payoff, not betting on sure things.",
       held: "When you KNOW you'll win, you never sell early or buy a backup — you just hold on. We counted how many bets they held all the way to the end. Holding every single time is what someone does when they aren't nervous, because they already know the answer.",
       fresh: "We checked how old their wallet was when these bets happened. It was brand new — made just days before, with no history — like someone who opened a fresh account on purpose, just to place these bets and not be linked to anything else.",
