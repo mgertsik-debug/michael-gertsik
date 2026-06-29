@@ -201,7 +201,7 @@ async function marketsByConds(conds, opts) {
       const g = await getJSON(GAMMA + "/markets?condition_ids=" + encodeURIComponent(cond), { timeout: 7000 }).catch(() => null);
       const arr = Array.isArray(g) ? g : (g && (g.data || g.markets)) || [];
       const gm = arr[0];
-      if (gm && isBinary(gm.outcomes)) { const w = resolvedWinner(gm); if (w != null) { winner = w; q = String(gm.question || "").trim(); slug = gm.slug || ""; endIso = gm.closedTime || gm.endDate; } }
+      if (gm && isBinary(gm.outcomes)) { const w = resolvedWinner(gm); if (w != null) { winner = w; q = String(gm.question || "").trim(); slug = (Array.isArray(gm.events) && gm.events[0] && gm.events[0].slug) || gm.slug || ""; endIso = gm.closedTime || gm.endDate; } }
     }
     if (winner == null) return;
     out[cond] = { w: winner, q, s: slug, c: category([], q) || categoryFallback(q), r: Math.round((Date.parse(endIso || 0) || 0) / 1000) || null };
@@ -227,10 +227,36 @@ async function openMarketMeta(conds, opts) {
     const m = arr[0];
     if (!m) return;
     const tags = tagList(null, m);
-    const slug = m.slug || (Array.isArray(m.events) && m.events[0] && m.events[0].slug) || "";
+    // EVENT slug drives the canonical /event/ URL — prefer it over the market slug, which 404s
+    // for any multi-market event (e.g. the dated "US strikes Iran by <date>" markets share ONE
+    // event page). Fall back to the market slug only when no event is attached.
+    const slug = (Array.isArray(m.events) && m.events[0] && m.events[0].slug) || m.slug || "";
     out[cond] = { question: String(m.question || "").trim(), slug, category: category(tags, m.question), closed: m.closed === true || m.closed === "true" };
   };
   for (let i = 0; i < list.length; i += o.concurrency) await Promise.all(list.slice(i, i + o.concurrency).map(one));
+  return out;
+}
+
+// Resolve the canonical EVENT slug for a set of condition ids (Gamma). Returns
+// { cond: eventSlug } — only conds that resolve to a non-empty slug are included. Used to
+// REPAIR stored market links that were built from a market-level slug (which 404s for
+// multi-market events). Bounded + concurrency-limited so it fits the scan budget.
+async function eventSlugByConds(conds, opts) {
+  const o = Object.assign({ maxConds: 600, concurrency: 6, pageDelayMs: 25 }, opts);
+  const out = {};
+  const list = Array.from(new Set((conds || []).filter(Boolean))).slice(0, o.maxConds);
+  const one = async (cond) => {
+    const g = await getJSON(GAMMA + "/markets?condition_ids=" + encodeURIComponent(cond), { timeout: 7000 }).catch(() => null);
+    const arr = Array.isArray(g) ? g : (g && (g.data || g.markets)) || [];
+    const gm = arr[0];
+    if (!gm) return;
+    const ev = (Array.isArray(gm.events) && gm.events[0] && gm.events[0].slug) || gm.slug || "";
+    if (ev) out[cond] = ev;
+  };
+  for (let i = 0; i < list.length; i += o.concurrency) {
+    await Promise.all(list.slice(i, i + o.concurrency).map(one));
+    if (o.pageDelayMs) await sleep(o.pageDelayMs);
+  }
   return out;
 }
 
@@ -664,6 +690,6 @@ async function resolveUsername(handle) {
 
 module.exports = {
   getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket, recentTrades, profileAggregates,
-  userPositions, positionToBet, userTrades, buildUserRecord, txMapFromTrades, marketsByConds, openMarketMeta, category, resolvedWinner, isBinary, tradeOutcome,
+  userPositions, positionToBet, userTrades, buildUserRecord, txMapFromTrades, marketsByConds, eventSlugByConds, openMarketMeta, category, resolvedWinner, isBinary, tradeOutcome,
   resolveUsername, pickAddress, GAMMA, DATA, CLOB,
 };

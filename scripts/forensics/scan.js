@@ -479,6 +479,37 @@ async function run() {
   }
   log("deep-enriched " + enrichedCount + " wallets (concurrency " + ENRICH_CONCURRENCY + ") · " + fullRecords + " full records · " + posRecords + " positions-reconciled · " + profiled + " profile aggregates · " + onDemandResolved + " markets resolved on-demand · " + txBackfilled + " entry-tx backfilled · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
 
+  // 5b. EVENT-SLUG REPAIR — older runs stored a MARKET-level slug as the market URL, which 404s
+  // for any multi-market event (the dated "US strikes Iran by <date>" markets all share ONE
+  // event page). Re-resolve the canonical EVENT slug from Gamma for screened wallets' markets
+  // and rewrite the stored links + catalog. Bounded per run and marked in state._slugFixed so it
+  // converges and never re-resolves a market already fixed. Flag-candidates (the wallets that can
+  // actually be published + displayed) are repaired first.
+  try {
+    const SLUG_REPAIR_PER_RUN = +ENV.SLUG_REPAIR_PER_RUN || 600;
+    const fixed = state._slugFixed || (state._slugFixed = {});
+    const cat = state._catalog || (state._catalog = {});
+    const screened = Object.values(state.screened || {});
+    const candScore = (w) => (w._seed ? 4 : 0) + (w._ring ? 4 : 0) + ((w.bets || []).some((b) => (Number(b.entryPrice) || 1) <= 0.35 && b.won) ? 2 : 0);
+    const ordered = screened.slice().sort((a, b) => candScore(b) - candScore(a));
+    const pending = [];
+    const seenC = new Set();
+    for (const w of ordered) for (const b of (w.bets || [])) {
+      if (b.cond && !fixed[b.cond] && !seenC.has(b.cond)) { seenC.add(b.cond); pending.push(b.cond); }
+    }
+    const batch = pending.slice(0, SLUG_REPAIR_PER_RUN);
+    if (batch.length) {
+      const evs = await poly.eventSlugByConds(batch, { maxConds: batch.length });
+      for (const c of batch) { fixed[c] = evs[c] || ""; if (evs[c] && cat[c]) cat[c].s = evs[c]; }   // mark ALL attempted so we don't retry storms
+      let rewrote = 0;
+      for (const w of screened) for (const b of (w.bets || [])) {
+        const es = fixed[b.cond];
+        if (es) { const u = "https://polymarket.com/event/" + es; if (b.url !== u) { b.url = u; b.eventGroup = es; rewrote++; } }
+      }
+      log("event-slug repair: resolved " + Object.keys(evs).length + "/" + batch.length + " markets, rewrote " + rewrote + " bet links (" + Object.keys(fixed).length + " total fixed)");
+    }
+  } catch (e) { log("slug repair failed (non-fatal): " + (e && e.message)); }
+
   // 6. rolling-coverage invariant
   const ages = Object.values(state.screened).map((w) => (NOW_S - (w.lastEnrichedTs || 0)) / 86400);
   const oldest = ages.length ? Math.max(...ages) : 0;
