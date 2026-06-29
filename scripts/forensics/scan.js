@@ -724,16 +724,12 @@ async function finalize(state, snapshotTs) {
   log("harvard shadow: would flag " + hs.total + " (" + (hs.onlyHarvard || 0) + " binomial misses · " +
     (hs.alsoBinomial || 0) + " overlap) · tiers " + JSON.stringify(hs.byTier || {}));
 
-  // ---- HARVARD STORE (preview): the SAME full dossiers the live UI renders, but scored with
-  // the pure-Harvard composite — served at /api/forensics/harvard-subjects and shown by the
-  // preview (wallet-forensics.html?model=harvard). Built over the same single-wallet aggregates;
-  // never touches the published binomial store. Wrapped so a failure here can't break the tick.
-  try {
-    const hMeta = { observed: meta.observed, reviewed: meta.reviewed, screened: meta.screened, snapshot: monthDay(snapshotTs), recomputed: monthDay(NOW_S) };
-    const hPayload = build.buildHarvardPayload(singleAggs, hMeta, state._catalog || {});
-    write(HARVARD_STORE, hPayload);
-    log("harvard store (preview): " + hPayload.flaggedCount + " full Harvard dossiers written");
-  } catch (e) { log("harvard store build failed (non-fatal):", e && e.message); }
+  // ---- HARVARD STORE — RETIRED. The separate "Suspicious Trades" product (a second store served
+  // at /api/forensics/harvard-subjects) was merged into the single Suspect Wallets store: the
+  // favorite-odds / cross-sectional archetype it caught is now folded into buildPayload() as a
+  // hardened publish path (see build.js FAVORITE PASS). One source of truth → we no longer write a
+  // second store. The pure-Harvard episode score is still computed per wallet (carried on each
+  // subject as harvardScore) and the harvard SHADOW diagnostic above still runs.
 
   // ---- bound state.json WITHOUT breaking accumulation. A wallet's record only
   // matures as the sweep reaches its markets, so we RETAIN screened wallets across

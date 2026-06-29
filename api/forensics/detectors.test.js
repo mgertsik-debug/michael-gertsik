@@ -252,3 +252,67 @@ test("HARVARD composite: 3-signal score + profitability gate + tiers", () => {
   const partial = D.harvardEpisode({ zBetCross: 3, won: true });
   assert.equal(partial.hasData, true); assert.equal(partial.S, 60, "20*3 with others 0");
 });
+
+/* ============================================================================
+ *  FAVORITE / CROSS-SECTIONAL PUBLISH PATH (option B: folded into the ONE wallet store).
+ *  The favorite-odds informed trader the ≤35% long-shot binomial is blind to — gated HARD so it
+ *  cannot reproduce the documented mass false positives (net-losing whales, bare whales on faves).
+ * ========================================================================== */
+const B = require("./build.js");
+function favAgg(over) {
+  const fund = 1699000000, first = fund + 5 * 86400;          // 5-day-old wallet (fresh fires when priorTx=0)
+  const base = {
+    address: "0xFAVdeadbeef0000000000000000000000000001",
+    firstSeenTs: first, fundingTs: fund, priorTx: 0,           // fresh = STRUCTURAL corroborator
+    profile: { username: "fave-insider", pnlAllTime: 26000, volume: 60000 },
+    bets: [
+      // the flagged episode: a big WINNING bet on a FAVORITE (65%), outsized + out-profited peers
+      { cond: "0xfav", question: "Will X win?", url: null, category: "Politics", entryPrice: 0.65,
+        stakeUsd: 50000, outcome: "YES", won: true, held: true, ts: 1700000000, tx: "0xaaa", eventGroup: "evt-fav",
+        hz: { zBetCross: 5, zProfitCross: 5, lateBuyFraction: 0.9, directionalScore: 1.0 } },
+      // a couple of small resolved losers (form a distribution; keep net P/L well positive)
+      { cond: "0xb1", question: "m1", entryPrice: 0.5, stakeUsd: 1000, outcome: "NO", won: false, held: true, ts: 1700000100, tx: "0xbbb" },
+      { cond: "0xb2", question: "m2", entryPrice: 0.4, stakeUsd: 1000, outcome: "NO", won: false, held: true, ts: 1700000200, tx: "0xccc" },
+    ],
+  };
+  return Object.assign(base, over || {});
+}
+
+test("FAVORITE path: genuine favorite-insider (won + outsized + net-profitable + fresh) -> flagged", () => {
+  const s = B.buildFavoriteSubject(favAgg(), 0, {}, {});
+  assert.ok(s, "should publish a favorite subject");
+  assert.equal(s.flaggedBy, "cross-sectional-profit");
+  assert.equal(s.tier, "elevated", "z=5 with 1 structural signal caps at high/elevated (not extreme)");
+  assert.ok(s.profitNum > 0, "net-positive flagged profit");
+  assert.ok(!/1 in/.test(s.improbText), "no invalid normal-tail '1 in N' for heavy-tailed profit");
+});
+
+test("FAVORITE path: bare whale on a favorite (no fresh/conceal/cluster) -> NOT flagged", () => {
+  // same outsized winning favorite + net profit, but an OLD wallet with prior history and no
+  // concealment/cluster -> zero STRUCTURAL signals -> the anti-whale discriminator rejects it.
+  const s = B.buildFavoriteSubject(favAgg({ priorTx: 500, firstSeenTs: 1699000000 + 400 * 86400 }), 0, {}, {});
+  assert.equal(s, null, "a smart whale with no on-chain structure must not pollute the validated view");
+});
+
+test("FAVORITE path: net-LOSING wallet that out-profited peers in one market -> NOT flagged", () => {
+  // fresh wallet, same flagged episode, but overall the wallet LOST money (big losers) -> net-profit
+  // gate rejects it. This is the exact archetype the old favorites pass false-flagged.
+  const losers = favAgg();
+  losers.bets.push({ cond: "0xL", question: "big loss", entryPrice: 0.5, stakeUsd: 80000, outcome: "NO", won: false, held: true, ts: 1700000300, tx: "0xddd" });
+  const s = B.buildFavoriteSubject(losers, 0, {}, {});
+  assert.equal(s, null, "out-profiting peers in ONE market while losing overall is not insider trading");
+});
+
+test("FAVORITE path: near-certainty favorite (97%) carries no edge -> NOT flagged", () => {
+  const sure = favAgg();
+  sure.bets[0].entryPrice = 0.97;                              // above FAV_MAX_ODDS (0.90)
+  const s = B.buildFavoriteSubject(sure, 0, {}, {});
+  assert.equal(s, null, "a near-certain favorite is a whale parking money, not informed trading");
+});
+
+test("buildPayload: favorite subject is folded into the ONE store, appears once", () => {
+  const payload = B.buildPayload([favAgg()], {}, {});
+  const favs = payload.subjects.filter((s) => s.flaggedBy === "cross-sectional-profit");
+  assert.equal(favs.length, 1, "the favorite-insider is published once in the single store");
+  assert.equal(payload.subjects.length, 1, "no duplicate row for the same wallet");
+});

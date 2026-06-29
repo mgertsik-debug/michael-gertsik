@@ -72,6 +72,22 @@ const LONGSHOT_MAX = 0.35;       // the headline is the bettor's "≤35% implied
 // informational edge. So an episode must clear a real profit floor AND not be a heavy favorite.
 const HARVARD_MIN_PROFIT = +process.env.HARVARD_MIN_PROFIT || 1000;   // material realized profit ($)
 const HARVARD_MAX_ODDS = +process.env.HARVARD_MAX_ODDS || 0.70;       // entry odds ceiling (informational edge)
+// FAVORITE / cross-sectional PUBLISH path (folded into the ONE wallet store). This catches the
+// favorite-odds insider the ≤35% long-shot binomial is structurally blind to (Harvard's Trump-2024
+// archetype: bet a heavy favorite, simply out-profit everyone else). It is the SAME signal that
+// blew up as the old "favorites pass" (mass false positives), so it is re-enabled ONLY behind the
+// anti-FP gates we learned the hard way — every one of which must clear:
+//   • the flagged episode WON and out-profited peers (z_profit_cross ≥ FAV_PROFIT_Z),
+//   • it was an OUTSIZED bet (z_bet_cross ≥ 2 OR the wallet's sizing anomaly fires),
+//   • entry odds are a FAVORITE but not a near-certainty (0 < p ≤ FAV_MAX_ODDS),
+//   • the WALLET is NET PROFITABLE past FAV_MIN_NET_PROFIT (kills the net-losing whales the old
+//     path waved through — out-profiting peers in ONE market while losing overall is not insider),
+//   • ANTI-WHALE DISCRIMINATOR: ≥1 STRUCTURAL on-chain signal (fresh / concealed / clustered
+//     wallet) corroborates. A bare whale on a favorite has none of these — that is what separates
+//     an informed favorite bet from a smart whale we cannot distinguish without it.
+const FAV_MIN_NET_PROFIT = +process.env.FAV_MIN_NET_PROFIT || 5000;   // wallet net realized P/L floor ($)
+const FAV_MAX_ODDS = +process.env.FAV_MAX_ODDS || 0.90;              // entry-odds ceiling (favorite, not a sure thing)
+const FAV_PROFIT_Z = +process.env.FAV_PROFIT_Z || 2;                 // z_profit_cross firing threshold
 function scoreAggregate(agg) {
   const valid = (agg.bets || []).filter((b) => b && typeof b.won === "boolean" && D.isNum(num(b.entryPrice)));
   // The SUBJECT is the bettor's long-shot record: only bets entered at ≤35%
@@ -457,6 +473,13 @@ function buildSubject(agg, idx, opts, catalog) {
     // recomputed map, so conviction/timing/concentration/sizing aren't shown as 0%.
     contributions: f.contributions || {},
     agreeing: f.agreeing,
+    // DETECTOR AGREEMENT denominator = detectors that actually HAD DATA for this wallet (could fire),
+    // NOT the full 12-detector roster. Most of the roster is archetype-/data-specific (cluster needs
+    // a ring; conceal/fresh need on-chain enrichment; conviction is a different archetype) and is
+    // EXCLUDED when it can't be measured — counting those as "failed to agree" makes a strong wallet
+    // look weak ("4 of 12" when only ~7 were even measurable). The UI shows fired / measured.
+    detectorsMeasured: Object.values(dets).filter((d) => d && d.hasData).length,
+    detectorsFired: fired.length,
     refId: agg.refId || ("WF-" + new Date((agg.firstSeenTs || 0) * 1000).getUTCFullYear() + "-" + String(1000 + idx).slice(1)),
     cexChips: agg.cexChips || [],
     heroSentence, scorecard, ledger,
@@ -523,6 +546,13 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
   // AUTHORITATIVE per-position P/L (betPL → Polymarket cashPnl). This is the flagged profit.
   const anchor = valid.find((b) => (pc.tx && b.tx === pc.tx) || (pc.cond && b.cond === pc.cond && b.ts === pc.ts)) || null;
   if (!anchor) return null;
+  // WON — informed trading is PROFITABLE. The flagged episode must actually have won; a big
+  // bet that out-"profited" peers but lost is not the signature (and pollutes the view).
+  if (anchor.won !== true) return null;
+  // ODDS — a FAVORITE carries an edge worth investigating, a near-CERTAINTY does not. Require a
+  // real entry price below the favorite ceiling (0 < p ≤ FAV_MAX_ODDS) so a whale parking money
+  // on a 97% sure thing is not flagged as informed.
+  if (!(num(anchor.entryPrice) > 0 && num(anchor.entryPrice) <= FAV_MAX_ODDS)) return null;
   // HARVARD RETENTION (anti-false-positive): someone wins every market, so out-profiting peers
   // is NOT enough on its own — Harvard keeps only episodes that ALSO bet outsized (z_bet_cross>2
   // OR z_bet_within>2). Require the flagged episode to be an outsized BET as well as an outsized
@@ -539,17 +569,33 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
   const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
   const _material = Math.max(epStake, Math.abs(epPL));
   if (_material < MATERIALITY_USD) return null;
+  // NET-PROFITABILITY (the gate the OLD favorites path lacked — and why it flagged net-losing
+  // whales). Out-profiting peers in ONE market while LOSING money overall is not insider trading,
+  // it's a gambler that got one win. Require the WALLET to be net-positive across its full resolved
+  // record, past a real floor. This is what kills the documented mass false positives.
+  const netPL = valid.reduce((a, b) => a + betPL(b), 0);
+  if (!(netPL >= FAV_MIN_NET_PROFIT)) return null;
   // Corroborating detectors that ALSO fire on this wallet (shown as supporting cards).
   const corro = ["fresh", "conceal", "cluster", "sizing", "concentration", "timing", "baseline"]
     .filter((k) => dets[k] && dets[k].hasData && (k === "cluster" ? dets[k].isCluster : dets[k].fires));
-  // Tier from the cross-sectional profit z (conservative; z>2 ≈ top ~2.3% if peers were normal).
-  // The TOP tier requires corroboration — a lone signal, however strong, is capped at "high",
-  // matching the binomial path's ≥2-agreeing philosophy. So "extreme" always means the profit
-  // outlier AND at least one independent signal (fresh wallet, concealment, cluster, …) agree.
+  // ANTI-WHALE DISCRIMINATOR — the crux. A cross-sectional profit outlier on a favorite is, on its
+  // own, indistinguishable from a smart whale we have no business accusing. What separates an
+  // INFORMED favorite bet from a whale is on-chain STRUCTURE: a purpose-built (fresh) wallet,
+  // concealment tactics, or a coordinated cluster. Require ≥1 such STRUCTURAL signal to flag at
+  // all. sizing/concentration are whale-like (a big concentrated bet) and do NOT count here —
+  // they corroborate but cannot be the basis. On data without chain enrichment this flags few or
+  // none; that is correct — better to miss a favorite-insider than to re-accuse a whale.
+  const STRUCTURAL = ["fresh", "conceal", "cluster"];
+  const structural = corro.filter((k) => STRUCTURAL.includes(k));
+  if (!structural.length) return null;
+  // Tier from the cross-sectional profit z AND structural corroboration. "extreme" needs a strong
+  // outlier (z≥4) plus ≥2 structural signals; a single structural signal caps at "high" — matching
+  // the binomial path's ≥2-agreeing philosophy. There is no un-corroborated tier: structural ≥1 is
+  // already required above, so every favorite flag carries the profit outlier AND on-chain structure.
   const z = pc.z;
-  const corr = corro.length;
-  const ftier = (z >= 4 && corr >= 1) ? "extreme"
-    : (z >= 4 || (z >= 3 && corr >= 1)) ? "high"
+  const sc2 = structural.length;
+  const ftier = (z >= 4 && sc2 >= 2) ? "extreme"
+    : (z >= 3 || sc2 >= 2) ? "high"
     : "notable";
   const tier = TIER[ftier];
   if (!tier) return null;
@@ -574,7 +620,7 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
     formula: "z = (this wallet's profit − market mean) ÷ market SD, over the peers in the SAME market",
     numbers: pc.explain,
     inputs: [["z_profit_cross", String(z)], ["episode", money(epStake) + " @ " + epOdds + "% on “" + String(qOf(anchor)).slice(0, 48) + "”"],
-      ["episode P/L", signedMoney(epPL)], ["chance if normal", pc.denomText]],
+      ["episode P/L", signedMoney(epPL)], ["wallet net P/L", signedMoney(netPL)]],
   }];
   if (corro.includes("fresh") && dets.fresh.hasData)
     scorecard.push({ key: "fresh", metric: (dets.fresh.ageDays < 1 ? Math.round(dets.fresh.ageDays * 24) + "h old" : dets.fresh.ageDays.toFixed(0) + " days old"),
@@ -660,10 +706,18 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
     created: dateStr(agg.createdTs) || dateStr(agg.firstSeenTs) || "an unrecorded date", createdOnChain: agg.createdTs != null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
     category: dominantCategory(valid), marketsCount: valid.length, tier,
-    improbText: pc.denomText, improbDenom: pc.denom, improbFull: pc.denomText + " — chance of a profit margin this far above the market's other traders, if peer profits were normally distributed",
-    improbCaption: "chance this profit edge is luck (vs peers)",
+    // HEADLINE — an honest cross-sectional MARGIN, NOT a "1 in N". Trader-profit distributions are
+    // heavy-tailed, so a normal-tail probability for a z of 4+ fabricates an astronomical figure;
+    // we report only how many standard deviations above the market's other traders this wallet
+    // profited. improbDenom is a SORT KEY (ranks favorites among themselves; far below the binomial
+    // "1 in N" denoms, so cross-sectional flags rank beneath the statistically-improbable records).
+    improbText: z.toFixed(1) + "σ over peers", improbDenom: Math.round(z * 100 + sc2 * 50),
+    improbFull: "this wallet out-profited the other traders in that market by " + z.toFixed(1) + " standard deviations",
+    improbCaption: "profit margin vs the market's other traders",
+    percentile: D.clip(50 + z * 8 + sc2 * 4, 50, 99.5),
     convictionFlag: false, full: ledger.length >= 1,
     winRate, avgImplied: epOdds, profit: signedMoney(epPL), fired, contributions, agreeing: fired.length,
+    detectorsMeasured: Object.values(dets).filter((d) => d && d.hasData).length, detectorsFired: fired.length,
     refId: agg.refId || ("WF-F-" + String(1000 + idx).slice(1)), cexChips: agg.cexChips || [],
     heroSentence, scorecard, ledger,
     ledgerSummary: { markets: valid.length, winRate, realized: signedMoney(epPL) },
@@ -847,14 +901,23 @@ function buildPayload(aggregates, meta, catalog) {
   meta._scoredDenoms = [];                                     // every aggregate's improbability, for the true-rank percentile
   meta._harvardShadow = [];                                    // SHADOW: every wallet pure-Harvard WOULD flag this run (dark launch)
   (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta, catalog); if (s) subjects.push(s); });
-  // FAVORITES PASS — DISABLED. The standalone cross-sectional-profit path produced mass false
-  // positives: it flagged net-LOSING, high-volume gamblers as "extreme informed traders" because a
-  // wallet can out-profit peers in ONE market (high z_profit_cross) while losing money overall, and
-  // the normal-tail "1 in N" is invalid for heavy-tailed profit. Harvard only used z_profit_cross
-  // INSIDE a heavily-filtered, labeled-validated composite — standalone on our data it is noise.
-  // profitCross stays only as a CORROBORATING signal inside the binomial path (where the wallet has
-  // already cleared the strict ≥5-long-shot, P≤0.01, ≥2-agreeing statistical bar). Do NOT re-enable
-  // buildFavoriteSubject as a publish path until it is validated against ground truth.
+  // FAVORITES / CROSS-SECTIONAL PASS — folds Harvard's favorite-odds archetype into this ONE wallet
+  // store (option B: one source of truth, no separate "Suspicious Trades" view). It catches the
+  // informed trader who bet a FAVORITE and simply out-profited the market — invisible to the ≤35%
+  // long-shot binomial. This is the path that once produced mass false positives, so it is gated
+  // HARD inside buildFavoriteSubject: the episode won + was outsized, the wallet is net-profitable
+  // past a floor, AND ≥1 STRUCTURAL on-chain signal (fresh/concealed/clustered) corroborates — which
+  // a bare net-losing whale cannot satisfy. Only wallets NOT already published by the binomial path
+  // are considered (dedup by address), so every wallet appears at most once in the single store.
+  const published = new Set();
+  subjects.forEach((s) => (s.memberAddresses || [s.address]).forEach((a) => a && published.add(String(a).toLowerCase())));
+  (aggregates || []).forEach((agg, i) => {
+    if (!agg || agg.type === "cluster") return;
+    const a = agg.address ? String(agg.address).toLowerCase() : null;
+    if (a && published.has(a)) return;                          // already flagged by its long-shot record → don't double-list
+    let s = null; try { s = buildFavoriteSubject(agg, subjects.length + i, meta, catalog); } catch (_) {}
+    if (s) { subjects.push(s); if (a) published.add(a); }
+  });
   subjects.sort((a, b) => b.improbDenom - a.improbDenom);
   // TRUE-RANK PERCENTILE: rank each subject's improbability against the population of
   // wallets we actually SCORED this run (not the cheaply-screened "reviewed" count). The
