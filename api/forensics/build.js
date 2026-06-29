@@ -67,6 +67,11 @@ const TIER = { extreme: "extreme", high: "elevated", notable: "watch", unflagged
 /* --------------------------------------------------------------- detectors -- */
 // Run the full suite on an aggregate and return { dets, f } (f = fuse result).
 const LONGSHOT_MAX = 0.35;       // the headline is the bettor's "≤35% implied" record
+// Suspicious-Trades (Harvard episode) gates: a surveillance tool flags MATERIAL money made
+// AGAINST the odds. A $20 win isn't worth investigating; a near-certain favorite carries no
+// informational edge. So an episode must clear a real profit floor AND not be a heavy favorite.
+const HARVARD_MIN_PROFIT = +process.env.HARVARD_MIN_PROFIT || 1000;   // material realized profit ($)
+const HARVARD_MAX_ODDS = +process.env.HARVARD_MAX_ODDS || 0.70;       // entry odds ceiling (informational edge)
 function scoreAggregate(agg) {
   const valid = (agg.bets || []).filter((b) => b && typeof b.won === "boolean" && D.isNum(num(b.entryPrice)));
   // The SUBJECT is the bettor's long-shot record: only bets entered at ≤35%
@@ -132,6 +137,12 @@ function scoreAggregate(agg) {
   let bestH = null;
   for (const b of valid) {
     if (!b.hz) continue;
+    // MATERIALITY + SURPRISE gates (a surveillance tool flags MONEY made against the ODDS):
+    //  • the episode must have made a MATERIAL profit (a $20 win isn't worth investigating), and
+    //  • the entry must have carried a real informational edge — a near-certain favorite (high
+    //    odds) is not informed trading, it's a whale parking money on a sure thing.
+    if (!(betPL(b) >= HARVARD_MIN_PROFIT)) continue;
+    if (!(num(b.entryPrice) > 0 && num(b.entryPrice) <= HARVARD_MAX_ODDS)) continue;
     const zw = sdW > 0 ? +(((num(b.stakeUsd) - muW) / sdW)).toFixed(3) : 0;
     const ep = D.harvardEpisode(Object.assign({}, b.hz, { zBetWithin: zw, won: b.won }));
     if (!ep.retained) continue;

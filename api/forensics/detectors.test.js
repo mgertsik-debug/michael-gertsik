@@ -240,11 +240,11 @@ test("HARVARD composite: 3-signal score + profitability gate + tiers", () => {
   const small = D.harvardEpisode({ zBetCross: 1.2, zBetWithin: 0.9, zProfitCross: 5, won: true });
   assert.equal(small.retained, false, "not retained when neither bet-size z exceeds 2");
 
-  // tier thresholds (calibrated to our gated distribution)
-  assert.equal(D.harvardTier(100), null, "below notable floor -> unflagged");
-  assert.equal(D.harvardTier(250), "notable");
-  assert.equal(D.harvardTier(500), "high");
-  assert.equal(D.harvardTier(900), "extreme");
+  // tier thresholds (calibrated to our gated, material+against-the-odds distribution)
+  assert.equal(D.harvardTier(300), null, "below notable floor -> unflagged");
+  assert.equal(D.harvardTier(400), "notable");
+  assert.equal(D.harvardTier(700), "high");
+  assert.equal(D.harvardTier(1000), "extreme");
 
   // missing cross-sectional z degrades to NO-DATA — never a fabricated S=0 (honesty rule).
   const z = D.harvardEpisode({});
