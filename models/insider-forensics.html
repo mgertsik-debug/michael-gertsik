@@ -131,14 +131,17 @@
   function profileUrl(e){ return e.wallet ? 'https://polygonscan.com/address/'+e.wallet : '#'; }
 
   // ===================== LIVE WATCHLIST (ported design · vanilla · real data) =====================
+  // Each signal gets its OWN colour (so they're instantly distinguishable), and the same colour is
+  // reused everywhere that signal appears — its chip, its score-breakdown bar, and its weight in the
+  // "THE SCORE" explainer — so colour teaches which flag is which rather than decorating.
   var WSIG = {
-    blackout:{ label:"news blackout", weight:6, style:"info", tip:"Nothing in the world's news matched this market's topic in the 24h before the bet. Betting big before there's any public news is the clearest 'they knew first' tell — so it's weighted highest (6)." },
-    outsized:{ label:"outsized trade", weight:5, style:"hot", tip:"This bet is far bigger than the other trades on this market — ≥3σ above the typical trade, or 10×+ the 90th-percentile trade. (One combined 'unusually large bet' signal, counted once.)" },
-    pool:{ label:"large % of pool", weight:3, style:"hot", tip:"A single trade is a large share of the market's total liquidity." },
-    fedReg:{ label:"Federal Register", weight:3, style:"info", tip:"A recent U.S. regulatory filing names this market's exact subject — corroborating, low weight." },
+    blackout:{ label:"news blackout", weight:6, color:'#FBBF24', tip:"Nothing in the world's news matched this market's topic in the 24h before the bet. Betting big before there's any public news is the clearest 'they knew first' tell — so it's weighted highest (6)." },
+    outsized:{ label:"outsized trade", weight:5, color:'#5EEAD4', tip:"This bet is far bigger than the other trades on this market — ≥3σ above the typical trade, or 10×+ the 90th-percentile trade. (One combined 'unusually large bet' signal, counted once.)" },
+    pool:{ label:"large % of pool", weight:3, color:'#A78BFA', tip:"A single trade is a large share of the market's total liquidity." },
+    fedReg:{ label:"Federal Register", weight:3, color:'#34D399', tip:"A recent U.S. regulatory filing names this market's exact subject — corroborating, low weight." },
     // legacy keys kept so rows scored before the size+whale merge still render
-    size:{ label:"outsized vs market", weight:5, style:"hot", tip:"Trade size ≥ 3σ above peer trades on this market" },
-    whale:{ label:"lone whale", weight:4, style:"hot", tip:"10×+ the 90th-percentile trade on this market" }
+    size:{ label:"outsized vs market", weight:5, color:'#5EEAD4', tip:"Trade size ≥ 3σ above peer trades on this market" },
+    whale:{ label:"lone whale", weight:4, color:'#7FB2FF', tip:"10×+ the 90th-percentile trade on this market" }
   };
   var WGMAX = 17;
   var WGRID = "88px minmax(180px,1.7fr) 132px 86px 78px minmax(170px,1.3fr) 92px 108px 60px";
@@ -149,10 +152,9 @@
   function wlPol(cx,cy,r,d){ var a=d*Math.PI/180; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; }
   function wlArc(cx,cy,r,a0,a1,c,w,glow){ var p0=wlPol(cx,cy,r,a0),p1=wlPol(cx,cy,r,a1),lg=(a1-a0)>180?1:0; return '<path d="M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+' A'+r+' '+r+' 0 '+lg+' 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+'" fill="none" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"'+(glow?' style="filter:drop-shadow(0 0 5px '+wlSC(0).g+')"':'')+'/>'; }
   function wlGauge(score,size){ var ic=wlSC(score),r=size/2-4,cx=size/2,cy=size/2,frac=Math.min(1,score/WGMAX),fs=size>80?24:13,sw=size>80?8:5; var s='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="flex-shrink:0;overflow:visible;">'; s+=wlArc(cx,cy,r,135,405,'#16201B',sw,false); if(frac>0.01){ var p0=wlPol(cx,cy,r,135),p1=wlPol(cx,cy,r,135+270*frac),lg=(270*frac)>180?1:0; s+='<path d="M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+' A'+r+' '+r+' 0 '+lg+' 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+'" fill="none" stroke="'+ic.c+'" stroke-width="'+sw+'" stroke-linecap="round" style="filter:drop-shadow(0 0 5px '+ic.g+')"/>'; } s+='<text x="'+cx+'" y="'+(cy+fs/3)+'" text-anchor="middle" fill="'+ic.c+'" font-size="'+fs+'" font-weight="700" font-family="\'JetBrains Mono\',monospace">'+score+'</text></svg>'; return s; }
-  // CALM CHIPS: info-environment corroborators (blackout / Federal Register) keep a soft green tint;
-  // the size-based ones drop to a neutral slate so the row isn't a wall of amber. Severity is carried
-  // by the score dial, not by every chip shouting.
-  function wlChip(style,label,tip){ var s=(style==='info')?"color:#6FE3B6;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.26);":"color:#9BA39E;background:rgba(155,170,162,0.05);border:1px solid #283531;"; return '<span title="'+esc(tip||'')+'" style="font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;white-space:nowrap;'+s+'">'+esc(label)+'</span>'; }
+  // Per-signal coloured chip: each signal's own colour as text, a faint tint bg, and a subtle border
+  // (8-digit hex alpha). Distinct but not loud — the score dial still carries overall severity.
+  function wlChip(color,label,tip){ color=color||'#9BA39E'; return '<span title="'+esc(tip||'')+'" style="font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;white-space:nowrap;color:'+color+';background:'+color+'1a;border:1px solid '+color+'59;">'+esc(label)+'</span>'; }
   function wlStatusPill(status,won){
     // colour reserved for the meaningful end state: HARDENED (a confirmed case) is red. "watching" is
     // the default for almost every row, so it's a calm neutral pill with no pulse; "cleared" is muted.
@@ -212,7 +214,7 @@
   function wlDrawer(e){
     var score=wlScoreOf(e), sc=wlSC(score);
     var bd=(e.signals||[]).slice().sort(function(a,b){return ((WSIG[b]&&WSIG[b].weight)||0)-((WSIG[a]&&WSIG[a].weight)||0);}).map(function(k){
-      var sig=WSIG[k]; if(!sig) return ''; var col=(sig.style==='info')?'#34D399':'#FBBF24';
+      var sig=WSIG[k]; if(!sig) return ''; var col=sig.color||'#34D399';
       return '<div style="margin-bottom:11px;"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:5px;">'
         + '<span style="font-size:12px;color:#C4CAC6;">'+esc(sig.label)+'</span>'
         + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:'+col+';">+'+sig.weight+'</span></div>'
@@ -236,7 +238,7 @@
     var w=(e.wallet||''), wshort=w.slice(0,6)+'…'+w.slice(-4);
     var copied=wlState.copied===id;
     var name=(e.market&&e.market!=='(market)')?e.market:'(market)';
-    var chips=(e.signals||[]).map(function(k){ var s=WSIG[k]; return s?wlChip(s.style,s.label,s.tip):''; }).join('');
+    var chips=(e.signals||[]).map(function(k){ var s=WSIG[k]; return s?wlChip(s.color,s.label,s.tip):''; }).join('');
     // EXPANDED rows pop OUT of the flat list: a glowing green-bordered, rounded, inset card with a
     // one-shot pulse — so a clicked trade and its drawer read as one distinct unit and never blur
     // into the neighbouring rows. Collapsed rows stay flat with a hairline divider.
@@ -294,7 +296,7 @@
       + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:.12em;color:#6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> WHAT THE TRADE-TIME SIGNALS MEAN</span>'
       + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#34D399;">'+(st.legendOpen?'− collapse':'+ expand')+'</span></button>';
     if(st.legendOpen){ legend+='<div style="margin-top:10px;display:grid;grid-template-columns:'+(window.innerWidth<900?'1fr':'repeat(auto-fit,minmax(220px,1fr))')+';gap:10px;animation:wf-drawer .2s ease;">'
-      + Object.keys(WSIG).map(function(k){ var s=WSIG[k]; return '<div style="background:#0E1512;border:1px solid #1F2A25;border-radius:10px;padding:12px 14px;"><div style="display:flex;align-items:center;gap:8px;">'+wlChip(s.style,s.label,'')+'<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6B756F;margin-left:auto;">weight '+s.weight+'</span></div><div style="font-size:12px;color:#949C98;margin-top:9px;line-height:1.5;">'+esc(s.tip)+'</div></div>'; }).join('')+'</div>'; }
+      + Object.keys(WSIG).map(function(k){ var s=WSIG[k]; return '<div style="background:#0E1512;border:1px solid #1F2A25;border-radius:10px;padding:12px 14px;"><div style="display:flex;align-items:center;gap:8px;">'+wlChip(s.color,s.label,'')+'<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6B756F;margin-left:auto;">weight '+s.weight+'</span></div><div style="font-size:12px;color:#949C98;margin-top:9px;line-height:1.5;">'+esc(s.tip)+'</div></div>'; }).join('')+'</div>'; }
     legend+='</div>';
     // toolbar
     var qc=[['blackout','blackout only'],['big','≥ $100K'],['hardened','hardened']].map(function(p){var on=st.quick[p[0]];return '<button onclick="wlQuick(\''+p[0]+'\')" style="font-family:Inter;font-size:11.5px;padding:6px 11px;border-radius:8px;cursor:pointer;border:1px solid '+(on?'#34D399':'#1F2A25')+';color:'+(on?'#34D399':'#949C98')+';background:'+(on?'rgba(52,211,153,.12)':'#0E1512')+';">'+p[1]+'</button>';}).join('');
@@ -312,7 +314,12 @@
     // always-visible explainer for THE SCORE (users shouldn't have to expand a row to learn what it is)
     var scoreHelp='<div style="display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:11px 15px;background:#0E1512;border:1px solid #1F2A25;border-radius:11px;">'
       + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.12em;color:#34D399;padding-top:3px;flex-shrink:0;">◷ THE SCORE</span>'
-      + '<span style="font-size:12px;color:#949C98;line-height:1.6;">A trade’s <b style="color:#C4CAC6;">score</b> simply adds up the red flags that fired on it: <b style="color:#C4CAC6;">news&nbsp;blackout&nbsp;+6</b> (bet before any public news — the strongest tell, so it counts most), <b style="color:#C4CAC6;">outsized&nbsp;trade&nbsp;+5</b> (far bigger than other trades here), <b style="color:#C4CAC6;">large&nbsp;%&nbsp;of&nbsp;pool&nbsp;+3</b>, and <b style="color:#C4CAC6;">Federal&nbsp;Register&nbsp;+3</b> (a regulatory filing on the exact subject). Add them up → max ~17. Higher = more, stronger early-warning flags; the dial fills green→amber→red with the score. Click any row for the full breakdown. It’s an early-warning score from signals available <i>at placement</i> only — it can’t yet use whether the bet won.</span></div>';
+      + '<span style="font-size:12px;color:#949C98;line-height:1.7;">A trade’s <b style="color:#C4CAC6;">score</b> is just the points from each red flag that fired — and each flag has its own colour (same colour on its chip and in the breakdown):<br>'
+        + '<b style="color:#FBBF24;">news&nbsp;blackout&nbsp;+6</b> (bet before <i>any</i> public news — the strongest tell, so it counts most) &nbsp;·&nbsp; '
+        + '<b style="color:#5EEAD4;">outsized&nbsp;trade&nbsp;+5</b> (far bigger than the other trades here) &nbsp;·&nbsp; '
+        + '<b style="color:#A78BFA;">large&nbsp;%&nbsp;of&nbsp;pool&nbsp;+3</b> (eats a big slice of the market’s money) &nbsp;·&nbsp; '
+        + '<b style="color:#34D399;">Federal&nbsp;Register&nbsp;+3</b> (a regulatory filing names the exact subject).<br>'
+        + 'Add them up → <b style="color:#C4CAC6;">max ~17</b>. <b style="color:#C4CAC6;">Example:</b> the $191K Putin bet below scored <b style="color:#FBBF24;">9</b> = <span style="color:#5EEAD4;">outsized&nbsp;+5</span> plus <span style="color:#7FB2FF;">lone&nbsp;whale&nbsp;+4</span>. The dial fills <span style="color:#34D399;">green</span>→<span style="color:#FBBF24;">amber</span>→<span style="color:#F87171;">red</span> as the score climbs; click any row for the full breakdown. It’s an early-warning score from signals available <i>at placement</i> only — it can’t yet use whether the bet won.</span></div>';
     document.getElementById('wl-dyn').innerHTML = banner+stats+legend+toolbar+scoreHelp+'<div style="margin-top:12px;border:1px solid #1F2A25;border-radius:14px;overflow:hidden;background:#0B100E;"><div id="wl-feed">'+wlFeedHTML()+'</div></div>'+footer;
   }
   // ---- interaction handlers ----
