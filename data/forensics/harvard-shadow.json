@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 29 2026",
   "snapshot": 1782628669,
-  "total": 1998,
+  "total": 2012,
   "byTier": {
-    "extreme": 1737,
-    "high": 111,
-    "notable": 150
+    "extreme": 1753,
+    "high": 112,
+    "notable": 147
   },
-  "medianS": 2317.9,
-  "p90": 2854.9,
+  "medianS": 2344.1,
+  "p90": 2855.3,
   "p95": 3037.7,
-  "p99": 3469.9,
+  "p99": 3466.2,
   "minS": 90,
   "maxS": 4193.9,
-  "over500": 1760,
-  "alsoBinomial": 965,
-  "onlyHarvard": 1033,
-  "observed": 203655,
-  "reviewed": 203655,
-  "screened": 9913,
-  "scored": 5374,
+  "over500": 1776,
+  "alsoBinomial": 968,
+  "onlyHarvard": 1044,
+  "observed": 203771,
+  "reviewed": 203771,
+  "screened": 9924,
+  "scored": 5402,
   "top": [
     {
       "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
@@ -2893,7 +2893,7 @@
       "address": "0xed107a85a4585a381e48c7f7ca4144909e7dd2e5",
       "username": "elmcap2",
       "tier": "extreme",
-      "S": 3471.4,
+      "S": 3471.7,
       "market": "US x Iran permanent peace deal by May 15, 2026?",
       "marketUrl": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
       "episodeTx": "0xf9089e36a5553e2eee2ed7b2e37a2d84e4f78b9c4efbdefd5ed885615ca1cb61",
@@ -2902,7 +2902,7 @@
       "won": true,
       "episodeProfit": 624,
       "zBetCross": 23.5,
-      "zBetWithin": 2.51,
+      "zBetWithin": 2.52,
       "zProfitCross": 11.88,
       "lateBuyFraction": 0.985,
       "directionalScore": 1,
@@ -2910,7 +2910,7 @@
       "firstSeen": "Apr 29 2023",
       "createdOnChain": false,
       "created": null,
-      "betsCount": 120,
+      "betsCount": 121,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin in 2025?",
@@ -4961,7 +4961,7 @@
       "address": "0xe8dd7741ccb12350957ec71e9ee332e0d1e6ec86",
       "username": "influenz.eth",
       "tier": "extreme",
-      "S": 3362.1,
+      "S": 3362.3,
       "market": "Will the US strike Iran next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-329",
       "episodeTx": "0x43b0257c97df8f7f91640ab4b6268026b9da7fd0d38892ef0c75301aa9fc157b",
@@ -4970,7 +4970,7 @@
       "won": true,
       "episodeProfit": 3338,
       "zBetCross": 18.48,
-      "zBetWithin": 0.25,
+      "zBetWithin": 0.26,
       "zProfitCross": 13.17,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -4978,7 +4978,7 @@
       "firstSeen": "Feb 02 2025",
       "createdOnChain": true,
       "created": "Jan 26 2025",
-      "betsCount": 568,
+      "betsCount": 608,
       "ledger": [
         {
           "market": "Will Trump nominate Scott Bessent as the next Fed chair?",
@@ -5015,7 +5015,7 @@
           "url": "https://polymarket.com/event/yoon-insurrection-case-prison-sentence",
           "ts": 1765142423,
           "odds": 100,
-          "stake": 75606,
+          "stake": 75732,
           "pl": 165,
           "won": true,
           "tx": "0x1afac52c705c06ca38018abae31041b502d7cf0767483689290ebc0e4de642f1"
@@ -5459,7 +5459,7 @@
       "address": "0xdbf16bcffa41bd95faec2640daa2c95ab2bd86b5",
       "username": "UnderperformingForALiving",
       "tier": "extreme",
-      "S": 3337.8,
+      "S": 3338,
       "market": "US x Iran permanent peace deal by May 8, 2026?",
       "marketUrl": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
       "episodeTx": "0xedf8a97c2accce499cca35f02b36ed020de2dc1b5ad657ebbf7fd3be6ab013b3",
@@ -5468,7 +5468,7 @@
       "won": true,
       "episodeProfit": 963,
       "zBetCross": 29.37,
-      "zBetWithin": 0.25,
+      "zBetWithin": 0.26,
       "zProfitCross": 3.28,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -5476,7 +5476,7 @@
       "firstSeen": "Feb 18 2026",
       "createdOnChain": true,
       "created": "Feb 18 2026",
-      "betsCount": 37,
+      "betsCount": 38,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by May 15?",
@@ -5957,7 +5957,7 @@
       "address": "0xbacd00c9080a82ded56f504ee8810af732b0ab35",
       "username": "ScottyNooo",
       "tier": "extreme",
-      "S": 3320.9,
+      "S": 3321.3,
       "market": "Will Trump nominate Kevin Hassett as the next Fed chair?",
       "marketUrl": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
       "episodeTx": "0x277e709960a99fdb48e066f304b2a8c7fffe2d098d089af33ae4d80c4e3e5e3f",
@@ -5966,7 +5966,7 @@
       "won": true,
       "episodeProfit": 122,
       "zBetCross": 26.7,
-      "zBetWithin": 2.93,
+      "zBetWithin": 2.95,
       "zProfitCross": 3.16,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -5974,7 +5974,7 @@
       "firstSeen": "Apr 21 2026",
       "createdOnChain": true,
       "created": "May 06 2025",
-      "betsCount": 297,
+      "betsCount": 301,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
@@ -7225,7 +7225,7 @@
       "address": "0x96489abcb9f583d6835c8ef95ffc923d05a86825",
       "username": "anoin123",
       "tier": "extreme",
-      "S": 3280.8,
+      "S": 3281.1,
       "market": "Will US or Israel strike Iran by January 31, 2026?",
       "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
       "episodeTx": "0xc8b29ec66febff6c9dd72f2b59fa21ef6e997d843295b2083bf82f1d6ec7264a",
@@ -7234,7 +7234,7 @@
       "won": true,
       "episodeProfit": 1655,
       "zBetCross": 25.04,
-      "zBetWithin": 2.71,
+      "zBetWithin": 2.73,
       "zProfitCross": 3.35,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -7242,7 +7242,7 @@
       "firstSeen": "Mar 11 2026",
       "createdOnChain": true,
       "created": "Dec 26 2025",
-      "betsCount": 199,
+      "betsCount": 201,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 30, 2026?",
@@ -7653,7 +7653,7 @@
       "address": "0xc84f7e76ec28ef20e7773b7b4926bfb7378be0c5",
       "username": "BrightStars",
       "tier": "extreme",
-      "S": 3266.1,
+      "S": 3262.7,
       "market": "Israel x Hezbollah ceasefire by April 30, 2026?",
       "marketUrl": "https://polymarket.com/event/israel-x-hezbollah-ceasefire-by",
       "episodeTx": "0x059879f4d28885a0b4ca13328e8fe40723d155c5f5135dc790bd9c50fd2c4a77",
@@ -7662,7 +7662,7 @@
       "won": true,
       "episodeProfit": 2162,
       "zBetCross": 24,
-      "zBetWithin": 1.77,
+      "zBetWithin": 1.6,
       "zProfitCross": 4.36,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -7670,7 +7670,7 @@
       "firstSeen": "Feb 28 2026",
       "createdOnChain": true,
       "created": "Feb 28 2026",
-      "betsCount": 68,
+      "betsCount": 69,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -7681,6 +7681,16 @@
           "pl": 593191,
           "won": true,
           "tx": "0x150fef711638e331d4560099a1cb37c11d686500b50cb9cc1af2f48778bd43e2"
+        },
+        {
+          "market": "Will Mojtaba Khamenei be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1773004127,
+          "odds": 99,
+          "stake": 177864,
+          "pl": 1595,
+          "won": true,
+          "tx": "0x37456f3cef786fc0c343349f35577fb8c11aec9ffb4ceb45015ac44a420dee86"
         },
         {
           "market": "Will the Iran ceasefire continue through May 25?",
@@ -7801,16 +7811,6 @@
           "pl": 342,
           "won": true,
           "tx": "0x97dd36c57bf21c3deac864ac1e9337df83b1bd74592d82eea0cd8b805ded2ca0"
-        },
-        {
-          "market": "Iran closes its airspace by June 30?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-30-432-786-462-866-468",
-          "ts": 1780873407,
-          "odds": 100,
-          "stake": 40894,
-          "pl": 112,
-          "won": true,
-          "tx": "0xfa9ced0905748ab009a247c9afa57f9e94eb009527efe8731c87e74d6cae9b01"
         }
       ],
       "alsoBinomial": false
