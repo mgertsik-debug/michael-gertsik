@@ -345,7 +345,7 @@
     document.getElementById('view-wallets').className=watch?'hide':'';
     document.getElementById('t-watch').className='tab'+(watch?' on':'');
     document.getElementById('t-wallets').className='tab'+(watch?'':' on');
-    var f=document.getElementById('wf'); if(!/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=58';
+    var f=document.getElementById('wf'); if(!/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=59';
     location.hash=which;
   }
   var LAST_GEN=null;
@@ -356,7 +356,7 @@
   }
   function reloadDossiers(){
     var f=document.getElementById('wf');
-    if(/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=58&t='+Date.now();
+    if(/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=59&t='+Date.now();
   }
   // Poll the read API. The data only changes when a new scan deploys (~every 15 min); when the
   // generatedAt advances we ALSO reload the dossier iframe, so the whole page reflects the new scan
@@ -373,14 +373,12 @@
       LAST_GEN=gen;
     }).catch(function(){ var el=document.getElementById('wl-dyn'); if(el) el.innerHTML='<div style="padding:40px 24px;text-align:center;color:#6B756F;font-family:\'JetBrains Mono\',monospace;font-size:13px;">Could not load the feed.</div>'; });
   }
-  // Real-time clock, fixed to Eastern Standard Time (UTC-5, no DST). Ticks every second.
+  // Real-time New-York wall-clock time, shown 12-hour and always labelled EST. Ticks every second.
   function tickClock(){
     var el=document.getElementById('clk'); if(!el) return;
-    // Fixed Eastern Standard Time (UTC-5, no DST) — always EST, never EDT.
-    var parts=new Intl.DateTimeFormat('en-US',{timeZone:'Etc/GMT+5',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date());
+    var parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true}).formatToParts(new Date());
     var get=function(t){var p=parts.find(function(x){return x.type===t;});return p?p.value:'';};
-    var hh=get('hour'); if(hh==='24') hh='00';
-    el.innerHTML=hh+':'+get('minute')+':'+get('second')+'<small>EST</small>';
+    el.innerHTML=get('hour')+':'+get('minute')+':'+get('second')+'<small>EST</small>';
   }
   tickClock(); setInterval(tickClock,1000);
   show((location.hash||'#wallets').replace('#','')==='watch'?'watch':'wallets');

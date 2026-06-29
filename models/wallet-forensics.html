@@ -92,7 +92,7 @@
             <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
           </sc-for>
           <span style="width: 1px; height: 18px; background: #1F2A25; margin: 0 2px;"></span>
-          <sc-for list="{{ concernOptions }}" as="o" hint-placeholder-count="4">
+          <sc-for list="{{ concernOptions }}" as="o" hint-placeholder-count="3">
             <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
           </sc-for>
           <span style="width: 1px; height: 18px; background: #1F2A25; margin: 0 2px;"></span>
@@ -225,7 +225,17 @@
         <div style="padding: 24px 24px 20px; border-bottom: 1px solid #18211D; animation: wf-fadeup 0.4s ease both;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-bottom: 12px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> WHO THIS IS</div>
           <div style="font-size: 19px; font-weight: 600; color: {{ sel.whoColor }};">{{ sel.whoGlyph }}{{ sel.whoLabel }}</div>
-          <div style="font-size: 13.5px; color: #949C98; margin-top: 8px;">First active {{ sel.firstSeen }}.</div>
+
+          <!-- on-chain identity actions: Polygonscan · copy address · Polymarket profile -->
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
+            <a href="{{ sel.scanUrl }}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#C4CAC6;text-decoration:none;background:#0E1512;border:1px solid #243029;border-radius:8px;padding:6px 11px;white-space:nowrap;" style-hover="border-color:#34D399;color:#ECEFED;">{{ sel.addrShort }} <span style="color:#34D399;">↗ Polygonscan</span></a>
+            <button onClick="{{ sel.copyAddr }}" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;cursor:pointer;background:#0E1512;border:1px solid {{ sel.copyBorder }};border-radius:8px;padding:6px 11px;white-space:nowrap;color:{{ sel.copyColor }};" style-hover="border-color:#34D399;">{{ sel.copyLabel }}</button>
+            <sc-if value="{{ sel.hasPolymarket }}" hint-placeholder-val="{{ true }}">
+              <a href="{{ sel.polymarketUrl }}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7E8C86;text-decoration:none;background:#0E1512;border:1px solid #243029;border-radius:8px;padding:6px 11px;white-space:nowrap;" style-hover="border-color:#34D399;color:#ECEFED;">Polymarket profile <span style="color:#34D399;">↗</span></a>
+            </sc-if>
+          </div>
+
+          <div style="font-size: 13.5px; color: #949C98; margin-top: 12px;">{{ sel.createdLine }}</div>
           <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
             <div style="font-size: 13.5px; color: #949C98; margin-top: 8px; line-height: 1.6; max-width: 620px;">These wallets appear to be controlled by one person or group. See the connection evidence below.</div>
           </sc-if>
@@ -264,13 +274,6 @@
 
         <sc-if value="{{ sel.full }}" hint-placeholder-val="{{ true }}">
 
-        <!-- 2b · WHERE THIS SITS (own band) -->
-        <div style="padding: 22px 24px; border-bottom: 1px solid #18211D;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 12px;">WHERE THIS SITS AMONG ALL REVIEWED BETTORS</div>
-          {{ percentileStripNode }}
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{ sel.concernColor }}; margin-top: 12px;">{{ sel.percentileText }}</div>
-        </div>
-
         <!-- 2c · DETECTOR AGREEMENT (own band) -->
         <div style="padding: 22px 24px; border-bottom: 1px solid #18211D;">
           {{ confidenceMeterNode }}
@@ -280,14 +283,6 @@
         <div style="padding: 24px; border-bottom: 1px solid #18211D;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F; margin-bottom: 6px;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> WHAT WE FOUND</div>
           <div style="font-size: 13px; color: #949C98; margin-bottom: 14px;">Each item is a separate detector. The summary is plain English; open <span style="color:#C4CAC6;">show the math</span> for the formula, the exact inputs, and the baseline it is measured against.</div>
-
-          <div style="margin-bottom: 18px; background: #090D0C; border: 1px solid #1F2A25; border-radius: 12px; padding: 14px 16px;">
-            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 11px; flex-wrap: wrap;">
-              <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F;">HOW THE FLAG BREAKS DOWN</span>
-              <span style="font-size: 11.5px; color: #6B756F;">share each signal contributes to the overall flag</span>
-            </div>
-            {{ contributionNode }}
-          </div>
 
           <sc-for list="{{ findings }}" as="f" hint-placeholder-count="5">
             <div style="border-bottom: 1px solid #141C18; padding: 16px 0;">
@@ -348,7 +343,10 @@
           </sc-for>
         </div>
 
-        <!-- 4 · THE BETS -->
+        <!-- 4b · ADVANCED INTERACTIVE ANALYTICS — graphs (THE NUMBERS, VISUALISED + WHAT DROVE THE FLAG) -->
+        {{ analyticsNode }}
+
+        <!-- 4 · THE BETS — full ledger, shown last under the graphs -->
         <div style="padding: 24px; border-bottom: 1px solid #18211D;">
           <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px;">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> THE BETS THEMSELVES</div>
@@ -383,9 +381,6 @@
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C4CAC6; margin-top: 14px; text-align: right;">{{ sel.summaryLine }}</div>
         </div>
 
-        <!-- 4b · ADVANCED INTERACTIVE ANALYTICS -->
-        {{ analyticsNode }}
-
         <!-- 5 · CONNECTION EVIDENCE (groups) -->
         <sc-if value="{{ sel.isCluster }}" hint-placeholder-val="{{ false }}">
           <div style="padding: 24px; border-bottom: 1px solid #18211D;">
@@ -394,19 +389,6 @@
             {{ clusterGraphNode }}
           </div>
         </sc-if>
-
-        <!-- 6 · TIMELINE -->
-        <div style="padding: 24px; border-bottom: 1px solid #18211D;">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> A TIMELINE OF WHAT HAPPENED</div>
-            <button onClick="{{ toggleCandidates }}" style="{{ candidatesStyle }}">
-              <span style="width: 7px; height: 7px; border-radius: 50%; background: {{ candidatesDot }};"></span>
-              possible related news
-            </button>
-          </div>
-          <div style="font-size: 13px; color: #949C98; margin-bottom: 14px; max-width: 640px;">This shows the window an investigator would examine. We do not claim to know when information became public.</div>
-          {{ timelineNode }}
-        </div>
 
         </sc-if>
 
@@ -423,7 +405,7 @@
                   </div>
                 </sc-for>
               </div>
-              <p style="font-size: 13.5px; color: #949C98; line-height: 1.65; margin: 0;">A full evidence file — findings, the bet list, connection diagram, and timeline — is compiled for the most extreme cases. Select one of the top-ranked bettors to open a complete file.</p>
+              <p style="font-size: 13.5px; color: #949C98; line-height: 1.65; margin: 0;">A full evidence file — findings, the visualized numbers, and the complete bet list — is compiled for the most extreme cases. Select one of the top-ranked bettors to open a complete file.</p>
             </div>
           </div>
         </sc-if>
@@ -1357,9 +1339,9 @@ class Component extends DCLogic {
 
   confidenceMeterNode(s) {
     const h = this.h;
-    const ROSTER = 12;
-    const measured = (s.detectorsMeasured && s.detectorsMeasured > 0) ? Math.min(s.detectorsMeasured, ROSTER) : ROSTER;
-    const fired = Math.min((s.fired || []).length, measured), total = measured;
+    const tally = this.firedTally(s);
+    const ROSTER = tally.roster;
+    const fired = tally.fired, total = tally.total;
     const level = s.tier === "extreme" ? "high concern" : s.tier === "elevated" ? "moderate-to-high concern" : "moderate concern";
     const segs = [];
     for (let i = 0; i < total; i++) segs.push(h("div", { key: i, style: { flex: 1, height: "9px", borderRadius: "3px", background: i < fired ? "#34D399" : "#16201B", boxShadow: i < fired ? "0 0 10px -2px rgba(52,211,153,0.6)" : "none", transition: "background .3s" } }));
@@ -1593,10 +1575,26 @@ class Component extends DCLogic {
       h("text", { x: cx, y: cy + fs / 3, textAnchor: "middle", fill: col.c, fontSize: fs, fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }, big ? Number(score).toFixed(1) : String(Math.round(score)))
     );
   }
+  // Single source of truth for "how many red-flag tests fired, out of how many we could run."
+  // total = the detectors this wallet had enough data to support (capped at the 12-test roster);
+  // fired = how many of those came back positive (can never exceed total). Used by BOTH the list-card
+  // dots and the dossier's DETECTOR AGREEMENT meter so they always agree (no more impossible "8/6").
+  firedTally(s) {
+    const ROSTER = 12;
+    const measured = (s.detectorsMeasured && s.detectorsMeasured > 0) ? Math.min(s.detectorsMeasured, ROSTER) : ROSTER;
+    const fired = Math.min((s.fired || []).length, measured);
+    return { fired, total: measured, roster: ROSTER };
+  }
   signalSpark(s, color) {
-    const order = ["won", "longshot", "held", "fresh", "conceal", "cluster"];
-    const fired = s.fired || [];
-    return order.map((k) => ({ style: "width:7px;height:7px;border-radius:50%;background:" + (fired.includes(k) ? color : "#1B2521") + ";box-shadow:" + (fired.includes(k) ? "0 0 7px " + color : "none") + ";" }));
+    // One dot per measurable test; the first `fired` glow. The number of lit dots == the "X/N fired"
+    // count, so the visual and the label can never disagree.
+    const t = this.firedTally(s);
+    const dots = [];
+    for (let i = 0; i < t.total; i++) {
+      const on = i < t.fired;
+      dots.push({ style: "width:7px;height:7px;border-radius:50%;background:" + (on ? color : "#1B2521") + ";box-shadow:" + (on ? "0 0 7px " + color : "none") + ";transition:background .3s;" });
+    }
+    return dots;
   }
 
   // ---------- LEDGER ----------
@@ -1614,8 +1612,10 @@ class Component extends DCLogic {
       stake: r.stake, outcome: r.outcome, pl: r.pl,
       tx: r.tx, plColor: r.plNum >= 0 ? "#34D399" : "#F87171",
       marketUrl: r.url || (r.eventSlug ? "https://polymarket.com/event/" + r.eventSlug : "https://polymarket.com/markets"),
-      txUrl: (r.txFull || r.tx) ? ("https://polygonscan.com/tx/" + (r.txFull || r.tx)) : "https://polygonscan.com/address/" + (s.address || s.idLabel || ""),
-      txLabel: (r.txFull || r.tx) ? "entry tx ↗" : "on-chain ↗",
+      // Only ever deep-link to a FULL tx hash — r.tx is a 6-char display stub and would 404. When the
+      // full hash wasn't captured for this bet, fall back to the wallet's address page (still verifiable).
+      txUrl: r.txFull ? ("https://polygonscan.com/tx/" + r.txFull) : "https://polygonscan.com/address/" + (s.address || s.idLabel || ""),
+      txLabel: r.txFull ? "entry tx ↗" : "wallet ↗",
       txTitle: "Entry trade on-chain (proves the bet was placed at this timestamp). Profit is realized later at resolution in a separate redemption transaction — a single tx will not show the P/L. The P/L matches Polymarket's position record for this market.",
       outcomeStyle: r.outcome === "Won"
         ? "font-family:Inter;font-size:11px;font-weight:600;color:#34D399;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.35);border-radius:5px;padding:3px 9px;box-shadow:0 0 12px -4px rgba(52,211,153,0.5);"
@@ -1648,7 +1648,7 @@ class Component extends DCLogic {
 
     const seg = (active) => "font-family:Inter;font-size:12px;padding:6px 11px;border-radius:8px;cursor:pointer;border:1px solid " + (active ? "#34D399" : "#1F2A25") + ";color:" + (active ? "#34D399" : "#949C98") + ";background:" + (active ? "rgba(52,211,153,0.12)" : "#0E1512") + ";";
     const typeOptions = [["all", "Everyone"], ["wallets", "Single wallets"], ["clusters", "Groups"]].map(([v, l]) => ({ label: l, style: seg(st.type === v), onClick: () => this.setState({ type: v }) }));
-    const concernOptions = [["all", "All"], ["extreme", "Extreme"], ["elevated", "High"], ["watch", "Notable"]].map(([v, l]) => ({ label: l, style: seg(st.tier === v), onClick: () => this.setState({ tier: v }) }));
+    const concernOptions = [["all", "All"], ["elevated", "High"], ["watch", "Notable"]].map(([v, l]) => ({ label: l, style: seg(st.tier === v), onClick: () => this.setState({ tier: v }) }));
     const shortN = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : String(n));
     const categoryChips = cc.map((c) => ({
       label: c.name, count: c.count, badge: c.count > 0 ? String(c.count) : (c.scanned > 0 ? "⌕" + shortN(c.scanned) : "0"),
@@ -1681,7 +1681,7 @@ class Component extends DCLogic {
         isNew: !!s.newlyFlagged,
         moneyWon: s.profit, oddsCaption: (s.improbText ? s.improbText + " chance this is luck" : "chance this record is luck"),
         gaugeNode: this.gaugeNode(this.suspicionOf(s), 42),
-        spark: this.signalSpark(s, th.color), firedLabel: (s.fired || []).length + "/6",
+        spark: this.signalSpark(s, th.color), firedLabel: (() => { const t = this.firedTally(s); return t.fired + "/" + t.total; })(),
         badgeStyle: "display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.07em;padding:2px 8px;border-radius:999px;color:" + th.color + ";border:1px solid " + th.border + ";background:" + th.bg + ";",
       };
     });
