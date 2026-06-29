@@ -16,6 +16,13 @@
   .title { font-size:15px; font-weight:700; }
   .title small { color:var(--mut); font-weight:500; font-family:var(--mono); font-size:11px; margin-left:6px; }
   .muted { color:var(--mut); font-size:11.5px; }
+  .live { text-align:right; line-height:1; }
+  .live .clk { font-family:var(--mono); font-weight:700; font-size:21px; letter-spacing:.02em; color:var(--txt); }
+  .live .clk b { color:var(--grn); }
+  .live .clk small { font-size:10.5px; color:var(--mut); font-weight:600; margin-left:5px; letter-spacing:.05em; }
+  .live .sub { font-family:var(--mono); font-size:8.5px; letter-spacing:.16em; color:var(--mut); margin-top:6px; }
+  .live .dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--grn); box-shadow:0 0 8px 1px rgba(52,211,153,.85); margin-right:5px; vertical-align:middle; animation:pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
   .intro { font-size:13px; color:var(--sub); line-height:1.6; max-width:880px; margin-bottom:16px; }
   .tabs { display:flex; gap:8px; background:var(--card); border:1px solid var(--line); border-radius:11px; padding:5px; width:max-content; max-width:100%; margin-bottom:16px; flex-wrap:wrap; }
   .tab { font-family:var(--mono); font-size:12px; padding:9px 15px; border-radius:8px; cursor:pointer; color:var(--sub); border:1px solid transparent; white-space:nowrap; }
@@ -66,7 +73,10 @@
 <div class="wrap">
   <div class="top">
     <div class="title">Polymarket Insider Forensics <small id="stamp"></small></div>
-    <div class="muted">Refresh for live data</div>
+    <div class="live">
+      <div class="clk" id="clk">--:--:--<small>EDT</small></div>
+      <div class="sub"><span class="dot"></span>NEW YORK · LIVE FEED</div>
+    </div>
   </div>
   <div class="intro">Two complementary lenses on the same on-chain data. <b>Suspect Wallets</b> is the <i>proof</i> engine — accounts whose resolved record is too improbable to be chance. <b>Live Watchlist</b> is the <i>early-warning</i> engine — outsized trades on <i>open</i> markets, flagged the moment they're placed, that later harden into a forensic case or self-clear when the market resolves. Educational analysis, not legal advice; “consistent with informed trading” is not proof of it.</div>
 
@@ -170,6 +180,16 @@
       renderWatch();
     }).catch(function(){ document.getElementById('wrows').innerHTML='<tr><td colspan="9" class="empty">Could not load the feed.</td></tr>'; });
   }
+  // Real-time New-York clock (America/New_York handles EST/EDT automatically). Ticks every second.
+  function tickClock(){
+    var el=document.getElementById('clk'); if(!el) return;
+    var parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZoneName:'short'}).formatToParts(new Date());
+    var get=function(t){var p=parts.find(function(x){return x.type===t;});return p?p.value:'';};
+    var hh=get('hour'); if(hh==='24') hh='00';
+    var tz=get('timeZoneName')||'ET';
+    el.innerHTML=hh+':'+get('minute')+':'+get('second')+'<small>'+tz+'</small>';
+  }
+  tickClock(); setInterval(tickClock,1000);
   show((location.hash||'#wallets').replace('#','')==='watch'?'watch':'wallets');
   load();
 </script>
