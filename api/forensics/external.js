@@ -65,10 +65,14 @@ async function fedRegisterMatches(entities, opts) {
   if (!ents.length) return { matches: [], entity: null };
   const entity = ents[0];                                          // the most-specific entity (extractEntities ranks it first)
   const day = (ms) => new Date(ms).toISOString().slice(0, 10);
-  // anchor the publication window on the BET (resolved bets can be months old); else last windowDays.
-  const win = (opts.windowDays || 21) * 86400000;
+  // Window around the BET (resolved bets can be months old). The signal is "bet BEFORE the filing",
+  // so the FORWARD reach must be generous (a regulatory action can be published weeks/months after
+  // the wallet positioned for it); the backward reach is short (a filing well before the bet was
+  // already public). back = windowDays (default 14); forward = forwardDays (default 120).
+  const back = (opts.windowDays || 14) * 86400000;
+  const fwd = (opts.forwardDays || 120) * 86400000;
   const center = opts.anchorSec > 0 ? opts.anchorSec * 1000 : Date.now();
-  const gte = day(center - win), lte = day(Math.min(Date.now(), center + 7 * 86400000));
+  const gte = day(center - back), lte = day(Math.min(Date.now(), center + fwd));
   const url = "https://www.federalregister.gov/api/v1/documents.json?per_page=20&order=newest" +
     "&conditions%5Bterm%5D=" + encodeURIComponent('"' + entity + '"') +
     "&conditions%5Bpublication_date%5D%5Bgte%5D=" + gte +
