@@ -901,6 +901,17 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
 // gates are unchanged), so it can't re-introduce the whale false positive. 0–100.
 function suspicionScore(s) {
   const log10 = (x) => Math.log(Math.max(1, x)) / Math.LN10;
+  // HARVARD-EPISODE subjects carry a composite score S in improbDenom — NOT a luck denominator —
+  // so map S directly onto the 0..100 suspicion scale instead of the log10(1/P) path. Calibrated to
+  // OUR retained-episode distribution (median S≈700, p90≈1370, p99≈1980 — far above the paper's raw
+  // scale because we only retain the outsized-and-won tail): the divisor keeps the MEDIAN episode at
+  // Notable and lifts only the top tail to High/Extreme, so the new per-episode flags don't all land
+  // hot. Tunable via HARVARD_SUSPICION_DIV.
+  if (s.profitSource === "harvard-episode") {
+    const S = num(s.harvardScore != null ? s.harvardScore : s.improbDenom);
+    const div = +process.env.HARVARD_SUSPICION_DIV || 22;            // S≈700→32 (Notable), ≈1370→62 (High), ≈1980→90 (Extreme)
+    return Math.round(Math.max(20, Math.min(99, S / div)) * 10) / 10;
+  }
   const fired = Array.isArray(s.fired) ? s.fired : [];
   const imp = Math.min(1, log10(s.improbDenom || 1) / 12);          // statistical improbability (validated backbone, saturates ~1e12)
   // CORROBORATION — how many independent red-flag tests fired. Scaled out to 9 (not 5) so that
@@ -989,6 +1000,12 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
   if (agg.type === "cluster") return null;                    // Harvard scores per-wallet episodes
   const { harvard } = scoreAggregate(agg);
   if (!harvard || !harvard.hasData || !harvard.tier) return null;
+  // CONSERVATIVE PUBLISH FLOOR — the Harvard paper's own tier analysis shows the LOW tiers are
+  // mostly false positives (the 0–200 band has a NEGATIVE aggregate P&L and a win rate barely above
+  // the payoff break-even); only the upper tiers (their 200–500 / 500+, ~80% win rate) are enriched
+  // for genuine informed trading. So by default we publish only our HIGH/EXTREME Harvard tiers and
+  // hold back the weakest "notable" band. Set HARVARD_PUBLISH_NOTABLE=1 to widen later.
+  if (process.env.HARVARD_PUBLISH_NOTABLE !== "1" && harvard.tier === "notable") return null;
   const cat = catalog || (opts && opts.catalog) || {};
   // Hydrate the market NAME + LINK. A bet's own question/url can be a truthy PLACEHOLDER
   // ("(market)" / a generic ".../markets" link) when the source feed had no title — those must
@@ -1016,6 +1033,11 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
   const profitNum = Math.round(epPL);
   const _prof = agg.profile || null;
   const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
+  // SAME money bar as the other single-wallet paths: a net-losing account or an immaterial
+  // episode is not a credible insider even with a high composite (the edgeseekr-style guard).
+  if (accountPL != null && accountPL <= 0) return null;
+  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
+  if (!(num(hb.stakeUsd) >= MATERIALITY_USD || Math.abs(epPL) >= MATERIALITY_USD)) return null;
   const wins = valid.filter((b) => b.won).length;
   const W = D.HARVARD_W;
   const z = (x) => (num(x)).toFixed(2);
@@ -1046,7 +1068,7 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
     idLabel: short(agg.address), username: agg.pseudonym || (_prof && _prof.username) || null,
     created: dateStr(agg.createdTs) || dateStr(agg.firstSeenTs) || "an unrecorded date", createdOnChain: agg.createdTs != null,
     firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
-    category: dominantCategory(valid), marketsCount: valid.length, tier,
+    category: dominantCategory(valid), marketsCount: valid.length, tier, flagFamily: "harvard-episode",
     improbText: "Score " + S, improbDenom: S, improbFull: "a composite suspicion score of " + S, improbCaption: "composite suspicion score",
     convictionFlag: false, convBet: null, full: ledger.length >= 1,
     winRate: valid.length ? Math.round(100 * wins / valid.length) : 0, avgImplied: epOdds,
@@ -1163,6 +1185,23 @@ function buildPayload(aggregates, meta, catalog) {
     let s = null; try { s = buildCrossCatSubject(agg, subjects.length + i, meta, catalog); } catch (_) {}
     if (s) { subjects.push(s); if (a) published.add(a); }
   });
+  // HARVARD PER-EPISODE PASS — the literature's primary unit. Insider trading is usually ONE
+  // well-timed, outsized, profitable bet, NOT a long-shot career — exactly the (wallet, market)
+  // episode the Harvard composite (Ofir & Ofir) scores. We compute it for every wallet already (it
+  // drives harvardShadow); this PUBLISHES the episodes that clear the calibrated tier, gated the
+  // same way as every other path (won + out-profited peers inside harvardEpisode; account
+  // net-positive + material episode inside buildHarvardSubject). Dedup by address — a wallet
+  // already flagged by an earlier path keeps that dossier. This is the pass that moves us from
+  // "rare improbable careers" toward the per-episode scale the studies report.
+  let harvardAdded = 0;
+  (aggregates || []).forEach((agg, i) => {
+    if (!agg || agg.type === "cluster") return;
+    const a = agg.address ? String(agg.address).toLowerCase() : null;
+    if (a && published.has(a)) return;
+    let s = null; try { s = buildHarvardSubject(agg, subjects.length + i, meta, catalog); } catch (_) {}
+    if (s) { subjects.push(s); if (a) published.add(a); harvardAdded++; }
+  });
+  meta._harvardPublished = harvardAdded;
   subjects.sort((a, b) => b.improbDenom - a.improbDenom);
   // TRUE-RANK PERCENTILE: rank each subject's improbability against the population of
   // wallets we actually SCORED this run (not the cheaply-screened "reviewed" count). The
