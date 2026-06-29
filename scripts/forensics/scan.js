@@ -320,6 +320,7 @@ async function run() {
   let onDemandBudget = Math.min(+ENV.ONDEMAND_PER_RUN || 1500, 400);   // bound live CLOB resolution per run (capped; see WORKLOAD CAPS)
   const PER_WALLET_ONDEMAND = +ENV.ONDEMAND_PER_WALLET || 80;
   let onDemandResolved = 0;
+  let txBackfilled = 0;                                        // entry-tx hashes recovered onto positions-derived bets
   let enrichedCount = 0;
   // Each wallet's ~6 network round-trips are INDEPENDENT across wallets, so we run a
   // bounded set CONCURRENTLY — the single biggest throughput win (Node overlaps the
@@ -336,9 +337,11 @@ async function run() {
       // true winner and entry odds. This is authoritative and complete (not the
       // current-holdings-only /positions feed). Merge by market — never overwrite —
       // so nothing already accumulated is lost.
+      let txMap = null;                                       // (cond|outcome)→entry-tx, from this wallet's trade rows
       try {
         const haveConds = new Set((w.bets || []).map((b) => b.cond));
         const utrades = await poly.userTrades(w.address);
+        txMap = poly.txMapFromTrades(utrades);
         // ON-DEMAND RESOLUTION: the static catalog only covers markets the sweep has
         // reached, so most of a wallet's trades resolve to NOTHING (avg 4.5 bets seen
         // vs hundreds real) — the engine then can't tell a multi-win insider from a
@@ -416,6 +419,20 @@ async function run() {
         if (recovered || reconciled) posRecords++;
       } catch (_) { /* keep the trades record */ }
 
+      // TX BACKFILL — bets recovered from the /positions feed carry no on-chain hash
+      // (it is a position summary, not a trade log), so their "entry tx" link fell back
+      // to the wallet's address page. Recover each missing entry tx from this wallet's
+      // own trade rows (earliest BUY for the same market+outcome), so every flagged bet
+      // deep-links to its real Polygonscan transaction. Exact (cond|outcome) match first,
+      // then a cond-only fallback for the rare outcome-label mismatch.
+      if (txMap) {
+        for (const b of (w.bets || [])) {
+          if (b.tx) continue;
+          const hit = txMap.byKey[b.cond + "|" + String(b.outcome || "").toUpperCase()] || txMap.byCond[b.cond];
+          if (hit) { b.tx = hit; txBackfilled++; }
+        }
+      }
+
       // AUTHORITATIVE account aggregates — Polymarket's OWN profile figures (all-time
       // realized P/L, lifetime volume, prediction count, current portfolio value, handle).
       // These are the exact numbers the wallet's Polymarket profile shows (verified to the
@@ -460,7 +477,7 @@ async function run() {
     await Promise.all(batch.map((w) => enrichWallet(w).catch(() => {})));
     enrichedCount += batch.length;
   }
-  log("deep-enriched " + enrichedCount + " wallets (concurrency " + ENRICH_CONCURRENCY + ") · " + fullRecords + " full records · " + posRecords + " positions-reconciled · " + profiled + " profile aggregates · " + onDemandResolved + " markets resolved on-demand · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
+  log("deep-enriched " + enrichedCount + " wallets (concurrency " + ENRICH_CONCURRENCY + ") · " + fullRecords + " full records · " + posRecords + " positions-reconciled · " + profiled + " profile aggregates · " + onDemandResolved + " markets resolved on-demand · " + txBackfilled + " entry-tx backfilled · " + funded + " funding traces" + (chain.hasScanKey() ? " (etherscan)" : " (public rpc)"));
 
   // 6. rolling-coverage invariant
   const ages = Object.values(state.screened).map((w) => (NOW_S - (w.lastEnrichedTs || 0)) / 86400);
