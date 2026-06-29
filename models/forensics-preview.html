@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Forensics Preview · Two Views</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --bg:#06120D; --card:#0E1512; --line:#1F2A25; --mut:#6B756F; --txt:#ECEFED; --sub:#949C98; --grn:#34D399; --amb:#FBBF24; --red:#F87171; --vio:#A78BFA; --mono:'JetBrains Mono',monospace; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font-family:'Inter',sans-serif; }
+  a { color:inherit; }
+  .wrap { max-width:1180px; margin:0 auto; padding:22px 18px 60px; }
+  .top { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+  .title { font-size:15px; font-weight:700; letter-spacing:.01em; }
+  .title small { color:var(--mut); font-weight:500; font-family:var(--mono); font-size:11px; }
+  .tabs { display:flex; gap:8px; background:var(--card); border:1px solid var(--line); border-radius:11px; padding:5px; width:max-content; margin-bottom:16px; }
+  .tab { font-family:var(--mono); font-size:12px; padding:9px 15px; border-radius:8px; cursor:pointer; color:var(--sub); border:1px solid transparent; white-space:nowrap; }
+  .tab.on { background:rgba(52,211,153,.1); color:var(--grn); border-color:rgba(52,211,153,.4); }
+  .tab .n { color:var(--mut); }
+  .tab.on .n { color:var(--grn); }
+  .banner { border-radius:12px; padding:13px 16px; margin-bottom:16px; font-size:12.5px; line-height:1.55; }
+  .banner.warn { background:rgba(251,191,36,.07); border:1px solid rgba(251,191,36,.4); color:#E8D9A8; }
+  .banner.ok { background:rgba(52,211,153,.06); border:1px solid rgba(52,211,153,.35); color:#A9D9C6; }
+  .banner b { color:#F4E3B0; }
+  .lbl { font-family:var(--mono); font-size:9px; letter-spacing:.14em; color:var(--mut); }
+  .ctl { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:11px; }
+  .ctl button { font-family:var(--mono); font-size:11px; padding:7px 12px; border-radius:8px; cursor:pointer; background:var(--card); border:1px solid var(--line); color:var(--sub); }
+  .ctl button.on { color:var(--grn); border-color:rgba(52,211,153,.4); }
+  .tblwrap { border:1px solid var(--line); border-radius:12px; overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; min-width:920px; }
+  th { font-family:var(--mono); font-size:9px; letter-spacing:.12em; color:var(--mut); text-align:left; padding:12px 12px; border-bottom:1px solid var(--line); font-weight:500; }
+  td { padding:11px 12px; border-bottom:1px solid #141C18; font-size:13px; vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  .mkt { color:var(--txt); max-width:240px; }
+  .mkt a { color:var(--grn); text-decoration:none; font-size:11px; }
+  .who a { color:var(--sub); text-decoration:none; font-family:var(--mono); font-size:11.5px; }
+  .num { font-family:var(--mono); text-align:right; white-space:nowrap; }
+  .sig { display:inline-flex; gap:4px; flex-wrap:wrap; }
+  .chip { font-family:var(--mono); font-size:9.5px; padding:2px 6px; border-radius:999px; border:1px solid var(--line); color:var(--sub); white-space:nowrap; }
+  .chip.hot { color:var(--grn); border-color:rgba(52,211,153,.35); }
+  .chip.cold { color:var(--mut); opacity:.65; }
+  .tier { font-family:var(--mono); font-size:9.5px; padding:2px 8px; border-radius:999px; }
+  .tier.extreme { color:var(--red); border:1px solid rgba(248,113,113,.45); }
+  .tier.elevated { color:var(--amb); border:1px solid rgba(251,191,36,.45); }
+  .tier.watch { color:#94A3B8; border:1px solid rgba(148,163,184,.4); }
+  .won { color:var(--grn); } .lost { color:var(--red); }
+  .verify { color:var(--grn); text-decoration:none; font-family:var(--mono); font-size:10px; }
+  .muted { color:var(--mut); font-size:11.5px; }
+  iframe { width:100%; height:78vh; border:1px solid var(--line); border-radius:12px; background:var(--bg); }
+  .hide { display:none; }
+  .empty { padding:34px; text-align:center; color:var(--mut); font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="title">Forensics — two views <small id="stamp"></small></div>
+    <div class="muted">Refresh the page for live data · this URL keeps your tab</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab" id="t-trades" onclick="show('trades')">SUSPICIOUS TRADES <span class="n" id="n-trades"></span></div>
+    <div class="tab" id="t-wallets" onclick="show('wallets')">SUSPECT WALLETS <span class="n" id="n-wallets"></span></div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div id="view-trades">
+    <div class="banner warn">
+      <b>PREVIEW — layout only.</b> This is the Harvard-style per-trade view (one row = one suspicious <i>trade</i>).
+      The <b>scores and tiers are NOT trustworthy yet</b>: the per-market signals are computed on an incomplete
+      trade sample, which inflates the scores and saturates the timing/directional signals. Treat the numbers as
+      placeholder; judge the <i>layout</i>. Market names show “(market)” until the next scan re-resolves them.
+    </div>
+    <div class="ctl">
+      <span class="lbl">SORT</span>
+      <button id="s-recent" class="on" onclick="setSort('recent')">most recent</button>
+      <button id="s-score" onclick="setSort('score')">highest score</button>
+      <button id="s-profit" onclick="setSort('profit')">biggest profit</button>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr>
+          <th>WHEN</th><th>MARKET</th><th>WALLET</th><th class="num">STAKE</th><th class="num">ODDS</th>
+          <th>RESULT</th><th class="num">PROFIT</th><th>HARVARD SIGNALS</th><th class="num">SCORE</th><th>ON-CHAIN</th>
+        </tr></thead>
+        <tbody id="rows"><tr><td colspan="10" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div class="muted" style="margin-top:10px;">Signals: <b>bet</b> = stake vs the market's other traders (z) · <b>own</b> = stake vs this wallet's own norm (z) · <b>profit</b> = profit vs peers (z) · <b>late</b> = share of buying in the final 48h · <b>1-way</b> = directional, held to the end.</div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div id="view-wallets" class="hide">
+    <div class="banner ok">
+      <b>LIVE &amp; validated.</b> This is the wallet view that's on the site now — one row = one suspicious
+      <i>account</i>, scored by the binomial improbability of its long-shot record, false positives removed.
+    </div>
+    <iframe id="wf" src="about:blank" title="Suspect Wallets"></iframe>
+  </div>
+</div>
+
+<script>
+  var DATA = [], sortBy = 'recent';
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function usd(n){ n=Math.round(Number(n)||0); var a=Math.abs(n),s=n<0?'-':'+'; if(a>=1e6) return s+'$'+(a/1e6).toFixed(1).replace(/\.0$/,'')+'M'; if(a>=1e3) return s+'$'+Math.round(a/1e3)+'K'; return s+'$'+a; }
+  function epTs(s){ var ep=s.harvardEpisode||{}; var L=(s.ledger||[]).filter(Boolean); var hit=L.filter(function(r){return r.txFull&&ep.tx&&r.txFull===ep.tx;})[0]||L[0]||{}; return hit.ts||0; }
+  function epWhen(s){ var ep=s.harvardEpisode||{}; var L=(s.ledger||[]).filter(Boolean); var hit=L.filter(function(r){return r.txFull&&ep.tx&&r.txFull===ep.tx;})[0]||L[0]||{}; return hit.entryTime||s.firstSeen||'—'; }
+  function zchip(label,v,hot){ if(v==null||isNaN(v)) return '<span class="chip cold">'+label+' —</span>'; var on=hot(Number(v)); return '<span class="chip '+(on?'hot':'cold')+'">'+label+' '+(Number(v).toFixed(label==='late'||label==='1-way'?0:1))+(label==='late'||label==='1-way'?'%':'')+'</span>'; }
+  function profileUrl(s){ return s.username ? 'https://polymarket.com/profile/'+encodeURIComponent(s.username) : (s.address?'https://polygonscan.com/address/'+s.address:'#'); }
+
+  function render(){
+    var arr = DATA.slice();
+    if(sortBy==='recent') arr.sort(function(a,b){return epTs(b)-epTs(a);});
+    else if(sortBy==='score') arr.sort(function(a,b){return (b.harvardScore||0)-(a.harvardScore||0);});
+    else arr.sort(function(a,b){return (b.profitNum||0)-(a.profitNum||0);});
+    var tb=document.getElementById('rows');
+    if(!arr.length){ tb.innerHTML='<tr><td colspan="10" class="empty">No data yet — the scan is still populating. Refresh shortly.</td></tr>'; return; }
+    tb.innerHTML = arr.slice(0,200).map(function(s){
+      var ep=s.harvardEpisode||{}; var name=(ep.market&&ep.market!=='(market)')?ep.market:(s.harvardEpisode&&s.harvardEpisode.market)||'(market)';
+      var mkt = name + (ep.url?' <a href="'+esc(ep.url)+'" target="_blank" rel="noopener">↗</a>':'');
+      var who = '<a href="'+esc(profileUrl(s))+'" target="_blank" rel="noopener">'+esc(s.username?('@'+s.username):(s.idLabel||(s.address||'').slice(0,8)))+'</a>';
+      var sig = '<span class="sig">'
+        + zchip('bet', ep.zBetCross, function(v){return v>=2;})
+        + zchip('own', ep.zBetWithin, function(v){return v>=2;})
+        + zchip('profit', ep.zProfitCross, function(v){return v>=2;})
+        + zchip('late', ep.lateBuyFraction!=null?ep.lateBuyFraction*100:null, function(v){return v>=50;})
+        + zchip('1-way', ep.directionalScore!=null?ep.directionalScore*100:null, function(v){return v>=80;})
+        + '</span>';
+      var tier=(s.tier||'watch'); var won=ep.won;
+      var verify = ep.tx?'<a class="verify" title="Entry trade on-chain (the bet). Profit is realized later at resolution." href="https://polygonscan.com/tx/'+esc(ep.tx)+'" target="_blank" rel="noopener">entry tx ↗</a>':'<span class="muted">—</span>';
+      return '<tr>'
+        + '<td class="num muted">'+esc(epWhen(s))+'</td>'
+        + '<td class="mkt">'+mkt+'</td>'
+        + '<td class="who">'+who+'</td>'
+        + '<td class="num">'+usd(ep.stake).replace('+','')+'</td>'
+        + '<td class="num">'+(ep.odds!=null?ep.odds+'%':'—')+'</td>'
+        + '<td class="'+(won?'won':'lost')+'">'+(won?'Won':'Lost')+'</td>'
+        + '<td class="num '+(((s.profitNum||0)>=0)?'won':'lost')+'">'+usd(s.profitNum)+'</td>'
+        + '<td>'+sig+'</td>'
+        + '<td class="num"><span class="tier '+tier+'">'+(Math.round(s.harvardScore||0))+'</span></td>'
+        + '<td>'+verify+'</td>'
+        + '</tr>';
+    }).join('');
+  }
+  function setSort(s){ sortBy=s; ['recent','score','profit'].forEach(function(k){document.getElementById('s-'+k).className=(k===s?'on':'');}); render(); }
+
+  function show(which){
+    var trades=which==='trades';
+    document.getElementById('view-trades').className=trades?'':'hide';
+    document.getElementById('view-wallets').className=trades?'hide':'';
+    document.getElementById('t-trades').className='tab'+(trades?' on':'');
+    document.getElementById('t-wallets').className='tab'+(trades?'':' on');
+    if(!trades){ var f=document.getElementById('wf'); if(f.src==='about:blank'||!/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html'; }
+    location.hash=which;
+  }
+
+  function load(){
+    fetch('/api/forensics/harvard-subjects',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
+      DATA=(d&&d.subjects)||[];
+      document.getElementById('n-trades').textContent='· '+DATA.length;
+      var stamp=(d&&d.generatedAt)?('updated '+new Date(d.generatedAt).toLocaleString()):'';
+      document.getElementById('stamp').textContent=stamp;
+      render();
+    }).catch(function(){ document.getElementById('rows').innerHTML='<tr><td colspan="10" class="empty">Could not load the trades feed.</td></tr>'; });
+    fetch('/api/forensics/subjects',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
+      var n=((d&&d.subjects)||[]).length; document.getElementById('n-wallets').textContent='· '+n;
+    }).catch(function(){});
+  }
+
+  show((location.hash||'#trades').replace('#','')==='wallets'?'wallets':'trades');
+  load();
+</script>
+</body>
+</html>
