@@ -149,3 +149,21 @@ jobs:
           done
           echo "push still failing after retries" >&2
           exit 1
+
+      # SELF-CHAIN — cron-independent freshness. GitHub throttles the */15 schedule above to roughly
+      # hourly (multi-hour gaps observed), so the data goes stale between scheduled runs. To keep it
+      # live, each finished run dispatches the NEXT one. This needs a PAT: the built-in GITHUB_TOKEN
+      # is deliberately blocked from re-triggering its own workflow (GitHub's anti-recursion rule), so
+      # a workflow_dispatch made with it would NOT start a run. With SCAN_DISPATCH_PAT set (Actions:
+      # read/write), runs chain back-to-back at the scan's natural ~12-min cadence. If the secret is
+      # absent or expires, this step no-ops and the schedule remains the only trigger — no breakage,
+      # just back to hourly. `if: always()` so a failed tick still re-arms (state persists + resumes).
+      - name: Re-arm next tick (self-chain)
+        if: ${{ always() }}
+        env:
+          GH_TOKEN: ${{ secrets.SCAN_DISPATCH_PAT }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "no SCAN_DISPATCH_PAT secret — relying on the schedule"; exit 0; fi
+          gh workflow run forensics-scan.yml --ref "${GITHUB_REF_NAME}" \
+            && echo "next tick dispatched (self-chain)" \
+            || echo "re-arm dispatch failed (non-fatal) — schedule still applies"
