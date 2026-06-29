@@ -1,24 +1,78 @@
 {
   "generatedAt": "Jun 29 2026",
-  "count": 3,
+  "count": 12,
   "rejected": [
+    {
+      "address": "0xd9a890ad8981c2e3d56bdf366e50e0f5c62f6e67",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$646 < $1000)"
+    },
     {
       "address": "0x43b92c50a90c2a06c07780314064ebf4a4522577",
       "id": null,
       "tier": "watch",
-      "reason": "below net-profit floor (profit=$97 < $250)"
+      "reason": "account net-negative (all-time P/L=$-29)"
+    },
+    {
+      "address": "0xa34429d549f23fe45a9ca5442b79b365cd2f8141",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$442 < $1000)"
+    },
+    {
+      "address": "0xbdd08fc7a71196e4aa28741b903cb8e8ccbe550a",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$644 < $1000)"
+    },
+    {
+      "address": "0x1c4cd350bce3cb791daf88ce2034de9b03318d85",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$929 < $1000)"
     },
     {
       "address": "0xeca48c68b7cc6cea3c04b472ea905e567b9ffda6",
       "id": null,
       "tier": "watch",
-      "reason": "below net-profit floor (profit=$157 < $250)"
+      "reason": "account net-negative (all-time P/L=$-1113)"
+    },
+    {
+      "address": "0x90ed00b05063b3e45abea79c9a5359b81a75eecb",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$583 < $1000)"
     },
     {
       "address": "0x7b02b2bac2a30ed5e40b7094e734f4c3dc2a4991",
       "id": null,
       "tier": "elevated",
       "reason": "net unprofitable (informed trading is profitable; profit=-44199)"
+    },
+    {
+      "address": "0x4e171f2bfe7435ae0701e086dc8870d621335aac",
+      "id": null,
+      "tier": "watch",
+      "reason": "account net-negative (all-time P/L=$-9180)"
+    },
+    {
+      "address": "0x9bd74f5f970fe3d3c5e747fabcdc025fa47796d3",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$258 < $1000)"
+    },
+    {
+      "address": "0x078523be4de2ddd9185125e4e62c09e5e54ea475",
+      "id": null,
+      "tier": "watch",
+      "reason": "account net-negative (all-time P/L=$-24)"
+    },
+    {
+      "address": "0xeb54562f0132336a725d1303f6110136161dd452",
+      "id": null,
+      "tier": "watch",
+      "reason": "account net-negative (all-time P/L=$-10)"
     }
   ]
 }
