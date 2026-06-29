@@ -724,12 +724,14 @@ async function finalize(state, snapshotTs) {
   log("harvard shadow: would flag " + hs.total + " (" + (hs.onlyHarvard || 0) + " binomial misses · " +
     (hs.alsoBinomial || 0) + " overlap) · tiers " + JSON.stringify(hs.byTier || {}));
 
-  // ---- HARVARD STORE — RETIRED. The separate "Suspicious Trades" product (a second store served
-  // at /api/forensics/harvard-subjects) was merged into the single Suspect Wallets store: the
-  // favorite-odds / cross-sectional archetype it caught is now folded into buildPayload() as a
-  // hardened publish path (see build.js FAVORITE PASS). One source of truth → we no longer write a
-  // second store. The pure-Harvard episode score is still computed per wallet (carried on each
-  // subject as harvardScore) and the harvard SHADOW diagnostic above still runs.
+  // ---- HARVARD STORE — RETIRED. The separate "Suspicious Trades" product was merged into the single
+  // Suspect Wallets store (the favorite-odds / cross-sectional archetype is now a hardened publish
+  // path in buildPayload). We no longer build a second product — BUT the commit step's file list
+  // (.github/workflows/forensics-scan.yml) still names harvard-store.json, and `git add` ABORTS
+  // STAGING ENTIRELY if any listed path is missing (silently committing no data every tick). The
+  // bot token can't edit the workflow, so we keep the PATH alive as a tiny RETIRED STUB. One source
+  // of truth holds: the stub carries no subjects; the read API serves it empty; nothing renders it.
+  try { write(HARVARD_STORE, { retired: true, note: "merged into store.json — see Suspect Wallets", generatedAt: monthDay(NOW_S), subjects: [] }); } catch (_) {}
 
   // ---- bound state.json WITHOUT breaking accumulation. A wallet's record only
   // matures as the sweep reaches its markets, so we RETAIN screened wallets across
