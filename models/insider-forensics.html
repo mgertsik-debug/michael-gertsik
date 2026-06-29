@@ -149,11 +149,16 @@
   function wlPol(cx,cy,r,d){ var a=d*Math.PI/180; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; }
   function wlArc(cx,cy,r,a0,a1,c,w,glow){ var p0=wlPol(cx,cy,r,a0),p1=wlPol(cx,cy,r,a1),lg=(a1-a0)>180?1:0; return '<path d="M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+' A'+r+' '+r+' 0 '+lg+' 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+'" fill="none" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"'+(glow?' style="filter:drop-shadow(0 0 5px '+wlSC(0).g+')"':'')+'/>'; }
   function wlGauge(score,size){ var ic=wlSC(score),r=size/2-4,cx=size/2,cy=size/2,frac=Math.min(1,score/WGMAX),fs=size>80?24:13,sw=size>80?8:5; var s='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="flex-shrink:0;overflow:visible;">'; s+=wlArc(cx,cy,r,135,405,'#16201B',sw,false); if(frac>0.01){ var p0=wlPol(cx,cy,r,135),p1=wlPol(cx,cy,r,135+270*frac),lg=(270*frac)>180?1:0; s+='<path d="M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+' A'+r+' '+r+' 0 '+lg+' 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+'" fill="none" stroke="'+ic.c+'" stroke-width="'+sw+'" stroke-linecap="round" style="filter:drop-shadow(0 0 5px '+ic.g+')"/>'; } s+='<text x="'+cx+'" y="'+(cy+fs/3)+'" text-anchor="middle" fill="'+ic.c+'" font-size="'+fs+'" font-weight="700" font-family="\'JetBrains Mono\',monospace">'+score+'</text></svg>'; return s; }
-  function wlChip(style,label,tip){ var s=(style==='info')?"color:#34D399;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);":"color:#FBBF24;background:rgba(251,191,36,0.09);border:1px solid rgba(251,191,36,0.35);"; return '<span title="'+esc(tip||'')+'" style="font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;white-space:nowrap;'+s+'">'+esc(label)+'</span>'; }
+  // CALM CHIPS: info-environment corroborators (blackout / Federal Register) keep a soft green tint;
+  // the size-based ones drop to a neutral slate so the row isn't a wall of amber. Severity is carried
+  // by the score dial, not by every chip shouting.
+  function wlChip(style,label,tip){ var s=(style==='info')?"color:#6FE3B6;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.26);":"color:#9BA39E;background:rgba(155,170,162,0.05);border:1px solid #283531;"; return '<span title="'+esc(tip||'')+'" style="font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;white-space:nowrap;'+s+'">'+esc(label)+'</span>'; }
   function wlStatusPill(status,won){
-    if(status==='promoted') return '<span style="display:inline-flex;align-items:center;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;padding:4px 10px;border-radius:999px;color:#06120D;background:#F87171;border:1px solid #F87171;animation:wf-pulse-red 2.6s ease-in-out infinite;">hardened'+(won?' · won':'')+'</span>';
+    // colour reserved for the meaningful end state: HARDENED (a confirmed case) is red. "watching" is
+    // the default for almost every row, so it's a calm neutral pill with no pulse; "cleared" is muted.
+    if(status==='promoted') return '<span style="display:inline-flex;align-items:center;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;padding:4px 10px;border-radius:999px;color:#06120D;background:#F87171;border:1px solid #F87171;box-shadow:0 0 14px -4px rgba(248,113,113,.6);">hardened'+(won?' · won':'')+'</span>';
     if(status==='cleared') return '<span style="display:inline-flex;align-items:center;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:999px;color:#5C6661;background:rgba(92,102,97,.12);border:1px solid #1F2A25;">cleared</span>';
-    return '<span style="display:inline-flex;align-items:center;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:999px;color:#FBBF24;background:transparent;border:1px solid rgba(251,191,36,.5);animation:wf-pulse-pill 2.4s ease-in-out infinite;">watching</span>';
+    return '<span style="display:inline-flex;align-items:center;gap:5px;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:999px;color:#9BA39E;background:transparent;border:1px solid #283531;"><span style="width:5px;height:5px;border-radius:50%;background:#34D399;"></span>watching</span>';
   }
   var wlML = "display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.12em;color:#5C6661;margin-bottom:4px;";  // mobile cell label
 
@@ -171,10 +176,13 @@
   }
 
   function wlStatCard(label,value,sub,accent,glow){
+    // calm: the big number is neutral white; the accent shows only as a thin flat left bar (no glow).
+    // `value` may carry a meaningful colour (e.g. HARDENED>0 in red) via the caller passing valColor.
+    var valColor=(arguments.length>5&&arguments[5])?arguments[5]:'#ECEFED';
     return '<div style="position:relative;overflow:hidden;background:#0E1512;border:1px solid #1F2A25;border-radius:14px;padding:16px 18px;box-shadow:0 14px 34px -26px rgba(0,0,0,.8);">'
-      + '<div style="position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:0 3px 3px 0;background:'+accent+';box-shadow:0 0 12px 1px '+glow+';"></div>'
+      + '<div style="position:absolute;left:0;top:16px;bottom:16px;width:2px;border-radius:0 2px 2px 0;background:'+accent+';opacity:.7;"></div>'
       + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.12em;color:#6B756F;">'+label+'</div>'
-      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:32px;font-weight:700;color:'+accent+';margin-top:8px;letter-spacing:-.02em;line-height:1;">'+value+'</div>'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:32px;font-weight:700;color:'+valColor+';margin-top:8px;letter-spacing:-.02em;line-height:1;">'+value+'</div>'
       + '<div style="font-size:11.5px;color:#949C98;margin-top:7px;">'+sub+'</div></div>';
   }
 
@@ -241,7 +249,7 @@
       + '<div class="wl-row" tabindex="0" onclick="wlExpand(\''+id+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wlExpand(\''+id+'\');}" style="'+rowStyle+'">'
       + '<div style="min-width:0;font-family:\'JetBrains Mono\',monospace;font-size:12.5px;color:#ECEFED;">'+esc(ago(e.ts))+'</div>'
       + '<div style="min-width:0;"><a href="'+esc(e.url||'#')+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:13px;color:#ECEFED;text-decoration:none;border-bottom:1px solid rgba(52,211,153,.35);line-height:1.4;">'+esc(name)+' <span style="color:#34D399;">↗</span></a></div>'
-      + '<div style="min-width:0;"><button onclick="wlCopy(\''+esc(w)+'\',\''+id+'\');event.stopPropagation();" title="copy address" style="display:inline-flex;align-items:center;gap:6px;background:transparent;border:none;cursor:pointer;font-family:\'JetBrains Mono\',monospace;font-size:12px;color:#A78BFA;padding:0;">'+esc(wshort)+' <span style="font-size:10px;color:'+(copied?'#34D399':'#5C6661')+';">'+(copied?'✓':'⧉')+'</span></button></div>'
+      + '<div style="min-width:0;"><button onclick="wlCopy(\''+esc(w)+'\',\''+id+'\');event.stopPropagation();" title="copy address" style="display:inline-flex;align-items:center;gap:6px;background:transparent;border:none;cursor:pointer;font-family:\'JetBrains Mono\',monospace;font-size:12px;color:#9BA39E;padding:0;">'+esc(wshort)+' <span style="font-size:10px;color:'+(copied?'#34D399':'#5C6661')+';">'+(copied?'✓':'⧉')+'</span></button></div>'
       + '<div style="min-width:0;font-family:\'JetBrains Mono\',monospace;font-size:12.5px;font-weight:600;color:'+(e.outcome==='YES'?'#34D399':'#F87171')+';">'+esc(e.outcome||'?')+' <span style="color:#6B756F;font-weight:400;">@'+Math.round((e.price||0)*100)+'¢</span></div>'
       + '<div style="min-width:0;font-family:\'JetBrains Mono\',monospace;font-size:13px;color:#ECEFED;">'+usd(e.sizeUsd)+'</div>'
       + '<div style="min-width:0;display:flex;flex-wrap:wrap;gap:5px;">'+chips+'</div>'
@@ -273,9 +281,9 @@
     var peak=WL.reduce(function(m,e){return (m&&wlScoreOf(m)>=wlScoreOf(e))?m:e;}, WL[0]||null);
     var peakScore=peak?wlScoreOf(peak):0;
     var stats='<div style="display:grid;grid-template-columns:'+(window.innerWidth<900?'1fr 1fr':'repeat(3,1fr) 1.15fr')+';gap:14px;margin-top:16px;">'
-      + wlStatCard('WATCHING',watching,'open trades scored live','#FBBF24','rgba(251,191,36,.5)')
-      + wlStatCard('HARDENED',promoted,'resolved → confirmed case','#F87171','rgba(248,113,113,.5)')
-      + wlStatCard('TOTAL TRACKED',WL.length,'incl. self-cleared','#34D399','rgba(52,211,153,.5)')
+      + wlStatCard('WATCHING',watching,'open trades scored live','#34D399','','#ECEFED')
+      + wlStatCard('HARDENED',promoted,'resolved → confirmed case','#F87171','',(promoted>0?'#F87171':'#ECEFED'))
+      + wlStatCard('TOTAL TRACKED',WL.length,'incl. self-cleared','#2BB587','','#ECEFED')
       + '<div style="display:flex;align-items:center;gap:14px;background:#0E1512;border:1px solid #1F2A25;border-radius:14px;padding:14px 18px;box-shadow:0 14px 34px -26px rgba(0,0,0,.8);">'
         + (peak?wlGauge(peakScore,90):'')
         + '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.12em;color:#6B756F;">PEAK SIGNAL</div>'
@@ -304,7 +312,7 @@
     // always-visible explainer for THE SCORE (users shouldn't have to expand a row to learn what it is)
     var scoreHelp='<div style="display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:11px 15px;background:#0E1512;border:1px solid #1F2A25;border-radius:11px;">'
       + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.12em;color:#34D399;padding-top:3px;flex-shrink:0;">◷ THE SCORE</span>'
-      + '<span style="font-size:12px;color:#949C98;line-height:1.6;">A trade’s <b style="color:#C4CAC6;">score</b> simply adds up the red flags that fired on it: <span style="color:#34D399;">news&nbsp;blackout&nbsp;+6</span> (bet before any public news — the strongest tell, so it counts most), <span style="color:#FBBF24;">outsized&nbsp;trade&nbsp;+5</span> (far bigger than other trades here), <span style="color:#FBBF24;">large&nbsp;%&nbsp;of&nbsp;pool&nbsp;+3</span>, and <span style="color:#34D399;">Federal&nbsp;Register&nbsp;+3</span> (a regulatory filing on the exact subject). Add them up → max ~17. Higher = more, stronger early-warning flags; the dial glows <span style="color:#34D399;">green</span> → <span style="color:#FBBF24;">amber</span> → <span style="color:#F87171;">red</span>. Click any row for the full breakdown. It’s an early-warning score from signals available <i>at placement</i> only — it can’t yet use whether the bet won.</span></div>';
+      + '<span style="font-size:12px;color:#949C98;line-height:1.6;">A trade’s <b style="color:#C4CAC6;">score</b> simply adds up the red flags that fired on it: <b style="color:#C4CAC6;">news&nbsp;blackout&nbsp;+6</b> (bet before any public news — the strongest tell, so it counts most), <b style="color:#C4CAC6;">outsized&nbsp;trade&nbsp;+5</b> (far bigger than other trades here), <b style="color:#C4CAC6;">large&nbsp;%&nbsp;of&nbsp;pool&nbsp;+3</b>, and <b style="color:#C4CAC6;">Federal&nbsp;Register&nbsp;+3</b> (a regulatory filing on the exact subject). Add them up → max ~17. Higher = more, stronger early-warning flags; the dial fills green→amber→red with the score. Click any row for the full breakdown. It’s an early-warning score from signals available <i>at placement</i> only — it can’t yet use whether the bet won.</span></div>';
     document.getElementById('wl-dyn').innerHTML = banner+stats+legend+toolbar+scoreHelp+'<div style="margin-top:12px;border:1px solid #1F2A25;border-radius:14px;overflow:hidden;background:#0B100E;"><div id="wl-feed">'+wlFeedHTML()+'</div></div>'+footer;
   }
   // ---- interaction handlers ----
