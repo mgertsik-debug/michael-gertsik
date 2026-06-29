@@ -476,6 +476,30 @@ async function firstSeen(wallet) {
   return min || null;
 }
 
+// Map a wallet's trades to the earliest BUY transaction hash, keyed both by
+// (cond|outcome) and by cond alone. Used to BACKFILL the on-chain entry tx onto
+// bets recovered from the /positions summary feed, which carries no per-trade hash.
+// Same earliest-BUY rule as buildUserRecord(), so the recovered hash is the exact
+// entry transaction that established the position (not a later add or a sell).
+function txMapFromTrades(trades) {
+  const byKey = {}, byCond = {};
+  for (const t of (trades || [])) {
+    const cond = t.conditionId || t.market || t.condition_id;
+    if (!cond) continue;
+    if (String(t.side || "").toUpperCase() === "SELL") continue;      // entry = first BUY only
+    const tx = t.transactionHash || t.transaction_hash || t.txHash;
+    if (!tx) continue;
+    const ts = num(t.timestamp || t.matchTime || t.time) || Infinity;
+    const k = cond + "|" + tradeOutcome(t);
+    if (!byKey[k] || ts < byKey[k].ts) byKey[k] = { tx, ts };
+    if (!byCond[cond] || ts < byCond[cond].ts) byCond[cond] = { tx, ts };
+  }
+  const flatK = {}, flatC = {};
+  for (const k of Object.keys(byKey)) flatK[k] = byKey[k].tx;
+  for (const c of Object.keys(byCond)) flatC[c] = byCond[c].tx;
+  return { byKey: flatK, byCond: flatC };
+}
+
 // outcome label a trade took, normalised to 'YES' | 'NO'.
 function tradeOutcome(t) {
   const o = String(t.outcome != null ? t.outcome : (t.outcomeIndex === 0 ? "Yes" : t.outcomeIndex === 1 ? "No" : "")).trim().toLowerCase();
@@ -640,6 +664,6 @@ async function resolveUsername(handle) {
 
 module.exports = {
   getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket, recentTrades, profileAggregates,
-  userPositions, positionToBet, userTrades, buildUserRecord, marketsByConds, openMarketMeta, category, resolvedWinner, isBinary, tradeOutcome,
+  userPositions, positionToBet, userTrades, buildUserRecord, txMapFromTrades, marketsByConds, openMarketMeta, category, resolvedWinner, isBinary, tradeOutcome,
   resolveUsername, pickAddress, GAMMA, DATA, CLOB,
 };
