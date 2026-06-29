@@ -782,6 +782,11 @@ async function finalize(state, snapshotTs) {
     let promoted = 0, cleared = 0;
     for (const id of Object.keys(state.watchlist)) {
       const e = state.watchlist[id];
+      // SELF-CLEAN: purge anything that should never be on the watchlist — sports / crypto-price /
+      // weather that slipped through, or a STALE entry added before the category filter existed (no
+      // category stored). Re-classifying the market's own question every tick (category() returns
+      // null for publicly-decided markets) drops these immediately instead of letting them linger.
+      if (e.status === "watching" && !poly.category([], e.market || e.question || "")) { delete state.watchlist[id]; continue; }
       const c = cat[e.cond];
       if (e.status === "watching" && c && c.w != null) {
         const won = String(c.w).toUpperCase() === String(e.outcome).toUpperCase();
