@@ -570,10 +570,53 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
     scorecard.push({ key: "baseline", metric: dets.baseline.winRate + "% vs " + dets.baseline.breakEven + "%", method: "win rate vs break-even",
       formula: "realized win rate − payoff-implied break-even rate", numbers: dets.baseline.explain, inputs: [["win rate", dets.baseline.winRate + "%"], ["break-even", dets.baseline.breakEven + "%"]] });
 
-  // contribution split: profit-outlier dominates; corroborators share the remainder evenly.
-  const contributions = {}; const cShare = corro.length ? Math.round(35 / corro.length) : 0;
-  contributions.profitCross = corro.length ? 65 : 100;
-  corro.forEach((k) => { contributions[k] = cShare; });
+  // HARVARD CROSS-SECTIONAL SIGNALS — the flagged episode carries the SAME per-market cross-section
+  // that powers the profit signal, so the other Harvard signals are measurable here too. Surface them
+  // (bet vs the MARKET's other traders, late entry, one-sided conviction) so the favorites dossier
+  // shows Harvard's full signal set, not just the profit outlier. Each is a real measured value on
+  // this episode — shown when present; "fires" only when it clears Harvard's threshold.
+  const hz = anchor.hz || {};
+  const hxFired = [];
+  if (D.isNum(hz.zBetCross)) {
+    const zbc = +hz.zBetCross.toFixed(2);
+    scorecard.push({ key: "hBetCross", metric: "z = " + zbc, method: "cross-sectional bet size (Harvard z_bet_cross)",
+      formula: "z = (this bet − market mean stake) ÷ market SD, over the peers in the SAME market",
+      numbers: "Staked " + zbc.toFixed(1) + " standard deviations more than the typical trader in this market" + (zbc >= 2 ? " — disproportionate capital on one outcome." : "."),
+      inputs: [["z_bet_cross", String(zbc)], ["stake", money(epStake)]] });
+    if (zbc >= 2) hxFired.push("hBetCross");
+  }
+  if (D.isNum(hz.lateBuyFraction)) {
+    const late = Math.round(D.clip(hz.lateBuyFraction, 0, 1) * 100);
+    scorecard.push({ key: "hLate", metric: late + "% late", method: "pre-event timing (Harvard late_buy_fraction)",
+      formula: "share of this wallet's buy volume in the final 48h before resolution",
+      numbers: late + "% of the buying landed in the final 48 hours before the market resolved" + (late >= 50 ? " — entering exactly when time-sensitive information is most valuable." : "."),
+      inputs: [["late_buy_fraction", (hz.lateBuyFraction).toFixed(2)]] });
+    if (late >= 50) hxFired.push("hLate");
+  }
+  if (D.isNum(hz.directionalScore)) {
+    const dir = Math.round(D.clip(hz.directionalScore, 0, 1) * 100);
+    scorecard.push({ key: "hDir", metric: dir + "% one-sided", method: "directional conviction (Harvard directional_score)",
+      formula: "1 − sold/bought — one-sided, held to resolution without hedging",
+      numbers: dir + "% one-directional (bought and held, not hedged)" + (dir >= 80 ? " — the un-hedged conviction of someone who already knows the answer." : "."),
+      inputs: [["directional_score", (hz.directionalScore).toFixed(2)]] });
+    if (dir >= 80) hxFired.push("hDir");
+  }
+  fired.push(...hxFired);
+
+  // CONTRIBUTION split — each shown signal's share, proportional to its measured STRENGTH (so the
+  // bar is honest about which signal is actually carrying the flag, across mixed units).
+  const strength = {
+    profitCross: D.clip(z / 8, 0, 1),
+    hBetCross: D.isNum(hz.zBetCross) ? D.clip(hz.zBetCross / 8, 0, 1) : 0,
+    sizing: dets.sizing && dets.sizing.hasData && dets.sizing.fires ? D.clip(dets.sizing.ratio / 20, 0.1, 1) : 0,
+    hLate: D.isNum(hz.lateBuyFraction) ? D.clip(hz.lateBuyFraction, 0, 1) : 0,
+    hDir: D.isNum(hz.directionalScore) ? D.clip(hz.directionalScore, 0, 1) : 0,
+  };
+  const shown = scorecard.map((c) => c.key);
+  const contributions = {};
+  let sSum = 0;
+  shown.forEach((k) => { const v = strength[k] != null ? strength[k] : 0.45; sSum += v; });   // corroborators a fixed mid share
+  shown.forEach((k) => { const v = strength[k] != null ? strength[k] : 0.45; contributions[k] = Math.round((v / (sSum || 1)) * 100); });
 
   const timeline = { market: qOf(anchor), priceStart: num(anchor.entryPrice), priceEnd: anchor.won ? 0.95 : 0.05,
     entries: [num(anchor.entryPrice)], resolution: anchor.won ? 0.92 : 0.08, candidates: [] };
