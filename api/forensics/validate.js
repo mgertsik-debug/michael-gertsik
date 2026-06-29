@@ -101,12 +101,12 @@ function permutationTest(subjects, opts) {
     zScore: Math.round(z * 10) / 10, avgImplied: Math.round(avgImplied * 1000) / 10,   // %
     iters: o.iters, simMeanWins: Math.round((sumSim / o.iters) * 10) / 10,
     pEmpirical, pText: geObserved === 0 ? ("p < " + (1 / o.iters).toExponential(0)) : pText(pEmpirical),
-    // plain-English, hedged (Harvard's language): a measured fact about the flagged set, not intent.
-    statement: "Across " + n + " flagged bets the market priced at an average of " + (Math.round(avgImplied * 1000) / 10) +
-      "%, the flagged wallets won " + observed + " where the market's own odds expect about " + Math.round(expected) +
-      " — " + Math.round(z * 10) / 10 + " standard deviations above chance (" +
-      (geObserved === 0 ? "p < " + (1 / o.iters).toExponential(0) : pText(pEmpirical)) +
-      ", " + o.iters.toLocaleString("en-US") + "-shuffle permutation test). Consistent with informed trading across the set — not proof for any one wallet.",
+    // PLAIN-ENGLISH, hedged: a measured fact about the whole flagged SET, not intent. Says "bets
+    // placed by the N wallets" so the bet-count never reads as a contradiction of the wallet-count.
+    statement: "Is this just luck? We took every long-shot bet placed by " + ((Array.isArray(subjects) && subjects.length) ? ("the " + subjects.length + " flagged wallets") : "the flagged wallets") +
+      " — " + n.toLocaleString("en-US") + " bets in all — and used the market's own prices to work out how many they should win by pure guessing: about " + Math.round(expected).toLocaleString("en-US") +
+      ". They actually won " + observed.toLocaleString("en-US") + ". We then re-ran every outcome " + o.iters.toLocaleString("en-US") + " times at random; the group beat chance by " + Math.round(z * 10) / 10 +
+      " standard deviations (" + (geObserved === 0 ? "p < " + (1 / o.iters).toExponential(0) : pText(pEmpirical)) + ") — a margin so large it essentially never happens by accident. Strong evidence the group as a whole was trading on information; not proof for any single wallet.",
   };
 }
 
