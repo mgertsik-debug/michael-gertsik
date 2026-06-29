@@ -247,8 +247,17 @@ function buildSubject(agg, idx, opts, catalog) {
   // question/url are dropped from STORED bets (re-derivable) to keep state.json small;
   // re-hydrate them from the resolved-market catalog (cond -> {q, s}) for display.
   const cat = catalog || (opts && opts.catalog) || {};
-  const qOf = (b) => b.question || (cat[b.cond] && cat[b.cond].q) || "(market)";
-  const urlOf = (b) => b.url || (cat[b.cond] && cat[b.cond].s ? "https://polymarket.com/event/" + cat[b.cond].s : null);
+  // Hydrate the market NAME + LINK. A bet's own question/url can be a truthy PLACEHOLDER
+  // ("(market)" / a generic ".../markets" link) when the source feed had no title — those must
+  // NOT block the catalog lookup, so we treat them as empty. Link fallback order: real bet url →
+  // catalog slug → the bet's eventGroup (which IS the event slug unless it's a 0x cond).
+  const qOf = (b) => (b.question && b.question !== "(market)") ? b.question : ((cat[b.cond] && cat[b.cond].q) || "(market)");
+  const urlOf = (b) => {
+    if (b.url && !/\/markets\/?$/.test(b.url)) return b.url;
+    if (cat[b.cond] && cat[b.cond].s) return "https://polymarket.com/event/" + cat[b.cond].s;
+    if (b.eventGroup && !/^0x/.test(String(b.eventGroup))) return "https://polymarket.com/event/" + b.eventGroup;
+    return null;
+  };
   // Two publish paths: the binomial RECORD (won.hasData) or the single-bet
   // CONVICTION path (a lone high-conviction insider bet + corroboration).
   const conv = dets.conviction || {};
@@ -488,8 +497,17 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
   const pc = dets.profitCross;
   if (!pc || !pc.hasData || !pc.fires) return null;           // no cross-sectional profit outlier → not a favorites flag
   const cat = catalog || (opts && opts.catalog) || {};
-  const qOf = (b) => b.question || (cat[b.cond] && cat[b.cond].q) || "(market)";
-  const urlOf = (b) => b.url || (cat[b.cond] && cat[b.cond].s ? "https://polymarket.com/event/" + cat[b.cond].s : null);
+  // Hydrate the market NAME + LINK. A bet's own question/url can be a truthy PLACEHOLDER
+  // ("(market)" / a generic ".../markets" link) when the source feed had no title — those must
+  // NOT block the catalog lookup, so we treat them as empty. Link fallback order: real bet url →
+  // catalog slug → the bet's eventGroup (which IS the event slug unless it's a 0x cond).
+  const qOf = (b) => (b.question && b.question !== "(market)") ? b.question : ((cat[b.cond] && cat[b.cond].q) || "(market)");
+  const urlOf = (b) => {
+    if (b.url && !/\/markets\/?$/.test(b.url)) return b.url;
+    if (cat[b.cond] && cat[b.cond].s) return "https://polymarket.com/event/" + cat[b.cond].s;
+    if (b.eventGroup && !/^0x/.test(String(b.eventGroup))) return "https://polymarket.com/event/" + b.eventGroup;
+    return null;
+  };
   // Locate the anchor episode bet in the full record (match tx, else cond+ts) for its
   // AUTHORITATIVE per-position P/L (betPL → Polymarket cashPnl). This is the flagged profit.
   const anchor = valid.find((b) => (pc.tx && b.tx === pc.tx) || (pc.cond && b.cond === pc.cond && b.ts === pc.ts)) || null;
@@ -709,8 +727,17 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
   const { harvard } = scoreAggregate(agg);
   if (!harvard || !harvard.hasData || !harvard.tier) return null;
   const cat = catalog || (opts && opts.catalog) || {};
-  const qOf = (b) => b.question || (cat[b.cond] && cat[b.cond].q) || "(market)";
-  const urlOf = (b) => b.url || (cat[b.cond] && cat[b.cond].s ? "https://polymarket.com/event/" + cat[b.cond].s : null);
+  // Hydrate the market NAME + LINK. A bet's own question/url can be a truthy PLACEHOLDER
+  // ("(market)" / a generic ".../markets" link) when the source feed had no title — those must
+  // NOT block the catalog lookup, so we treat them as empty. Link fallback order: real bet url →
+  // catalog slug → the bet's eventGroup (which IS the event slug unless it's a 0x cond).
+  const qOf = (b) => (b.question && b.question !== "(market)") ? b.question : ((cat[b.cond] && cat[b.cond].q) || "(market)");
+  const urlOf = (b) => {
+    if (b.url && !/\/markets\/?$/.test(b.url)) return b.url;
+    if (cat[b.cond] && cat[b.cond].s) return "https://polymarket.com/event/" + cat[b.cond].s;
+    if (b.eventGroup && !/^0x/.test(String(b.eventGroup))) return "https://polymarket.com/event/" + b.eventGroup;
+    return null;
+  };
   const tier = HARV_TO_UI_TIER[harvard.tier] || "watch";
   const S = Math.round(num(harvard.S));
   const hb = harvard.bet || {};
