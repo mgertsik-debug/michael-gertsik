@@ -741,11 +741,17 @@ async function finalize(state, snapshotTs) {
         const ents = D.extractEntities(lead.market);
         if (!ents.length) continue;
         const outsized = (lead.stakeNum || 0) >= 1000;
+        // GDELT's news index is shallow for OLD dates — an empty months-ago window can mean GDELT
+        // didn't COVER it, not that there was a blackout. To avoid FABRICATING a blackout, only
+        // news-query bets inside GDELT's reliable recent window; older bets get no news signal
+        // (fedRegister, which has full historical docs, still applies).
+        const GDELT_RECENT_DAYS = +ENV.GDELT_RECENT_DAYS || 90;
+        const newsEligible = (NOW_S - lead.ts) <= GDELT_RECENT_DAYS * 86400;
         const [cnt, fm] = await Promise.all([            // run both queries concurrently to fit the window
-          external.gdeltArticleCount(ents[0], lead.ts - winH * 3600, lead.ts, { timeoutMs: 4000 }).catch(() => null),
+          newsEligible ? external.gdeltArticleCount(ents[0], lead.ts - winH * 3600, lead.ts, { timeoutMs: 4000 }).catch(() => null) : Promise.resolve(null),
           external.fedRegisterMatches(ents, { anchorSec: lead.ts, windowDays: 21, timeoutMs: 4000 }).catch(() => ({ matches: [], entity: ents[0] })),
         ]);
-        const nbRes = D.newsBlackout({ articleCount: cnt, windowHours: winH, outsized, entity: ents[0], hasQuery: true });
+        const nbRes = D.newsBlackout({ articleCount: cnt, windowHours: winH, outsized, entity: ents[0], hasQuery: newsEligible });
         const frRes = D.fedRegister({ hasQuery: true, entity: (fm && fm.entity) || ents[0], matches: (fm && fm.matches) || [] });
         build.enrichInfoSignals(s, nbRes, frRes);
         if (nbRes && nbRes.fires) blackouts++;

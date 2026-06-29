@@ -24,7 +24,10 @@ function getJSON(url, timeoutMs) {
         if (res.statusCode && (res.statusCode < 200 || res.statusCode >= 300)) { res.resume(); clearTimeout(to); return finish(null); }
         let data = "";
         res.on("data", (c) => { data += c; if (data.length > 4e6) req.destroy(); });
-        res.on("end", () => { clearTimeout(to); try { finish(JSON.parse(data)); } catch (_) { finish(null); } });
+        // An HTTP-200 with an EMPTY body is how GDELT signals "zero matching articles" — that is a
+        // legitimate result (a news blackout), NOT a failure. Resolve it to {} so the caller reads 0
+        // matches, instead of null (which would drop the very case newsBlackout exists to catch).
+        res.on("end", () => { clearTimeout(to); const s = data.trim(); if (!s) return finish({}); try { finish(JSON.parse(s)); } catch (_) { finish(null); } });
       });
       req.on("error", () => { clearTimeout(to); finish(null); });
       req.setTimeout(timeoutMs || 4000, () => { req.destroy(); });
