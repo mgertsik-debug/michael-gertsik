@@ -859,6 +859,27 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
   };
 }
 
+/* ------------------------------------------------ composite suspicion rank -- */
+// DEFAULT RANKING. Pure binomial improbability answers "how unlikely is this exact win record by
+// luck" — which is NOT the same as "how likely is this an insider". Ranking by it alone floated a
+// small-money long-shot STREAK above a confirmed insider whose real signal was timing + magnitude
+// (e.g. Magamyman: only "1 in 216", but +$218k and bought minutes before the news). The composite
+// keeps improbability as the BACKBONE but also reflects corroboration breadth, pre-event timing,
+// magnitude, and purpose-built structure — so a broadly-corroborated, well-timed, high-magnitude
+// insider ranks where it belongs. Magnitude only RE-RANKS already-flagged wallets (the publish
+// gates are unchanged), so it can't re-introduce the whale false positive. 0–100.
+function suspicionScore(s) {
+  const log10 = (x) => Math.log(Math.max(1, x)) / Math.LN10;
+  const fired = Array.isArray(s.fired) ? s.fired : [];
+  const imp = Math.min(1, log10(s.improbDenom || 1) / 12);          // statistical improbability (validated backbone, saturates ~1e12)
+  const breadth = Math.min(1, (s.detectorsFired || fired.length || s.agreeing || 0) / 5);  // independent corroboration
+  const timingOn = fired.indexOf("timing") >= 0 || fired.indexOf("crossCat") >= 0 ? 1 : 0; // pre-event timing / cross-category
+  const structOn = (fired.indexOf("fresh") >= 0 || fired.indexOf("conceal") >= 0 || fired.indexOf("cluster") >= 0) ? 1 : 0; // purpose-built / coordinated
+  const mag = Math.min(1, log10(Math.abs(s.profitNum || 0)) / 6);   // realized magnitude (saturates ~$1M)
+  const score = 0.34 * imp + 0.20 * breadth + 0.16 * timingOn + 0.20 * mag + 0.10 * structOn;
+  return Math.round(score * 1000) / 10;                             // 0..100, one decimal
+}
+
 /* ------------------------------------------------- derive (artifact parity) -- */
 // Mirror of buildSubjects()'s forEach so real subjects carry the same derived
 // fields the view reads. Kept in lock-step with the artifact.
@@ -901,6 +922,7 @@ function derive(all, scoredPop) {
     s.profitNum = s._profitNum != null ? (_signed ? s._profitNum : Math.abs(s._profitNum)) : (parseFloat(String(s.profit).replace(/[^0-9.\-−]/g, "").replace("−", "-")) * (String(s.profit).includes("M") ? 1e6 : 1e3));
     s.activityDays = s.activityDays != null ? s.activityDays : (30 + idx * 17);
     s.lastActivity = s.activityDays <= 1 ? "today" : s.activityDays + " days ago";
+    s.suspicion = suspicionScore(s);                          // composite default ranking (improbability + breadth + timing + magnitude + structure)
     delete s._profitNum; delete s._profileVolume;
   });
   return all;
@@ -1060,6 +1082,9 @@ function buildPayload(aggregates, meta, catalog) {
   const pop = (meta._scoredDenoms || []).slice().sort((a, b) => a - b);
   const scoredCount = pop.length;
   derive(subjects, pop);
+  // DEFAULT ORDER = composite suspicion (improbability backbone + corroboration + timing + magnitude),
+  // with improbability as the tiebreak. The read API still offers ?sort=improbability et al.
+  subjects.sort((a, b) => (b.suspicion - a.suspicion) || (b.improbDenom - a.improbDenom));
   // AGGREGATE estimated informed-trading P&L across published subjects — directly
   // comparable (in kind) to the Harvard study's $143M, but at our strict bar and our
   // current coverage, so it starts small and grows as coverage scales.
@@ -1109,4 +1134,4 @@ function buildPayload(aggregates, meta, catalog) {
   };
 }
 
-module.exports = { scoreAggregate, buildSubject, buildFavoriteSubject, buildCrossCatSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };
+module.exports = { scoreAggregate, buildSubject, buildFavoriteSubject, buildCrossCatSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, suspicionScore, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };

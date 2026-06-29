@@ -588,7 +588,7 @@ class Component extends DCLogic {
       type: "all",
       tier: (props && props.startConcern) || "all",
       cats: [],
-      sort: "improbability",
+      sort: "suspicion",
       filterOpen: false,
       advancedOpen: false,
       timeWindow: "all",
@@ -1158,12 +1158,13 @@ class Component extends DCLogic {
       return true;
     });
     const key = {
+      suspicion: (s) => (s.suspicion != null ? s.suspicion : 0),
       improbability: (s) => s.improbDenom,
       profit: (s) => s.profitNum,
       winrate: (s) => s.winRate - s.avgImplied,
       volume: (s) => s.volumeNum,
       recent: (s) => -s.activityDays,
-    }[st.sort] || ((s) => s.improbDenom);
+    }[st.sort] || ((s) => (s.suspicion != null ? s.suspicion : 0));
     // TIER FIRST, then the chosen metric within a tier — so the strongest tier
     // (Extreme > High > Notable) is always on top and the badge order matches the
     // list order. (A conviction "High" headlines a small 1-in-N because that number
@@ -1781,7 +1782,7 @@ class Component extends DCLogic {
 
     // ---------- FILTER CONTROL SURFACE ----------
     const chipOn = (on) => "font-family:Inter;font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;border:1px solid " + (on ? "#34D399" : "#1F2A25") + ";color:" + (on ? "#34D399" : "#949C98") + ";background:" + (on ? "rgba(52,211,153,0.12)" : "#0E1512") + ";";
-    const sortOptions = [["improbability", "Improbability"], ["profit", "Profit"], ["winrate", "Win-rate vs implied"], ["volume", "Volume"], ["recent", "Most recent activity"]];
+    const sortOptions = [["suspicion", "Suspicion score"], ["improbability", "Improbability"], ["profit", "Profit"], ["winrate", "Win-rate vs implied"], ["volume", "Volume"], ["recent", "Most recent activity"]];
     const timeOptions = [["all", "All time"], ["90d", "Last 90 days"], ["12mo", "Last 12 months"], ["custom", "Custom range"]].map(([v, l]) => ({ label: l, value: v, style: chipOn(st.timeWindow === v), onClick: () => this.setState({ timeWindow: v }) }));
     const sigDefs = [["conceal", "has concealment signatures"], ["fresh", "fresh wallets only"], ["cluster", "linked clusters only"], ["held", "held to resolution"]];
     const sigToggles = sigDefs.map(([k, l]) => ({ label: l, style: chipOn(!!st.sig[k]), onClick: () => this.setState({ sig: { ...st.sig, [k]: !st.sig[k] } }) }));
