@@ -16,10 +16,10 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 213799,
-  "reviewed": 213799,
+  "observed": 213851,
+  "reviewed": 213851,
   "screened": 10093,
-  "scored": 5956,
+  "scored": 5958,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -1902,7 +1902,7 @@
       "zProfitCross": 16.54,
       "lateBuyFraction": 0,
       "directionalScore": 0.552,
-      "accountPnl": 204671,
+      "accountPnl": 204706,
       "firstSeen": "May 29 2025",
       "createdOnChain": true,
       "created": "May 29 2025",
@@ -1930,7 +1930,7 @@
         },
         {
           "market": "Will Fidesz–KDNP win the most seats in the next Hungarian parliamentary election?",
-          "url": "https://polymarket.com/event/will-fideszkdnp-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+          "url": "https://polymarket.com/event/hungary-parliamentary-election-winner",
           "ts": 1774010277,
           "odds": 73,
           "stake": 37315,
@@ -1990,7 +1990,7 @@
         },
         {
           "market": "Will TISZA – Respect and Freedom Party (TISZA) win the most seats in the next Hungarian parliamentary election?",
-          "url": "https://polymarket.com/event/will-tisza-respect-and-freedom-party-tisza-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+          "url": "https://polymarket.com/event/hungary-parliamentary-election-winner",
           "ts": 1774451799,
           "odds": 73,
           "stake": 24611,
@@ -5188,6 +5188,172 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x8365a0c9908dca494abaf0b90584162b474ce9a6",
+      "username": "Retired-Davis",
+      "tier": "notable",
+      "S": 748,
+      "market": "Starmer out in 2025?",
+      "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
+      "episodeTx": "0x37db6942f40bd27d74bc2c27a8ba8529de5442daf1c75b5a9cc211eb099de76b",
+      "stake": 36760,
+      "odds": 81,
+      "won": true,
+      "episodeProfit": 8413,
+      "zBetCross": 12.74,
+      "zBetWithin": 1.04,
+      "zProfitCross": 11.94,
+      "lateBuyFraction": 0,
+      "directionalScore": 0.544,
+      "accountPnl": -36061,
+      "firstSeen": "Oct 25 2024",
+      "createdOnChain": true,
+      "created": "Oct 25 2024",
+      "betsCount": 82,
+      "ledger": [
+        {
+          "market": "Will Omar Fateh win the 2025 Minneapolis mayoral election?",
+          "url": "https://polymarket.com/event/will-omar-fateh-win-the-2025-minneapolis-mayoral-election-733",
+          "ts": 1754384421,
+          "odds": 64,
+          "stake": 177376,
+          "pl": 101838,
+          "won": true,
+          "tx": "0xceb1f5e725eaadc03d95a5f9ce9aa4d7f9008e205d786736a4098bcd3faa90ac"
+        },
+        {
+          "market": "Will Putin remain President of Russia through June?",
+          "url": "https://polymarket.com/event/will-putin-remain-president-of-russia-through-june-2025",
+          "ts": 1750081703,
+          "odds": 99,
+          "stake": 109010,
+          "pl": 990,
+          "won": true,
+          "tx": "0xc510f1875cd4a32d16705d2d18b392b31262d13e26c321300ada38e76fb09537"
+        },
+        {
+          "market": "Will the US officially declare war on Iran in 2025?",
+          "url": "https://polymarket.com/event/will-the-us-officially-declare-war-on-iran-in-2025",
+          "ts": 1751890449,
+          "odds": 97,
+          "stake": 58189,
+          "pl": 1811,
+          "won": true,
+          "tx": "0xc849737a20eb4546907dd64af2ab8aa516d7d4228fdbb58e5423abfa9869351b"
+        },
+        {
+          "market": "Will Catherine Connolly win the Irish Presidential Election?",
+          "url": "https://polymarket.com/event/will-catherine-connolly-win-the-irish-presidential-election",
+          "ts": 1760285949,
+          "odds": 76,
+          "stake": 51711,
+          "pl": 16340,
+          "won": true,
+          "tx": "0x5aef4f26d18deac56c6e2106dde2db4ec6652f752b7b3e9cf7dc8fcef7cc6ca8"
+        },
+        {
+          "market": "Will Rafał Trzaskowski be the next President of Poland?",
+          "url": "https://polymarket.com/event/will-rafa-trzaskowski-be-the-next-president-of-poland",
+          "ts": 1748815191,
+          "odds": 80,
+          "stake": 49006,
+          "pl": 12252,
+          "won": true,
+          "tx": "0x7b8caed4c5d3c30032f02054b7f9c9a424c336e5c01da1840b61fee7909acaf8"
+        },
+        {
+          "market": "Starmer out in 2025?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1742332592,
+          "odds": 81,
+          "stake": 36760,
+          "pl": 8413,
+          "won": true,
+          "tx": "0x37db6942f40bd27d74bc2c27a8ba8529de5442daf1c75b5a9cc211eb099de76b"
+        },
+        {
+          "market": "Will Elon Musk create a new political party in June?",
+          "url": "https://polymarket.com/event/will-elon-musk-create-a-new-political-party-in-june",
+          "ts": 1749286520,
+          "odds": 90,
+          "stake": 29457,
+          "pl": 3322,
+          "won": true,
+          "tx": "0xa98337596b5bf7dee8d1fb30b37d1e98e566685dadd9e396d0b1e10ea62ead7e"
+        },
+        {
+          "market": "Will the US officially declare war on Iran before August?",
+          "url": "https://polymarket.com/event/will-the-us-officially-declare-war-on-iran-before-august",
+          "ts": 1751889945,
+          "odds": 99,
+          "stake": 28668,
+          "pl": 203,
+          "won": true,
+          "tx": "0x1b501b6a517040d029990aede6d2f2261a17bef336b33b7d769289cce4a0a2c0"
+        },
+        {
+          "market": "Jerome Powell out as Fed Chair in 2025?",
+          "url": "https://polymarket.com/event/will-trump-remove-jerome-powell",
+          "ts": 1752220260,
+          "odds": 86,
+          "stake": 24644,
+          "pl": 3853,
+          "won": true,
+          "tx": "0x809597ed602d70e00a08fce48ed445a30abd47f68136a90822e742af52715c85"
+        },
+        {
+          "market": "Will the NYC Mayoral Democratic Primary be decided in round 3?",
+          "url": "https://polymarket.com/event/will-the-nyc-mayoral-democratic-primary-be-decided-in-round-3",
+          "ts": 1750013776,
+          "odds": 29,
+          "stake": 19401,
+          "pl": 48524,
+          "won": true,
+          "tx": "0x7a8641dbb7933df11dcd18b5d31aa0ff84125e6d15222ac78c9cbe9bac2e4ba2"
+        },
+        {
+          "market": "Will China invade Taiwan in 2025?",
+          "url": "https://polymarket.com/event/will-china-invade-taiwan-in-2025",
+          "ts": 1752944564,
+          "odds": 93,
+          "stake": 18600,
+          "pl": 1400,
+          "won": true,
+          "tx": "0xa964328d038e999f219cac03faa11f1047f83ceb7459806a7b18d04b0da9596f"
+        },
+        {
+          "market": "Will Zohran Mamdani’s RCV margin of victory be greater than 13% in the New York City Mayoral Democratic Primary?",
+          "url": "https://polymarket.com/event/will-zohran-mamdanis-rcv-margin-of-victory-be-greater-than-13-in-the-new-york-city-mayoral-democratic-primary",
+          "ts": 1752233618,
+          "odds": 93,
+          "stake": 18559,
+          "pl": 1441,
+          "won": true,
+          "tx": "0x6bea6065b9cd1689baf29d883621a7144b043eace396a7b723f1dd78f8f5f2a1"
+        },
+        {
+          "market": "Will Spencer Pratt win the 2026 Los Angeles mayoral election?",
+          "url": "https://polymarket.com/event/will-spencer-pratt-win-the-2026-los-angeles-mayoral-election-983",
+          "ts": 1779983083,
+          "odds": 80,
+          "stake": 17653,
+          "pl": 4308,
+          "won": true,
+          "tx": "0x7764d4fd9ed3a884bc61216f51fcd87d954bddf72177235c049348ab650fe586"
+        },
+        {
+          "market": "Will the US confirm that aliens exist in 2025?",
+          "url": "https://polymarket.com/event/will-the-us-confirm-that-aliens-exist-in-2025",
+          "ts": 1753308708,
+          "odds": 93,
+          "stake": 16093,
+          "pl": 1294,
+          "won": true,
+          "tx": "0x60d2a41bf5c3b06d67cd3e4d12ac545076295a412640c9dc44584aa8bce03bb5"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x2110ba2a1e18840109482ff4ddc547baeff45850",
       "username": "George.Smiley",
       "tier": "notable",
@@ -5349,172 +5515,6 @@
           "pl": 4528,
           "won": true,
           "tx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803"
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
-      "address": "0x8365a0c9908dca494abaf0b90584162b474ce9a6",
-      "username": "Retired-Davis",
-      "tier": "notable",
-      "S": 742.7,
-      "market": "Starmer out in 2025?",
-      "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
-      "episodeTx": "0x37db6942f40bd27d74bc2c27a8ba8529de5442daf1c75b5a9cc211eb099de76b",
-      "stake": 36760,
-      "odds": 81,
-      "won": true,
-      "episodeProfit": 8413,
-      "zBetCross": 12.74,
-      "zBetWithin": 0.69,
-      "zProfitCross": 11.94,
-      "lateBuyFraction": 0,
-      "directionalScore": 0.544,
-      "accountPnl": -36066,
-      "firstSeen": "Oct 25 2024",
-      "createdOnChain": true,
-      "created": "Oct 25 2024",
-      "betsCount": 48,
-      "ledger": [
-        {
-          "market": "Will Omar Fateh win the 2025 Minneapolis mayoral election?",
-          "url": "https://polymarket.com/event/will-omar-fateh-win-the-2025-minneapolis-mayoral-election-733",
-          "ts": 1754384421,
-          "odds": 64,
-          "stake": 177376,
-          "pl": 101838,
-          "won": true,
-          "tx": "0xceb1f5e725eaadc03d95a5f9ce9aa4d7f9008e205d786736a4098bcd3faa90ac"
-        },
-        {
-          "market": "Will Putin remain President of Russia through June?",
-          "url": "https://polymarket.com/event/will-putin-remain-president-of-russia-through-june-2025",
-          "ts": 1750081703,
-          "odds": 99,
-          "stake": 109010,
-          "pl": 990,
-          "won": true,
-          "tx": "0xc510f1875cd4a32d16705d2d18b392b31262d13e26c321300ada38e76fb09537"
-        },
-        {
-          "market": "Will the US officially declare war on Iran in 2025?",
-          "url": "https://polymarket.com/event/will-the-us-officially-declare-war-on-iran-in-2025",
-          "ts": 1751890449,
-          "odds": 97,
-          "stake": 58189,
-          "pl": 1811,
-          "won": true,
-          "tx": "0xc849737a20eb4546907dd64af2ab8aa516d7d4228fdbb58e5423abfa9869351b"
-        },
-        {
-          "market": "Will Catherine Connolly win the Irish Presidential Election?",
-          "url": "https://polymarket.com/event/will-catherine-connolly-win-the-irish-presidential-election",
-          "ts": 1760285949,
-          "odds": 76,
-          "stake": 51711,
-          "pl": 16340,
-          "won": true,
-          "tx": "0x5aef4f26d18deac56c6e2106dde2db4ec6652f752b7b3e9cf7dc8fcef7cc6ca8"
-        },
-        {
-          "market": "Will Rafał Trzaskowski be the next President of Poland?",
-          "url": "https://polymarket.com/event/will-rafa-trzaskowski-be-the-next-president-of-poland",
-          "ts": 1748815191,
-          "odds": 80,
-          "stake": 49006,
-          "pl": 12252,
-          "won": true,
-          "tx": "0x7b8caed4c5d3c30032f02054b7f9c9a424c336e5c01da1840b61fee7909acaf8"
-        },
-        {
-          "market": "Starmer out in 2025?",
-          "url": "https://polymarket.com/event/starmer-out-in-2025",
-          "ts": 1742332592,
-          "odds": 81,
-          "stake": 36760,
-          "pl": 8413,
-          "won": true,
-          "tx": "0x37db6942f40bd27d74bc2c27a8ba8529de5442daf1c75b5a9cc211eb099de76b"
-        },
-        {
-          "market": "Jerome Powell out as Fed Chair in 2025?",
-          "url": "https://polymarket.com/event/will-trump-remove-jerome-powell",
-          "ts": 1752220260,
-          "odds": 86,
-          "stake": 24644,
-          "pl": 3853,
-          "won": true,
-          "tx": "0x809597ed602d70e00a08fce48ed445a30abd47f68136a90822e742af52715c85"
-        },
-        {
-          "market": "Will China invade Taiwan in 2025?",
-          "url": "https://polymarket.com/event/will-china-invade-taiwan-in-2025",
-          "ts": 1752944564,
-          "odds": 93,
-          "stake": 18600,
-          "pl": 1400,
-          "won": true,
-          "tx": "0xa964328d038e999f219cac03faa11f1047f83ceb7459806a7b18d04b0da9596f"
-        },
-        {
-          "market": "Will Spencer Pratt win the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/will-spencer-pratt-win-the-2026-los-angeles-mayoral-election-983",
-          "ts": 1779983083,
-          "odds": 80,
-          "stake": 17653,
-          "pl": 4308,
-          "won": true,
-          "tx": "0x7764d4fd9ed3a884bc61216f51fcd87d954bddf72177235c049348ab650fe586"
-        },
-        {
-          "market": "Will the US confirm that aliens exist in 2025?",
-          "url": "https://polymarket.com/event/will-the-us-confirm-that-aliens-exist-in-2025",
-          "ts": 1753308708,
-          "odds": 93,
-          "stake": 16093,
-          "pl": 1294,
-          "won": true,
-          "tx": "0x60d2a41bf5c3b06d67cd3e4d12ac545076295a412640c9dc44584aa8bce03bb5"
-        },
-        {
-          "market": "Will Heather Humphreys win the Irish Presidential Election?",
-          "url": "https://polymarket.com/event/will-heather-humphreys-win-the-irish-presidential-election",
-          "ts": 1760563011,
-          "odds": 77,
-          "stake": 14965,
-          "pl": 4378,
-          "won": true,
-          "tx": "0xcdfc5f9e916b1a8e05724ca94cf910982e34c4cb0e20b19bbeab694335f237c2"
-        },
-        {
-          "market": "Will Andrew Cuomo win the Democratic Primary for Mayor of New York City?",
-          "url": "https://polymarket.com/event/will-andrew-cuomo-win-the-democratic-primary-for-mayor-of-new-york-city",
-          "ts": 1750064339,
-          "odds": 61,
-          "stake": 14877,
-          "pl": -14877,
-          "won": false,
-          "tx": "0x28ca185f2e1a3b83941aec3c6c890f06af1323f55e2bba1bfa9dde3c7f965690"
-        },
-        {
-          "market": "Russia x Ukraine ceasefire before October?",
-          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-october",
-          "ts": 1758224348,
-          "odds": 99,
-          "stake": 13270,
-          "pl": 177,
-          "won": true,
-          "tx": "0xd9241c08d08db834d9b9d972218a424eab74fe5d762d4f5cf54880f25d06aada"
-        },
-        {
-          "market": "Xi Jinping out in 2025?",
-          "url": "https://polymarket.com/event/xi-jinping-out-in-2025",
-          "ts": 1753644531,
-          "odds": 88,
-          "stake": 12936,
-          "pl": 1764,
-          "won": true,
-          "tx": "0x7adb2d5caf26bf1f6e47faf3c2115fba22d57546874de22870af1dd1b07b5adb"
         }
       ],
       "alsoBinomial": false
