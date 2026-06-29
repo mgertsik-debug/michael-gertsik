@@ -221,13 +221,13 @@ test("RECONSTRUCTED Iran-ring cluster (9 wallets, ~98% win, fresh, held) -> Extr
 });
 
 test("HARVARD composite: 3-signal score + profitability gate + tiers", () => {
-  // SCORE = 25·zbc + 20·zbw + 30·zpc  (late/dir are context, NOT scored)
-  const e = D.harvardEpisode({ zBetCross: 12, zBetWithin: 2.5, zProfitCross: 8, lateBuyFraction: 0.5, directionalScore: 1.0, won: true });
-  // 25*12 + 20*2.5 + 30*8 = 300 + 50 + 240 = 590  (late/dir excluded)
-  assert.equal(e.S, 590, "score is the 3 reliable cross-sections only — late/dir excluded");
+  // SCORE = 20·zbc + 15·zbw + 40·zpc  (profit-weighted; late/dir are context, NOT scored)
+  const e = D.harvardEpisode({ zBetCross: 12, zBetWithin: 5, zProfitCross: 18, lateBuyFraction: 0.5, directionalScore: 1.0, won: true });
+  // 20*12 + 15*5 + 40*18 = 240 + 75 + 720 = 1035  (late/dir excluded)
+  assert.equal(e.S, 1035, "score is the 3 reliable cross-sections, profit-weighted — late/dir excluded");
   assert.equal(e.retained, true, "retained: outsized bet AND won AND out-profited peers");
   assert.equal(e.profitable, true);
-  assert.equal(D.harvardTier(e.S), "high", "S=590 -> high (590 in [420,860))");
+  assert.equal(D.harvardTier(e.S), "high", "S=1035 -> high (1035 in [810,1110))");
 
   // PROFITABILITY GATE: a big LOSING bet (or one that under-profited peers) is NOT retained,
   // however large/late/one-sided — this is the fix for losers scoring high.
@@ -240,15 +240,15 @@ test("HARVARD composite: 3-signal score + profitability gate + tiers", () => {
   const small = D.harvardEpisode({ zBetCross: 1.2, zBetWithin: 0.9, zProfitCross: 5, won: true });
   assert.equal(small.retained, false, "not retained when neither bet-size z exceeds 2");
 
-  // tier thresholds (calibrated to our gated, material+against-the-odds distribution)
-  assert.equal(D.harvardTier(300), null, "below notable floor -> unflagged");
-  assert.equal(D.harvardTier(400), "notable");
-  assert.equal(D.harvardTier(700), "high");
-  assert.equal(D.harvardTier(1000), "extreme");
+  // tier thresholds (calibrated to our gated, profit-weighted distribution: 530/810/1110)
+  assert.equal(D.harvardTier(400), null, "below notable floor -> unflagged");
+  assert.equal(D.harvardTier(600), "notable");
+  assert.equal(D.harvardTier(900), "high");
+  assert.equal(D.harvardTier(1200), "extreme");
 
   // missing cross-sectional z degrades to NO-DATA — never a fabricated S=0 (honesty rule).
   const z = D.harvardEpisode({});
   assert.equal(z.hasData, false, "no measurable z_bet_cross -> hasData:false, not a fake S=0");
   const partial = D.harvardEpisode({ zBetCross: 3, won: true });
-  assert.equal(partial.hasData, true); assert.equal(partial.S, 75, "25*3 with others 0");
+  assert.equal(partial.hasData, true); assert.equal(partial.S, 60, "20*3 with others 0");
 });
