@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 29 2026",
   "snapshot": 1782628669,
-  "total": 90,
+  "total": 91,
   "byTier": {
     "extreme": 13,
     "high": 17,
-    "notable": 60
+    "notable": 61
   },
-  "medianS": 711.7,
-  "p90": 1404.8,
+  "medianS": 704.4,
+  "p90": 1366.6,
   "p95": 1570.9,
   "p99": 1979.2,
   "minS": 533.3,
   "maxS": 1979.2,
-  "over500": 90,
-  "alsoBinomial": 32,
+  "over500": 91,
+  "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 204367,
-  "reviewed": 204367,
-  "screened": 9939,
-  "scored": 5709,
+  "observed": 205629,
+  "reviewed": 205629,
+  "screened": 10054,
+  "scored": 5734,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -1723,7 +1723,7 @@
       "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
       "username": "cowcat",
       "tier": "high",
-      "S": 1109.1,
+      "S": 1109.3,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
@@ -1732,7 +1732,7 @@
       "won": true,
       "episodeProfit": 22588,
       "zBetCross": 3.34,
-      "zBetWithin": 19.03,
+      "zBetWithin": 19.05,
       "zProfitCross": 18.92,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -1740,7 +1740,7 @@
       "firstSeen": "Apr 13 2024",
       "createdOnChain": true,
       "created": "Apr 13 2024",
-      "betsCount": 625,
+      "betsCount": 628,
       "ledger": [
         {
           "market": "Khamenei out as Supreme Leader of Iran in 2026?",
@@ -1863,6 +1863,16 @@
           "tx": null
         },
         {
+          "market": "Will Lori Chavez-DeRemer be the first to leave the Trump Cabinet before 2027?",
+          "url": "https://polymarket.com/event/who-will-be-the-first-to-leave-the-trump-cabinet-828",
+          "ts": 1768078068,
+          "odds": 76,
+          "stake": 1506,
+          "pl": 476,
+          "won": true,
+          "tx": "0x9414c483509ca0ce0bbb20bd27ce8f38e7c1b440ecdb66f33934221d0bb64ae8"
+        },
+        {
           "market": "Will Darializa Avila Chevalier be the Democratic Nominee for NY-13?",
           "url": "https://polymarket.com/event/will-darializa-avila-chevalier-be-the-democratic-nominee-for-ny-13",
           "ts": 1782266939,
@@ -1871,16 +1881,6 @@
           "pl": 4,
           "won": true,
           "tx": "0x839ca5906b250cd3a9259eb8a832bfb4eebf8b95f510ee09401659264a80a795"
-        },
-        {
-          "market": "Will Antonio Reynoso be the Democratic nominee for NY-07?",
-          "url": "https://polymarket.com/event/will-antonio-reynoso-be-the-democratic-nominee-for-ny-07",
-          "ts": 1782172800,
-          "odds": 20,
-          "stake": 1324,
-          "pl": -1324,
-          "won": false,
-          "tx": null
         }
       ],
       "alsoBinomial": false
@@ -2221,7 +2221,7 @@
       "address": "0xbacd00c9080a82ded56f504ee8810af732b0ab35",
       "username": "ScottyNooo",
       "tier": "high",
-      "S": 1032.7,
+      "S": 1032.8,
       "market": "US strikes Iran by March 7, 2026?",
       "marketUrl": "https://polymarket.com/event/us-strikes-iran-by",
       "episodeTx": "0xdf19aa0c2feeed286352aa0a12023fd15b7dfd9ac69e3aef7179cfbf141defbb",
@@ -2230,7 +2230,7 @@
       "won": true,
       "episodeProfit": 42765,
       "zBetCross": 10.63,
-      "zBetWithin": 0.17,
+      "zBetWithin": 0.18,
       "zProfitCross": 20.44,
       "lateBuyFraction": 0.702,
       "directionalScore": 0.947,
@@ -2238,7 +2238,7 @@
       "firstSeen": "Apr 21 2026",
       "createdOnChain": true,
       "created": "May 06 2025",
-      "betsCount": 301,
+      "betsCount": 309,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
@@ -2845,7 +2845,7 @@
       "address": "0xe8dd7741ccb12350957ec71e9ee332e0d1e6ec86",
       "username": "influenz.eth",
       "tier": "high",
-      "S": 900.2,
+      "S": 900.6,
       "market": "Will the US strike Iran next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-329",
       "episodeTx": "0x43b0257c97df8f7f91640ab4b6268026b9da7fd0d38892ef0c75301aa9fc157b",
@@ -2854,7 +2854,7 @@
       "won": true,
       "episodeProfit": 3338,
       "zBetCross": 18.48,
-      "zBetWithin": 0.26,
+      "zBetWithin": 0.28,
       "zProfitCross": 13.17,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -2862,7 +2862,7 @@
       "firstSeen": "Feb 02 2025",
       "createdOnChain": true,
       "created": "Jan 26 2025",
-      "betsCount": 608,
+      "betsCount": 634,
       "ledger": [
         {
           "market": "Will Trump nominate Scott Bessent as the next Fed chair?",
@@ -4007,7 +4007,7 @@
       "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
       "username": "siick",
       "tier": "high",
-      "S": 830.8,
+      "S": 831,
       "market": "Will the US strike Somalia next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
       "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
@@ -4016,7 +4016,7 @@
       "won": true,
       "episodeProfit": 1882,
       "zBetCross": 7.67,
-      "zBetWithin": 4.77,
+      "zBetWithin": 4.78,
       "zProfitCross": 15.15,
       "lateBuyFraction": 0.273,
       "directionalScore": 1,
@@ -4024,7 +4024,7 @@
       "firstSeen": "Feb 25 2025",
       "createdOnChain": true,
       "created": "Feb 25 2025",
-      "betsCount": 164,
+      "betsCount": 165,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
