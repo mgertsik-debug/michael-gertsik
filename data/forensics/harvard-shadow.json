@@ -16,10 +16,10 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 206609,
-  "reviewed": 206609,
+  "observed": 207024,
+  "reviewed": 207024,
   "screened": 10054,
-  "scored": 5770,
+  "scored": 5773,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -34,7 +34,7 @@
       "won": true,
       "episodeProfit": 9057,
       "zBetCross": 33.31,
-      "zBetWithin": 0.79,
+      "zBetWithin": 0.8,
       "zProfitCross": 32.53,
       "lateBuyFraction": 0,
       "directionalScore": 0,
@@ -42,7 +42,7 @@
       "firstSeen": "Apr 12 2026",
       "createdOnChain": false,
       "created": null,
-      "betsCount": 145,
+      "betsCount": 146,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of May?",
@@ -2221,7 +2221,7 @@
       "address": "0xbacd00c9080a82ded56f504ee8810af732b0ab35",
       "username": "ScottyNooo",
       "tier": "high",
-      "S": 1032.8,
+      "S": 1032.9,
       "market": "US strikes Iran by March 7, 2026?",
       "marketUrl": "https://polymarket.com/event/us-strikes-iran-by",
       "episodeTx": "0xdf19aa0c2feeed286352aa0a12023fd15b7dfd9ac69e3aef7179cfbf141defbb",
@@ -2238,7 +2238,7 @@
       "firstSeen": "Apr 21 2026",
       "createdOnChain": true,
       "created": "May 06 2025",
-      "betsCount": 309,
+      "betsCount": 310,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
