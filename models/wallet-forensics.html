@@ -1364,7 +1364,12 @@ class Component extends DCLogic {
 
   confidenceMeterNode(s) {
     const h = this.h;
-    const fired = (s.fired || []).length, total = 6;
+    // The independent-detector suite is 12 (detectors.js contribW): won, longshot, held, fresh,
+    // conceal, cluster, conviction, timing, sizing, concentration, baseline, profitCross. The old
+    // hardcoded 6 produced "7 of 6" once more detectors were added. Cap fired at the roster so the
+    // count is always coherent.
+    const ROSTER = 12;
+    const fired = Math.min((s.fired || []).length, ROSTER), total = ROSTER;
     const level = s.tier === "extreme" ? "High confidence" : s.tier === "elevated" ? "Moderate\u2013high" : "Moderate";
     const segs = [];
     for (let i = 0; i < total; i++) segs.push(h("div", { key: i, style: { flex: 1, height: "9px", borderRadius: "3px", background: i < fired ? "#34D399" : "#16201B", boxShadow: i < fired ? "0 0 10px -2px rgba(52,211,153,0.6)" : "none", transition: "background .3s" } }));
