@@ -1,10 +1,22 @@
 {
-  "generatedAt": "2026-06-28",
+  "generatedAt": "2026-06-29",
   "held": [
+    {
+      "caption": "Robinhood Derivatives, LLC v. Dana Nessel",
+      "docketId": 73528455,
+      "court_id": "ca6",
+      "reason": "no prediction-market entity in caption or parties"
+    },
     {
       "caption": "USA v. Commonwealth of Kentucky",
       "docketId": 73520733,
       "court_id": "kyed",
+      "reason": "no prediction-market entity in caption or parties"
+    },
+    {
+      "caption": "Robinhood Derivatives, LLC v. Dana Nessel",
+      "docketId": 73528455,
+      "court_id": "ca6",
       "reason": "no prediction-market entity in caption or parties"
     },
     {
