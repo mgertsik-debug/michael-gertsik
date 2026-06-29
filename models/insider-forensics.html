@@ -145,7 +145,7 @@
   };
   var WGMAX = 17;
   var WGRID = "88px minmax(180px,1.7fr) 132px 86px 78px minmax(170px,1.3fr) 92px 108px 60px";
-  var wlState = { expandedId:null, sort:'recency', search:'', quick:{blackout:false,big:false,hardened:false}, legendOpen:false, copied:null };
+  var wlState = { expandedId:null, sort:'recency', search:'', quick:{blackout:false,big:false,hardened:false}, legendOpen:false, scoreOpen:false, copied:null };
 
   function wlScoreOf(e){ if(e && typeof e.score==='number') return e.score; return (e.signals||[]).reduce(function(a,k){return a+((WSIG[k]&&WSIG[k].weight)||0);},0); }
   function wlSC(score){ var f=score/WGMAX; if(f<0.45) return {c:'#34D399',g:'rgba(52,211,153,0.6)'}; if(f<0.72) return {c:'#FBBF24',g:'rgba(251,191,36,0.55)'}; return {c:'#F87171',g:'rgba(248,113,113,0.6)'}; }
@@ -315,22 +315,27 @@
       + '<span style="flex-shrink:0;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;color:#FBBF24;padding-top:1px;">⚠ EARLY WARNING</span>'
       + '<p style="margin:0;font-size:13px;color:#C9CFCB;line-height:1.6;">Early warning, not proof. One row = one outsized trade on an <span style="color:#FBBF24;">open market</span>, scored at placement. A confident whale who’s simply wrong looks like an insider until the market resolves. Each entry hardens into a flagged wallet or self-clears.</p></div>';
     var footer='<div style="margin-top:18px;text-align:center;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#6B756F;line-height:1.6;">Consistent with informed trading — <span style="color:#949C98;">not proof of it.</span> Live scores use trade-time signals only; they cannot yet use win or profit.</span></div>';
-    // always-visible explainer for THE SCORE (users shouldn't have to expand a row to learn what it is)
-    var scoreHelp='<div style="display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:11px 15px;background:#0E1512;border:1px solid #1F2A25;border-radius:11px;">'
-      + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.12em;color:#34D399;padding-top:3px;flex-shrink:0;">◷ THE SCORE</span>'
-      + '<span style="font-size:12px;color:#949C98;line-height:1.7;">A trade’s <b style="color:#C4CAC6;">score</b> is just the points from each red flag that fired — and each flag has its own colour (same colour on its chip and in the breakdown):<br>'
-        + '<b style="color:#FBBF24;">news&nbsp;blackout&nbsp;+6</b> (bet before <i>any</i> public news — the strongest tell, so it counts most) &nbsp;·&nbsp; '
-        + '<b style="color:#5EEAD4;">outsized&nbsp;trade&nbsp;+5</b> (far bigger than the other trades here) &nbsp;·&nbsp; '
-        + '<b style="color:#A78BFA;">large&nbsp;%&nbsp;of&nbsp;pool&nbsp;+3</b> (eats a big slice of the market’s money) &nbsp;·&nbsp; '
-        + '<b style="color:#34D399;">Federal&nbsp;Register&nbsp;+3</b> (a regulatory filing names the exact subject).<br>'
-        + 'Add them up → <b style="color:#C4CAC6;">max ~17</b>. <b style="color:#C4CAC6;">Example:</b> the $191K Putin bet below scored <b style="color:#FBBF24;">9</b> = <span style="color:#5EEAD4;">outsized&nbsp;+5</span> plus <span style="color:#7FB2FF;">lone&nbsp;whale&nbsp;+4</span>. The dial fills <span style="color:#34D399;">green</span>→<span style="color:#FBBF24;">amber</span>→<span style="color:#F87171;">red</span> as the score climbs; click any row for the full breakdown. It’s an early-warning score from signals available <i>at placement</i> only — it can’t yet use whether the bet won.</span></div>';
-    document.getElementById('wl-dyn').innerHTML = banner+stats+legend+toolbar+scoreHelp+'<div style="margin-top:12px;border:1px solid #1F2A25;border-radius:14px;overflow:hidden;background:#0B100E;"><div id="wl-feed">'+wlFeedHTML()+'</div></div>'+footer;
+    // THE SCORE explainer — now a COLLAPSIBLE that sits right under the signals legend (same +expand
+    // pattern), so it doesn't crowd the page; opens to the colour-matched breakdown + worked example.
+    var scoreInner='<span style="font-size:12px;color:#949C98;line-height:1.7;">A trade’s <b style="color:#C4CAC6;">score</b> is just the points from each red flag that fired — and each flag has its own colour (same colour on its chip and in the breakdown):<br>'
+      + '<b style="color:#FBBF24;">news&nbsp;blackout&nbsp;+6</b> (bet before <i>any</i> public news — the strongest tell, so it counts most) &nbsp;·&nbsp; '
+      + '<b style="color:#5EEAD4;">outsized&nbsp;trade&nbsp;+5</b> (far bigger than the other trades here) &nbsp;·&nbsp; '
+      + '<b style="color:#A78BFA;">large&nbsp;%&nbsp;of&nbsp;pool&nbsp;+3</b> (eats a big slice of the market’s money) &nbsp;·&nbsp; '
+      + '<b style="color:#34D399;">Federal&nbsp;Register&nbsp;+3</b> (a regulatory filing names the exact subject).<br>'
+      + 'Add them up → <b style="color:#C4CAC6;">max ~17</b>. <b style="color:#C4CAC6;">Example:</b> the $191K Putin bet below scored <b style="color:#FBBF24;">9</b> = <span style="color:#5EEAD4;">outsized&nbsp;+5</span> plus <span style="color:#7FB2FF;">lone&nbsp;whale&nbsp;+4</span>. The dial fills <span style="color:#34D399;">green</span>→<span style="color:#FBBF24;">amber</span>→<span style="color:#F87171;">red</span> as the score climbs; click any row for the full breakdown. It’s an early-warning score from signals available <i>at placement</i> only — it can’t yet use whether the bet won.</span>';
+    var scoreBlock='<div style="margin-top:10px;"><button onclick="wlScoreToggle()" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#090D0C;border:1px solid #1F2A25;border-radius:12px;padding:13px 16px;cursor:pointer;">'
+      + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:.12em;color:#6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> HOW THE SCORE WORKS</span>'
+      + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#34D399;">'+(st.scoreOpen?'− collapse':'+ expand')+'</span></button>';
+    if(st.scoreOpen){ scoreBlock+='<div style="margin-top:10px;background:#0E1512;border:1px solid #1F2A25;border-radius:12px;padding:14px 16px;animation:wf-drawer .2s ease;">'+scoreInner+'</div>'; }
+    scoreBlock+='</div>';
+    document.getElementById('wl-dyn').innerHTML = banner+stats+legend+scoreBlock+toolbar+'<div style="margin-top:12px;border:1px solid #1F2A25;border-radius:14px;overflow:hidden;background:#0B100E;"><div id="wl-feed">'+wlFeedHTML()+'</div></div>'+footer;
   }
   // ---- interaction handlers ----
   function wlExpand(id){ wlState.expandedId = (wlState.expandedId===id?null:id); renderWatch(); }
   function wlSort(v){ wlState.sort=v; renderWatch(); }
   function wlQuick(k){ wlState.quick[k]=!wlState.quick[k]; renderWatch(); }
   function wlLegend(){ wlState.legendOpen=!wlState.legendOpen; renderWatch(); }
+  function wlScoreToggle(){ wlState.scoreOpen=!wlState.scoreOpen; renderWatch(); }
   function wlSearch(v){ wlState.search=v; var f=document.getElementById('wl-feed'); if(f) f.innerHTML=wlFeedHTML(); }
   function wlCopy(addr,id){ try{ navigator.clipboard && navigator.clipboard.writeText(addr); }catch(_){} wlState.copied=id; renderWatch(); setTimeout(function(){ wlState.copied=null; var r=document.getElementById('wl-dyn'); if(r&&/watch/.test(location.hash||'')) renderWatch(); },1400); }
 
