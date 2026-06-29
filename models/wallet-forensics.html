@@ -347,6 +347,11 @@
                   <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #34D399;">METHOD · {{ f.method }}</div>
                   <div style="font-size: 11.5px; color: #6B756F; margin-top: 4px;">{{ f.citation }}</div>
 
+                  <div style="margin-top: 13px; background: rgba(52,211,153,0.05); border: 1px solid #1B2521; border-radius: 8px; padding: 11px 13px;">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6FE3B6; margin-bottom: 5px;">IN PLAIN WORDS</div>
+                    <div style="font-size: 12.5px; color: #C4CAC6; line-height: 1.6;">{{ f.eli5 }}</div>
+                  </div>
+
                   <div style="margin-top: 13px; background: #0E1512; border: 1px solid #1F2A25; border-radius: 8px; padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #D7DCD9; overflow-x: auto; white-space: nowrap;">{{ f.formula }}</div>
                   <div style="display: flex; flex-wrap: wrap; gap: 5px 18px; margin-top: 9px;">
                     <sc-for list="{{ f.symbols }}" as="sym" hint-placeholder-count="3">
@@ -1685,6 +1690,27 @@ class Component extends DCLogic {
       sizing: "The informed bet was many times larger than this wallet's normal stake — its own betting history makes the size an outlier.",
       concentration: "Put nearly every dollar one direction on a single event cluster — the un-hedged, single-thesis betting of someone who already knows the answer.",
     };
+    // ELI5 — "explain like I'm 5" for EVERY methodology. Keyed by detector type, so one map
+    // covers every wallet. Plain words: what we calculated, and why/how it points to a tip-off.
+    const eli5Map = {
+      won: "Imagine a game where the market says 'this almost never happens.' We counted how many of those long-shot bets this person still WON, then worked out the chance of being that lucky by accident. The '1 in N' number is that chance — a tiny number means luck almost certainly can't explain it, so they probably knew something.",
+      longshot: "We measured how unlikely the things they bet on were. Long shots are where you make the most money IF you secretly know they'll happen. We averaged how 'unlikely' their bets were — very low odds means they were hunting the big informed payoff, not betting on sure things.",
+      held: "When you KNOW you'll win, you never sell early or buy a backup — you just hold on. We counted how many bets they held all the way to the end. Holding every single time is what someone does when they aren't nervous, because they already know the answer.",
+      fresh: "We checked how old their wallet was when these bets happened. It was brand new — made just days before, with no history — like someone who opened a fresh account on purpose, just to place these bets and not be linked to anything else.",
+      conceal: "We looked for sneaky hiding tricks: splitting one big bet into many small ones, placing fake tiny bets to look normal, or yanking the money off the platform fast after winning. We counted how many of these tricks happened together — doing several at once is a sign of someone trying not to get caught.",
+      cluster: "We followed the money on the blockchain and found a group of accounts that all got funded from the same place and bet on the same things at the same moments. That usually means they're secretly ONE person using many accounts to look like a crowd.",
+      conviction: "Sometimes one giant bet tells the whole story. We found a single huge bet on an unlikely outcome that they held to the end and won big. One bet alone isn't proof — but a giant, confident, winning long-shot, next to the other clues, is exactly what a tipped-off bettor looks like.",
+      timing: "We checked WHEN they bought. They bought their winners right before the surprise happened — at the last second. Buying right at the end is exactly when knowing a secret is worth the most, because the price hasn't moved yet.",
+      sizing: "We compared this bet to their OWN usual bet size. This one was many times bigger than normal for them — like a kid who usually spends a dollar suddenly spending eighty. A huge jump from your own habit means you were unusually sure about this one.",
+      concentration: "We checked if they spread their money around or dumped it all on ONE answer. They went almost all-in on a single side and never hedged with a backup bet. That's what someone does when they already know which side wins.",
+      baseline: "If you bet on something likely (a heavy favorite), you must win a LOT just to break even — buying at 80¢ means you need to win 80% of the time to not lose money. We checked whether they won MORE often than that break-even line. Beating it means they really made money, not just looked like winners.",
+      profitCross: "In this one market, we lined up everyone who bet and saw how much each person made. This person made WAY more than everybody else — like one kid winning more candy than the rest of the class put together. Out-earning the whole room on one bet is a strong sign they knew something, and it works even on 'favorite' bets the long-shot test can't see.",
+      hProfit: "We compared how much money they made in this market to everyone else who bet in it. They made far more than the average player — outsized winnings versus the crowd is the most direct sign someone had an edge.",
+      hBetCross: "We compared the size of their bet to everyone else's bet in the same market. They put down way more than the typical player — like the whole room betting $5 and this person betting $500. Betting that much more than the crowd on one outcome shows unusual confidence.",
+      hBetWithin: "We compared this bet to the SAME person's normal bet size. It was many times bigger than what they usually do — a big jump from their own habit means this particular bet was special to them.",
+      hLate: "We checked the timing of their buying. Almost all of it landed in the final 48 hours before the answer came out. Buying right at the end is when a secret tip is worth the most — the price hasn't caught up yet.",
+      hDir: "We checked whether they picked one side and stuck with it or hedged with a backup. They went one-sided and held with no backup — the move of someone who isn't worried, because they already know how it ends.",
+    };
     const contrib = this.contributionMap(sel);
     // bar width = the detector's REAL contribution share, normalised so the top
     // contributor fills the bar. This keeps the bar and the "% of flag" consistent
@@ -1695,7 +1721,7 @@ class Component extends DCLogic {
       const en = this.enrichFinding(sel, r);
       const cpct = contrib[r.key] != null ? contrib[r.key] : 0;
       return {
-        name: nameMap[r.key] || r.key, explanation: explainMap[r.key] || "", metric: r.metric, metricColor: ct.color,
+        name: nameMap[r.key] || r.key, explanation: explainMap[r.key] || "", eli5: eli5Map[r.key] || explainMap[r.key] || r.numbers || "", metric: r.metric, metricColor: ct.color,
         barPct: Math.round((cpct / maxContrib) * 100) + "%",
         contribPct: cpct + "% of flag",
         open, caret: open ? "\u2212 hide the math" : "+ show the math",
