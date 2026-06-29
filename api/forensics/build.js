@@ -1140,4 +1140,27 @@ function buildPayload(aggregates, meta, catalog) {
   };
 }
 
-module.exports = { scoreAggregate, buildSubject, buildFavoriteSubject, buildCrossCatSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, suspicionScore, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };
+/* ----------------------------------------------- info-environment enrichment -- */
+// Attach the news-blackout / Federal-Register results to an already-published subject (the scanner
+// does this post-scoring, bounded + deadline-gated, for the top flagged subjects only). These are
+// CORROBORATORS: they add a fired key + a scorecard card and lift the composite suspicion (via the
+// timing dimension), but they NEVER change the statistical tier (the flag decision). Non-destructive
+// — existing contributions/tier are untouched; returns the subject for chaining.
+function enrichInfoSignals(subject, nb, fr) {
+  if (!subject) return subject;
+  subject.fired = subject.fired || []; subject.scorecard = subject.scorecard || [];
+  const add = (d, metric, method, formula) => {
+    if (!d || !d.hasData || !d.fires) return;
+    if (!subject.fired.includes(d.key)) subject.fired.push(d.key);
+    subject.scorecard.push({ key: d.key, metric, method, formula, numbers: d.explain, inputs: [] });
+  };
+  if (nb) add(nb, (nb.articleCount === 0 ? "news blackout" : nb.articleCount + " articles"),
+    "pre-event news blackout (GDELT)", "global news articles matching the market entity in the " + (nb.windowHours || 24) + "h before the bet");
+  if (fr) add(fr, (fr.nDocs || 0) + " reg doc" + ((fr.nDocs || 0) === 1 ? "" : "s"),
+    "Federal Register match", "recent regulatory documents whose title matches the market entity (precision-filtered)");
+  subject.detectorsFired = subject.fired.length;
+  subject.suspicion = suspicionScore(subject);                    // newsBlackout lifts the timing dimension
+  return subject;
+}
+
+module.exports = { scoreAggregate, buildSubject, buildFavoriteSubject, buildCrossCatSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, suspicionScore, enrichInfoSignals, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };
