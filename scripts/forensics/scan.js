@@ -55,8 +55,14 @@ const CATALOG_MAX = +process.env.CATALOG_MAX || 20000;
 
 const ENV = process.env;
 const LOOKBACK_DAYS = +ENV.LOOKBACK_DAYS || 90;
-const MARKETS_PER_RUN = +ENV.MARKETS_PER_RUN || 120;
-const ENRICH_BATCH = +ENV.ENRICH_BATCH || 200;
+// WORKLOAD CAPS (critical). The workflow env still carries the obsolete "Harvard calibration"
+// settings (MARKETS_PER_RUN=240, ENRICH_BATCH=700, ONDEMAND_PER_RUN=600, LIVE_PAGES=8, SCAN_BUDGET_S
+// =660) that DOUBLED the per-tick work — the scan step then ran the full 14-min job timeout and was
+// KILLED before the commit step, so NO data ever committed (the site froze). The Harvard product is
+// retired, so that calibration is moot. The bot token can't edit .github/workflows, so we cap the
+// knobs HERE: even when the env over-specifies, the tick stays small enough to finish with margin.
+const MARKETS_PER_RUN = Math.min(+ENV.MARKETS_PER_RUN || 120, 130);
+const ENRICH_BATCH = Math.min(+ENV.ENRICH_BATCH || 200, 300);
 const SCREEN_USD = +ENV.SCREEN_USD || 2500;
 const SCREEN_IMPLIED = 0.35;
 const SCREEN_CAP = +ENV.SCREEN_CAP || 600;      // max wallets queued for enrichment (bounds state.json)
@@ -68,7 +74,10 @@ const NOW_S = Math.round(NOW / 1000);
 // results are LOST (the site never updates). So we self-impose a softer deadline:
 // stop taking on new work once we cross it and go straight to finalize()+commit,
 // leaving generous margin for the push. Coverage accumulates across ticks regardless.
-const SCAN_BUDGET_MS = (+ENV.SCAN_BUDGET_S || 540) * 1000;     // default 9 min (job timeout 13m)
+// CAP the soft deadline at 9 min regardless of env (job timeout is 14m) so finalize()+commit ALWAYS
+// run. The Harvard-calibration env set 660s (11m) which, with any network variance, pushed the scan
+// step into the 14-min kill before the commit step — freezing the site. 9 min leaves a 5-min margin.
+const SCAN_BUDGET_MS = Math.min(+ENV.SCAN_BUDGET_S || 540, 540) * 1000;
 const RING_RESERVE_MS = (+ENV.RING_RESERVE_S || 120) * 1000;   // hold back ~2 min for the ring-finder
 const DEADLINE = NOW + SCAN_BUDGET_MS;
 const ENRICH_DEADLINE = NOW + SCAN_BUDGET_MS - RING_RESERVE_MS;
@@ -209,7 +218,7 @@ async function run() {
   // scoring still happens only on RESOLVED records (an open bet can't be scored).
   let liveTrades = 0, liveNew = 0, liveScreened = 0;
   try {
-    const recent = await poly.recentTrades({ pages: +ENV.LIVE_PAGES || 12 });
+    const recent = await poly.recentTrades({ pages: Math.min(+ENV.LIVE_PAGES || 12, 6) });
     liveTrades = recent.length;
     const liveByMarket = {};
     for (const t of recent) {
@@ -300,7 +309,7 @@ async function run() {
   let fullRecords = 0;
   let posRecords = 0;                                          // wallets reconciled against /positions (authoritative cashPnl)
   let profiled = 0;                                            // wallets whose Polymarket profile aggregates were fetched
-  let onDemandBudget = +ENV.ONDEMAND_PER_RUN || 1500;          // bound live CLOB resolution per run
+  let onDemandBudget = Math.min(+ENV.ONDEMAND_PER_RUN || 1500, 400);   // bound live CLOB resolution per run (capped; see WORKLOAD CAPS)
   const PER_WALLET_ONDEMAND = +ENV.ONDEMAND_PER_WALLET || 80;
   let onDemandResolved = 0;
   let enrichedCount = 0;
