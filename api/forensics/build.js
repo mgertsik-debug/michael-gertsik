@@ -90,7 +90,19 @@ function scoreAggregate(agg) {
     ? D.fresh({ ageDays, priorTx: agg.priorTx }) : { key: "fresh", hasData: false };
 
   const winRate = wonD.hasData ? wonD.winRate : null;
-  const baselineD = winRate != null ? D.baseline({ winRate, category: dominantCategory(bets) }) : { key: "baseline", hasData: false };
+  // BREAK-EVEN benchmark (payoff-aware): the win rate is computed over the long-shot
+  // subset, so the honest break-even is the AVERAGE ENTRY PRICE of those same bets —
+  // you must win at your average buy price just to not lose money. Pass it so baseline()
+  // compares win rate to break-even, not a flat 50%.
+  const beEntry = impliedProbs.length ? impliedProbs.reduce((a, b) => a + b, 0) / impliedProbs.length : null;
+  const baselineD = winRate != null
+    ? D.baseline({ winRate, category: dominantCategory(bets), breakEven: D.isNum(beEntry) ? beEntry : undefined })
+    : { key: "baseline", hasData: false };
+
+  // CROSS-SECTIONAL PROFIT (Harvard z_profit_cross): scan the wallet's FULL resolved
+  // record for the market where it out-profited its peers most. Works at any odds, so it
+  // catches favorite-betting insiders the ≤35% long-shot binomial is structurally blind to.
+  const profitCrossD = D.profitCross(valid);
 
   const concealD = agg.conceal ? D.concealment(agg.conceal) : { key: "conceal", hasData: false };
 
@@ -106,7 +118,7 @@ function scoreAggregate(agg) {
   const concentrationD = D.concentration(valid);
   const sizingD = D.sizing(valid);
 
-  const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, conceal: concealD, cluster: clusterD, conviction: convictionD, timing: timingD, concentration: concentrationD, sizing: sizingD };
+  const dets = { won: wonD, longshot: longshotD, held: heldD, fresh: freshD, baseline: baselineD, profitCross: profitCrossD, conceal: concealD, cluster: clusterD, conviction: convictionD, timing: timingD, concentration: concentrationD, sizing: sizingD };
   const f = D.fuse(dets);
 
   // ---- HARVARD composite (Ofir & Ofir 2026): score every (wallet, market) EPISODE that
@@ -126,7 +138,7 @@ function scoreAggregate(agg) {
     if (!bestH || ep.S > bestH.S) bestH = Object.assign(ep, { bet: b, tier: D.harvardTier(ep.S) });
   }
   const harvard = bestH && bestH.tier ? { hasData: true, ...bestH } : { hasData: false, S: bestH ? bestH.S : 0 };
-  return { dets, f, harvard, bets, ageDays };
+  return { dets, f, harvard, bets, valid, ageDays };
 }
 
 /* --------------------------------------------------------------- validate -- */
@@ -249,6 +261,13 @@ function buildSubject(agg, idx, opts, catalog) {
   const recordImprobable = dets.won.hasData && dets.won.P != null && dets.won.P <= D.DEFAULTS.pNotable;
   const convOnly = !recordImprobable;
   if (convOnly && !conv.fires) return null;                 // record isn't improbable AND no conviction bet → don't publish
+  // NOTE on favorites: a strong cross-sectional profit outlier (profitCross / z_profit_cross)
+  // can ALSO corroborate a flagged wallet here — it appears as a fired signal + scorecard card
+  // below. But a PURE favorite-only record (no ≤35% long-shots) cannot be honestly rendered in
+  // THIS subject, because the ledger here is the long-shot subset — the flagged favorite bet
+  // would not appear in "the bets themselves". Those wallets are published by the dedicated
+  // FAVORITES pass (buildFavoriteSubject), which leads with the favorite episode over the FULL
+  // record. So favorites are caught two ways: corroboration here + their own dossier there.
 
   // MATERIALITY — insider trading is about MONEY AT RISK. A statistically-unusual
   // record on trivial stakes (six winning $20 long-shots) is a lucky gambler, not an
@@ -352,6 +371,10 @@ function buildSubject(agg, idx, opts, catalog) {
     push("timing", dets.timing.lateWins + " of " + dets.timing.n + " late", "informed-entry timing",
       "winning long-shots bought within hours of resolution", dets.timing.explain,
       [["late wins", String(dets.timing.lateWins) + " of " + dets.timing.n], ["soonest", dets.timing.minHours + " h before"], ["median", dets.timing.medianHours + " h before"]]);
+  if (fired.includes("profitCross") && dets.profitCross.hasData)
+    push("profitCross", "z = " + dets.profitCross.z, "cross-sectional profit (Harvard z_profit_cross)",
+      "z = (this wallet's profit − market mean) ÷ market SD, over peers in the SAME market", dets.profitCross.explain,
+      [["z_profit_cross", String(dets.profitCross.z)], ["market", dets.profitCross.market ? String(dets.profitCross.market).slice(0, 48) : "—"], ["chance if normal", dets.profitCross.denomText]]);
 
   // timeline from the single largest winning bet's price path (if the scanner
   // attached one); candidates stay clearly unverified.
@@ -451,6 +474,139 @@ function buildSubject(agg, idx, opts, catalog) {
   };
 }
 
+/* -------------------------------------------------------- FAVORITES subject -- */
+// Catch the favorite-betting informed trader the ≤35% long-shot binomial is STRUCTURALLY
+// BLIND to (Harvard's Trump-2024 archetype: bet a heavy favorite, simply out-profit everyone
+// else in the market). Anchored on the wallet's strongest CROSS-SECTIONAL PROFIT episode
+// (profitCross / z_profit_cross) over its FULL resolved record — works at any odds. The "1 in N"
+// is an honest normal-tail probability of that profit margin vs peers (captioned as such), NOT a
+// binomial over independent bets. Returns null unless profitCross fires AND the episode is
+// material. Same subject SHAPE as buildSubject so the UI renders it identically.
+function buildFavoriteSubject(agg, idx, opts, catalog) {
+  if (!agg || agg.type === "cluster") return null;            // favorites are a per-wallet, per-episode signal
+  const { dets, valid } = scoreAggregate(agg);
+  const pc = dets.profitCross;
+  if (!pc || !pc.hasData || !pc.fires) return null;           // no cross-sectional profit outlier → not a favorites flag
+  const cat = catalog || (opts && opts.catalog) || {};
+  const qOf = (b) => b.question || (cat[b.cond] && cat[b.cond].q) || "(market)";
+  const urlOf = (b) => b.url || (cat[b.cond] && cat[b.cond].s ? "https://polymarket.com/event/" + cat[b.cond].s : null);
+  // Locate the anchor episode bet in the full record (match tx, else cond+ts) for its
+  // AUTHORITATIVE per-position P/L (betPL → Polymarket cashPnl). This is the flagged profit.
+  const anchor = valid.find((b) => (pc.tx && b.tx === pc.tx) || (pc.cond && b.cond === pc.cond && b.ts === pc.ts)) || null;
+  if (!anchor) return null;
+  // HARVARD RETENTION (anti-false-positive): someone wins every market, so out-profiting peers
+  // is NOT enough on its own — Harvard keeps only episodes that ALSO bet outsized (z_bet_cross>2
+  // OR z_bet_within>2). Require the flagged episode to be an outsized BET as well as an outsized
+  // PROFIT: a big bet that won big is the informed-favorite signature ($13M Trump archetype); a
+  // normal-sized bet that happened to win is just the lucky winner the market always produces.
+  const outsizedBet = (anchor.hz && D.isNum(anchor.hz.zBetCross) && anchor.hz.zBetCross >= 2)
+    || (dets.sizing && dets.sizing.hasData && dets.sizing.fires);
+  if (!outsizedBet) return null;
+  const epPL = betPL(anchor);
+  const epStake = num(anchor.stakeUsd);
+  const epOdds = Math.round(num(anchor.entryPrice) * 100);
+  // MATERIALITY — real money on the flagged episode (stake or realized P/L). Same floor logic
+  // as the binomial path: insider trading is about money, not odd records on trivial stakes.
+  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
+  const _material = Math.max(epStake, Math.abs(epPL));
+  if (_material < MATERIALITY_USD) return null;
+  // Corroborating detectors that ALSO fire on this wallet (shown as supporting cards).
+  const corro = ["fresh", "conceal", "cluster", "sizing", "concentration", "timing", "baseline"]
+    .filter((k) => dets[k] && dets[k].hasData && (k === "cluster" ? dets[k].isCluster : dets[k].fires));
+  // Tier from the cross-sectional profit z (conservative; z>2 ≈ top ~2.3% if peers were normal).
+  // The TOP tier requires corroboration — a lone signal, however strong, is capped at "high",
+  // matching the binomial path's ≥2-agreeing philosophy. So "extreme" always means the profit
+  // outlier AND at least one independent signal (fresh wallet, concealment, cluster, …) agree.
+  const z = pc.z;
+  const corr = corro.length;
+  const ftier = (z >= 4 && corr >= 1) ? "extreme"
+    : (z >= 4 || (z >= 3 && corr >= 1)) ? "high"
+    : "notable";
+  const tier = TIER[ftier];
+  if (!tier) return null;
+  const fired = ["profitCross"].concat(corro);
+  const _prof = agg.profile || null;
+  const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
+  const wins = valid.filter((b) => b.won).length;
+  const winRate = valid.length ? Math.round(100 * wins / valid.length) : 0;
+
+  // FULL-RECORD ledger (the favorite episode lives here — it would NOT in the long-shot subset).
+  const ledger = valid.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd)).slice(0, 200).map((b) => ({
+    market: qOf(b), url: urlOf(b), entryTime: b.ts ? dateStr(b.ts) : "", ts: b.ts || null,
+    odds: Math.round(num(b.entryPrice) * 100), stakeNum: Math.round(num(b.stakeUsd)), plNum: Math.round(betPL(b)),
+    stake: money(b.stakeUsd), outcome: b.won ? "Won" : "Lost", pl: signedMoney(betPL(b)),
+    tx: b.tx ? (String(b.tx).slice(0, 6) + "…") : "", txFull: b.tx || null,
+  }));
+  if (!ledger.length) return null;
+
+  // scorecard — the profit-outlier card first, then any corroborating detectors' own cards.
+  const scorecard = [{
+    key: "profitCross", metric: "z = " + z, method: "cross-sectional profit (Harvard z_profit_cross)",
+    formula: "z = (this wallet's profit − market mean) ÷ market SD, over the peers in the SAME market",
+    numbers: pc.explain,
+    inputs: [["z_profit_cross", String(z)], ["episode", money(epStake) + " @ " + epOdds + "% on “" + String(qOf(anchor)).slice(0, 48) + "”"],
+      ["episode P/L", signedMoney(epPL)], ["chance if normal", pc.denomText]],
+  }];
+  if (corro.includes("fresh") && dets.fresh.hasData)
+    scorecard.push({ key: "fresh", metric: (dets.fresh.ageDays < 1 ? Math.round(dets.fresh.ageDays * 24) + "h old" : dets.fresh.ageDays.toFixed(0) + " days old"),
+      method: "account-age check", formula: "age = first bet block − funding block", numbers: dets.fresh.explain,
+      inputs: [["age", dets.fresh.ageDays < 1 ? Math.round(dets.fresh.ageDays * 24) + " h" : dets.fresh.ageDays.toFixed(1) + " days"], ["prior_tx", String(num(agg.priorTx))]] });
+  if (corro.includes("conceal") && dets.conceal.hasData)
+    scorecard.push({ key: "conceal", metric: dets.conceal.nTactics + " tactics", method: "concealment check",
+      formula: "score = f(split, decoy, cash-out)", numbers: dets.conceal.explain, inputs: [["tactics", String(dets.conceal.nTactics)]] });
+  if (corro.includes("cluster") && dets.cluster.hasData)
+    scorecard.push({ key: "cluster", metric: dets.cluster.nWallets + " accounts", method: "shared-funding link",
+      formula: "link = w₁·funder + w₂·co-spend + w₃·sync + w₄·prox", numbers: dets.cluster.explain, inputs: [["wallets", String(dets.cluster.nWallets)]] });
+  if (corro.includes("sizing") && dets.sizing.hasData)
+    scorecard.push({ key: "sizing", metric: Math.round(dets.sizing.ratio) + "× median", method: "within-trader bet-size anomaly",
+      formula: "largest event position ÷ this wallet's median bet", numbers: dets.sizing.explain, inputs: [["ratio", dets.sizing.ratio + "×"]] });
+  if (corro.includes("concentration") && dets.concentration.hasData)
+    scorecard.push({ key: "concentration", metric: Math.round(dets.concentration.dirPurity * 100) + "% one-way", method: "directional concentration",
+      formula: "max(YES, NO stake) ÷ total staked", numbers: dets.concentration.explain, inputs: [["one-way share", Math.round(dets.concentration.dirPurity * 100) + "%"]] });
+  if (corro.includes("timing") && dets.timing.hasData)
+    scorecard.push({ key: "timing", metric: dets.timing.lateWins + " of " + dets.timing.n + " late", method: "informed-entry timing",
+      formula: "winning long-shots bought within hours of resolution", numbers: dets.timing.explain, inputs: [["late wins", String(dets.timing.lateWins) + " of " + dets.timing.n]] });
+  if (corro.includes("baseline") && dets.baseline.hasData)
+    scorecard.push({ key: "baseline", metric: dets.baseline.winRate + "% vs " + dets.baseline.breakEven + "%", method: "win rate vs break-even",
+      formula: "realized win rate − payoff-implied break-even rate", numbers: dets.baseline.explain, inputs: [["win rate", dets.baseline.winRate + "%"], ["break-even", dets.baseline.breakEven + "%"]] });
+
+  // contribution split: profit-outlier dominates; corroborators share the remainder evenly.
+  const contributions = {}; const cShare = corro.length ? Math.round(35 / corro.length) : 0;
+  contributions.profitCross = corro.length ? 65 : 100;
+  corro.forEach((k) => { contributions[k] = cShare; });
+
+  const timeline = { market: qOf(anchor), priceStart: num(anchor.entryPrice), priceEnd: anchor.won ? 0.95 : 0.05,
+    entries: [num(anchor.entryPrice)], resolution: anchor.won ? 0.92 : 0.08, candidates: [] };
+
+  const heroSentence = "This account did not need a long-shot record — it bet " + money(epStake) + " at about " + epOdds +
+    "% on “" + String(qOf(anchor)).slice(0, 70) + "”" + (anchor.won ? " and won" : "") + ", profiting " + z.toFixed(1) +
+    " standard deviations more than the other traders in that same market. Out-profiting the whole market on a single position is the favorite-odds informed-trading signature the long-shot test cannot see. Consistent with informed trading — not proof of it.";
+
+  return {
+    id: "f" + (idx + 1), type: "wallet", address: agg.address || null, memberAddresses: [agg.address],
+    idLabel: short(agg.address), username: agg.pseudonym || (_prof && _prof.username) || null,
+    created: dateStr(agg.createdTs) || dateStr(agg.firstSeenTs) || "an unrecorded date", createdOnChain: agg.createdTs != null,
+    firstSeen: dateStr(agg.firstSeenTs) || "an unrecorded date",
+    category: dominantCategory(valid), marketsCount: valid.length, tier,
+    improbText: pc.denomText, improbDenom: pc.denom, improbFull: pc.denomText + " — chance of a profit margin this far above the market's other traders, if peer profits were normally distributed",
+    improbCaption: "chance this profit edge is luck (vs peers)",
+    convictionFlag: false, full: ledger.length >= 1,
+    winRate, avgImplied: epOdds, profit: signedMoney(epPL), fired, contributions, agreeing: fired.length,
+    refId: agg.refId || ("WF-F-" + String(1000 + idx).slice(1)), cexChips: agg.cexChips || [],
+    heroSentence, scorecard, ledger,
+    ledgerSummary: { markets: valid.length, winRate, realized: signedMoney(epPL) },
+    timeline,
+    activityDays: agg.firstSeenTs ? Math.max(0, Math.round((Date.now() - (agg._lastTs || agg.firstSeenTs) * 1000) / MS_DAY)) : undefined,
+    confidenceLimiter: "the cross-sectional profit z assumes peer profits are roughly normal; it ranks how far this wallet out-earned the market, it does not prove intent",
+    profitSource: "favorite-episode",
+    flaggedBy: "cross-sectional-profit",
+    harvardEpisode: { market: qOf(anchor), url: urlOf(anchor), stake: Math.round(epStake), odds: epOdds, won: !!anchor.won, tx: anchor.tx || null, zProfitCross: z },
+    profitNum: Math.round(epPL), accountPnl: accountPL != null ? Math.round(accountPL) : null, accountPnlText: accountPL != null ? signedMoney(accountPL) : null,
+    _profitNum: epPL, _profileVolume: _prof && _prof.volume != null && isFinite(num(_prof.volume)) ? num(_prof.volume) : null,
+    _tradedCount: _prof && _prof.traded != null ? num(_prof.traded) : null,
+  };
+}
+
 /* ------------------------------------------------- derive (artifact parity) -- */
 // Mirror of buildSubjects()'s forEach so real subjects carry the same derived
 // fields the view reads. Kept in lock-step with the artifact.
@@ -489,7 +645,7 @@ function derive(all, scoredPop) {
     // LOSING bet — retained by bet-size z, not profit — so abs() would wrongly flip its sign and
     // disagree with the signed s.profit shown on the card). Only the legacy flagged-bets path
     // (positive past the $5k gate) uses magnitude.
-    const _signed = s.profitSource === "authoritative" || s.profitSource === "harvard-episode";
+    const _signed = s.profitSource === "authoritative" || s.profitSource === "harvard-episode" || s.profitSource === "favorite-episode";
     s.profitNum = s._profitNum != null ? (_signed ? s._profitNum : Math.abs(s._profitNum)) : (parseFloat(String(s.profit).replace(/[^0-9.\-−]/g, "").replace("−", "-")) * (String(s.profit).includes("M") ? 1e6 : 1e3));
     s.activityDays = s.activityDays != null ? s.activityDays : (30 + idx * 17);
     s.lastActivity = s.activityDays <= 1 ? "today" : s.activityDays + " days ago";
@@ -607,6 +763,16 @@ function buildPayload(aggregates, meta, catalog) {
   meta._scoredDenoms = [];                                     // every aggregate's improbability, for the true-rank percentile
   meta._harvardShadow = [];                                    // SHADOW: every wallet pure-Harvard WOULD flag this run (dark launch)
   (aggregates || []).forEach((agg, i) => { const s = buildSubject(agg, i, meta, catalog); if (s) subjects.push(s); });
+  // FAVORITES PASS — catch the favorite-betting informed trader the long-shot binomial is blind
+  // to (Harvard's Trump-2024 archetype). Only wallets NOT already published by the binomial, and
+  // only on a real cross-sectional profit outlier (profitCross fires) over the full record.
+  const _publishedAddrs = new Set(subjects.map((s) => (s.address || "").toLowerCase()).filter(Boolean));
+  (aggregates || []).forEach((agg, i) => {
+    if (!agg || agg.type === "cluster" || !agg.address) return;
+    if (_publishedAddrs.has(String(agg.address).toLowerCase())) return;   // already flagged by the binomial — no double dossier
+    const s = buildFavoriteSubject(agg, i, meta, catalog);
+    if (s) { subjects.push(s); _publishedAddrs.add(String(agg.address).toLowerCase()); }
+  });
   subjects.sort((a, b) => b.improbDenom - a.improbDenom);
   // TRUE-RANK PERCENTILE: rank each subject's improbability against the population of
   // wallets we actually SCORED this run (not the cheaply-screened "reviewed" count). The
@@ -663,4 +829,4 @@ function buildPayload(aggregates, meta, catalog) {
   };
 }
 
-module.exports = { scoreAggregate, buildSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };
+module.exports = { scoreAggregate, buildSubject, buildFavoriteSubject, buildHarvardSubject, buildHarvardPayload, derive, buildPayload, money, signedMoney, dateStr, betPL, dominantCategory, validateSubject, TIER };

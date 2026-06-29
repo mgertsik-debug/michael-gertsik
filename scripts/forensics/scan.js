@@ -32,6 +32,7 @@ const fs = require("fs");
 const path = require("path");
 const poly = require("../../api/forensics/poly.js");
 const build = require("../../api/forensics/build.js");
+const validate = require("../../api/forensics/validate.js");
 const chain = require("../../api/forensics/chain.js");
 const cluster = require("../../api/forensics/cluster.js");
 const hll = require("../../api/forensics/hll.js");
@@ -544,6 +545,16 @@ async function finalize(state, snapshotTs) {
     s.archived = s.activityDays != null && s.activityDays > LOOKBACK_DAYS; // aged past the window
   });
   payload.clusters = clusterAggs.length;
+
+  // ---- VALIDATION (items 4 + 5): does the flagged set beat chance, and which detectors
+  // carry real weight? Measured on the FINAL published subject set, written into the payload
+  // (so the read API serves it and the UI can show "flagged wallets win N SD above chance").
+  try {
+    payload.validation = validate.validate(payload.subjects, { iters: 10000, seed: 0x1a2b3c4d, now: NOW_S });
+    if (payload.validation.permutation && payload.validation.permutation.hasData)
+      log("validation: " + payload.validation.permutation.zScore + " SD above chance over " +
+        payload.validation.permutation.nBets + " flagged bets (" + payload.validation.permutation.pText + ")");
+  } catch (e) { log("validation step failed (non-fatal): " + e.message); }
 
   // ---- AUTO RING-FINDER: walk the on-chain funding graph from each flagged wallet,
   // pull in the siblings the sweep hasn't reached, and queue them for scoring next

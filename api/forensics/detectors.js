@@ -56,10 +56,17 @@ const DEFAULTS = {
   sizingMult: 8, sizingFloorUsd: 3000, sizingMinBets: 4,
   // cluster linkage weights (w1 funder, w2 co-spend, w3 sync-entry, w4 create-prox)
   clusterW: [0.40, 0.25, 0.20, 0.15], clusterTau: 0.80,
-  // fusion contribution weights (artifact contributionMap + conviction). Ordered by
-  // discriminating power: rare+causal signals (won/cluster/conviction/timing) weigh
-  // most; common-alone signals (fresh/concentration/held) least.
-  contribW: { won: 32, cluster: 22, conviction: 20, timing: 16, conceal: 14, sizing: 12, longshot: 11, fresh: 8, concentration: 7, held: 6 },
+  // CROSS-SECTIONAL PROFIT (Harvard z_profit_cross, their highest-weighted signal): did the
+  // wallet profit MORE than the other traders in the SAME market? Fires when its best episode's
+  // profit z-score exceeds this. This is what catches FAVORITE-betting insiders the long-shot
+  // binomial is structurally blind to.
+  profitCrossTau: 2,
+  // fusion contribution weights. Re-balanced for the cross-sectional era: accuracy is split
+  // across `won` (per-wallet improbable record) + `profitCross` (out-earned market peers) so it
+  // isn't double-counted; our on-chain moat (cluster/fresh) Harvard lacks is preserved; the weak
+  // descriptive signals (longshot/held) are trimmed. Provisional — the validation job re-sets
+  // these from each detector's MEASURED correlation with winning.
+  contribW: { won: 28, profitCross: 26, cluster: 20, conviction: 16, sizing: 14, timing: 12, conceal: 10, fresh: 8, concentration: 6, longshot: 5, held: 4 },
   agreeSub: 0.45,                  // a detector "agrees" when its sub-score >= this
   minAgree: 2,                     // High/Extreme needs >= 2 independent detectors
   // win-rate baselines on <=35%-implied bets, by category (ACDC-derived)
@@ -101,6 +108,19 @@ function binomTailGE(n, k, p) {
   if (!isFinite(m)) return 0;
   let s = 0; for (const tt of terms) s += Math.exp(tt - m);
   return clip(Math.exp(m + Math.log(s)), 0, 1);
+}
+
+// Upper-tail of the standard normal, P(Z >= z), via the Abramowitz-Stegun 7.1.26
+// erfc approximation (|err| < 1.5e-7). Used to turn a cross-sectional z-score into an
+// honest "this would happen ~1 in N times by chance IF peer profits were normal" denom.
+function normalUpperTail(z) {
+  if (!isNum(z)) return null;
+  const x = z / Math.SQRT2;
+  const t = 1 / (1 + 0.3275911 * Math.abs(x));
+  const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
+  const erf = x >= 0 ? y : -y;            // erf is odd
+  const erfc = 1 - erf;
+  return clip(0.5 * erfc, 0, 1);          // = P(Z >= z)
 }
 
 // "1 in N" formatting for a probability.
@@ -202,16 +222,53 @@ function fresh(x, opts) {
       : "Wallet age " + x.ageDays.toFixed(0) + "d, " + x.priorTx + " prior transactions." };
 }
 
-/* 5. BASELINE — realized win rate vs the category baseline (context for `won`). */
+/* 5. BASELINE — realized win rate vs the payoff-aware BREAK-EVEN rate. */
 function baseline(x) {
   if (!x || !isNum(x.winRate)) return { key: "baseline", hasData: false };
   const base = winBaseline(x.category);
   const wr = x.winRate > 1 ? x.winRate / 100 : x.winRate;       // accept 94 or 0.94
-  const ratio = base > 0 ? wr / base : 0;
-  return { key: "baseline", hasData: true, score: clip((ratio - 1) / 4, 0, 1),
-    winRate: +(wr * 100).toFixed(1), baseline: +(base * 100).toFixed(0), categoryRisk: categoryRisk(x.category),
-    explain: "Won " + Math.round(wr * 100) + "% vs a ~" + Math.round(base * 100) + "% baseline for " +
-      (x.category || "all") + " bets at ≤35% implied." };
+  // BREAK-EVEN benchmark (payoff-aware): in a fair market you must win at your AVERAGE ENTRY
+  // PRICE just to break even (buy at $0.16 → need a 16% win rate; buy at $0.80 → need 80%). This
+  // captures the 4:1 risk/reward asymmetry automatically. We compare win rate to break-even, NOT
+  // to a flat 50% — a "55% win rate" wallet that bought favorites is actually LOSING money.
+  const be = isNum(x.breakEven) ? (x.breakEven > 1 ? x.breakEven / 100 : x.breakEven) : base;
+  const ratio = be > 0 ? wr / be : 0;
+  const lift = +(wr - be).toFixed(3);
+  return { key: "baseline", hasData: true, score: clip((ratio - 1) / 4, 0, 1), fires: lift > 0.05,
+    winRate: +(wr * 100).toFixed(1), baseline: +(base * 100).toFixed(0), breakEven: +(be * 100).toFixed(0), categoryRisk: categoryRisk(x.category),
+    explain: "Won " + Math.round(wr * 100) + "% — break-even at these entry prices is ~" + Math.round(be * 100) + "% (you must win at your average buy price just to not lose money). " +
+      (lift > 0 ? "+" + Math.round(lift * 100) + " points above break-even." : "at or below break-even.") };
+}
+
+/* 5b. CROSS-SECTIONAL PROFIT (Harvard z_profit_cross — their highest-weighted signal). The
+ *  wallet's single best episode where it profited FAR more than the other traders in the SAME
+ *  market. Works at ANY odds (incl. favorites), so it catches the big winning-favorite insider
+ *  the ≤35% long-shot binomial is structurally blind to. Each bet may carry b.hz.zProfitCross,
+ *  the per-market cross-section the scanner already computes. */
+function profitCross(bets, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  if (!Array.isArray(bets)) return { key: "profitCross", hasData: false };
+  let best = null;
+  for (const b of bets) {
+    const z = b && b.hz && isNum(b.hz.zProfitCross) ? b.hz.zProfitCross : null;
+    if (z == null) continue;
+    if (!best || z > best.z) best = { z, bet: b };
+  }
+  if (!best) return { key: "profitCross", hasData: false };
+  const fires = best.z >= o.profitCrossTau;
+  const raw = clip(best.z / 8, 0, 1);                            // ramps to 1 by z≈8 (extreme outliers)
+  const b = best.bet || {};
+  // Honest "1 in N": the chance a trader lands this many SDs above the market's mean profit
+  // purely by chance, IF peer profits were normally distributed. It is a tail probability of an
+  // assumed-normal distribution, NOT a binomial over independent bets — captioned as such.
+  const tail = normalUpperTail(best.z);
+  const denom = tail != null && tail > 0 ? improbDenom(tail) : Infinity;
+  return { key: "profitCross", hasData: true, score: fires ? clip(0.45 + raw * 0.55, 0, 1) : clip(raw * 0.4, 0, 0.4),
+    z: +best.z.toFixed(2), fires, won: !!b.won, denom, denomText: improbText(denom),
+    market: b.question || null, cond: b.cond || null, url: b.url || null, tx: b.tx || null, ts: b.ts || null,
+    stakeUsd: isNum(b.stakeUsd) ? b.stakeUsd : null, entryPrice: isNum(b.entryPrice) ? b.entryPrice : null,
+    explain: "Profited " + best.z.toFixed(1) + " standard deviations more than the other traders in the same market" +
+      (fires ? " — a cross-sectional profit outlier (Harvard's strongest informed-trading signal), works even on favorite-odds bets." : ".") };
 }
 
 /* 6. CONCEAL — concealment signatures. Fires only if >= 2 tactics co-occur. */
@@ -520,7 +577,7 @@ function harvardTier(S, opts) {
 
 module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
-  decorrelate, won, longshot, held, fresh, baseline, concealment, conviction, timing,
+  decorrelate, won, longshot, held, fresh, baseline, profitCross, concealment, conviction, timing,
   concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk,
   harvardEpisode, harvardTier, HARVARD_W, HARVARD_TIERS,
 };
