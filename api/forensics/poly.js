@@ -298,8 +298,8 @@ function buildUserRecord(trades, catalog) {
     const entry = e.cost / e.bought;
     if (!(entry > 0.0001 && entry < 0.9999)) continue;
     bets.push({
-      cond, eventGroup: m.s || cond, question: m.q || "(market)",
-      url: m.s ? "https://polymarket.com/event/" + m.s : "https://polymarket.com/markets",
+      cond, eventGroup: m.s || cond, question: m.q || null,
+      url: m.s ? "https://polymarket.com/event/" + m.s : null,
       category: m.c || "Other", entryPrice: clip(entry, 1e-4, 0.9999), stakeUsd: Math.round(e.cost),
       outcome: e.oc, won: e.oc === m.w, held: e.sold < 0.03 * e.bought,
       ts: isFinite(e.firstTs) ? e.firstTs : (m.r || null), tx: e.tx || null, resolvedMs: m.r ? m.r * 1000 : null,
@@ -377,8 +377,8 @@ function positionToBet(p) {
   const endMs = Date.parse(p.endDate || p.end_date || 0) || 0;
   const evSlug = p.eventSlug || p.slug;                        // event slug drives the canonical market URL
   return {
-    cond, eventGroup: evSlug || cond, question: title || "(market)",
-    url: evSlug ? "https://polymarket.com/event/" + evSlug : "https://polymarket.com/markets",
+    cond, eventGroup: evSlug || cond, question: title || null,
+    url: evSlug ? "https://polymarket.com/event/" + evSlug : null,
     category: cat, entryPrice: clip(avg, 1e-4, 0.9999), stakeUsd: Math.round(totalBought || size * avg),
     outcome: String(p.outcome || "").toUpperCase() || null, won, held: true,
     pnl: pnl != null ? Math.round(pnl) : null,
