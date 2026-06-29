@@ -68,7 +68,7 @@ const MODELS = [
   // improbable to be chance — live, validated, false positives removed) and
   // SUSPICIOUS TRADES (the Harvard per-trade composite — in beta while the
   // per-market cross-sections are calibrated). Reads the scheduled job via
-  // /api/forensics/subjects + /api/forensics/harvard-subjects.
+  // /api/forensics/subjects (single source of truth).
   {
     id: "insider-forensics",
     category: "Prediction Market Litigation",
