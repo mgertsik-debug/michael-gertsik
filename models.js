@@ -58,7 +58,25 @@ const MODELS = [
     title: "Insider Trading on Prediction Markets",
     summary: "Assemble a fact pattern once and watch every legal regime evaluate it in parallel: CFTC Rule 180.1, the Eddie Murphy Rule, wire and commodities fraud, the Martin Act, and platform rules. Plus a surveillance lab, case-file teardowns, duty and materiality tools, and a live enforcement tracker.",
     status: "live",
-    src: "/models/insider-trading.html?v=73",
+    src: "/models/insider-trading.html?v=74",
+  },
+
+  // ── LIVE INTERACTIVE MODEL ───────────────────────────────
+  // Polymarket Insider Forensics. The retrospective surveillance engine, promoted
+  // out of the Insider-Trading model's tab into its own model. Two lenses on the
+  // same on-chain data: SUSPECT WALLETS (accounts whose long-shot record is too
+  // improbable to be chance — live, validated, false positives removed) and
+  // SUSPICIOUS TRADES (the Harvard per-trade composite — in beta while the
+  // per-market cross-sections are calibrated). Reads the scheduled job via
+  // /api/forensics/subjects + /api/forensics/harvard-subjects.
+  {
+    id: "insider-forensics",
+    category: "Prediction Market Litigation",
+    level: "Surveillance Engine",
+    title: "Polymarket Insider Forensics",
+    summary: "Catch prediction-market insiders two ways: by suspicious wallets (accounts whose winning records are too unlikely to be chance) and by suspicious trades (individual bets that carry the fingerprint of informed trading). Every flag links to the on-chain transaction and shows the exact math.",
+    status: "live",
+    src: "/models/insider-forensics.html?v=1",
   },
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────
