@@ -44,6 +44,8 @@ const DEFAULTS = {
   // Van Dyke bet the night before; the Iran ring bought hours before at ~10c. A
   // winning ≤20%-implied bet entered within this window of resolution is the tell.
   timingTau: 0.20, timingWindowH: 72,
+  // repeat-offender: a "surprising" win is one entered at ≤ this implied prob (against the odds).
+  repeatSurpriseTau: 0.5,
   // DIRECTIONAL / EVENT CONCENTRATION — Van Dyke was 100% YES, 13/13, in one cluster.
   // purity = max(yes,no stake)/total; fires only with real money behind it so a
   // single-direction $50 gambler doesn't trip it. Common alone → low weight, and
@@ -73,7 +75,12 @@ const DEFAULTS = {
   // fresh (purpose-built) — and concentration (measured +10.7, was under-weighted) are elevated.
   // The bet-mechanics signals — sizing, conviction, profitCross — measured negative/noisy lift and
   // are trimmed (profitCross was 26 with a −15 measured lift; it's a corroborator, not a predictor).
-  contribW: { won: 30, cluster: 22, conceal: 14, concentration: 14, fresh: 10, timing: 8, conviction: 6, sizing: 6, profitCross: 6, longshot: 4, held: 4, baseline: 4 },
+  // REWEIGHTED per the 7-case ground truth: pre-event TIMING is the #1 signal across every
+  // confirmed case, so now that it is EVENT-ANCHORED (price-shock, not resolution) it is weighted
+  // heavily (8 → 18). crossCat (near-perfect cross-category record) and repeat (early-and-right on
+  // multiple separate events) are added as first-class diagnostic signals. profit/bet-size signals
+  // (profitCross/sizing) are trimmed — being RIGHT and EARLY is more diagnostic than betting big.
+  contribW: { won: 26, crossCat: 22, timing: 18, cluster: 18, concentration: 12, conceal: 12, fresh: 10, repeat: 10, conviction: 6, sizing: 5, profitCross: 5, longshot: 4, held: 4, baseline: 4 },
   agreeSub: 0.45,                  // a detector "agrees" when its sub-score >= this
   minAgree: 2,                     // High/Extreme needs >= 2 independent detectors
   // win-rate baselines on <=35%-implied bets, by category (ACDC-derived)
@@ -191,6 +198,54 @@ function won(bets, opts) {
   };
 }
 
+/* 1b. CROSS-CATEGORY ACCURACY — improbability over the FULL resolved record at ANY odds.
+ *  The binomial `won` is long-shot-only (≤35%), so it is structurally BLIND to the serial winner
+ *  who is near-perfect across DIVERSE markets at MODERATE odds (AlphaRaccoon 22/23, ricosuave 7/7).
+ *  Here each de-correlated event keeps its OWN entry odds, so the test is a Poisson-binomial (sum of
+ *  Bernoullis with different p). We use the exact mean μ=Σpᵢ and variance σ²=Σpᵢ(1−pᵢ) with a normal
+ *  (Lyapunov) tail — honest for mixed odds where a single-p binomial would be wrong. Fires when the
+ *  realised wins sit far above what the blended odds predict. bets: [{impliedProb|entryPrice, won, eventGroup?}]. */
+function crossCat(bets, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  if (!Array.isArray(bets)) return { key: "crossCat", hasData: false };
+  const resolved = bets
+    .map((b) => ({ impliedProb: isNum(b.impliedProb) ? b.impliedProb : (isNum(b.entryPrice) ? b.entryPrice : null), won: b.won, eventGroup: b.eventGroup }))
+    .filter((b) => isNum(b.impliedProb) && typeof b.won === "boolean");
+  if (resolved.length < o.minBets) return { key: "crossCat", hasData: false, reason: "fewer than " + o.minBets + " resolved bets" };
+  // de-correlate to independent events (same collapse as the binomial), keeping each event's odds.
+  const groups = new Map();
+  resolved.forEach((b, idx) => {
+    const key = b.eventGroup != null ? "g:" + b.eventGroup : "s:" + idx;
+    const g = groups.get(key) || { ps: [], wins: 0, n: 0 };
+    g.ps.push(clip(b.impliedProb, 1e-6, 1 - 1e-6)); g.n++; if (b.won) g.wins++;
+    groups.set(key, g);
+  });
+  let n = 0, k = 0, mu = 0, varSum = 0; const pbar = [];
+  for (const g of groups.values()) {
+    const p = clip(g.ps.reduce((a, b) => a + b, 0) / g.ps.length, 1e-6, 1 - 1e-6);
+    n += 1; if (g.wins * 2 >= g.n) k += 1; mu += p; varSum += p * (1 - p); pbar.push(p);
+  }
+  if (n < o.minBets || !(varSum > 0)) return { key: "crossCat", hasData: false };
+  const meanImplied = mu / n;
+  // a record concentrated in long-shots is already the binomial `won`'s job — crossCat is for the
+  // MODERATE-odds serial winner, so it adds nothing (and shouldn't double-count) when the blended
+  // odds are themselves long-shot. Require a non-long-shot blended book to have DATA here.
+  if (meanImplied <= 0.35) return { key: "crossCat", hasData: false, reason: "blended odds are long-shot — covered by the binomial" };
+  const z = (k - mu) / Math.sqrt(varSum);
+  const P = z > 0 ? normalUpperTail(z) : 1;                    // one-sided: far MORE wins than predicted
+  const denom = improbDenom(P);
+  const score = clip((z - 2) / 4, 0, 1) * (z >= 3 ? 1 : 0.6);  // ramps in over z∈[2,6]; muted below z=3
+  const fires = z >= 3;                                         // ~1-in-740; a near-perfect cross-category record
+  return {
+    key: "crossCat", hasData: true, fires, score: fires ? clip(0.45 + score * 0.55, 0, 1) : clip(score * 0.4, 0, 0.4),
+    n, k, expectedWins: +mu.toFixed(2), z: +z.toFixed(2), P, improbDenom: denom, improbText: improbText(denom),
+    meanImplied: +(meanImplied * 100).toFixed(0), winRate: +(100 * k / n).toFixed(1),
+    explain: "Won " + k + " of " + n + " bets across markets the blended odds priced at ~" + Math.round(meanImplied * 100) +
+      "% — about " + mu.toFixed(1) + " expected by luck (" + z.toFixed(1) + "σ above chance, ≈ " + improbText(denom) +
+      "). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
+  };
+}
+
 /* 2. LONGSHOT — mean implied entry odds. Fires if p̄ <= τ. */
 function longshot(impliedProbs, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
@@ -284,11 +339,17 @@ function concealment(x, opts) {
   const splitRatio = isNum(x.splitRatio) ? x.splitRatio : null;       // one bet spread across linked wallets
   const decoyRatio = isNum(x.decoyRatio) ? x.decoyRatio : null;       // tiny decoy bets / real bets
   const cashoutH = isNum(x.cashoutLatencyHours) ? x.cashoutLatencyHours : null; // resolution -> off-platform
-  if (splitRatio == null && decoyRatio == null && cashoutH == null) return { key: "conceal", hasData: false };
+  // RENAME / DELETION proxy (ricosuave deleted, AlphaRaccoon renamed, Van Dyke deletion request): a
+  // wallet with a substantial winning on-chain history but NO public display name is consistent with
+  // an account scrubbed/anonymised after the fact. A weak, honest proxy — we can't see prior names,
+  // only that an account with real activity is now nameless. anonymized=true only when both hold.
+  const anonymized = x.anonymized === true;
+  if (splitRatio == null && decoyRatio == null && cashoutH == null && !anonymized) return { key: "conceal", hasData: false };
   const tactics = [];
   if (splitRatio != null && splitRatio >= o.splitTau) tactics.push("stake-splitting across linked wallets");
   if (decoyRatio != null && decoyRatio >= o.decoyTau) tactics.push("decoy small bets");
   if (cashoutH != null && cashoutH <= o.cashoutFastHours) tactics.push("rapid off-platform cash-out");
+  if (anonymized) tactics.push("no public profile despite a substantial winning history (possible rename/deletion)");
   const fires = tactics.length >= o.concealMinTactics;
   return { key: "conceal", hasData: true, score: fires ? clip(0.4 + 0.2 * tactics.length, 0, 1) : clip(0.15 * tactics.length, 0, 0.39),
     tactics, nTactics: tactics.length, fires,
@@ -343,20 +404,30 @@ function conviction(bets, opts) {
 }
 
 /* ============================================================================
- *  6b. INFORMED ENTRY TIMING — the "bought cheap, late, just before the surprise"
- *  signature shared by every confirmed case (Van Dyke: night before; Iran ring:
- *  hours before at ~10c). For a wallet's WON deep-long-shots with known entry +
- *  resolution times, measure how long BEFORE resolution they bought. Entering a
- *  ≤τ-implied winner within a tight window of the outcome is hard to explain
- *  without knowing it was coming. Excluded (hasData=false) when timestamps are
- *  missing, so it never penalises wallets we simply lack timing for. */
+ *  6b. INFORMED ENTRY TIMING — the "bought cheap, just before the surprise" signature, the #1
+ *  ground-truth signal across all confirmed cases (Magamyman 71 min before the news, Maduro hours
+ *  before, Nobel 5–11h, Taylor 22h). EVENT-ANCHORED: the right reference point is when the INFO
+ *  HIT — the market's price-shock (when it repriced) — NOT the official resolution, which can lag
+ *  the news by days. We measure how long BEFORE the shock the wallet bought. Anchor preference:
+ *    b.shockTs (price-repricing time, from the market trade series)  →  b.eventTs  →  resolvedMs.
+ *  Entering a winner right before its price-shock is the informed-entry tell. hasData=false when no
+ *  anchor/timestamp exists, so wallets we simply lack timing for are never penalised.
+ *  NOTE (honesty): shockTs is derived from a TRUNCATED trade sample, so the anchor is approximate;
+ *  it still beats resolution-anchoring, which is wrong whenever resolution lags the event. */
 function timing(bets, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   const odds = (b) => (isNum(b.entryPrice) ? b.entryPrice : b.impliedProb);
-  const cand = (bets || []).filter((b) => b && b.won === true && isNum(odds(b)) && odds(b) <= o.timingTau
-    && isNum(b.ts) && b.ts > 0 && isNum(b.resolvedMs) && b.resolvedMs > 0 && b.resolvedMs / 1000 > b.ts);
+  // event anchor in SECONDS — the price-shock if known, else event time, else resolution.
+  const anchorSec = (b) => (isNum(b.shockTs) && b.shockTs > 0 ? b.shockTs
+    : isNum(b.eventTs) && b.eventTs > 0 ? b.eventTs
+    : isNum(b.resolvedMs) && b.resolvedMs > 0 ? b.resolvedMs / 1000 : null);
+  const anchored = (bets || []).some((b) => b && (isNum(b.shockTs) || isNum(b.eventTs)));   // any true event anchor present?
+  const cand = (bets || []).filter((b) => {
+    const a = anchorSec(b);
+    return b && b.won === true && isNum(odds(b)) && odds(b) <= o.timingTau && isNum(b.ts) && b.ts > 0 && a != null && a > b.ts;
+  });
   if (!cand.length) return { key: "timing", hasData: false };
-  const hrs = cand.map((b) => (b.resolvedMs / 1000 - b.ts) / 3600);
+  const hrs = cand.map((b) => (anchorSec(b) - b.ts) / 3600);
   const late = hrs.filter((h) => h <= o.timingWindowH).length;
   const minH = Math.min.apply(null, hrs);
   const sorted = hrs.slice().sort((a, b) => a - b);
@@ -366,13 +437,47 @@ function timing(bets, opts) {
     ? clip(0.42 + 0.08 * Math.min(4, late) + (o.timingWindowH - minH) / o.timingWindowH * 0.3, 0, 1)
     : clip(late * 0.18, 0, 0.39);
   const fmtH = (h) => (h < 48 ? Math.round(h) + "h" : Math.round(h / 24) + "d");
+  const ref = anchored ? "the price-shock" : "resolution";
   return {
-    key: "timing", hasData: true, fires, score,
+    key: "timing", hasData: true, fires, score, anchored,
     lateWins: late, n: cand.length, minHours: +minH.toFixed(1), medianHours: +medianH.toFixed(1),
     explain: fires
-      ? late + " of " + cand.length + " winning long-shots were bought within " + o.timingWindowH + "h of resolution (soonest " + fmtH(minH) +
-        " before) — entering a ~" + Math.round((cand[hrs.indexOf(minH)] ? odds(cand[hrs.indexOf(minH)]) : 0.1) * 100) + "% outcome right before it happened is the informed-entry signature."
-      : "Winning long-shots were entered " + fmtH(medianH) + " before resolution on average — not an unusually late, informed entry.",
+      ? late + " of " + cand.length + " winning long-shots were bought within " + o.timingWindowH + "h of " + ref + " (soonest " + fmtH(minH) +
+        " before) — entering a ~" + Math.round((cand[hrs.indexOf(minH)] ? odds(cand[hrs.indexOf(minH)]) : 0.1) * 100) + "% outcome right before " + (anchored ? "it repriced" : "it resolved") + " is the informed-entry signature."
+      : "Winning long-shots were entered " + fmtH(medianH) + " before " + ref + " on average — not an unusually late, informed entry.",
+  };
+}
+
+/* ============================================================================
+ *  6c. REPEAT-OFFENDER ACROSS EVENTS — the same wallet hitting MULTIPLE separate surprising events
+ *  over time (AlphaRaccoon: Gemini 3.0 + Year-in-Search; the OpenAI cluster: browser + GPT-5.2).
+ *  One lucky surprise is luck; being early-and-right on several UNRELATED events is a pattern. We
+ *  count DISTINCT event groups in which the wallet won a SURPRISING bet (won at ≤ surpriseTau odds).
+ *  Fires at ≥2 distinct surprising events. Over the wallet's own record — no extra data needed.
+ *  bets: [{ entryPrice|impliedProb, won, eventGroup?, cond?, question?, ts? }]. */
+function repeat(bets, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  const odds = (b) => (isNum(b.entryPrice) ? b.entryPrice : b.impliedProb);
+  const surpriseTau = isNum(o.repeatSurpriseTau) ? o.repeatSurpriseTau : 0.5;   // "against the odds" = won at ≤50%
+  const events = new Map();                                    // eventGroup -> { won surprising? , when }
+  for (const b of (bets || [])) {
+    if (!b || b.won !== true || !isNum(odds(b)) || odds(b) > surpriseTau) continue;
+    const ev = b.eventGroup || b.cond || b.question;
+    if (ev == null) continue;
+    const cur = events.get(ev) || { ts: b.ts || 0, odds: odds(b) };
+    if ((b.ts || 0) < cur.ts || !cur.ts) cur.ts = b.ts || cur.ts;
+    cur.odds = Math.min(cur.odds, odds(b));
+    events.set(ev, cur);
+  }
+  const nEvents = events.size;
+  if (nEvents < 1) return { key: "repeat", hasData: false };
+  const fires = nEvents >= 2;
+  const score = fires ? clip(0.42 + 0.16 * Math.min(4, nEvents - 1), 0, 1) : clip(0.2 * nEvents, 0, 0.39);
+  return {
+    key: "repeat", hasData: true, fires, score, nEvents,
+    explain: fires
+      ? "Won against the odds in " + nEvents + " separate events — being early-and-right on multiple unrelated surprises is a repeat-offender pattern, not one lucky hit."
+      : nEvents + " surprising win — not yet a repeat pattern across separate events.",
   };
 }
 
@@ -502,6 +607,11 @@ function fuse(dets, opts) {
   firedKeys.forEach((k) => { contributions[k] = Math.round((w[k] / wsum) * 100); });
 
   const P = dets.won && dets.won.hasData ? dets.won.P : null;
+  // CROSS-CATEGORY improbability (full-record, mixed-odds) — a SECOND statistical flag basis for the
+  // near-perfect serial winner the long-shot binomial misses (AlphaRaccoon, ricosuave). It uses a
+  // normal approximation over mixed odds (less exact in the extreme tail than the binomial), so it
+  // is capped at High, never Extreme, and still requires ≥2 agreeing detectors.
+  const Pcc = dets.crossCat && dets.crossCat.hasData && dets.crossCat.fires ? dets.crossCat.P : null;
   const agreeing = firedKeys.filter((k) => {
     const d = dets[k]; return isNum(d.score) ? d.score >= o.agreeSub : true;
   }).length;
@@ -514,15 +624,22 @@ function fuse(dets, opts) {
   //      bet can't be statistically "extreme", so this path caps at High — it's
   //      the confluence, not the math, that flags it. This is what catches the
   //      one-shot insider (Van Dyke / Maduro) the binomial cannot see.
+  //  (3) the CROSS-CATEGORY path — a full-record, mixed-odds improbable winner CORROBORATED by ≥2
+  //      agreeing detectors. Capped at High (the normal-tail approximation is conservative in the
+  //      extreme), it catches the moderate-odds serial winner the long-shot binomial cannot see.
+  const ccFlags = Pcc != null && agreeing >= o.minAgree && Pcc <= o.pHigh;
   let tier = "unflagged";
   if (P != null && agreeing >= o.minAgree && P <= o.pExtreme) tier = "extreme";
   else if (P != null && agreeing >= o.minAgree && P <= o.pHigh) tier = "high";
+  else if (ccFlags) tier = "high";
   else if (convFires && agreeing >= o.minAgree) tier = "high";
-  else if (firedKeys.length && (P == null || P <= o.pNotable)) tier = "notable";
+  else if (firedKeys.length && (P == null || P <= o.pNotable || (Pcc != null && Pcc <= o.pNotable))) tier = "notable";
 
   return {
-    tier, fired: firedKeys, contributions, agreeing, convictionPath: convFires && tier === "high" && (P == null || P > o.pHigh),
-    P, improbDenom: dets.won && dets.won.improbDenom, improbText: dets.won && dets.won.improbText,
+    tier, fired: firedKeys, contributions, agreeing,
+    convictionPath: convFires && tier === "high" && !ccFlags && (P == null || P > o.pHigh),
+    crossCatPath: ccFlags && (P == null || P > o.pHigh),
+    P, Pcc, improbDenom: dets.won && dets.won.improbDenom, improbText: dets.won && dets.won.improbText,
     full: firedKeys.length >= 3,
   };
 }
@@ -599,7 +716,7 @@ function harvardTier(S, opts) {
 
 module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
-  decorrelate, won, longshot, held, fresh, baseline, profitCross, concealment, conviction, timing,
-  concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk,
+  decorrelate, won, crossCat, longshot, held, fresh, baseline, profitCross, concealment, conviction, timing, repeat,
+  concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk, normalUpperTail,
   harvardEpisode, harvardTier, HARVARD_W, HARVARD_TIERS,
 };

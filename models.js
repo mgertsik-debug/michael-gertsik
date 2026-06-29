@@ -68,15 +68,15 @@ const MODELS = [
   // improbable to be chance — live, validated, false positives removed) and
   // SUSPICIOUS TRADES (the Harvard per-trade composite — in beta while the
   // per-market cross-sections are calibrated). Reads the scheduled job via
-  // /api/forensics/subjects + /api/forensics/harvard-subjects.
+  // /api/forensics/subjects (single source of truth).
   {
     id: "insider-forensics",
     category: "Prediction Market Litigation",
     level: "Surveillance Engine",
     title: "Polymarket Insider Forensics",
-    summary: "Catch prediction-market insiders two ways: by suspicious wallets (accounts whose winning records are too unlikely to be chance) and by suspicious trades (individual bets that carry the fingerprint of informed trading). Every flag links to the on-chain transaction and shows the exact math.",
+    summary: "Catch prediction-market insiders in one ranked view: accounts whose winning records are too unlikely to be chance, plus — folded in as additional detectors — favorite-odds bets that simply out-profit the whole market. Every flag links to the on-chain transaction and shows the exact math.",
     status: "live",
-    src: "/models/insider-forensics.html?v=2",
+    src: "/models/insider-forensics.html?v=3",
   },
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────

@@ -252,3 +252,140 @@ test("HARVARD composite: 3-signal score + profitability gate + tiers", () => {
   const partial = D.harvardEpisode({ zBetCross: 3, won: true });
   assert.equal(partial.hasData, true); assert.equal(partial.S, 60, "20*3 with others 0");
 });
+
+/* ============================================================================
+ *  FAVORITE / CROSS-SECTIONAL PUBLISH PATH (option B: folded into the ONE wallet store).
+ *  The favorite-odds informed trader the ≤35% long-shot binomial is blind to — gated HARD so it
+ *  cannot reproduce the documented mass false positives (net-losing whales, bare whales on faves).
+ * ========================================================================== */
+const B = require("./build.js");
+function favAgg(over) {
+  const fund = 1699000000, first = fund + 5 * 86400;          // 5-day-old wallet (fresh fires when priorTx=0)
+  const base = {
+    address: "0xFAVdeadbeef0000000000000000000000000001",
+    firstSeenTs: first, fundingTs: fund, priorTx: 0,           // fresh = STRUCTURAL corroborator
+    profile: { username: "fave-insider", pnlAllTime: 26000, volume: 60000 },
+    bets: [
+      // the flagged episode: a big WINNING bet on a FAVORITE (65%), outsized + out-profited peers
+      { cond: "0xfav", question: "Will X win?", url: null, category: "Politics", entryPrice: 0.65,
+        stakeUsd: 50000, outcome: "YES", won: true, held: true, ts: 1700000000, tx: "0xaaa", eventGroup: "evt-fav",
+        hz: { zBetCross: 5, zProfitCross: 5, lateBuyFraction: 0.9, directionalScore: 1.0 } },
+      // a couple of small resolved losers (form a distribution; keep net P/L well positive)
+      { cond: "0xb1", question: "m1", entryPrice: 0.5, stakeUsd: 1000, outcome: "NO", won: false, held: true, ts: 1700000100, tx: "0xbbb" },
+      { cond: "0xb2", question: "m2", entryPrice: 0.4, stakeUsd: 1000, outcome: "NO", won: false, held: true, ts: 1700000200, tx: "0xccc" },
+    ],
+  };
+  return Object.assign(base, over || {});
+}
+
+test("FAVORITE path: genuine favorite-insider (won + outsized + net-profitable + fresh) -> flagged", () => {
+  const s = B.buildFavoriteSubject(favAgg(), 0, {}, {});
+  assert.ok(s, "should publish a favorite subject");
+  assert.equal(s.flaggedBy, "cross-sectional-profit");
+  assert.equal(s.tier, "elevated", "z=5 with 1 structural signal caps at high/elevated (not extreme)");
+  assert.ok(s.profitNum > 0, "net-positive flagged profit");
+  assert.ok(!/1 in/.test(s.improbText), "no invalid normal-tail '1 in N' for heavy-tailed profit");
+});
+
+test("FAVORITE path: bare whale on a favorite (no fresh/conceal/cluster) -> NOT flagged", () => {
+  // same outsized winning favorite + net profit, but an OLD wallet with prior history and no
+  // concealment/cluster -> zero STRUCTURAL signals -> the anti-whale discriminator rejects it.
+  const s = B.buildFavoriteSubject(favAgg({ priorTx: 500, firstSeenTs: 1699000000 + 400 * 86400 }), 0, {}, {});
+  assert.equal(s, null, "a smart whale with no on-chain structure must not pollute the validated view");
+});
+
+test("FAVORITE path: net-LOSING wallet that out-profited peers in one market -> NOT flagged", () => {
+  // fresh wallet, same flagged episode, but overall the wallet LOST money (big losers) -> net-profit
+  // gate rejects it. This is the exact archetype the old favorites pass false-flagged.
+  const losers = favAgg();
+  losers.bets.push({ cond: "0xL", question: "big loss", entryPrice: 0.5, stakeUsd: 80000, outcome: "NO", won: false, held: true, ts: 1700000300, tx: "0xddd" });
+  const s = B.buildFavoriteSubject(losers, 0, {}, {});
+  assert.equal(s, null, "out-profiting peers in ONE market while losing overall is not insider trading");
+});
+
+test("FAVORITE path: near-certainty favorite (97%) carries no edge -> NOT flagged", () => {
+  const sure = favAgg();
+  sure.bets[0].entryPrice = 0.97;                              // above FAV_MAX_ODDS (0.90)
+  const s = B.buildFavoriteSubject(sure, 0, {}, {});
+  assert.equal(s, null, "a near-certain favorite is a whale parking money, not informed trading");
+});
+
+test("buildPayload: favorite subject is folded into the ONE store, appears once", () => {
+  const payload = B.buildPayload([favAgg()], {}, {});
+  const favs = payload.subjects.filter((s) => s.flaggedBy === "cross-sectional-profit");
+  assert.equal(favs.length, 1, "the favorite-insider is published once in the single store");
+  assert.equal(payload.subjects.length, 1, "no duplicate row for the same wallet");
+});
+
+/* ============================================================================
+ *  7-CASE UPGRADES — cross-category accuracy, repeat-offender, event-anchored timing,
+ *  softened gates, rename/deletion proxy.
+ * ========================================================================== */
+test("crossCat: near-perfect MODERATE-odds record flags (AlphaRaccoon 22/23); long-shot book excluded", () => {
+  const moderate = []; for (let i = 0; i < 23; i++) moderate.push({ impliedProb: 0.45, won: i < 22, eventGroup: "e" + i });
+  const cc = D.crossCat(moderate);
+  assert.equal(cc.hasData, true); assert.equal(cc.fires, true, "22/23 at 45% is improbable across categories");
+  assert.ok(cc.z >= 3 && cc.improbDenom > 100, "real z + a genuine 1-in-N");
+  // a long-shot-only book is the binomial `won`'s job — crossCat abstains (no double-count).
+  const longshots = []; for (let i = 0; i < 10; i++) longshots.push({ impliedProb: 0.1, won: i < 6, eventGroup: "L" + i });
+  assert.equal(D.crossCat(longshots).hasData, false, "blended long-shot odds -> covered by binomial, crossCat abstains");
+  // a record at its own implied rate (no edge) does not fire.
+  const fair = []; for (let i = 0; i < 20; i++) fair.push({ impliedProb: 0.5, won: i < 10, eventGroup: "f" + i });
+  assert.equal(D.crossCat(fair).fires, false, "winning at the implied rate is not anomalous");
+});
+
+test("repeat: fires only across >=2 distinct surprising events", () => {
+  const one = [{ entryPrice: 0.2, won: true, eventGroup: "a" }, { entryPrice: 0.25, won: true, eventGroup: "a" }];
+  assert.equal(D.repeat(one).fires, false, "two wins in the SAME event is one event, not a repeat pattern");
+  const many = [{ entryPrice: 0.2, won: true, eventGroup: "a" }, { entryPrice: 0.3, won: true, eventGroup: "b" }, { entryPrice: 0.15, won: true, eventGroup: "c" }];
+  const r = D.repeat(many); assert.equal(r.fires, true); assert.equal(r.nEvents, 3);
+  const favs = [{ entryPrice: 0.8, won: true, eventGroup: "a" }, { entryPrice: 0.75, won: true, eventGroup: "b" }];
+  assert.equal(D.repeat(favs).hasData, false, "winning favorites isn't 'against the odds' -> not a surprise");
+});
+
+test("timing: EVENT-ANCHORED to the price-shock, not resolution", () => {
+  // entered 2h before the price-shock, but 100 DAYS before official resolution. Resolution-anchoring
+  // would call this 'not late'; shock-anchoring correctly flags the informed pre-event entry.
+  const ts = 1700000000;
+  const b = [{ entryPrice: 0.1, won: true, ts, shockTs: ts + 2 * 3600, resolvedMs: (ts + 100 * 86400) * 1000 }];
+  const t = D.timing(b);
+  assert.equal(t.anchored, true, "uses the price-shock anchor when present");
+  assert.equal(t.fires, true, "bought 2h before the shock -> informed-entry signature");
+  // without a shock anchor it falls back to resolution (here 100d out -> not late).
+  const b2 = [{ entryPrice: 0.1, won: true, ts, resolvedMs: (ts + 100 * 86400) * 1000 }];
+  assert.equal(D.timing(b2).fires, false, "resolution-anchored, 100d before -> not flagged");
+});
+
+test("concealment: anonymized-profile (rename/deletion) proxy is a tactic", () => {
+  // a single on-chain tactic alone doesn't fire; with the anonymised-profile proxy two co-occur.
+  const c = D.concealment({ cashoutLatencyHours: 2, anonymized: true });
+  assert.equal(c.fires, true, "rapid cash-out + no public profile despite history -> 2 tactics");
+  assert.ok(c.tactics.some((t) => /no public profile/.test(t)));
+  assert.equal(D.concealment({ anonymized: false }).hasData, false, "no tactics, not anonymised -> no data");
+});
+
+test("crossCat publish path: moderate-odds serial winner is published over the FULL record", () => {
+  const bets = [];
+  for (let i = 0; i < 24; i++) bets.push({ cond: "0xc" + i, question: "m" + i, entryPrice: 0.45, stakeUsd: 2000,
+    outcome: "YES", won: i < 22, held: true, ts: 1700000000 + i, tx: "0x" + i, eventGroup: "ev" + i });
+  const agg = { address: "0xCROSScat000000000000000000000000000001", firstSeenTs: 1699000000, fundingTs: 1699000000, priorTx: 9,
+    profile: { username: "alpha-like", pnlAllTime: 50000, volume: 48000 }, bets };
+  const s = B.buildCrossCatSubject(agg, 0, {}, {});
+  assert.ok(s, "should publish the cross-category serial winner");
+  assert.equal(s.flaggedBy, "cross-category");
+  assert.ok(/1 in/.test(s.improbText), "headline is a real cross-category improbability");
+  assert.ok(s.profitNum > 0 && s.ledger.length >= 5, "net-positive, full-record ledger");
+  // folded into the ONE store via buildPayload
+  const payload = B.buildPayload([agg], {}, {});
+  assert.equal(payload.subjects.filter((x) => x.flaggedBy === "cross-category").length, 1);
+});
+
+test("softened gate: small net-positive profit is a TIER CAP, not an exclusion", () => {
+  // validateSubject floor is now a tiny materiality ($250), not $5k — a $2k-profit improbable single
+  // wallet is published (the tier cap handles confidence), but a net loser is still rejected.
+  const ctx = { n: 6, k: 5, avgImplied: 15, winRate: 83, improbDenom: 5000, profitNum: 2000,
+    bets: [{ entryPrice: 0.15, stakeUsd: 300, won: true, cond: "0x1" }], tier: "watch", isCluster: false, minProfit: 250 };
+  assert.equal(B.validateSubject(ctx), null, "$2k net-positive clears the softened floor (was excluded by the old $5k floor)");
+  assert.ok(/net unprofitable/.test(B.validateSubject(Object.assign({}, ctx, { profitNum: -500 }))), "net loser still rejected");
+  assert.ok(/below net-profit floor/.test(B.validateSubject(Object.assign({}, ctx, { profitNum: 100 }))), "below the $250 materiality floor -> rejected");
+});
