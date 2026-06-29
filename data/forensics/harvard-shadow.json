@@ -16,9 +16,9 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 213681,
-  "reviewed": 213681,
-  "screened": 10092,
+  "observed": 213799,
+  "reviewed": 213799,
+  "screened": 10093,
   "scored": 5956,
   "top": [
     {
@@ -2068,8 +2068,8 @@
       "zProfitCross": 15.89,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": -39580,
-      "firstSeen": "Feb 09 2026",
+      "accountPnl": -42213,
+      "firstSeen": "May 18 2026",
       "createdOnChain": true,
       "created": "Feb 09 2026",
       "betsCount": 18,
@@ -3343,7 +3343,7 @@
       "address": "0xdbf73adbf83a752de9ef9390e32797df82eafbea",
       "username": "ydxistheking",
       "tier": "high",
-      "S": 862,
+      "S": 870.6,
       "market": "Starmer out by May 19, 2026?",
       "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
       "episodeTx": "0x159b8a36692d9c96c6df2b65be568e7062764aa74bdfe58be5e506446e84c88f",
@@ -3352,15 +3352,15 @@
       "won": true,
       "episodeProfit": 2919,
       "zBetCross": 11.06,
-      "zBetWithin": 4.47,
+      "zBetWithin": 5.04,
       "zProfitCross": 14.34,
       "lateBuyFraction": 0,
       "directionalScore": 0.858,
-      "accountPnl": 42048,
+      "accountPnl": 42446,
       "firstSeen": "Jun 26 2024",
       "createdOnChain": false,
       "created": null,
-      "betsCount": 139,
+      "betsCount": 179,
       "ledger": [
         {
           "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
@@ -5689,7 +5689,7 @@
       "address": "0xd0b10a3c791b64a5c9d1b338ce8d5c5c86afc12e",
       "username": "farmertaiki",
       "tier": "notable",
-      "S": 738.9,
+      "S": 740.6,
       "market": "MicroStrategy sells any Bitcoin by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
       "episodeTx": "0x9749d67f983e069ba20b66fcadce02422fa6fababc8274d14a7aaeff4848fdb0",
@@ -5698,7 +5698,7 @@
       "won": true,
       "episodeProfit": 6824,
       "zBetCross": 8.36,
-      "zBetWithin": 0.49,
+      "zBetWithin": 0.6,
       "zProfitCross": 14.11,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -5706,7 +5706,7 @@
       "firstSeen": "Jul 11 2025",
       "createdOnChain": true,
       "created": "Jul 11 2025",
-      "betsCount": 6,
+      "betsCount": 7,
       "ledger": [
         {
           "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
@@ -5737,6 +5737,16 @@
           "pl": 175,
           "won": true,
           "tx": "0x738e673c708167fb672b690899871a051e467d14110ccf70c7a19945818ba553"
+        },
+        {
+          "market": "Will Trump resign today?",
+          "url": "https://polymarket.com/event/will-trump-resign-today",
+          "ts": 1756838230,
+          "odds": 100,
+          "stake": 6083,
+          "pl": 18,
+          "won": true,
+          "tx": "0xf95ed5c5b928fd8bbbfba9a5ed8092a453aa31ca932f4368f5bed60a9af52ae2"
         },
         {
           "market": "Will Base launch a token in 2025?",
@@ -6107,7 +6117,7 @@
       "address": "0xe32f0d8b087faa6cce0f6fdacb3264dece06ce26",
       "username": "0xE32F0D8B087FAa6cCe0f6FDacB3264dECE06cE26-1778504157215",
       "tier": "notable",
-      "S": 716.8,
+      "S": 722.9,
       "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
       "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
       "episodeTx": "0x7d79aaf5b5c4197a17c98fa3ac872bf8e524e77c10106d843f862010b532b761",
@@ -6116,7 +6126,7 @@
       "won": true,
       "episodeProfit": 26394,
       "zBetCross": 10.38,
-      "zBetWithin": 0.71,
+      "zBetWithin": 1.11,
       "zProfitCross": 12.47,
       "lateBuyFraction": 0.884,
       "directionalScore": 1,
@@ -6124,7 +6134,7 @@
       "firstSeen": "May 11 2026",
       "createdOnChain": true,
       "created": "Jun 01 2026",
-      "betsCount": 2,
+      "betsCount": 3,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
@@ -6145,6 +6155,16 @@
           "pl": -19482,
           "won": false,
           "tx": "0x74f836b5180a3d954c9ae78cc7555c4af6699440b1a8803ed87284bab3f3f80b"
+        },
+        {
+          "market": "Will Microstrategy announce a Bitcoin purchase May 26-June 1?",
+          "url": "https://polymarket.com/event/will-microstrategy-announce-a-bitcoin-purchase-may-26-june-1",
+          "ts": 1780258981,
+          "odds": 3,
+          "stake": 141,
+          "pl": 4298,
+          "won": true,
+          "tx": "0xad468d54a889c2b431338a9108f920f762f9db0ef8e8990198aabed655077cb1"
         }
       ],
       "alsoBinomial": true
