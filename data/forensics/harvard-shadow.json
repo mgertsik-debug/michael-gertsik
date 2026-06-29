@@ -16,9 +16,9 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 212716,
-  "reviewed": 212716,
-  "screened": 10088,
+  "observed": 212819,
+  "reviewed": 212819,
+  "screened": 10089,
   "scored": 5940,
   "top": [
     {
@@ -3011,7 +3011,7 @@
       "address": "0x9bac9cc44f57fbd31a02f4fe08545ccdc8958684",
       "username": "mumps",
       "tier": "high",
-      "S": 885.6,
+      "S": 886,
       "market": "Trump declassifies new UFO files by June 15?",
       "marketUrl": "https://polymarket.com/event/trump-declassifies-new-ufo-files-by-648",
       "episodeTx": "0x04200204f6f5896ceed76ba7c05ebde039657143118f3feaeebbbbe274509268",
@@ -3020,15 +3020,15 @@
       "won": true,
       "episodeProfit": 7017,
       "zBetCross": 8.5,
-      "zBetWithin": 0.16,
+      "zBetWithin": 0.18,
       "zProfitCross": 17.83,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 50475,
-      "firstSeen": "Sep 17 2023",
+      "accountPnl": 50473,
+      "firstSeen": "Sep 26 2023",
       "createdOnChain": true,
       "created": "Sep 17 2023",
-      "betsCount": 49,
+      "betsCount": 54,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -3131,6 +3131,16 @@
           "tx": "0xf6873d6556392cc877c053c279ba9f7670f6636b42b821d676f1b77528ccd15f"
         },
         {
+          "market": "Will Adam Schiff get first place in the California Senate Primary?",
+          "url": "https://polymarket.com/event/will-adam-schiff-get-first-place-in-the-california-senate-primary",
+          "ts": 1710627341,
+          "odds": 85,
+          "stake": 2042,
+          "pl": 367,
+          "won": true,
+          "tx": "0x0defec137e7ffda6693ba10c54d82db2120b57963fe21228bc5db399d3a354cc"
+        },
+        {
           "market": "Tesla launches unsupervised full self driving (FSD) by March 31?",
           "url": "https://polymarket.com/event/tesla-launches-unsupervised-full-self-driving-fsd-by-march-31",
           "ts": 1769129798,
@@ -3159,16 +3169,6 @@
           "pl": 4521,
           "won": true,
           "tx": "0xf935ebf1265966663c90ce311da4a24c030d11da66336fa10f5c9bb40cec1478"
-        },
-        {
-          "market": "Will The Greens win the second most seats in the 2026 Baden-Württemberg parliamentary elections?",
-          "url": "https://polymarket.com/event/will-the-greens-win-the-second-most-seats-in-the-2026-baden-wrttemberg-parliamentary-elections",
-          "ts": 1773064921,
-          "odds": 11,
-          "stake": 1012,
-          "pl": -550,
-          "won": false,
-          "tx": "0xd6dc4cebd4f86aba3bd7252806c3b4cfb0e2fc82213f5d1063b0f4b917979ba7"
         }
       ],
       "alsoBinomial": false
