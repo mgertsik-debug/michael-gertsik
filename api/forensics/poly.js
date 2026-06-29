@@ -213,6 +213,27 @@ async function marketsByConds(conds, opts) {
   return out;
 }
 
+// OPEN-market metadata by condition (for the live watchlist). Gamma carries the real question,
+// event SLUG (→ a working market link), and tags (→ our category). category() returns null for
+// publicly-decided markets (sports / crypto-price / weather), which the watchlist uses to DROP them.
+// Returns { cond: { question, slug, category, closed } } — bounded + concurrency-limited.
+async function openMarketMeta(conds, opts) {
+  const o = Object.assign({ maxConds: 18, concurrency: 5 }, opts);
+  const out = {};
+  const list = Array.from(new Set((conds || []).filter(Boolean))).slice(0, o.maxConds);
+  const one = async (cond) => {
+    const g = await getJSON(GAMMA + "/markets?condition_ids=" + encodeURIComponent(cond), { timeout: 6000 }).catch(() => null);
+    const arr = Array.isArray(g) ? g : (g && (g.data || g.markets)) || [];
+    const m = arr[0];
+    if (!m) return;
+    const tags = tagList(null, m);
+    const slug = m.slug || (Array.isArray(m.events) && m.events[0] && m.events[0].slug) || "";
+    out[cond] = { question: String(m.question || "").trim(), slug, category: category(tags, m.question), closed: m.closed === true || m.closed === "true" };
+  };
+  for (let i = 0; i < list.length; i += o.concurrency) await Promise.all(list.slice(i, i + o.concurrency).map(one));
+  return out;
+}
+
 // EVERY trade a wallet ever made (rows shaped like tradesForMarket). Tries the
 // /trades?user= endpoint first, then falls back to /activity?user= (TRADE
 // events) — Polymarket exposes a wallet's history under different paths, so we
@@ -619,6 +640,6 @@ async function resolveUsername(handle) {
 
 module.exports = {
   getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket, recentTrades, profileAggregates,
-  userPositions, positionToBet, userTrades, buildUserRecord, marketsByConds, category, resolvedWinner, isBinary, tradeOutcome,
+  userPositions, positionToBet, userTrades, buildUserRecord, marketsByConds, openMarketMeta, category, resolvedWinner, isBinary, tradeOutcome,
   resolveUsername, pickAddress, GAMMA, DATA, CLOB,
 };

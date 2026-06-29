@@ -741,12 +741,18 @@ async function finalize(state, snapshotTs) {
         const ents = D.extractEntities(lead.market);
         if (!ents.length) continue;
         const outsized = (lead.stakeNum || 0) >= 1000;
+        // GDELT's news index is shallow for OLD dates — an empty months-ago window can mean GDELT
+        // didn't COVER it, not that there was a blackout. To avoid FABRICATING a blackout, only
+        // news-query bets inside GDELT's reliable recent window; older bets get no news signal
+        // (fedRegister, which has full historical docs, still applies).
+        const GDELT_RECENT_DAYS = +ENV.GDELT_RECENT_DAYS || 90;
+        const newsEligible = (NOW_S - lead.ts) <= GDELT_RECENT_DAYS * 86400;
         const [cnt, fm] = await Promise.all([            // run both queries concurrently to fit the window
-          external.gdeltArticleCount(ents[0], lead.ts - winH * 3600, lead.ts, { timeoutMs: 4000 }).catch(() => null),
-          external.fedRegisterMatches(ents, { anchorSec: lead.ts, windowDays: 21, timeoutMs: 4000 }).catch(() => ({ matches: [], entity: ents[0] })),
+          newsEligible ? external.gdeltArticleCount(ents[0], lead.ts - winH * 3600, lead.ts, { timeoutMs: 4000 }).catch(() => null) : Promise.resolve(null),
+          external.fedRegisterMatches(ents, { anchorSec: lead.ts, windowDays: 14, forwardDays: 120, timeoutMs: 4000 }).catch(() => ({ matches: [], entity: ents[0] })),
         ]);
-        const nbRes = D.newsBlackout({ articleCount: cnt, windowHours: winH, outsized, entity: ents[0], hasQuery: true });
-        const frRes = D.fedRegister({ hasQuery: true, entity: (fm && fm.entity) || ents[0], matches: (fm && fm.matches) || [] });
+        const nbRes = D.newsBlackout({ articleCount: cnt, windowHours: winH, outsized, entity: ents[0], hasQuery: newsEligible });
+        const frRes = D.fedRegister({ hasQuery: true, entity: (fm && fm.entity) || ents[0], matches: (fm && fm.matches) || [], betDate: lead.ts });
         build.enrichInfoSignals(s, nbRes, frRes);
         if (nbRes && nbRes.fires) blackouts++;
         if (frRes && frRes.fires) fed++;
@@ -800,24 +806,34 @@ async function finalize(state, snapshotTs) {
       })).filter((t) => t.wallet && t.cond && t.ts > 0 && t.sizeUsd > 0 && t.side !== "SELL" && !(cat[t.cond] && cat[t.cond].w != null)); // OPEN markets, buys
       const byMarket = {}; trades.forEach((t) => (byMarket[t.cond] = byMarket[t.cond] || []).push(t.sizeUsd));
       const cands = trades.filter((t) => t.sizeUsd >= (+ENV.WATCH_MIN_USD || 2500)).sort((a, b) => b.sizeUsd - a.sizeUsd);
+      // Fetch OPEN-market metadata (question, slug, category) for the top candidate markets in ONE
+      // bounded batch. This gives a WORKING market link (real slug) AND the category — so we DROP
+      // publicly-decided markets (sports / crypto-price / weather), exactly as the resolved engine
+      // excludes them (category() returns null for those). Candidates we can't resolve are skipped.
+      const topConds = []; const condSeen = new Set();
+      for (const t of cands) { if (!condSeen.has(t.cond)) { condSeen.add(t.cond); topConds.push(t.cond); } if (topConds.length >= 18) break; }
+      let meta = {};
+      try { meta = await poly.openMarketMeta(topConds, { maxConds: 18 }); } catch (_) {}
       const seen = new Set();
       for (const t of cands) {
         if (Date.now() >= INFO_DEADLINE || scored >= Math.min(+ENV.WATCH_TOP || 10, 16)) break;
+        const md = meta[t.cond];
+        if (!md || md.closed || !md.category) continue;   // drop unknown / already-resolved / sports-crypto-weather
         const id = t.cond + "|" + String(t.wallet).toLowerCase();
         if (state.watchlist[id] || seen.has(id)) continue; seen.add(id);
         const marketSizes = (byMarket[t.cond] || []).filter((s) => s !== t.sizeUsd);   // peer trades in this market
-        const ents = D.extractEntities(t.title || "");
+        const ents = D.extractEntities(md.question || t.title || "");
         let nb = false, fr = false;
         if (ents.length) {
           try { const cnt = await external.gdeltArticleCount(ents[0], t.ts - winH2 * 3600, t.ts, { timeoutMs: 3500 }); nb = (cnt === 0); } catch (_) {}
-          try { const fm = await external.fedRegisterMatches(ents, { anchorSec: t.ts, windowDays: 21, timeoutMs: 3500 }); fr = (fm.matches.length > 0); } catch (_) {}
+          try { const fm = await external.fedRegisterMatches(ents, { anchorSec: t.ts, windowDays: 14, forwardDays: 120, timeoutMs: 3500 }); fr = (fm.matches.length > 0); } catch (_) {}
         }
         const sc = D.watchlistScore({ sizeUsd: t.sizeUsd, marketSizes, newsBlackout: nb, fedRegister: fr });
         scored++;
         if (sc.score >= (+ENV.WATCH_SCORE || 6)) {
           state.watchlist[id] = {
-            id, cond: t.cond, wallet: t.wallet, market: t.title || "(market)",
-            url: t.slug ? "https://polymarket.com/event/" + t.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
+            id, cond: t.cond, wallet: t.wallet, market: md.question || "(market)", category: md.category,
+            url: md.slug ? "https://polymarket.com/event/" + md.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
             sizeUsd: Math.round(t.sizeUsd), ts: t.ts, firstSeen: monthDay(NOW_S), status: "watching",
             score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, newsBlackout: nb, fedRegister: fr,
           };

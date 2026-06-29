@@ -687,15 +687,30 @@ function newsBlackout(x, opts) {
  *    x = { matches: [{title, agency, date, url}] (already title/abstract-filtered), entity, hasQuery } */
 function fedRegister(x, opts) {
   if (!x || x.hasQuery !== true || !Array.isArray(x.matches)) return { key: "fedRegister", hasData: false };
-  const n = x.matches.length;
-  const fires = n >= 1;
-  const top = x.matches[0] || {};
+  if (!x.matches.length) return { key: "fedRegister", hasData: true, fires: false, score: 0, nDocs: 0, nAhead: 0, entity: x.entity || null, top: null,
+    explain: "No recent Federal Register document matches “" + (x.entity || "this market") + "” on the title — no regulatory-insider corroboration." };
+  // TIMING IS THE POINT. The regulatory-insider tell is a bet placed BEFORE the official action was
+  // published — so per matched doc we compute how many days the BET preceded its publication. A doc
+  // published ON/AFTER the bet (leadDays ≥ 0) means the wallet was positioned ahead of the filing; a
+  // doc published BEFORE the bet means the action was already public (reacting, not ahead → not credited).
+  const betSec = isNum(x.betDate) ? x.betDate : null;
+  const toSec = (d) => { const t = Date.parse(String(d) + "T00:00:00Z"); return isFinite(t) ? t / 1000 : null; };
+  const ann = x.matches.map((m) => { const ds = toSec(m.date); return Object.assign({}, m, { leadDays: (betSec != null && ds != null) ? Math.round((ds - betSec) / 86400) : null }); });
+  const ahead = ann.filter((m) => m.leadDays != null && m.leadDays >= 0).sort((a, b) => a.leadDays - b.leadDays);  // soonest-after-bet first
+  const top = ahead[0] || ann[0];
+  // fire ONLY when the bet preceded a matching filing; with no bet timestamp, fall back to a plain
+  // match as a weak corroborator (no temporal claim made).
+  const fires = ahead.length >= 1 || betSec == null;
+  const lead = top.leadDays;
   return {
-    key: "fedRegister", hasData: true, fires, score: fires ? clip(0.4 + 0.1 * Math.min(3, n), 0, 0.6) : 0,
-    nDocs: n, entity: x.entity || null, top: fires ? { title: top.title || null, agency: top.agency || null, date: top.date || null, url: top.url || null } : null,
+    key: "fedRegister", hasData: true, fires, score: fires ? clip(0.4 + 0.06 * Math.min(3, ahead.length || 1), 0, 0.6) : 0,
+    nDocs: x.matches.length, nAhead: ahead.length, entity: x.entity || null,
+    top: { title: top.title || null, agency: top.agency || null, date: top.date || null, url: top.url || null, leadDays: lead },
     explain: fires
-      ? n + " recent Federal Register document(s) match “" + (x.entity || "this market") + "” in the title — e.g. “" + String(top.title || "").slice(0, 80) + "”" + (top.agency ? " (" + top.agency + ")" : "") + ". A regulatory action on the exact subject this wallet bet."
-      : "No recent Federal Register document matches “" + (x.entity || "this market") + "” on the title — no regulatory-insider corroboration.",
+      ? (lead != null && lead >= 0
+          ? "Bet placed " + lead + " day" + (lead === 1 ? "" : "s") + " BEFORE the Federal Register published “" + String(top.title || "").slice(0, 80) + "”" + (top.agency ? " (" + top.agency + ", " + top.date + ")" : "") + " — positioned ahead of the official filing on the exact subject."
+          : x.matches.length + " Federal Register document(s) match “" + (x.entity || "this market") + "” around the bet — e.g. “" + String(top.title || "").slice(0, 80) + "”" + (top.agency ? " (" + top.agency + ")" : "") + ".")
+      : "A matching Federal Register filing was already public before the bet — consistent with reacting to it, not trading ahead; not credited.",
   };
 }
 

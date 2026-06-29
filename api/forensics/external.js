@@ -24,7 +24,10 @@ function getJSON(url, timeoutMs) {
         if (res.statusCode && (res.statusCode < 200 || res.statusCode >= 300)) { res.resume(); clearTimeout(to); return finish(null); }
         let data = "";
         res.on("data", (c) => { data += c; if (data.length > 4e6) req.destroy(); });
-        res.on("end", () => { clearTimeout(to); try { finish(JSON.parse(data)); } catch (_) { finish(null); } });
+        // An HTTP-200 with an EMPTY body is how GDELT signals "zero matching articles" — that is a
+        // legitimate result (a news blackout), NOT a failure. Resolve it to {} so the caller reads 0
+        // matches, instead of null (which would drop the very case newsBlackout exists to catch).
+        res.on("end", () => { clearTimeout(to); const s = data.trim(); if (!s) return finish({}); try { finish(JSON.parse(s)); } catch (_) { finish(null); } });
       });
       req.on("error", () => { clearTimeout(to); finish(null); });
       req.setTimeout(timeoutMs || 4000, () => { req.destroy(); });
@@ -62,10 +65,14 @@ async function fedRegisterMatches(entities, opts) {
   if (!ents.length) return { matches: [], entity: null };
   const entity = ents[0];                                          // the most-specific entity (extractEntities ranks it first)
   const day = (ms) => new Date(ms).toISOString().slice(0, 10);
-  // anchor the publication window on the BET (resolved bets can be months old); else last windowDays.
-  const win = (opts.windowDays || 21) * 86400000;
+  // Window around the BET (resolved bets can be months old). The signal is "bet BEFORE the filing",
+  // so the FORWARD reach must be generous (a regulatory action can be published weeks/months after
+  // the wallet positioned for it); the backward reach is short (a filing well before the bet was
+  // already public). back = windowDays (default 14); forward = forwardDays (default 120).
+  const back = (opts.windowDays || 14) * 86400000;
+  const fwd = (opts.forwardDays || 120) * 86400000;
   const center = opts.anchorSec > 0 ? opts.anchorSec * 1000 : Date.now();
-  const gte = day(center - win), lte = day(Math.min(Date.now(), center + 7 * 86400000));
+  const gte = day(center - back), lte = day(Math.min(Date.now(), center + fwd));
   const url = "https://www.federalregister.gov/api/v1/documents.json?per_page=20&order=newest" +
     "&conditions%5Bterm%5D=" + encodeURIComponent('"' + entity + '"') +
     "&conditions%5Bpublication_date%5D%5Bgte%5D=" + gte +

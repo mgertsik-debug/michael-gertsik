@@ -408,9 +408,16 @@ test("newsBlackout: fires only on an empty window UNDER an outsized bet", () => 
   assert.equal(D.newsBlackout({ hasQuery: false }).hasData, false, "no entity to query -> no-data, not a fabricated flag");
 });
 
-test("fedRegister: fires only on precision-filtered title matches, low score", () => {
-  const m = D.fedRegister({ hasQuery: true, entity: "Venezuela", matches: [{ title: "Blocking Property of the Government of Venezuela", agency: "OFAC", date: "2026-06-20", url: "x" }] });
-  assert.equal(m.fires, true); assert.ok(m.score <= 0.6, "corroborator-level score, never dominant");
+test("fedRegister: TIMING — only credits a bet placed BEFORE the filing was published", () => {
+  const bet = Date.parse("2026-06-01T00:00:00Z") / 1000;
+  // doc published 19 days AFTER the bet → the wallet was positioned ahead of the filing → fires.
+  const ahead = D.fedRegister({ hasQuery: true, entity: "Venezuela", betDate: bet, matches: [{ title: "Blocking Property of the Government of Venezuela", agency: "OFAC", date: "2026-06-20", url: "https://federalregister.gov/d/x" }] });
+  assert.equal(ahead.fires, true); assert.equal(ahead.top.leadDays, 19, "19 days before the filing");
+  assert.ok(/BEFORE/.test(ahead.explain) && ahead.top.url, "explain states the timing and carries the clickable link");
+  assert.ok(ahead.score <= 0.6, "corroborator-level score, never dominant");
+  // doc published BEFORE the bet → the action was already public → NOT credited.
+  const after = D.fedRegister({ hasQuery: true, entity: "Venezuela", betDate: bet, matches: [{ title: "Blocking Property ... Venezuela", date: "2026-05-10", url: "y" }] });
+  assert.equal(after.fires, false, "filing already public before the bet -> not insider, not credited");
   assert.equal(D.fedRegister({ hasQuery: true, entity: "Venezuela", matches: [] }).fires, false, "no title match -> no fire (kills the fisheries FP)");
   assert.equal(D.fedRegister({ hasQuery: false }).hasData, false);
 });

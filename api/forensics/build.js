@@ -1149,15 +1149,29 @@ function buildPayload(aggregates, meta, catalog) {
 function enrichInfoSignals(subject, nb, fr) {
   if (!subject) return subject;
   subject.fired = subject.fired || []; subject.scorecard = subject.scorecard || [];
-  const add = (d, metric, method, formula) => {
-    if (!d || !d.hasData || !d.fires) return;
-    if (!subject.fired.includes(d.key)) subject.fired.push(d.key);
-    subject.scorecard.push({ key: d.key, metric, method, formula, numbers: d.explain, inputs: [] });
-  };
-  if (nb) add(nb, (nb.articleCount === 0 ? "news blackout" : nb.articleCount + " articles"),
-    "pre-event news blackout (GDELT)", "global news articles matching the market entity in the " + (nb.windowHours || 24) + "h before the bet");
-  if (fr) add(fr, (fr.nDocs || 0) + " reg doc" + ((fr.nDocs || 0) === 1 ? "" : "s"),
-    "Federal Register match", "recent regulatory documents whose title matches the market entity (precision-filtered)");
+  if (nb && nb.hasData && nb.fires) {
+    if (!subject.fired.includes("newsBlackout")) subject.fired.push("newsBlackout");
+    subject.scorecard.push({ key: "newsBlackout", metric: (nb.articleCount === 0 ? "news blackout" : nb.articleCount + " articles"),
+      method: "pre-event news blackout (GDELT)", formula: "global news articles matching the market entity in the " + (nb.windowHours || 24) + "h before the bet",
+      numbers: nb.explain, inputs: [["window", (nb.windowHours || 24) + "h pre-bet"], ["articles", String(nb.articleCount)]] });
+  }
+  if (fr && fr.hasData && fr.fires) {
+    if (!subject.fired.includes("fedRegister")) subject.fired.push("fedRegister");
+    const t = fr.top || {};
+    // carry the actual filing so the dossier card can render a CLICKABLE link + the bet→filing timing.
+    subject.fedRegisterDoc = { title: t.title || null, agency: t.agency || null, date: t.date || null, url: t.url || null, leadDays: t.leadDays != null ? t.leadDays : null };
+    const inputs = [];
+    if (t.leadDays != null && t.leadDays >= 0) inputs.push(["bet → filing", t.leadDays + "d before"]);
+    if (t.date) inputs.push(["filing date", t.date]);
+    if (t.agency) inputs.push(["agency", t.agency]);
+    subject.scorecard.push({
+      key: "fedRegister",
+      metric: (t.leadDays != null && t.leadDays >= 0) ? (t.leadDays + "d before filing") : ((fr.nDocs || 0) + " reg doc" + ((fr.nDocs || 0) === 1 ? "" : "s")),
+      method: "Federal Register match (regulatory-insider)",
+      formula: "bet date vs publication date of a regulatory filing whose title names the market's entity",
+      numbers: fr.explain, inputs, link: t.url || null, linkLabel: t.title ? ("↗ " + String(t.title).slice(0, 70)) : "↗ view the filing",
+    });
+  }
   subject.detectorsFired = subject.fired.length;
   subject.suspicion = suspicionScore(subject);                    // newsBlackout lifts the timing dimension
   return subject;
