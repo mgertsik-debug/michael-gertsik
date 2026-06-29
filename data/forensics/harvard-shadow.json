@@ -16,10 +16,10 @@
   "over500": 91,
   "alsoBinomial": 33,
   "onlyHarvard": 58,
-  "observed": 218168,
-  "reviewed": 218168,
-  "screened": 10120,
-  "scored": 5982,
+  "observed": 218283,
+  "reviewed": 218283,
+  "screened": 10164,
+  "scored": 6013,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -2268,7 +2268,7 @@
       "firstSeen": "May 06 2025",
       "createdOnChain": true,
       "created": "May 06 2025",
-      "betsCount": 323,
+      "betsCount": 324,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
@@ -2709,7 +2709,7 @@
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
       "username": "classified",
       "tier": "high",
-      "S": 914.2,
+      "S": 914.9,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -2718,7 +2718,7 @@
       "won": true,
       "episodeProfit": 18651,
       "zBetCross": 13.3,
-      "zBetWithin": 1.59,
+      "zBetWithin": 1.64,
       "zProfitCross": 15.61,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
@@ -2726,7 +2726,7 @@
       "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
-      "betsCount": 117,
+      "betsCount": 123,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
@@ -2875,7 +2875,7 @@
       "address": "0xe8dd7741ccb12350957ec71e9ee332e0d1e6ec86",
       "username": "influenz.eth",
       "tier": "high",
-      "S": 901.7,
+      "S": 901.8,
       "market": "Will the US strike Iran next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-329",
       "episodeTx": "0x43b0257c97df8f7f91640ab4b6268026b9da7fd0d38892ef0c75301aa9fc157b",
@@ -2892,7 +2892,7 @@
       "firstSeen": "Feb 02 2025",
       "createdOnChain": true,
       "created": "Jan 26 2025",
-      "betsCount": 713,
+      "betsCount": 736,
       "ledger": [
         {
           "market": "Will Trump nominate Scott Bessent as the next Fed chair?",
