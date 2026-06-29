@@ -85,6 +85,12 @@ const DEADLINE = NOW + SCAN_BUDGET_MS;
 const ENRICH_DEADLINE = NOW + SCAN_BUDGET_MS - RING_RESERVE_MS;
 const overBudget = () => Date.now() > DEADLINE;             // hard wrap-up (used by the ring-finder)
 const enrichOverBudget = () => Date.now() > ENRICH_DEADLINE; // earlier — leaves time for ring-tracing
+// INFO-ENV + WATCHLIST deadline. The heavy enrich/ring phases stop at DEADLINE (9m), but the job
+// isn't killed until 14m — so there's a ~5-min window after the soft deadline that ONLY the ~5s
+// commit uses. The light, bounded news/reg/feed work runs in THAT window, gated on a HARD 12-min
+// deadline (still ~2 min margin before the timeout for the commit). Gating these on the soft
+// DEADLINE made them ALWAYS skip — they run after the phases that consume it. (the live-site bug)
+const INFO_DEADLINE = NOW + Math.min(+ENV.INFO_BUDGET_S || 720, 760) * 1000;   // 12 min (job timeout 14m)
 
 function read(p, fb) { try { return JSON.parse(fs.readFileSync(p, "utf8")); } catch (_) { return fb; } }
 function write(p, obj) { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, JSON.stringify(obj, null, 2) + "\n"); }
@@ -722,29 +728,25 @@ async function finalize(state, snapshotTs) {
   // can NEVER re-freeze the pipeline (the published store does not depend on it). Each call attaches a
   // news-blackout / Federal-Register corroborator (raises suspicion, never the statistical tier).
   try {
-    const NEWS_TOP = Math.min(+ENV.NEWS_TOP || 14, 24);
-    const NEWS_GUARD_MS = 120 * 1000;                            // need ≥2 min of headroom before the soft deadline
+    const NEWS_TOP = Math.min(+ENV.NEWS_TOP || 18, 30);
     const winH = D.DEFAULTS.newsWindowH || 24;
-    if (Date.now() < DEADLINE - NEWS_GUARD_MS) {
+    if (Date.now() < INFO_DEADLINE) {
       const ranked = payload.subjects.slice().sort((a, b) => (b.suspicion || 0) - (a.suspicion || 0)).slice(0, NEWS_TOP);
       let enriched = 0, blackouts = 0, fed = 0;
       for (const s of ranked) {
-        if (Date.now() >= DEADLINE - NEWS_GUARD_MS) break;       // bail the moment time is tight
+        if (Date.now() >= INFO_DEADLINE) break;                  // bail at the hard info deadline
         const lead = (s.ledger || []).filter((r) => r && r.market && r.market !== "(market)")
           .sort((a, b) => (b.stakeNum || 0) - (a.stakeNum || 0))[0];
         if (!lead || !(lead.ts > 0)) continue;
         const ents = D.extractEntities(lead.market);
         if (!ents.length) continue;
         const outsized = (lead.stakeNum || 0) >= 1000;
-        let nbRes = null, frRes = null;
-        try {
-          const cnt = await external.gdeltArticleCount(ents[0], lead.ts - winH * 3600, lead.ts, { timeoutMs: 4000 });
-          nbRes = D.newsBlackout({ articleCount: cnt, windowHours: winH, outsized, entity: ents[0], hasQuery: true });
-        } catch (_) {}
-        try {
-          const fm = await external.fedRegisterMatches(ents, { anchorSec: lead.ts, windowDays: 21, timeoutMs: 4000 });
-          frRes = D.fedRegister({ hasQuery: true, entity: fm.entity, matches: fm.matches });
-        } catch (_) {}
+        const [cnt, fm] = await Promise.all([            // run both queries concurrently to fit the window
+          external.gdeltArticleCount(ents[0], lead.ts - winH * 3600, lead.ts, { timeoutMs: 4000 }).catch(() => null),
+          external.fedRegisterMatches(ents, { anchorSec: lead.ts, windowDays: 21, timeoutMs: 4000 }).catch(() => ({ matches: [], entity: ents[0] })),
+        ]);
+        const nbRes = D.newsBlackout({ articleCount: cnt, windowHours: winH, outsized, entity: ents[0], hasQuery: true });
+        const frRes = D.fedRegister({ hasQuery: true, entity: (fm && fm.entity) || ents[0], matches: (fm && fm.matches) || [] });
         build.enrichInfoSignals(s, nbRes, frRes);
         if (nbRes && nbRes.fires) blackouts++;
         if (frRes && frRes.fires) fed++;
@@ -785,10 +787,9 @@ async function finalize(state, snapshotTs) {
       if ((e.resolvedTs && NOW_S - e.resolvedTs > 7 * 86400) || (NOW_S - (e.ts || NOW_S) > 30 * 86400)) delete state.watchlist[id];
     }
     // 2) ADD new candidates from the live feed (open markets, outsized BUYS), bounded + deadline-gated.
-    const WL_GUARD_MS = 120 * 1000;
     const winH2 = D.DEFAULTS.newsWindowH || 24;
     let added = 0, scored = 0;
-    if (Date.now() < DEADLINE - WL_GUARD_MS) {
+    if (Date.now() < INFO_DEADLINE) {
       const ocOf = (t) => { const o = String(t.outcome != null ? t.outcome : (t.outcomeIndex === 0 ? "Yes" : t.outcomeIndex === 1 ? "No" : "")).trim().toUpperCase(); return (o === "YES" || o === "0") ? "YES" : (o === "NO" || o === "1") ? "NO" : o; };
       const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 4, 6) });
       const trades = (feed || []).map((t) => ({
@@ -801,7 +802,7 @@ async function finalize(state, snapshotTs) {
       const cands = trades.filter((t) => t.sizeUsd >= (+ENV.WATCH_MIN_USD || 2500)).sort((a, b) => b.sizeUsd - a.sizeUsd);
       const seen = new Set();
       for (const t of cands) {
-        if (Date.now() >= DEADLINE - WL_GUARD_MS || scored >= Math.min(+ENV.WATCH_TOP || 10, 16)) break;
+        if (Date.now() >= INFO_DEADLINE || scored >= Math.min(+ENV.WATCH_TOP || 10, 16)) break;
         const id = t.cond + "|" + String(t.wallet).toLowerCase();
         if (state.watchlist[id] || seen.has(id)) continue; seen.add(id);
         const marketSizes = (byMarket[t.cond] || []).filter((s) => s !== t.sizeUsd);   // peer trades in this market
