@@ -23,6 +23,22 @@
   .live .sub { font-family:var(--mono); font-size:8.5px; letter-spacing:.16em; color:var(--mut); margin-top:6px; }
   .live .dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--grn); box-shadow:0 0 8px 1px rgba(52,211,153,.85); margin-right:5px; vertical-align:middle; animation:pulse 2.2s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  /* ---- Live Watchlist (ported design) ---- */
+  @keyframes wf-breathe { 0%,100%{opacity:.55;transform:scale(1)} 50%{opacity:1;transform:scale(1.35)} }
+  @keyframes wf-pulse-pill { 0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,0)} 50%{box-shadow:0 0 14px -2px rgba(251,191,36,.55)} }
+  @keyframes wf-pulse-red { 0%,100%{box-shadow:0 0 14px -3px rgba(248,113,113,.55)} 50%{box-shadow:0 0 22px -2px rgba(248,113,113,.85)} }
+  @keyframes wf-flash { 0%{background:rgba(52,211,153,.22)} 100%{background:transparent} }
+  @keyframes wf-slidein { from{opacity:.5;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes wf-scan { 0%{transform:translateY(0);opacity:0} 8%{opacity:.7} 92%{opacity:.7} 100%{transform:translateY(1700px);opacity:0} }
+  @keyframes wf-fresh { 0%,100%{opacity:.5} 50%{opacity:1;box-shadow:0 0 16px -3px rgba(52,211,153,.7)} }
+  @keyframes wf-drawer { from{opacity:.5;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+  @media (prefers-reduced-motion: reduce){ .wl *{animation:none !important} }
+  .wl-scroll::-webkit-scrollbar{ width:9px;height:9px; }
+  .wl-scroll::-webkit-scrollbar-thumb{ background:#1E2823;border-radius:5px; }
+  .wl-scroll::-webkit-scrollbar-track{ background:transparent; }
+  .wl-row:focus-visible{ outline:2px solid #34D399;outline-offset:-2px; }
+  .wl-row:hover{ background:rgba(52,211,153,.045); }
+  .wl-tab-link:hover{ border-color:#2C3A33;color:#ECEFED; }
   .intro { font-size:13px; color:var(--sub); line-height:1.6; max-width:880px; margin-bottom:16px; }
   .tabs { display:flex; gap:8px; background:var(--card); border:1px solid var(--line); border-radius:11px; padding:5px; width:max-content; max-width:100%; margin-bottom:16px; flex-wrap:wrap; }
   .tab { font-family:var(--mono); font-size:12px; padding:9px 15px; border-radius:8px; cursor:pointer; color:var(--sub); border:1px solid transparent; white-space:nowrap; }
@@ -95,28 +111,12 @@
 
   <!-- LIVE WATCHLIST (real-time / early-warning) -->
   <div id="view-watch" class="hide">
-    <div class="banner warn">
-      <b>BETA — early warning, not proof.</b> One row = one outsized trade on an <i>open</i> market, scored <i>at placement</i> before anyone knows the outcome. Because it can't yet use “did it win” or “was it profitable” (our precision anchors), this feed is intentionally <b>noisier</b> than Suspect Wallets — a confident whale who's simply <i>wrong</i> looks the same as an insider until the market resolves. Each entry then <b>hardens</b> into a flagged wallet (if it wins and the account becomes a suspect) or <b>self-clears</b>.
-    </div>
-    <div id="wdash" class="dash"></div>
-    <details class="legend">
-      <summary>WHAT THE TRADE-TIME SIGNALS MEAN</summary>
-      <div>
-        <div class="legrow"><div class="ln">Outsized vs market (size)</div><div class="ld">The trade is 3+ standard deviations larger than the other trades in this same market right now.</div></div>
-        <div class="legrow"><div class="ln">Lone whale (whale)</div><div class="ld">10×+ the 90th-percentile trade on this market — it dwarfs everyone else betting here.</div></div>
-        <div class="legrow"><div class="ln">News blackout (blackout)</div><div class="ld">Zero global news matched the market's topic in the hours before this bet — betting big before the public has any news is the information-asymmetry tell. Weighted highest.</div></div>
-        <div class="legrow"><div class="ln">Federal Register (fedReg)</div><div class="ld">A recent regulatory document's title matches the market's exact subject. Low weight, corroborator only.</div></div>
-        <div class="legrow"><div class="ln">Status</div><div class="ld"><b>watching</b> = open, unresolved · <b>promoted</b> = resolved in the bettor's favour AND the account is now a flagged suspect (hardened into a case) · <b>cleared</b> = resolved without panning out (self-cleared).</div></div>
-      </div>
-    </details>
-    <div class="tblwrap">
-      <table>
-        <thead><tr>
-          <th>WHEN</th><th>MARKET</th><th>WALLET</th><th>BET</th><th class="num">SIZE</th>
-          <th>SIGNALS</th><th class="num">SCORE</th><th>STATUS</th><th>ON-CHAIN</th>
-        </tr></thead>
-        <tbody id="wrows"><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
-      </table>
+    <div class="wl" style="position:relative;">
+      <!-- grid texture -->
+      <div style="position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(52,211,153,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(52,211,153,.035) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(130% 90% at 50% 0%,#000 35%,transparent 90%);mask-image:radial-gradient(130% 90% at 50% 0%,#000 35%,transparent 90%);"></div>
+      <!-- scanline sweep -->
+      <div style="position:absolute;left:0;right:0;top:0;height:120px;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(52,211,153,.05) 50%,transparent);animation:wf-scan 9s linear infinite;"></div>
+      <div id="wl-dyn" style="position:relative;z-index:2;"></div>
     </div>
   </div>
 </div>
@@ -129,38 +129,175 @@
   function ago(ts){ if(!ts) return '—'; var s=Math.floor(Date.now()/1000)-ts; if(s<3600) return Math.max(1,Math.round(s/60))+'m ago'; if(s<86400) return Math.round(s/3600)+'h ago'; return Math.round(s/86400)+'d ago'; }
   function profileUrl(e){ return e.wallet ? 'https://polygonscan.com/address/'+e.wallet : '#'; }
 
+  // ===================== LIVE WATCHLIST (ported design · vanilla · real data) =====================
+  var WSIG = {
+    blackout:{ label:"news blackout", weight:6, style:"info", tip:"Zero matching news in the 24h before the bet — weighted highest" },
+    size:{ label:"outsized vs market", weight:5, style:"hot", tip:"Trade size ≥ 3σ above peer trades on this market" },
+    whale:{ label:"lone whale", weight:4, style:"hot", tip:"10×+ larger than the 90th-percentile trade on this market" },
+    pool:{ label:"large % of pool", weight:3, style:"hot", tip:"A single trade is a large share of the market's liquidity" },
+    fedReg:{ label:"Federal Register", weight:3, style:"info", tip:"A regulatory filing matches the exact market subject" }
+  };
+  var WGMAX = 18;
+  var WGRID = "88px minmax(180px,1.7fr) 132px 86px 78px minmax(170px,1.3fr) 92px 108px 60px";
+  var wlState = { expandedId:null, sort:'recency', search:'', quick:{blackout:false,big:false,hardened:false}, legendOpen:false, copied:null };
+
+  function wlScoreOf(e){ if(e && typeof e.score==='number') return e.score; return (e.signals||[]).reduce(function(a,k){return a+((WSIG[k]&&WSIG[k].weight)||0);},0); }
+  function wlSC(score){ var f=score/WGMAX; if(f<0.45) return {c:'#34D399',g:'rgba(52,211,153,0.6)'}; if(f<0.72) return {c:'#FBBF24',g:'rgba(251,191,36,0.55)'}; return {c:'#F87171',g:'rgba(248,113,113,0.6)'}; }
+  function wlPol(cx,cy,r,d){ var a=d*Math.PI/180; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; }
+  function wlArc(cx,cy,r,a0,a1,c,w,glow){ var p0=wlPol(cx,cy,r,a0),p1=wlPol(cx,cy,r,a1),lg=(a1-a0)>180?1:0; return '<path d="M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+' A'+r+' '+r+' 0 '+lg+' 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+'" fill="none" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"'+(glow?' style="filter:drop-shadow(0 0 5px '+wlSC(0).g+')"':'')+'/>'; }
+  function wlGauge(score,size){ var ic=wlSC(score),r=size/2-4,cx=size/2,cy=size/2,frac=Math.min(1,score/WGMAX),fs=size>80?24:13,sw=size>80?8:5; var s='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="flex-shrink:0;overflow:visible;">'; s+=wlArc(cx,cy,r,135,405,'#16201B',sw,false); if(frac>0.01){ var p0=wlPol(cx,cy,r,135),p1=wlPol(cx,cy,r,135+270*frac),lg=(270*frac)>180?1:0; s+='<path d="M'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+' A'+r+' '+r+' 0 '+lg+' 1 '+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+'" fill="none" stroke="'+ic.c+'" stroke-width="'+sw+'" stroke-linecap="round" style="filter:drop-shadow(0 0 5px '+ic.g+')"/>'; } s+='<text x="'+cx+'" y="'+(cy+fs/3)+'" text-anchor="middle" fill="'+ic.c+'" font-size="'+fs+'" font-weight="700" font-family="\'JetBrains Mono\',monospace">'+score+'</text></svg>'; return s; }
+  function wlChip(style,label,tip){ var s=(style==='info')?"color:#34D399;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);":"color:#FBBF24;background:rgba(251,191,36,0.09);border:1px solid rgba(251,191,36,0.35);"; return '<span title="'+esc(tip||'')+'" style="font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;white-space:nowrap;'+s+'">'+esc(label)+'</span>'; }
+  function wlStatusPill(status,won){
+    if(status==='promoted') return '<span style="display:inline-flex;align-items:center;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;padding:4px 10px;border-radius:999px;color:#06120D;background:#F87171;border:1px solid #F87171;animation:wf-pulse-red 2.6s ease-in-out infinite;">hardened'+(won?' · won':'')+'</span>';
+    if(status==='cleared') return '<span style="display:inline-flex;align-items:center;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:999px;color:#5C6661;background:rgba(92,102,97,.12);border:1px solid #1F2A25;">cleared</span>';
+    return '<span style="display:inline-flex;align-items:center;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:999px;color:#FBBF24;background:transparent;border:1px solid rgba(251,191,36,.5);animation:wf-pulse-pill 2.4s ease-in-out infinite;">watching</span>';
+  }
+  var wlML = "display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.12em;color:#5C6661;margin-bottom:4px;";  // mobile cell label
+
+  function wlFilteredSorted(){
+    var st=wlState, q=st.search.trim().toLowerCase();
+    var list=WL.filter(function(e){
+      if(st.quick.blackout && (e.signals||[]).indexOf('blackout')<0) return false;
+      if(st.quick.big && (e.sizeUsd||0)<100000) return false;
+      if(st.quick.hardened && e.status!=='promoted') return false;
+      if(q && ((String(e.market||'')+' '+String(e.wallet||'')).toLowerCase().indexOf(q)<0)) return false;
+      return true;
+    });
+    var key={ score:function(e){return wlScoreOf(e);}, size:function(e){return e.sizeUsd||0;}, recency:function(e){return e.ts||0;} }[st.sort]||function(e){return e.ts||0;};
+    return list.slice().sort(function(a,b){return key(b)-key(a);});
+  }
+
+  function wlStatCard(label,value,sub,accent,glow){
+    return '<div style="position:relative;overflow:hidden;background:#0E1512;border:1px solid #1F2A25;border-radius:14px;padding:16px 18px;box-shadow:0 14px 34px -26px rgba(0,0,0,.8);">'
+      + '<div style="position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:0 3px 3px 0;background:'+accent+';box-shadow:0 0 12px 1px '+glow+';"></div>'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.12em;color:#6B756F;">'+label+'</div>'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:32px;font-weight:700;color:'+accent+';margin-top:8px;letter-spacing:-.02em;line-height:1;">'+value+'</div>'
+      + '<div style="font-size:11.5px;color:#949C98;margin-top:7px;">'+sub+'</div></div>';
+  }
+
+  function wlEvidence(e){
+    var out='';
+    var diag='<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">'
+      + wlDiag('SIZE Z-SCORE',(e.sizeZ!=null?e.sizeZ+'σ':'—'),(e.signals||[]).indexOf('size')>=0)
+      + wlDiag('WHALE MULTIPLE',(e.whaleX!=null?e.whaleX+'×':'—'),(e.signals||[]).indexOf('whale')>=0)
+      + wlDiag('% OF POOL',(e.poolPct!=null&&e.poolPct>0?e.poolPct+'%':'—'),(e.signals||[]).indexOf('pool')>=0)
+      + '</div>';
+    if(e.newsBlackout){ out+='<div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.3);border-radius:9px;padding:12px 14px;margin-bottom:10px;">'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#34D399;margin-bottom:6px;">NEWS BLACKOUT</div>'
+      + '<div style="font-size:12.5px;color:#C9CFCB;line-height:1.55;">No public news matched “'+esc(e.blackoutEntity||"this market's topic")+'” in the 24h before this outsized bet — trading ahead of the public story.</div></div>'; }
+    if(e.fedRegister){ var ft=(e.fedDoc&&e.fedDoc.title)?esc(e.fedDoc.title):"A regulatory filing matched this market's exact subject."; var fl=(e.fedDoc&&e.fedDoc.url)?'<a href="'+esc(e.fedDoc.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#34D399;text-decoration:none;display:inline-block;margin-top:8px;">view filing ↗</a>':'';
+      out+='<div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.3);border-radius:9px;padding:12px 14px;">'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#34D399;margin-bottom:6px;">FEDERAL REGISTER MATCH</div>'
+      + '<div style="font-size:12.5px;color:#ECEFED;line-height:1.5;">'+ft+'</div>'+fl+'</div>'; }
+    if(!e.newsBlackout && !e.fedRegister) out+='<div style="font-size:12px;color:#6B756F;line-height:1.55;">No information-environment corroborator fired on this trade — it is flagged on trade size alone.</div>';
+    return diag+out;
+  }
+  function wlDiag(label,val,on){ return '<div style="flex:1;min-width:92px;background:#0E1512;border:1px solid #1F2A25;border-radius:9px;padding:11px 13px;">'
+    + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.08em;color:#6B756F;">'+label+'</div>'
+    + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:16px;font-weight:600;color:'+(on?'#FBBF24':'#C4CAC6')+';margin-top:5px;">'+val+'</div></div>'; }
+
+  function wlDrawer(e){
+    var score=wlScoreOf(e), sc=wlSC(score);
+    var bd=(e.signals||[]).slice().sort(function(a,b){return ((WSIG[b]&&WSIG[b].weight)||0)-((WSIG[a]&&WSIG[a].weight)||0);}).map(function(k){
+      var sig=WSIG[k]; if(!sig) return ''; var col=(sig.style==='info')?'#34D399':'#FBBF24';
+      return '<div style="margin-bottom:11px;"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:5px;">'
+        + '<span style="font-size:12px;color:#C4CAC6;">'+esc(sig.label)+'</span>'
+        + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:'+col+';">+'+sig.weight+'</span></div>'
+        + '<div style="height:7px;border-radius:4px;background:#16201B;overflow:hidden;"><div style="height:100%;width:'+Math.round(sig.weight/6*100)+'%;border-radius:4px;background:'+col+';box-shadow:0 0 12px -2px '+col+';"></div></div></div>';
+    }).join('');
+    var entryCtx='<div style="border:1px solid #1F2A25;border-radius:10px;background:#0E1512;padding:14px;">'
+      + '<div style="display:flex;align-items:baseline;gap:8px;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:26px;font-weight:700;color:'+(e.outcome==='YES'?'#34D399':'#F87171')+';">'+esc(e.outcome||'?')+'</span><span style="font-family:\'JetBrains Mono\',monospace;font-size:15px;color:#949C98;">@'+Math.round((e.price||0)*100)+'¢</span></div>'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:13px;color:#ECEFED;margin-top:8px;">'+usd(e.sizeUsd)+' position · '+esc(e.category||'market')+'</div>'
+      + '<div style="font-size:11.5px;color:#6B756F;margin-top:8px;line-height:1.5;">Scored at placement on an open market. Live price chart populates once we collect per-market price history.</div></div>';
+    return '<div style="background:#090D0C;border-top:1px solid #1F2A25;padding:18px 20px;animation:wf-drawer .2s ease;">'
+      + '<div style="display:grid;grid-template-columns:'+(window.innerWidth<900?'1fr':'minmax(0,.9fr) minmax(0,1.2fr) minmax(0,1fr)')+';gap:20px;">'
+      + '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.12em;color:#6B756F;margin-bottom:12px;">SCORE BREAKDOWN</div>'+bd
+        + '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:12px;padding-top:11px;border-top:1px solid #1F2A25;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:.1em;color:#6B756F;">TOTAL SCORE</span><span style="font-family:\'JetBrains Mono\',monospace;font-size:20px;font-weight:700;color:'+sc.c+';">'+score+'</span></div></div>'
+      + '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.12em;color:#6B756F;margin-bottom:12px;">TRADE-TIME DIAGNOSTICS</div>'+wlEvidence(e)+'</div>'
+      + '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.12em;color:#6B756F;margin-bottom:12px;">ENTRY CONTEXT</div>'+entryCtx+'</div>'
+      + '</div></div>';
+  }
+
+  function wlRow(e,i){
+    var id=e.id||(e.cond+'|'+e.wallet), score=wlScoreOf(e), expanded=wlState.expandedId===id;
+    var w=(e.wallet||''), wshort=w.slice(0,6)+'…'+w.slice(-4);
+    var copied=wlState.copied===id;
+    var name=(e.market&&e.market!=='(market)')?e.market:'(market)';
+    var chips=(e.signals||[]).map(function(k){ var s=WSIG[k]; return s?wlChip(s.style,s.label,s.tip):''; }).join('');
+    var rowStyle="display:grid;grid-template-columns:"+WGRID+";gap:14px;align-items:center;padding:13px 16px;cursor:pointer;outline:none;transition:background .18s;"+(expanded?"background:rgba(52,211,153,.06);":"");
+    var r='<div style="border-top:1px solid #141C18;">'
+      + '<div class="wl-row" tabindex="0" onclick="wlExpand(\''+id+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();wlExpand(\''+id+'\');}" style="'+rowStyle+'">'
+      + '<div style="min-width:0;font-family:\'JetBrains Mono\',monospace;font-size:12.5px;color:#ECEFED;">'+esc(ago(e.ts))+'</div>'
+      + '<div style="min-width:0;"><a href="'+esc(e.url||'#')+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:13px;color:#ECEFED;text-decoration:none;border-bottom:1px solid rgba(52,211,153,.35);line-height:1.4;">'+esc(name)+' <span style="color:#34D399;">↗</span></a></div>'
+      + '<div style="min-width:0;"><button onclick="wlCopy(\''+esc(w)+'\',\''+id+'\');event.stopPropagation();" title="copy address" style="display:inline-flex;align-items:center;gap:6px;background:transparent;border:none;cursor:pointer;font-family:\'JetBrains Mono\',monospace;font-size:12px;color:#A78BFA;padding:0;">'+esc(wshort)+' <span style="font-size:10px;color:'+(copied?'#34D399':'#5C6661')+';">'+(copied?'✓':'⧉')+'</span></button></div>'
+      + '<div style="min-width:0;font-family:\'JetBrains Mono\',monospace;font-size:12.5px;font-weight:600;color:'+(e.outcome==='YES'?'#34D399':'#F87171')+';">'+esc(e.outcome||'?')+' <span style="color:#6B756F;font-weight:400;">@'+Math.round((e.price||0)*100)+'¢</span></div>'
+      + '<div style="min-width:0;font-family:\'JetBrains Mono\',monospace;font-size:13px;color:#ECEFED;">'+usd(e.sizeUsd)+'</div>'
+      + '<div style="min-width:0;display:flex;flex-wrap:wrap;gap:5px;">'+chips+'</div>'
+      + '<div style="min-width:0;">'+wlGauge(score,44)+'</div>'
+      + '<div style="min-width:0;">'+wlStatusPill(e.status,e.won)+'</div>'
+      + '<div style="min-width:0;"><a href="'+esc(e.url||'https://polymarket.com/markets')+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#34D399;text-decoration:none;">market ↗</a></div>'
+      + '</div>';
+    if(expanded) r+=wlDrawer(e);
+    return r+'</div>';
+  }
+
+  function wlFeedHTML(){
+    var list=wlFilteredSorted();
+    var hdr='<div style="display:grid;grid-template-columns:'+WGRID+';gap:14px;align-items:center;padding:11px 16px;background:#090D0C;font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.12em;color:#6B756F;">'
+      + ['WHEN','MARKET','WALLET','BET','SIZE','SIGNALS','SCORE','STATUS','ON-CHAIN'].map(function(l){return '<div>'+l+'</div>';}).join('')+'</div>';
+    var body;
+    if(!WL.length) body='<div style="padding:40px 24px;text-align:center;font-family:\'JetBrains Mono\',monospace;font-size:13px;color:#6B756F;line-height:1.6;">No live flags right now. Outsized trades on open markets appear here the moment they’re placed.</div>';
+    else if(!list.length) body='<div style="padding:40px 24px;text-align:center;font-family:\'JetBrains Mono\',monospace;font-size:13px;color:#6B756F;">No trades match these filters.</div>';
+    else body=list.slice(0,150).map(wlRow).join('');
+    return '<div class="wl-scroll" style="overflow-x:auto;"><div style="min-width:1040px;">'+hdr+body+'</div></div>';
+  }
+
   function renderWatch(){
     document.getElementById('n-watch').textContent = '· ' + WL.length;
+    var st=wlState;
     var watching=WL.filter(function(e){return e.status==='watching';}).length;
     var promoted=WL.filter(function(e){return e.status==='promoted';}).length;
-    document.getElementById('wdash').innerHTML =
-        stat('WATCHING', watching, 'open trades being watched live')
-      + stat('HARDENED', promoted, 'resolved → flagged as a real case')
-      + stat('TOTAL TRACKED', WL.length, 'incl. self-cleared');
-    var tb=document.getElementById('wrows');
-    if(!WL.length){ tb.innerHTML='<tr><td colspan="9" class="empty">No live flags right now. Outsized trades on open markets appear here the moment they’re placed — refresh as the scan runs.</td></tr>'; return; }
-    tb.innerHTML = WL.slice(0,150).map(function(e){
-      var name=(e.market&&e.market!=='(market)')?e.market:'(market)';
-      var mkt='<span>'+esc(name)+'</span>'+(e.url?' <a href="'+esc(e.url)+'" target="_blank" rel="noopener">↗</a>':'');
-      var who='<a href="'+esc(profileUrl(e))+'" target="_blank" rel="noopener">'+esc((e.wallet||'').slice(0,6)+'…'+(e.wallet||'').slice(-4))+'</a>';
-      var sig='<span class="sig">'+(e.signals||[]).map(function(k){
-        var hot=(k==='blackout'||k==='fedReg'); return '<span class="chip '+(hot?'info':'hot')+'">'+esc(SIGNAME[k]||k)+'</span>';
-      }).join('')+'</span>';
-      var bet='<span class="num" style="color:'+(e.outcome==='YES'?'var(--grn)':'var(--red)')+'">'+esc(e.outcome||'?')+'</span> <span class="num muted">@'+Math.round((e.price||0)*100)+'¢</span>';
-      var oc=e.cond?'<a class="verify" href="https://polymarket.com/markets" target="_blank" rel="noopener" title="open market — not yet resolved">market ↗</a>':'<span class="muted">—</span>';
-      return '<tr>'
-        + '<td class="num muted">'+esc(ago(e.ts))+'</td>'
-        + '<td class="mkt">'+mkt+'</td>'
-        + '<td class="who">'+who+'</td>'
-        + '<td>'+bet+'</td>'
-        + '<td class="num">'+usd(e.sizeUsd)+'</td>'
-        + '<td>'+sig+'</td>'
-        + '<td class="num"><b>'+(e.score||0)+'</b></td>'
-        + '<td><span class="st '+(e.status||'watching')+'">'+esc(e.status||'watching')+(e.status==='promoted'&&e.won?' · won':'')+'</span></td>'
-        + '<td>'+oc+'</td></tr>';
-    }).join('');
+    // stat cards + peak gauge
+    var peak=WL.reduce(function(m,e){return (m&&wlScoreOf(m)>=wlScoreOf(e))?m:e;}, WL[0]||null);
+    var peakScore=peak?wlScoreOf(peak):0;
+    var stats='<div style="display:grid;grid-template-columns:'+(window.innerWidth<900?'1fr 1fr':'repeat(3,1fr) 1.15fr')+';gap:14px;margin-top:16px;">'
+      + wlStatCard('WATCHING',watching,'open trades scored live','#FBBF24','rgba(251,191,36,.5)')
+      + wlStatCard('HARDENED',promoted,'resolved → confirmed case','#F87171','rgba(248,113,113,.5)')
+      + wlStatCard('TOTAL TRACKED',WL.length,'incl. self-cleared','#34D399','rgba(52,211,153,.5)')
+      + '<div style="display:flex;align-items:center;gap:14px;background:#0E1512;border:1px solid #1F2A25;border-radius:14px;padding:14px 18px;box-shadow:0 14px 34px -26px rgba(0,0,0,.8);">'
+        + (peak?wlGauge(peakScore,90):'')
+        + '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.12em;color:#6B756F;">PEAK SIGNAL</div>'
+        + '<div style="font-size:12.5px;color:#ECEFED;margin-top:6px;font-weight:600;">'+(peak?('score '+peakScore):'—')+'</div>'
+        + '<div style="font-size:11px;color:#949C98;margin-top:4px;line-height:1.4;">'+(peakScore>=12?'extreme — hardened into a case':peak?'elevated — actively watching':'no live signals yet')+'</div></div></div></div>';
+    // legend
+    var legend='<div style="margin-top:16px;"><button onclick="wlLegend()" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#090D0C;border:1px solid #1F2A25;border-radius:12px;padding:13px 16px;cursor:pointer;">'
+      + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:.12em;color:#6B756F;"><span style="color:#34D399;font-size:7px;vertical-align:middle;">●</span> WHAT THE TRADE-TIME SIGNALS MEAN</span>'
+      + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#34D399;">'+(st.legendOpen?'− collapse':'+ expand')+'</span></button>';
+    if(st.legendOpen){ legend+='<div style="margin-top:10px;display:grid;grid-template-columns:'+(window.innerWidth<900?'1fr':'repeat(auto-fit,minmax(220px,1fr))')+';gap:10px;animation:wf-drawer .2s ease;">'
+      + Object.keys(WSIG).map(function(k){ var s=WSIG[k]; return '<div style="background:#0E1512;border:1px solid #1F2A25;border-radius:10px;padding:12px 14px;"><div style="display:flex;align-items:center;gap:8px;">'+wlChip(s.style,s.label,'')+'<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6B756F;margin-left:auto;">weight '+s.weight+'</span></div><div style="font-size:12px;color:#949C98;margin-top:9px;line-height:1.5;">'+esc(s.tip)+'</div></div>'; }).join('')+'</div>'; }
+    legend+='</div>';
+    // toolbar
+    var qc=[['blackout','blackout only'],['big','≥ $100K'],['hardened','hardened']].map(function(p){var on=st.quick[p[0]];return '<button onclick="wlQuick(\''+p[0]+'\')" style="font-family:Inter;font-size:11.5px;padding:6px 11px;border-radius:8px;cursor:pointer;border:1px solid '+(on?'#34D399':'#1F2A25')+';color:'+(on?'#34D399':'#949C98')+';background:'+(on?'rgba(52,211,153,.12)':'#0E1512')+';">'+p[1]+'</button>';}).join('');
+    var sortOpts=[['recency','Most recent'],['score','Score'],['size','Size']].map(function(o){return '<option value="'+o[0]+'"'+(st.sort===o[0]?' selected':'')+'>sort: '+o[1]+'</option>';}).join('');
+    var toolbar='<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:18px;">'
+      + '<div style="display:flex;align-items:center;gap:9px;background:#090D0C;border:1px solid #1F2A25;border-radius:10px;padding:9px 12px;min-width:230px;flex:1;max-width:340px;"><span style="color:#5C6661;font-size:13px;">⌕</span>'
+      + '<input id="wl-search" value="'+esc(st.search)+'" oninput="wlSearch(this.value)" placeholder="Search market or wallet" style="background:transparent;border:none;outline:none;color:#ECEFED;font-family:\'JetBrains Mono\',monospace;font-size:12px;width:100%;"/></div>'
+      + '<select onchange="wlSort(this.value)" style="font-family:Inter;font-size:12px;padding:9px 11px;border-radius:10px;border:1px solid #1F2A25;background:#0E1512;color:#C4CAC6;cursor:pointer;outline:none;">'+sortOpts+'</select>'
+      + '<div style="display:flex;gap:7px;flex-wrap:wrap;margin-left:auto;align-items:center;">'+qc+'</div></div>';
+    // banner + footer
+    var banner='<div style="display:flex;gap:12px;margin-top:16px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.3);border-radius:12px;padding:14px 16px;">'
+      + '<span style="flex-shrink:0;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;color:#FBBF24;padding-top:1px;">⚠ EARLY WARNING</span>'
+      + '<p style="margin:0;font-size:13px;color:#C9CFCB;line-height:1.6;">Early warning, not proof. One row = one outsized trade on an <span style="color:#FBBF24;">open market</span>, scored at placement. A confident whale who’s simply wrong looks like an insider until the market resolves. Each entry hardens into a flagged wallet or self-clears.</p></div>';
+    var footer='<div style="margin-top:18px;text-align:center;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#6B756F;line-height:1.6;">Consistent with informed trading — <span style="color:#949C98;">not proof of it.</span> Live scores use trade-time signals only; they cannot yet use win or profit.</span></div>';
+    document.getElementById('wl-dyn').innerHTML = banner+stats+legend+toolbar+'<div style="margin-top:12px;border:1px solid #1F2A25;border-radius:14px;overflow:hidden;background:#0B100E;"><div id="wl-feed">'+wlFeedHTML()+'</div></div>'+footer;
   }
-  function stat(k,v,s){ return '<div class="stat"><div class="k">'+k+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>'; }
+  // ---- interaction handlers ----
+  function wlExpand(id){ wlState.expandedId = (wlState.expandedId===id?null:id); renderWatch(); }
+  function wlSort(v){ wlState.sort=v; renderWatch(); }
+  function wlQuick(k){ wlState.quick[k]=!wlState.quick[k]; renderWatch(); }
+  function wlLegend(){ wlState.legendOpen=!wlState.legendOpen; renderWatch(); }
+  function wlSearch(v){ wlState.search=v; var f=document.getElementById('wl-feed'); if(f) f.innerHTML=wlFeedHTML(); }
+  function wlCopy(addr,id){ try{ navigator.clipboard && navigator.clipboard.writeText(addr); }catch(_){} wlState.copied=id; renderWatch(); setTimeout(function(){ wlState.copied=null; var r=document.getElementById('wl-dyn'); if(r&&/watch/.test(location.hash||'')) renderWatch(); },1400); }
 
   function show(which){
     var watch=which==='watch';
@@ -194,7 +331,7 @@
       renderWatch();
       if(!initial && gen && gen!==LAST_GEN) reloadDossiers();   // a NEWER scan landed → refresh everything
       LAST_GEN=gen;
-    }).catch(function(){ document.getElementById('wrows').innerHTML='<tr><td colspan="9" class="empty">Could not load the feed.</td></tr>'; });
+    }).catch(function(){ var el=document.getElementById('wl-dyn'); if(el) el.innerHTML='<div style="padding:40px 24px;text-align:center;color:#6B756F;font-family:\'JetBrains Mono\',monospace;font-size:13px;">Could not load the feed.</div>'; });
   }
   // Real-time New-York clock (America/New_York handles EST/EDT automatically). Ticks every second.
   function tickClock(){
@@ -207,7 +344,9 @@
   }
   tickClock(); setInterval(tickClock,1000);
   show((location.hash||'#wallets').replace('#','')==='watch'?'watch':'wallets');
-  load();
+  load(true);
+  setInterval(function(){ load(false); }, 60000);   // auto-refresh: reflect the newest deployed scan without a manual refresh
+  window.addEventListener('resize', function(){ if(/watch/.test(location.hash||'') && typeof renderWatch==='function' && WL.length) renderWatch(); });
 </script>
 </body>
 </html>

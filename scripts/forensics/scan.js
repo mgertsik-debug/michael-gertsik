@@ -828,10 +828,10 @@ async function finalize(state, snapshotTs) {
         if (state.watchlist[id] || seen.has(id)) continue; seen.add(id);
         const marketSizes = (byMarket[t.cond] || []).filter((s) => s !== t.sizeUsd);   // peer trades in this market
         const ents = D.extractEntities(md.question || t.title || "");
-        let nb = false, fr = false;
+        let nb = false, fr = false, fedDoc = null;
         if (ents.length) {
           try { const cnt = await external.gdeltArticleCount(ents[0], t.ts - winH2 * 3600, t.ts, { timeoutMs: 3500 }); nb = (cnt === 0); } catch (_) {}
-          try { const fm = await external.fedRegisterMatches(ents, { anchorSec: t.ts, windowDays: 14, forwardDays: 120, timeoutMs: 3500 }); fr = (fm.matches.length > 0); } catch (_) {}
+          try { const fm = await external.fedRegisterMatches(ents, { anchorSec: t.ts, windowDays: 14, forwardDays: 120, timeoutMs: 3500 }); fr = (fm.matches.length > 0); if (fr && fm.matches[0]) fedDoc = { title: fm.matches[0].title || null, url: fm.matches[0].url || null }; } catch (_) {}
         }
         const sc = D.watchlistScore({ sizeUsd: t.sizeUsd, marketSizes, newsBlackout: nb, fedRegister: fr });
         scored++;
@@ -840,7 +840,9 @@ async function finalize(state, snapshotTs) {
             id, cond: t.cond, wallet: t.wallet, market: md.question || "(market)", category: md.category,
             url: md.slug ? "https://polymarket.com/event/" + md.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
             sizeUsd: Math.round(t.sizeUsd), ts: t.ts, firstSeen: monthDay(NOW_S), status: "watching",
-            score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, newsBlackout: nb, fedRegister: fr,
+            // drawer evidence (real): pool share, the matched Federal-Register doc, and the news-blackout entity
+            score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, poolPct: sc.poolPct,
+            newsBlackout: nb, fedRegister: fr, fedDoc, blackoutEntity: nb ? (ents[0] || null) : null,
           };
           added++;
         }
