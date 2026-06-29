@@ -17,9 +17,15 @@
   .title small { color:var(--mut); font-weight:500; font-family:var(--mono); font-size:11px; margin-left:6px; }
   .muted { color:var(--mut); font-size:11.5px; }
   .intro { font-size:13px; color:var(--sub); line-height:1.6; max-width:880px; margin-bottom:16px; }
+  .tabs { display:flex; gap:8px; background:var(--card); border:1px solid var(--line); border-radius:11px; padding:5px; width:max-content; max-width:100%; margin-bottom:16px; flex-wrap:wrap; }
+  .tab { font-family:var(--mono); font-size:12px; padding:9px 15px; border-radius:8px; cursor:pointer; color:var(--sub); border:1px solid transparent; white-space:nowrap; }
+  .tab.on { background:rgba(52,211,153,.1); color:var(--grn); border-color:rgba(52,211,153,.4); }
+  .tab .n { color:var(--mut); } .tab.on .n { color:var(--grn); }
+  .tab .beta { color:var(--amb); font-size:9px; }
   .banner { border-radius:12px; padding:13px 16px; margin-bottom:16px; font-size:12.5px; line-height:1.55; }
   .banner.ok { background:rgba(52,211,153,.06); border:1px solid rgba(52,211,153,.35); color:#A9D9C6; }
-  .banner b { color:#C9F3E2; }
+  .banner.warn { background:rgba(251,191,36,.07); border:1px solid rgba(251,191,36,.4); color:#E8D9A8; }
+  .banner b { color:#C9F3E2; } .banner.warn b { color:#F4E3B0; }
   details.legend { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:0 15px; margin-bottom:16px; }
   details.legend summary { cursor:pointer; padding:13px 0; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--sub); list-style:none; }
   details.legend summary::-webkit-details-marker { display:none; }
@@ -29,6 +35,31 @@
   .legrow .ln { color:var(--txt); font-weight:600; min-width:210px; }
   .legrow .ld { color:var(--sub); }
   iframe#wf { width:100%; height:1680px; border:1px solid var(--line); border-radius:12px; background:var(--bg); display:block; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:11px; margin-bottom:16px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 15px; }
+  .stat .k { font-family:var(--mono); font-size:8.5px; letter-spacing:.13em; color:var(--mut); margin-bottom:6px; }
+  .stat .v { font-family:var(--mono); font-size:21px; font-weight:700; }
+  .stat .s { font-size:11px; color:var(--sub); margin-top:3px; }
+  .tblwrap { border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; }
+  thead th { font-family:var(--mono); font-size:9px; letter-spacing:.12em; color:var(--mut); text-align:left; padding:12px; border-bottom:1px solid var(--line); font-weight:500; background:var(--card2); }
+  th.num,td.num { text-align:right; }
+  tbody td { padding:12px; border-bottom:1px solid var(--line2); font-size:13px; vertical-align:top; }
+  .mkt { color:var(--txt); max-width:300px; line-height:1.4; }
+  .mkt a { color:var(--grn); text-decoration:none; font-size:11px; }
+  .who a { color:var(--sub); text-decoration:none; font-family:var(--mono); font-size:11.5px; }
+  .num { font-family:var(--mono); white-space:nowrap; }
+  .sig { display:inline-flex; gap:4px; flex-wrap:wrap; max-width:240px; }
+  .chip { font-family:var(--mono); font-size:9.5px; padding:2px 6px; border-radius:999px; border:1px solid var(--line); color:var(--sub); white-space:nowrap; }
+  .chip.hot { color:var(--amb); border-color:rgba(251,191,36,.4); background:rgba(251,191,36,.06); }
+  .chip.info { color:var(--grn); border-color:rgba(52,211,153,.4); background:rgba(52,211,153,.06); }
+  .st { font-family:var(--mono); font-size:9.5px; padding:2px 8px; border-radius:999px; white-space:nowrap; }
+  .st.watching { color:var(--amb); border:1px solid rgba(251,191,36,.45); }
+  .st.promoted { color:var(--red); border:1px solid rgba(248,113,113,.5); background:rgba(248,113,113,.06); }
+  .st.cleared { color:var(--mut); border:1px solid var(--line); opacity:.7; }
+  .verify { color:var(--grn); text-decoration:none; font-family:var(--mono); font-size:10px; }
+  .hide { display:none; }
+  .empty { padding:34px; text-align:center; color:var(--mut); font-size:13px; line-height:1.6; }
 </style>
 </head>
 <body>
@@ -37,32 +68,109 @@
     <div class="title">Polymarket Insider Forensics <small id="stamp"></small></div>
     <div class="muted">Refresh for live data</div>
   </div>
-  <div class="intro">One on-chain surveillance engine for prediction-market insider trading. Each row is a suspicious <b>account</b>, scored two complementary ways in a single ranked view: the <b>binomial improbability</b> of a too-good long-shot record, and — folded in as additional detectors — the Harvard <b>cross-sectional</b> signals that catch a favorite-odds bet which simply out-profits the whole market. Click any wallet for its full dossier: the bets, the on-chain links, and the exact math. Educational analysis, not legal advice; “consistent with informed trading” is not proof of it.</div>
+  <div class="intro">Two complementary lenses on the same on-chain data. <b>Suspect Wallets</b> is the <i>proof</i> engine — accounts whose resolved record is too improbable to be chance. <b>Live Watchlist</b> is the <i>early-warning</i> engine — outsized trades on <i>open</i> markets, flagged the moment they're placed, that later harden into a forensic case or self-clear when the market resolves. Educational analysis, not legal advice; “consistent with informed trading” is not proof of it.</div>
 
-  <div class="banner ok">
-    <b>Live &amp; validated.</b> One source of truth: every flag is a single account that cleared the statistical bar (false positives removed, +18&nbsp;SD on a 10,000-shuffle permutation test). Most flags come from an improbable long-shot record; a smaller number come from the cross-sectional path — a net-profitable wallet that out-earned a market on an outsized winning favorite bet <i>and</i> shows corroborating on-chain structure (a purpose-built, concealed, or clustered wallet).
+  <div class="tabs">
+    <div class="tab on" id="t-wallets" onclick="show('wallets')">SUSPECT WALLETS <span class="n" id="n-wallets"></span></div>
+    <div class="tab" id="t-watch" onclick="show('watch')">LIVE WATCHLIST <span class="beta">BETA</span> <span class="n" id="n-watch"></span></div>
   </div>
 
-  <details class="legend">
-    <summary>WHAT THE TWO LENSES ARE — and why they live in one view now</summary>
-    <div>
-      <div class="legrow"><div class="ln">Improbable record (binomial)</div><div class="ld">The account won far more long-shot bets than its entry odds allow. We compute the exact probability that record is luck (the “1 in N”) — the validated backbone. The list is ranked by a composite <b>suspicion score</b> that blends this improbability with corroboration breadth, pre-event timing, and magnitude, so a broadly-corroborated insider isn’t out-ranked by a small lucky-looking streak.</div></div>
-      <div class="legrow"><div class="ln">Out-profited the market (cross-sectional)</div><div class="ld">Even without a long-shot record, an account can bet a <i>favorite</i> and out-profit every other trader in that market — the favorite-odds insider the long-shot test is blind to. Folded in here, gated hard: the bet won, was outsized, the wallet is net-profitable, and on-chain structure corroborates.</div></div>
-      <div class="legrow"><div class="ln">Near-perfect across markets (cross-category)</div><div class="ld">A near-perfect record across many <i>diverse, moderate-odds</i> markets (not just cheap long shots) is improbable too. Plus pre-event <i>timing</i> (anchored to when the market repriced, not when it resolved) and the <i>repeat-offender</i> pattern of being early-and-right on several separate surprises.</div></div>
-      <div class="legrow"><div class="ln">Why one view</div><div class="ld">A flagged trade and a flagged wallet were the same unit (one row per account), so two tabs were redundant. Merging them gives one ranked list, one bar of evidence, and no double-counting.</div></div>
+  <!-- SUSPECT WALLETS (resolved / proof) -->
+  <div id="view-wallets">
+    <div class="banner ok">
+      <b>Live &amp; validated.</b> Each row is one suspicious <i>account</i>, ranked by a composite suspicion score with the binomial improbability as its validated backbone (+18&nbsp;SD on a 10,000-shuffle permutation test; false positives removed). Click any wallet for its full dossier — bets, on-chain links, and the exact math.
     </div>
-  </details>
+    <iframe id="wf" src="about:blank" title="Suspect Wallets"></iframe>
+  </div>
 
-  <iframe id="wf" src="/models/wallet-forensics.html?v=51" title="Suspect Wallets"></iframe>
+  <!-- LIVE WATCHLIST (real-time / early-warning) -->
+  <div id="view-watch" class="hide">
+    <div class="banner warn">
+      <b>BETA — early warning, not proof.</b> One row = one outsized trade on an <i>open</i> market, scored <i>at placement</i> before anyone knows the outcome. Because it can't yet use “did it win” or “was it profitable” (our precision anchors), this feed is intentionally <b>noisier</b> than Suspect Wallets — a confident whale who's simply <i>wrong</i> looks the same as an insider until the market resolves. Each entry then <b>hardens</b> into a flagged wallet (if it wins and the account becomes a suspect) or <b>self-clears</b>.
+    </div>
+    <div id="wdash" class="dash"></div>
+    <details class="legend">
+      <summary>WHAT THE TRADE-TIME SIGNALS MEAN</summary>
+      <div>
+        <div class="legrow"><div class="ln">Outsized vs market (size)</div><div class="ld">The trade is 3+ standard deviations larger than the other trades in this same market right now.</div></div>
+        <div class="legrow"><div class="ln">Lone whale (whale)</div><div class="ld">10×+ the 90th-percentile trade on this market — it dwarfs everyone else betting here.</div></div>
+        <div class="legrow"><div class="ln">News blackout (blackout)</div><div class="ld">Zero global news matched the market's topic in the hours before this bet — betting big before the public has any news is the information-asymmetry tell. Weighted highest.</div></div>
+        <div class="legrow"><div class="ln">Federal Register (fedReg)</div><div class="ld">A recent regulatory document's title matches the market's exact subject. Low weight, corroborator only.</div></div>
+        <div class="legrow"><div class="ln">Status</div><div class="ld"><b>watching</b> = open, unresolved · <b>promoted</b> = resolved in the bettor's favour AND the account is now a flagged suspect (hardened into a case) · <b>cleared</b> = resolved without panning out (self-cleared).</div></div>
+      </div>
+    </details>
+    <div class="tblwrap">
+      <table>
+        <thead><tr>
+          <th>WHEN</th><th>MARKET</th><th>WALLET</th><th>BET</th><th class="num">SIZE</th>
+          <th>SIGNALS</th><th class="num">SCORE</th><th>STATUS</th><th>ON-CHAIN</th>
+        </tr></thead>
+        <tbody id="wrows"><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script>
+  var WL = [], WMETA = {};
+  var SIGNAME = { size:"outsized vs market", whale:"lone whale", pool:"large % of pool", blackout:"news blackout", fedReg:"Federal Register" };
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function usd(n){ n=Math.round(Number(n)||0); if(n>=1e6) return '$'+(n/1e6).toFixed(1).replace(/\.0$/,'')+'M'; if(n>=1e3) return '$'+Math.round(n/1e3)+'K'; return '$'+n; }
+  function ago(ts){ if(!ts) return '—'; var s=Math.floor(Date.now()/1000)-ts; if(s<3600) return Math.max(1,Math.round(s/60))+'m ago'; if(s<86400) return Math.round(s/3600)+'h ago'; return Math.round(s/86400)+'d ago'; }
+  function profileUrl(e){ return e.wallet ? 'https://polygonscan.com/address/'+e.wallet : '#'; }
+
+  function renderWatch(){
+    document.getElementById('n-watch').textContent = '· ' + WL.length;
+    var watching=WL.filter(function(e){return e.status==='watching';}).length;
+    var promoted=WL.filter(function(e){return e.status==='promoted';}).length;
+    document.getElementById('wdash').innerHTML =
+        stat('WATCHING', watching, 'open trades being watched live')
+      + stat('HARDENED', promoted, 'resolved → flagged as a real case')
+      + stat('TOTAL TRACKED', WL.length, 'incl. self-cleared');
+    var tb=document.getElementById('wrows');
+    if(!WL.length){ tb.innerHTML='<tr><td colspan="9" class="empty">No live flags right now. Outsized trades on open markets appear here the moment they’re placed — refresh as the scan runs.</td></tr>'; return; }
+    tb.innerHTML = WL.slice(0,150).map(function(e){
+      var name=(e.market&&e.market!=='(market)')?e.market:'(market)';
+      var mkt='<span>'+esc(name)+'</span>'+(e.url?' <a href="'+esc(e.url)+'" target="_blank" rel="noopener">↗</a>':'');
+      var who='<a href="'+esc(profileUrl(e))+'" target="_blank" rel="noopener">'+esc((e.wallet||'').slice(0,6)+'…'+(e.wallet||'').slice(-4))+'</a>';
+      var sig='<span class="sig">'+(e.signals||[]).map(function(k){
+        var hot=(k==='blackout'||k==='fedReg'); return '<span class="chip '+(hot?'info':'hot')+'">'+esc(SIGNAME[k]||k)+'</span>';
+      }).join('')+'</span>';
+      var bet='<span class="num" style="color:'+(e.outcome==='YES'?'var(--grn)':'var(--red)')+'">'+esc(e.outcome||'?')+'</span> <span class="num muted">@'+Math.round((e.price||0)*100)+'¢</span>';
+      var oc=e.cond?'<a class="verify" href="https://polymarket.com/markets" target="_blank" rel="noopener" title="open market — not yet resolved">market ↗</a>':'<span class="muted">—</span>';
+      return '<tr>'
+        + '<td class="num muted">'+esc(ago(e.ts))+'</td>'
+        + '<td class="mkt">'+mkt+'</td>'
+        + '<td class="who">'+who+'</td>'
+        + '<td>'+bet+'</td>'
+        + '<td class="num">'+usd(e.sizeUsd)+'</td>'
+        + '<td>'+sig+'</td>'
+        + '<td class="num"><b>'+(e.score||0)+'</b></td>'
+        + '<td><span class="st '+(e.status||'watching')+'">'+esc(e.status||'watching')+(e.status==='promoted'&&e.won?' · won':'')+'</span></td>'
+        + '<td>'+oc+'</td></tr>';
+    }).join('');
+  }
+  function stat(k,v,s){ return '<div class="stat"><div class="k">'+k+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>'; }
+
+  function show(which){
+    var watch=which==='watch';
+    document.getElementById('view-watch').className=watch?'':'hide';
+    document.getElementById('view-wallets').className=watch?'hide':'';
+    document.getElementById('t-watch').className='tab'+(watch?' on':'');
+    document.getElementById('t-wallets').className='tab'+(watch?'':' on');
+    var f=document.getElementById('wf'); if(!/wallet-forensics/.test(f.src)) f.src='/models/wallet-forensics.html?v=51';
+    location.hash=which;
+  }
   function load(){
     fetch('/api/forensics/subjects',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
       var n=((d&&d.subjects)||[]).length;
-      document.getElementById('stamp').textContent=(d&&d.generatedAt)?('· '+n+' flagged · updated '+new Date(d.generatedAt).toLocaleString()):('· '+n+' flagged');
-    }).catch(function(){});
+      document.getElementById('n-wallets').textContent='· '+n;
+      document.getElementById('stamp').textContent=(d&&d.generatedAt)?('· '+n+' wallets · updated '+new Date(d.generatedAt).toLocaleString()):('· '+n+' wallets');
+      WL=(d&&d.watchlist)||[]; WMETA=(d&&d.watchlistMeta)||{};
+      renderWatch();
+    }).catch(function(){ document.getElementById('wrows').innerHTML='<tr><td colspan="9" class="empty">Could not load the feed.</td></tr>'; });
   }
+  show((location.hash||'#wallets').replace('#','')==='watch'?'watch':'wallets');
   load();
 </script>
 </body>
