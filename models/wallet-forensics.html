@@ -590,7 +590,7 @@ class Component extends DCLogic {
       type: "all",
       tier: (props && props.startConcern) || "all",
       cats: [],
-      sort: "suspicion",
+      sort: "detected",
       filterOpen: false,
       advancedOpen: false,
       timeWindow: "all",
@@ -1160,19 +1160,22 @@ class Component extends DCLogic {
       return true;
     });
     const key = {
+      detected: (s) => (s.firstFlaggedAt || 0),
       suspicion: (s) => (s.suspicion != null ? s.suspicion : 0),
       improbability: (s) => s.improbDenom,
       profit: (s) => s.profitNum,
       winrate: (s) => s.winRate - s.avgImplied,
       volume: (s) => s.volumeNum,
       recent: (s) => -s.activityDays,
-    }[st.sort] || ((s) => (s.suspicion != null ? s.suspicion : 0));
-    // TIER FIRST, then the chosen metric within a tier — so the strongest tier
-    // (Extreme > High > Notable) is always on top and the badge order matches the
-    // list order. (A conviction "High" headlines a small 1-in-N because that number
-    // is one bet's odds, not the whole record — the tier reflects the real signature.)
+    }[st.sort] || ((s) => (s.firstFlaggedAt || 0));
+    // "Most recently detected" is a LIVE FEED: pure chronological, newest first, NOT tier-gated —
+    // the order is time, so it never implies a suspiciousness ranking (which is exactly what made a
+    // bigger "1 in X" look mis-ranked below a smaller one). Every OTHER sort keeps tier-first so the
+    // strongest tier stays on top and the badge order matches the list order.
     const tierRank = (s) => ({ extreme: 3, elevated: 2, watch: 1 }[s.tier] || 0);
-    list = list.slice().sort((a, b) => (tierRank(b) - tierRank(a)) || (key(b) - key(a)));
+    list = list.slice().sort(st.sort === "detected"
+      ? (a, b) => (key(b) - key(a)) || (tierRank(b) - tierRank(a))
+      : (a, b) => (tierRank(b) - tierRank(a)) || (key(b) - key(a)));
     return list;
   }
 
@@ -1381,21 +1384,26 @@ class Component extends DCLogic {
     // legacy subjects that predate the field.
     const measured = (s.detectorsMeasured && s.detectorsMeasured > 0) ? Math.min(s.detectorsMeasured, ROSTER) : ROSTER;
     const fired = Math.min((s.fired || []).length, measured), total = measured;
-    const level = s.tier === "extreme" ? "High confidence" : s.tier === "elevated" ? "Moderate\u2013high" : "Moderate";
+    const level = s.tier === "extreme" ? "high concern" : s.tier === "elevated" ? "moderate-to-high concern" : "moderate concern";
     const segs = [];
     for (let i = 0; i < total; i++) segs.push(h("div", { key: i, style: { flex: 1, height: "9px", borderRadius: "3px", background: i < fired ? "#34D399" : "#16201B", boxShadow: i < fired ? "0 0 10px -2px rgba(52,211,153,0.6)" : "none", transition: "background .3s" } }));
-    return h("div", { style: { background: "#090D0C", border: "1px solid #1F2A25", borderRadius: "12px", padding: "14px 16px" } },
-      h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "10px" } },
-        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F" } }, "DETECTOR AGREEMENT"),
-        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#34D399", fontWeight: 600 } }, fired + " of " + total)),
-      (s.suspicion != null ? h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "10px", paddingBottom: "10px", borderBottom: "1px solid #16201B" } },
-        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F" } }, "SUSPICION SCORE · RANK KEY"),
-        h("span", { style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#FBBF24", fontWeight: 600 } }, s.suspicion + " / 100")) : null),
+    const skipped = ROSTER - total;
+    const lbl = { fontFamily: "\u0027JetBrains Mono\u0027, monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6B756F" };
+    const para = (c) => ({ fontFamily: "Inter", fontSize: "12px", color: c || "#8A938F", lineHeight: 1.55 });
+    return h("div", { style: { background: "#090D0C", border: "1px solid #1F2A25", borderRadius: "12px", padding: "16px 18px" } },
+      (s.suspicion != null ? h("div", { style: { marginBottom: "15px", paddingBottom: "15px", borderBottom: "1px solid #16201B" } },
+        h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "6px" } },
+          h("span", { style: lbl }, "SUSPICION SCORE"),
+          h("span", { style: { fontFamily: "\u0027JetBrains Mono\u0027, monospace", fontSize: "17px", color: "#FBBF24", fontWeight: 700 } }, s.suspicion + " / 100")),
+        h("div", { style: para() }, "One number, 0\u2013100, for how suspicious this account looks \u2014 used only to RANK this wallet against every other flagged account (higher = nearer the top of the list). It climbs with how improbable the wallet\u2019s winning record is and how many independent red flags fired. At " + s.suspicion + ", this wallet sits at " + level + ".")) : null),
+      h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "10px", marginBottom: "9px" } },
+        h("span", { style: lbl }, "RED-FLAG TESTS THAT FIRED"),
+        h("span", { style: { fontFamily: "\u0027JetBrains Mono\u0027, monospace", fontSize: "13px", color: "#34D399", fontWeight: 600 } }, fired + " of " + total)),
       h("div", { style: { display: "flex", gap: "5px", marginBottom: "10px" } }, segs),
-      h("div", { style: { display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" } },
-        h("span", { style: { fontFamily: "Inter", fontSize: "12.5px", color: "#ECEFED", fontWeight: 600 } }, level),
-        h("span", { style: { fontFamily: "Inter", fontSize: "12px", color: "#6B756F" } }, "\u2014 " + fired + " of " + total + " measurable detectors agree" + (total < ROSTER ? " (the other " + (ROSTER - total) + " need data this wallet doesn't have \u2014 excluded, not failed)" : ""))),
-      h("div", { style: { fontFamily: "Inter", fontSize: "11.5px", color: "#8A938F", marginTop: "7px", lineHeight: 1.5 } }, "Limiting factor: " + (s.confidenceLimiter || "\u2014"))
+      h("div", { style: para("#949C98") }, "We ran " + total + " independent tests this account had enough data to support, and " + fired + " came back positive. Each test is a different way to catch informed trading \u2014 improbably good wins, suspicious last-minute timing, hidden shared funding, betting before any news broke, and so on. They don\u2019t overlap, so the more that agree, the harder the record is to explain as luck." + (skipped > 0 ? " (" + skipped + " more test" + (skipped === 1 ? "" : "s") + " in our full set of " + ROSTER + " needed data this wallet doesn\u2019t have \u2014 skipped, not failed, so they neither help nor hurt.)" : "")),
+      h("div", { style: { display: "flex", gap: "9px", marginTop: "12px", paddingTop: "12px", borderTop: "1px solid #16201B" } },
+        h("span", { style: { fontFamily: "\u0027JetBrains Mono\u0027, monospace", fontSize: "9px", letterSpacing: "0.1em", color: "#6B756F", flexShrink: 0, marginTop: "2px", width: "78px" } }, "WHY NOT HIGHER"),
+        h("span", { style: para("#8A938F") }, (s.confidenceLimiter || "\u2014")))
     );
   }
 
@@ -1674,14 +1682,14 @@ class Component extends DCLogic {
         accentStyle: "position:absolute;left:0;top:11px;bottom:11px;width:" + (isSel ? "4px" : "3px") + ";border-radius:0 3px 3px 0;background:#34D399;box-shadow:0 0 18px 2px rgba(52,211,153,0.95);opacity:" + (isSel ? "1" : "0") + ";" + (isSel && !st.reduce ? "animation:wf-glow 2.4s ease-in-out infinite;" : ""),
         whoGlyph: s.type === "cluster" ? "\u25c7 " : "", whoColor: s.type === "cluster" ? "#C4B5FD" : "#ECEFED",
         whoLabel: this.whoLabel(s), why: this.whyLine(s),
-        // UNIFORM HEADLINE: every row leads with the 0–100 SUSPICION SCORE — the one comparable
-        // number across all flag paths (it blends improbability + corroboration + magnitude). The
-        // path-specific value ("1 in N" / "+$X" / "Nσ over peers") is demoted to the caption, so
-        // rows are no longer headlined in three incomparable units.
-        improbText: (s.suspicion != null ? (Math.round(s.suspicion) + " / 100") : (s.convictionFlag ? (s.profit || s.improbText) : s.improbText)),
-        improbCaption: (s.suspicion != null
-          ? ("suspicion score" + ((s.convictionFlag ? (s.profit || s.improbText) : s.improbText) ? " · " + (s.convictionFlag ? (s.profit || s.improbText) : s.improbText) : ""))
-          : (s.improbCaption || (s.convictionFlag ? ("won on a ~" + s.avgImplied + "% long-shot") : "chance this record is luck"))),
+        // CARD HEADLINE: lead with the two numbers a person actually reads — the long-shot ODDS
+        // ("1 in N", the strongest single piece of evidence) and the MONEY WON. We deliberately do
+        // NOT headline the 0–100 suspicion score here: showing a false-precision "65/100" next to a
+        // bigger-odds "1 in 2.7M" let two rows read as "65 < 66" while "2.7M > 193K" — a visible
+        // contradiction. The 0–100 score still lives in the dossier (explained), and the list is
+        // ordered by RECENCY, not by score, so the order never implies a suspiciousness ranking.
+        improbText: (s.convictionFlag ? (s.profit || s.improbText) : s.improbText),
+        improbCaption: ((s.improbCaption || (s.convictionFlag ? ("won on a ~" + s.avgImplied + "% long-shot") : "chance this record is luck")) + (s.profit && !s.convictionFlag ? " · " + s.profit + " won" : "")),
         concernColor: th.color, concernGlow: th.glow,
         concernLabel: th.label,
         badgeStyle: "display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.07em;padding:2px 8px;border-radius:999px;color:" + th.color + ";border:1px solid " + th.border + ";background:" + th.bg + ";",
@@ -1697,8 +1705,8 @@ class Component extends DCLogic {
     const explainMap = {
       crossCat: "Won almost every bet across many DIFFERENT markets at ordinary odds — a near-perfect record over diverse, moderate-priced markets is improbable in a way the long-shot test can't see (it only looks at cheap bets).",
       repeat: "Was early and right on SEVERAL separate surprising events over time — one lucky surprise is luck; hitting multiple unrelated ones is a pattern.",
-      newsBlackout: "Placed this outsized bet while the topic was QUIET in the global news — zero matching articles in the hours before. Betting big with conviction before the public has any news is the information-asymmetry signature: ahead of the story, not reacting to it.",
-      fedRegister: "A recent Federal Register document (a regulatory action — sanctions, an agency rule) names the exact subject of this market around the bet window. A wallet positioned on the precise regulatory event is the policy-insider tell. Corroborating only — matched on the document title to avoid false hits.",
+      newsBlackout: "Placed this outsized bet while the topic was QUIET in the global news — zero matching articles in the hours before. Betting big with conviction before the public has any news is the information-asymmetry signature: ahead of the story, not reacting to it. This is a corroborator: it does not decide the flag (the improbable win record does that) — it raises the wallet's suspicion ranking and stands as independent evidence.",
+      fedRegister: "An official U.S. government filing (the Federal Register publishes new rules, sanctions, and agency actions) names the EXACT subject of this market — and it was published AFTER the bet, so the wallet was positioned ahead of the action. Why it shows 'corroborating' and not a % of flag: it does NOT decide whether this wallet is flagged — the improbable win record does that. What it adds is to the wallet's SUSPICION RANKING (the 0–100 score that orders the list), plus independent, real-world corroboration. It only counts when a filing on the precise subject was published on or after the bet date, matched on the document title to avoid random hits.",
       baseline: "Won more often than the break-even rate implied by its own entry prices — at 80¢ you must win 80% just to not lose money, so this is profit above the payoff-adjusted bar, not a flat 50%.",
       profitCross: "Profited far more on this market than the other traders in it — out-earning the whole market on a single position is the favorite-odds informed-trading signal the long-shot test cannot see (works at any odds).",
       hProfit: "Earned far more on this market than the other traders in it — outsized profit is the most direct informed-trading signal.",
@@ -1747,15 +1755,22 @@ class Component extends DCLogic {
     // contributor fills the bar. This keeps the bar and the "% of flag" consistent
     // (no more full bar next to 0%).
     const maxContrib = Math.max(1, ...(sel.scorecard || []).map((r) => contrib[r.key] || 0));
+    // CORROBORATORS (news-blackout, Federal Register) are added AFTER the flag is decided. They do
+    // NOT drive the statistical flag (so they carry no "% of flag"); instead they raise the wallet's
+    // SUSPICION RANKING. Labelling them with a 0% share read as "useless" and confused users — so we
+    // badge them "corroborating" and the card explains exactly what they add and when.
+    const CORROB = { fedRegister: 1, newsBlackout: 1 };
     const findings = (sel.scorecard || []).map((r) => {
       const open = !!st.measure[r.key];
       const en = this.enrichFinding(sel, r);
       const cpct = contrib[r.key] != null ? contrib[r.key] : 0;
+      const isCorrob = !!CORROB[r.key];
       return {
         name: nameMap[r.key] || r.key, explanation: explainMap[r.key] || "", eli5: eli5Map[r.key] || explainMap[r.key] || r.numbers || "", metric: r.metric, metricColor: ct.color,
         link: r.link || "", linkLabel: r.linkLabel || "↗ view the filing",
-        barPct: Math.round((cpct / maxContrib) * 100) + "%",
-        contribPct: cpct + "% of flag",
+        isCorrob,
+        barPct: isCorrob ? "0%" : Math.round((cpct / maxContrib) * 100) + "%",
+        contribPct: isCorrob ? "corroborating" : cpct + "% of flag",
         open, caret: open ? "\u2212 hide the math" : "+ show the math",
         method: en.method, citation: en.citation, formula: en.formula,
         symbols: en.symbols.map((p) => ({ sym: p[0], def: p[1] })),
@@ -1795,7 +1810,7 @@ class Component extends DCLogic {
 
     // ---------- FILTER CONTROL SURFACE ----------
     const chipOn = (on) => "font-family:Inter;font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;border:1px solid " + (on ? "#34D399" : "#1F2A25") + ";color:" + (on ? "#34D399" : "#949C98") + ";background:" + (on ? "rgba(52,211,153,0.12)" : "#0E1512") + ";";
-    const sortOptions = [["suspicion", "Suspicion score"], ["improbability", "Improbability"], ["profit", "Profit"], ["winrate", "Win-rate vs implied"], ["volume", "Volume"], ["recent", "Most recent activity"]];
+    const sortOptions = [["detected", "Most recently detected"], ["suspicion", "Most suspicious"], ["profit", "Most money won"], ["improbability", "Longest odds"], ["winrate", "Win-rate vs implied"], ["volume", "Volume"], ["recent", "Most recent activity"]];
     const timeOptions = [["all", "All time"], ["90d", "Last 90 days"], ["12mo", "Last 12 months"], ["custom", "Custom range"]].map(([v, l]) => ({ label: l, value: v, style: chipOn(st.timeWindow === v), onClick: () => this.setState({ timeWindow: v }) }));
     const sigDefs = [["conceal", "has concealment signatures"], ["fresh", "fresh wallets only"], ["cluster", "linked clusters only"], ["held", "held to resolution"]];
     const sigToggles = sigDefs.map(([k, l]) => ({ label: l, style: chipOn(!!st.sig[k]), onClick: () => this.setState({ sig: { ...st.sig, [k]: !st.sig[k] } }) }));

@@ -28,7 +28,10 @@ function readStore() {
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=600");
+  // Keep the edge cache SHORT so a browser refresh reflects the newest deployed scan quickly. The
+  // store only changes when a scan redeploys, so a long TTL added pure staleness (users refreshed and
+  // still saw the old "updated …" stamp) with no upside. 20s edge + brief stale-while-revalidate.
+  res.setHeader("Cache-Control", "s-maxage=20, stale-while-revalidate=40");
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
 
   const store = readStore();
@@ -49,15 +52,21 @@ module.exports = async (req, res) => {
   // generated before the field existed, so the new default ranking works immediately on deploy.
   subjects = subjects.map((s) => (s.suspicion != null ? s : Object.assign({}, s, { suspicion: build.suspicionScore(s) })));
 
-  const sort = q.sort || "suspicion";                         // DEFAULT = composite suspicion (was pure improbability)
+  // DEFAULT = most recently DETECTED (a live feed: newest catch on top). Ordering by time means the
+  // list never implies a suspiciousness ranking, so a bigger "1 in X" can't read as ranked below a
+  // smaller one. firstFlaggedAt is a stable per-wallet first-detection timestamp; fall back to
+  // activity recency, then improbability, so wallets without it still order sensibly.
+  const sort = q.sort || "detected";
+  const detectedBy = (a, b) => (b.firstFlaggedAt || 0) - (a.firstFlaggedAt || 0) || (a.activityDays || 1e9) - (b.activityDays || 1e9) || (b.improbDenom - a.improbDenom);
   const by = {
+    detected: detectedBy,
     suspicion: (a, b) => (b.suspicion - a.suspicion) || (b.improbDenom - a.improbDenom),
     improbability: (a, b) => b.improbDenom - a.improbDenom,
     profit: (a, b) => (b.profitNum || 0) - (a.profitNum || 0),
     winrate: (a, b) => (b.winRate || 0) - (a.winRate || 0),
     volume: (a, b) => (b.volumeNum || 0) - (a.volumeNum || 0),
     recent: (a, b) => (a.activityDays || 0) - (b.activityDays || 0),
-  }[sort] || ((a, b) => (b.suspicion - a.suspicion) || (b.improbDenom - a.improbDenom));
+  }[sort] || detectedBy;
   subjects = subjects.slice().sort(by);
 
   res.status(200).json({
