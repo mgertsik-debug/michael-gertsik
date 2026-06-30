@@ -41,7 +41,10 @@ function category(tags, question) {
   const s = (tags.join(" ") + " " + question).toLowerCase();
   // ---- EXCLUDE: outcomes decided in PUBLIC — by skill on the field, by open price
   // discovery, or by nature. An "edge" there is handicapping/luck, not secret info. ----
-  if (/\bsport|nfl|nba|wnba|mlb|nhl|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|golf|\bf1\b|grand prix|\bmatch\b|\bgame\b|league|playoff|super ?bowl|world cup|lakers|celtics|yankees|warriors|chiefs|win game|moneyline|to score|goalscorer|points|rebounds|\bmvp\b|exact score|scoreline|\bscore\b|fifa|uefa|\bolympic|premier league|la liga|champions league|shootout|knockout|quarter-?final|semi-?final|\bcricket\b|\brugby\b|nascar|formula ?1/.test(s)) return null;
+  // NOTE: short league acronyms are word-anchored — bare "nba" matched "coi(nba)se" (excluding every
+  // Coinbase market as sports) and bare "points" matched "ap(points)". Anchoring narrows the exclusion
+  // to real sports without dragging in corporate/crypto markets that merely contain those letters.
+  if (/\bsport|\bnfl\b|\bnba\b|\bwnba\b|\bmlb\b|\bnhl\b|\bufc\b|soccer|football|basketball|baseball|hockey|tennis|\bgolf\b|\bf1\b|grand prix|\bmatch\b|\bgame\b|\bleague\b|playoff|super ?bowl|world cup|lakers|celtics|yankees|warriors|\bchiefs\b|win game|moneyline|to score|goalscorer|\bpoints\b|\brebounds\b|\bmvp\b|exact score|scoreline|\bscore\b|fifa|uefa|\bolympic|premier league|la liga|champions league|shootout|knockout|quarter-?final|semi-?final|\bcricket\b|\brugby\b|nascar|formula ?1/.test(s)) return null;
   // PRICE TARGETS only (pure price discovery). Crypto/stock EVENTS — listings, hacks,
   // ETF approvals — are insider-tradeable and caught in the INCLUDE block below.
   if (/price (of|target|above|below|reach|hit|prediction)|hit \$|reach \$|above \$|below \$|\$[0-9]|close (above|below)|all-time high|\bath\b|market ?cap|flippening|trade(s| at| above| below)/.test(s)) return null;
@@ -51,7 +54,7 @@ function category(tags, question) {
   // ---- INCLUDE: outcomes that can turn on MATERIAL NONPUBLIC information ----
   // Military / national-security actions (operations, strikes, capture/seizure,
   // chokepoints) — the Maduro-capture / Iran-strike / Hormuz insider markets.
-  if (/military|defense|defence|airstrike|air ?base|troop|missile|\bwar\b|warfare|nato|sanction|basing|carrier|drone|nuclear|ceasefire|hostage|strait|hormuz|blockade|invade|invasion|incursion|occupy|occupation|\bseize|\bcapture[d]?|operation|special forces|coup|overthrow|regime|airspace|strike on/.test(s)) return "Military & Defense";
+  if (/military|defense|defence|airstrike|air ?base|troop|missile|\bwar\b|warfare|nato|sanction|basing|carrier|drone|nuclear|ceasefire|hostage|strait|hormuz|blockade|invade|invasion|incursion|occupy|occupation|\bseize|\bcapture[d]?|operation|special forces|coup|overthrow|regime|supreme leader|ayatollah|khamenei|airspace|strike on/.test(s)) return "Military & Defense";
   if (/election|midterm|primary|ballot|electoral|turnout|runoff/.test(s)) return "Elections";
   if (/econom|inflation|\bcpi\b|\bpce\b|\bfed\b|fomc|\bgdp\b|jobs report|payroll|unemploy|jobless|rate (cut|hike|decision)|interest rate|recession/.test(s)) return "Economics";
   // Legal / regulatory — verdicts, indictments, arrests, charges, rulings, approvals,
@@ -62,11 +65,18 @@ function category(tags, question) {
   if (/acquir|acquisition|\bmerger\b|merge with|buyout|takeover|\bipo\b|go public|bankrupt|chapter 11|layoff|\bceo\b|\bcfo\b|step down as|fired as|resign as|\bearnings\b|delist|spin ?off|stock split|dividend|guidance|\bfunding round|valuation/.test(s)) return "Corporate & M&A";
   // Politics + LEADERSHIP TENURE — "X out by DATE", ousted, removed from power, survive.
   if (/politic|president|prime minister|\bpm\b|chancellor|senate|congress|governor|cabinet|nominee|confirm|impeach|resign|pardon|executive order|supreme court|\bout (by|in|before)\b|step down|leave office|leaves office|removed from|remain in office|stay in power|stays in power|ousted|ouster|\boust\b|in power|survive|toppl|in office/.test(s)) return "Politics";
+  // Tech / product launches, AI-model releases, and SEARCH-RANKING / "year in search" reveals —
+  // decided by INTERNAL corporate data before the public sees it (the OpenAI-browser, Gemini-3.0,
+  // and Google Year-in-Search insider markets). Runs BEFORE the crypto block so "Gemini 3.0" reads
+  // as Google's AI model, not the Gemini crypto exchange (the old ordering misfiled it as crypto).
+  if (/\bannounc|unveil|\blaunch|\breleas(e|ed|ing)|\breveal|\bgpt-?[0-9]|gemini ?[0-9]|\bai model|new model|\bllm\b|\bbrowser\b|chatbot|partnership|integration|\bships?\b in|year in search|most[- ]searched|#? ?1 (most )?(searched|trending)|trending (person|searches?)|search ranking/.test(s)) return "Tech & Announcements";
   // Crypto EVENTS (not price) — listings, hacks, ETF approvals, protocol/governance.
   if (/list(ing|ed|s)?\b|\bdelist|\bhack|exploit|drained|\betf\b|spot etf|rug ?pull|depeg|insolven|halt withdrawals|mainnet|hard fork|governance vote|\bairdrop|token unlock|coinbase|binance|kraken|\bgemini\b/.test(s)) return "Crypto Events";
-  // Tech / product announcements — launches, releases, unveilings decided internally.
-  if (/\bannounc|unveil|\blaunch|release date|\breveal|\bgpt-?[0-9]|\bai model|new model|partnership|integration|\bships?\b in/.test(s)) return "Tech & Announcements";
-  if (/culture|entertain|\bmovie|\bfilm\b|box office|oscar|grammy|emmy|\baward|\balbum\b|streaming chart|number one|\bnetflix\b|renew(ed|al)/.test(s)) return "Culture";
+  // Awards decided by a SMALL secret committee before announcement (the Nobel Peace Prize leak case).
+  if (/\bnobel\b|laureate|peace prize|\bpulitzer\b/.test(s)) return "World";
+  // Culture / entertainment AND celebrity-personal events (engagements, marriages, pregnancies, etc.)
+  // — a tight social circle knows before the public (the Taylor Swift / romanticpaul engagement market).
+  if (/culture|entertain|\bmovie|\bfilm\b|box office|oscar|grammy|emmy|golden globe|\baward|\balbum\b|streaming chart|number one|\bnetflix\b|renew(ed|al)|engaged|engagement|getting married|\bmarriage\b|\bdivorce|\bpregnan|expecting a baby|breakup|\bbreak up\b/.test(s)) return "Culture";
   // Geopolitics — named theatres + diplomacy (Venezuela/Maduro, Iran, Ukraine, etc.).
   if (/geopolit|treaty|summit|peace deal|coup|foreign|diplomat|annex|\bborder\b|maduro|venezuela|caracas|\biran\b|tehran|israel|gaza|hezbollah|hamas|ukraine|russia|kremlin|putin|taiwan|north korea|\bdprk\b|kim jong|syria|lebanon|yemen/.test(s)) return "World";
   return null;                                            // unmatched ⇒ not a detectable-edge market ⇒ excluded

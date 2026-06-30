@@ -90,3 +90,57 @@ test("aggregateMarket → betPL: the published P&L is the NET pnl", () => {
   assert.equal(build.betPL(out["0xa"]), 2500, "betPL returns the net +$2.5k (uses pnl, not stake·(1/p−1))");
   assert.equal(build.betPL(out["0xb"]), 40000, "holder betPL = 50k×$1 − $10k = +$40k");
 });
+
+// ---------------------------------------------------------------------------
+// category() SCOPE — the keyword classifier decides which markets are even
+// eligible for insider scoring. These cases come from documented real insider
+// episodes that the old filter wrongly excluded (Nobel, Google Year-in-Search,
+// OpenAI browser, Taylor Swift engagement, the $131M Khamenei market), plus the
+// "Gemini 3.0" → crypto misclassification. Exclusions (sports/price/weather)
+// must still hold so broadening scope didn't open the floodgates.
+test("category(): documented insider markets are IN scope, with the right bucket", () => {
+  const C = (q) => poly.category([], q);
+  // newly-included surfaces (were null before)
+  assert.ok(C("US strikes Iran by February 28, 2026?"), "Iran strike must be in scope"); // World (via "iran")
+  assert.equal(C("Khamenei out as Supreme Leader by Feb. 28?"), "Military & Defense"); // $131M market, was excluded
+  assert.equal(C("Maduro out by January 31, 2026?"), "Politics");
+  assert.equal(C("Nobel Peace Prize Winner 2025"), "World");                            // Nobel leak case
+  assert.equal(C("Will Maria Corina Machado win the Nobel Peace Prize in 2025?"), "World");
+  assert.equal(C("#1 Searched Person on Google This Year"), "Tech & Announcements");    // AlphaRaccoon case
+  assert.equal(C("OpenAI browser by October 31?"), "Tech & Announcements");             // OpenAI browser case
+  assert.equal(C("Taylor Swift and Travis Kelce engaged in 2025?"), "Culture");         // romanticpaul case
+  // the "Gemini 3.0" misclassification: Google's AI model, NOT the crypto exchange
+  assert.equal(C("What day will Gemini 3.0 be released?"), "Tech & Announcements");
+});
+
+test("category(): exclusions still hold + real crypto listings unaffected", () => {
+  const C = (q) => poly.category([], q);
+  assert.equal(C("Will the Lakers win the game tonight?"), null);          // sports — public skill
+  assert.equal(C("Will Bitcoin hit $100,000 by 2026?"), null);            // price target — public discovery
+  assert.equal(C("Hottest day in NYC in July?"), null);                   // weather — nature
+  assert.equal(C("How many times will Trump tweet this week?"), null);    // count market
+  assert.equal(C("Will Coinbase list a new token in 2026?"), "Crypto Events"); // genuine crypto event still routed right
+});
+
+// ---------------------------------------------------------------------------
+// FAVORITE-ODDS single-market episode (the OpenAI $40K-at-85% archetype). The
+// long-shot path (won/longshot/conviction) only fires ≤35% odds, so the honest
+// question is whether the HARVARD episode engine catches an outsized bet at
+// FAVORITE odds. It must: z_bet_cross is odds-agnostic. This proves the gap was
+// SCOPE (fixed in category()), not a missing detector — so no redundant,
+// false-positive-prone favorite-odds detector is needed.
+test("aggregateMarket: outsized FAVORITE-odds single-market bet is Harvard-eligible", () => {
+  const market = { cond: "0xFAV", winner: "YES", url: "#", question: "OpenAI browser by October 31?", category: "Tech & Announcements", resolvedMs: 2000000 };
+  const T = (w, sz, ts) => ({ proxyWallet: w, side: "BUY", size: sz, price: 0.82, outcome: "Yes", timestamp: ts, transactionHash: "0x" + w + ts });
+  // one whale puts ~$41k on at 82% (a favorite); a realistic crowd of 40 small bettors (~$820 each).
+  // NOTE: z_bet_cross damps below 2 in a THIN market (few buyers) because the whale inflates its own
+  // SD — a real limitation of the cross-sectional approach in illiquid markets. With a normal crowd
+  // the insider stands out clearly.
+  const trades = [T("0xwhale", 50000, 100)];
+  for (let i = 0; i < 40; i++) trades.push(T("0xsmall" + i, 1000, 90));
+  const out = poly.aggregateMarket(market, trades);
+  const w = out["0xwhale"];
+  assert.ok(w.entryPrice > 0.8, "entered at favorite odds (~0.82), NOT a long-shot");
+  assert.ok(w.hz, "Harvard cross-section computed (market cleared ≥3 buyers + ≥$10k)");
+  assert.ok(w.hz.zBetCross > 2, "outsized vs peers (z_bet_cross > 2) at favorite odds → Harvard-eligible, got " + w.hz.zBetCross);
+});

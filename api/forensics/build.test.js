@@ -98,6 +98,10 @@ test("validateSubject: passes a clean record, rejects inconsistent/unsourced one
   assert.equal(B.validateSubject(Object.assign({}, good, { profitNum: -5000, isCluster: true })), null);  // clusters exempt
   assert.match(B.validateSubject(Object.assign({}, good, { bets: [{ cond: "0xabc", entryPrice: 1.5, stakeUsd: 9000, won: true }] })), /entryPrice/);
   assert.match(B.validateSubject(Object.assign({}, good, { bets: [{ entryPrice: 0.11, stakeUsd: 9000, won: true }] })), /missing cond/);
+  // ACCOUNT NET-NEGATIVE is a blanket veto (precision guard) — a net-losing account is not a credible
+  // insider regardless of episode size; a large reconstructed win against a negative account is the
+  // signal the profit was not KEPT (the edgeseekr false-positive class). See NET-LOSING ACCOUNT test.
+  assert.match(B.validateSubject(Object.assign({}, good, { accountPL: -40000, profitNum: 50000 })), /net-negative/);
 });
 
 test("buildSubject: pre-publish gate logs rejects into opts._rejects and returns null", () => {
