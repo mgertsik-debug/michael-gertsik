@@ -783,6 +783,12 @@ async function finalize(state, snapshotTs) {
       let enriched = 0, blackouts = 0, fed = 0;
       for (const s of ranked) {
         if (Date.now() >= INFO_DEADLINE) break;                  // bail at the hard info deadline
+        // PER-EPISODE ONLY. fedRegister / news-blackout ask whether ONE bet was timed before an
+        // event — so they belong on subjects whose HEADLINE is a single bet (the Harvard per-episode,
+        // favorite, and conviction paths), NOT on the whole-record binomial / cross-category flags,
+        // where "all its trades" is the wrong unit and a lone filing match is coincidence-prone.
+        const episodeLed = s.profitSource === "harvard-episode" || s.profitSource === "favorite-episode" || s.convictionFlag === true;
+        if (!episodeLed) continue;
         const lead = (s.ledger || []).filter((r) => r && r.market && r.market !== "(market)")
           .sort((a, b) => (b.stakeNum || 0) - (a.stakeNum || 0))[0];
         if (!lead || !(lead.ts > 0)) continue;
