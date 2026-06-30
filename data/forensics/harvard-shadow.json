@@ -16,10 +16,10 @@
   "over500": 86,
   "alsoBinomial": 26,
   "onlyHarvard": 60,
-  "observed": 223130,
-  "reviewed": 223130,
+  "observed": 223323,
+  "reviewed": 223323,
   "screened": 10343,
-  "scored": 6088,
+  "scored": 6092,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -860,7 +860,7 @@
       "zProfitCross": 22.77,
       "lateBuyFraction": 0.063,
       "directionalScore": 0.552,
-      "accountPnl": -58979,
+      "accountPnl": -59011,
       "firstSeen": "Jan 03 2026",
       "createdOnChain": true,
       "created": "Jan 01 2026",
@@ -874,7 +874,7 @@
           "stake": 349877,
           "pl": 70076,
           "won": true,
-          "tx": null
+          "tx": "0xf5dd0d3706d6f3b8f41aa934926e0d3fd012126c188c168c553b8a3d4f58d071"
         },
         {
           "market": "Will Fidesz–KDNP win the most seats in the next Hungarian parliamentary election?",
@@ -884,7 +884,7 @@
           "stake": 136065,
           "pl": 30724,
           "won": true,
-          "tx": null
+          "tx": "0xff0bd7e997bca324b3ea3ee668f0a583a9adc7262cfdeaffe67fdad192b74046"
         },
         {
           "market": "Will US or Israel strike Iran by June 30, 2026?",
@@ -904,7 +904,7 @@
           "stake": 67544,
           "pl": 13289,
           "won": true,
-          "tx": null
+          "tx": "0xdd99a235c4f86655d05480eb9d85df5671258ac0560bc2da7213aaf2abcf1388"
         },
         {
           "market": "Will US or Israel strike Iran by February 15, 2026?",
@@ -984,7 +984,7 @@
           "stake": 16196,
           "pl": -16196,
           "won": false,
-          "tx": null
+          "tx": "0x2acbb9604a5e4deb6c9b485351020aef4889f7b5ab0d2a1f7d5c4f763cb46218"
         },
         {
           "market": "US strikes Iran by March 3, 2026?",
