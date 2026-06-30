@@ -16,10 +16,10 @@
   "over500": 14,
   "alsoBinomial": 8,
   "onlyHarvard": 6,
-  "observed": 183425,
-  "reviewed": 183425,
+  "observed": 183777,
+  "reviewed": 183777,
   "screened": 4510,
-  "scored": 1973,
+  "scored": 2032,
   "top": [
     {
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
@@ -1197,7 +1197,7 @@
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": null,
       "tier": "notable",
-      "S": 536.9,
+      "S": 538.7,
       "market": "Iran successfully targets shipping by June 27?",
       "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
       "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -1206,7 +1206,7 @@
       "won": true,
       "episodeProfit": 16392,
       "zBetCross": 2.27,
-      "zBetWithin": 0.74,
+      "zBetWithin": 0.83,
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -1214,7 +1214,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 12,
+      "betsCount": 14,
       "ledger": [
         {
           "market": "US and Iran sign an agreement by July 31, 2026?",
@@ -1257,6 +1257,16 @@
           "tx": "0x30ea133d8293bc8f9beff1210b914f51ea320771bda08632f82fece867d6cc11"
         },
         {
+          "market": "Will the text of the US-Iran agreement be released by June 17?",
+          "url": "https://polymarket.com/event/us-iran-deal-text-released-byptptpt-20260615224044572",
+          "ts": 1781716561,
+          "odds": 72,
+          "stake": 2177,
+          "pl": 863,
+          "won": true,
+          "tx": "0xd16bbc83603b81f5d4d26c0e9eb7ab56b713312e318b69b2545c90dca30bea2a"
+        },
+        {
           "market": "Iran successfully targets shipping by July 7?",
           "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
           "ts": 1782489133,
@@ -1285,6 +1295,16 @@
           "pl": 46,
           "won": true,
           "tx": "0x8df7c14e0925c1315d43d3733669c721afade8b67d0aa59fece6df5fdab60e94"
+        },
+        {
+          "market": "Will the text of the US-Iran agreement be released by June 16?",
+          "url": "https://polymarket.com/event/us-iran-deal-text-released-byptptpt-20260615224044572",
+          "ts": 1781687341,
+          "odds": 60,
+          "stake": 457,
+          "pl": 311,
+          "won": true,
+          "tx": "0x2b323d7ad6a0b54840b763e4d0111b4a6ca9e141640986dc61a88c428f543738"
         },
         {
           "market": "Iran successfully targets shipping by July 31?",
