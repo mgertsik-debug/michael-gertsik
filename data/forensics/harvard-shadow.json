@@ -18,8 +18,8 @@
   "onlyHarvard": 29,
   "observed": 210414,
   "reviewed": 210414,
-  "screened": 6186,
-  "scored": 3774,
+  "screened": 6189,
+  "scored": 3775,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1159,7 +1159,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1023.4,
+      "S": 1023.1,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1168,7 +1168,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 7.28,
+      "zBetWithin": 7.27,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1223,8 +1223,8 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1753978854,
           "odds": 100,
-          "stake": 46989,
-          "pl": 56,
+          "stake": 47895,
+          "pl": 57,
           "won": true,
           "tx": "0x5824c795ae9f66eb4388dad87abb3ffccddb2ccf19691b863063efe430439bed"
         },
@@ -1272,8 +1272,8 @@
           "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
           "ts": 1749227473,
-          "odds": 93,
-          "stake": 19760,
+          "odds": 94,
+          "stake": 19820,
           "pl": 1239,
           "won": true,
           "tx": "0xb8fe9f749c604a72cae9e80e8c30d215021aa35ea1b7e4f2dff8d61367cb8139"
@@ -4888,7 +4888,7 @@
       "won": true,
       "episodeProfit": 4564,
       "zBetCross": 10.72,
-      "zBetWithin": 2.66,
+      "zBetWithin": 2.65,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -5001,12 +5001,12 @@
         {
           "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1752101398,
+          "ts": 1753417134,
           "odds": 100,
-          "stake": 34539,
+          "stake": 34796,
           "pl": 36,
           "won": true,
-          "tx": "0x19b054b33df22b4834327f7f93578dae5d924e09bee8925425e6cfd3f86f724f"
+          "tx": "0xbd09570087449517a2ec5e8abee1654a476047c068401bacaabd316ce4dcdbb9"
         },
         {
           "market": "Will the Democrats 66 win the second most seats in the 2025 Netherlands parliamentary election?",
@@ -5033,8 +5033,8 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1755846792,
           "odds": 100,
-          "stake": 33463,
-          "pl": 54,
+          "stake": 33774,
+          "pl": 53,
           "won": true,
           "tx": "0x55778dcdd4ad71dc3ba273bda0ce12326c83d70148ce075899e9ace48c54b491"
         }
@@ -5494,7 +5494,7 @@
         },
         {
           "market": "Will Binance be accused of insider trading?",
-          "url": "https://polymarket.com/event/which-crypto-company-will-zachxbt-expose-for-insider-trading",
+          "url": "https://polymarket.com/event/will-binance-be-accused-of-insider-trading",
           "ts": 1771874388,
           "odds": 15,
           "stake": 280,
