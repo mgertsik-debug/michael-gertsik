@@ -16,10 +16,10 @@
   "over500": 41,
   "alsoBinomial": 12,
   "onlyHarvard": 29,
-  "observed": 208170,
-  "reviewed": 208170,
+  "observed": 208436,
+  "reviewed": 208436,
   "screened": 6154,
-  "scored": 3765,
+  "scored": 3762,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -1578,8 +1578,8 @@
       "zProfitCross": 13.27,
       "lateBuyFraction": 0,
       "directionalScore": 0.552,
-      "accountPnl": 204617,
-      "firstSeen": "May 29 2025",
+      "accountPnl": 204447,
+      "firstSeen": "Jun 21 2025",
       "createdOnChain": true,
       "created": "May 29 2025",
       "betsCount": 89,
@@ -1606,7 +1606,7 @@
         },
         {
           "market": "Will Fidesz–KDNP win the most seats in the next Hungarian parliamentary election?",
-          "url": "https://polymarket.com/event/will-fideszkdnp-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+          "url": "https://polymarket.com/event/hungary-parliamentary-election-winner",
           "ts": 1774010277,
           "odds": 73,
           "stake": 37315,
@@ -1656,7 +1656,7 @@
         },
         {
           "market": "Will TISZA – Respect and Freedom Party (TISZA) win the most seats in the next Hungarian parliamentary election?",
-          "url": "https://polymarket.com/event/will-tisza-respect-and-freedom-party-tisza-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+          "url": "https://polymarket.com/event/hungary-parliamentary-election-winner",
           "ts": 1774451799,
           "odds": 73,
           "stake": 24611,
@@ -1706,7 +1706,7 @@
         },
         {
           "market": "Israel x Iran ceasefire broken by March 31, 2026?",
-          "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by-march-31-2026-312-682",
+          "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by",
           "ts": 1774915200,
           "odds": 50,
           "stake": 16185,
