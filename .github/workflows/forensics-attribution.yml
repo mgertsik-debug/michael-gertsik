@@ -1,0 +1,42 @@
+# Per-market attribution probe — manual trigger.
+# -----------------------------------------------------------------------------
+# Runs inside GitHub's network (which CAN reach Polymarket, unlike the Claude
+# build sandbox) and root-causes a misattributed position: for one wallet it
+# prints (1) the AUTHORITATIVE profile P&L/volume, (2) the wallet's OWN /trades
+# feed grouped by market, and (3) for a suspect market, the attribution
+# breakdown — is the wallet credited as proxyWallet (the real bettor) or as
+# maker/taker (the liquidity COUNTERPARTY)? That distinguishes a real position
+# from an aggregateMarket misattribution (e.g. @greenfia's phantom $66K bet vs
+# its real $191 all-time P&L). Dispatch, then read the run log.
+name: forensics-attribution
+
+on:
+  workflow_dispatch:
+    inputs:
+      wallet:
+        description: "0x wallet to probe (required)"
+        required: true
+        default: "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4"
+      slug:
+        description: "suspect market slug (optional, e.g. next-ceo-of-apple)"
+        required: false
+        default: ""
+      cond:
+        description: "condition id (optional — alternative to slug)"
+        required: false
+        default: ""
+
+jobs:
+  attribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Probe per-market attribution against live Polymarket data
+        env:
+          WALLET: ${{ github.event.inputs.wallet }}
+          SLUG: ${{ github.event.inputs.slug }}
+          COND: ${{ github.event.inputs.cond }}
+        run: node scripts/forensics/probe.js
