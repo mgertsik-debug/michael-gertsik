@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-30T21:55:32.502Z",
+  "updatedAt": "2026-06-30T23:12:37.279Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-1388704",
+      "ts": "23:12 UTC",
+      "platform": "polymarket",
+      "market": "Will Samuel Alito announce his retirement by December 31, 2026?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "57 · Elevated",
+      "index": 57,
+      "url": "https://polymarket.com/event/will-samuel-alito-announce-his-retirement-by",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-30T23:12:37.279Z"
+    },
     {
       "id": "pm-561231",
       "ts": "13:23 UTC",
