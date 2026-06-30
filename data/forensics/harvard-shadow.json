@@ -8,7 +8,7 @@
     "notable": 22
   },
   "medianS": 718.7,
-  "p90": 1086.5,
+  "p90": 1087,
   "p95": 1187,
   "p99": 1190.1,
   "minS": 532.2,
@@ -16,10 +16,10 @@
   "over500": 32,
   "alsoBinomial": 9,
   "onlyHarvard": 23,
-  "observed": 194170,
-  "reviewed": 194170,
-  "screened": 5467,
-  "scored": 3455,
+  "observed": 194426,
+  "reviewed": 194426,
+  "screened": 5473,
+  "scored": 3457,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -403,7 +403,7 @@
       "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
       "username": "cowcat",
       "tier": "high",
-      "S": 1086.5,
+      "S": 1087,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
@@ -412,7 +412,7 @@
       "won": true,
       "episodeProfit": 22588,
       "zBetCross": 3.5,
-      "zBetWithin": 20.16,
+      "zBetWithin": 20.19,
       "zProfitCross": 19.53,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -420,7 +420,7 @@
       "firstSeen": "Apr 13 2024",
       "createdOnChain": true,
       "created": "Apr 13 2024",
-      "betsCount": 712,
+      "betsCount": 714,
       "ledger": [
         {
           "market": "Khamenei out as Supreme Leader of Iran in 2026?",
