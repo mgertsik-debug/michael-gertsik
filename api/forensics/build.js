@@ -903,10 +903,11 @@ function suspicionScore(s) {
   const log10 = (x) => Math.log(Math.max(1, x)) / Math.LN10;
   // HARVARD-EPISODE subjects carry a composite score S in improbDenom — NOT a luck denominator —
   // so map S directly onto the 0..100 suspicion scale instead of the log10(1/P) path. Calibrated to
-  // OUR retained-episode distribution (median S≈700, p90≈1370, p99≈1980 — far above the paper's raw
-  // scale because we only retain the outsized-and-won tail): the divisor keeps the MEDIAN episode at
-  // Notable and lifts only the top tail to High/Extreme, so the new per-episode flags don't all land
-  // hot. Tunable via HARVARD_SUSPICION_DIV.
+  // OUR retained-episode distribution (the outsized-and-won tail runs roughly median S≈800, p90≈1400
+  // on the faithful 5-signal formula — far above the paper's raw scale because we only retain that
+  // tail): the divisor keeps the MEDIAN episode at Notable and lifts only the top tail to
+  // High/Extreme, so the new per-episode flags don't all land hot. Re-fit from a fresh scan after any
+  // weight change; tunable via HARVARD_SUSPICION_DIV.
   if (s.profitSource === "harvard-episode") {
     const S = num(s.harvardScore != null ? s.harvardScore : s.improbDenom);
     const div = +process.env.HARVARD_SUSPICION_DIV || 22;            // S≈700→32 (Notable), ≈1370→62 (High), ≈1980→90 (Extreme)
@@ -1033,11 +1034,21 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
   const profitNum = Math.round(epPL);
   const _prof = agg.profile || null;
   const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
-  // SAME money bar as the other single-wallet paths: a net-losing account or an immaterial
-  // episode is not a credible insider even with a high composite (the edgeseekr-style guard).
-  if (accountPL != null && accountPL <= 0) return null;
-  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
-  if (!(num(hb.stakeUsd) >= MATERIALITY_USD || Math.abs(epPL) >= MATERIALITY_USD)) return null;
+  // PROFILE RECONCILIATION + MATERIAL PROFIT. The wallet's AUTHORITATIVE all-time account P&L is the
+  // money it actually KEPT. A reconstructed episode profit that dwarfs it means the per-market
+  // position was MISATTRIBUTED (or churned all the way back) — e.g. @greenfia, whose dossier claimed
+  // a "$66K bet → +$33K won" on one market while its real all-time P&L is $191 and its biggest win
+  // ever is $659. An insider who profits KEEPS it. So require:
+  //   (1) the account made MATERIAL money overall (all-time P&L ≥ floor) — this alone kills greenfia,
+  //   (2) the flagged EPISODE itself cleared a real PROFIT floor (not just a big stake — nobody risks
+  //       exposure to net a few hundred dollars), and
+  //   (3) the episode profit is not implausibly larger than everything the wallet ever netted
+  //       (a single win bigger than the whole account by a wide margin = misattributed / not kept).
+  const MIN_ACCT = +process.env.HARVARD_MIN_ACCOUNT_PNL || 1000;
+  const MIN_EP_PROFIT = +process.env.HARVARD_MIN_EPISODE_PROFIT || 1000;
+  if (!(accountPL != null && accountPL >= MIN_ACCT)) return null;          // material money actually kept
+  if (!(epPL >= MIN_EP_PROFIT)) return null;                              // sub-floor flagged profit → drop
+  if (epPL > Math.max(50000, accountPL * 5)) return null;                 // episode dwarfs the account → misattributed
   const wins = valid.filter((b) => b.won).length;
   const W = D.HARVARD_W;
   const z = (x) => (num(x)).toFixed(2);

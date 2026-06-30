@@ -859,8 +859,9 @@ function fuse(dets, opts) {
  *  difference from the binomial path: it flags one outsized, profitable, late,
  *  directional bet regardless of the wallet's broader history.
  *
- *    S = 25·z_bet_cross + 20·z_bet_within + 30·z_profit_cross
- *        + 15·(late_buy_fraction·100) + 10·(directional_score·100)
+ *    S = 30·z_profit_cross + 25·z_bet_cross + 20·z_bet_within
+ *        + 15·late_buy_fraction + 10·directional_score
+ *    (z's are raw signed z-scores; late_buy_fraction and directional_score are in [0,1] — NO ·100)
  *
  *  where (all supplied by the scanner from per-market cross-sections):
  *    z_bet_cross   = (wallet's buy $ − market mean) / market SD   (vs peers in that market)
