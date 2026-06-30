@@ -8,7 +8,7 @@
     "notable": 22
   },
   "medianS": 718.7,
-  "p90": 1087,
+  "p90": 1087.6,
   "p95": 1187,
   "p99": 1190.1,
   "minS": 532.2,
@@ -16,10 +16,10 @@
   "over500": 32,
   "alsoBinomial": 9,
   "onlyHarvard": 23,
-  "observed": 195667,
-  "reviewed": 195667,
+  "observed": 195735,
+  "reviewed": 195735,
   "screened": 5509,
-  "scored": 3483,
+  "scored": 3484,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -403,7 +403,7 @@
       "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
       "username": "cowcat",
       "tier": "high",
-      "S": 1087,
+      "S": 1087.6,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
@@ -412,7 +412,7 @@
       "won": true,
       "episodeProfit": 22588,
       "zBetCross": 3.5,
-      "zBetWithin": 20.19,
+      "zBetWithin": 20.22,
       "zProfitCross": 19.53,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -420,7 +420,7 @@
       "firstSeen": "Apr 13 2024",
       "createdOnChain": true,
       "created": "Apr 13 2024",
-      "betsCount": 714,
+      "betsCount": 716,
       "ledger": [
         {
           "market": "Khamenei out as Supreme Leader of Iran in 2026?",
@@ -735,16 +735,16 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1013.4,
+      "S": 1015,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
-      "stake": 63938,
+      "stake": 64929,
       "odds": 89,
       "won": true,
-      "episodeProfit": 7507,
+      "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 6.78,
+      "zBetWithin": 6.86,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -759,8 +759,8 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1758327602,
           "odds": 89,
-          "stake": 63938,
-          "pl": 7507,
+          "stake": 64929,
+          "pl": 7629,
           "won": true,
           "tx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301"
         },
@@ -809,10 +809,10 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1748993906,
           "odds": 100,
-          "stake": 41114,
+          "stake": 41171,
           "pl": 42,
           "won": true,
-          "tx": null
+          "tx": "0xae99903093bf3cd0232a44e0fc6d08da8266585eea49a1449237ef56e5cb45c2"
         },
         {
           "market": "Will the Farmer–Citizen Movement win the most seats in the 2025 Netherlands parliamentary election?",
@@ -839,10 +839,10 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1753847731,
           "odds": 100,
-          "stake": 20922,
-          "pl": 21,
+          "stake": 22088,
+          "pl": 22,
           "won": true,
-          "tx": null
+          "tx": "0x6e33c347201adb511f276eb377768ee453223e510c33052d41ace98cd1716e8c"
         },
         {
           "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
