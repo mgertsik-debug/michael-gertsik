@@ -16,10 +16,10 @@
   "over500": 31,
   "alsoBinomial": 9,
   "onlyHarvard": 22,
-  "observed": 196873,
-  "reviewed": 196873,
+  "observed": 197205,
+  "reviewed": 197205,
   "screened": 5559,
-  "scored": 3511,
+  "scored": 3509,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -2915,7 +2915,7 @@
       "address": "0xb37a28fab8811add34c8db99b26b39a9f5c5e2ee",
       "username": "0xb37a28faB8811aDD34C8Db99B26B39A9F5C5E2eE-1761185887967",
       "tier": "notable",
-      "S": 640.8,
+      "S": 655,
       "market": "Will a new Cabinet of the Netherlands be sworn in by December 31, 2025?",
       "marketUrl": "https://polymarket.com/event/will-a-new-cabinet-of-the-netherlands-be-sworn-in-by",
       "episodeTx": "0xeb386992403d8f7682b0a8c2cc498011bcdb2ca23ba1b0843c63038bc26f5b93",
@@ -2924,7 +2924,7 @@
       "won": true,
       "episodeProfit": 1896,
       "zBetCross": 8.25,
-      "zBetWithin": 0,
+      "zBetWithin": 0.71,
       "zProfitCross": 14.15,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -2932,7 +2932,7 @@
       "firstSeen": "Oct 23 2025",
       "createdOnChain": true,
       "created": "Oct 23 2025",
-      "betsCount": 1,
+      "betsCount": 2,
       "ledger": [
         {
           "market": "Will a new Cabinet of the Netherlands be sworn in by December 31, 2025?",
@@ -2943,6 +2943,16 @@
           "pl": 1896,
           "won": true,
           "tx": "0xeb386992403d8f7682b0a8c2cc498011bcdb2ca23ba1b0843c63038bc26f5b93"
+        },
+        {
+          "market": "Will the Guidance Clarity Act of 2025 (S.81) be signed into law by December 31 2025?",
+          "url": "https://polymarket.com/event/will-the-guidance-clarity-act-of-2025-s81-be-signed-into-law-by-december-31-2025-273",
+          "ts": 1761189811,
+          "odds": 55,
+          "stake": 160,
+          "pl": 131,
+          "won": true,
+          "tx": "0xe8b55eb248df62e9d8c3d1fa22d8bd8378b3e3cc681c6df6d8ed48a610576f04"
         }
       ],
       "alsoBinomial": true
