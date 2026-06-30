@@ -1,10 +1,49 @@
 {
-  "updatedAt": "2026-06-30T08:22:26.498Z",
+  "updatedAt": "2026-06-30T11:27:10.336Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-559653",
+      "ts": "11:27 UTC",
+      "platform": "polymarket",
+      "market": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "50 · Elevated",
+      "index": 50,
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-30T11:27:10.336Z"
+    },
+    {
+      "id": "pm-559654",
+      "ts": "11:27 UTC",
+      "platform": "polymarket",
+      "market": "Will Pete Buttigieg win the 2028 Democratic presidential nomination?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "51 · Elevated",
+      "index": 51,
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-30T11:27:10.336Z"
+    },
+    {
+      "id": "pm-2169995",
+      "ts": "11:27 UTC",
+      "platform": "polymarket",
+      "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
+      "detector": "runUp",
+      "sev": "med",
+      "metric": "50 · Elevated",
+      "index": 50,
+      "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+      "engine": "insider",
+      "firstSeen": "2026-06-30T11:27:10.336Z"
+    },
     {
       "id": "pm-559696",
       "ts": "04:44 UTC",
