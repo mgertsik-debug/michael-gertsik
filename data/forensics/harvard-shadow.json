@@ -19,7 +19,7 @@
   "observed": 225642,
   "reviewed": 225642,
   "screened": 10373,
-  "scored": 6128,
+  "scored": 6131,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -1033,8 +1033,8 @@
       "betsCount": 397,
       "ledger": [
         {
-          "market": "Will the Iran ceasefire continue through May 22?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-22",
+          "market": "0x4997c22d314ed5e9f3712e46eb4847441b51fa730d10ad26240afa85f5d902be",
+          "url": null,
           "ts": 1779559200,
           "odds": 100,
           "stake": 224586,
@@ -1537,8 +1537,8 @@
           "tx": null
         },
         {
-          "market": "0x1a6a1200a90568609a23a428e0688057cb25d0212638aef192be1689cc2f6f81",
-          "url": null,
+          "market": "Will monthly inflation increase by 0.4% or more in June?",
+          "url": "https://polymarket.com/event/will-monthly-inflation-increase-by-0pt4-or-more-in-june",
           "ts": 1752537600,
           "odds": 12,
           "stake": 2142,
@@ -1929,8 +1929,8 @@
           "tx": "0x9faf6377910a593c20b3ff564d81d4e5654078e59a17f5a24d297b13c64bd3e9"
         },
         {
-          "market": "Israel x Hezbollah Ceasefire extended by April 26, 2026?",
-          "url": "https://polymarket.com/event/israel-x-hezbollah-ceasefire-extended-by-april-26-2026",
+          "market": "0x02f8dd15d4c674a75fccbd0e00f0cf1256101c45ef41f6d0c5dfde9c36d4141e",
+          "url": null,
           "ts": 1776983676,
           "odds": 69,
           "stake": 49224,
@@ -2417,8 +2417,8 @@
           "tx": "0x321fa5921dfdb1032aa05e262d4611a84b8ea935958fa1c20ed8dd88a66bcedc"
         },
         {
-          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
-          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
+          "market": "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538",
+          "url": null,
           "ts": 1779914617,
           "odds": 96,
           "stake": 40082,
@@ -3187,8 +3187,8 @@
           "tx": "0x9a8cb9b9d7374957e04dfafb911086dc3ae740b4b897dae7bc7dceffbb6baccb"
         },
         {
-          "market": "0x81ec388b5717ed05da3e00e7d0fcc5cd2ac77fa1cadb1c0441cc2672a98c5b34",
-          "url": null,
+          "market": "Will Iran strike Israel on March 8?",
+          "url": "https://polymarket.com/event/will-iran-strike-israel-on-march-8",
           "ts": 1772841693,
           "odds": 63,
           "stake": 100,
@@ -3247,8 +3247,8 @@
           "tx": "0x1297550c7c165b7f5b627a611dc02af8d593011778a84779bc25e476877caabd"
         },
         {
-          "market": "Will France strike Iran by March 31?",
-          "url": "https://polymarket.com/event/will-france-strike-iran-by-march-31",
+          "market": "0x0942f5ee13a4cdb53b020d60766260a2e0f602af85804392f5c77f80ea9a9b0b",
+          "url": null,
           "ts": 1773084689,
           "odds": 14,
           "stake": 30,
@@ -3449,8 +3449,8 @@
       "betsCount": 182,
       "ledger": [
         {
-          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
-          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
+          "market": "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538",
+          "url": null,
           "ts": 1779169019,
           "odds": 93,
           "stake": 25598,
@@ -4067,8 +4067,8 @@
           "tx": "0x33b15c32354e7763603f24a6d4b1cd0588e6f6cafd7b28959134aea099b924aa"
         },
         {
-          "market": "Will Donald Trump say \"nuclear\" 3+ times during Israel President events on December 29?",
-          "url": "https://polymarket.com/event/will-donald-trump-say-nuclear-3-times-during-israel-president-events-on-december-29",
+          "market": "0xa2fc72c6a3f886f62501c9fb2b7df5da3a2f6a3f322712bb7d4a955417dd0c4c",
+          "url": null,
           "ts": 1767369051,
           "odds": 100,
           "stake": 13377,
@@ -5039,8 +5039,8 @@
           "tx": "0x50e556e07bd5f10507e6c9f2403af8c1d5049b50e705e01f1bafa6f9cc8a0e69"
         },
         {
-          "market": "Will the Iran ceasefire continue through May 22?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-22",
+          "market": "0x4997c22d314ed5e9f3712e46eb4847441b51fa730d10ad26240afa85f5d902be",
+          "url": null,
           "ts": 1779481670,
           "odds": 5,
           "stake": 1000,
@@ -7090,7 +7090,7 @@
         },
         {
           "market": "Will SpaceX not IPO by December 31, 2027?",
-          "url": "https://polymarket.com/event/spacex-closing-market-cap-end-of-ipo-month-20260606222757973",
+          "url": "https://polymarket.com/event/will-spacex-not-ipo-by-december-31-2027-20260606222847125",
           "ts": 1782864000,
           "odds": 13,
           "stake": 714,
@@ -7109,8 +7109,8 @@
           "tx": "0x0e7bc344097d4d4f31b5e7ea03b216fb03603b506e13542a2c6fa0fa97c5a6cb"
         },
         {
-          "market": "Will the Iran ceasefire continue through May 21?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-21",
+          "market": "0x393fb0be5ca5832188657b34ad914c8f24a3ea6dfca233d1b996aba14399b48f",
+          "url": null,
           "ts": 1779306371,
           "odds": 94,
           "stake": 565,
