@@ -684,6 +684,12 @@ function aggregateMarket(market, trades) {
         lateBuyFraction: +p.lateFrac.toFixed(3),
         directionalScore: +p.dir.toFixed(3),
         marketVol: Math.round(grossVol), nBuyers,
+        // RAW dollar evidence behind the z-scores, so a card can show "you made $X; the average
+        // trader in this market made $Y ± $Z" instead of only a standardized z. THIS wallet's net
+        // figures + the peer mean/SD over all buyers in the same market.
+        profitUsd: Math.round(p.profit), stakeUsd: Math.round(p.netInvested),
+        mktMeanProfit: Math.round(muP), mktSdProfit: Math.round(sdP),
+        mktMeanStake: Math.round(muS), mktSdStake: Math.round(sdS),
       } : null,
     };
   }

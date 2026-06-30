@@ -143,4 +143,9 @@ test("aggregateMarket: outsized FAVORITE-odds single-market bet is Harvard-eligi
   assert.ok(w.entryPrice > 0.8, "entered at favorite odds (~0.82), NOT a long-shot");
   assert.ok(w.hz, "Harvard cross-section computed (market cleared ≥3 buyers + ≥$10k)");
   assert.ok(w.hz.zBetCross > 2, "outsized vs peers (z_bet_cross > 2) at favorite odds → Harvard-eligible, got " + w.hz.zBetCross);
+  // RAW dollar evidence behind the z (so a card can show "you made $X; market avg $Y ± $Z"):
+  assert.equal(typeof w.hz.profitUsd, "number", "hz carries this wallet's net profit $");
+  assert.equal(typeof w.hz.mktMeanProfit, "number", "hz carries the peer mean profit $");
+  assert.equal(typeof w.hz.mktSdProfit, "number", "hz carries the peer profit SD $");
+  assert.equal(typeof w.hz.mktMeanStake, "number", "hz carries the peer mean stake $");
 });
