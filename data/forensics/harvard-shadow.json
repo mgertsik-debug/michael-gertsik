@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782776873,
-  "total": 29,
+  "total": 32,
   "byTier": {
-    "extreme": 2,
-    "high": 5,
+    "extreme": 3,
+    "high": 7,
     "notable": 22
   },
-  "medianS": 690.7,
+  "medianS": 718.7,
   "p90": 1086.5,
-  "p95": 1161.5,
+  "p95": 1187,
   "p99": 1190.1,
   "minS": 532.2,
   "maxS": 1190.1,
-  "over500": 29,
-  "alsoBinomial": 8,
-  "onlyHarvard": 21,
-  "observed": 193303,
-  "reviewed": 193303,
-  "screened": 5329,
-  "scored": 3366,
+  "over500": 32,
+  "alsoBinomial": 9,
+  "onlyHarvard": 23,
+  "observed": 194170,
+  "reviewed": 194170,
+  "screened": 5467,
+  "scored": 3455,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -68,10 +68,176 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x35417b3d09d7a0991f75d7cc95162a6e34d7462e",
+      "username": "Casdifer",
+      "tier": "extreme",
+      "S": 1187,
+      "market": "Will US or Israel strike Iran by June 30, 2026?",
+      "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
+      "episodeTx": "0xb1b70b611a86d56ba96affe9a31952ee33fb43f14d2e74c5cc25166d622dc1ee",
+      "stake": 38276,
+      "odds": 64,
+      "won": true,
+      "episodeProfit": 23113,
+      "zBetCross": 20.96,
+      "zBetWithin": 0.33,
+      "zProfitCross": 21.67,
+      "lateBuyFraction": 0.063,
+      "directionalScore": 0.552,
+      "accountPnl": -59002,
+      "firstSeen": "Jan 03 2026",
+      "createdOnChain": true,
+      "created": "Jan 01 2026",
+      "betsCount": 45,
+      "ledger": [
+        {
+          "market": "Will the next Prime Minister of Hungary be Viktor Orbán?",
+          "url": "https://polymarket.com/event/will-the-next-prime-minister-of-hungary-be-viktor-orbn",
+          "ts": 1775921729,
+          "odds": 83,
+          "stake": 349877,
+          "pl": 70076,
+          "won": true,
+          "tx": "0xdb5ffa980eb7ab22e183fe2b9834cd4e5148b4164e47725005fd3b62e17269cb"
+        },
+        {
+          "market": "Will Fidesz–KDNP win the most seats in the next Hungarian parliamentary election?",
+          "url": "https://polymarket.com/event/will-fideszkdnp-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+          "ts": 1775920055,
+          "odds": 82,
+          "stake": 136065,
+          "pl": 30724,
+          "won": true,
+          "tx": "0x3d74f9e933eee496ce3919aea7050c37158d2bb2441c8b97511c9b8a29a39ccb"
+        },
+        {
+          "market": "Will the next Prime Minister of Hungary be Péter Magyar?",
+          "url": "https://polymarket.com/event/will-the-next-prime-minister-of-hungary-be-pter-magyar",
+          "ts": 1775930643,
+          "odds": 84,
+          "stake": 67544,
+          "pl": 13289,
+          "won": true,
+          "tx": "0xfbb5089432c98ffc197dce64cc92aa333aca65df1ed4dfe47c44559f3beb2ee7"
+        },
+        {
+          "market": "US strikes Iran by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1772127672,
+          "odds": 70,
+          "stake": 46110,
+          "pl": 19495,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will US or Israel strike Iran by February 15, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1770234705,
+          "odds": 91,
+          "stake": 45643,
+          "pl": 5516,
+          "won": true,
+          "tx": "0x8cedf698e83201350a5f60c7b8ae40d76632826291d3151fed309542ca71d419"
+        },
+        {
+          "market": "Will TISZA – Respect and Freedom Party (TISZA) win the most seats in the next Hungarian parliamentary election?",
+          "url": "https://polymarket.com/event/will-tisza-respect-and-freedom-party-tisza-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+          "ts": 1775919737,
+          "odds": 16,
+          "stake": 38715,
+          "pl": -38715,
+          "won": false,
+          "tx": "0x1a6d94fa28dddba9e104d5cd85b157187d0d8cad9b09060e5549be5e9994a28f"
+        },
+        {
+          "market": "Will US or Israel strike Iran by June 30, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1770232561,
+          "odds": 64,
+          "stake": 38276,
+          "pl": 23113,
+          "won": true,
+          "tx": "0xb1b70b611a86d56ba96affe9a31952ee33fb43f14d2e74c5cc25166d622dc1ee"
+        },
+        {
+          "market": "US strikes Iran by March 15, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1772201347,
+          "odds": 44,
+          "stake": 22649,
+          "pl": -22649,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will Tisza win the national list vote in the 2026 Hungarian Parliamentary election by 12-15%?",
+          "url": "https://polymarket.com/event/will-tisza-win-the-national-list-vote-in-the-2026-hungarian-parliamentary-election-by-12-15",
+          "ts": 1776024037,
+          "odds": 66,
+          "stake": 16196,
+          "pl": -16196,
+          "won": false,
+          "tx": "0x2acbb9604a5e4deb6c9b485351020aef4889f7b5ab0d2a1f7d5c4f763cb46218"
+        },
+        {
+          "market": "US strikes Iran by February 10, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770669901,
+          "odds": 95,
+          "stake": 14981,
+          "pl": 751,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by April 7th?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "ts": 1775587951,
+          "odds": 96,
+          "stake": 12935,
+          "pl": 528,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "US strikes Iran by February 11, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770662369,
+          "odds": 94,
+          "stake": 12660,
+          "pl": 817,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Clavicular pregnancy in 2026?",
+          "url": "https://polymarket.com/event/clavicular-pregnancy-in-2026",
+          "ts": 1777380148,
+          "odds": 97,
+          "stake": 9720,
+          "pl": 280,
+          "won": true,
+          "tx": "0x788c8d7507b37edcb7aaf879b4e203aa8149fd3124e9ee75bbef634ec6d713f3"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by March 31st?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "ts": 1774376417,
+          "odds": 18,
+          "stake": 9622,
+          "pl": -9622,
+          "won": false,
+          "tx": "0xd6cf56b5b086e5d331ccc8683c6b82f037f78a9806fce0f07ca307f310cb12ef"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
       "username": "SaylorMoon",
       "tier": "extreme",
-      "S": 1161.5,
+      "S": 1161.7,
       "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0x9969f3e97742fef0c3cf4364b34ebc5b6daa435aaa1b87cb91a0532d2da89d05",
@@ -80,7 +246,7 @@
       "won": true,
       "episodeProfit": 5257,
       "zBetCross": 18.97,
-      "zBetWithin": 0.33,
+      "zBetWithin": 0.34,
       "zProfitCross": 22.35,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -88,7 +254,7 @@
       "firstSeen": "Dec 16 2024",
       "createdOnChain": true,
       "created": "Dec 16 2024",
-      "betsCount": 54,
+      "betsCount": 55,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -400,10 +566,176 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x53e55bc7cb3d67ad177c023ce891ad076a9d6177",
+      "username": "Arbguy",
+      "tier": "high",
+      "S": 1050.9,
+      "market": "Will US or Israel strike Iran by February 28, 2026?",
+      "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
+      "episodeTx": "0x2b3884daa45c21d3860d4514164f7fed4f0bbf7d46af25a46116dc8e227e72df",
+      "stake": 23699,
+      "odds": 11,
+      "won": true,
+      "episodeProfit": 190706,
+      "zBetCross": 7.46,
+      "zBetWithin": 0.2,
+      "zProfitCross": 28.15,
+      "lateBuyFraction": 0.396,
+      "directionalScore": 1,
+      "accountPnl": 583884,
+      "firstSeen": "Jul 03 2024",
+      "createdOnChain": true,
+      "created": "Jul 03 2024",
+      "betsCount": 98,
+      "ledger": [
+        {
+          "market": "Russia x Ukraine ceasefire by June 30, 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-june-30-2026",
+          "ts": 1778263334,
+          "odds": 87,
+          "stake": 147851,
+          "pl": 22410,
+          "won": true,
+          "tx": "0xf4e39d265d9090179221ee83395ea664e76a3cb6b2c9d648750a7b98cbccbc84"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by May 31, 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-may-31-2026",
+          "ts": 1778264004,
+          "odds": 85,
+          "stake": 144545,
+          "pl": 25946,
+          "won": true,
+          "tx": "0xd63cefbda707a121b6a939a2d2d3a358e1f6d36118088a3150886fa4417ba940"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1777390516,
+          "odds": 83,
+          "stake": 135082,
+          "pl": 27756,
+          "won": true,
+          "tx": "0xb7d1617b74b99ac8b09a87e630d4126f53000b55119f93d3d83fdb3bae680bb3"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1780308672,
+          "odds": 17,
+          "stake": 120769,
+          "pl": 606016,
+          "won": true,
+          "tx": "0x097beb1fadd7d53c21e5cafc9c576f1fde5a13649c112468097ab954107d6bc7"
+        },
+        {
+          "market": "US x Iran permanent peace deal by April 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1776957906,
+          "odds": 93,
+          "stake": 97008,
+          "pl": 7205,
+          "won": true,
+          "tx": "0x6f13cc56b8c5cc1c0dbc0bf96da0ff809a2c33721499c85cafbf4b24abc8d33e"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1778453610,
+          "odds": 34,
+          "stake": 74287,
+          "pl": 142178,
+          "won": true,
+          "tx": "0x0968a66b69f9cdf36fd1c5aab2e227cc22b5e85ba2138bb998d81571d3393409"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779215418,
+          "odds": 20,
+          "stake": 73960,
+          "pl": -73960,
+          "won": false,
+          "tx": "0x2485ae0ab7c43f1c202daaa3efa366c9fd7fd36aa7798f4add34cb245007a9c7"
+        },
+        {
+          "market": "Iran agrees to end enrichment of uranium by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+          "ts": 1781209002,
+          "odds": 36,
+          "stake": 68932,
+          "pl": -68932,
+          "won": false,
+          "tx": "0x32129a27ef9b5374467a66f4275ab2728091032fe93b0e9feeee8a7597389b8f"
+        },
+        {
+          "market": "Israel x Hezbollah permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/israel-x-hezbollah-permanent-peace-deal-by-june-15-2026",
+          "ts": 1781607388,
+          "odds": 89,
+          "stake": 51697,
+          "pl": 6352,
+          "won": true,
+          "tx": "0x9faf6377910a593c20b3ff564d81d4e5654078e59a17f5a24d297b13c64bd3e9"
+        },
+        {
+          "market": "Israel x Hezbollah Ceasefire extended by April 26, 2026?",
+          "url": "https://polymarket.com/event/israel-x-hezbollah-ceasefire-extended-by-april-26-2026",
+          "ts": 1776983676,
+          "odds": 69,
+          "stake": 49224,
+          "pl": 22430,
+          "won": true,
+          "tx": "0xe4cbc091e0b05e2047cc4a5a240e3396a7a7fb864bdf5a8076b60986ea64cede"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 8, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1778173285,
+          "odds": 94,
+          "stake": 47671,
+          "pl": 3029,
+          "won": true,
+          "tx": "0x70ffe70c0e038af7ab5a8d29448c6a44fd28e6a87dc82e196a4615a8fea2c948"
+        },
+        {
+          "market": "Iran closes its airspace by June 8?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-8",
+          "ts": 1780862521,
+          "odds": 88,
+          "stake": 42515,
+          "pl": 6069,
+          "won": true,
+          "tx": "0xeb153030bc4f9362550620fe06f55fc2059cee1d6e8cce959f9ffa9d31f235dd"
+        },
+        {
+          "market": "US and Iran sign an agreement by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-and-iran-sign-an-agreement-byptptpt-20260611221049850",
+          "ts": 1781530752,
+          "odds": 85,
+          "stake": 35291,
+          "pl": 6335,
+          "won": true,
+          "tx": "0x6507623be281c716f0ece339f83557cf2127a6cb5d0df17cafb1609c37d171e1"
+        },
+        {
+          "market": "US x Iran ceasefire extended by April 21, 2026?",
+          "url": "https://polymarket.com/event/will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
+          "ts": 1776803870,
+          "odds": 68,
+          "stake": 32359,
+          "pl": 15124,
+          "won": true,
+          "tx": "0x30b2c26bbc0c770aaec13dbb48620b15b089aeb4bae705e7a1f09e58aa3f6662"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1009.7,
+      "S": 1013.2,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -412,7 +744,7 @@
       "won": true,
       "episodeProfit": 7507,
       "zBetCross": 17.61,
-      "zBetWithin": 6.6,
+      "zBetWithin": 6.77,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -420,7 +752,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "Sep 23 2024",
-      "betsCount": 223,
+      "betsCount": 235,
       "ledger": [
         {
           "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
@@ -561,6 +893,172 @@
           "pl": 502,
           "won": true,
           "tx": "0x4141fd4b6376c15a69a33b5b2aea65ae1d3d0e3cf8702c130229a600b4444a08"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0xfcf2378f20cf408d077c21e731272f21cccea469",
+      "username": "Roflan-ludoman",
+      "tier": "high",
+      "S": 905.7,
+      "market": "Will US or Israel strike Iran by February 15, 2026?",
+      "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
+      "episodeTx": "0xfe746c228d5e51462871c24c09f09ec075394137b475f78b36f2c2dbffb593c6",
+      "stake": 41287,
+      "odds": 85,
+      "won": true,
+      "episodeProfit": 7112,
+      "zBetCross": 17.55,
+      "zBetWithin": 3.17,
+      "zProfitCross": 13.27,
+      "lateBuyFraction": 0,
+      "directionalScore": 0.552,
+      "accountPnl": 204707,
+      "firstSeen": "May 29 2025",
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 85,
+      "ledger": [
+        {
+          "market": "Maduro out by March 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767424957,
+          "odds": 98,
+          "stake": 53560,
+          "pl": 728,
+          "won": true,
+          "tx": "0xb7c1135229f74ba47e8820515353b57640021b9707e346e5c87ae5577e54f3b4"
+        },
+        {
+          "market": "Will US or Israel strike Iran by February 15, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1770156014,
+          "odds": 85,
+          "stake": 41287,
+          "pl": 7112,
+          "won": true,
+          "tx": "0xfe746c228d5e51462871c24c09f09ec075394137b475f78b36f2c2dbffb593c6"
+        },
+        {
+          "market": "Will Fidesz–KDNP win the most seats in the next Hungarian parliamentary election?",
+          "url": "https://polymarket.com/event/will-fideszkdnp-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+          "ts": 1774010277,
+          "odds": 73,
+          "stake": 37315,
+          "pl": -152,
+          "won": false,
+          "tx": "0xaf6ba3eb63e1833a650545619f791a94a71604c341506cabef36c03f47241169"
+        },
+        {
+          "market": "Will US or Israel strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1771995324,
+          "odds": 79,
+          "stake": 36958,
+          "pl": -23241,
+          "won": false,
+          "tx": "0xfff90aa84532e39f0292e4026197358c4d7d7b7823d5231360e64516b6b22986"
+        },
+        {
+          "market": "Will US or Israel strike Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1769636846,
+          "odds": 93,
+          "stake": 32627,
+          "pl": -888,
+          "won": true,
+          "tx": "0x853d1bfa683e9156f662e1bd85be04b2913f8fb79da53c824874f3cde8ab46f7"
+        },
+        {
+          "market": "Will the next Prime Minister of Hungary be Viktor Orbán?",
+          "url": "https://polymarket.com/event/will-the-next-prime-minister-of-hungary-be-viktor-orbn",
+          "ts": 1774013059,
+          "odds": 67,
+          "stake": 27323,
+          "pl": 13614,
+          "won": true,
+          "tx": "0xccfa1f75f6b06f3a3b79b0d7d4ab8770155ad4802d6a27cbab2842a03a27f7c4"
+        },
+        {
+          "market": "Will the next Prime Minister of Hungary be Péter Magyar?",
+          "url": "https://polymarket.com/event/will-the-next-prime-minister-of-hungary-be-pter-magyar",
+          "ts": 1773789405,
+          "odds": 70,
+          "stake": 27003,
+          "pl": 11450,
+          "won": true,
+          "tx": "0xbba7ca247be48212b2ecd21662e68092ed0af3618b4a486276bdf006890c73e1"
+        },
+        {
+          "market": "Will TISZA – Respect and Freedom Party (TISZA) win the most seats in the next Hungarian parliamentary election?",
+          "url": "https://polymarket.com/event/will-tisza-respect-and-freedom-party-tisza-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
+          "ts": 1774451799,
+          "odds": 73,
+          "stake": 24611,
+          "pl": -1654,
+          "won": false,
+          "tx": "0x48be2e4d80a8ff95a484d4388cb259cb9177f99778bb22f476a72e649d06b0c2"
+        },
+        {
+          "market": "US strikes Iran by March 3, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1782777600,
+          "odds": 58,
+          "stake": 23551,
+          "pl": -23551,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will US or Israel strike Iran by June 30, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1770226303,
+          "odds": 54,
+          "stake": 20465,
+          "pl": 4297,
+          "won": true,
+          "tx": "0xa28a901495f1dacb415b3e0f72dce048faed3cdb751d813d27b44e2c7339f831"
+        },
+        {
+          "market": "Will US or Israel strike Iran by December 31, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1771365349,
+          "odds": 73,
+          "stake": 19147,
+          "pl": 3610,
+          "won": true,
+          "tx": "0x33a52928b879d6239c8b33e993a0254d98cd3cb99c2530e59ff7a625c0f00520"
+        },
+        {
+          "market": "US x Iran ceasefire by June 30?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-june-30",
+          "ts": 1775542061,
+          "odds": 63,
+          "stake": 18231,
+          "pl": 10720,
+          "won": true,
+          "tx": "0xc884b40bd682bc4292766dfda7cc97f2366678899a89275c04acef1336b61987"
+        },
+        {
+          "market": "Israel x Iran ceasefire broken by March 31, 2026?",
+          "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by-march-31-2026-312-682",
+          "ts": 1774915200,
+          "odds": 50,
+          "stake": 16185,
+          "pl": -16185,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "US strikes Iran by March 1, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1782777600,
+          "odds": 76,
+          "stake": 15356,
+          "pl": -15356,
+          "won": false,
+          "tx": null
         }
       ],
       "alsoBinomial": false
@@ -901,7 +1399,7 @@
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
       "username": "classified",
       "tier": "high",
-      "S": 814.8,
+      "S": 816.7,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -910,7 +1408,7 @@
       "won": true,
       "episodeProfit": 17517,
       "zBetCross": 12.74,
-      "zBetWithin": 0.92,
+      "zBetWithin": 1.02,
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
@@ -918,7 +1416,7 @@
       "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
-      "betsCount": 59,
+      "betsCount": 68,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 30, 2026?",
@@ -1001,6 +1499,36 @@
           "tx": "0xd7159c30f222a6f95c00463a8ecd6a2b5b824f59c8bf54aebe381119b8cedb50"
         },
         {
+          "market": "Will US or Israel strike Iran by December 31, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1771460486,
+          "odds": 75,
+          "stake": 23696,
+          "pl": 4708,
+          "won": true,
+          "tx": "0x7784183a1d98e202dfe38fb61bad6dffd218694c664d94f912d8a25df5501c41"
+        },
+        {
+          "market": "Will US or Israel strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1772211735,
+          "odds": 80,
+          "stake": 19711,
+          "pl": -19711,
+          "won": false,
+          "tx": "0x48c34a89b43851030b1d08adcc621ad201740250c206b9aafa0dcf3d47ebf5d0"
+        },
+        {
+          "market": "Will US or Israel strike Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1769871232,
+          "odds": 94,
+          "stake": 18505,
+          "pl": -850,
+          "won": true,
+          "tx": "0x44427fa7ee55f217608f76538184ec87959424081413e577058cbd9d6d23ec2f"
+        },
+        {
           "market": "Maduro out by December 31, 2026?",
           "url": "https://polymarket.com/event/maduro-out-in-2025",
           "ts": 1767435569,
@@ -1029,36 +1557,6 @@
           "pl": 275,
           "won": true,
           "tx": "0xdc7f2c5021aeed0a462544a7bc74b708b64835aefdb84ce85d88a340ea49dfbb"
-        },
-        {
-          "market": "Will the Iran ceasefire continue through May 25?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-25",
-          "ts": 1779667200,
-          "odds": 16,
-          "stake": 8420,
-          "pl": -8420,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Iran closes its airspace by June 15?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-15-219",
-          "ts": 1780351276,
-          "odds": 81,
-          "stake": 7986,
-          "pl": 1847,
-          "won": true,
-          "tx": "0x5ff5e7ec25d93042e2b22fc6933cd76323a0d7158f9f6139fdb428fc265fd5d7"
-        },
-        {
-          "market": "Iran closes its airspace by June 8?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-8",
-          "ts": 1780849476,
-          "odds": 26,
-          "stake": 7535,
-          "pl": -7535,
-          "won": false,
-          "tx": "0x6327622c3aa43417ef6da338b7ad2115a21f3394dda30fa7f8c0cd504c01872c"
         }
       ],
       "alsoBinomial": false
@@ -1919,7 +2417,7 @@
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
       "username": "tourists",
       "tier": "notable",
-      "S": 690.7,
+      "S": 691,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -1928,7 +2426,7 @@
       "won": true,
       "episodeProfit": 1527,
       "zBetCross": 14.62,
-      "zBetWithin": -0.33,
+      "zBetWithin": -0.31,
       "zProfitCross": 10.73,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -1936,7 +2434,7 @@
       "firstSeen": "May 12 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 60,
+      "betsCount": 66,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
@@ -2085,7 +2583,7 @@
       "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
       "username": "siick",
       "tier": "notable",
-      "S": 687.7,
+      "S": 687.8,
       "market": "Will the US strike Somalia next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
       "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
@@ -2094,7 +2592,7 @@
       "won": true,
       "episodeProfit": 1882,
       "zBetCross": 7.77,
-      "zBetWithin": 4.73,
+      "zBetWithin": 4.74,
       "zProfitCross": 12.83,
       "lateBuyFraction": 0.273,
       "directionalScore": 1,
@@ -2102,7 +2600,7 @@
       "firstSeen": "Jun 15 2025",
       "createdOnChain": true,
       "created": "Feb 25 2025",
-      "betsCount": 153,
+      "betsCount": 157,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
@@ -2235,14 +2733,14 @@
           "tx": "0xc9cc6d6d3a768d32dcf71e6e373c90f89d0e4188f08944d441bb576fc667a6f0"
         },
         {
-          "market": "Will Reza Pahlavi lead Iran in 2026?",
-          "url": "https://polymarket.com/event/will-reza-pahlavi-lead-iran-in-2026",
-          "ts": 1779743097,
-          "odds": 94,
-          "stake": 4590,
-          "pl": 317,
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-681",
+          "ts": 1770144942,
+          "odds": 89,
+          "stake": 5757,
+          "pl": 702,
           "won": true,
-          "tx": "0x5644071179f28cfe4f6f64fdf0b9788ac831cb8ec1fb0a5a13c3b9521ac94cf8"
+          "tx": "0xa3b264aa97674b71c355f406a8bc23faf6bf8d9e7459c8a2a0879e3f201bba84"
         }
       ],
       "alsoBinomial": false
@@ -2251,7 +2749,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 672.5,
+      "S": 672.9,
       "market": "Will the Democrats 66 win the second most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
       "episodeTx": "0x330013c06afe9b29d9f29a8369faa77a9d746a8178b79514c12d0b57ccc77c6a",
@@ -2260,7 +2758,7 @@
       "won": true,
       "episodeProfit": 4861,
       "zBetCross": 12.07,
-      "zBetWithin": 2.27,
+      "zBetWithin": 2.29,
       "zProfitCross": 10.34,
       "lateBuyFraction": 0.365,
       "directionalScore": 0.983,
@@ -2268,7 +2766,7 @@
       "firstSeen": "Oct 13 2024",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1231,
+      "betsCount": 1253,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -2619,7 +3117,7 @@
       "address": "0xbaa2bcb5439e985ce4ccf815b4700027d1b92c73",
       "username": "denizz",
       "tier": "notable",
-      "S": 636.7,
+      "S": 636.5,
       "market": "Maduro out by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/maduro-out-in-2025",
       "episodeTx": "0xa811fedad0f6b9b2d5241dba5ae6e57bbb0578c568114e36c7155d6476645e08",
@@ -2628,7 +3126,7 @@
       "won": true,
       "episodeProfit": 8269,
       "zBetCross": 9.21,
-      "zBetWithin": -0.02,
+      "zBetWithin": -0.03,
       "zProfitCross": 12.94,
       "lateBuyFraction": 1,
       "directionalScore": 0.379,
@@ -2719,6 +3217,16 @@
           "tx": null
         },
         {
+          "market": "Will US or Israel strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1771990860,
+          "odds": 89,
+          "stake": 55110,
+          "pl": -31540,
+          "won": false,
+          "tx": "0x02f8b3e8ae1d270b800a757932e2920a23cdbfcf5544e012f6c1c1add6214b1b"
+        },
+        {
           "market": "Israel withdraws from Lebanon by July 31, 2026?",
           "url": "https://polymarket.com/event/israel-withdraws-from-lebanon-by",
           "ts": null,
@@ -2767,16 +3275,6 @@
           "pl": 2278,
           "won": true,
           "tx": "0x0b0541c2fb8c6561a6d9eef9caa05eee8a8e17f95355ec95da50ff3633a86abb"
-        },
-        {
-          "market": "Will US or Israel strike Iran by February 28, 2026?",
-          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
-          "ts": 1771990860,
-          "odds": 89,
-          "stake": 37260,
-          "pl": -37260,
-          "won": false,
-          "tx": null
         }
       ],
       "alsoBinomial": false
@@ -3615,7 +4113,7 @@
       "address": "0x8575467a6743c81ef0a8d06acc76e99b454a87fe",
       "username": "products",
       "tier": "notable",
-      "S": 540.6,
+      "S": 537.9,
       "market": "Will Trump and Xi handshake last 6–10 seconds during the day of their next meeting in 2026?",
       "marketUrl": "https://polymarket.com/event/how-long-will-trump-and-xi-shake-hands-when-they-meet",
       "episodeTx": "0x98a8b47ce5ef7190ad47cd640d2b20f3d34b239ac72f0eccc2ad89d6ff0c6f71",
@@ -3624,7 +4122,7 @@
       "won": true,
       "episodeProfit": 268,
       "zBetCross": 9.9,
-      "zBetWithin": 3.13,
+      "zBetWithin": 3,
       "zProfitCross": 6.86,
       "lateBuyFraction": 0.986,
       "directionalScore": 1,
@@ -3632,7 +4130,7 @@
       "firstSeen": "Oct 18 2025",
       "createdOnChain": true,
       "created": "Oct 17 2025",
-      "betsCount": 1149,
+      "betsCount": 1161,
       "ledger": [
         {
           "market": "Will the US confirm that aliens exist by June 30?",
@@ -3781,7 +4279,7 @@
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": "Hakei.",
       "tier": "notable",
-      "S": 536.5,
+      "S": 536.7,
       "market": "Iran successfully targets shipping by June 27?",
       "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
       "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -3790,7 +4288,7 @@
       "won": true,
       "episodeProfit": 16392,
       "zBetCross": 2.27,
-      "zBetWithin": 0.72,
+      "zBetWithin": 0.73,
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -3798,7 +4296,7 @@
       "firstSeen": "Jan 08 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 158,
+      "betsCount": 162,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",
