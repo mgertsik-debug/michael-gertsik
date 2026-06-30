@@ -19,7 +19,7 @@
   "observed": 225642,
   "reviewed": 225642,
   "screened": 10373,
-  "scored": 6125,
+  "scored": 6128,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -3187,8 +3187,8 @@
           "tx": "0x9a8cb9b9d7374957e04dfafb911086dc3ae740b4b897dae7bc7dceffbb6baccb"
         },
         {
-          "market": "Will Iran strike Israel on March 8?",
-          "url": "https://polymarket.com/event/will-iran-strike-israel-on-march-8",
+          "market": "0x81ec388b5717ed05da3e00e7d0fcc5cd2ac77fa1cadb1c0441cc2672a98c5b34",
+          "url": null,
           "ts": 1772841693,
           "odds": 63,
           "stake": 100,
@@ -4067,8 +4067,8 @@
           "tx": "0x33b15c32354e7763603f24a6d4b1cd0588e6f6cafd7b28959134aea099b924aa"
         },
         {
-          "market": "0xa2fc72c6a3f886f62501c9fb2b7df5da3a2f6a3f322712bb7d4a955417dd0c4c",
-          "url": null,
+          "market": "Will Donald Trump say \"nuclear\" 3+ times during Israel President events on December 29?",
+          "url": "https://polymarket.com/event/will-donald-trump-say-nuclear-3-times-during-israel-president-events-on-december-29",
           "ts": 1767369051,
           "odds": 100,
           "stake": 13377,
@@ -6972,7 +6972,7 @@
       "zProfitCross": 13.08,
       "lateBuyFraction": 0,
       "directionalScore": 0.052,
-      "accountPnl": 23781,
+      "accountPnl": 23926,
       "firstSeen": "Jan 27 2026",
       "createdOnChain": true,
       "created": "Jan 27 2026",
@@ -7090,7 +7090,7 @@
         },
         {
           "market": "Will SpaceX not IPO by December 31, 2027?",
-          "url": "https://polymarket.com/event/will-spacex-not-ipo-by-december-31-2027-20260606222847125",
+          "url": "https://polymarket.com/event/spacex-closing-market-cap-end-of-ipo-month-20260606222757973",
           "ts": 1782864000,
           "odds": 13,
           "stake": 714,
