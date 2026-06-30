@@ -537,11 +537,14 @@ function tradeOutcome(t) {
 /* ---------------------------------------------- aggregate one market by wallet
  * Collapse a market's trades into per-(wallet,outcome) positions. A wallet's
  * bet on a binary market is its NET position in the outcome it bought most of:
- *   stakeUsd  = Σ buy(size·price)            (cost basis)
- *   entry p   = size-weighted avg buy price  (implied prob at entry)
- *   won       = (position outcome == winner)
- *   held      = sold < 3% of bought shares before resolution
- * Returns a map address -> position. */
+ *   stakeUsd    = max(0, Σbuy − Σsell)         NET capital carried into the event
+ *   grossBuyUsd = Σ buy(size·price)            gross cost basis (transparency)
+ *   pnl         = Σsell + $1·(winning shares still held) − Σbuy   NET realized P&L
+ *   entry p     = size-weighted avg buy price  (implied prob at entry)
+ *   won         = (position outcome == winner)
+ *   held        = sold < 3% of bought shares before resolution
+ * stakeUsd/pnl are NET of sells (the money actually at risk and kept), so a churner
+ * who flips in and out cannot read as a giant out-profiting bet. Returns address -> position. */
 function aggregateMarket(market, trades) {
   const byKey = {};
   const resolvedSec = market.resolvedMs ? Math.round(market.resolvedMs / 1000) : null;
@@ -581,8 +584,8 @@ function aggregateMarket(market, trades) {
     const size = num(t.size), price = num(t.price), ts = num(t.timestamp || t.matchTime || t.time);
     if (!size) continue;
     const key = w + "|" + oc;
-    const e = byKey[key] || (byKey[key] = { address: w, outcome: oc, boughtShares: 0, soldShares: 0, costUsd: 0, lateUsd: 0, wsumPrice: 0, firstTs: Infinity, tx: null });
-    if (side === "SELL") { e.soldShares += size; }
+    const e = byKey[key] || (byKey[key] = { address: w, outcome: oc, boughtShares: 0, soldShares: 0, soldProceedsUsd: 0, costUsd: 0, lateUsd: 0, wsumPrice: 0, firstTs: Infinity, tx: null });
+    if (side === "SELL") { e.soldShares += size; e.soldProceedsUsd += size * price; }
     else {
       e.boughtShares += size; e.costUsd += size * price; e.wsumPrice += size * price;
       if (lateAnchor && ts && (lateAnchor - ts) <= LATE_WINDOW && (lateAnchor - ts) >= 0) e.lateUsd += size * price;  // pre-event buy volume (final 48h before last trade)
@@ -601,28 +604,48 @@ function aggregateMarket(market, trades) {
   // this market, plus the late-buy fraction and directional score (Ofir & Ofir 2026). Only
   // computed when the market clears Harvard's reference-distribution filters (≥3 buyers and
   // ≥$10k total buy volume); otherwise hz is null and the episode just isn't Harvard-scored.
+  const compOf = (oc) => (oc === "YES" ? "NO" : "YES");
   const ps = Object.keys(byWallet).map((addr) => {
-    const e = byWallet[addr];
+    const e = byWallet[addr];                                                // dominant-outcome leg (entry / direction / display)
+    const comp = byKey[addr + "|" + compOf(e.outcome)] || null;             // complement leg (the other side, if any)
     const entry = clip(e.costUsd / e.boughtShares, 1e-4, 0.9999);
     const won = e.outcome === market.winner;
-    const profit = won ? e.costUsd * (1 / entry - 1) : -e.costUsd;          // held-to-resolution reconstruction
+    // NET REALIZED P&L — the money actually KEPT, computed exactly as Polymarket reports it across
+    // BOTH legs of the position:  proceeds from every SELL  +  $1 per WINNING share still HELD at
+    // resolution  −  total buy cost.  The old reconstruction credited a $1 payout on every share ever
+    // bought (ignoring sells) and summed gross re-buys as the stake — which massively overstated both
+    // profit and bet size for any wallet that churned or scalped (e.g. @greenfia: $831k turnover but a
+    // $191 real all-time P&L, yet one market reconstructed as a "$66k bet → +$33k won"). NET is what's
+    // true. It also degrades safely under a truncated trade feed: a position whose BUYS we can't see
+    // nets to ~$0 invested and is dropped by the stake floor rather than published as a phantom.
+    const legs = [e, comp].filter(Boolean);
+    const totalCost = legs.reduce((s, l) => s + l.costUsd, 0);
+    const totalProceeds = legs.reduce((s, l) => s + (l.soldProceedsUsd || 0), 0);
+    const winnerLeg = market.winner ? (e.outcome === market.winner ? e : (comp && comp.outcome === market.winner ? comp : null)) : null;
+    const winnerHeld = winnerLeg ? Math.max(0, winnerLeg.boughtShares - winnerLeg.soldShares) : 0;
+    const profit = totalProceeds + winnerHeld - totalCost;                   // $1 per winning share still held
+    // NET capital carried INTO the event = buys NOT pulled back out via sells before resolution. A
+    // pure scalper (buys ≈ sells) nets ~0 here and so cannot trip the "outsized bet" signal — correct.
+    const netInvested = Math.max(0, totalCost - totalProceeds);
     const lateFrac = e.costUsd > 0 ? clip(e.lateUsd / e.costUsd, 0, 1) : 0;
-    // DIRECTIONAL CONCENTRATION (Harvard signal 5): 1.0 = pure one-sided buy-and-hold; lower
-    // = the trader sold or HEDGED. On Polymarket an exit is recorded EITHER as a SELL of the
-    // held token OR as a BUY of the COMPLEMENT token ("complement routing"). Counting only
-    // outright sells pins dir at ~1 for nearly everyone (the bug that made every wallet look
-    // like a pure-conviction holder). Net the complement-side buys in with the sells so a
-    // hedged/exited position correctly scores below 1, matching Harvard's aggregate-fill basis.
-    const compShares = (byKey[addr + "|" + (e.outcome === "YES" ? "NO" : "YES")] || {}).boughtShares || 0;
+    // DIRECTIONAL CONCENTRATION (Harvard signal 5): 1.0 = pure one-sided buy-and-hold; lower = the
+    // trader sold or HEDGED. On Polymarket an exit is recorded EITHER as a SELL of the held token OR a
+    // BUY of the COMPLEMENT ("complement routing"); net both in so a hedged/exited position scores < 1.
+    const compShares = (comp && comp.boughtShares) || 0;
     const dir = e.boughtShares > 0 ? clip(1 - (e.soldShares + compShares) / e.boughtShares, 0, 1) : 0;
-    return { addr, e, entry, won, profit, lateFrac, dir };
+    return { addr, e, entry, won, profit, netInvested, lateFrac, dir };
   });
-  const stakes = ps.map((p) => p.e.costUsd), profits = ps.map((p) => p.profit);
-  const totalVol = stakes.reduce((a, b) => a + b, 0), nBuyers = ps.length;
+  // STAKE distribution = NET invested (not gross turnover); profits = NET realized. Both are now
+  // apples-to-apples with the money a wallet actually had at risk and kept — so a churner no longer
+  // reads as an outsized, out-profiting bettor. Gross buy volume is kept only for Harvard's market-size
+  // filter (its "≥$10k traded" reference threshold is a buy-volume concept, not a net-exposure one).
+  const stakes = ps.map((p) => p.netInvested), profits = ps.map((p) => p.profit);
+  const grossVol = ps.reduce((a, p) => a + p.e.costUsd, 0);
+  const nBuyers = ps.length;
   const mean = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
   const sd = (a, m) => (a.length > 1 ? Math.sqrt(a.reduce((x, y) => x + (y - m) * (y - m), 0) / (a.length - 1)) : 0);
   const muS = mean(stakes), sdS = sd(stakes, muS), muP = mean(profits), sdP = sd(profits, muP);
-  const eligible = nBuyers >= 3 && totalVol >= 10000;                       // Harvard market filters
+  const eligible = nBuyers >= 3 && grossVol >= 10000;                       // Harvard market filters (buy-volume basis)
   const out = {};
   for (const p of ps) {
     const e = p.e;
@@ -630,7 +653,11 @@ function aggregateMarket(market, trades) {
       cond: market.cond, tokenId: market.tokenId, question: market.question, url: market.url,
       category: market.category, eventGroup: market.eventGroup,
       entryPrice: p.entry,
-      stakeUsd: Math.round(e.costUsd), outcome: e.outcome,
+      // STAKE = net capital carried into the event (gross buys − sells pulled back out), NOT gross
+      // turnover. grossBuyUsd is retained for transparency/debugging; pnl is the NET realized P&L so
+      // betPL() reports the money actually kept rather than a held-to-resolution fiction.
+      stakeUsd: Math.round(p.netInvested), grossBuyUsd: Math.round(e.costUsd), pnl: Math.round(p.profit),
+      outcome: e.outcome,
       won: p.won, held: e.soldShares < 0.03 * e.boughtShares,
       ts: isFinite(e.firstTs) ? e.firstTs : (resolvedSec || null),
       shockTs: shockTs || null,                              // price-shock anchor for event-anchored timing
@@ -641,12 +668,12 @@ function aggregateMarket(market, trades) {
       // this wallet staked ≥$500 (the paper's per-wallet floor). When a market's stake or
       // profit dispersion is degenerate (sd=0) the z is UNMEASURABLE → null (not 0), so the
       // composite degrades to no-data instead of a fabricated 0-contribution signal.
-      hz: (eligible && e.costUsd >= 500) ? {
-        zBetCross: sdS > 0 ? +((e.costUsd - muS) / sdS).toFixed(3) : null,
+      hz: (eligible && p.netInvested >= 500) ? {
+        zBetCross: sdS > 0 ? +((p.netInvested - muS) / sdS).toFixed(3) : null,
         zProfitCross: sdP > 0 ? +((p.profit - muP) / sdP).toFixed(3) : null,
         lateBuyFraction: +p.lateFrac.toFixed(3),
         directionalScore: +p.dir.toFixed(3),
-        marketVol: Math.round(totalVol), nBuyers,
+        marketVol: Math.round(grossVol), nBuyers,
       } : null,
     };
   }

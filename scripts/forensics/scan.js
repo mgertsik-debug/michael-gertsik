@@ -135,8 +135,19 @@ function mergeMarket(state, market, positions) {
     // dedup bets by (cond,outcome): keep the larger-stake record
     const key = bet.cond + "|" + bet.outcome;
     const existing = w.bets.find((b) => (b.cond + "|" + b.outcome) === key);
-    if (existing) { if (bet.stakeUsd > existing.stakeUsd) Object.assign(existing, bet); }
-    else w.bets.push(bet);
+    if (existing) {
+      // Merge two records for the same (market, outcome) WITHOUT losing signal. Keep the larger
+      // net-stake record for the display fields, but ALWAYS carry the Harvard cross-section (hz) from
+      // whichever leg has it (a stake-based overwrite must never blind the harvard scorer), and prefer
+      // Polymarket's AUTHORITATIVE /positions pnl over the trade reconstruction when present — it is
+      // exact and not limited by the 4000-row trade-feed cap.
+      const hz = existing.hz || bet.hz;
+      const authPnl = (bet.source === "positions" && bet.pnl != null) ? bet.pnl
+                    : ((existing.source === "positions" && existing.pnl != null) ? existing.pnl : null);
+      if (bet.stakeUsd > existing.stakeUsd) Object.assign(existing, bet);
+      if (hz) existing.hz = hz;
+      if (authPnl != null) existing.pnl = authPnl;
+    } else w.bets.push(bet);
     if (bet.ts && bet.ts > (w.lastTs || 0)) w.lastTs = bet.ts;
     if (market.resolvedMs && market.resolvedMs > (w.lastResolvedMs || 0)) w.lastResolvedMs = market.resolvedMs;
     // synchronized-entry index: earliest entry per underlying event (for clustering)
