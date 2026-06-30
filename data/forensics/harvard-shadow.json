@@ -16,10 +16,10 @@
   "over500": 86,
   "alsoBinomial": 26,
   "onlyHarvard": 60,
-  "observed": 223004,
-  "reviewed": 223004,
-  "screened": 10342,
-  "scored": 6091,
+  "observed": 223130,
+  "reviewed": 223130,
+  "screened": 10343,
+  "scored": 6088,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -1766,7 +1766,7 @@
       "zProfitCross": 28.15,
       "lateBuyFraction": 0.396,
       "directionalScore": 1,
-      "accountPnl": 574818,
+      "accountPnl": 572962,
       "firstSeen": "Jul 03 2024",
       "createdOnChain": true,
       "created": "Jul 03 2024",
@@ -1790,7 +1790,7 @@
           "stake": 147851,
           "pl": 22410,
           "won": true,
-          "tx": null
+          "tx": "0xf4e39d265d9090179221ee83395ea664e76a3cb6b2c9d648750a7b98cbccbc84"
         },
         {
           "market": "Russia x Ukraine ceasefire by May 31, 2026?",
@@ -1800,7 +1800,7 @@
           "stake": 144545,
           "pl": 25946,
           "won": true,
-          "tx": null
+          "tx": "0xd63cefbda707a121b6a939a2d2d3a358e1f6d36118088a3150886fa4417ba940"
         },
         {
           "market": "US x Iran permanent peace deal by May 15, 2026?",
@@ -1810,7 +1810,7 @@
           "stake": 135082,
           "pl": 27756,
           "won": true,
-          "tx": null
+          "tx": "0xb7d1617b74b99ac8b09a87e630d4126f53000b55119f93d3d83fdb3bae680bb3"
         },
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -1830,7 +1830,7 @@
           "stake": 97008,
           "pl": 7205,
           "won": true,
-          "tx": null
+          "tx": "0x6f13cc56b8c5cc1c0dbc0bf96da0ff809a2c33721499c85cafbf4b24abc8d33e"
         },
         {
           "market": "US x Iran permanent peace deal by June 30, 2026?",
@@ -1860,7 +1860,7 @@
           "stake": 68932,
           "pl": -68932,
           "won": false,
-          "tx": null
+          "tx": "0x32129a27ef9b5374467a66f4275ab2728091032fe93b0e9feeee8a7597389b8f"
         },
         {
           "market": "Israel x Hezbollah permanent peace deal by June 15, 2026?",
@@ -1870,7 +1870,7 @@
           "stake": 51697,
           "pl": 6352,
           "won": true,
-          "tx": null
+          "tx": "0x9faf6377910a593c20b3ff564d81d4e5654078e59a17f5a24d297b13c64bd3e9"
         },
         {
           "market": "Israel x Hezbollah Ceasefire extended by April 26, 2026?",
@@ -1880,7 +1880,7 @@
           "stake": 49224,
           "pl": 22430,
           "won": true,
-          "tx": null
+          "tx": "0xe4cbc091e0b05e2047cc4a5a240e3396a7a7fb864bdf5a8076b60986ea64cede"
         },
         {
           "market": "US x Iran permanent peace deal by May 8, 2026?",
@@ -1890,7 +1890,7 @@
           "stake": 47671,
           "pl": 3029,
           "won": true,
-          "tx": null
+          "tx": "0x70ffe70c0e038af7ab5a8d29448c6a44fd28e6a87dc82e196a4615a8fea2c948"
         },
         {
           "market": "Iran closes its airspace by June 8?",
@@ -1900,7 +1900,7 @@
           "stake": 42515,
           "pl": 6069,
           "won": true,
-          "tx": null
+          "tx": "0xeb153030bc4f9362550620fe06f55fc2059cee1d6e8cce959f9ffa9d31f235dd"
         },
         {
           "market": "US and Iran sign an agreement by June 15, 2026?",
@@ -1910,7 +1910,7 @@
           "stake": 35291,
           "pl": 6335,
           "won": true,
-          "tx": null
+          "tx": "0x6507623be281c716f0ece339f83557cf2127a6cb5d0df17cafb1609c37d171e1"
         }
       ],
       "alsoBinomial": true
@@ -1919,7 +1919,7 @@
       "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
       "username": "cowcat",
       "tier": "high",
-      "S": 1044,
+      "S": 1043.9,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
@@ -1928,7 +1928,7 @@
       "won": true,
       "episodeProfit": 22588,
       "zBetCross": 3.34,
-      "zBetWithin": 19.15,
+      "zBetWithin": 19.14,
       "zProfitCross": 18.92,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -4177,8 +4177,8 @@
           "tx": "0x33b15c32354e7763603f24a6d4b1cd0588e6f6cafd7b28959134aea099b924aa"
         },
         {
-          "market": "Will Donald Trump say \"nuclear\" 3+ times during Israel President events on December 29?",
-          "url": "https://polymarket.com/event/will-donald-trump-say-nuclear-3-times-during-israel-president-events-on-december-29",
+          "market": "0xa2fc72c6a3f886f62501c9fb2b7df5da3a2f6a3f322712bb7d4a955417dd0c4c",
+          "url": null,
           "ts": 1767369051,
           "odds": 100,
           "stake": 13377,
