@@ -1,11 +1,11 @@
 {
   "generatedAt": "Jun 30 2026",
-  "snapshot": 1782776873,
-  "total": 85,
+  "snapshot": 1782783439,
+  "total": 86,
   "byTier": {
     "extreme": 12,
     "high": 13,
-    "notable": 60
+    "notable": 61
   },
   "medianS": 677.1,
   "p90": 1236.2,
@@ -13,13 +13,13 @@
   "p99": 1825.5,
   "minS": 530.7,
   "maxS": 1825.5,
-  "over500": 85,
-  "alsoBinomial": 25,
+  "over500": 86,
+  "alsoBinomial": 26,
   "onlyHarvard": 60,
-  "observed": 222972,
-  "reviewed": 222972,
-  "screened": 10333,
-  "scored": 6084,
+  "observed": 223004,
+  "reviewed": 223004,
+  "screened": 10342,
+  "scored": 6091,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -2833,8 +2833,8 @@
           "url": "https://polymarket.com/event/will-iran-close-the-strait-of-hormuz-by-2027",
           "ts": 1772752105,
           "odds": 99,
-          "stake": 71089,
-          "pl": 577,
+          "stake": 71225,
+          "pl": 440,
           "won": true,
           "tx": "0xa90ffed14255c96ab6c95063bfeb34303313fbde8b0686feccadea4f1eb27cd9"
         },
@@ -4523,8 +4523,8 @@
           "url": "https://polymarket.com/event/next-country-us-strikes-681",
           "ts": 1770144942,
           "odds": 89,
-          "stake": 5750,
-          "pl": 709,
+          "stake": 5757,
+          "pl": 702,
           "won": true,
           "tx": "0xa3b264aa97674b71c355f406a8bc23faf6bf8d9e7459c8a2a0879e3f201bba84"
         }
