@@ -1,6 +1,6 @@
 {
   "generatedAt": "Jun 30 2026",
-  "snapshot": 1782840652,
+  "snapshot": 1782840995,
   "total": 37,
   "byTier": {
     "extreme": 5,
@@ -16,10 +16,10 @@
   "over500": 37,
   "alsoBinomial": 11,
   "onlyHarvard": 26,
-  "observed": 204427,
-  "reviewed": 204427,
-  "screened": 5856,
-  "scored": 3609,
+  "observed": 204887,
+  "reviewed": 204887,
+  "screened": 5874,
+  "scored": 3622,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
