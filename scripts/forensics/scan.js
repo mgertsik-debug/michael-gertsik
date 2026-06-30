@@ -30,6 +30,7 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
+const readline = require("readline");
 const poly = require("../../api/forensics/poly.js");
 const build = require("../../api/forensics/build.js");
 const validate = require("../../api/forensics/validate.js");
@@ -47,6 +48,15 @@ const num = (x) => { const n = Number(x); return isFinite(n) ? n : 0; };
 
 const DIR = path.resolve(__dirname, "../../data/forensics");
 const STATE = path.join(DIR, "state.json");
+// SCREENED POOL — sharded out of state.json into NDJSON (one wallet per line). state.json is
+// read/written with fs.readFileSync(...,"utf8") / JSON.stringify, both of which throw above
+// V8's ~512MB single-string limit (0x1fffffe8 ≈ 536M chars) — at the live ~16KB/wallet that
+// crash point is ~32k wallets, the hard ceiling on SCREEN_CAP. The pool is the ONLY part of
+// state that grows unbounded (everything else — watermark, HLL sketch, rings, watchlist — is
+// tiny), so we stream it line-by-line: each line is one wallet (small), no giant string ever
+// exists, and the new ceiling is RAM (the parsed object) not the string limit. Persisted in
+// the SAME Actions cache as state.json (the workflow caches both paths).
+const SCREENED = path.join(DIR, "screened.ndjson");
 const STORE = path.join(DIR, "store.json");
 const REJECTED = path.join(DIR, "rejected.json");   // pre-publish gate: wallets dropped + why
 const SHADOW = path.join(DIR, "harvard-shadow.json"); // dark-launch: what pure-Harvard WOULD flag, on live data
@@ -103,6 +113,48 @@ const INFO_DEADLINE = NOW + Math.min(+ENV.INFO_BUDGET_S || 720, 760) * 1000;   /
 
 function read(p, fb) { try { return JSON.parse(fs.readFileSync(p, "utf8")); } catch (_) { return fb; } }
 function write(p, obj) { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, JSON.stringify(obj, null, 2) + "\n"); }
+
+// Stream the screened pool back from its NDJSON shard → { address -> wallet }. readline never
+// materialises the whole file as one string (each `line` is a single small wallet record), so
+// there's no 512MB string-limit crash regardless of pool size — peak memory is just the parsed
+// object. Returns null if the shard doesn't exist (cold cache / pre-migration), so the caller
+// can fall back to any screened blob still embedded in state.json (one-time migration seed).
+async function readScreened() {
+  if (!fs.existsSync(SCREENED)) return null;
+  const out = {};
+  let n = 0, bad = 0;
+  const rl = readline.createInterface({ input: fs.createReadStream(SCREENED, { encoding: "utf8" }), crlfDelay: Infinity });
+  for await (const line of rl) {
+    if (!line) continue;
+    try { const w = JSON.parse(line); if (w && w.address) { out[w.address] = w; n++; } } catch (_) { bad++; }
+  }
+  if (bad) log("readScreened: skipped " + bad + " unparseable line(s)");
+  log("readScreened: " + n + " wallets restored from NDJSON shard");
+  return out;
+}
+
+// Stream the screened pool OUT as NDJSON. JSON.stringify on the whole pool would build one
+// giant string and throw the same >512MB limit on WRITE, so we serialise one wallet per
+// fs.writeSync — no single string exceeds one wallet. Write to a temp file then atomically
+// rename, so a crash mid-write can never leave a half-written (corrupt) pool that the next
+// tick would silently truncate.
+function writeScreened(screened) {
+  fs.mkdirSync(DIR, { recursive: true });
+  const tmp = SCREENED + ".tmp";
+  const fd = fs.openSync(tmp, "w");
+  let n = 0;
+  try {
+    for (const a in screened) {
+      const w = screened[a];
+      if (!w) continue;
+      if (!w.address) w.address = a;                 // address is the NDJSON join key on read-back
+      fs.writeSync(fd, JSON.stringify(w) + "\n");
+      n++;
+    }
+  } finally { fs.closeSync(fd); }
+  fs.renameSync(tmp, SCREENED);                       // atomic swap
+  return n;
+}
 function log(...a) { console.log("[forensics]", ...a); }
 
 function monthDay(ts) {
@@ -195,7 +247,13 @@ function recordSurprise(state, market, positions) {
 async function run() {
   fs.mkdirSync(DIR, { recursive: true });
   const state = read(STATE, null) || { watermark: { offset: 0 }, reviewed: 0, screened: {}, snapshotTs: 0 };
-  state.screened = state.screened || {};
+  // Load the screened pool from its NDJSON shard (streamed — no 512MB string-limit crash).
+  // ONE-TIME MIGRATION: on the first run after sharding ships, the shard doesn't exist yet, so
+  // readScreened() returns null and we fall back to the screened blob still embedded in the old
+  // state.json (or the committed git seed). It moves to the NDJSON shard on this tick's write,
+  // and state.json shrinks to just the small durable fields from then on.
+  const shardScreened = await readScreened();
+  state.screened = shardScreened || state.screened || {};
   state._reviewedThisRun = new Set();
 
   // 1+2. enumerate the NEXT slice of resolved markets (watermark sweep) and
@@ -1024,7 +1082,18 @@ async function finalize(state, snapshotTs) {
       return lean;
     });
   }
+  // Persist in two parts: the big screened pool streams to its NDJSON shard (no 512MB string
+  // limit), and the SMALL durable state (watermark, HLL sketch, surpriseMarkets, rings,
+  // watchlist, flaggedHistory…) goes to state.json without the pool embedded — so state.json
+  // stays a few KB no matter how large the pool grows. Write the shard FIRST: if it throws,
+  // state.json still reflects the prior pool (the shard on disk is unchanged by a failed temp
+  // write thanks to the atomic rename), so the two never diverge destructively.
+  const screened = state.screened;
+  const nWritten = writeScreened(screened);
+  delete state.screened;                    // do NOT embed the pool in state.json
   write(STATE, state);
+  state.screened = screened;                // restore the live reference (nothing below needs it, but keep state coherent)
+  log("persisted: " + nWritten + " screened wallets → NDJSON shard · state.json " + (fs.statSync(STATE).size / 1024).toFixed(0) + "KB");
   // (STORE was already written above, before housekeeping, so it lands even if the
   // eviction/catalog steps throw.)
 }
