@@ -16,10 +16,10 @@
   "over500": 84,
   "alsoBinomial": 25,
   "onlyHarvard": 59,
-  "observed": 224635,
-  "reviewed": 224635,
+  "observed": 224766,
+  "reviewed": 224766,
   "screened": 10350,
-  "scored": 6096,
+  "scored": 6095,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -1428,6 +1428,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
+      "username": "cowcat",
+      "tier": "high",
+      "S": 1069.2,
+      "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+      "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+      "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
+      "stake": 20935,
+      "odds": 48,
+      "won": true,
+      "episodeProfit": 22588,
+      "zBetCross": 3.34,
+      "zBetWithin": 20.41,
+      "zProfitCross": 18.92,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": 165907,
+      "firstSeen": "Apr 13 2024",
+      "createdOnChain": true,
+      "created": "Apr 13 2024",
+      "betsCount": 735,
+      "ledger": [
+        {
+          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+          "ts": 1771786958,
+          "odds": 48,
+          "stake": 20935,
+          "pl": 22588,
+          "won": true,
+          "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
+        },
+        {
+          "market": "Will Mikie Sherrill win the New Jersey Governor Election in 2025",
+          "url": "https://polymarket.com/event/new-jersey-governor-election-winner-2025",
+          "ts": 1762214400,
+          "odds": 19,
+          "stake": 10648,
+          "pl": -10648,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "US x Venezuela military engagement by January 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by",
+          "ts": 1769817600,
+          "odds": 83,
+          "stake": 10006,
+          "pl": -10006,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Fed decreases interest rates by 25 bps after July 2025 meeting?",
+          "url": "https://polymarket.com/event/fed-decision-in-july",
+          "ts": 1753833600,
+          "odds": 11,
+          "stake": 3281,
+          "pl": -3281,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will monthly inflation increase by 0.4% or more in June?",
+          "url": "https://polymarket.com/event/june-inflation-monthly",
+          "ts": 1752537600,
+          "odds": 12,
+          "stake": 2142,
+          "pl": -2142,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will US GDP growth in Q3 2025 be between 3.0% and 3.5%?",
+          "url": "https://polymarket.com/event/us-gdp-growth-in-q3-2025",
+          "ts": 1761782400,
+          "odds": 14,
+          "stake": 2139,
+          "pl": -2139,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "No change in Fed interest rates after September 2025 meeting?",
+          "url": "https://polymarket.com/event/fed-decision-in-september",
+          "ts": 1758067200,
+          "odds": 7,
+          "stake": 2126,
+          "pl": -2126,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will US GDP growth in Q3 2025 be between 2.5% and 3.0%?",
+          "url": "https://polymarket.com/event/us-gdp-growth-in-q3-2025",
+          "ts": 1761782400,
+          "odds": 16,
+          "stake": 2093,
+          "pl": -2093,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will People’s Party (PPLE) win the most seats in the 2026 Thai legislative election?",
+          "url": "https://polymarket.com/event/thai-legislative-election-winner",
+          "ts": 1770508800,
+          "odds": 67,
+          "stake": 1963,
+          "pl": -1963,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Paramount x Warner Bros. acquisition announced by June 30?",
+          "url": "https://polymarket.com/event/paramount-acquires-warner-bros-discovery-by-june-30",
+          "ts": 1765426389,
+          "odds": 27,
+          "stake": 1928,
+          "pl": 5192,
+          "won": true,
+          "tx": "0xa7a72e5dc3b10f2e96ce22918e5a2034c0f64d2d7f61c9296137d8637cd466fe"
+        },
+        {
+          "market": "Will xAI have the best AI model at the end of January 2026?",
+          "url": "https://polymarket.com/event/which-company-has-the-best-ai-model-end-of-january",
+          "ts": 1769817600,
+          "odds": 5,
+          "stake": 1887,
+          "pl": -1887,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will annual inflation increase by 3.0% or more in August?",
+          "url": "https://polymarket.com/event/august-inflation-annual",
+          "ts": 1757548800,
+          "odds": 15,
+          "stake": 1793,
+          "pl": -1793,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will Britt Lower win the Emmy for Outstanding Lead Actress in a Drama Series?",
+          "url": "https://polymarket.com/event/emmys-lead-actress-in-a-drama",
+          "ts": 1757808000,
+          "odds": 85,
+          "stake": 1747,
+          "pl": -1747,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will Sinners win Best Motion Picture – Drama at the 83rd Golden Globes?",
+          "url": "https://polymarket.com/event/golden-globes-best-motion-picture-drama-winner",
+          "ts": 1768089600,
+          "odds": 58,
+          "stake": 1746,
+          "pl": -1746,
+          "won": false,
+          "tx": null
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x3a8aa345d5db7ec5138298c8c4f4540259be7699",
       "username": "TheReturnOfDarthMaul",
       "tier": "high",
@@ -1758,172 +1924,6 @@
         }
       ],
       "alsoBinomial": true
-    },
-    {
-      "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
-      "username": "cowcat",
-      "tier": "high",
-      "S": 1043.9,
-      "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-      "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-      "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
-      "stake": 20935,
-      "odds": 48,
-      "won": true,
-      "episodeProfit": 22588,
-      "zBetCross": 3.34,
-      "zBetWithin": 19.14,
-      "zProfitCross": 18.92,
-      "lateBuyFraction": 0,
-      "directionalScore": 1,
-      "accountPnl": 163151,
-      "firstSeen": "Apr 13 2024",
-      "createdOnChain": true,
-      "created": "Apr 13 2024",
-      "betsCount": 634,
-      "ledger": [
-        {
-          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-          "ts": 1771786958,
-          "odds": 48,
-          "stake": 20935,
-          "pl": 22588,
-          "won": true,
-          "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
-        },
-        {
-          "market": "Will Mikie Sherrill win the New Jersey Governor Election in 2025",
-          "url": "https://polymarket.com/event/will-mikie-sherrill-win-the-new-jersey-governor-election-in-2025",
-          "ts": 1762214400,
-          "odds": 19,
-          "stake": 10648,
-          "pl": -10648,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "US x Venezuela military engagement by January 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by-january-31-2026-977",
-          "ts": 1769817600,
-          "odds": 83,
-          "stake": 10006,
-          "pl": -10006,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Fed decreases interest rates by 25 bps after July 2025 meeting?",
-          "url": "https://polymarket.com/event/fed-decreases-interest-rates-by-25-bps-after-july-2025-meeting",
-          "ts": 1753833600,
-          "odds": 11,
-          "stake": 3281,
-          "pl": -3281,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Will US GDP growth in Q3 2025 be between 3.0% and 3.5%?",
-          "url": "https://polymarket.com/event/will-us-gdp-growth-in-q2-2025-be-between-3pt0-and-3pt5-533",
-          "ts": 1761782400,
-          "odds": 14,
-          "stake": 2139,
-          "pl": -2139,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "No change in Fed interest rates after September 2025 meeting?",
-          "url": "https://polymarket.com/event/no-change-in-fed-interest-rates-after-september-2025-meeting",
-          "ts": 1758067200,
-          "odds": 7,
-          "stake": 2126,
-          "pl": -2126,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Will US GDP growth in Q3 2025 be between 2.5% and 3.0%?",
-          "url": "https://polymarket.com/event/will-us-gdp-growth-in-q2-2025-be-between-2pt5-and-3pt0-847",
-          "ts": 1761782400,
-          "odds": 16,
-          "stake": 2093,
-          "pl": -2093,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Will People’s Party (PPLE) win the most seats in the 2026 Thai legislative election?",
-          "url": "https://polymarket.com/event/will-peoples-party-pple-win-the-most-seats-in-the-2026-thai-legislative-election",
-          "ts": 1770508800,
-          "odds": 67,
-          "stake": 1963,
-          "pl": -1963,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Paramount x Warner Bros. acquisition announced by June 30?",
-          "url": "https://polymarket.com/event/paramount-acquires-warner-bros-discovery-by-june-30",
-          "ts": 1765426389,
-          "odds": 27,
-          "stake": 1928,
-          "pl": 5192,
-          "won": true,
-          "tx": "0xa7a72e5dc3b10f2e96ce22918e5a2034c0f64d2d7f61c9296137d8637cd466fe"
-        },
-        {
-          "market": "Will xAI have the best AI model at the end of January 2026?",
-          "url": "https://polymarket.com/event/will-xai-have-the-best-ai-model-at-the-end-of-january-2026",
-          "ts": 1769817600,
-          "odds": 5,
-          "stake": 1887,
-          "pl": -1887,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "0xbe98afa6f158c93c02811a64eb3a356140abf7ad98fe407913207f8e90cf4f4d",
-          "url": null,
-          "ts": 1757808000,
-          "odds": 85,
-          "stake": 1747,
-          "pl": -1747,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Will Israel be in the top 5 at Eurovision 2026?",
-          "url": "https://polymarket.com/event/will-israel-be-in-the-top-5-at-eurovision-2026",
-          "ts": 1778889600,
-          "odds": 49,
-          "stake": 1626,
-          "pl": -1626,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Will Lori Chavez-DeRemer be the first to leave the Trump Cabinet before 2027?",
-          "url": "https://polymarket.com/event/who-will-be-the-first-to-leave-the-trump-cabinet-828",
-          "ts": 1768078068,
-          "odds": 76,
-          "stake": 1506,
-          "pl": 476,
-          "won": true,
-          "tx": "0x9414c483509ca0ce0bbb20bd27ce8f38e7c1b440ecdb66f33934221d0bb64ae8"
-        },
-        {
-          "market": "Will Darializa Avila Chevalier be the Democratic Nominee for NY-13?",
-          "url": "https://polymarket.com/event/will-darializa-avila-chevalier-be-the-democratic-nominee-for-ny-13",
-          "ts": 1782266939,
-          "odds": 100,
-          "stake": 1495,
-          "pl": 4,
-          "won": true,
-          "tx": "0x839ca5906b250cd3a9259eb8a832bfb4eebf8b95f510ee09401659264a80a795"
-        }
-      ],
-      "alsoBinomial": false
     },
     {
       "address": "0xfcf2378f20cf408d077c21e731272f21cccea469",
@@ -3201,8 +3201,8 @@
           "tx": "0x1297550c7c165b7f5b627a611dc02af8d593011778a84779bc25e476877caabd"
         },
         {
-          "market": "0x0942f5ee13a4cdb53b020d60766260a2e0f602af85804392f5c77f80ea9a9b0b",
-          "url": null,
+          "market": "Will France strike Iran by March 31?",
+          "url": "https://polymarket.com/event/will-france-strike-iran-by-march-31",
           "ts": 1773084689,
           "odds": 14,
           "stake": 30,
@@ -4021,8 +4021,8 @@
           "tx": "0x33b15c32354e7763603f24a6d4b1cd0588e6f6cafd7b28959134aea099b924aa"
         },
         {
-          "market": "0xa2fc72c6a3f886f62501c9fb2b7df5da3a2f6a3f322712bb7d4a955417dd0c4c",
-          "url": null,
+          "market": "Will Donald Trump say \"nuclear\" 3+ times during Israel President events on December 29?",
+          "url": "https://polymarket.com/event/will-donald-trump-say-nuclear-3-times-during-israel-president-events-on-december-29",
           "ts": 1767369051,
           "odds": 100,
           "stake": 13377,
