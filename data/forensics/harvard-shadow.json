@@ -16,8 +16,8 @@
   "over500": 31,
   "alsoBinomial": 9,
   "onlyHarvard": 22,
-  "observed": 199934,
-  "reviewed": 199934,
+  "observed": 200293,
+  "reviewed": 200293,
   "screened": 5649,
   "scored": 3533,
   "top": [
@@ -735,7 +735,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1019.8,
+      "S": 1011.2,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -744,7 +744,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 7.1,
+      "zBetWithin": 6.67,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -754,6 +754,16 @@
       "created": "May 18 2026",
       "betsCount": 259,
       "ledger": [
+        {
+          "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1749015772,
+          "odds": 100,
+          "stake": 66176,
+          "pl": 67,
+          "won": true,
+          "tx": "0xd5495803707eaa02ae8491c8a319288ec7260f386c2bee74a79cf91d963c0569"
+        },
         {
           "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
@@ -797,22 +807,12 @@
         {
           "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1761010716,
+          "ts": 1760995331,
           "odds": 96,
-          "stake": 42503,
-          "pl": 1531,
+          "stake": 42522,
+          "pl": 1528,
           "won": true,
-          "tx": "0xd69866238493f3b79987f934ce79742f0e22f5fecc483399d6f8b7d5a35d1fa2"
-        },
-        {
-          "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1748993906,
-          "odds": 100,
-          "stake": 41171,
-          "pl": 42,
-          "won": true,
-          "tx": "0xae99903093bf3cd0232a44e0fc6d08da8266585eea49a1449237ef56e5cb45c2"
+          "tx": "0xf370e66d44a951e83b4d19fcb3a05c8bfadc14bf2f43a5cefeff3a3e7b79ee2f"
         },
         {
           "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
