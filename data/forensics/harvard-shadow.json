@@ -4,22 +4,22 @@
   "total": 23,
   "byTier": {
     "extreme": 2,
-    "high": 3,
-    "notable": 18
+    "high": 4,
+    "notable": 17
   },
   "medianS": 691.1,
-  "p90": 1004.6,
+  "p90": 1086.2,
   "p95": 1161.2,
   "p99": 1190.1,
   "minS": 532.2,
   "maxS": 1190.1,
   "over500": 23,
-  "alsoBinomial": 6,
-  "onlyHarvard": 17,
-  "observed": 191012,
-  "reviewed": 191012,
-  "screened": 5010,
-  "scored": 2910,
+  "alsoBinomial": 4,
+  "onlyHarvard": 19,
+  "observed": 191295,
+  "reviewed": 191295,
+  "screened": 5011,
+  "scored": 3038,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -229,6 +229,172 @@
           "pl": 3600,
           "won": true,
           "tx": "0xf8fae6812fea96b5689c339986e91edb624d6e030255b5428d775f4ea2ed7627"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
+      "username": "cowcat",
+      "tier": "high",
+      "S": 1086.2,
+      "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+      "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+      "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
+      "stake": 20935,
+      "odds": 48,
+      "won": true,
+      "episodeProfit": 22588,
+      "zBetCross": 3.5,
+      "zBetWithin": 20.15,
+      "zProfitCross": 19.53,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": 160264,
+      "firstSeen": "Apr 13 2024",
+      "createdOnChain": true,
+      "created": "Apr 13 2024",
+      "betsCount": 711,
+      "ledger": [
+        {
+          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+          "ts": 1771786958,
+          "odds": 48,
+          "stake": 20935,
+          "pl": 22588,
+          "won": true,
+          "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
+        },
+        {
+          "market": "Will Mikie Sherrill win the New Jersey Governor Election in 2025",
+          "url": "https://polymarket.com/event/new-jersey-governor-election-winner-2025",
+          "ts": 1762214400,
+          "odds": 19,
+          "stake": 10648,
+          "pl": -10648,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "US x Venezuela military engagement by January 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by",
+          "ts": 1769817600,
+          "odds": 83,
+          "stake": 10006,
+          "pl": -10006,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Fed decreases interest rates by 25 bps after July 2025 meeting?",
+          "url": "https://polymarket.com/event/fed-decision-in-july",
+          "ts": 1753833600,
+          "odds": 11,
+          "stake": 3281,
+          "pl": -3281,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will monthly inflation increase by 0.4% or more in June?",
+          "url": "https://polymarket.com/event/june-inflation-monthly",
+          "ts": 1752537600,
+          "odds": 12,
+          "stake": 2142,
+          "pl": -2142,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will US GDP growth in Q3 2025 be between 3.0% and 3.5%?",
+          "url": "https://polymarket.com/event/us-gdp-growth-in-q3-2025",
+          "ts": 1761782400,
+          "odds": 14,
+          "stake": 2139,
+          "pl": -2139,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "No change in Fed interest rates after September 2025 meeting?",
+          "url": "https://polymarket.com/event/fed-decision-in-september",
+          "ts": 1758067200,
+          "odds": 7,
+          "stake": 2126,
+          "pl": -2126,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will US GDP growth in Q3 2025 be between 2.5% and 3.0%?",
+          "url": "https://polymarket.com/event/us-gdp-growth-in-q3-2025",
+          "ts": 1761782400,
+          "odds": 16,
+          "stake": 2093,
+          "pl": -2093,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will People’s Party (PPLE) win the most seats in the 2026 Thai legislative election?",
+          "url": "https://polymarket.com/event/thai-legislative-election-winner",
+          "ts": 1770508800,
+          "odds": 67,
+          "stake": 1963,
+          "pl": -1963,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will xAI have the best AI model at the end of January 2026?",
+          "url": "https://polymarket.com/event/which-company-has-the-best-ai-model-end-of-january",
+          "ts": 1769817600,
+          "odds": 5,
+          "stake": 1887,
+          "pl": -1887,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will annual inflation increase by 3.0% or more in August?",
+          "url": "https://polymarket.com/event/august-inflation-annual",
+          "ts": 1757548800,
+          "odds": 15,
+          "stake": 1793,
+          "pl": -1793,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will Britt Lower win the Emmy for Outstanding Lead Actress in a Drama Series?",
+          "url": "https://polymarket.com/event/emmys-lead-actress-in-a-drama",
+          "ts": 1757808000,
+          "odds": 85,
+          "stake": 1747,
+          "pl": -1747,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will Sinners win Best Motion Picture – Drama at the 83rd Golden Globes?",
+          "url": "https://polymarket.com/event/golden-globes-best-motion-picture-drama-winner",
+          "ts": 1768089600,
+          "odds": 58,
+          "stake": 1746,
+          "pl": -1746,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will Israel be in the top 5 at Eurovision 2026?",
+          "url": "https://polymarket.com/event/eurovision-2026-top-5",
+          "ts": 1778889600,
+          "odds": 49,
+          "stake": 1626,
+          "pl": -1626,
+          "won": false,
+          "tx": null
         }
       ],
       "alsoBinomial": false
@@ -567,9 +733,9 @@
     },
     {
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
-      "username": null,
+      "username": "classified",
       "tier": "high",
-      "S": 826.3,
+      "S": 814.3,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -578,16 +744,56 @@
       "won": true,
       "episodeProfit": 17517,
       "zBetCross": 12.74,
-      "zBetWithin": 1.5,
+      "zBetWithin": 0.9,
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 4,
+      "accountPnl": 833675,
+      "firstSeen": "Mar 23 2025",
+      "createdOnChain": true,
+      "created": "Mar 12 2025",
+      "betsCount": 56,
       "ledger": [
+        {
+          "market": "US x Iran permanent peace deal by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1780348257,
+          "odds": 77,
+          "stake": 350452,
+          "pl": 101878,
+          "won": true,
+          "tx": "0x28a3b683a1f957ea5c4002dc7ef64d8c847d53f5a0648eaf5eb471351c1e2904"
+        },
+        {
+          "market": "US x Iran permanent peace deal by December 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1780475316,
+          "odds": 81,
+          "stake": 263285,
+          "pl": 63482,
+          "won": true,
+          "tx": "0x4e94ed71b9e62f67d0922aff53a9bad21d50edfe6db37291a8d19be174bc0f7f"
+        },
+        {
+          "market": "US x Iran permanent peace deal by July 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1780348255,
+          "odds": 72,
+          "stake": 111280,
+          "pl": 42713,
+          "won": true,
+          "tx": "0x102c23944ec5abe9d1243a6c1f238d8f018c2f6d1ce165a3f2bbb9c04dcc9298"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1780759549,
+          "odds": 30,
+          "stake": 89138,
+          "pl": -205,
+          "won": false,
+          "tx": "0x07184d2cf61efb7bdab3b9bdc8768c3787ec6f21ccb344bfed3455c1127875d7"
+        },
         {
           "market": "Khamenei out as Supreme Leader of Iran in 2026?",
           "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
@@ -599,37 +805,97 @@
           "tx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e"
         },
         {
-          "market": "US x Iran permanent peace deal by October 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1781086989,
-          "odds": 14,
-          "stake": 3945,
-          "pl": -1450,
+          "market": "Will the Iran ceasefire continue through May 26?",
+          "url": "https://polymarket.com/event/iran-ceasefire-continues-through",
+          "ts": 1779753600,
+          "odds": 86,
+          "stake": 32520,
+          "pl": -32520,
           "won": false,
-          "tx": "0x6f6c9d6bc2f390e6585c915dcffccfce873896875595ac526c236d36267d1337"
+          "tx": null
         },
         {
-          "market": "Lighter Airdrop on January 6?",
-          "url": "https://polymarket.com/event/what-day-will-the-lighter-airdrop-be-489",
-          "ts": 1767079733,
+          "market": "US and Iran sign an agreement by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-and-iran-sign-an-agreement-byptptpt-20260611221049850",
+          "ts": 1781710220,
           "odds": 100,
-          "stake": 1247,
-          "pl": 1,
+          "stake": 28477,
+          "pl": 78,
           "won": true,
-          "tx": "0x138670d215eace686057b129adfcf1ec7a573a949c0761372f73646ab54dfecd"
+          "tx": "0x61af1eee556d05de050c6baea6a10243ed4b2902d7e4c0f7b34fb1fe0eab5fad"
         },
         {
-          "market": "No airdrop by January 10",
-          "url": "https://polymarket.com/event/what-day-will-the-lighter-airdrop-be-489",
-          "ts": 1767079739,
-          "odds": 100,
-          "stake": 1098,
-          "pl": 1,
+          "market": "US x Iran permanent peace deal by August 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1780919844,
+          "odds": 51,
+          "stake": 23965,
+          "pl": 23100,
           "won": true,
-          "tx": "0x74241ff1deb315cb391cf306df1aa10789a9e4af366ff327e934cccfa1556614"
+          "tx": "0xd7159c30f222a6f95c00463a8ecd6a2b5b824f59c8bf54aebe381119b8cedb50"
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by June 7?",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-7-265-824-655-577-216",
+          "ts": 1780730967,
+          "odds": 97,
+          "stake": 14907,
+          "pl": 433,
+          "won": true,
+          "tx": "0x02e100886c96de35352c05cd38e34566aea9a8f3a176f26d7dae0b703d505641"
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by June 5?",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-5-9144",
+          "ts": 1780568221,
+          "odds": 97,
+          "stake": 9925,
+          "pl": 275,
+          "won": true,
+          "tx": "0xdc7f2c5021aeed0a462544a7bc74b708b64835aefdb84ce85d88a340ea49dfbb"
+        },
+        {
+          "market": "Will the Iran ceasefire continue through May 25?",
+          "url": "https://polymarket.com/event/iran-ceasefire-continues-through",
+          "ts": 1779667200,
+          "odds": 16,
+          "stake": 8420,
+          "pl": -8420,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Iran closes its airspace by June 15?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-15-219",
+          "ts": 1780351276,
+          "odds": 81,
+          "stake": 7986,
+          "pl": 1847,
+          "won": true,
+          "tx": "0x5ff5e7ec25d93042e2b22fc6933cd76323a0d7158f9f6139fdb428fc265fd5d7"
+        },
+        {
+          "market": "Iran closes its airspace by June 8?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-8",
+          "ts": 1780849476,
+          "odds": 26,
+          "stake": 7535,
+          "pl": -7535,
+          "won": false,
+          "tx": "0x6327622c3aa43417ef6da338b7ad2115a21f3394dda30fa7f8c0cd504c01872c"
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by June 12?",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-12-2482",
+          "ts": 1780732570,
+          "odds": 87,
+          "stake": 6477,
+          "pl": 952,
+          "won": true,
+          "tx": "0xc4e58ccd62cab44c75751a9f999c1fad19ec73730827c6143e0d6b52ce0402b1"
         }
       ],
-      "alsoBinomial": true
+      "alsoBinomial": false
     },
     {
       "address": "0x39ddf7c23d7f1d6537fef553734187109fde0b7b",
@@ -925,172 +1191,6 @@
           "pl": 205,
           "won": true,
           "tx": "0x7615c3643ce6c978d6c75c44dd9ca0697ca1fb5fcc24542d3d0e9ab361d0f8a0"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
-      "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
-      "username": null,
-      "tier": "notable",
-      "S": 755.3,
-      "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-      "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-      "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
-      "stake": 20935,
-      "odds": 48,
-      "won": true,
-      "episodeProfit": 22588,
-      "zBetCross": 3.5,
-      "zBetWithin": 3.6,
-      "zProfitCross": 19.53,
-      "lateBuyFraction": 0,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 16,
-      "ledger": [
-        {
-          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-          "ts": 1771786958,
-          "odds": 48,
-          "stake": 20935,
-          "pl": 22588,
-          "won": true,
-          "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
-        },
-        {
-          "market": "Will Lori Chavez-DeRemer be the first to leave the Trump Cabinet before 2027?",
-          "url": "https://polymarket.com/event/who-will-be-the-first-to-leave-the-trump-cabinet-828",
-          "ts": 1768078068,
-          "odds": 76,
-          "stake": 1506,
-          "pl": 476,
-          "won": true,
-          "tx": "0x9414c483509ca0ce0bbb20bd27ce8f38e7c1b440ecdb66f33934221d0bb64ae8"
-        },
-        {
-          "market": "Will the Party for Freedom win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1760682944,
-          "odds": 63,
-          "stake": 643,
-          "pl": -643,
-          "won": false,
-          "tx": "0x6db5b0f05489df18b9456d3085404807f7df26400d082285192b21a5dc9283aa"
-        },
-        {
-          "market": "Will the Democrats 66 win the fourth most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
-          "ts": 1759251407,
-          "odds": 25,
-          "stake": 584,
-          "pl": -502,
-          "won": false,
-          "tx": "0xcfa37c56eebc8611139d725841c506f569376caf659873930d646a902daeefd3"
-        },
-        {
-          "market": "Will the GreenLeft–Labour Party alliance win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1760675217,
-          "odds": 32,
-          "stake": 372,
-          "pl": -372,
-          "won": false,
-          "tx": "0x580f9552705e61e5cf8373e0d6e68bde4592527917a6ae413a779a6015fa88d5"
-        },
-        {
-          "market": "Will the Christian Democratic Appeal win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1760686332,
-          "odds": 16,
-          "stake": 363,
-          "pl": -363,
-          "won": false,
-          "tx": "0xc3369ccc334c6d520b34f3ee6893ff5c03f0958ea3638ef0ea3203b21fb1c4e4"
-        },
-        {
-          "market": "Will the Christian Democratic Appeal win the fourth most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
-          "ts": 1761667391,
-          "odds": 40,
-          "stake": 330,
-          "pl": -168,
-          "won": false,
-          "tx": "0xf66a10bb7247096684fd0156d585fb297a2a460c4bcdb18bf8cb689969a5bffa"
-        },
-        {
-          "market": "Will the People's Party for Freedom and Democracy win the fourth most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
-          "ts": 1759233189,
-          "odds": 30,
-          "stake": 257,
-          "pl": -257,
-          "won": false,
-          "tx": "0xafb9789f99e7f6a7f9c075dcd25e7e329e53b83bb1e30d9e71687189b757b106"
-        },
-        {
-          "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1761707941,
-          "odds": 86,
-          "stake": 248,
-          "pl": -19,
-          "won": true,
-          "tx": "0x3760ca3f0f4081ceae2d55b884f875c68266e709bef7fae73d0236ef8507be56"
-        },
-        {
-          "market": "Will Jonathan Dearden win Top Chef Season 23?",
-          "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
-          "ts": 1777880758,
-          "odds": 96,
-          "stake": 88,
-          "pl": 3,
-          "won": true,
-          "tx": "0x83262b7c5411b1ca43c8f1611579b898773ba19a75f155f88923e699e9e65e22"
-        },
-        {
-          "market": "Will Rhoda Magbitang win Top Chef Season 23?",
-          "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
-          "ts": 1779844367,
-          "odds": 94,
-          "stake": 63,
-          "pl": -63,
-          "won": true,
-          "tx": "0x9277c9de7d212656cd0991021aa063d2e075d62a859b3a7c471d482f25ae8e6b"
-        },
-        {
-          "market": "Will GroenLinks–PvdA win 22 or fewer seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/dutch-parliamentary-election-groenlinkspvda-seats",
-          "ts": 1760916578,
-          "odds": 72,
-          "stake": 36,
-          "pl": -36,
-          "won": false,
-          "tx": "0x800b0f6227b2df4f8de623d518fb9b81c9774edcf293958cecffc456be470e05"
-        },
-        {
-          "market": "Will Laurence Louie win Top Chef Season 23?",
-          "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
-          "ts": 1778333058,
-          "odds": 7,
-          "stake": 24,
-          "pl": -24,
-          "won": false,
-          "tx": "0x06b6a475e4e98b2736439c81d4fed6b2247840ddcf9f931952278e8a34aa7051"
-        },
-        {
-          "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1761797181,
-          "odds": 88,
-          "stake": 22,
-          "pl": 3,
-          "won": true,
-          "tx": "0x90c234b2e04f6f392bd77c3c292d879cf3ca1aadc85012de24276750f7141409"
         }
       ],
       "alsoBinomial": true
@@ -2221,8 +2321,8 @@
           "tx": "0xdd053b8659edaefa21037220209455955c7d0fb6bb7b79a4283d2d6bf7140eb8"
         },
         {
-          "market": "Will another pair of candidates advance to the second round of the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
+          "market": "0x3f58eaf1a4beb03b4e267fc5c16e71efdd9509d4afd7b49d48cb66c6c5e8e7b5",
+          "url": null,
           "ts": 1780358400,
           "odds": 20,
           "stake": 3761,
@@ -2241,8 +2341,8 @@
           "tx": "0xf8e6909f4d2d5d047b9475b7f960ad4b94694401f2a70b0bf27f79cd954fb991"
         },
         {
-          "market": "Will Miguel Uribe Turbay win the 2026 Colombian presidential election?",
-          "url": "https://polymarket.com/event/colombia-presidential-election",
+          "market": "0xe79972d28e543046c88cb43847a06f46fd85930a3ad0b71a1339fc5973e5a815",
+          "url": null,
           "ts": 1782000000,
           "odds": 4,
           "stake": 3510,
@@ -2252,7 +2352,7 @@
         },
         {
           "market": "Will Germán Vargas Lleras win the 2026 Colombian presidential election?",
-          "url": "https://polymarket.com/event/colombia-presidential-election",
+          "url": "https://polymarket.com/event/will-germn-vargas-lleras-win-the-2026-colombian-presidential-election",
           "ts": 1782000000,
           "odds": 4,
           "stake": 3510,
@@ -2262,7 +2362,7 @@
         },
         {
           "market": "Will a candidate win the 2026 Los Angeles mayoral election in the first round?",
-          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
+          "url": "https://polymarket.com/event/will-a-candidate-win-the-2026-los-angeles-mayoral-election-in-the-first-round",
           "ts": 1780358400,
           "odds": 20,
           "stake": 3499,
@@ -2272,7 +2372,7 @@
         },
         {
           "market": "Will Nithya Raman & Spencer Pratt advance to the second round of the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
+          "url": "https://polymarket.com/event/will-nithya-raman-spencer-pratt-advance-to-the-second-round-of-the-2026-los-angeles-mayoral-election",
           "ts": 1780358400,
           "odds": 20,
           "stake": 3431,
@@ -2281,8 +2381,8 @@
           "tx": null
         },
         {
-          "market": "Will Germán Vargas Lleras win the 1st round of the 2026 Colombian presidential election?",
-          "url": "https://polymarket.com/event/colombia-presidential-election-1st-round-winner",
+          "market": "0x2890121a9277d619b936695405544bda9f80d184b05d9503fd8f173c52867365",
+          "url": null,
           "ts": 1780185600,
           "odds": 4,
           "stake": 2535,
