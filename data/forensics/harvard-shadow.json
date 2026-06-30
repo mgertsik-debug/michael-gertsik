@@ -16,10 +16,10 @@
   "over500": 95,
   "alsoBinomial": 36,
   "onlyHarvard": 59,
-  "observed": 221400,
-  "reviewed": 221400,
-  "screened": 10206,
-  "scored": 6031,
+  "observed": 221590,
+  "reviewed": 221590,
+  "screened": 10232,
+  "scored": 6034,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -2268,7 +2268,7 @@
       "firstSeen": "May 06 2025",
       "createdOnChain": true,
       "created": "May 06 2025",
-      "betsCount": 325,
+      "betsCount": 326,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
@@ -3058,7 +3058,7 @@
       "firstSeen": "Feb 02 2025",
       "createdOnChain": true,
       "created": "Jan 26 2025",
-      "betsCount": 736,
+      "betsCount": 759,
       "ledger": [
         {
           "market": "Will Trump nominate Scott Bessent as the next Fed chair?",
