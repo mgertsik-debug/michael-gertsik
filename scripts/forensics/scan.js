@@ -942,33 +942,45 @@ async function finalize(state, snapshotTs) {
     let added = 0, scored = 0, candCount = 0;
     if (Date.now() < INFO_DEADLINE) {
       const ocOf = (t) => { const o = String(t.outcome != null ? t.outcome : (t.outcomeIndex === 0 ? "Yes" : t.outcomeIndex === 1 ? "No" : "")).trim().toUpperCase(); return (o === "YES" || o === "0") ? "YES" : (o === "NO" || o === "1") ? "NO" : o; };
-      const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 10, 12) });
+      const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 12, 12), maxRows: 8000 });
       const trades = (feed || []).map((t) => ({
         wallet: t.proxyWallet || t.user || t.maker || t.taker,
         cond: t.conditionId || t.market || t.condition_id,
         sizeUsd: num(t.size) * num(t.price), price: num(t.price), ts: num(t.timestamp || t.matchTime || t.time),
-        outcome: ocOf(t), title: t.title || t.question || null, side: String(t.side || "").toUpperCase(),
+        outcome: ocOf(t), title: t.title || t.question || null, slug: t.slug || t.eventSlug || null, side: String(t.side || "").toUpperCase(),
       })).filter((t) => t.wallet && t.cond && t.ts > 0 && t.sizeUsd > 0 && t.side !== "SELL" && !(cat[t.cond] && cat[t.cond].w != null)); // OPEN markets, buys
       const byMarket = {}; trades.forEach((t) => (byMarket[t.cond] = byMarket[t.cond] || []).push(t.sizeUsd));
-      const cands = trades.filter((t) => t.sizeUsd >= (+ENV.WATCH_MIN_USD || 2500)).sort((a, b) => b.sizeUsd - a.sizeUsd);
+      // CANDIDATES: material BUYS on (probably) INSIDER-PRONE open markets. The global feed is dominated by
+      // sports / crypto-price whales, so PRE-FILTER by the trade's OWN title (no fetch) — keep only titles
+      // category() recognises as in-scope, plus titles we can't classify yet (the meta fetch decides those).
+      // The size floor is now low ($1k) and just bounds work; magnitude is a SCORING signal, not the gate —
+      // a big bet on a LIQUID market is <1% of volume, so a size gate would miss exactly the insider case.
+      const cands = trades.filter((t) => {
+        if (t.sizeUsd < (+ENV.WATCH_MIN_USD || 1000)) return false;
+        return t.title ? poly.category([], t.title) != null : true;   // in-scope by title, or unknown → meta decides
+      }).sort((a, b) => b.sizeUsd - a.sizeUsd);
       candCount = cands.length;
-      // ONE bounded metadata batch → question, slug, category AND market 24h VOLUME (which drives the
-      // whale-share magnitude signal, so it needs no peer sample). category() null drops publicly-decided
-      // markets (sports / crypto-price / weather), exactly as the resolved engine excludes them.
+      // ONE bounded metadata batch → question, slug, category AND market 24h VOLUME. category() null drops
+      // publicly-decided markets (sports / crypto-price / weather), exactly as the resolved engine excludes them.
       const topConds = []; const condSeen = new Set();
-      for (const t of cands) { if (!condSeen.has(t.cond)) { condSeen.add(t.cond); topConds.push(t.cond); } if (topConds.length >= 30) break; }
+      for (const t of cands) { if (!condSeen.has(t.cond)) { condSeen.add(t.cond); topConds.push(t.cond); } if (topConds.length >= 50) break; }
       let meta = {};
-      try { meta = await poly.openMarketMeta(topConds, { maxConds: 30 }); } catch (_) {}
-      // CHEAP BASE SCORE (no extra network): outsized(volume share) + long-shot + repeat-suspect.
+      try { meta = await poly.openMarketMeta(topConds, { maxConds: 50 }); } catch (_) {}
+      // CHEAP BASE SCORE (no extra network): outsized (abs size OR volume share) + long-shot + repeat.
+      // ROBUST to a metadata MISS: fall back to the trade's title for category + name, and volume 0 (the
+      // absolute-size magnitude test still fires), so a failed fetch never silently drops an in-scope bet.
       const base = []; const seen = new Set();
       for (const t of cands) {
-        const md = meta[t.cond];
-        if (!md || md.closed || !md.category) continue;        // unknown / already-resolved / out-of-scope
+        const m = meta[t.cond] || {};
+        if (m.closed) continue;                                  // already resolved
+        const category = m.category || (t.title ? poly.category([], t.title) : null);
+        if (!category) continue;                                 // not insider-prone (sports / price / weather)
         const id = t.cond + "|" + String(t.wallet).toLowerCase();
         if (state.watchlist[id] || seen.has(id)) continue; seen.add(id);
+        const md = { question: m.question || t.title || "(market)", slug: m.slug || t.slug || null, category, volume24hr: m.volume24hr, volume: m.volume };
         const marketSizes = (byMarket[t.cond] || []).filter((s) => s !== t.sizeUsd);
         const walletFlagged = flaggedLc.has(String(t.wallet).toLowerCase());   // already a published Suspect (the bridge)
-        const inp = { sizeUsd: t.sizeUsd, marketSizes, marketVolUsd: md.volume24hr || md.volume, entryPrice: t.price, walletFlagged };
+        const inp = { sizeUsd: t.sizeUsd, marketSizes, marketVolUsd: md.volume24hr || md.volume || 0, entryPrice: t.price, walletFlagged };
         base.push({ t, md, id, inp, walletFlagged, sc: D.watchlistScore(inp) });
       }
       base.sort((a, b) => b.sc.score - a.sc.score);             // enrich the most-suspicious first; list ALL that clear
@@ -976,7 +988,7 @@ async function finalize(state, snapshotTs) {
       let enriched = 0;
       for (const c of base) {
         if (Date.now() >= INFO_DEADLINE) break;                 // ONLY the deadline caps work — every base-clearer is listed, not just a top-N
-        if (c.sc.score < (+ENV.WATCH_SCORE || 30) && enriched >= ENRICH_N) continue;   // can't clear on base + no enrichment budget left → skip cheaply
+        if (c.sc.score < (+ENV.WATCH_SCORE || 25) && enriched >= ENRICH_N) continue;   // can't clear on base + no enrichment budget left → skip cheaply
         const t = c.t, md = c.md, id = c.id;
         let fresh = false, walletAgeDays = null, blackout = false, anticipated = false, publicInfo = false, fedDoc = null, blackoutEntity = null;
         if (enriched < ENRICH_N) {
@@ -1008,7 +1020,7 @@ async function finalize(state, snapshotTs) {
         }
         const sc = D.watchlistScore(Object.assign({}, c.inp, { fresh, blackout, anticipated, publicInfo }));
         scored++;
-        if (sc.score >= (+ENV.WATCH_SCORE || 30)) {   // a single strong tell (blackout 35 / repeat 30) earns a watch; weaker signals need ≥2
+        if (sc.score >= (+ENV.WATCH_SCORE || 25)) {   // a single material tell (blackout 35 / repeat 30 / long-shot 25) earns a watch; a lone whale (20) needs a 2nd signal
           state.watchlist[id] = {
             id, cond: t.cond, wallet: t.wallet, market: md.question || "(market)", category: md.category,
             url: md.slug ? "https://polymarket.com/event/" + md.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
@@ -1025,7 +1037,7 @@ async function finalize(state, snapshotTs) {
     const rank = { promoted: 3, watching: 2, cleared: 1 };
     payload.watchlist = Object.values(state.watchlist).sort((a, b) => (rank[b.status] - rank[a.status]) || ((b.ts || 0) - (a.ts || 0))).slice(0, 150);
     payload.watchlistMeta = { total: payload.watchlist.length, watching: payload.watchlist.filter((e) => e.status === "watching").length, promoted: payload.watchlist.filter((e) => e.status === "promoted").length };
-    log("watchlist: " + payload.watchlist.length + " entries · " + candCount + " feed candidates ≥$" + (+ENV.WATCH_MIN_USD || 2500) + " · " + scored + " scored · +" + added + " newly listed · " + promoted + " promoted · " + cleared + " cleared this tick");
+    log("watchlist: " + payload.watchlist.length + " entries · " + candCount + " feed candidates ≥$" + (+ENV.WATCH_MIN_USD || 1000) + " · " + scored + " scored · +" + added + " newly listed · " + promoted + " promoted · " + cleared + " cleared this tick");
   } catch (e) { log("watchlist failed (non-fatal):", e && e.message); payload.watchlist = Object.values(state.watchlist || {}); }
 
   // commit step saw no change.) The published store does not depend on housekeeping.
