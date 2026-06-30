@@ -7,7 +7,7 @@
     "high": 4,
     "notable": 17
   },
-  "medianS": 691.1,
+  "medianS": 690.9,
   "p90": 1086.2,
   "p95": 1161.2,
   "p99": 1190.1,
@@ -16,10 +16,10 @@
   "over500": 23,
   "alsoBinomial": 4,
   "onlyHarvard": 19,
-  "observed": 191709,
-  "reviewed": 191709,
-  "screened": 5011,
-  "scored": 3202,
+  "observed": 192182,
+  "reviewed": 192182,
+  "screened": 5134,
+  "scored": 3271,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -403,7 +403,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1004.6,
+      "S": 1007.8,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -412,7 +412,7 @@
       "won": true,
       "episodeProfit": 7507,
       "zBetCross": 17.61,
-      "zBetWithin": 6.34,
+      "zBetWithin": 6.5,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -420,7 +420,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "Sep 23 2024",
-      "betsCount": 195,
+      "betsCount": 212,
       "ledger": [
         {
           "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
@@ -543,24 +543,24 @@
           "tx": "0x0914650380068e3f0e4cccc940270d9fe31e95b4b5fdc8623d65f448619a25c9"
         },
         {
-          "market": "Will the Party for Freedom win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1759335693,
-          "odds": 46,
-          "stake": 11750,
-          "pl": -10244,
-          "won": false,
-          "tx": "0x3ecb526efdf3e46190529823d20c5d96fb6089c12cf1f2fd0737ed41863496e4"
+          "market": "Will the US strike Syria next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-391",
+          "ts": 1768136340,
+          "odds": 97,
+          "stake": 15144,
+          "pl": 502,
+          "won": true,
+          "tx": "0x4141fd4b6376c15a69a33b5b2aea65ae1d3d0e3cf8702c130229a600b4444a08"
         },
         {
-          "market": "Will Volt Netherlands win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1748999181,
-          "odds": 100,
-          "stake": 10890,
-          "pl": 11,
+          "market": "Will the US strike Yemen next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-391",
+          "ts": 1768136134,
+          "odds": 99,
+          "stake": 14672,
+          "pl": 221,
           "won": true,
-          "tx": null
+          "tx": "0xaeea04cf7afb65ee57c6d35d2ec435f0026dfa47a00ca8f5eb16b6b34c87f9cc"
         }
       ],
       "alsoBinomial": false
@@ -752,7 +752,7 @@
       "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
-      "betsCount": 56,
+      "betsCount": 57,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 30, 2026?",
@@ -1531,7 +1531,7 @@
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
       "username": "tourists",
       "tier": "notable",
-      "S": 691.1,
+      "S": 690.9,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -1540,7 +1540,7 @@
       "won": true,
       "episodeProfit": 1527,
       "zBetCross": 14.62,
-      "zBetWithin": -0.31,
+      "zBetWithin": -0.32,
       "zProfitCross": 10.73,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -1548,7 +1548,7 @@
       "firstSeen": "May 12 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 58,
+      "betsCount": 59,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
@@ -1609,6 +1609,16 @@
           "pl": 1745,
           "won": true,
           "tx": "0xc75a1bde05ba852ecae870cbc02dc16e2d8ad597a76c1cc98a9858027f6a1cef"
+        },
+        {
+          "market": "Clavicular pregnancy in 2026?",
+          "url": "https://polymarket.com/event/clavicular-pregnancy-in-2026",
+          "ts": 1777493150,
+          "odds": 99,
+          "stake": 69505,
+          "pl": 353,
+          "won": true,
+          "tx": "0x20cb1c9c891eea7b26f7891d8a51c366ba10ab29ecb3b396d538cc5d1115e41e"
         },
         {
           "market": "Will Abelardo de la Espriella  win the 2026 Colombian presidential election?",
@@ -1679,16 +1689,6 @@
           "pl": 105,
           "won": true,
           "tx": "0x954bb3cfbb36e4fdc90cf53969dba3326fc946e9c2fcfe65c7916d58d1ebc49b"
-        },
-        {
-          "market": "Will Trump restart Project Freedom by June 30?",
-          "url": "https://polymarket.com/event/will-trump-restart-project-freedom-by",
-          "ts": 1781114380,
-          "odds": 90,
-          "stake": 35623,
-          "pl": 3907,
-          "won": true,
-          "tx": "0xcc5626415ac2efe22a97133a73072035ef46b543358517ad4cf935c734721529"
         }
       ],
       "alsoBinomial": false
@@ -1697,7 +1697,7 @@
       "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
       "username": "siick",
       "tier": "notable",
-      "S": 687.1,
+      "S": 687.7,
       "market": "Will the US strike Somalia next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
       "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
@@ -1706,7 +1706,7 @@
       "won": true,
       "episodeProfit": 1882,
       "zBetCross": 7.77,
-      "zBetWithin": 4.7,
+      "zBetWithin": 4.73,
       "zProfitCross": 12.83,
       "lateBuyFraction": 0.273,
       "directionalScore": 1,
@@ -1714,7 +1714,7 @@
       "firstSeen": "Jun 15 2025",
       "createdOnChain": true,
       "created": "Feb 25 2025",
-      "betsCount": 150,
+      "betsCount": 152,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
@@ -2414,7 +2414,7 @@
       "firstSeen": "Jan 14 2024",
       "createdOnChain": true,
       "created": "Feb 28 2025",
-      "betsCount": 162,
+      "betsCount": 163,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -2551,10 +2551,10 @@
           "url": "https://polymarket.com/event/clavicular-pregnancy-in-2026",
           "ts": 1777508954,
           "odds": 99,
-          "stake": 109760,
-          "pl": 1502,
+          "stake": 113657,
+          "pl": -2395,
           "won": true,
-          "tx": null
+          "tx": "0x5f6234ebc0c48c8099039b540e5222748cc45fc43481df5817c682a517b131e1"
         }
       ],
       "alsoBinomial": false
@@ -2563,7 +2563,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 578.5,
+      "S": 578.7,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": null,
@@ -2572,7 +2572,7 @@
       "won": true,
       "episodeProfit": 4363,
       "zBetCross": 10.72,
-      "zBetWithin": 2.59,
+      "zBetWithin": 2.6,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -2580,7 +2580,7 @@
       "firstSeen": "Oct 13 2024",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1202,
+      "betsCount": 1220,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -2895,7 +2895,7 @@
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": "Hakei.",
       "tier": "notable",
-      "S": 536.3,
+      "S": 536.5,
       "market": "Iran successfully targets shipping by June 27?",
       "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
       "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -2904,7 +2904,7 @@
       "won": true,
       "episodeProfit": 16392,
       "zBetCross": 2.27,
-      "zBetWithin": 0.71,
+      "zBetWithin": 0.72,
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -2912,7 +2912,7 @@
       "firstSeen": "Jan 08 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 156,
+      "betsCount": 158,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",

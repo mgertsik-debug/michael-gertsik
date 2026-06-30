@@ -1,6 +1,6 @@
 {
   "generatedAt": "Jun 30 2026",
-  "count": 7,
+  "count": 8,
   "rejected": [
     {
       "address": "0xd9a890ad8981c2e3d56bdf366e50e0f5c62f6e67",
@@ -43,6 +43,12 @@
       "id": null,
       "tier": "elevated",
       "reason": "net unprofitable (informed trading is profitable; profit=-41)"
+    },
+    {
+      "address": "0x521453b6b0e922cec0e75bc20cae92f2cf4795c9",
+      "id": null,
+      "tier": "watch",
+      "reason": "account net-negative (all-time P/L=$-752)"
     }
   ]
 }
