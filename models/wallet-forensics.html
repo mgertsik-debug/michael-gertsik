@@ -607,6 +607,8 @@ class Component extends DCLogic {
 
   applyRealData(data) {
     this.subjects = Array.isArray(data.subjects) ? data.subjects : [];
+    // No "Extreme" (red) tier — fold any extreme into High so stale/cached data never renders red.
+    this.subjects.forEach((s) => { if (s && s.tier === "extreme") s.tier = "elevated"; });
     this.surpriseMarkets = Array.isArray(data.surpriseMarkets) ? data.surpriseMarkets : [];
     this.ringGroups = Array.isArray(data.ringGroups) ? data.ringGroups : [];
     this.coverageByCategory = (data.coverageByCategory && typeof data.coverageByCategory === "object") ? data.coverageByCategory : {};
