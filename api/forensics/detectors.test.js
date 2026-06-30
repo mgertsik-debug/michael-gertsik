@@ -220,14 +220,20 @@ test("RECONSTRUCTED Iran-ring cluster (9 wallets, ~98% win, fresh, held) -> Extr
   assert.ok(f.fired.includes("cluster") && f.fired.includes("won"));
 });
 
-test("HARVARD composite: 3-signal score + profitability gate + tiers", () => {
-  // SCORE = 20·zbc + 15·zbw + 40·zpc  (profit-weighted; late/dir are context, NOT scored)
+test("HARVARD composite: faithful 5-signal score + profitability gate + tiers", () => {
+  // Paper's LOCKED weights: S = 30·zpc + 25·zbc + 20·zbw + 15·late + 10·dir, late/dir on [0,1].
   const e = D.harvardEpisode({ zBetCross: 12, zBetWithin: 5, zProfitCross: 18, lateBuyFraction: 0.5, directionalScore: 1.0, won: true });
-  // 20*12 + 15*5 + 40*18 = 240 + 75 + 720 = 1035  (late/dir excluded)
-  assert.equal(e.S, 1035, "score is the 3 reliable cross-sections, profit-weighted — late/dir excluded");
+  // 30*18 + 25*12 + 20*5 + 15*0.5 + 10*1.0 = 540 + 300 + 100 + 7.5 + 10 = 957.5
+  assert.equal(e.S, 957.5, "all 5 signals at the paper's weights; late/dir on [0,1]");
   assert.equal(e.retained, true, "retained: outsized bet AND won AND out-profited peers");
   assert.equal(e.profitable, true);
-  assert.equal(D.harvardTier(e.S), "high", "S=1035 -> high (1035 in [810,1110))");
+  assert.equal(D.harvardTier(e.S), "high", "S=957.5 -> high (in [810,1110))");
+
+  // SCALE LOCK — late/dir must enter on [0,1], so a fully-late, fully-directional episode adds
+  // EXACTLY 15+10 = 25 points, not 1500+1000. Regression guard against the old ·100 units bug.
+  const base = D.harvardEpisode({ zBetCross: 3, zBetWithin: 0, zProfitCross: 0, lateBuyFraction: 0, directionalScore: 0, won: true });
+  const maxed = D.harvardEpisode({ zBetCross: 3, zBetWithin: 0, zProfitCross: 0, lateBuyFraction: 1, directionalScore: 1, won: true });
+  assert.equal(maxed.S - base.S, 25, "late=1 + dir=1 adds 25 (15+10), NOT 2500 — no ·100");
 
   // PROFITABILITY GATE: a big LOSING bet (or one that under-profited peers) is NOT retained,
   // however large/late/one-sided — this is the fix for losers scoring high.
@@ -250,7 +256,7 @@ test("HARVARD composite: 3-signal score + profitability gate + tiers", () => {
   const z = D.harvardEpisode({});
   assert.equal(z.hasData, false, "no measurable z_bet_cross -> hasData:false, not a fake S=0");
   const partial = D.harvardEpisode({ zBetCross: 3, won: true });
-  assert.equal(partial.hasData, true); assert.equal(partial.S, 60, "20*3 with others 0");
+  assert.equal(partial.hasData, true); assert.equal(partial.S, 75, "25*3 with the other four signals at 0");
 });
 
 /* ============================================================================

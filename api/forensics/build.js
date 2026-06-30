@@ -903,10 +903,11 @@ function suspicionScore(s) {
   const log10 = (x) => Math.log(Math.max(1, x)) / Math.LN10;
   // HARVARD-EPISODE subjects carry a composite score S in improbDenom — NOT a luck denominator —
   // so map S directly onto the 0..100 suspicion scale instead of the log10(1/P) path. Calibrated to
-  // OUR retained-episode distribution (median S≈700, p90≈1370, p99≈1980 — far above the paper's raw
-  // scale because we only retain the outsized-and-won tail): the divisor keeps the MEDIAN episode at
-  // Notable and lifts only the top tail to High/Extreme, so the new per-episode flags don't all land
-  // hot. Tunable via HARVARD_SUSPICION_DIV.
+  // OUR retained-episode distribution (the outsized-and-won tail runs roughly median S≈800, p90≈1400
+  // on the faithful 5-signal formula — far above the paper's raw scale because we only retain that
+  // tail): the divisor keeps the MEDIAN episode at Notable and lifts only the top tail to
+  // High/Extreme, so the new per-episode flags don't all land hot. Re-fit from a fresh scan after any
+  // weight change; tunable via HARVARD_SUSPICION_DIV.
   if (s.profitSource === "harvard-episode") {
     const S = num(s.harvardScore != null ? s.harvardScore : s.improbDenom);
     const div = +process.env.HARVARD_SUSPICION_DIV || 22;            // S≈700→32 (Notable), ≈1370→62 (High), ≈1980→90 (Extreme)
@@ -1033,11 +1034,21 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
   const profitNum = Math.round(epPL);
   const _prof = agg.profile || null;
   const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
-  // SAME money bar as the other single-wallet paths: a net-losing account or an immaterial
-  // episode is not a credible insider even with a high composite (the edgeseekr-style guard).
-  if (accountPL != null && accountPL <= 0) return null;
-  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
-  if (!(num(hb.stakeUsd) >= MATERIALITY_USD || Math.abs(epPL) >= MATERIALITY_USD)) return null;
+  // PROFILE RECONCILIATION + MATERIAL PROFIT. The wallet's AUTHORITATIVE all-time account P&L is the
+  // money it actually KEPT. A reconstructed episode profit that dwarfs it means the per-market
+  // position was MISATTRIBUTED (or churned all the way back) — e.g. @greenfia, whose dossier claimed
+  // a "$66K bet → +$33K won" on one market while its real all-time P&L is $191 and its biggest win
+  // ever is $659. An insider who profits KEEPS it. So require:
+  //   (1) the account made MATERIAL money overall (all-time P&L ≥ floor) — this alone kills greenfia,
+  //   (2) the flagged EPISODE itself cleared a real PROFIT floor (not just a big stake — nobody risks
+  //       exposure to net a few hundred dollars), and
+  //   (3) the episode profit is not implausibly larger than everything the wallet ever netted
+  //       (a single win bigger than the whole account by a wide margin = misattributed / not kept).
+  const MIN_ACCT = +process.env.HARVARD_MIN_ACCOUNT_PNL || 1000;
+  const MIN_EP_PROFIT = +process.env.HARVARD_MIN_EPISODE_PROFIT || 1000;
+  if (!(accountPL != null && accountPL >= MIN_ACCT)) return null;          // material money actually kept
+  if (!(epPL >= MIN_EP_PROFIT)) return null;                              // sub-floor flagged profit → drop
+  if (epPL > Math.max(50000, accountPL * 5)) return null;                 // episode dwarfs the account → misattributed
   const wins = valid.filter((b) => b.won).length;
   const W = D.HARVARD_W;
   const z = (x) => (num(x)).toFixed(2);
@@ -1049,20 +1060,21 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
       numbers: "bet " + z(harvard.zBetCross) + " SD above the market's average stake", inputs: [["z_bet_cross", z(harvard.zBetCross)], ["weight", String(W.betCross)], ["+S", String(Math.round(W.betCross * num(harvard.zBetCross)))]] },
     { key: "hBetWithin", metric: "z = " + z(harvard.zBetWithin), method: "Within-trader bet size", formula: "z = (stake − μ_wallet) / σ_wallet · weight " + W.betWithin,
       numbers: "bet " + z(harvard.zBetWithin) + " SD above this wallet's own typical stake", inputs: [["z_bet_within", z(harvard.zBetWithin)], ["weight", String(W.betWithin)], ["+S", String(Math.round(W.betWithin * num(harvard.zBetWithin)))]] },
-    { key: "hLate", metric: Math.round(num(harvard.lateBuyFraction) * 100) + "% late", method: "Pre-event timing (context only)", formula: "fraction of buys in the final 48h — NOT scored (saturated on partial data)",
-      numbers: Math.round(num(harvard.lateBuyFraction) * 100) + "% of buying was in the final 48h before resolution", inputs: [["late_buy_fraction", num(harvard.lateBuyFraction).toFixed(2)], ["scored?", "no — context only"]] },
-    { key: "hDir", metric: Math.round(num(harvard.directionalScore) * 100) + "% one-sided", method: "Directional concentration (context only)", formula: "1 − sold/bought — NOT scored (saturated on partial data)",
-      numbers: Math.round(num(harvard.directionalScore) * 100) + "% one-directional (held, not hedged)", inputs: [["directional_score", num(harvard.directionalScore).toFixed(2)], ["scored?", "no — context only"]] },
+    { key: "hLate", metric: Math.round(num(harvard.lateBuyFraction) * 100) + "% late", method: "Pre-event timing", formula: "late_buy_fraction (share of buys in the final 48h) · weight " + W.late,
+      numbers: Math.round(num(harvard.lateBuyFraction) * 100) + "% of buying was in the final 48h before resolution", inputs: [["late_buy_fraction", num(harvard.lateBuyFraction).toFixed(2)], ["weight", String(W.late)], ["+S", String(Math.round(W.late * num(harvard.lateBuyFraction)))]] },
+    { key: "hDir", metric: Math.round(num(harvard.directionalScore) * 100) + "% one-sided", method: "Directional concentration", formula: "directional_score (1 − sold/bought) · weight " + W.dir,
+      numbers: Math.round(num(harvard.directionalScore) * 100) + "% one-directional (held, not hedged)", inputs: [["directional_score", num(harvard.directionalScore).toFixed(2)], ["weight", String(W.dir)], ["+S", String(Math.round(W.dir * num(harvard.directionalScore)))]] },
   ];
-  // contribution split — ONLY the three SCORED cross-sectional signals (late/dir are context, not
-  // scored). Normalised over the positive contributors.
-  const rawC = { hProfit: W.profitCross * num(harvard.zProfitCross), hBetCross: W.betCross * num(harvard.zBetCross), hBetWithin: W.betWithin * num(harvard.zBetWithin) };
+  // contribution split over ALL FIVE scored signals (profit/bet-cross/bet-within z's + late + dir),
+  // normalised over the positive contributors. late/dir enter on [0,1] so their share is small —
+  // exactly the paper's intended 15/10 weighting against the dominant z-spine.
+  const rawC = { hProfit: W.profitCross * num(harvard.zProfitCross), hBetCross: W.betCross * num(harvard.zBetCross), hBetWithin: W.betWithin * num(harvard.zBetWithin), hLate: W.late * num(harvard.lateBuyFraction), hDir: W.dir * num(harvard.directionalScore) };
   const posSum = Object.values(rawC).reduce((a, v) => a + Math.max(0, v), 0) || 1;
   const contributions = {}; Object.keys(rawC).forEach((k) => { contributions[k] = Math.max(0, Math.round((Math.max(0, rawC[k]) / posSum) * 100)); });
   const lead = valid.slice().sort((a, b) => num(b.stakeUsd) - num(a.stakeUsd))[0];
   const timeline = lead ? { market: qOf(lead), priceStart: num(lead.entryPrice), priceEnd: lead.won ? 0.95 : 0.05, entries: [num(lead.entryPrice)], resolution: lead.won ? 0.92 : 0.08, candidates: [] } : {};
   const epOdds = Math.round(num(hb.entryPrice) * 100);
-  const heroSentence = "This account's most anomalous (wallet, market) episode scores " + S + " on the composite suspicion score — it bet " + money(hb.stakeUsd) + " at about " + epOdds + "% on “" + String(qOf(hb)).slice(0, 70) + "”" + (hb.won ? ", and won" : "") + ". The score combines three cross-sectional signals — out-profiting the market, an outsized bet vs peers, and an outsized bet vs its own norm — and only retains episodes that actually won and out-profited the market; late entry and one-sided conviction are shown as context. Consistent with informed trading — not proof of it.";
+  const heroSentence = "This account's most anomalous (wallet, market) episode scores " + S + " on the Harvard composite — it bet " + money(hb.stakeUsd) + " at about " + epOdds + "% on “" + String(qOf(hb)).slice(0, 70) + "”" + (hb.won ? ", and won" : "") + ". The score combines all five signals — out-profiting the market, an outsized bet vs peers, an outsized bet vs its own norm, buying late (final 48h), and one-sided conviction — weighted as in Ofir & Ofir (profit/size dominate; timing and directionality are minor). We additionally retain only episodes that actually won and out-profited the market. Consistent with informed trading — not proof of it.";
   return {
     id: "h" + (idx + 1), type: "wallet", address: agg.address || null, memberAddresses: [agg.address],
     idLabel: short(agg.address), username: agg.pseudonym || (_prof && _prof.username) || null,

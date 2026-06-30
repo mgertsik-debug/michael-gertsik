@@ -859,8 +859,9 @@ function fuse(dets, opts) {
  *  difference from the binomial path: it flags one outsized, profitable, late,
  *  directional bet regardless of the wallet's broader history.
  *
- *    S = 25·z_bet_cross + 20·z_bet_within + 30·z_profit_cross
- *        + 15·(late_buy_fraction·100) + 10·(directional_score·100)
+ *    S = 30·z_profit_cross + 25·z_bet_cross + 20·z_bet_within
+ *        + 15·late_buy_fraction + 10·directional_score
+ *    (z's are raw signed z-scores; late_buy_fraction and directional_score are in [0,1] — NO ·100)
  *
  *  where (all supplied by the scanner from per-market cross-sections):
  *    z_bet_cross   = (wallet's buy $ − market mean) / market SD   (vs peers in that market)
@@ -873,17 +874,17 @@ function fuse(dets, opts) {
  *  OR z_bet_within > 2 (~top 2.5% by bet size). The scanner also applies Harvard's
  *  market filters ($10k+ market volume, ≥3 buyers, ≥$500 wallet buy) upstream.
  * ========================================================================== */
-// WEIGHTS — rebalanced toward PROFIT. For insider detection, being RIGHT against the odds
-// (profit vs peers) is more diagnostic than betting BIG (bet size), so profit now dominates
-// (40) over the two bet-size signals (20 + 15). This deviates from Harvard's locked 25/20/30
-// (validated on their full data) — owned as ours, because betting big is what made whales score
-// high. late/dir remain context-only (unused in the score). betCross/betWithin/profitCross are scored.
-const HARVARD_W = { betCross: 20, betWithin: 15, profitCross: 40, late: 15, dir: 10 };
-// SCORED signals = the three reliable cross-sections (bet vs market, bet vs own norm, profit vs
-// peers). late_buy_fraction + directional_score are COMPUTED and DISPLAYED as context but EXCLUDED
-// from the score: on a partial per-market trade sample they saturate near 1.0 and add a constant
-// ~2,500 to every episode, which let big LOSING bets score "extreme". They return to the score once
-// full per-market trade history makes them informative.
+// WEIGHTS — Harvard's LOCKED composite (Ofir & Ofir): profit 30, bet-cross 25, bet-within 20,
+// timing 15, directionality 10. All FIVE signals are scored. CRITICAL SCALE NOTE: the z-terms are
+// raw z's (weight·z, can be tens), so a single bet-size z is the spine of the score; late and dir
+// are fractions in [0,1] and enter as weight·fraction — late contributes [0,15], dir [0,10]. They
+// are minor ordering nudges, exactly as the paper intends. (An earlier version multiplied late/dir
+// by 100 — a UNITS BUG that turned a 15-point feature into a 1,500-point one, swamping the z-spine
+// and letting big LOSING bets score "extreme". It also blamed "saturation on a partial sample", but
+// late/dir are PER-WALLET ratios computed over the FULL per-market trade list in aggregateMarket, so
+// they're reliable and well-spread across [0,1] — the real defect was the scale, not the data.) The
+// profitability gate below, NOT excluding late/dir, is what keeps losing bets out.
+const HARVARD_W = { profitCross: 30, betCross: 25, betWithin: 20, late: 15, dir: 10 };
 function harvardEpisode(e, opts) {
   if (!e) return { key: "harvard", hasData: false };
   // The cross-sectional bet z (z_bet_cross) is the spine of the composite and its retention
@@ -895,7 +896,8 @@ function harvardEpisode(e, opts) {
   const zpc = isNum(e.zProfitCross) ? e.zProfitCross : 0;
   const late = clip(isNum(e.lateBuyFraction) ? e.lateBuyFraction : 0, 0, 1);
   const dir = clip(isNum(e.directionalScore) ? e.directionalScore : 0, 0, 1);
-  const S = HARVARD_W.betCross * zbc + HARVARD_W.betWithin * zbw + HARVARD_W.profitCross * zpc;
+  const S = HARVARD_W.profitCross * zpc + HARVARD_W.betCross * zbc + HARVARD_W.betWithin * zbw
+          + HARVARD_W.late * late + HARVARD_W.dir * dir;   // all 5 signals; late/dir on [0,1] (NO ·100)
   // PROFITABILITY GATE: informed trading is PROFITABLE. Retain only episodes that WON and
   // out-profited their peers (z_profit_cross > 0), on top of Harvard's outsized-bet gate. This is
   // what stops a big LOSING bet from scoring high just because it was large/late/one-sided.
@@ -908,10 +910,12 @@ function harvardEpisode(e, opts) {
     lateBuyFraction: +late.toFixed(3), directionalScore: +dir.toFixed(3),
   };
 }
-// Tier from the composite S (the three reliable cross-sectional signals). Calibrated to OUR gated
-// distribution — material profit ≥ $1k, entry odds ≤ 70%, winners only — where the score runs
-// median ~350, p90 ~730. NOT the paper's absolute scale (our per-market cross-sections use a partial
-// trade sample, which inflates the z's). Ranks suspicion within our data: extreme ≈ top ~5%.
+// Tier from the full 5-signal composite S. Calibrated to OUR gated distribution (material profit ≥
+// $1k, entry odds ≤ 70%, winners only), NOT the paper's absolute 200/500 scale — our per-market
+// cross-sections truncate the peer set at the 4000-trade cap, which shrinks the SD denominator and
+// inflates the z's ~2× for mega-markets. So these cutoffs RANK suspicion within our data (extreme ≈
+// top few %), they are not paper-comparable. Re-fit from a fresh shadow run after any weight change;
+// tunable via opts.harvardTiers / the publish path.
 const HARVARD_TIERS = { notable: 530, high: 810, extreme: 1110 };
 function harvardTier(S, opts) {
   const t = Object.assign({}, HARVARD_TIERS, opts && opts.harvardTiers);

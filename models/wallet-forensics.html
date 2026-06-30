@@ -1162,11 +1162,27 @@ class Component extends DCLogic {
     const phrase = { "Military & Defense": "military events", "Politics": "political events", "Elections": "elections", "Economics": "economic events", "Crypto": "crypto events", "Culture": "culture markets", "Sports": "sports markets", "World": "world events" }[s.category] || "these markets";
     const flaggedPL = (s.type === "cluster" ? "+" + (s.profit || "—") + " across the bundle" : "+" + (s.profit || "—") + " on those bets");
     const acct = (s.accountPnlText && s.type !== "cluster") ? " · " + s.accountPnlText + " account P&L (all trades)" : "";
+    const fam = s.flagFamily || s.profitSource || "";
+    // EPISODE engines (Harvard composite / favorite) flag ONE outsized bet at ANY odds — usually a
+    // FAVORITE, NOT a long-shot. Describe the actual episode so the card never mislabels a 67%
+    // favorite as a "long-shot" (the @greenfia confusion).
+    if (fam === "harvard-episode" || fam === "favorite" || s.profitSource === "harvard-episode" || s.profitSource === "favorite-episode") {
+      const ep = s.harvardEpisode || {};
+      const stake = ep.stake != null ? "$" + Number(ep.stake).toLocaleString("en-US") : (s.profit || "—");
+      const odds = ep.odds != null ? ep.odds : s.avgImplied;
+      const mkt = ep.market ? "“" + String(ep.market).slice(0, 46) + (String(ep.market).length > 46 ? "…" : "") + "”" : phrase;
+      return "Placed an outsized " + stake + " bet at ~" + odds + "% on " + mkt + (ep.won === false ? "" : " and won") + " · +" + (s.profit || "—") + " on that bet" + acct + ".";
+    }
     if (s.convictionFlag && s.convBet) {
       const payout = s.convBet.payout ? ("$" + s.convBet.payout.toLocaleString("en-US")) : null;
       return "Put $" + (s.convBet.stake || 0).toLocaleString("en-US") + " on a ~" + (s.convBet.entryPct || s.avgImplied) + "% long-shot on " + phrase + (payout ? " and won " + payout : " and won") + acct + ".";
     }
-    return "Won " + s.winRate + "% of its long-shot bets on " + phrase + " · " + flaggedPL + acct + ".";
+    // CROSS-CATEGORY: a near-perfect record across many MODERATE-odds markets (not only long-shots).
+    if (fam === "crossCat" || s.profitSource === "cross-category") {
+      return "Won " + s.winRate + "% across " + s.marketsCount + " markets priced near " + s.avgImplied + "% on " + phrase + " · " + flaggedPL + acct + ".";
+    }
+    // BINOMIAL record: the genuine long-shot subset (entry ≤ 35% implied).
+    return "Won " + s.winRate + "% of its long-shot bets (entered at ≤35% odds) on " + phrase + " · " + flaggedPL + acct + ".";
   }
 
   depositChips(s) {
