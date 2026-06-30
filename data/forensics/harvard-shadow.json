@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782776873,
-  "total": 78,
+  "total": 79,
   "byTier": {
     "extreme": 12,
     "high": 12,
-    "notable": 54
+    "notable": 55
   },
-  "medianS": 678.9,
+  "medianS": 677.1,
   "p90": 1308.6,
   "p95": 1527.7,
   "p99": 1825.5,
   "minS": 530.7,
   "maxS": 1825.5,
-  "over500": 78,
+  "over500": 79,
   "alsoBinomial": 24,
-  "onlyHarvard": 54,
-  "observed": 222146,
-  "reviewed": 222146,
-  "screened": 10272,
-  "scored": 6065,
+  "onlyHarvard": 55,
+  "observed": 222210,
+  "reviewed": 222210,
+  "screened": 10283,
+  "scored": 6068,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -2085,7 +2085,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1011.7,
+      "S": 1011.6,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
