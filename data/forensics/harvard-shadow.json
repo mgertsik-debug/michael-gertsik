@@ -16,10 +16,10 @@
   "over500": 86,
   "alsoBinomial": 26,
   "onlyHarvard": 60,
-  "observed": 223323,
-  "reviewed": 223323,
+  "observed": 223870,
+  "reviewed": 223870,
   "screened": 10343,
-  "scored": 6092,
+  "scored": 6093,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -2417,7 +2417,7 @@
       "address": "0x614dc8d3542c12103d2c6a3553fd761e391d1546",
       "username": "mr.ozi",
       "tier": "high",
-      "S": 989.3,
+      "S": 989.4,
       "market": "US strikes Iran by March 8, 2026?",
       "marketUrl": "https://polymarket.com/event/us-strikes-iran-by",
       "episodeTx": "0xe87a5cc8f4333393c18e9854b5f9a5b66c5e015c6de3c42fc707744916d63dcb",
@@ -2430,11 +2430,11 @@
       "zProfitCross": 21.18,
       "lateBuyFraction": 1,
       "directionalScore": 0.593,
-      "accountPnl": 620863,
+      "accountPnl": 620759,
       "firstSeen": "Jul 16 2024",
       "createdOnChain": true,
       "created": "Jul 16 2024",
-      "betsCount": 93,
+      "betsCount": 94,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
@@ -2454,7 +2454,7 @@
           "stake": 106421,
           "pl": 20364,
           "won": true,
-          "tx": null
+          "tx": "0x09837c716fd8463ebe432505b7bd568008ca1f38c7ae6610a24739c44fb5ac76"
         },
         {
           "market": "US-Iran nuclear deal by June 30?",
@@ -2464,7 +2464,7 @@
           "stake": 83844,
           "pl": 113639,
           "won": true,
-          "tx": null
+          "tx": "0xbe33f07b783a2e4cd4cea564467e74a6d09a61f7c9ddce867bf57cfb90872040"
         },
         {
           "market": "US announces new Iran agreement/ceasefire extension by May 31?",
@@ -2494,7 +2494,7 @@
           "stake": 64809,
           "pl": 5109,
           "won": true,
-          "tx": null
+          "tx": "0xee00931eebb122dfb31d76874983abee22f20ed3e2e0bff44bbce8fa86726e90"
         },
         {
           "market": "Will Keiko Fujimori win the 2026 Peruvian presidential election?",
@@ -2504,7 +2504,7 @@
           "stake": 64281,
           "pl": 17922,
           "won": true,
-          "tx": null
+          "tx": "0x03a22c2e29ef3c0cecb316960b38d0ea78c6fe106d72eae160f0ac277adb8f8e"
         },
         {
           "market": "Iran closes its airspace by June 8?",
@@ -2514,7 +2514,7 @@
           "stake": 62186,
           "pl": 11746,
           "won": true,
-          "tx": null
+          "tx": "0xacf9fbdbc40f88424d99102a05affe1d15a3328fb85a42267963e550b5003738"
         },
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -2534,7 +2534,7 @@
           "stake": 40082,
           "pl": 1746,
           "won": true,
-          "tx": null
+          "tx": "0xfc0a36b8cf3d0e9c0bf3f9c1620a9257d9a47f14ad285a315a54afcf57e97b35"
         },
         {
           "market": "US strikes Iran by February 24, 2026?",
@@ -2574,7 +2574,7 @@
           "stake": 35663,
           "pl": 4903,
           "won": true,
-          "tx": null
+          "tx": "0x6ccd9a6d113bf1fb3380a300ad0408f2a0685f3031054f295db5b11118308fb2"
         }
       ],
       "alsoBinomial": false
@@ -5876,7 +5876,7 @@
           "stake": 186531,
           "pl": 60118,
           "won": true,
-          "tx": null
+          "tx": "0x71b1bda3a1b325ce1abc1fc5c8e7ccbe2766a4db7679e62459dd3106d0cbf271"
         },
         {
           "market": "Israel x Hamas ceasefire by August 31?",
@@ -5896,7 +5896,7 @@
           "stake": 130834,
           "pl": -130834,
           "won": false,
-          "tx": null
+          "tx": "0xd3bdbf7b53972110f5f2eb38878c7fce680308fbdf1158f23f459f31f1e1cdc0"
         },
         {
           "market": "Khamenei out as Supreme Leader of Iran by June 30?",
@@ -5906,7 +5906,7 @@
           "stake": 120577,
           "pl": -120577,
           "won": false,
-          "tx": null
+          "tx": "0x21000eb08528b6a9f71450cd37cbe19a4a012f76db91c0c89059287f5469ddc4"
         },
         {
           "market": "US strikes Iran by January 31, 2026?",
@@ -5926,7 +5926,7 @@
           "stake": 76713,
           "pl": 1327,
           "won": true,
-          "tx": null
+          "tx": "0xcdf18d0eaafa046d29c77d7e5bd18ea2a0e6579afa9c38dbc255f9d9737cc1b6"
         },
         {
           "market": "Maduro out by January 31, 2026?",
@@ -5946,7 +5946,7 @@
           "stake": 46022,
           "pl": -46022,
           "won": false,
-          "tx": null
+          "tx": "0xa7937cc8c8bb239274f2a373c37e2dbd3ee110ede86a386f5d7c00fe6a563b08"
         },
         {
           "market": "Khamenei out as Supreme Leader of Iran by January 31?",
@@ -5956,7 +5956,7 @@
           "stake": 44792,
           "pl": -1288,
           "won": false,
-          "tx": null
+          "tx": "0xce2d4b748597e75d68d43d0e4648ff400044fb631325a3b19cdca8da5ca847f1"
         },
         {
           "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
@@ -5966,7 +5966,7 @@
           "stake": 44693,
           "pl": 1623,
           "won": true,
-          "tx": null
+          "tx": "0x27eeb3697154fab21b91142b668f6c2df12c57d9e462066529aca165ee539fd5"
         },
         {
           "market": "Maduro out by March 31, 2026?",
@@ -5986,7 +5986,7 @@
           "stake": 39608,
           "pl": 24808,
           "won": true,
-          "tx": null
+          "tx": "0xcefc3b536170784468abdc34981e650c5d2b8c5fbcc65b89918d4b21ba57834f"
         },
         {
           "market": "US strikes Iran by January 15, 2026?",
@@ -5996,11 +5996,11 @@
           "stake": 35850,
           "pl": 25881,
           "won": true,
-          "tx": null
+          "tx": "0x2d107a42c2d439234243161adf5ca74375cb85ffc4330bc640732fef18bd28be"
         },
         {
           "market": "Another US strike on Venezuela by January 10?",
-          "url": "https://polymarket.com/event/another-us-strike-on-venezuela-by-january-10",
+          "url": "https://polymarket.com/event/another-us-strike-on-venezuela-by",
           "ts": 1769817600,
           "odds": 9,
           "stake": 35437,
