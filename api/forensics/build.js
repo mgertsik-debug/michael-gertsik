@@ -248,6 +248,68 @@ function validateSubject(ctx) {
   return null;
 }
 
+/* -------------------------------------------------- uniform dossier sections -- */
+// EVERY published wallet computes BOTH a whole-record fuse (`dets`) AND a single best cross-sectional
+// EPISODE (`harvard`). Historically each publish path only rendered one, so a record-flagged dossier
+// spoke "record metrics" and a Harvard-flagged one spoke "z-scores" — the inconsistency the owner
+// flagged. These two helpers let EVERY dossier carry BOTH vocabularies (a uniform layout), each shown
+// only where the wallet actually has the data.
+
+// CROSS-SECTIONAL (Harvard) z-cards for the wallet's single most-suspicious EPISODE — the five Ofir &
+// Ofir signals, each a real measured value on ONE market vs its OTHER traders. [] when the wallet has
+// no qualifying episode (no single market with enough peer trades). marketName labels the episode.
+function harvardCards(harvard, marketName) {
+  if (!harvard || !harvard.hasData) return [];
+  const mk = marketName ? String(marketName).slice(0, 48) : "this market";
+  const r2 = (x) => +num(x).toFixed(2), r1 = (x) => +num(x).toFixed(1);
+  const cards = [];
+  if (D.isNum(harvard.zProfitCross)) cards.push({ key: "hProfit", metric: "z = " + r2(harvard.zProfitCross), method: "cross-sectional profit (Harvard z_profit_cross)",
+    formula: "z = (this wallet's profit − market mean) ÷ market SD, over the peers in the SAME market",
+    numbers: "Out-earned the market's other traders by " + r1(harvard.zProfitCross) + " standard deviations on this single bet.", inputs: [["z_profit_cross", String(r2(harvard.zProfitCross))], ["market", mk]] });
+  if (D.isNum(harvard.zBetCross)) cards.push({ key: "hBetCross", metric: "z = " + r2(harvard.zBetCross), method: "cross-sectional bet size (Harvard z_bet_cross)",
+    formula: "z = (this bet − market mean stake) ÷ market SD, over the peers in the SAME market",
+    numbers: "Staked " + r1(harvard.zBetCross) + " standard deviations more than the typical trader in this market.", inputs: [["z_bet_cross", String(r2(harvard.zBetCross))], ["market", mk]] });
+  if (D.isNum(harvard.zBetWithin)) cards.push({ key: "hBetWithin", metric: "z = " + r2(harvard.zBetWithin), method: "within-trader bet size (Harvard z_bet_within)",
+    formula: "z = (this bet − this wallet's mean stake) ÷ this wallet's stake SD",
+    numbers: "This bet was " + r1(harvard.zBetWithin) + " standard deviations above the wallet's OWN typical stake — an outlier against its own history.", inputs: [["z_bet_within", String(r2(harvard.zBetWithin))]] });
+  if (D.isNum(harvard.lateBuyFraction)) { const late = Math.round(D.clip(harvard.lateBuyFraction, 0, 1) * 100);
+    cards.push({ key: "hLate", metric: late + "% late", method: "pre-event timing (Harvard late_buy_fraction)",
+      formula: "share of this wallet's buy volume in the final 48h before resolution",
+      numbers: late + "% of the buying landed in the final 48 hours before the market resolved" + (late >= 50 ? " — entering when time-sensitive information is most valuable." : "."), inputs: [["late_buy_fraction", num(harvard.lateBuyFraction).toFixed(2)]] }); }
+  if (D.isNum(harvard.directionalScore)) { const dir = Math.round(D.clip(harvard.directionalScore, 0, 1) * 100);
+    cards.push({ key: "hDir", metric: dir + "% one-sided", method: "directional conviction (Harvard directional_score)",
+      formula: "1 − sold/bought — one-sided, held to resolution without hedging",
+      numbers: dir + "% one-directional (bought and held, not hedged)" + (dir >= 80 ? " — the un-hedged conviction of someone who already knows the answer." : "."), inputs: [["directional_score", num(harvard.directionalScore).toFixed(2)]] }); }
+  return cards;
+}
+
+// WHOLE-RECORD detector cards computable from `dets` alone (no buildSubject-specific derived values),
+// so the Harvard-episode publish path can ALSO show a "record analysis" section. Emits a card per
+// FIRED record detector; [] for a pure favorite-bettor with no record signals. (buildSubject builds
+// the richer versions of these inline; this is the shared subset for the other paths.)
+function recordCardsLite(dets) {
+  if (!dets) return [];
+  const c = [];
+  const has = (k) => dets[k] && dets[k].hasData && dets[k].fires;
+  if (has("crossCat")) c.push({ key: "crossCat", metric: dets.crossCat.k + " of " + dets.crossCat.n, method: "cross-category record improbability",
+    formula: "P(≥k wins in n bets across DIFFERENT events at the record's average odds)", numbers: dets.crossCat.explain, inputs: [["wins", String(dets.crossCat.k)], ["bets", String(dets.crossCat.n)]] });
+  if (has("profitCross")) c.push({ key: "profitCross", metric: "z = " + dets.profitCross.z, method: "cross-sectional profit (Harvard z_profit_cross)",
+    formula: "z = (this wallet's profit − market mean) ÷ market SD, over peers in the SAME market", numbers: dets.profitCross.explain, inputs: [["z_profit_cross", String(dets.profitCross.z)], ["market", dets.profitCross.market ? String(dets.profitCross.market).slice(0, 48) : "—"]] });
+  if (has("repeat")) c.push({ key: "repeat", metric: (dets.repeat.nEvents != null ? dets.repeat.nEvents : dets.repeat.n) + " surprises", method: "repeat-offender across separate events",
+    formula: "count of distinct surprising events the wallet was early-and-right on", numbers: dets.repeat.explain, inputs: [["events", String(dets.repeat.nEvents != null ? dets.repeat.nEvents : dets.repeat.n)]] });
+  if (has("fresh")) c.push({ key: "fresh", metric: (dets.fresh.ageDays < 1 ? Math.round(dets.fresh.ageDays * 24) + "h old" : dets.fresh.ageDays.toFixed(0) + " days old"),
+    method: "account-age check", formula: "age = first bet block − funding block", numbers: dets.fresh.explain, inputs: [["age", dets.fresh.ageDays != null ? dets.fresh.ageDays.toFixed(1) + " days" : "—"]] });
+  if (has("sizing")) c.push({ key: "sizing", metric: Math.round(dets.sizing.ratio) + "× median", method: "within-trader bet-size anomaly",
+    formula: "largest event position ÷ this wallet's median bet", numbers: dets.sizing.explain, inputs: [["ratio", dets.sizing.ratio + "×"]] });
+  if (has("concentration")) c.push({ key: "concentration", metric: Math.round(dets.concentration.dirPurity * 100) + "% one-way", method: "directional concentration",
+    formula: "max(YES, NO stake) ÷ total staked", numbers: dets.concentration.explain, inputs: [["one-way share", Math.round(dets.concentration.dirPurity * 100) + "%"]] });
+  if (has("timing")) c.push({ key: "timing", metric: dets.timing.lateWins + " of " + dets.timing.n + " late", method: "informed-entry timing",
+    formula: "winning long-shots bought within hours of resolution", numbers: dets.timing.explain, inputs: [["late wins", String(dets.timing.lateWins) + " of " + dets.timing.n]] });
+  if (has("conceal")) c.push({ key: "conceal", metric: dets.conceal.nTactics + " tactics", method: "concealment check",
+    formula: "score = f(split, decoy, cash-out)", numbers: dets.conceal.explain, inputs: [["tactics", String(dets.conceal.nTactics)]] });
+  return c;
+}
+
 /* ----------------------------------------------------------------- subject -- */
 // Build the artifact subject (pre-derivation) from an aggregate. Returns null
 // if there is not enough data to compute the headline (won.hasData=false), so
@@ -452,6 +514,12 @@ function buildSubject(agg, idx, opts, catalog) {
     push("profitCross", "z = " + dets.profitCross.z, "cross-sectional profit (Harvard z_profit_cross)",
       "z = (this wallet's profit − market mean) ÷ market SD, over peers in the SAME market", dets.profitCross.explain,
       [["z_profit_cross", String(dets.profitCross.z)], ["market", dets.profitCross.market ? String(dets.profitCross.market).slice(0, 48) : "—"]]);
+  // CROSS-SECTIONAL section (uniform on every dossier): append the wallet's most-suspicious single
+  // EPISODE'S five z-signals, even though this wallet was flagged on its RECORD. Deduped so a card
+  // already shown (e.g. profitCross) isn't repeated. Empty when no single market had enough peers.
+  harvardCards(harvard, harvard && harvard.bet ? qOf(harvard.bet) : null)
+    .filter((c) => !scorecard.some((x) => x.key === c.key))
+    .forEach((c) => scorecard.push(c));
 
   // timeline from the single largest winning bet's price path (if the scanner
   // attached one); candidates stay clearly unverified.
@@ -822,7 +890,7 @@ function corroInputs(k, dets, agg) {
 // qualifies. Same subject SHAPE as buildSubject so the UI renders it identically.
 function buildCrossCatSubject(agg, idx, opts, catalog) {
   if (!agg || agg.type === "cluster") return null;
-  const { dets, valid } = scoreAggregate(agg);
+  const { dets, valid, harvard } = scoreAggregate(agg);
   const cc = dets.crossCat;
   if (!cc || !cc.hasData || !cc.fires) return null;
   // ≥2 INDEPENDENT agreeing detectors (excluding crossCat itself) — same corroboration philosophy
@@ -892,6 +960,11 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
   };
   corro.forEach((k) => { const d = dets[k]; const c = CARD[k]; if (!c) return;
     scorecard.push({ key: k, metric: (d.explain || "").slice(0, 0) || k, method: c[0], formula: c[1], numbers: d.explain || "", inputs: corroInputs(k, dets, agg) }); });
+  // CROSS-SECTIONAL section (uniform on every dossier): the wallet's most-suspicious single episode's
+  // five z-signals, appended even though this wallet was flagged on its cross-category RECORD. Deduped.
+  harvardCards(harvard, harvard && harvard.bet ? qOf(harvard.bet) : null)
+    .filter((c) => !scorecard.some((x) => x.key === c.key))
+    .forEach((c) => scorecard.push(c));
   const fired = ["crossCat"].concat(corro);
   // contribution split over the contribW weights, renormalised across the shown signals.
   const W = D.DEFAULTS.contribW; const contributions = {};
@@ -1047,7 +1120,7 @@ function derive(all, scoredPop) {
 const HARV_TO_UI_TIER = { extreme: "extreme", high: "elevated", notable: "watch" };
 function buildHarvardSubject(agg, idx, opts, catalog) {
   if (agg.type === "cluster") return null;                    // Harvard scores per-wallet episodes
-  const { harvard } = scoreAggregate(agg);
+  const { harvard, dets } = scoreAggregate(agg);
   if (!harvard || !harvard.hasData || !harvard.tier) return null;
   // CONSERVATIVE PUBLISH FLOOR — the Harvard paper's own tier analysis shows the LOW tiers are
   // mostly false positives (the 0–200 band has a NEGATIVE aggregate P&L and a win rate barely above
@@ -1124,6 +1197,10 @@ function buildHarvardSubject(agg, idx, opts, catalog) {
     { key: "hDir", metric: Math.round(num(harvard.directionalScore) * 100) + "% one-sided", method: "Directional concentration", formula: "directional_score (1 − sold/bought) · weight " + W.dir,
       numbers: Math.round(num(harvard.directionalScore) * 100) + "% one-directional (held, not hedged)", inputs: [["directional_score", num(harvard.directionalScore).toFixed(2)], ["weight", String(W.dir)], ["+S", String(Math.round(W.dir * num(harvard.directionalScore)))]] },
   ];
+  // RECORD section (uniform on every dossier): append the whole-record detector cards that fired, so a
+  // Harvard-episode dossier ALSO shows record analysis (sparse for a pure favorite-bettor, full when
+  // the wallet also has a strong record). Deduped against the five z-cards above.
+  recordCardsLite(dets).filter((c) => !sc.some((x) => x.key === c.key)).forEach((c) => sc.push(c));
   // contribution split over ALL FIVE scored signals (profit/bet-cross/bet-within z's + late + dir),
   // normalised over the positive contributors. late/dir enter on [0,1] so their share is small —
   // exactly the paper's intended 15/10 weighting against the dominant z-spine.

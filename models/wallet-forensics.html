@@ -1844,7 +1844,12 @@ class Component extends DCLogic {
       const open = !!st.measure[r.key];
       const en = this.enrichFinding(sel, r);
       const cpct = contrib[r.key] != null ? contrib[r.key] : 0;
-      const isCorrob = !!CORROB[r.key];
+      // A card is "corroborating" if it did NOT drive THIS subject's flag math (not in the
+      // contributions map). That covers the news/reg corroborators AND the cross-method cards now
+      // shown uniformly on every dossier: the cross-sectional z-signals appended to a RECORD-flagged
+      // wallet (and the record signals appended to a Harvard-flagged one) are real measured evidence
+      // but weren't part of that engine's flag, so they read "corroborating", not "0% of flag".
+      const isCorrob = !!CORROB[r.key] || contrib[r.key] == null;
       return {
         name: nameMap[r.key] || r.key, explanation: explainMap[r.key] || "", eli5: eli5Map[r.key] || explainMap[r.key] || r.numbers || "", metric: r.metric, metricColor: ct.color,
         link: r.link || "", linkLabel: r.linkLabel || "↗ view the filing",
