@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-30T00:19:28.994Z",
+  "updatedAt": "2026-06-30T04:44:40.678Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-559696",
+      "ts": "04:44 UTC",
+      "platform": "polymarket",
+      "market": "Will Graham Platner win the 2028 Democratic presidential nomination?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "55 · Elevated",
+      "index": 55,
+      "url": "https://polymarket.com/event/democratic-presidential-nominee-2028",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-30T04:44:40.678Z"
+    },
     {
       "id": "pm-2535468",
       "ts": "16:02 UTC",
