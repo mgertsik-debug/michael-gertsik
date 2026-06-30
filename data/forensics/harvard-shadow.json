@@ -1,6 +1,6 @@
 {
   "generatedAt": "Jun 30 2026",
-  "snapshot": 1782783439,
+  "snapshot": 1782840652,
   "total": 37,
   "byTier": {
     "extreme": 5,
@@ -16,10 +16,10 @@
   "over500": 37,
   "alsoBinomial": 11,
   "onlyHarvard": 26,
-  "observed": 203736,
-  "reviewed": 203736,
-  "screened": 5852,
-  "scored": 3605,
+  "observed": 204092,
+  "reviewed": 204092,
+  "screened": 5855,
+  "scored": 3607,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -1067,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1017.2,
+      "S": 1017.1,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -4140,7 +4140,7 @@
       "firstSeen": "Jan 14 2024",
       "createdOnChain": true,
       "created": "Jan 13 2024",
-      "betsCount": 165,
+      "betsCount": 166,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -4289,7 +4289,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 581.8,
+      "S": 581.7,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872",
@@ -4373,10 +4373,10 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1755367000,
           "odds": 100,
-          "stake": 49668,
-          "pl": 55,
+          "stake": 54199,
+          "pl": 61,
           "won": true,
-          "tx": null
+          "tx": "0x1b932786097bf9599033d0a3fc25958604da320039a18d423a4484737397cac9"
         },
         {
           "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
@@ -4900,7 +4900,7 @@
       "firstSeen": "Apr 06 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 166,
+      "betsCount": 167,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",
