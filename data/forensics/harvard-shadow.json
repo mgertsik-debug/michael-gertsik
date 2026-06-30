@@ -16,10 +16,10 @@
   "over500": 86,
   "alsoBinomial": 26,
   "onlyHarvard": 60,
-  "observed": 223931,
-  "reviewed": 223931,
+  "observed": 224026,
+  "reviewed": 224026,
   "screened": 10343,
-  "scored": 6090,
+  "scored": 6093,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -4177,8 +4177,8 @@
           "tx": "0x33b15c32354e7763603f24a6d4b1cd0588e6f6cafd7b28959134aea099b924aa"
         },
         {
-          "market": "Will Donald Trump say \"nuclear\" 3+ times during Israel President events on December 29?",
-          "url": "https://polymarket.com/event/will-donald-trump-say-nuclear-3-times-during-israel-president-events-on-december-29",
+          "market": "0xa2fc72c6a3f886f62501c9fb2b7df5da3a2f6a3f322712bb7d4a955417dd0c4c",
+          "url": null,
           "ts": 1767369051,
           "odds": 100,
           "stake": 13377,
