@@ -27,12 +27,12 @@ test("betPL: uses Polymarket's real pnl when present, estimates only as fallback
   assert.equal(B.betPL({ won: false, entryPrice: 0.1, stakeUsd: 1000 }), -1000);
 });
 
-test("buildSubject: planted impossible single wallet -> extreme, real 1-in-N, real ledger", () => {
+test("buildSubject: planted impossible single wallet -> High tier (no Extreme), real 1-in-N, real ledger", () => {
   const s = B.buildSubject(agg("0x4e00000000000000000000000000000000000a91c", 14, 2, 0.11, "Military & Defense"), 0, {});
   assert.ok(s, "subject built");
   B.derive([s]);                                  // apply the artifact-parity derivation
   assert.equal(s.type, "wallet");
-  assert.equal(s.tier, "extreme");
+  assert.equal(s.tier, "elevated");               // top published tier is High; there is no Extreme tier
   assert.equal(s.marketsCount, 16);
   assert.equal(s.wins, 14);
   assert.ok(s.improbDenom > 1e6, "headline far past 1-in-a-million: " + s.improbDenom);
@@ -173,7 +173,7 @@ test("NET-LOSING ACCOUNT: improbable, material long-shot streak but all-time P/L
   assert.ok(ok && ok.tier, "net-positive account with the same record publishes");
 });
 
-test("RECONSTRUCTED Iran-ring cluster aggregate -> extreme subject with cluster card", () => {
+test("RECONSTRUCTED Iran-ring cluster aggregate -> High-tier subject with cluster card", () => {
   const bets = [];
   for (let i = 0; i < 30; i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Q" + i, url: "#", category: "Military & Defense", entryPrice: 0.09, stakeUsd: 20000, outcome: "YES", won: true, held: true, ts: 1700000000 + i, tx: "0x" + i });
   bets.push({ cond: "m30", eventGroup: "e30", question: "Q30", url: "#", category: "Military & Defense", entryPrice: 0.09, stakeUsd: 9000, outcome: "YES", won: false, held: true, ts: 1700000031, tx: "0x30" });
@@ -187,8 +187,9 @@ test("RECONSTRUCTED Iran-ring cluster aggregate -> extreme subject with cluster 
   };
   const s = B.buildSubject(clusterAgg, 0, {});
   assert.ok(s, "cluster subject built");
+  B.derive([s]);                                  // production re-bins the final tier (no Extreme)
   assert.equal(s.type, "cluster");
-  assert.equal(s.tier, "extreme");
+  assert.equal(s.tier, "elevated");               // top published tier is High; there is no Extreme tier
   assert.ok(s.fired.includes("cluster"));
   assert.ok(s.fired.includes("won"));
   assert.ok(s.scorecard.find((c) => c.key === "cluster"));

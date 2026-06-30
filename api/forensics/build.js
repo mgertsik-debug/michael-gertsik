@@ -990,7 +990,10 @@ function derive(all, scoredPop) {
     // cutoffs as the gauge colour (≥72 → Extreme/red, ≥45 → High/amber, else Notable/green), so
     // a higher gauge always means an equal-or-hotter badge. (Publish GATES already ran on the
     // path tier above; this only re-labels what's shown + how it ranks/filters.)
-    s.tier = s.suspicion >= 72 ? "extreme" : s.suspicion >= 45 ? "elevated" : "watch";
+    // NO "Extreme" tier: the tool flags patterns "consistent with informed trading, not proof of
+    // it", so a red top tier overstated certainty. Two published tiers only — High (amber) and
+    // Notable (slate); the strongest wallets sit at the top of High.
+    s.tier = s.suspicion >= 45 ? "elevated" : "watch";
     delete s._profitNum; delete s._profileVolume;
   });
   return all;
