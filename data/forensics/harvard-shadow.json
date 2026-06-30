@@ -16,10 +16,10 @@
   "over500": 37,
   "alsoBinomial": 11,
   "onlyHarvard": 26,
-  "observed": 202613,
-  "reviewed": 202613,
-  "screened": 5835,
-  "scored": 3599,
+  "observed": 202762,
+  "reviewed": 202762,
+  "screened": 5844,
+  "scored": 3600,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -1067,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1017.1,
+      "S": 1016.8,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1076,7 +1076,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 6.96,
+      "zBetWithin": 6.95,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1161,10 +1161,10 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1755554837,
           "odds": 100,
-          "stake": 31746,
-          "pl": 54,
+          "stake": 33180,
+          "pl": 57,
           "won": true,
-          "tx": null
+          "tx": "0x9bc09b1f9b2b8731f44210867339f2ce48f3c453734d7b822065f536edae674d"
         },
         {
           "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
@@ -2637,10 +2637,10 @@
           "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
           "ts": 1776911932,
           "odds": 92,
-          "stake": 5516,
-          "pl": 509,
+          "stake": 5522,
+          "pl": 511,
           "won": true,
-          "tx": null
+          "tx": "0xa5c634cc6d644947aea5626f681a54f48ccc96a10925d315348b4ab62c06763d"
         },
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be between 400k and 450k?",
@@ -4289,16 +4289,16 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 580.9,
+      "S": 581.8,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
-      "episodeTx": "0x09021f0a102b1c3acc51a947ebcd52ad686bc7d23b80125e1a37d74627f66ab6",
-      "stake": 39160,
+      "episodeTx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872",
+      "stake": 39749,
       "odds": 90,
       "won": true,
-      "episodeProfit": 4365,
+      "episodeProfit": 4564,
       "zBetCross": 10.72,
-      "zBetWithin": 2.71,
+      "zBetWithin": 2.75,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -4391,12 +4391,12 @@
         {
           "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1758327602,
+          "ts": 1758140470,
           "odds": 90,
-          "stake": 39160,
-          "pl": 4365,
+          "stake": 39749,
+          "pl": 4564,
           "won": true,
-          "tx": "0x09021f0a102b1c3acc51a947ebcd52ad686bc7d23b80125e1a37d74627f66ab6"
+          "tx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872"
         },
         {
           "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
@@ -4433,10 +4433,10 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1755846792,
           "odds": 100,
-          "stake": 32296,
-          "pl": 48,
+          "stake": 33463,
+          "pl": 54,
           "won": true,
-          "tx": null
+          "tx": "0x55778dcdd4ad71dc3ba273bda0ce12326c83d70148ce075899e9ace48c54b491"
         },
         {
           "market": "Russia x Ukraine ceasefire by May 31, 2026?",
