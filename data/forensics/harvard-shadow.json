@@ -16,10 +16,10 @@
   "over500": 84,
   "alsoBinomial": 25,
   "onlyHarvard": 59,
-  "observed": 224489,
-  "reviewed": 224489,
+  "observed": 224635,
+  "reviewed": 224635,
   "screened": 10350,
-  "scored": 6094,
+  "scored": 6096,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -675,8 +675,8 @@
           "tx": "0xd329e598857ab4cf3fd48f041f1bcdf4bcc81933183050b2f8f95a4825951e7f"
         },
         {
-          "market": "0x74d513ded76c21815373eae49004f36291d958b034087e7bb3669f156e3d116e",
-          "url": null,
+          "market": "US x Iran ceasefire by March 6?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-6",
           "ts": 1772386673,
           "odds": 83,
           "stake": 47126,
@@ -2371,8 +2371,8 @@
           "tx": "0x321fa5921dfdb1032aa05e262d4611a84b8ea935958fa1c20ed8dd88a66bcedc"
         },
         {
-          "market": "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538",
-          "url": null,
+          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
+          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
           "ts": 1779914617,
           "odds": 96,
           "stake": 40082,
@@ -3141,8 +3141,8 @@
           "tx": "0x9a8cb9b9d7374957e04dfafb911086dc3ae740b4b897dae7bc7dceffbb6baccb"
         },
         {
-          "market": "Will Iran strike Israel on March 8?",
-          "url": "https://polymarket.com/event/will-iran-strike-israel-on-march-8",
+          "market": "0x81ec388b5717ed05da3e00e7d0fcc5cd2ac77fa1cadb1c0441cc2672a98c5b34",
+          "url": null,
           "ts": 1772841693,
           "odds": 63,
           "stake": 100,
@@ -3201,8 +3201,8 @@
           "tx": "0x1297550c7c165b7f5b627a611dc02af8d593011778a84779bc25e476877caabd"
         },
         {
-          "market": "Will France strike Iran by March 31?",
-          "url": "https://polymarket.com/event/will-france-strike-iran-by-march-31",
+          "market": "0x0942f5ee13a4cdb53b020d60766260a2e0f602af85804392f5c77f80ea9a9b0b",
+          "url": null,
           "ts": 1773084689,
           "odds": 14,
           "stake": 30,
@@ -3403,8 +3403,8 @@
       "betsCount": 179,
       "ledger": [
         {
-          "market": "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538",
-          "url": null,
+          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
+          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
           "ts": 1779169019,
           "odds": 93,
           "stake": 25598,
@@ -5225,7 +5225,7 @@
       "address": "0x2110ba2a1e18840109482ff4ddc547baeff45850",
       "username": "George.Smiley",
       "tier": "notable",
-      "S": 702.6,
+      "S": 702.7,
       "market": "Starmer out by June 22, 2026?",
       "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
       "episodeTx": "0x8bd1f1fcfd86e34c431eec1d4eb60c44f74f233772c90c4f436344f088b06803",
@@ -5234,15 +5234,15 @@
       "won": true,
       "episodeProfit": 4528,
       "zBetCross": 11.02,
-      "zBetWithin": 1.19,
+      "zBetWithin": 1.2,
       "zProfitCross": 12.61,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 61880,
+      "accountPnl": 61804,
       "firstSeen": "Sep 19 2025",
       "createdOnChain": true,
       "created": "Sep 19 2025",
-      "betsCount": 176,
+      "betsCount": 177,
       "ledger": [
         {
           "market": "Gemini 3.0 Flash released by December 17?",
@@ -7063,8 +7063,8 @@
           "tx": "0x0e7bc344097d4d4f31b5e7ea03b216fb03603b506e13542a2c6fa0fa97c5a6cb"
         },
         {
-          "market": "0x393fb0be5ca5832188657b34ad914c8f24a3ea6dfca233d1b996aba14399b48f",
-          "url": null,
+          "market": "Will the Iran ceasefire continue through May 21?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-21",
           "ts": 1779306371,
           "odds": 94,
           "stake": 565,
