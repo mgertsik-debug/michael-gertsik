@@ -14,12 +14,12 @@
   "minS": 532.2,
   "maxS": 1190.1,
   "over500": 22,
-  "alsoBinomial": 13,
-  "onlyHarvard": 9,
-  "observed": 190150,
-  "reviewed": 190150,
+  "alsoBinomial": 11,
+  "onlyHarvard": 11,
+  "observed": 190541,
+  "reviewed": 190541,
   "screened": 5010,
-  "scored": 2619,
+  "scored": 2758,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -563,7 +563,7 @@
     },
     {
       "address": "0x39ddf7c23d7f1d6537fef553734187109fde0b7b",
-      "username": null,
+      "username": "katara-",
       "tier": "notable",
       "S": 809.8,
       "market": "Will MegaETH launch a token by June 30, 2026?",
@@ -578,10 +578,10 @@
       "zProfitCross": 16.54,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
+      "accountPnl": 17143,
+      "firstSeen": "Apr 08 2026",
+      "createdOnChain": true,
+      "created": "Apr 08 2026",
       "betsCount": 1,
       "ledger": [
         {
@@ -764,6 +764,102 @@
       "alsoBinomial": false
     },
     {
+      "address": "0xd0b10a3c791b64a5c9d1b338ce8d5c5c86afc12e",
+      "username": "farmertaiki",
+      "tier": "notable",
+      "S": 764.4,
+      "market": "MicroStrategy sells any Bitcoin by December 31, 2026?",
+      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+      "episodeTx": "0x9749d67f983e069ba20b66fcadce02422fa6fababc8274d14a7aaeff4848fdb0",
+      "stake": 20100,
+      "odds": 75,
+      "won": true,
+      "episodeProfit": 6824,
+      "zBetCross": 10.81,
+      "zBetWithin": 0.6,
+      "zProfitCross": 15.74,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": 11306,
+      "firstSeen": "Jul 11 2025",
+      "createdOnChain": true,
+      "created": "Jul 11 2025",
+      "betsCount": 7,
+      "ledger": [
+        {
+          "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1771787728,
+          "odds": 95,
+          "stake": 38474,
+          "pl": 2061,
+          "won": true,
+          "tx": "0x70e829e0827205e4c1d12114250cede7244350cce1f59c667b5fc6dda4db0bf1"
+        },
+        {
+          "market": "MicroStrategy sells any Bitcoin by December 31, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1779799365,
+          "odds": 75,
+          "stake": 20100,
+          "pl": 6824,
+          "won": true,
+          "tx": "0x9749d67f983e069ba20b66fcadce02422fa6fababc8274d14a7aaeff4848fdb0"
+        },
+        {
+          "market": "No change in Fed interest rates after September 2025 meeting?",
+          "url": "https://polymarket.com/event/no-change-in-fed-interest-rates-after-september-2025-meeting",
+          "ts": 1757095356,
+          "odds": 98,
+          "stake": 11493,
+          "pl": 175,
+          "won": true,
+          "tx": "0x738e673c708167fb672b690899871a051e467d14110ccf70c7a19945818ba553"
+        },
+        {
+          "market": "Will Trump resign today?",
+          "url": "https://polymarket.com/event/will-trump-resign-today",
+          "ts": 1756838230,
+          "odds": 100,
+          "stake": 6083,
+          "pl": 18,
+          "won": true,
+          "tx": "0xf95ed5c5b928fd8bbbfba9a5ed8092a453aa31ca932f4368f5bed60a9af52ae2"
+        },
+        {
+          "market": "Will Base launch a token in 2025?",
+          "url": "https://polymarket.com/event/will-base-launch-a-token-in-2025-341",
+          "ts": 1759960034,
+          "odds": 94,
+          "stake": 5523,
+          "pl": 372,
+          "won": true,
+          "tx": "0xfc1c31c2ccb0555fee1d1a09c2af6a2f93cf8972704ecc2174be5ba1986ddd76"
+        },
+        {
+          "market": "Will lighter perform an airdrop by December 31?",
+          "url": "https://polymarket.com/event/will-lighter-perform-an-airdrop-by-december-31",
+          "ts": 1764883339,
+          "odds": 83,
+          "stake": 1660,
+          "pl": 340,
+          "won": true,
+          "tx": "0xb451b31e9f268e2fe1bf0f9b3a23fb9bb02653ab4635c75e4260886b7a5a6e24"
+        },
+        {
+          "market": "Will Zohran Mamdani win the 2025 NYC mayoral election?",
+          "url": "https://polymarket.com/event/will-zohran-mamdani-win-the-2025-nyc-mayoral-election",
+          "ts": 1761772245,
+          "odds": 88,
+          "stake": 1566,
+          "pl": 205,
+          "won": true,
+          "tx": "0x7615c3643ce6c978d6c75c44dd9ca0697ca1fb5fcc24542d3d0e9ab361d0f8a0"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
       "username": null,
       "tier": "notable",
@@ -925,42 +1021,6 @@
           "pl": 3,
           "won": true,
           "tx": "0x90c234b2e04f6f392bd77c3c292d879cf3ca1aadc85012de24276750f7141409"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
-      "address": "0xd0b10a3c791b64a5c9d1b338ce8d5c5c86afc12e",
-      "username": null,
-      "tier": "notable",
-      "S": 752.4,
-      "market": "MicroStrategy sells any Bitcoin by December 31, 2026?",
-      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
-      "episodeTx": "0x9749d67f983e069ba20b66fcadce02422fa6fababc8274d14a7aaeff4848fdb0",
-      "stake": 20100,
-      "odds": 75,
-      "won": true,
-      "episodeProfit": 6824,
-      "zBetCross": 10.81,
-      "zBetWithin": 0,
-      "zProfitCross": 15.74,
-      "lateBuyFraction": 0,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 1,
-      "ledger": [
-        {
-          "market": "MicroStrategy sells any Bitcoin by December 31, 2026?",
-          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
-          "ts": 1779799365,
-          "odds": 75,
-          "stake": 20100,
-          "pl": 6824,
-          "won": true,
-          "tx": "0x9749d67f983e069ba20b66fcadce02422fa6fababc8274d14a7aaeff4848fdb0"
         }
       ],
       "alsoBinomial": true
@@ -1169,9 +1229,9 @@
     },
     {
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
-      "username": null,
+      "username": "tourists",
       "tier": "notable",
-      "S": 692.4,
+      "S": 691.1,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -1180,16 +1240,26 @@
       "won": true,
       "episodeProfit": 1527,
       "zBetCross": 14.62,
-      "zBetWithin": -0.24,
+      "zBetWithin": -0.31,
       "zProfitCross": 10.73,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 16,
+      "accountPnl": 508106,
+      "firstSeen": "May 12 2025",
+      "createdOnChain": true,
+      "created": "May 12 2025",
+      "betsCount": 58,
       "ledger": [
+        {
+          "market": "Strait of Hormuz traffic returns to normal by end of June?",
+          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+          "ts": 1780084110,
+          "odds": 82,
+          "stake": 330345,
+          "pl": 73065,
+          "won": true,
+          "tx": "0x1deaa7554534cf63d11b72122fed71e620ecbdc5dbcb2843c282ef1a76471555"
+        },
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
           "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
@@ -1199,6 +1269,76 @@
           "pl": 217,
           "won": true,
           "tx": "0xd6e69f247e2ac386cb4b9a6ffb89afcee541966b957492dfc6087264a3d6e2b5"
+        },
+        {
+          "market": "Iran closes its airspace by June 8?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-june-8",
+          "ts": 1780862718,
+          "odds": 92,
+          "stake": 194116,
+          "pl": 17161,
+          "won": true,
+          "tx": "0x3256ad526e43369c0cb727e09e48d7846192e34330b6e43f03bfa26286759ba8"
+        },
+        {
+          "market": "Will Keiko Fujimori win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/will-keiko-fujimori-win-the-2026-peruvian-presidential-election",
+          "ts": 1780622044,
+          "odds": 88,
+          "stake": 140558,
+          "pl": 19977,
+          "won": true,
+          "tx": "0x81be592733909ec6742b3ada8a9197b549ad28fcb19abe10c3e9d7f494d925a9"
+        },
+        {
+          "market": "Will Roberto Sánchez Palomino win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/peru-presidential-election-winner",
+          "ts": 1780935444,
+          "odds": 87,
+          "stake": 78094,
+          "pl": 11513,
+          "won": true,
+          "tx": "0x521a3ca98d36986f04a84f15368319f1d4b66417a5b47a187af565877b046265"
+        },
+        {
+          "market": "Will Spencer Pratt win the 2026 Los Angeles mayoral election?",
+          "url": "https://polymarket.com/event/will-spencer-pratt-win-the-2026-los-angeles-mayoral-election-983",
+          "ts": 1780175087,
+          "odds": 98,
+          "stake": 72649,
+          "pl": 1745,
+          "won": true,
+          "tx": "0xc75a1bde05ba852ecae870cbc02dc16e2d8ad597a76c1cc98a9858027f6a1cef"
+        },
+        {
+          "market": "Will Abelardo de la Espriella  win the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/will-abelardo-de-la-espriella-win-the-2026-colombian-presidential-election",
+          "ts": 1781975662,
+          "odds": 90,
+          "stake": 56482,
+          "pl": 6622,
+          "won": true,
+          "tx": "0xedbea4ab39ddd88d939d2d3aa3568dd3bbbe99bab84bf03055389c3c9de4c754"
+        },
+        {
+          "market": "Will a Claude Mythos model be released by June 9, 2026?",
+          "url": "https://polymarket.com/event/will-a-claude-mythos-model-be-released-by-june-9-2026",
+          "ts": 1781024470,
+          "odds": 98,
+          "stake": 54995,
+          "pl": 875,
+          "won": true,
+          "tx": "0x114c1dd0bc056a93481c3077be8a866df461971d32e2238c756bb3598ef8d2ae"
+        },
+        {
+          "market": "Will Trump agree to withdraw troops from the Iranian region by June 30?",
+          "url": "https://polymarket.com/event/will-trump-agree-to-withdraw-troops-from-the-iranian-region-by-june-30",
+          "ts": 1781812877,
+          "odds": 99,
+          "stake": 48184,
+          "pl": 420,
+          "won": true,
+          "tx": "0xce9fce2c3f02331e1d83f20ac21f9f04d6806ea6a627122f0fe82820f1207728"
         },
         {
           "market": "Claude 4.8 released by May 31?",
@@ -1211,127 +1351,47 @@
           "tx": "0x3d7217d8cd75a02cad48bf21c8a2271dd7b0ef8d9b8e4d7c4073d9014b8718c6"
         },
         {
-          "market": "US x Iran permanent peace deal by June 15, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1781717327,
-          "odds": 100,
-          "stake": 31718,
-          "pl": 32,
-          "won": true,
-          "tx": "0xcb4e44cab50e81ce64c50b699f24d0c745900edccc5643fd937ae4d22ca56759"
-        },
-        {
-          "market": "Will Iran close the Strait of Hormuz by June 30?",
-          "url": "https://polymarket.com/event/will-iran-close-the-strait-of-hormuz-by-2027",
-          "ts": 1773147309,
-          "odds": 100,
-          "stake": 27281,
-          "pl": 27,
-          "won": true,
-          "tx": "0x629c0cf688127cfc5e2f28fa1c025d093d71f6ecfd4171e048315e0278b7975d"
-        },
-        {
-          "market": "Will SpaceX acquire Cursor by December 31, 2026?",
-          "url": "https://polymarket.com/event/will-spacex-acquire-cursor",
-          "ts": 1776870746,
-          "odds": 86,
-          "stake": 9502,
-          "pl": 1527,
-          "won": true,
-          "tx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6"
-        },
-        {
-          "market": "Will SpaceX IPO by September 30, 2026?",
-          "url": "https://polymarket.com/event/spacex-ipo-by",
-          "ts": 1775978141,
-          "odds": 91,
-          "stake": 6196,
-          "pl": 588,
-          "won": true,
-          "tx": "0x67ba99eb2804ed3e55e8f1a359a47d93538b4e228f65381f1db8565785ea31b8"
-        },
-        {
-          "market": "Will the US strike Somalia next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-476",
-          "ts": 1770732647,
-          "odds": 95,
-          "stake": 3867,
-          "pl": 150,
-          "won": true,
-          "tx": "0x622d09900403f8f4ad66148f7191fd62817bc308eb77848d42af6a207fd57e6e"
-        },
-        {
-          "market": "Will Trump and Machado share the Nobel Peace Prize?",
-          "url": "https://polymarket.com/event/will-trump-and-machado-share-the-nobel-peace-prize",
-          "ts": 1768507150,
-          "odds": 27,
-          "stake": 3058,
-          "pl": -3058,
+          "market": "Iran agrees to end enrichment of uranium by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+          "ts": 1781816198,
+          "odds": 61,
+          "stake": 41446,
+          "pl": -41446,
           "won": false,
-          "tx": "0x73694525638be39a72aeabb392ef1352b3155cc33b01e1c5905e43e9ac04ea2d"
+          "tx": "0x121225cc2adc2b606cac8ea6fd71144c107b33a21d3306610dd11b730d6500af"
         },
         {
-          "market": "Claude 4.8 released by June 30?",
-          "url": "https://polymarket.com/event/claude-4pt8-released-by",
-          "ts": 1779928901,
-          "odds": 98,
-          "stake": 1247,
-          "pl": 42,
+          "market": "Will Ivan Cepeda Castro win the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/will-ivan-cepeda-castro-win-the-2026-colombian-presidential-election",
+          "ts": 1781975848,
+          "odds": 87,
+          "stake": 37543,
+          "pl": 5566,
           "won": true,
-          "tx": "0xda5d64a923afaedeab0777e25a852614690318ceec01b75fb31f682e374ca8f4"
+          "tx": "0x06a562a1517574907c31e7f3517895875792bf2e0d39a1252caab199c36296fa"
         },
         {
-          "market": "Will SpaceX IPO by August 31, 2026?",
-          "url": "https://polymarket.com/event/spacex-ipo-by",
-          "ts": 1776103009,
-          "odds": 89,
-          "stake": 990,
-          "pl": 115,
-          "won": true,
-          "tx": "0x7c9e060a7f573b64a290c806ce82915f16c209e21dc2cc86a845c6810eeb4874"
-        },
-        {
-          "market": "Will SpaceX IPO by June 30, 2026?",
-          "url": "https://polymarket.com/event/spacex-ipo-by",
-          "ts": 1776093117,
-          "odds": 58,
-          "stake": 393,
-          "pl": -393,
-          "won": false,
-          "tx": "0x106355a9347b9f9eed057f2a719340f217e5746201ba66bf637e17b76ddcc1d1"
-        },
-        {
-          "market": "Will Paetongtarn Shinawatra be the next prime minister of Thailand?",
-          "url": "https://polymarket.com/event/next-prime-minister-of-thailand",
-          "ts": 1766018030,
-          "odds": 99,
-          "stake": 77,
-          "pl": 2,
-          "won": true,
-          "tx": "0x2f08f8e2ad60a4ca6d163133caacd2d9ce958dd3117a8e775b279d6b2e41472d"
-        },
-        {
-          "market": "Russia x Ukraine ceasefire by June 30, 2027?",
-          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-june-30-2027",
-          "ts": 1778301342,
+          "market": "Israel announces Lebanon ceasefire extension by June 7?",
+          "url": "https://polymarket.com/event/israel-announces-lebanon-ceasefire-extension-by",
+          "ts": 1780688589,
           "odds": 100,
-          "stake": 20,
-          "pl": 0,
+          "stake": 37492,
+          "pl": 105,
           "won": true,
-          "tx": "0x436e16953588b9f3f890a09d841d06963380d3337a5b58ac0eb7f02c737c065f"
+          "tx": "0x954bb3cfbb36e4fdc90cf53969dba3326fc946e9c2fcfe65c7916d58d1ebc49b"
         },
         {
-          "market": "Trump declassifies UFO files before 2027?",
-          "url": "https://polymarket.com/event/trump-declassifies-ufo-files-before-2027",
-          "ts": 1765324390,
-          "odds": 82,
-          "stake": 13,
-          "pl": 73,
+          "market": "Will Trump restart Project Freedom by June 30?",
+          "url": "https://polymarket.com/event/will-trump-restart-project-freedom-by",
+          "ts": 1781114380,
+          "odds": 90,
+          "stake": 35623,
+          "pl": 3907,
           "won": true,
-          "tx": "0xdef457cea5da2c53ab703bee6a1104f3f6c40eeede4445f8490361cb63f6ea16"
+          "tx": "0xcc5626415ac2efe22a97133a73072035ef46b543358517ad4cf935c734721529"
         }
       ],
-      "alsoBinomial": true
+      "alsoBinomial": false
     },
     {
       "address": "0x7e31a5e9c31638483614e9fd9f945bb34692454d",
@@ -2040,62 +2100,6 @@
       "alsoBinomial": false
     },
     {
-      "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
-      "username": null,
-      "tier": "notable",
-      "S": 548.3,
-      "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
-      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
-      "episodeTx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b",
-      "stake": 72610,
-      "odds": 69,
-      "won": true,
-      "episodeProfit": 32029,
-      "zBetCross": 10.71,
-      "zBetWithin": 1.15,
-      "zProfitCross": 7.75,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 3,
-      "ledger": [
-        {
-          "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
-          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
-          "ts": 1780111863,
-          "odds": 69,
-          "stake": 72610,
-          "pl": 32029,
-          "won": true,
-          "tx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b"
-        },
-        {
-          "market": "Will Trump physically sign US x Iran deal?",
-          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
-          "ts": 1781734237,
-          "odds": 88,
-          "stake": 20835,
-          "pl": -1195,
-          "won": true,
-          "tx": "0x0bab18e28836d763174204a5cc8142c111ba0cb8e6bb4c7334abcde2d147d229"
-        },
-        {
-          "market": "Will MegaETH launch a token by April 30, 2026?",
-          "url": "https://polymarket.com/event/will-megaeth-launch-a-token-by",
-          "ts": 1776959776,
-          "odds": 91,
-          "stake": 15965,
-          "pl": 789,
-          "won": true,
-          "tx": "0x4b3df2f6b1a6c81fe3de42517823c8548228f7da33d4fc59f5e96c0c24bce79e"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": null,
       "tier": "notable",
@@ -2423,6 +2427,172 @@
           "pl": 6,
           "won": true,
           "tx": "0x4893ec0b0cf177cdeedc8113b57c6a27b88b75ed4a621bf0971fbf3806d04384"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
+      "username": "Dropper",
+      "tier": "notable",
+      "S": 533.6,
+      "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
+      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+      "episodeTx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b",
+      "stake": 72610,
+      "odds": 69,
+      "won": true,
+      "episodeProfit": 32029,
+      "zBetCross": 10.71,
+      "zBetWithin": 0.41,
+      "zProfitCross": 7.75,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 1446762,
+      "firstSeen": "Jul 05 2024",
+      "createdOnChain": true,
+      "created": "Jul 05 2024",
+      "betsCount": 63,
+      "ledger": [
+        {
+          "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1778164318,
+          "odds": 81,
+          "stake": 554244,
+          "pl": 126932,
+          "won": true,
+          "tx": "0x99aa4005440b24401067ea9c53e910a0ab17741003774a74293dde55bd8fcfe5"
+        },
+        {
+          "market": "Clavicular pregnancy in 2026?",
+          "url": "https://polymarket.com/event/clavicular-pregnancy-in-2026",
+          "ts": 1777404866,
+          "odds": 98,
+          "stake": 363723,
+          "pl": 9004,
+          "won": true,
+          "tx": "0x932c90b114592a80f4bede5d6594b586fc0875cecf41085669695da7839856be"
+        },
+        {
+          "market": "US x Iran ceasefire extended by April 22, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-extended-by-april-22-2026",
+          "ts": 1776864372,
+          "odds": 99,
+          "stake": 303338,
+          "pl": 3581,
+          "won": true,
+          "tx": "0x1d0260bffc226e48e1de0966c2354d8955f0ca051771674f856cb7506d5e7d59"
+        },
+        {
+          "market": "US x Iran permanent peace deal by December 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779452501,
+          "odds": 62,
+          "stake": 113429,
+          "pl": 68571,
+          "won": true,
+          "tx": "0x34fc5b37314ed9b631a61783f1f2ab3bb000c6b792d836756e7b52925c75b76d"
+        },
+        {
+          "market": "Will Keiko Fujimori win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/will-keiko-fujimori-win-the-2026-peruvian-presidential-election",
+          "ts": 1779757544,
+          "odds": 84,
+          "stake": 107108,
+          "pl": 20575,
+          "won": true,
+          "tx": "0xeabf71e8233d76a308a6b08b25564bff742c7f070d359a0ab32cc550558bb1c5"
+        },
+        {
+          "market": "Will Trump say \"Iran\" during events with Xi Jinping?",
+          "url": "https://polymarket.com/event/will-trump-say-iran-during-events-with-xi-jinping",
+          "ts": 1779105093,
+          "odds": 98,
+          "stake": 100512,
+          "pl": 2358,
+          "won": true,
+          "tx": "0x031534be72ae1bd641334550a97f2415a27f30ebb797b932962d1287f9912c09"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1780942374,
+          "odds": 28,
+          "stake": 73503,
+          "pl": 188906,
+          "won": true,
+          "tx": "0x0cc077daff9a5234dfa892487b4ef8ec6e24d40d545f3e537ee795b844f6acf6"
+        },
+        {
+          "market": "Will Israel announce the ceasefire has been extended by May 15?",
+          "url": "https://polymarket.com/event/will-israel-announce-the-ceasefire-has-been-extended-by-may-15",
+          "ts": 1778870115,
+          "odds": 95,
+          "stake": 73017,
+          "pl": 4184,
+          "won": true,
+          "tx": "0xa45051c6a01699f2f02576c77bd92f85120481d2c65ac865e9957a3df1bc7210"
+        },
+        {
+          "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1780111863,
+          "odds": 69,
+          "stake": 72610,
+          "pl": 32029,
+          "won": true,
+          "tx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1778165331,
+          "odds": 18,
+          "stake": 65661,
+          "pl": -65661,
+          "won": false,
+          "tx": "0x23fd35ec61d145fb48055d8afe9ec4b11300cf7e560dc6b76a65173fa53f0ba9"
+        },
+        {
+          "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by May 31, 2026?",
+          "url": "https://polymarket.com/event/trump-announces-us-blockade-of-hormuz-lifted-by",
+          "ts": 1777424520,
+          "odds": 39,
+          "stake": 23945,
+          "pl": 38200,
+          "won": true,
+          "tx": "0xc726f7b0edab2f1c10cb5a89ade6c433fee3c4bf7b0487432b04b5e923721e7e"
+        },
+        {
+          "market": "Will four or more people dissent the April Fed decision?",
+          "url": "https://polymarket.com/event/will-four-or-more-people-dissent-the-april-fed-decision",
+          "ts": 1777486656,
+          "odds": 96,
+          "stake": 23162,
+          "pl": 953,
+          "won": true,
+          "tx": "0xd0c756a92723d1eb75500d5ce8cf64cf5d393f3a14fc82d4ebdc7c411612d092"
+        },
+        {
+          "market": "Iran agrees to end enrichment of uranium by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+          "ts": 1781893135,
+          "odds": 57,
+          "stake": 23070,
+          "pl": 17523,
+          "won": true,
+          "tx": "0x1cd2a9c66663392474d8edf270fe668ef058dfe743eb5ab33064db742a7584c8"
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by May 31?",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-may-31-665-831-238",
+          "ts": 1779896463,
+          "odds": 30,
+          "stake": 22190,
+          "pl": -22190,
+          "won": false,
+          "tx": "0x0bed86f422214e71ef1a6277c79a74c3b059890b30667d59713352a37c111a46"
         }
       ],
       "alsoBinomial": false
