@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-06-30T11:27:10.336Z",
+  "updatedAt": "2026-06-30T13:23:23.933Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-561231",
+      "ts": "13:23 UTC",
+      "platform": "polymarket",
+      "market": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "54 · Elevated",
+      "index": 54,
+      "url": "https://polymarket.com/event/presidential-election-winner-2028",
+      "engine": "manipulation",
+      "firstSeen": "2026-06-30T13:23:23.933Z"
+    },
     {
       "id": "pm-559653",
       "ts": "11:27 UTC",
