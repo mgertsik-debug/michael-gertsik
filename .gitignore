@@ -1,0 +1,5 @@
+
+# Forensics screened-wallet pool — off-git, sharded NDJSON (persisted via Actions cache,
+# never committed). Can reach hundreds of MB; the scan stages only the small data outputs.
+data/forensics/screened.ndjson
+data/forensics/screened.ndjson.tmp
