@@ -790,6 +790,29 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
 // Publish the near-perfect MODERATE-odds serial winner the ≤35% long-shot binomial is structurally
 // blind to (AlphaRaccoon 22/23, ricosuave 7/7). Flags on the FULL-record cross-category
 // improbability (crossCat — a Poisson-binomial over mixed odds), CORROBORATED by ≥2 agreeing
+// REAL, per-detector INPUTS for a corroborating card — the SAME values the binomial path shows,
+// derived from THIS wallet's detector results. Returns only inputs whose value is genuinely
+// available; an unknown field is OMITTED, never faked. This replaces the client-side placeholders
+// (e.g. "age ≈ 4 days", "mean link 0.88") the cross-category cards used to fall back to.
+function corroInputs(k, dets, agg) {
+  const d = (dets && dets[k]) || {};
+  if (!d.hasData) return [];
+  const cashH = agg && agg.conceal && agg.conceal.cashoutLatencyHours;
+  const r = [];
+  if (k === "fresh") { r.push(["age", d.ageDays < 1 ? Math.round(d.ageDays * 24) + " h" : d.ageDays.toFixed(1) + " days"]); if (agg && agg.priorTx != null) r.push(["prior_tx", String(num(agg.priorTx))]); }
+  else if (k === "held") { r.push(["held", String(d.heldToResolution)], ["total", String(d.total)]); if (d.h != null) r.push(["h", d.h.toFixed(2)]); }
+  else if (k === "conceal") { r.push(["tactics", String(d.nTactics || 0) + (d.tactics && d.tactics.length ? " (" + d.tactics.join("; ") + ")" : "")]); if (cashH != null) r.push(["cash-out latency", cashH < 1 ? Math.round(cashH * 60) + " min" : cashH.toFixed(1) + " h"]); }
+  else if (k === "cluster") { r.push(["wallets", String(d.nWallets)]); if (d.meanLink != null) r.push(["mean link", d.meanLink.toFixed(2)]); if (d.nEdges != null) r.push(["edges", String(d.nEdges)]); }
+  else if (k === "sizing") { r.push(["largest", money(d.maxEventStake)], ["median", money(d.medianStake)]); if (d.ratio != null) r.push(["ratio", d.ratio + "×"]); }
+  else if (k === "concentration") { r.push(["one-way share", Math.round((d.dirPurity || 0) * 100) + "%"]); }
+  else if (k === "timing") { r.push(["late wins", String(d.lateWins) + " of " + d.n]); if (d.minHours != null) r.push(["soonest", d.minHours + " h before"]); }
+  else if (k === "profitCross") { r.push(["z_profit_cross", String(d.z)]); if (d.market) r.push(["market", String(d.market).slice(0, 48)]); }
+  else if (k === "conviction") { r.push(["stake", money(d.stake)]); if (d.entryPrice != null) r.push(["p", d.entryPrice.toFixed(2)]); if (d.payout != null) r.push(["payout", money(d.payout)]); }
+  else if (k === "longshot") { if (d.mean != null) r.push(["p̄", d.mean.toFixed(2)]); if (d.n != null) r.push(["n", d.n + " long-shots"]); r.push(["τ", "0.20"]); }
+  else if (k === "repeat") { if (d.nEvents != null) r.push(["events", String(d.nEvents)]); }
+  else if (k === "baseline") { if (d.winRate != null) r.push(["win rate", d.winRate + "%"]); if (d.breakEven != null) r.push(["break-even", d.breakEven + "%"]); }
+  return r;
+}
 // detectors and a net-positive record. crossCat yields a real "1 in N", so these rank naturally
 // alongside the binomial subjects. Renders over the FULL resolved record. Returns null unless it
 // qualifies. Same subject SHAPE as buildSubject so the UI renders it identically.
@@ -864,7 +887,7 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
     conviction: ["single high-conviction bet", "one large long-shot win held to resolution"],
   };
   corro.forEach((k) => { const d = dets[k]; const c = CARD[k]; if (!c) return;
-    scorecard.push({ key: k, metric: (d.explain || "").slice(0, 0) || k, method: c[0], formula: c[1], numbers: d.explain || "", inputs: [] }); });
+    scorecard.push({ key: k, metric: (d.explain || "").slice(0, 0) || k, method: c[0], formula: c[1], numbers: d.explain || "", inputs: corroInputs(k, dets, agg) }); });
   const fired = ["crossCat"].concat(corro);
   // contribution split over the contribW weights, renormalised across the shown signals.
   const W = D.DEFAULTS.contribW; const contributions = {};
@@ -1305,23 +1328,11 @@ function enrichInfoSignals(subject, nb, fr) {
       method: "pre-event news blackout (GDELT)", formula: "global news articles matching the market entity in the " + (nb.windowHours || 24) + "h before the bet",
       numbers: nb.explain, inputs: [["window", (nb.windowHours || 24) + "h pre-bet"], ["articles", String(nb.articleCount)]] });
   }
-  if (fr && fr.hasData && fr.fires) {
-    if (!subject.fired.includes("fedRegister")) subject.fired.push("fedRegister");
-    const t = fr.top || {};
-    // carry the actual filing so the dossier card can render a CLICKABLE link + the bet→filing timing.
-    subject.fedRegisterDoc = { title: t.title || null, agency: t.agency || null, date: t.date || null, url: t.url || null, leadDays: t.leadDays != null ? t.leadDays : null };
-    const inputs = [];
-    if (t.leadDays != null && t.leadDays >= 0) inputs.push(["bet → filing", t.leadDays + "d before"]);
-    if (t.date) inputs.push(["filing date", t.date]);
-    if (t.agency) inputs.push(["agency", t.agency]);
-    subject.scorecard.push({
-      key: "fedRegister",
-      metric: (t.leadDays != null && t.leadDays >= 0) ? (t.leadDays + "d before filing") : ((fr.nDocs || 0) + " reg doc" + ((fr.nDocs || 0) === 1 ? "" : "s")),
-      method: "Federal Register match (regulatory-insider)",
-      formula: "bet date vs publication date of a regulatory filing whose title names the market's entity",
-      numbers: fr.explain, inputs, link: t.url || null, linkLabel: t.title ? ("↗ " + String(t.title).slice(0, 70)) : "↗ view the filing",
-    });
-  }
+  // fedRegister ("Matches a regulatory filing") REMOVED: it corroborated from an EXTERNAL document
+  // (a Federal Register entity-name match), not from the wallet's OWN trades, and the name-match was
+  // heuristic — it doesn't belong on a tracker whose every signal must be provable from the account's
+  // own on-chain record. The `fr` arg is accepted for call-site compatibility and ignored.
+  void fr;
   subject.detectorsFired = subject.fired.length;
   subject.suspicion = suspicionScore(subject);                    // newsBlackout lifts the timing dimension
   return subject;
