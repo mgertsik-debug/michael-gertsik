@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782776873,
-  "total": 23,
+  "total": 29,
   "byTier": {
     "extreme": 2,
-    "high": 4,
-    "notable": 17
+    "high": 5,
+    "notable": 22
   },
-  "medianS": 690.9,
+  "medianS": 690.7,
   "p90": 1086.5,
-  "p95": 1161.2,
+  "p95": 1161.5,
   "p99": 1190.1,
   "minS": 532.2,
   "maxS": 1190.1,
-  "over500": 23,
-  "alsoBinomial": 4,
-  "onlyHarvard": 19,
-  "observed": 193159,
-  "reviewed": 193159,
-  "screened": 5159,
-  "scored": 3288,
+  "over500": 29,
+  "alsoBinomial": 8,
+  "onlyHarvard": 21,
+  "observed": 193303,
+  "reviewed": 193303,
+  "screened": 5329,
+  "scored": 3366,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -71,7 +71,7 @@
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
       "username": "SaylorMoon",
       "tier": "extreme",
-      "S": 1161.2,
+      "S": 1161.5,
       "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0x9969f3e97742fef0c3cf4364b34ebc5b6daa435aaa1b87cb91a0532d2da89d05",
@@ -80,7 +80,7 @@
       "won": true,
       "episodeProfit": 5257,
       "zBetCross": 18.97,
-      "zBetWithin": 0.32,
+      "zBetWithin": 0.33,
       "zProfitCross": 22.35,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -88,7 +88,7 @@
       "firstSeen": "Dec 16 2024",
       "createdOnChain": true,
       "created": "Dec 16 2024",
-      "betsCount": 53,
+      "betsCount": 54,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -566,6 +566,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x858d551d073e9c647c17079ad9021de830201047",
+      "username": "flipfloppity",
+      "tier": "high",
+      "S": 901.2,
+      "market": "Maduro out by January 31, 2026?",
+      "marketUrl": "https://polymarket.com/event/maduro-out-in-2025",
+      "episodeTx": "0xeadb7404623bc013d64ddc24ef34e22b0ad78ec310cee1be9405391b9839ce6c",
+      "stake": 57116,
+      "odds": 46,
+      "won": true,
+      "episodeProfit": 66852,
+      "zBetCross": 2.53,
+      "zBetWithin": 4.29,
+      "zProfitCross": 24.24,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 232527,
+      "firstSeen": "Nov 10 2025",
+      "createdOnChain": true,
+      "created": "Nov 10 2025",
+      "betsCount": 27,
+      "ledger": [
+        {
+          "market": "Maduro out by January 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767424553,
+          "odds": 46,
+          "stake": 57116,
+          "pl": 66852,
+          "won": true,
+          "tx": "0xeadb7404623bc013d64ddc24ef34e22b0ad78ec310cee1be9405391b9839ce6c"
+        },
+        {
+          "market": "US strikes Iran by February 21, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1771622428,
+          "odds": 95,
+          "stake": 18179,
+          "pl": 1045,
+          "won": true,
+          "tx": "0x6c6eae923de4a1ee259081a5ffbafd177e66a71320a8b5a095041c1b20ec2a6c"
+        },
+        {
+          "market": "US strikes Iran by February 19, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1771448260,
+          "odds": 95,
+          "stake": 17110,
+          "pl": 970,
+          "won": true,
+          "tx": "0x74c77b0ba0e16baf3b79d710d776bf569888064ac4dbb3bf3d777b02e7f6de25"
+        },
+        {
+          "market": "US strikes Iran by February 17, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1771318851,
+          "odds": 99,
+          "stake": 17007,
+          "pl": 103,
+          "won": true,
+          "tx": "0xf2386c72e2463c17b01fbb0c087646c684e365edbf27f7e119de3810e0151767"
+        },
+        {
+          "market": "US strikes Iran by February 16, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1771249791,
+          "odds": 99,
+          "stake": 16922,
+          "pl": 85,
+          "won": true,
+          "tx": "0x5ee76e71e1d5ba6cc3284934c2f976a428c211b33f0468d1d23ee85b04327bfc"
+        },
+        {
+          "market": "US strikes Iran by February 15, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1771170765,
+          "odds": 100,
+          "stake": 16837,
+          "pl": 85,
+          "won": true,
+          "tx": "0x8b5e1fbcf5b032f3efbe5fff3f8d625326f15058a3e506e176dc9e7080760426"
+        },
+        {
+          "market": "US strikes Iran by February 14, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1771084861,
+          "odds": 100,
+          "stake": 16770,
+          "pl": 67,
+          "won": true,
+          "tx": "0x2c0cc7b15e8093a7520fa06068ef729644ff35dfc65ff3500b0c7a86b179580c"
+        },
+        {
+          "market": "US strikes Iran by February 12, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770916843,
+          "odds": 100,
+          "stake": 16593,
+          "pl": 67,
+          "won": true,
+          "tx": "0x0610738b908387269a7ca21e5e07c9b0672dadc8ba79e87e2e86d778930b33f9"
+        },
+        {
+          "market": "US strikes Iran by February 13, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770984781,
+          "odds": 99,
+          "stake": 16550,
+          "pl": 100,
+          "won": true,
+          "tx": "0x812822007515cef2c20110b8f8ff99d1d2d7dc863d39e29edf2113c9690098a5"
+        },
+        {
+          "market": "Will the US next strike Iran on February 11, 2026 (ET)?",
+          "url": "https://polymarket.com/event/will-the-us-next-strike-iran-on-february-11-2026-et",
+          "ts": 1770800031,
+          "odds": 99,
+          "stake": 16322,
+          "pl": 148,
+          "won": true,
+          "tx": "0xb961534374281cfa19b58102514c67590dcfdfa1311545b1974d32552a9d0910"
+        },
+        {
+          "market": "US strikes Iran by February 10, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770717447,
+          "odds": 99,
+          "stake": 16051,
+          "pl": 180,
+          "won": true,
+          "tx": "0xe693f9baddfcfc585d0ddf8a7d18db1517e229c8ac4e29c7f5aed52161496e3b"
+        },
+        {
+          "market": "US strikes Iran by February 9, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770637997,
+          "odds": 98,
+          "stake": 15698,
+          "pl": 403,
+          "won": true,
+          "tx": "0x597b93d172712a80128288e92e031c138d7cb8cc21bdd16ad593f0688c184632"
+        },
+        {
+          "market": "US strikes Iran by February 8, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770556149,
+          "odds": 99,
+          "stake": 15541,
+          "pl": 109,
+          "won": true,
+          "tx": "0x11fd2c0783cd41ff48f4e2de28ba438dcdc23ec420624872c6ef54231b77a241"
+        },
+        {
+          "market": "US strikes Iran by February 7, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770363627,
+          "odds": 99,
+          "stake": 15359,
+          "pl": 173,
+          "won": true,
+          "tx": "0x119c1b8480939cb701b86e46d424358f159b4fd4554cdf7787f4013c18e75df5"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0x9d84ce0306f8551e02efef1680475fc0f1dc1344",
       "username": "ImJustKen",
       "tier": "high",
@@ -735,7 +901,7 @@
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
       "username": "classified",
       "tier": "high",
-      "S": 814.3,
+      "S": 814.8,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -744,7 +910,7 @@
       "won": true,
       "episodeProfit": 17517,
       "zBetCross": 12.74,
-      "zBetWithin": 0.9,
+      "zBetWithin": 0.92,
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
@@ -752,7 +918,7 @@
       "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
-      "betsCount": 57,
+      "betsCount": 59,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 30, 2026?",
@@ -835,6 +1001,16 @@
           "tx": "0xd7159c30f222a6f95c00463a8ecd6a2b5b824f59c8bf54aebe381119b8cedb50"
         },
         {
+          "market": "Maduro out by December 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767435569,
+          "odds": 100,
+          "stake": 15431,
+          "pl": 25,
+          "won": true,
+          "tx": "0x8d1e97b3f78e5f6191657af75d517987de4b17bd04773e4a9511dac43c698afd"
+        },
+        {
           "market": "US announces new Iran agreement/ceasefire extension by June 7?",
           "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-7-265-824-655-577-216",
           "ts": 1780730967,
@@ -883,16 +1059,6 @@
           "pl": -7535,
           "won": false,
           "tx": "0x6327622c3aa43417ef6da338b7ad2115a21f3394dda30fa7f8c0cd504c01872c"
-        },
-        {
-          "market": "US announces new Iran agreement/ceasefire extension by June 12?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-12-2482",
-          "ts": 1780732570,
-          "odds": 87,
-          "stake": 6477,
-          "pl": 952,
-          "won": true,
-          "tx": "0xc4e58ccd62cab44c75751a9f999c1fad19ec73730827c6143e0d6b52ce0402b1"
         }
       ],
       "alsoBinomial": false
@@ -929,6 +1095,62 @@
           "pl": 17143,
           "won": true,
           "tx": "0xd8c8bb44e0fb37211c157b6e38bb4b3a301d438fe437e1777cf2758c9bccb032"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
+      "address": "0x6baf05d193692bb208d616709e27442c910a94c5",
+      "username": "SBet365",
+      "tier": "notable",
+      "S": 809.2,
+      "market": "Maduro out by February 28, 2026?",
+      "marketUrl": "https://polymarket.com/event/maduro-out-in-2025",
+      "episodeTx": "0x0eb900053441e92ea758b2d9191f1eda23aa6310533a1ddf6c26cbb4c107493d",
+      "stake": 15090,
+      "odds": 18,
+      "won": true,
+      "episodeProfit": 67187,
+      "zBetCross": 4.36,
+      "zBetWithin": 0.97,
+      "zProfitCross": 21.86,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 141620,
+      "firstSeen": "Jan 03 2026",
+      "createdOnChain": true,
+      "created": "Dec 29 2025",
+      "betsCount": 3,
+      "ledger": [
+        {
+          "market": "Maduro out by February 28, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767412101,
+          "odds": 18,
+          "stake": 15090,
+          "pl": 67187,
+          "won": true,
+          "tx": "0x0eb900053441e92ea758b2d9191f1eda23aa6310533a1ddf6c26cbb4c107493d"
+        },
+        {
+          "market": "Maduro out by January 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767411721,
+          "odds": 11,
+          "stake": 10000,
+          "pl": 78433,
+          "won": true,
+          "tx": "0x4db86bda9fb22c0c51abb77d59deeac7574d5bc51adcf84228c7abe57e304bb4"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran by January 31?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-january-31",
+          "ts": 1768257005,
+          "odds": 20,
+          "stake": 4000,
+          "pl": -4000,
+          "won": false,
+          "tx": "0xa28c7a825c00cb8b19bf095d8c4ffe14ac4ec87038829041eea98f78bee5e55e"
         }
       ],
       "alsoBinomial": true
@@ -1362,6 +1584,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x26a5915141b691cd81141be817a67193836006c0",
+      "username": "allwithjohn",
+      "tier": "notable",
+      "S": 718.7,
+      "market": "Starmer out by March 31, 2026?",
+      "marketUrl": "https://polymarket.com/event/starmer-out-in-2025",
+      "episodeTx": "0x15670f30ab4fc4b26e380becaeb5cf23c00182c25a61c0e9f929ada0f61dd867",
+      "stake": 14630,
+      "odds": 85,
+      "won": true,
+      "episodeProfit": 2502,
+      "zBetCross": 13.41,
+      "zBetWithin": 0.8,
+      "zProfitCross": 11.91,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": 9620,
+      "firstSeen": "Jan 06 2026",
+      "createdOnChain": true,
+      "created": "Jan 06 2026",
+      "betsCount": 22,
+      "ledger": [
+        {
+          "market": "Starmer out by June 30, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1770409921,
+          "odds": 63,
+          "stake": 48508,
+          "pl": -48508,
+          "won": false,
+          "tx": "0x63ce10402d0b144f770897329187ee5b72e4b88c0e3fbce8f9a0af54c4ad6938"
+        },
+        {
+          "market": "Starmer out by May 31, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1778825373,
+          "odds": 92,
+          "stake": 21893,
+          "pl": 2005,
+          "won": true,
+          "tx": "0x794e9d42f82416cd1fdb19d90335b099d8a9e856e1f1c8651419a269efc51998"
+        },
+        {
+          "market": "Starmer out by June 15, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1780689121,
+          "odds": 98,
+          "stake": 17688,
+          "pl": 354,
+          "won": true,
+          "tx": "0x3a71c29ea5024bd4a965c3301ef8855d68c77aa5be9383bc20c58d439aa1a1ed"
+        },
+        {
+          "market": "Starmer out by March 31, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1770830493,
+          "odds": 85,
+          "stake": 14630,
+          "pl": 2502,
+          "won": true,
+          "tx": "0x15670f30ab4fc4b26e380becaeb5cf23c00182c25a61c0e9f929ada0f61dd867"
+        },
+        {
+          "market": "Starmer out by February 28, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1770281013,
+          "odds": 91,
+          "stake": 4523,
+          "pl": 432,
+          "won": true,
+          "tx": "0x6cae30e14850cabb4fff98d42807fc4b95e38db0717c334958fb43bbcc37b84b"
+        },
+        {
+          "market": "Will Andy Burnham be the next Prime Minister of the United Kingdom in 2026?",
+          "url": "https://polymarket.com/event/will-andy-burnham-be-the-next-prime-minister-of-the-united-kingdom-in-2026-882",
+          "ts": 1782121378,
+          "odds": 97,
+          "stake": 3281,
+          "pl": 119,
+          "won": true,
+          "tx": "0xadc2032f8ac7db55cb34d6e54ab13456834f3d492d2beab00cdfc571eac19724"
+        },
+        {
+          "market": "Starmer out by July 31, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1780330321,
+          "odds": 67,
+          "stake": 2659,
+          "pl": -2659,
+          "won": false,
+          "tx": "0x7d534938dfad40a6579acff905be9d6dc094b56c6e84be26eeda2c46e43f19c4"
+        },
+        {
+          "market": "Starmer out by December 31, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1776027775,
+          "odds": 49,
+          "stake": 2174,
+          "pl": -2174,
+          "won": false,
+          "tx": "0xf3ca88c3acc63e8bd4866d1d46f08ada41edaedc63ead4b8644295360fce39f7"
+        },
+        {
+          "market": "Starmer out by May 15, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1776445210,
+          "odds": 70,
+          "stake": 1757,
+          "pl": 757,
+          "won": true,
+          "tx": "0xcbeed687b07e3548977ce1d8f323d834e2798ac205bca9d81d608ffb57ef5634"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran by January 31?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-january-31",
+          "ts": 1767899778,
+          "odds": 20,
+          "stake": 1681,
+          "pl": -1681,
+          "won": false,
+          "tx": "0xfc5b02b1d09103d4753a534cda8e5e5281be760254fe0bd4f6bec5d0b8378ffd"
+        },
+        {
+          "market": "Starmer out by June 22, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1782021290,
+          "odds": 65,
+          "stake": 520,
+          "pl": 280,
+          "won": true,
+          "tx": "0x362deee5a57512e439befd3f33245ecc11fef29d256ed667486fc66a5e4357fe"
+        },
+        {
+          "market": "Will Trump nominate Kevin Hassett as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1768662174,
+          "odds": 83,
+          "stake": 456,
+          "pl": 93,
+          "won": true,
+          "tx": "0x9c26dc199f9aedd475eafc274fdbb5c192b29ebb8eba7d7339551edb264c597b"
+        },
+        {
+          "market": "US strikes Iran by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768204246,
+          "odds": 57,
+          "stake": 453,
+          "pl": 337,
+          "won": true,
+          "tx": "0x568a0006664415a0b3625b2e6d230589cb0ac46f39ba0a33166751e80fe509bd"
+        },
+        {
+          "market": "Starmer out by June 26, 2026?",
+          "url": "https://polymarket.com/event/starmer-out-in-2025",
+          "ts": 1781960116,
+          "odds": 27,
+          "stake": 318,
+          "pl": -318,
+          "won": false,
+          "tx": "0xfdd78655646c236c295f8166c73ecbff2b9b74b96e3f99091fd52e4e7fd7f441"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0x27abdfc9393c72a6330a3be987da4b46c726e521",
       "username": "pd.unique",
       "tier": "notable",
@@ -1531,7 +1919,7 @@
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
       "username": "tourists",
       "tier": "notable",
-      "S": 690.9,
+      "S": 690.7,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -1540,7 +1928,7 @@
       "won": true,
       "episodeProfit": 1527,
       "zBetCross": 14.62,
-      "zBetWithin": -0.32,
+      "zBetWithin": -0.33,
       "zProfitCross": 10.73,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -1548,7 +1936,7 @@
       "firstSeen": "May 12 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 59,
+      "betsCount": 60,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
@@ -1641,6 +2029,16 @@
           "tx": "0x114c1dd0bc056a93481c3077be8a866df461971d32e2238c756bb3598ef8d2ae"
         },
         {
+          "market": "Maduro out by January 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767433085,
+          "odds": 99,
+          "stake": 53254,
+          "pl": 558,
+          "won": true,
+          "tx": "0xaf7b5ce713d17b852b38365a4c55b6b7d56231b7cd75ee89176dcbd662b9b7d6"
+        },
+        {
           "market": "Will Trump agree to withdraw troops from the Iranian region by June 30?",
           "url": "https://polymarket.com/event/will-trump-agree-to-withdraw-troops-from-the-iranian-region-by-june-30",
           "ts": 1781812877,
@@ -1679,16 +2077,6 @@
           "pl": 5566,
           "won": true,
           "tx": "0x06a562a1517574907c31e7f3517895875792bf2e0d39a1252caab199c36296fa"
-        },
-        {
-          "market": "Israel announces Lebanon ceasefire extension by June 7?",
-          "url": "https://polymarket.com/event/israel-announces-lebanon-ceasefire-extension-by",
-          "ts": 1780688589,
-          "odds": 100,
-          "stake": 37492,
-          "pl": 105,
-          "won": true,
-          "tx": "0x954bb3cfbb36e4fdc90cf53969dba3326fc946e9c2fcfe65c7916d58d1ebc49b"
         }
       ],
       "alsoBinomial": false
@@ -1714,7 +2102,7 @@
       "firstSeen": "Jun 15 2025",
       "createdOnChain": true,
       "created": "Feb 25 2025",
-      "betsCount": 152,
+      "betsCount": 153,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
@@ -2026,6 +2414,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x090a0d3fc9d68d3e16db70e3460e3e4b510801b4",
+      "username": "slight-",
+      "tier": "notable",
+      "S": 672,
+      "market": "Maduro out by December 31, 2026?",
+      "marketUrl": "https://polymarket.com/event/maduro-out-in-2025",
+      "episodeTx": "0x092e52f35aa6332f850b494a282be74576fe7b1d3840e9a005b2f2fe196206b3",
+      "stake": 24658,
+      "odds": 77,
+      "won": true,
+      "episodeProfit": 6684,
+      "zBetCross": 13.14,
+      "zBetWithin": 0.28,
+      "zProfitCross": 10.45,
+      "lateBuyFraction": 1,
+      "directionalScore": 0.936,
+      "accountPnl": 334851,
+      "firstSeen": "Mar 19 2025",
+      "createdOnChain": true,
+      "created": "Mar 18 2025",
+      "betsCount": 82,
+      "ledger": [
+        {
+          "market": "US strikes Iran by January 14, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768410830,
+          "odds": 76,
+          "stake": 186531,
+          "pl": 60118,
+          "won": true,
+          "tx": "0x71b1bda3a1b325ce1abc1fc5c8e7ccbe2766a4db7679e62459dd3106d0cbf271"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran by March 31?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-march-31",
+          "ts": 1768097034,
+          "odds": 54,
+          "stake": 130834,
+          "pl": -130834,
+          "won": false,
+          "tx": "0xd3bdbf7b53972110f5f2eb38878c7fce680308fbdf1158f23f459f31f1e1cdc0"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran by June 30?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-june-30-747",
+          "ts": 1770537617,
+          "odds": 83,
+          "stake": 120577,
+          "pl": -120577,
+          "won": false,
+          "tx": "0x21000eb08528b6a9f71450cd37cbe19a4a012f76db91c0c89059287f5469ddc4"
+        },
+        {
+          "market": "Maduro out by January 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767425345,
+          "odds": 47,
+          "stake": 97589,
+          "pl": 20670,
+          "won": true,
+          "tx": "0x7b3b1e3bb9d1af8a266875f1724857023ae3507329582472ce2639bcc704cc5a"
+        },
+        {
+          "market": "US strikes Iran by January 31, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1767899236,
+          "odds": 20,
+          "stake": 77984,
+          "pl": -77984,
+          "won": false,
+          "tx": "0xe54e3c6c8f86e4e47ecbf505d20208059a7db6b8aa29abfd66e05af2c0103710"
+        },
+        {
+          "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1769836032,
+          "odds": 98,
+          "stake": 76713,
+          "pl": 1327,
+          "won": true,
+          "tx": "0xcdf18d0eaafa046d29c77d7e5bd18ea2a0e6579afa9c38dbc255f9d9737cc1b6"
+        },
+        {
+          "market": "Maduro out by March 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767432103,
+          "odds": 68,
+          "stake": 46725,
+          "pl": 19268,
+          "won": true,
+          "tx": "0xb1227577fd2a15498aa662eb7f65d2b73c861589d7fef4d5b436bf2485dccf5b"
+        },
+        {
+          "market": "US strikes Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768944694,
+          "odds": 69,
+          "stake": 46022,
+          "pl": -46022,
+          "won": false,
+          "tx": "0xa7937cc8c8bb239274f2a373c37e2dbd3ee110ede86a386f5d7c00fe6a563b08"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran by January 31?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-january-31",
+          "ts": 1768092586,
+          "odds": 76,
+          "stake": 44792,
+          "pl": -1288,
+          "won": false,
+          "tx": "0xce2d4b748597e75d68d43d0e4648ff400044fb631325a3b19cdca8da5ca847f1"
+        },
+        {
+          "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1769748934,
+          "odds": 96,
+          "stake": 44693,
+          "pl": 1623,
+          "won": true,
+          "tx": "0x27eeb3697154fab21b91142b668f6c2df12c57d9e462066529aca165ee539fd5"
+        },
+        {
+          "market": "US strikes Iran by January 16, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768275883,
+          "odds": 61,
+          "stake": 39608,
+          "pl": 24808,
+          "won": true,
+          "tx": "0xcefc3b536170784468abdc34981e650c5d2b8c5fbcc65b89918d4b21ba57834f"
+        },
+        {
+          "market": "US strikes Iran by January 15, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768419784,
+          "odds": 58,
+          "stake": 35850,
+          "pl": 25881,
+          "won": true,
+          "tx": "0x2d107a42c2d439234243161adf5ca74375cb85ffc4330bc640732fef18bd28be"
+        },
+        {
+          "market": "Maduro out by December 31, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767432107,
+          "odds": 77,
+          "stake": 24658,
+          "pl": 6684,
+          "won": true,
+          "tx": "0x092e52f35aa6332f850b494a282be74576fe7b1d3840e9a005b2f2fe196206b3"
+        },
+        {
+          "market": "US strikes Iran by March 31, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768348434,
+          "odds": 45,
+          "stake": 24597,
+          "pl": -24597,
+          "won": false,
+          "tx": "0x06b6c263f06d5bb1525462f0885107ff17bee816ffa5b639fd769d65efdce44d"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0xb37a28fab8811add34c8db99b26b39a9f5c5e2ee",
       "username": "0xb37a28faB8811aDD34C8Db99B26B39A9F5C5E2eE-1761185887967",
       "tier": "notable",
@@ -2060,6 +2614,172 @@
         }
       ],
       "alsoBinomial": true
+    },
+    {
+      "address": "0xbaa2bcb5439e985ce4ccf815b4700027d1b92c73",
+      "username": "denizz",
+      "tier": "notable",
+      "S": 636.7,
+      "market": "Maduro out by December 31, 2026?",
+      "marketUrl": "https://polymarket.com/event/maduro-out-in-2025",
+      "episodeTx": "0xa811fedad0f6b9b2d5241dba5ae6e57bbb0578c568114e36c7155d6476645e08",
+      "stake": 17342,
+      "odds": 48,
+      "won": true,
+      "episodeProfit": 8269,
+      "zBetCross": 9.21,
+      "zBetWithin": -0.02,
+      "zProfitCross": 12.94,
+      "lateBuyFraction": 1,
+      "directionalScore": 0.379,
+      "accountPnl": 2435052,
+      "firstSeen": "Sep 11 2024",
+      "createdOnChain": true,
+      "created": "Sep 11 2024",
+      "betsCount": 90,
+      "ledger": [
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781283372,
+          "odds": 32,
+          "stake": 118543,
+          "pl": 252882,
+          "won": true,
+          "tx": "0x75f678836f3353b6586781beb4441af5375b7044132ae675e373051932f2e7e5"
+        },
+        {
+          "market": "Iran agrees to end enrichment of uranium by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+          "ts": 1781234877,
+          "odds": 25,
+          "stake": 94747,
+          "pl": -94747,
+          "won": false,
+          "tx": "0x7be8d06ceaa200de40bd6d9cc3d97064339cc87c9009a3c1845b95d9d01017c3"
+        },
+        {
+          "market": "Israel withdraws from Lebanon by June 30, 2026?",
+          "url": "https://polymarket.com/event/israel-withdraws-from-lebanon-by",
+          "ts": null,
+          "odds": 95,
+          "stake": 84882,
+          "pl": 4762,
+          "won": true,
+          "tx": "0x5f7f1b47e07f5ef350e47bd5e8e6fe4ceea5611bc81a98338db6912eda47f935"
+        },
+        {
+          "market": "Will Iran close its airspace by July 15?",
+          "url": "https://polymarket.com/event/will-iran-close-its-airspace-by-july-15-20260609184136055",
+          "ts": 1781465160,
+          "odds": 78,
+          "stake": 82938,
+          "pl": -82938,
+          "won": false,
+          "tx": "0x3ed9f5f454fe0b4de4196a1c4d66bf5b305ea3cbba83ae04c540af11e50658d1"
+        },
+        {
+          "market": "Iran agrees to surrender enriched uranium stockpile by July 31, 2026?",
+          "url": "https://polymarket.com/event/iran-agrees-to-surrender-enriched-uranium-stockpile-by",
+          "ts": null,
+          "odds": 93,
+          "stake": 72692,
+          "pl": 5799,
+          "won": true,
+          "tx": "0x43bc30fbc6073fef417dadfc8376243c1f6649c2404deb44b0d2c1409a7940e1"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by May 31st?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "ts": 1777595736,
+          "odds": 42,
+          "stake": 64773,
+          "pl": 90844,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Iran agrees to surrender enriched uranium stockpile by June 30, 2026?",
+          "url": "https://polymarket.com/event/iran-agrees-to-surrender-enriched-uranium-stockpile-by",
+          "ts": null,
+          "odds": 95,
+          "stake": 58954,
+          "pl": 2803,
+          "won": true,
+          "tx": "0x0f0673421311c562c8739bf7e335efd5cf51a1a7075c36e87da34265dc765454"
+        },
+        {
+          "market": "Israel x Hezbollah ceasefire by April 15, 2026?",
+          "url": "https://polymarket.com/event/israel-x-hezbollah-ceasefire-by",
+          "ts": 1776288556,
+          "odds": 95,
+          "stake": 55962,
+          "pl": 3147,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Israel withdraws from Lebanon by July 31, 2026?",
+          "url": "https://polymarket.com/event/israel-withdraws-from-lebanon-by",
+          "ts": null,
+          "odds": 88,
+          "stake": 53241,
+          "pl": 7547,
+          "won": true,
+          "tx": "0x696c820dc552a2b8a3ca9d56ef3bd32ad21a00a764b20b8d3dd39b0aed38f95d"
+        },
+        {
+          "market": "Will Trump agree to Iranian oil sanction relief by June 30?",
+          "url": "https://polymarket.com/event/will-trump-agree-to-iranian-oil-sanction-relief-by-june-30",
+          "ts": 1781292046,
+          "odds": 91,
+          "stake": 49344,
+          "pl": 4786,
+          "won": true,
+          "tx": "0xa5c0a61410eaa8b60e011264ca853d2896b4a2d4451d70ecea8c8baffbcfacc9"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by April 21st?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "ts": 1776787996,
+          "odds": 97,
+          "stake": 44800,
+          "pl": 1386,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "US announces new Iran agreement/ceasefire extension by June 15?",
+          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-15-2889-539",
+          "ts": 1781275999,
+          "odds": 62,
+          "stake": 44748,
+          "pl": -44748,
+          "won": false,
+          "tx": "0x6ecd9f1f972b6f42fa80a504f539da5f589da6e98e686d10b94defa165e25212"
+        },
+        {
+          "market": "Israel closes its airspace by June 30?",
+          "url": "https://polymarket.com/event/israel-closes-its-airspace-by-june-30-324-253-464-332-827-713-671-846",
+          "ts": 1781518119,
+          "odds": 95,
+          "stake": 43282,
+          "pl": 2278,
+          "won": true,
+          "tx": "0x0b0541c2fb8c6561a6d9eef9caa05eee8a8e17f95355ec95da50ff3633a86abb"
+        },
+        {
+          "market": "Will US or Israel strike Iran by February 28, 2026?",
+          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
+          "ts": 1771990860,
+          "odds": 89,
+          "stake": 37260,
+          "pl": -37260,
+          "won": false,
+          "tx": null
+        }
+      ],
+      "alsoBinomial": false
     },
     {
       "address": "0xd49b42bce7ea10bac53e2901c188cae20ea4bdf9",
@@ -2724,6 +3444,172 @@
         }
       ],
       "alsoBinomial": false
+    },
+    {
+      "address": "0x7fdc0f0e0205aac4ee092e7ed6bd35add9451830",
+      "username": "echovl",
+      "tier": "notable",
+      "S": 552.2,
+      "market": "Maduro out by February 28, 2026?",
+      "marketUrl": "https://polymarket.com/event/maduro-out-in-2025",
+      "episodeTx": "0xfdd561296f8ada09436546f973a1b6873392935d75303d64933169fa9785581d",
+      "stake": 39393,
+      "odds": 62,
+      "won": true,
+      "episodeProfit": 23876,
+      "zBetCross": 11.62,
+      "zBetWithin": 0.23,
+      "zProfitCross": 7.73,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 12166,
+      "firstSeen": "Aug 13 2024",
+      "createdOnChain": true,
+      "created": "Aug 13 2024",
+      "betsCount": 14,
+      "ledger": [
+        {
+          "market": "Will Rafael López Aliaga win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/will-rafael-lpez-aliaga-win-the-2026-peruvian-presidential-election",
+          "ts": 1773368605,
+          "odds": 95,
+          "stake": 157035,
+          "pl": 8759,
+          "won": true,
+          "tx": "0xc771f61cace9c837048d1b6532d0449141e462322e31c2a131d94c538e7bf5c2"
+        },
+        {
+          "market": "Will Keiko Fujimori win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/will-keiko-fujimori-win-the-2026-peruvian-presidential-election",
+          "ts": 1781053176,
+          "odds": 94,
+          "stake": 85732,
+          "pl": 5371,
+          "won": true,
+          "tx": "0xdd7353bb1d6d2acafcb394c0484ec8c7f802d11369afe5ea4c8f5ce8d12bd3c1"
+        },
+        {
+          "market": "Will Roberto Sánchez Palomino win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/peru-presidential-election-winner",
+          "ts": 1781053192,
+          "odds": 94,
+          "stake": 64669,
+          "pl": 4403,
+          "won": true,
+          "tx": "0x58bff008ab10c61410c38b6560564ee82b603fea3f6b9a7e6787afadabbdd777"
+        },
+        {
+          "market": "Maduro out by February 28, 2026?",
+          "url": "https://polymarket.com/event/maduro-out-in-2025",
+          "ts": 1767428337,
+          "odds": 62,
+          "stake": 39393,
+          "pl": 23876,
+          "won": true,
+          "tx": "0xfdd561296f8ada09436546f973a1b6873392935d75303d64933169fa9785581d"
+        },
+        {
+          "market": "Will Ricardo Belmont win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/will-ricardo-belmont-win-the-2026-peruvian-presidential-election",
+          "ts": 1773435917,
+          "odds": 99,
+          "stake": 21794,
+          "pl": 112,
+          "won": true,
+          "tx": "0xc7480711494d1a1429354330a46642b36adcb0f99f29565b86919feaed416db0"
+        },
+        {
+          "market": "Will One Battle After Another win Best Picture at the 98th Academy Awards?",
+          "url": "https://polymarket.com/event/will-one-battle-after-another-win-best-picture-at-the-98th-academy-awards",
+          "ts": 1773582581,
+          "odds": 78,
+          "stake": 16935,
+          "pl": 4641,
+          "won": true,
+          "tx": "0xa9082c389ded641867302043eed2aced5b9c8348b85d833dd2b806ef58e3b3aa"
+        },
+        {
+          "market": "Will Alfonso López Chau win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/will-alfonso-lpez-chau-win-the-2026-peruvian-presidential-election",
+          "ts": 1773681871,
+          "odds": 15,
+          "stake": 6722,
+          "pl": -6722,
+          "won": false,
+          "tx": "0xadbdbb3fff19d64008a6f2a44c9a6b95f94d1061974f1e8b08567f869c455a8d"
+        },
+        {
+          "market": "Will Fujimori win the 2nd round of the 2026 Peru presidential election by 0.4–0.5%?",
+          "url": "https://polymarket.com/event/peru-election-2nd-round-margin-of-victory-0pt1-brackets-20260609021541549",
+          "ts": 1781052118,
+          "odds": 96,
+          "stake": 4002,
+          "pl": 172,
+          "won": true,
+          "tx": "0x66fb45d52d8becea51fa9041205d73a5b14a8632afd40d3f4184941382abbe3a"
+        },
+        {
+          "market": "Will Carlos Álvarez win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/will-carlos-lvarez-win-the-2026-peruvian-presidential-election",
+          "ts": 1775398439,
+          "odds": 70,
+          "stake": 2880,
+          "pl": 1240,
+          "won": true,
+          "tx": "0xcb0d0be357bcd61c0bd5583d6a66012128ab3e3c828d85d96533a65f4e96e292"
+        },
+        {
+          "market": "Will Fujimori win the 2nd round of the 2026 Peru presidential election by 0.3–0.4%?",
+          "url": "https://polymarket.com/event/peru-election-2nd-round-margin-of-victory-0pt1-brackets-20260609021541549",
+          "ts": 1781055250,
+          "odds": 32,
+          "stake": 1824,
+          "pl": -1824,
+          "won": false,
+          "tx": "0xe35101874c5d11f8ac9f2f805da807c62f8e569e2999e32c61da24b3543b2627"
+        },
+        {
+          "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1780318335,
+          "odds": 24,
+          "stake": 1813,
+          "pl": 5736,
+          "won": true,
+          "tx": "0xe9893926b173f9e41de6a84b672ad5475bc433356eb0212ada568036eba5b029"
+        },
+        {
+          "market": "Will Fujimori win the 2nd round of the 2026 Peru presidential election by 0.2–0.3%?",
+          "url": "https://polymarket.com/event/peru-election-2nd-round-margin-of-victory-0pt1-brackets-20260609021541549",
+          "ts": 1781084080,
+          "odds": 58,
+          "stake": 756,
+          "pl": 552,
+          "won": true,
+          "tx": "0x8731405e4b1525eef88ba74636efa7ad1671c07a659600618a33c55250e1b20f"
+        },
+        {
+          "market": "Will Fujimori win the 2nd round of the 2026 Peru presidential election by 0.1–0.2%?",
+          "url": "https://polymarket.com/event/peru-election-2nd-round-margin-of-victory-0pt1-brackets-20260609021541549",
+          "ts": 1781051322,
+          "odds": 22,
+          "stake": 247,
+          "pl": -247,
+          "won": false,
+          "tx": "0x85392c5528be56539a07e8645cbb2148e957c15e9a840afa05e1db8d622d9644"
+        },
+        {
+          "market": "Will Fujimori win the 2nd round of the 2026 Peru presidential election by 0–0.1%?",
+          "url": "https://polymarket.com/event/peru-election-2nd-round-margin-of-victory-0pt1-brackets-20260609021541549",
+          "ts": 1781051686,
+          "odds": 18,
+          "stake": 152,
+          "pl": -152,
+          "won": false,
+          "tx": "0x521a4fa6e9808e6449efbf57fe957ed1196437222a4947f40af18429c42ea853"
+        }
+      ],
+      "alsoBinomial": true
     },
     {
       "address": "0x8575467a6743c81ef0a8d06acc76e99b454a87fe",
