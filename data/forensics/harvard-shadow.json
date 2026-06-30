@@ -1,11 +1,11 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782783439,
-  "total": 35,
+  "total": 36,
   "byTier": {
     "extreme": 4,
     "high": 7,
-    "notable": 24
+    "notable": 25
   },
   "medianS": 704.7,
   "p90": 1162,
@@ -13,13 +13,13 @@
   "p99": 1377.7,
   "minS": 532.2,
   "maxS": 1377.7,
-  "over500": 35,
+  "over500": 36,
   "alsoBinomial": 11,
-  "onlyHarvard": 24,
-  "observed": 201268,
-  "reviewed": 201268,
-  "screened": 5794,
-  "scored": 3589,
+  "onlyHarvard": 25,
+  "observed": 201386,
+  "reviewed": 201386,
+  "screened": 5796,
+  "scored": 3591,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -2912,6 +2912,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x9a3fa403a6666eef75f92f181fcf13f9c051914a",
+      "username": "Rex416",
+      "tier": "notable",
+      "S": 678.3,
+      "market": "Israel x Lebanon diplomatic meeting by July 31, 2026?",
+      "marketUrl": "https://polymarket.com/event/israel-x-lebanon-diplomatic-meeting-byptptpt-20260626200919626",
+      "episodeTx": "0xed942fc8cd7250e89e60015641ae8ef1aa00ceddd5de77abf79e5b479e13386c",
+      "stake": 23002,
+      "odds": 89,
+      "won": true,
+      "episodeProfit": 2953,
+      "zBetCross": 10.68,
+      "zBetWithin": 4.54,
+      "zProfitCross": 9.85,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 108129,
+      "firstSeen": "Feb 11 2024",
+      "createdOnChain": true,
+      "created": "Feb 11 2024",
+      "betsCount": 156,
+      "ledger": [
+        {
+          "market": "Aleksandar Vučić out as Serbian President by June 30, 2026?",
+          "url": "https://polymarket.com/event/aleksandar-vui-out-as-serbian-president-by",
+          "ts": 1782776543,
+          "odds": 99,
+          "stake": 25962,
+          "pl": -25962,
+          "won": false,
+          "tx": "0x2bd92a17b0daf7f0b25ca5ef34beff2653fda531a87e7712ee30e8fd46fe6d97"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781472454,
+          "odds": 88,
+          "stake": 23257,
+          "pl": 3243,
+          "won": true,
+          "tx": "0xc95a2a0180eb0534ecba937e49e27141d2d59fbbbda90381ad79abb2b3c153af"
+        },
+        {
+          "market": "Israel x Lebanon diplomatic meeting by July 31, 2026?",
+          "url": "https://polymarket.com/event/israel-x-lebanon-diplomatic-meeting-byptptpt-20260626200919626",
+          "ts": 1782524156,
+          "odds": 89,
+          "stake": 23002,
+          "pl": 2953,
+          "won": true,
+          "tx": "0xed942fc8cd7250e89e60015641ae8ef1aa00ceddd5de77abf79e5b479e13386c"
+        },
+        {
+          "market": "US-Iran nuclear deal by June 30?",
+          "url": "https://polymarket.com/event/us-iran-nuclear-deal-by-june-30",
+          "ts": 1781492092,
+          "odds": 99,
+          "stake": 21155,
+          "pl": 168,
+          "won": true,
+          "tx": "0x5cb9fdb2d0dcf853cbe7228f65d18254605406bbb3eec76f477e71315294a9bc"
+        },
+        {
+          "market": "Will Ivan Cepeda Castro win the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/will-ivan-cepeda-castro-win-the-2026-colombian-presidential-election",
+          "ts": 1781913193,
+          "odds": 88,
+          "stake": 19910,
+          "pl": 2590,
+          "won": true,
+          "tx": "0xb4a04cc440cf964c73cd5668880b32618f0f69a8da55f21c5ee04080b2fac2bf"
+        },
+        {
+          "market": "Another US strike on Venezuela by December 31?",
+          "url": "https://polymarket.com/event/another-us-strike-on-venezuela-by-december-31",
+          "ts": 1781315800,
+          "odds": 100,
+          "stake": 17459,
+          "pl": 35,
+          "won": true,
+          "tx": "0x4e42a2f1eed7769863c5bf301c0534a65b25dc0ea3bb24b052a760143b331391"
+        },
+        {
+          "market": "Iran agrees to end enrichment of uranium by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+          "ts": 1781493913,
+          "odds": 58,
+          "stake": 10115,
+          "pl": -10115,
+          "won": false,
+          "tx": "0x0b18dd0c5ff5bf897c7d1b49cdc5f21ae1e11784a04c2cec1f143cce56e8f2d5"
+        },
+        {
+          "market": "US and Iran sign an agreement by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-and-iran-sign-an-agreement-byptptpt-20260611221049850",
+          "ts": 1781537776,
+          "odds": 98,
+          "stake": 10061,
+          "pl": 258,
+          "won": true,
+          "tx": "0x905be35c15d275c11fddce301c6baaa043229b86ac24939c48ba753d542caf18"
+        },
+        {
+          "market": "Will Hakeem Jeffries win the 2026 New York 8th District Democratic Primary?",
+          "url": "https://polymarket.com/event/will-hakeem-jeffries-win-the-2026-new-york-8th-district-democratic-primary",
+          "ts": 1781566440,
+          "odds": 66,
+          "stake": 9187,
+          "pl": 4716,
+          "won": true,
+          "tx": "0x9b1525817c89df4239b9df3079c06d84bdefa9f7e2e6a64f8ebaa5ce47ceef85"
+        },
+        {
+          "market": "Israel x Lebanon diplomatic meeting by July 17, 2026?",
+          "url": "https://polymarket.com/event/israel-x-lebanon-diplomatic-meeting-byptptpt-20260626200919626",
+          "ts": 1782533318,
+          "odds": 89,
+          "stake": 8522,
+          "pl": 1023,
+          "won": true,
+          "tx": "0x8d5c7e9b08703876a2ad1d979ee8f874fb23d7303c8b268a5fc47dfe608fd538"
+        },
+        {
+          "market": "Will the text of the US-Iran agreement be released by June 16?",
+          "url": "https://polymarket.com/event/us-iran-deal-text-released-byptptpt-20260615224044572",
+          "ts": 1781638492,
+          "odds": 84,
+          "stake": 8409,
+          "pl": 1591,
+          "won": true,
+          "tx": "0x8f440dcdf6b82e9962920e9914f17229929234042786849b82e50b61b20e7687"
+        },
+        {
+          "market": "Will the text of the US-Iran agreement be released by June 30?",
+          "url": "https://polymarket.com/event/us-iran-deal-text-released-byptptpt-20260615224044572",
+          "ts": 1781671604,
+          "odds": 98,
+          "stake": 6531,
+          "pl": 166,
+          "won": true,
+          "tx": "0xc40f97d04ecaba04e2b2ed0471051be0bc85ba431f5a44bdf45f72486b38e000"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by June 21, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-june-21-2026-631-919-131-645-654-454-281-531-319-585-646",
+          "ts": 1781472132,
+          "odds": 77,
+          "stake": 6178,
+          "pl": 1822,
+          "won": true,
+          "tx": "0xa6ed7347899a1b3fad383d9dff31011000dcd3b2a2c242582a6cc311dcc311cc"
+        },
+        {
+          "market": "US and Iran sign an agreement by June 22, 2026?",
+          "url": "https://polymarket.com/event/us-and-iran-sign-an-agreement-byptptpt-20260611221049850",
+          "ts": 1781537760,
+          "odds": 97,
+          "stake": 6091,
+          "pl": 164,
+          "won": true,
+          "tx": "0x4e9439a9bf792391a98153319899aa9183b4e60d2455130e98bd6fbd2003747e"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x090a0d3fc9d68d3e16db70e3460e3e4b510801b4",
       "username": "slight-",
       "tier": "notable",
@@ -3625,7 +3791,7 @@
       "address": "0x4f1d5ae26fc31472966e951af3183308736d8de2",
       "username": "e46m3",
       "tier": "notable",
-      "S": 612.5,
+      "S": 612.6,
       "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0xdd053b8659edaefa21037220209455955c7d0fb6bb7b79a4283d2d6bf7140eb8",
@@ -3634,7 +3800,7 @@
       "won": true,
       "episodeProfit": 1432,
       "zBetCross": 10.69,
-      "zBetWithin": 5.51,
+      "zBetWithin": 5.52,
       "zProfitCross": 7.37,
       "lateBuyFraction": 0.268,
       "directionalScore": 0.995,
@@ -3642,7 +3808,7 @@
       "firstSeen": "Apr 10 2026",
       "createdOnChain": true,
       "created": "Apr 08 2026",
-      "betsCount": 829,
+      "betsCount": 832,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
