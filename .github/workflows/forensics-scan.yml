@@ -93,12 +93,19 @@ jobs:
           # Retain a large candidate pool (cheap): 790/800 screened wallets already had a
           # winning long-shot, so the old 800 cap evicted real candidates before their
           # full record (the multi-win pattern that flags) could resolve.
-          # Pool cap. The git file-size limit no longer binds — state.json is now persisted
-          # in the Actions cache (off-git), so the pool can scale to the full candidate
-          # universe. Bounded now by per-tick parse/write time + memory of the JSON
-          # (~7.5KB/wallet → 15k ≈ 112MB, comfortably within the runner's 7GB). Tune up
-          # once stable; the cluster pass is funder-bucketed so it scales too.
-          SCREEN_CAP: "15000"
+          # Pool cap. state.json is off-git (Actions cache), so git's file-size limit no
+          # longer binds. The REAL ceiling is the V8 string limit on fs.readFileSync(...,
+          # "utf8"): ~512MB (0x1fffffe8 ≈ 536M chars). The live pool measures ~16KB/wallet
+          # (the cache save of the current ~10.3k pool is 56MB compressed ≈ ~170MB raw), so
+          # the hard crash point is ~32k wallets — past that the next tick throws on READ and
+          # falls back to the empty seed (catastrophic). 20k ≈ 320MB leaves ~190MB headroom.
+          # Raised 15k→20k in lockstep with CATALOG_MAX 20k→60k: a bigger catalog screens
+          # more wallets, and finalize() scores the WHOLE screened pool every tick (scoring is
+          # CPU-only and fast — the 9-min wall-clock is network-bound enrich/ring work), so a
+          # larger pool means more flagged candidates immediately, not a slower tick. The
+          # cluster pass is funder-bucketed so it scales too. To go beyond ~32k the pool must
+          # be sharded or streamed (JSON.parse on a Buffer / NDJSON) — a separate change.
+          SCREEN_CAP: "20000"
           # Live-resolve un-cataloged markets so deep-enrich sees each wallet's WHOLE
           # record, not the thin slice the sweep has reached. Bounded to keep the tick fast.
           ONDEMAND_PER_RUN: "600"

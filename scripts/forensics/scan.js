@@ -53,7 +53,16 @@ const SHADOW = path.join(DIR, "harvard-shadow.json"); // dark-launch: what pure-
 const HARVARD_STORE = path.join(DIR, "harvard-store.json"); // preview: full Harvard-scored dossiers (same UI shape as store.json)
 const CATALOG = path.join(DIR, "markets.json");   // resolved-market winner catalog (cond -> {w,q,s,c,r})
 const SEEDS = path.join(DIR, "seeds.json");        // publicly-reported wallets to force-enrich + score
-const CATALOG_MAX = +process.env.CATALOG_MAX || 20000;
+// Resolved-market catalog ceiling. Was 20,000 — but the in-scope (non-sports/price/
+// weather) resolved universe over LOOKBACK_DAYS=365 is LARGER than that, so the catalog
+// pinned at exactly 20,000 and every new resolved market EVICTED an older one (eviction
+// keeps the most-recent by resolve time). That froze the screenable universe → the
+// screened pool plateaued (~10.3k) and the flagged set stopped growing — the "nothing
+// changes" symptom. Lifted to 60,000 so the catalog accumulates the full in-scope year
+// instead of churning a 20k window. markets.json grows to ~17MB (well under git's 50MB
+// warn); it's scan-internal (only the scan job + the diagnose endpoint read it — the
+// public store.json embeds everything), so the bigger file never reaches the front end.
+const CATALOG_MAX = +process.env.CATALOG_MAX || 60000;
 
 const ENV = process.env;
 const LOOKBACK_DAYS = +ENV.LOOKBACK_DAYS || 90;
