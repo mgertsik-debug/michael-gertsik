@@ -4,8 +4,8 @@
   "total": 38,
   "byTier": {
     "extreme": 5,
-    "high": 7,
-    "notable": 26
+    "high": 6,
+    "notable": 27
   },
   "medianS": 704.7,
   "p90": 1187,
@@ -16,10 +16,10 @@
   "over500": 38,
   "alsoBinomial": 12,
   "onlyHarvard": 26,
-  "observed": 206689,
-  "reviewed": 206689,
-  "screened": 5938,
-  "scored": 3661,
+  "observed": 207071,
+  "reviewed": 207071,
+  "screened": 6011,
+  "scored": 3668,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -569,7 +569,7 @@
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
       "username": "SaylorMoon",
       "tier": "extreme",
-      "S": 1162,
+      "S": 1160.7,
       "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0x9969f3e97742fef0c3cf4364b34ebc5b6daa435aaa1b87cb91a0532d2da89d05",
@@ -578,7 +578,7 @@
       "won": true,
       "episodeProfit": 5257,
       "zBetCross": 18.97,
-      "zBetWithin": 0.35,
+      "zBetWithin": 0.29,
       "zProfitCross": 22.35,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -586,7 +586,7 @@
       "firstSeen": "Mar 10 2025",
       "createdOnChain": true,
       "created": "Dec 16 2024",
-      "betsCount": 56,
+      "betsCount": 57,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -607,6 +607,16 @@
           "pl": -62781,
           "won": false,
           "tx": "0x48797042325c5fbd8d8257b28d6c4a062baea2532887cba82de7a02c95173986"
+        },
+        {
+          "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772648823,
+          "odds": 100,
+          "stake": 81469,
+          "pl": 82,
+          "won": true,
+          "tx": "0x105f2fe48846babfb89803374350e3243133ab17b1b9ebc1d5b058894fdd3418"
         },
         {
           "market": "Will Spencer Pratt win the 2026 Los Angeles mayoral election?",
@@ -717,16 +727,6 @@
           "pl": 9094,
           "won": true,
           "tx": "0x31845158bca44b5f6b4e9dfe1c036c96428988ec31dbe198e9875a0225d05352"
-        },
-        {
-          "market": "Iran closes its airspace by May 8?",
-          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-8-754-861",
-          "ts": 1777990766,
-          "odds": 82,
-          "stake": 16400,
-          "pl": 3600,
-          "won": true,
-          "tx": "0xf8fae6812fea96b5689c339986e91edb624d6e030255b5428d775f4ea2ed7627"
         }
       ],
       "alsoBinomial": false
@@ -901,7 +901,7 @@
       "address": "0x53e55bc7cb3d67ad177c023ce891ad076a9d6177",
       "username": "Arbguy",
       "tier": "high",
-      "S": 1051.2,
+      "S": 1049.7,
       "market": "Will US or Israel strike Iran by February 28, 2026?",
       "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
       "episodeTx": "0x2b3884daa45c21d3860d4514164f7fed4f0bbf7d46af25a46116dc8e227e72df",
@@ -910,7 +910,7 @@
       "won": true,
       "episodeProfit": 190706,
       "zBetCross": 7.46,
-      "zBetWithin": 0.21,
+      "zBetWithin": 0.14,
       "zProfitCross": 28.15,
       "lateBuyFraction": 0.396,
       "directionalScore": 1,
@@ -918,8 +918,18 @@
       "firstSeen": "Jul 03 2024",
       "createdOnChain": true,
       "created": "Jul 03 2024",
-      "betsCount": 101,
+      "betsCount": 105,
       "ledger": [
+        {
+          "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772641439,
+          "odds": 100,
+          "stake": 215419,
+          "pl": 231,
+          "won": true,
+          "tx": "0x7e907d21d6d7dcae69c27e40f998c70f599a806202d19fb2fb621bf9dd446b06"
+        },
         {
           "market": "Russia x Ukraine ceasefire by June 30, 2026?",
           "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-june-30-2026",
@@ -1049,16 +1059,6 @@
           "pl": 6335,
           "won": true,
           "tx": "0x6507623be281c716f0ece339f83557cf2127a6cb5d0df17cafb1609c37d171e1"
-        },
-        {
-          "market": "US x Iran ceasefire extended by April 21, 2026?",
-          "url": "https://polymarket.com/event/will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
-          "ts": 1776803870,
-          "odds": 68,
-          "stake": 32359,
-          "pl": 15124,
-          "won": true,
-          "tx": "0x30b2c26bbc0c770aaec13dbb48620b15b089aeb4bae705e7a1f09e58aa3f6662"
         }
       ],
       "alsoBinomial": true
@@ -1067,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1016.6,
+      "S": 1018.2,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1076,7 +1076,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 6.94,
+      "zBetWithin": 7.02,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1084,7 +1084,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "May 18 2026",
-      "betsCount": 286,
+      "betsCount": 303,
       "ledger": [
         {
           "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1197,6 +1197,26 @@
           "tx": "0x242a2f7f211b7d58a25e8675b3e5257301f41d56015b99da23ae0b2e70d1a07d"
         },
         {
+          "market": "Will Trump nominate James B. Bullard as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1761642283,
+          "odds": 100,
+          "stake": 18399,
+          "pl": 33,
+          "won": true,
+          "tx": "0xc7febf5779817a39e7f72c9d9a8c5b484f26a4d9154a37f6dbe39418f844702b"
+        },
+        {
+          "market": "Will Trump nominate Howard Lutnick as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1764806215,
+          "odds": 100,
+          "stake": 16820,
+          "pl": 17,
+          "won": true,
+          "tx": "0x6d669bb233839a61bbe0c4a1d066956b8381f767147b8d5330d9f422c7a6dd9a"
+        },
+        {
           "market": "Will the Party for the Animals win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1748993906,
@@ -1205,26 +1225,6 @@
           "pl": 17,
           "won": true,
           "tx": null
-        },
-        {
-          "market": "Will Democrats 66 win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1761810881,
-          "odds": 98,
-          "stake": 16022,
-          "pl": -2322,
-          "won": true,
-          "tx": "0x0914650380068e3f0e4cccc940270d9fe31e95b4b5fdc8623d65f448619a25c9"
-        },
-        {
-          "market": "Will the US strike Syria next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-391",
-          "ts": 1768136340,
-          "odds": 97,
-          "stake": 15163,
-          "pl": 503,
-          "won": true,
-          "tx": "0x4141fd4b6376c15a69a33b5b2aea65ae1d3d0e3cf8702c130229a600b4444a08"
         }
       ],
       "alsoBinomial": false
@@ -1233,7 +1233,7 @@
       "address": "0xfcf2378f20cf408d077c21e731272f21cccea469",
       "username": "Roflan-ludoman",
       "tier": "high",
-      "S": 906.9,
+      "S": 907.3,
       "market": "Will US or Israel strike Iran by February 15, 2026?",
       "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
       "episodeTx": "0xfe746c228d5e51462871c24c09f09ec075394137b475f78b36f2c2dbffb593c6",
@@ -1242,7 +1242,7 @@
       "won": true,
       "episodeProfit": 7112,
       "zBetCross": 17.55,
-      "zBetWithin": 3.23,
+      "zBetWithin": 3.24,
       "zProfitCross": 13.27,
       "lateBuyFraction": 0,
       "directionalScore": 0.552,
@@ -1250,7 +1250,7 @@
       "firstSeen": "May 29 2025",
       "createdOnChain": true,
       "created": "May 29 2025",
-      "betsCount": 88,
+      "betsCount": 89,
       "ledger": [
         {
           "market": "Maduro out by March 31, 2026?",
@@ -1730,8 +1730,8 @@
     {
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
       "username": "classified",
-      "tier": "high",
-      "S": 817.6,
+      "tier": "notable",
+      "S": 809.9,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -1740,7 +1740,7 @@
       "won": true,
       "episodeProfit": 17517,
       "zBetCross": 12.74,
-      "zBetWithin": 1.06,
+      "zBetWithin": 0.68,
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
@@ -1748,8 +1748,18 @@
       "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
-      "betsCount": 74,
+      "betsCount": 76,
       "ledger": [
+        {
+          "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772648673,
+          "odds": 100,
+          "stake": 472442,
+          "pl": 558,
+          "won": true,
+          "tx": "0xe2d045c1e3fdd110cf68649c515c6e59d3f5b17a48783256519a5b3dcd45b512"
+        },
         {
           "market": "US x Iran permanent peace deal by June 30, 2026?",
           "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
@@ -1879,16 +1889,6 @@
           "pl": 433,
           "won": true,
           "tx": "0x02e100886c96de35352c05cd38e34566aea9a8f3a176f26d7dae0b703d505641"
-        },
-        {
-          "market": "US announces new Iran agreement/ceasefire extension by June 5?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-5-9144",
-          "ts": 1780568221,
-          "odds": 97,
-          "stake": 9925,
-          "pl": 275,
-          "won": true,
-          "tx": "0xdc7f2c5021aeed0a462544a7bc74b708b64835aefdb84ce85d88a340ea49dfbb"
         }
       ],
       "alsoBinomial": false
@@ -2749,7 +2749,7 @@
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
       "username": "tourists",
       "tier": "notable",
-      "S": 692,
+      "S": 691.6,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -2758,7 +2758,7 @@
       "won": true,
       "episodeProfit": 1527,
       "zBetCross": 14.62,
-      "zBetWithin": -0.26,
+      "zBetWithin": -0.28,
       "zProfitCross": 10.73,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -2766,7 +2766,7 @@
       "firstSeen": "Nov 07 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 77,
+      "betsCount": 79,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
@@ -2787,6 +2787,16 @@
           "pl": 217,
           "won": true,
           "tx": "0xd6e69f247e2ac386cb4b9a6ffb89afcee541966b957492dfc6087264a3d6e2b5"
+        },
+        {
+          "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772640453,
+          "odds": 100,
+          "stake": 213424,
+          "pl": 686,
+          "won": true,
+          "tx": "0x25453ab46d460df7c044a7535df6ce069844833f2cee00680672aa6eb4f40a2f"
         },
         {
           "market": "Iran closes its airspace by June 8?",
@@ -2897,16 +2907,6 @@
           "pl": -41446,
           "won": false,
           "tx": "0x121225cc2adc2b606cac8ea6fd71144c107b33a21d3306610dd11b730d6500af"
-        },
-        {
-          "market": "Will Ivan Cepeda Castro win the 2026 Colombian presidential election?",
-          "url": "https://polymarket.com/event/will-ivan-cepeda-castro-win-the-2026-colombian-presidential-election",
-          "ts": 1781975848,
-          "odds": 87,
-          "stake": 37543,
-          "pl": 5566,
-          "won": true,
-          "tx": "0x06a562a1517574907c31e7f3517895875792bf2e0d39a1252caab199c36296fa"
         }
       ],
       "alsoBinomial": false
@@ -4289,7 +4289,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 581.7,
+      "S": 579.4,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872",
@@ -4298,7 +4298,7 @@
       "won": true,
       "episodeProfit": 4564,
       "zBetCross": 10.72,
-      "zBetWithin": 2.75,
+      "zBetWithin": 2.63,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -4306,7 +4306,7 @@
       "firstSeen": "Feb 21 2026",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1334,
+      "betsCount": 1353,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -4317,6 +4317,16 @@
           "pl": 34824,
           "won": true,
           "tx": "0x7dcaeb1c71252bea13cabcdddfa25902ede7bdc43dbb49469158f4cb50a06893"
+        },
+        {
+          "market": "Will Trump nominate Michelle Bowman as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1771632898,
+          "odds": 100,
+          "stake": 158747,
+          "pl": 458,
+          "won": true,
+          "tx": "0x7a7f2dac746fb6e55fb5062da5b04e86062b981c6419f2ae0f799ad5cf60792b"
         },
         {
           "market": "Will the Iranian regime fall by April 30?",
@@ -4437,16 +4447,6 @@
           "pl": 54,
           "won": true,
           "tx": "0x55778dcdd4ad71dc3ba273bda0ce12326c83d70148ce075899e9ace48c54b491"
-        },
-        {
-          "market": "Russia x Ukraine ceasefire by May 31, 2026?",
-          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-may-31-2026",
-          "ts": 1777924118,
-          "odds": 94,
-          "stake": 31885,
-          "pl": -31885,
-          "won": false,
-          "tx": "0x9270d618875463e6d6094b3a60348680c384f2e10189eb1199f11245969502cc"
         }
       ],
       "alsoBinomial": false
@@ -5261,7 +5261,7 @@
       "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
       "username": "Dropper",
       "tier": "notable",
-      "S": 533.6,
+      "S": 532.5,
       "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
       "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
       "episodeTx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b",
@@ -5270,7 +5270,7 @@
       "won": true,
       "episodeProfit": 32029,
       "zBetCross": 10.71,
-      "zBetWithin": 0.41,
+      "zBetWithin": 0.36,
       "zProfitCross": 7.75,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -5278,7 +5278,7 @@
       "firstSeen": "Sep 01 2025",
       "createdOnChain": true,
       "created": "Jul 05 2024",
-      "betsCount": 63,
+      "betsCount": 64,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
@@ -5309,6 +5309,16 @@
           "pl": 3581,
           "won": true,
           "tx": "0x1d0260bffc226e48e1de0966c2354d8955f0ca051771674f856cb7506d5e7d59"
+        },
+        {
+          "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772640585,
+          "odds": 100,
+          "stake": 256573,
+          "pl": 773,
+          "won": true,
+          "tx": "0xc55f8a6e1fe1fa89b9de403867416e9233ded2a9e3e6f96d9f366ee9d0a571cd"
         },
         {
           "market": "US x Iran permanent peace deal by December 31, 2026?",
@@ -5409,16 +5419,6 @@
           "pl": 17523,
           "won": true,
           "tx": "0x1cd2a9c66663392474d8edf270fe668ef058dfe743eb5ab33064db742a7584c8"
-        },
-        {
-          "market": "US announces new Iran agreement/ceasefire extension by May 31?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-may-31-665-831-238",
-          "ts": 1779896463,
-          "odds": 30,
-          "stake": 22190,
-          "pl": -22190,
-          "won": false,
-          "tx": "0x0bed86f422214e71ef1a6277c79a74c3b059890b30667d59713352a37c111a46"
         }
       ],
       "alsoBinomial": false
@@ -5440,8 +5440,8 @@
       "zProfitCross": 11.49,
       "lateBuyFraction": 0,
       "directionalScore": 0.505,
-      "accountPnl": 668584,
-      "firstSeen": "Apr 15 2026",
+      "accountPnl": 660308,
+      "firstSeen": "Aug 03 2024",
       "createdOnChain": true,
       "created": "Aug 03 2024",
       "betsCount": 154,
