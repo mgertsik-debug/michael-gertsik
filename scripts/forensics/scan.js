@@ -933,55 +933,46 @@ async function finalize(state, snapshotTs) {
       }
       if ((e.resolvedTs && NOW_S - e.resolvedTs > 7 * 86400) || (NOW_S - (e.ts || NOW_S) > 30 * 86400)) delete state.watchlist[id];
     }
-    // 2) ADD new candidates from the live feed (open in-scope BUYS). PRE-RESOLUTION scoring: the CHEAP
-    // signals (outsized via market-volume share, long-shot conviction, repeat-suspect) need only the one
-    // batched openMarketMeta call, so the watchlist populates even on a tight budget. The EXPENSIVE
-    // per-candidate lookups (fresh wallet + DIRECTIONAL info-environment) run only on the top few
-    // base-scoring candidates, bounded + deadline-gated — so they refine ranking but never gate listing.
+    // 2) ADD new candidates — MARKET-DRIVEN. The live diagnostic proved the global recent-trades feed
+    // yields ~0 in-scope candidates (it's dominated by sports / crypto-price whales). So instead we poll
+    // the most-active OPEN, IN-SCOPE markets DIRECTLY and look at each one's recent large BUYS. The market
+    // list gives question / slug / category / 24h-volume for free, and each market's OWN trades are a real
+    // PEER SAMPLE for the z magnitude signal. The CHEAP base score (outsized / long-shot / repeat-suspect)
+    // needs no extra network; the EXPENSIVE per-candidate lookups (fresh + directional info-environment)
+    // run only on the top base-scoring candidates, bounded + deadline-gated — refining rank, never gating.
     const winH2 = D.DEFAULTS.newsWindowH || 24;
-    let added = 0, scored = 0, candCount = 0;
+    let added = 0, scored = 0, candCount = 0, mktCount = 0;
     if (Date.now() < INFO_DEADLINE) {
       const ocOf = (t) => { const o = String(t.outcome != null ? t.outcome : (t.outcomeIndex === 0 ? "Yes" : t.outcomeIndex === 1 ? "No" : "")).trim().toUpperCase(); return (o === "YES" || o === "0") ? "YES" : (o === "NO" || o === "1") ? "NO" : o; };
-      const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 12, 12), maxRows: 8000 });
-      const trades = (feed || []).map((t) => ({
-        wallet: t.proxyWallet || t.user || t.maker || t.taker,
-        cond: t.conditionId || t.market || t.condition_id,
-        sizeUsd: num(t.size) * num(t.price), price: num(t.price), ts: num(t.timestamp || t.matchTime || t.time),
-        outcome: ocOf(t), title: t.title || t.question || null, slug: t.slug || t.eventSlug || null, side: String(t.side || "").toUpperCase(),
-      })).filter((t) => t.wallet && t.cond && t.ts > 0 && t.sizeUsd > 0 && t.side !== "SELL" && !(cat[t.cond] && cat[t.cond].w != null)); // OPEN markets, buys
-      const byMarket = {}; trades.forEach((t) => (byMarket[t.cond] = byMarket[t.cond] || []).push(t.sizeUsd));
-      // CANDIDATES: material BUYS on (probably) INSIDER-PRONE open markets. The global feed is dominated by
-      // sports / crypto-price whales, so PRE-FILTER by the trade's OWN title (no fetch) — keep only titles
-      // category() recognises as in-scope, plus titles we can't classify yet (the meta fetch decides those).
-      // The size floor is now low ($1k) and just bounds work; magnitude is a SCORING signal, not the gate —
-      // a big bet on a LIQUID market is <1% of volume, so a size gate would miss exactly the insider case.
-      const cands = trades.filter((t) => {
-        if (t.sizeUsd < (+ENV.WATCH_MIN_USD || 1000)) return false;
-        return t.title ? poly.category([], t.title) != null : true;   // in-scope by title, or unknown → meta decides
-      }).sort((a, b) => b.sizeUsd - a.sizeUsd);
-      candCount = cands.length;
-      // ONE bounded metadata batch → question, slug, category AND market 24h VOLUME. category() null drops
-      // publicly-decided markets (sports / crypto-price / weather), exactly as the resolved engine excludes them.
-      const topConds = []; const condSeen = new Set();
-      for (const t of cands) { if (!condSeen.has(t.cond)) { condSeen.add(t.cond); topConds.push(t.cond); } if (topConds.length >= 50) break; }
-      let meta = {};
-      try { meta = await poly.openMarketMeta(topConds, { maxConds: 50 }); } catch (_) {}
-      // CHEAP BASE SCORE (no extra network): outsized (abs size OR volume share) + long-shot + repeat.
-      // ROBUST to a metadata MISS: fall back to the trade's title for category + name, and volume 0 (the
-      // absolute-size magnitude test still fires), so a failed fetch never silently drops an in-scope bet.
+      let markets = [];
+      try { markets = await poly.openInScopeMarkets({ limit: Math.min(+ENV.WATCH_MARKETS || 45, 70) }); } catch (e) { log("watchlist: open-market enumerate failed:", e && e.message); }
+      mktCount = markets.length;
+      // Reserve ~90s of the info window for the per-candidate enrichment below; the per-market trade pulls
+      // stop at this earlier deadline so a long market loop can't starve the enrichment + listing.
+      const MKT_DEADLINE = NOW + Math.min(+ENV.INFO_BUDGET_S || 720, 760) * 1000 - 90 * 1000;
       const base = []; const seen = new Set();
-      for (const t of cands) {
-        const m = meta[t.cond] || {};
-        if (m.closed) continue;                                  // already resolved
-        const category = m.category || (t.title ? poly.category([], t.title) : null);
-        if (!category) continue;                                 // not insider-prone (sports / price / weather)
-        const id = t.cond + "|" + String(t.wallet).toLowerCase();
-        if (state.watchlist[id] || seen.has(id)) continue; seen.add(id);
-        const md = { question: m.question || t.title || "(market)", slug: m.slug || t.slug || null, category, volume24hr: m.volume24hr, volume: m.volume };
-        const marketSizes = (byMarket[t.cond] || []).filter((s) => s !== t.sizeUsd);
-        const walletFlagged = flaggedLc.has(String(t.wallet).toLowerCase());   // already a published Suspect (the bridge)
-        const inp = { sizeUsd: t.sizeUsd, marketSizes, marketVolUsd: md.volume24hr || md.volume || 0, entryPrice: t.price, walletFlagged };
-        base.push({ t, md, id, inp, walletFlagged, sc: D.watchlistScore(inp) });
+      for (const mk of markets) {
+        if (Date.now() >= MKT_DEADLINE) break;
+        let mt = [];
+        try { mt = await poly.tradesForMarket(mk.cond, { maxTrades: 160 }); } catch (_) {}
+        if (!mt.length) continue;
+        const buys = mt.map((t) => ({ wallet: t.proxyWallet || t.user || t.maker || t.taker,
+            sizeUsd: num(t.size) * num(t.price), price: num(t.price), ts: num(t.timestamp || t.matchTime || t.time),
+            outcome: ocOf(t), side: String(t.side || "").toUpperCase() }))
+          .filter((t) => t.wallet && t.ts > 0 && t.sizeUsd > 0 && t.side !== "SELL");
+        const peerSizes = buys.map((b) => b.sizeUsd);
+        const md = { question: mk.question, slug: mk.slug, category: mk.category, volume24hr: mk.volume24hr, volume: mk.volume };
+        for (const t of buys) {
+          if (t.sizeUsd < (+ENV.WATCH_MIN_USD || 1000)) continue;        // material BUYS only (bounds work; size is also a signal)
+          const id = mk.cond + "|" + String(t.wallet).toLowerCase();
+          if (state.watchlist[id] || seen.has(id)) continue; seen.add(id);
+          candCount++;
+          const marketSizes = peerSizes.filter((s) => s !== t.sizeUsd);  // real peer sample from this market's own trades
+          const walletFlagged = flaggedLc.has(String(t.wallet).toLowerCase());   // already a published Suspect (the bridge)
+          const inp = { sizeUsd: t.sizeUsd, marketSizes, marketVolUsd: mk.volume24hr || mk.volume || 0, entryPrice: t.price, walletFlagged };
+          base.push({ t: { cond: mk.cond, wallet: t.wallet, sizeUsd: t.sizeUsd, price: t.price, ts: t.ts, outcome: t.outcome, title: mk.question }, md, id, inp, walletFlagged, sc: D.watchlistScore(inp) });
+        }
+        await poly.sleep(40);
       }
       base.sort((a, b) => b.sc.score - a.sc.score);             // enrich the most-suspicious first; list ALL that clear
       const ENRICH_N = Math.min(+ENV.WATCH_ENRICH || 10, 16);
@@ -1036,8 +1027,11 @@ async function finalize(state, snapshotTs) {
     // 3) EMIT into store.json (committed): promoted first, then watching, then cleared; newest first.
     const rank = { promoted: 3, watching: 2, cleared: 1 };
     payload.watchlist = Object.values(state.watchlist).sort((a, b) => (rank[b.status] - rank[a.status]) || ((b.ts || 0) - (a.ts || 0))).slice(0, 150);
-    payload.watchlistMeta = { total: payload.watchlist.length, watching: payload.watchlist.filter((e) => e.status === "watching").length, promoted: payload.watchlist.filter((e) => e.status === "promoted").length };
-    log("watchlist: " + payload.watchlist.length + " entries · " + candCount + " feed candidates ≥$" + (+ENV.WATCH_MIN_USD || 1000) + " · " + scored + " scored · +" + added + " newly listed · " + promoted + " promoted · " + cleared + " cleared this tick");
+    payload.watchlistMeta = { total: payload.watchlist.length, watching: payload.watchlist.filter((e) => e.status === "watching").length, promoted: payload.watchlist.filter((e) => e.status === "promoted").length,
+      // live funnel (surfaced so the watchlist's coverage is auditable from the DATA, not just run logs):
+      // open in-scope markets polled → candidate BUYS ≥ floor → scored → newly listed this tick.
+      marketsPolled: mktCount, candidates: candCount, scoredThisTick: scored, addedThisTick: added, scanAt: NOW_S };
+    log("watchlist: " + payload.watchlist.length + " entries · " + mktCount + " open in-scope markets polled · " + candCount + " candidate buys ≥$" + (+ENV.WATCH_MIN_USD || 1000) + " · " + scored + " scored · +" + added + " newly listed · " + promoted + " promoted · " + cleared + " cleared this tick");
   } catch (e) { log("watchlist failed (non-fatal):", e && e.message); payload.watchlist = Object.values(state.watchlist || {}); }
 
   // commit step saw no change.) The published store does not depend on housekeeping.
