@@ -443,14 +443,29 @@ test("watchlistScore: whale-share magnitude fires WITHOUT a peer sample", () => 
   assert.ok(!small.fired.includes("outsized"), "0.6% of volume is not outsized");
 });
 
-test("watchlistScore: long-shot conviction + repeat-suspect each fire, and ≥2 are needed to clear", () => {
-  // a $4k bet at 9% (a long-shot) from a wallet ALREADY flagged → longshot(25) + repeat(30) = 55 ≥ 40.
+test("watchlistScore: outsized ALSO fires on large ABSOLUTE size (liquid-market whale)", () => {
+  // a $40k bet on a DEEP market ($5M/24h) is <1% of volume — the volume-share test misses it, but it's
+  // a whale by absolute size. This is the coverage hole insiders exploit on liquid markets.
+  const big = D.watchlistScore({ sizeUsd: 40000, marketSizes: [], marketVolUsd: 5e6, entryPrice: 0.6 });
+  assert.ok(big.fired.includes("outsized"), "≥$25k fires outsized even at <1% of a deep market: " + JSON.stringify(big.fired));
+  assert.ok(big.volShare < 1, "and it is NOT a volume-share whale (" + big.volShare + "%)");
+  // a $5k bet on the same deep market is neither big-abs nor a volume whale.
+  const ok = D.watchlistScore({ sizeUsd: 5000, marketSizes: [], marketVolUsd: 5e6, entryPrice: 0.6 });
+  assert.ok(!ok.fired.includes("outsized"), "$5k on a $5M market is not outsized");
+});
+
+test("watchlistScore: a single STRONG tell earns a watch; a lone whale needs a 2nd signal", () => {
+  const THRESH = 30;
+  // blackout (35) alone clears; repeat (30) alone clears — the strongest tells stand on their own.
+  assert.ok(D.watchlistScore({ sizeUsd: 1000, marketSizes: [], blackout: true }).score >= THRESH, "blackout alone is a watch");
+  assert.ok(D.watchlistScore({ sizeUsd: 1000, marketSizes: [], walletFlagged: true }).score >= THRESH, "repeat-suspect alone is a watch");
+  // a lone whale (outsized 20) does NOT clear — big money alone isn't suspicious.
+  assert.ok(D.watchlistScore({ sizeUsd: 40000, marketSizes: [], marketVolUsd: 5e6 }).score < THRESH, "a lone whale needs corroboration");
+  // long-shot (25) + repeat (30) clears comfortably.
   const r = D.watchlistScore({ sizeUsd: 4000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.09, walletFlagged: true });
-  assert.ok(r.fired.includes("longshot") && r.fired.includes("repeat"), JSON.stringify(r.fired));
-  assert.ok(r.score >= 40, "two signals clear the list bar, score=" + r.score);
+  assert.ok(r.fired.includes("longshot") && r.fired.includes("repeat") && r.score >= THRESH, JSON.stringify(r.fired));
   // a long-shot bet at FAVORITE odds does NOT fire longshot.
-  const fav = D.watchlistScore({ sizeUsd: 4000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.82 });
-  assert.ok(!fav.fired.includes("longshot"), "82% is not a long-shot");
+  assert.ok(!D.watchlistScore({ sizeUsd: 4000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.82 }).fired.includes("longshot"), "82% is not a long-shot");
 });
 
 test("watchlistScore: blackout is the highest tell; publicInfo is exculpatory (LOWERS the score)", () => {

@@ -939,10 +939,10 @@ async function finalize(state, snapshotTs) {
     // per-candidate lookups (fresh wallet + DIRECTIONAL info-environment) run only on the top few
     // base-scoring candidates, bounded + deadline-gated — so they refine ranking but never gate listing.
     const winH2 = D.DEFAULTS.newsWindowH || 24;
-    let added = 0, scored = 0;
+    let added = 0, scored = 0, candCount = 0;
     if (Date.now() < INFO_DEADLINE) {
       const ocOf = (t) => { const o = String(t.outcome != null ? t.outcome : (t.outcomeIndex === 0 ? "Yes" : t.outcomeIndex === 1 ? "No" : "")).trim().toUpperCase(); return (o === "YES" || o === "0") ? "YES" : (o === "NO" || o === "1") ? "NO" : o; };
-      const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 6, 8) });
+      const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 10, 12) });
       const trades = (feed || []).map((t) => ({
         wallet: t.proxyWallet || t.user || t.maker || t.taker,
         cond: t.conditionId || t.market || t.condition_id,
@@ -951,13 +951,14 @@ async function finalize(state, snapshotTs) {
       })).filter((t) => t.wallet && t.cond && t.ts > 0 && t.sizeUsd > 0 && t.side !== "SELL" && !(cat[t.cond] && cat[t.cond].w != null)); // OPEN markets, buys
       const byMarket = {}; trades.forEach((t) => (byMarket[t.cond] = byMarket[t.cond] || []).push(t.sizeUsd));
       const cands = trades.filter((t) => t.sizeUsd >= (+ENV.WATCH_MIN_USD || 2500)).sort((a, b) => b.sizeUsd - a.sizeUsd);
+      candCount = cands.length;
       // ONE bounded metadata batch → question, slug, category AND market 24h VOLUME (which drives the
       // whale-share magnitude signal, so it needs no peer sample). category() null drops publicly-decided
       // markets (sports / crypto-price / weather), exactly as the resolved engine excludes them.
       const topConds = []; const condSeen = new Set();
-      for (const t of cands) { if (!condSeen.has(t.cond)) { condSeen.add(t.cond); topConds.push(t.cond); } if (topConds.length >= 24) break; }
+      for (const t of cands) { if (!condSeen.has(t.cond)) { condSeen.add(t.cond); topConds.push(t.cond); } if (topConds.length >= 30) break; }
       let meta = {};
-      try { meta = await poly.openMarketMeta(topConds, { maxConds: 24 }); } catch (_) {}
+      try { meta = await poly.openMarketMeta(topConds, { maxConds: 30 }); } catch (_) {}
       // CHEAP BASE SCORE (no extra network): outsized(volume share) + long-shot + repeat-suspect.
       const base = []; const seen = new Set();
       for (const t of cands) {
@@ -970,11 +971,12 @@ async function finalize(state, snapshotTs) {
         const inp = { sizeUsd: t.sizeUsd, marketSizes, marketVolUsd: md.volume24hr || md.volume, entryPrice: t.price, walletFlagged };
         base.push({ t, md, id, inp, walletFlagged, sc: D.watchlistScore(inp) });
       }
-      base.sort((a, b) => b.sc.score - a.sc.score);             // spend bounded enrichment on the best candidates
-      const ENRICH_N = Math.min(+ENV.WATCH_ENRICH || 8, 14);
+      base.sort((a, b) => b.sc.score - a.sc.score);             // enrich the most-suspicious first; list ALL that clear
+      const ENRICH_N = Math.min(+ENV.WATCH_ENRICH || 10, 16);
       let enriched = 0;
       for (const c of base) {
-        if (Date.now() >= INFO_DEADLINE || scored >= Math.min(+ENV.WATCH_TOP || 12, 24)) break;
+        if (Date.now() >= INFO_DEADLINE) break;                 // ONLY the deadline caps work — every base-clearer is listed, not just a top-N
+        if (c.sc.score < (+ENV.WATCH_SCORE || 30) && enriched >= ENRICH_N) continue;   // can't clear on base + no enrichment budget left → skip cheaply
         const t = c.t, md = c.md, id = c.id;
         let fresh = false, walletAgeDays = null, blackout = false, anticipated = false, publicInfo = false, fedDoc = null, blackoutEntity = null;
         if (enriched < ENRICH_N) {
@@ -1006,7 +1008,7 @@ async function finalize(state, snapshotTs) {
         }
         const sc = D.watchlistScore(Object.assign({}, c.inp, { fresh, blackout, anticipated, publicInfo }));
         scored++;
-        if (sc.score >= (+ENV.WATCH_SCORE || 40)) {
+        if (sc.score >= (+ENV.WATCH_SCORE || 30)) {   // a single strong tell (blackout 35 / repeat 30) earns a watch; weaker signals need ≥2
           state.watchlist[id] = {
             id, cond: t.cond, wallet: t.wallet, market: md.question || "(market)", category: md.category,
             url: md.slug ? "https://polymarket.com/event/" + md.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
@@ -1023,7 +1025,7 @@ async function finalize(state, snapshotTs) {
     const rank = { promoted: 3, watching: 2, cleared: 1 };
     payload.watchlist = Object.values(state.watchlist).sort((a, b) => (rank[b.status] - rank[a.status]) || ((b.ts || 0) - (a.ts || 0))).slice(0, 150);
     payload.watchlistMeta = { total: payload.watchlist.length, watching: payload.watchlist.filter((e) => e.status === "watching").length, promoted: payload.watchlist.filter((e) => e.status === "promoted").length };
-    log("watchlist: " + payload.watchlist.length + " entries · +" + added + " new (" + scored + " scored) · " + promoted + " promoted · " + cleared + " cleared this tick");
+    log("watchlist: " + payload.watchlist.length + " entries · " + candCount + " feed candidates ≥$" + (+ENV.WATCH_MIN_USD || 2500) + " · " + scored + " scored · +" + added + " newly listed · " + promoted + " promoted · " + cleared + " cleared this tick");
   } catch (e) { log("watchlist failed (non-fatal):", e && e.message); payload.watchlist = Object.values(state.watchlist || {}); }
 
   // commit step saw no change.) The published store does not depend on housekeeping.

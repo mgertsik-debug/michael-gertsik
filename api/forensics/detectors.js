@@ -764,8 +764,8 @@ function fedRegister(x, opts) {
  *          PREDATED the bet → public info, exculpatory) }
  *  PRE-RESOLUTION model: an open market hasn't resolved, so there is no won/profit/improbable-record to
  *  test — only signals observable AT PLACEMENT, each an informed-trading tell, none a proof. */
-const WATCH_W = { outsized: 25, longshot: 25, blackout: 35, repeat: 30, fresh: 15, anticipated: 12, publicInfo: -20 };
-const WATCH_MAX = 142;   // sum of the POSITIVE signals; publicInfo (−20) is the exculpatory reducer
+const WATCH_W = { outsized: 20, longshot: 25, blackout: 35, repeat: 30, fresh: 15, anticipated: 12, publicInfo: -20 };
+const WATCH_MAX = 137;   // sum of the POSITIVE signals; publicInfo (−20) is the exculpatory reducer
 function watchlistScore(x, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   x = x || {};
@@ -788,10 +788,16 @@ function watchlistScore(x, opts) {
   const vol = isNum(x.marketVolUsd) && x.marketVolUsd > 0 ? x.marketVolUsd : 0;
   const volShare = vol > 0 ? x.sizeUsd / vol : 0;
   const volThresh = isNum(o.watchVolShare) ? o.watchVolShare : 0.08;     // ≥8% of 24h volume = a whale
+  // "Outsized" fires THREE ways so it catches whales in BOTH deep and thin markets — the old
+  // volume-share-only test missed the big bet on a LIQUID insider-prone market (a $40k bet is <1% of a
+  // $5M/24h market, so 8% never triggered, exactly where insiders trade): (a) a large ABSOLUTE bet, (b)
+  // a large SHARE of 24h volume (thin markets), or (c) a peer z/whaleX outlier (when the feed carries
+  // ≥minPeers peers). Magnitude is still ONE signal, scored once.
+  const bigAbs = x.sizeUsd >= (isNum(o.watchBigUsd) ? o.watchBigUsd : 25000);
   const outsizedVol = volShare >= volThresh;
   const outsizedPeers = enoughPeers && (z >= 3 || whaleX >= 10);
   const fired = []; let score = 0;
-  if (outsizedVol || outsizedPeers) { fired.push("outsized"); score += WATCH_W.outsized; }
+  if (bigAbs || outsizedVol || outsizedPeers) { fired.push("outsized"); score += WATCH_W.outsized; }
   // long-shot CONVICTION: a material BUY into an outcome the market prices as unlikely (≤ tau).
   const lsMax = isNum(o.watchLongshotMax) ? o.watchLongshotMax : 0.35;
   const lsMin = isNum(o.watchLongshotMinUsd) ? o.watchLongshotMinUsd : 2500;
