@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782783439,
-  "total": 36,
+  "total": 37,
   "byTier": {
-    "extreme": 4,
+    "extreme": 5,
     "high": 7,
     "notable": 25
   },
   "medianS": 704.7,
-  "p90": 1162,
-  "p95": 1190.1,
+  "p90": 1187,
+  "p95": 1254.6,
   "p99": 1377.7,
   "minS": 532.2,
   "maxS": 1377.7,
-  "over500": 36,
+  "over500": 37,
   "alsoBinomial": 11,
-  "onlyHarvard": 25,
-  "observed": 202282,
-  "reviewed": 202282,
-  "screened": 5802,
-  "scored": 3594,
+  "onlyHarvard": 26,
+  "observed": 202613,
+  "reviewed": 202613,
+  "screened": 5835,
+  "scored": 3599,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -183,6 +183,172 @@
           "pl": 1349,
           "won": true,
           "tx": "0x598b0e176d27380532f40cd82af4fdc4b3c6d8cbc7a3bb3db09960bff6822013"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0xe899b5ea69afb161da7a35597b6fe70398860899",
+      "username": "SlavaUkraini",
+      "tier": "extreme",
+      "S": 1254.6,
+      "market": "Supreme Court rules in favor of Trump's tariffs?",
+      "marketUrl": "https://polymarket.com/event/will-the-supreme-court-rule-in-favor-of-trumps-tariffs",
+      "episodeTx": "0x5b710a52ebb7e754ae0e1bb1af9e48096accc35b52a0508be518af6e6fa651e5",
+      "stake": 41570,
+      "odds": 73,
+      "won": true,
+      "episodeProfit": 15712,
+      "zBetCross": 34.01,
+      "zBetWithin": -0.11,
+      "zProfitCross": 13.22,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": 771427,
+      "firstSeen": "Feb 27 2026",
+      "createdOnChain": true,
+      "created": "Mar 04 2022",
+      "betsCount": 38,
+      "ledger": [
+        {
+          "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772643001,
+          "odds": 100,
+          "stake": 579420,
+          "pl": 580,
+          "won": true,
+          "tx": "0x572be96ebd9e9a1215a3b1f270053df7832c7163b659686439bbed1f0d465ab1"
+        },
+        {
+          "market": "US forces enter Iran by April 30?",
+          "url": "https://polymarket.com/event/us-forces-enter-iran-by-april-30-899",
+          "ts": 1774479871,
+          "odds": 98,
+          "stake": 506468,
+          "pl": 8732,
+          "won": true,
+          "tx": "0x5e0ff72af2667033aabe7ee3b77916b288aab8b179576bf3a163e686ccd7fe45"
+        },
+        {
+          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
+          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
+          "ts": 1781489055,
+          "odds": 99,
+          "stake": 248517,
+          "pl": 2217,
+          "won": true,
+          "tx": "0x58d20198de91a539a1e1303c8b1bae562cac87beec29f8e29b2a403d1708bc17"
+        },
+        {
+          "market": "Will Spencer Pratt win the 2026 Los Angeles mayoral election?",
+          "url": "https://polymarket.com/event/will-spencer-pratt-win-the-2026-los-angeles-mayoral-election-983",
+          "ts": 1778638963,
+          "odds": 77,
+          "stake": 229269,
+          "pl": 68659,
+          "won": true,
+          "tx": "0xc9a25cf513f02390270f349a6e0955ee17a343562ff45acebd482fed93d5d937"
+        },
+        {
+          "market": "Netanyahu out by March 31?",
+          "url": "https://polymarket.com/event/netanyahu-out-by-march-31-854",
+          "ts": 1773711621,
+          "odds": 96,
+          "stake": 95500,
+          "pl": 4500,
+          "won": true,
+          "tx": "0xf7c6a8fc6a332e287b165ecbb732d9c88b9852dc225e103260562a75f2e5bd03"
+        },
+        {
+          "market": "Khamenei out as Supreme Leader of Iran by January 31?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-january-31",
+          "ts": 1768160532,
+          "odds": 81,
+          "stake": 81000,
+          "pl": 19000,
+          "won": true,
+          "tx": "0x61d9ce921f6205be02ee216b85abe2468ef28f4362a1ce533d7b273823fb0f73"
+        },
+        {
+          "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772074786,
+          "odds": 96,
+          "stake": 78796,
+          "pl": 2952,
+          "won": true,
+          "tx": "0xb7f0cf60230eb1cc9a9cfb7597a7be665e89dbb6a3cc148d525974431d7ef26d"
+        },
+        {
+          "market": "Will Andy Burnham win the 2026 Makerfield by-election?",
+          "url": "https://polymarket.com/event/will-andy-burnham-win-the-2026-makerfield-by-election",
+          "ts": 1781459794,
+          "odds": 78,
+          "stake": 46470,
+          "pl": 13170,
+          "won": true,
+          "tx": "0x25fba3fb8af010715af50ec3c868504a78b0f55af76669f5f74d564675a6ac94"
+        },
+        {
+          "market": "Supreme Court rules in favor of Trump's tariffs?",
+          "url": "https://polymarket.com/event/will-the-supreme-court-rule-in-favor-of-trumps-tariffs",
+          "ts": 1770999967,
+          "odds": 73,
+          "stake": 41570,
+          "pl": 15712,
+          "won": true,
+          "tx": "0x5b710a52ebb7e754ae0e1bb1af9e48096accc35b52a0508be518af6e6fa651e5"
+        },
+        {
+          "market": "Will Aftyn Behn win TN-7 Special Election?",
+          "url": "https://polymarket.com/event/will-aftyn-behn-win-tn-7-special-election",
+          "ts": 1763777841,
+          "odds": 93,
+          "stake": 36457,
+          "pl": 2863,
+          "won": true,
+          "tx": "0x01dc9fb965b5b34ec944b75d34a1a82401d60e1ab5ba5784912780f0be4e4a28"
+        },
+        {
+          "market": "Will Andy Burnham be the next Prime Minister of the United Kingdom in 2026?",
+          "url": "https://polymarket.com/event/will-andy-burnham-be-the-next-prime-minister-of-the-united-kingdom-in-2026-882",
+          "ts": 1781834579,
+          "odds": 92,
+          "stake": 35464,
+          "pl": 3045,
+          "won": true,
+          "tx": "0x20f8a9b500704cc10d4d8de84f83f19f399c3ebb3822356730090a240de0ec68"
+        },
+        {
+          "market": "Will Matt Van Epps win TN-7 Special Election?",
+          "url": "https://polymarket.com/event/will-matt-van-epps-win-tn-7-special-election",
+          "ts": 1763777821,
+          "odds": 92,
+          "stake": 31333,
+          "pl": 2641,
+          "won": true,
+          "tx": "0x9ec63d483cb582468db74631729e3cee9897476a5eb03c4112fc4089e21290c3"
+        },
+        {
+          "market": "Will Rebecca Shepherd finish second in the 2026 Makerfield by-election?",
+          "url": "https://polymarket.com/event/will-rebecca-shepherd-finish-second-in-the-2026-makerfield-by-election",
+          "ts": 1781710889,
+          "odds": 98,
+          "stake": 17911,
+          "pl": 324,
+          "won": true,
+          "tx": "0xf6b0ba4972ca70181050bdf03d649289ed0b7b7c6e6fa431fbe25bd7091e3d4c"
+        },
+        {
+          "market": "Will the position of Supreme Leader of Iran be abolished?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772565335,
+          "odds": 90,
+          "stake": 15115,
+          "pl": 1679,
+          "won": true,
+          "tx": "0xda2494395de8a38572a542c38c7a470049234e4c3737ae75f5379bde5395ca76"
         }
       ],
       "alsoBinomial": false
@@ -569,7 +735,7 @@
       "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
       "username": "cowcat",
       "tier": "high",
-      "S": 1090.2,
+      "S": 1090.5,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
@@ -578,7 +744,7 @@
       "won": true,
       "episodeProfit": 22588,
       "zBetCross": 3.5,
-      "zBetWithin": 20.35,
+      "zBetWithin": 20.36,
       "zProfitCross": 19.53,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -586,7 +752,7 @@
       "firstSeen": "Apr 13 2024",
       "createdOnChain": true,
       "created": "Apr 13 2024",
-      "betsCount": 726,
+      "betsCount": 727,
       "ledger": [
         {
           "market": "Khamenei out as Supreme Leader of Iran in 2026?",
@@ -901,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1015.4,
+      "S": 1017.1,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -910,7 +1076,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 6.88,
+      "zBetWithin": 6.96,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -918,7 +1084,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "May 18 2026",
-      "betsCount": 276,
+      "betsCount": 283,
       "ledger": [
         {
           "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
@@ -4123,7 +4289,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 580.8,
+      "S": 580.9,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0x09021f0a102b1c3acc51a947ebcd52ad686bc7d23b80125e1a37d74627f66ab6",
@@ -4132,7 +4298,7 @@
       "won": true,
       "episodeProfit": 4365,
       "zBetCross": 10.72,
-      "zBetWithin": 2.7,
+      "zBetWithin": 2.71,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -4140,7 +4306,7 @@
       "firstSeen": "Feb 21 2026",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1326,
+      "betsCount": 1333,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -4734,7 +4900,7 @@
       "firstSeen": "Apr 06 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 164,
+      "betsCount": 165,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",
