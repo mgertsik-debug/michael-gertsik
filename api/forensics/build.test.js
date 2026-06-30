@@ -95,7 +95,11 @@ test("validateSubject: passes a clean record, rejects inconsistent/unsourced one
   assert.match(B.validateSubject(Object.assign({}, good, { improbDenom: 0 })), /improbDenom/);
   // NET PROFITABILITY: a flagged wallet that lost money overall is a gambler, not an insider
   assert.match(B.validateSubject(Object.assign({}, good, { profitNum: -5000 })), /net unprofitable/);
-  assert.equal(B.validateSubject(Object.assign({}, good, { profitNum: -5000, isCluster: true })), null);  // clusters exempt
+  // CLUSTERS are held to the SAME net-positive bar (a ring's profitNum is its POOLED P/L). A
+  // net-LOSING ring (e.g. a 28-wallet funder bucket down $10k) is proxy wallets gambling, not an
+  // insider ring — it must be rejected, not exempt (the old exemption published a "$-10K" suspect).
+  assert.match(B.validateSubject(Object.assign({}, good, { profitNum: -5000, isCluster: true })), /net unprofitable/);
+  assert.equal(B.validateSubject(Object.assign({}, good, { profitNum: 50000, isCluster: true })), null);  // a PROFITABLE ring still passes
   assert.match(B.validateSubject(Object.assign({}, good, { bets: [{ cond: "0xabc", entryPrice: 1.5, stakeUsd: 9000, won: true }] })), /entryPrice/);
   assert.match(B.validateSubject(Object.assign({}, good, { bets: [{ entryPrice: 0.11, stakeUsd: 9000, won: true }] })), /missing cond/);
   // ACCOUNT NET-NEGATIVE is a blanket veto (precision guard) — a net-losing account is not a credible

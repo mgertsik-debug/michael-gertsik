@@ -203,9 +203,13 @@ function validateSubject(ctx) {
   if (!isFinite(profitNum)) return "profit not finite";
   // NET PROFITABILITY: informed trading is profitable by definition. A flagged wallet
   // that NET LOST money on its long-shots is a gambler that got an improbable win amid
-  // many losses — not an insider. Require positive realized P/L. (Clusters pool members'
-  // P/L and are exempt — handled by the caller passing isCluster.)
-  if (!isCluster && !(profitNum > 0)) return "net unprofitable (informed trading is profitable; profit=" + Math.round(profitNum) + ")";
+  // many losses — not an insider. Require positive realized P/L. This applies to CLUSTERS
+  // too: a ring's profitNum is its POOLED net P/L, and a net-LOSING ring (e.g. a 28-wallet
+  // funder bucket that lost $10k across 225 losing Fed-rate long-shots, winRate 16%) is one
+  // person's proxy wallets gambling, not an insider ring — so it must clear the same bar.
+  // (Clusters were previously exempt, which published net-losing rings showing a "$-10K"
+  // profit — both a false positive and a sign-inconsistent display.)
+  if (!(profitNum > 0)) return "net unprofitable (informed trading is profitable; " + (isCluster ? "pooled " : "") + "profit=" + Math.round(profitNum) + ")";
   // ACCOUNT-LEVEL net loss: even with a profitable long-shot subset, a wallet whose ALL-TIME
   // Polymarket P/L is negative is not a credible insider — they lost money overall. Drop it when
   // the authoritative account P/L is known and ≤ 0. (Clusters pool members' P/L → exempt.)
@@ -1010,6 +1014,11 @@ function derive(all, scoredPop) {
     // (positive past the $5k gate) uses magnitude.
     const _signed = s.profitSource === "authoritative" || s.profitSource === "harvard-episode" || s.profitSource === "favorite-episode" || s.profitSource === "cross-category";
     s.profitNum = s._profitNum != null ? (_signed ? s._profitNum : Math.abs(s._profitNum)) : (parseFloat(String(s.profit).replace(/[^0-9.\-−]/g, "").replace("−", "-")) * (String(s.profit).includes("M") ? 1e6 : 1e3));
+    // Re-render the DISPLAY string from the final number so the two can NEVER disagree. buildSubject
+    // formatted s.profit BEFORE this re-sign, so a net-negative flagged-bets subject used to show
+    // "$-10K" next to a Math.abs()'d +10191 profitNum. (The net-loss veto now drops those upstream,
+    // but this keeps the string⇄number invariant no matter what any publish path does.)
+    s.profit = _signed ? signedMoney(s.profitNum) : money(s.profitNum);
     s.activityDays = s.activityDays != null ? s.activityDays : (30 + idx * 17);
     s.lastActivity = s.activityDays <= 1 ? "today" : s.activityDays + " days ago";
     s.suspicion = suspicionScore(s);                          // composite default ranking (improbability + breadth + timing + magnitude + structure)
