@@ -7,7 +7,7 @@
     "high": 13,
     "notable": 60
   },
-  "medianS": 675.1,
+  "medianS": 675.2,
   "p90": 1236.5,
   "p95": 1404.4,
   "p99": 1825.5,
@@ -16,10 +16,10 @@
   "over500": 84,
   "alsoBinomial": 25,
   "onlyHarvard": 59,
-  "observed": 224876,
-  "reviewed": 224876,
-  "screened": 10350,
-  "scored": 6098,
+  "observed": 225150,
+  "reviewed": 225150,
+  "screened": 10356,
+  "scored": 6104,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -1033,8 +1033,8 @@
       "betsCount": 397,
       "ledger": [
         {
-          "market": "0x4997c22d314ed5e9f3712e46eb4847441b51fa730d10ad26240afa85f5d902be",
-          "url": null,
+          "market": "Will the Iran ceasefire continue through May 22?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-22",
           "ts": 1779559200,
           "odds": 100,
           "stake": 224586,
@@ -1229,8 +1229,8 @@
           "tx": "0xbacdb1d95111bc6d67f3718d9326b45a6538017cbcd2d6f7342c2367d4678160"
         },
         {
-          "market": "US x Iran ceasefire by March 31?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-31",
+          "market": "0x3c6bcb7da14ea576e5af25547dbd96f2bb24ac34e748e76aecff2ee9195dd1ac",
+          "url": null,
           "ts": 1774476109,
           "odds": 87,
           "stake": 26119,
@@ -1581,8 +1581,8 @@
           "tx": null
         },
         {
-          "market": "0xa1849a3e7d7e73055812d8b05059baf05cf7c0c964d7b045c8f994a0111dddf1",
-          "url": null,
+          "market": "Will Sinners win Best Motion Picture – Drama at the 83rd Golden Globes?",
+          "url": "https://polymarket.com/event/will-sinners-win-best-motion-picture-drama-at-the-83rd-golden-globes",
           "ts": 1768089600,
           "odds": 58,
           "stake": 1746,
@@ -1610,8 +1610,8 @@
       "zProfitCross": 15.89,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": -42213,
-      "firstSeen": "May 18 2026",
+      "accountPnl": -44283,
+      "firstSeen": "Feb 09 2026",
       "createdOnChain": true,
       "created": "Feb 09 2026",
       "betsCount": 18,
@@ -1883,8 +1883,8 @@
           "tx": "0x9faf6377910a593c20b3ff564d81d4e5654078e59a17f5a24d297b13c64bd3e9"
         },
         {
-          "market": "Israel x Hezbollah Ceasefire extended by April 26, 2026?",
-          "url": "https://polymarket.com/event/israel-x-hezbollah-ceasefire-extended-by-april-26-2026",
+          "market": "0x02f8dd15d4c674a75fccbd0e00f0cf1256101c45ef41f6d0c5dfde9c36d4141e",
+          "url": null,
           "ts": 1776983676,
           "odds": 69,
           "stake": 49224,
@@ -2371,8 +2371,8 @@
           "tx": "0x321fa5921dfdb1032aa05e262d4611a84b8ea935958fa1c20ed8dd88a66bcedc"
         },
         {
-          "market": "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538",
-          "url": null,
+          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
+          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
           "ts": 1779914617,
           "odds": 96,
           "stake": 40082,
@@ -3237,8 +3237,8 @@
       "betsCount": 17,
       "ledger": [
         {
-          "market": "US x Iran ceasefire by March 31?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-31",
+          "market": "0x3c6bcb7da14ea576e5af25547dbd96f2bb24ac34e748e76aecff2ee9195dd1ac",
+          "url": null,
           "ts": 1773507749,
           "odds": 86,
           "stake": 27710,
@@ -3277,8 +3277,8 @@
           "tx": "0x5e379b5984388c17a9a8eea9337288f69a11d9e2a908ed3e36a5d38c05371b4c"
         },
         {
-          "market": "US x Iran ceasefire by March 15?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-15",
+          "market": "0x07d45de444dbe0595c068a9eade49ace2bd381e30d6a45022d801ec10e7d0294",
+          "url": null,
           "ts": 1772500657,
           "odds": 78,
           "stake": 14634,
@@ -3403,8 +3403,8 @@
       "betsCount": 179,
       "ledger": [
         {
-          "market": "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538",
-          "url": null,
+          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
+          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
           "ts": 1779169019,
           "odds": 93,
           "stake": 25598,
@@ -4021,8 +4021,8 @@
           "tx": "0x33b15c32354e7763603f24a6d4b1cd0588e6f6cafd7b28959134aea099b924aa"
         },
         {
-          "market": "0xa2fc72c6a3f886f62501c9fb2b7df5da3a2f6a3f322712bb7d4a955417dd0c4c",
-          "url": null,
+          "market": "Will Donald Trump say \"nuclear\" 3+ times during Israel President events on December 29?",
+          "url": "https://polymarket.com/event/will-donald-trump-say-nuclear-3-times-during-israel-president-events-on-december-29",
           "ts": 1767369051,
           "odds": 100,
           "stake": 13377,
@@ -4283,8 +4283,8 @@
           "tx": "0xf3192613befd8459b1844dfdf186c8bcaace10a052bc3dac911848430471d949"
         },
         {
-          "market": "Will the Iran ceasefire continue through May 31?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-31-654-633",
+          "market": "0x46c09232d356fdbe5e4e543ce1a4e90c84a6e3bd4668a24852fd25563e36b32a",
+          "url": null,
           "ts": 1779316216,
           "odds": 64,
           "stake": 8377,
@@ -4781,8 +4781,8 @@
           "tx": "0x5b2d0d2bc0b2ba2f690c2e36f3ac1d4b6bce8de4575103841a2ccbc79b9b199f"
         },
         {
-          "market": "US x Iran ceasefire by March 31?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-31",
+          "market": "0x3c6bcb7da14ea576e5af25547dbd96f2bb24ac34e748e76aecff2ee9195dd1ac",
+          "url": null,
           "ts": 1773087053,
           "odds": 74,
           "stake": 23748,
@@ -4801,8 +4801,8 @@
           "tx": "0x040eeb58f72303111afcbf71d153211e0bf5b2373cb9aac8b0167d18b7e756ca"
         },
         {
-          "market": "US x Iran ceasefire by March 15?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-15",
+          "market": "0x07d45de444dbe0595c068a9eade49ace2bd381e30d6a45022d801ec10e7d0294",
+          "url": null,
           "ts": 1773087467,
           "odds": 82,
           "stake": 13666,
@@ -4993,8 +4993,8 @@
           "tx": "0x50e556e07bd5f10507e6c9f2403af8c1d5049b50e705e01f1bafa6f9cc8a0e69"
         },
         {
-          "market": "0x4997c22d314ed5e9f3712e46eb4847441b51fa730d10ad26240afa85f5d902be",
-          "url": null,
+          "market": "Will the Iran ceasefire continue through May 22?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-22",
           "ts": 1779481670,
           "odds": 5,
           "stake": 1000,
@@ -5951,7 +5951,7 @@
       "address": "0x83a296505eb520c9d35823571204ced41fd69452",
       "username": ".jeet",
       "tier": "notable",
-      "S": 675.1,
+      "S": 675.2,
       "market": "Will the US strike Iran next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-918",
       "episodeTx": "0x66e20be2ec7d2fb1222c030547bb4ec61e7c5e5b7c4f543afed2e5b6d553749a",
@@ -5968,7 +5968,7 @@
       "firstSeen": "Jul 01 2025",
       "createdOnChain": true,
       "created": "Jul 01 2025",
-      "betsCount": 165,
+      "betsCount": 166,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
