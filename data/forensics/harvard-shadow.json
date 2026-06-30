@@ -16,10 +16,10 @@
   "over500": 37,
   "alsoBinomial": 11,
   "onlyHarvard": 26,
-  "observed": 202978,
-  "reviewed": 202978,
+  "observed": 203145,
+  "reviewed": 203145,
   "screened": 5844,
-  "scored": 3601,
+  "scored": 3599,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -1067,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1017.3,
+      "S": 1016.9,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1076,7 +1076,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 6.97,
+      "zBetWithin": 6.96,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1089,12 +1089,12 @@
         {
           "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1749015772,
+          "ts": 1748993906,
           "odds": 100,
-          "stake": 66176,
-          "pl": 67,
+          "stake": 66876,
+          "pl": 68,
           "won": true,
-          "tx": "0xd5495803707eaa02ae8491c8a319288ec7260f386c2bee74a79cf91d963c0569"
+          "tx": "0xae99903093bf3cd0232a44e0fc6d08da8266585eea49a1449237ef56e5cb45c2"
         },
         {
           "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1139,12 +1139,12 @@
         {
           "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1760995331,
+          "ts": 1761010716,
           "odds": 96,
-          "stake": 42522,
-          "pl": 1528,
+          "stake": 42639,
+          "pl": 1536,
           "won": true,
-          "tx": "0xf370e66d44a951e83b4d19fcb3a05c8bfadc14bf2f43a5cefeff3a3e7b79ee2f"
+          "tx": "0xd69866238493f3b79987f934ce79742f0e22f5fecc483399d6f8b7d5a35d1fa2"
         },
         {
           "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1211,8 +1211,8 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1761810881,
           "odds": 98,
-          "stake": 15738,
-          "pl": -2338,
+          "stake": 16022,
+          "pl": -2322,
           "won": true,
           "tx": "0x0914650380068e3f0e4cccc940270d9fe31e95b4b5fdc8623d65f448619a25c9"
         },
@@ -1998,7 +1998,7 @@
       "won": true,
       "episodeProfit": 6697,
       "zBetCross": 20.82,
-      "zBetWithin": 1.36,
+      "zBetWithin": 1.35,
       "zProfitCross": 7.58,
       "lateBuyFraction": 0.85,
       "directionalScore": 0.98,
@@ -2039,6 +2039,16 @@
           "tx": "0x8ae34103366399891f0f6b0b3d9525fdf294c20e3af7caf95b69c17caced647e"
         },
         {
+          "market": "Will Democrats 66 win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761811837,
+          "odds": 98,
+          "stake": 51014,
+          "pl": 1051,
+          "won": true,
+          "tx": "0x8b261517e365a9ad9e2365e0190dd69de5fb702fc1a50d59cd5ab8df7bbf68e6"
+        },
+        {
           "market": "Will Trump release the Epstein files by December 19?",
           "url": "https://polymarket.com/event/will-trump-release-the-epstein-files-by-december-19-771",
           "ts": 1766432161,
@@ -2047,16 +2057,6 @@
           "pl": 100,
           "won": true,
           "tx": "0x0695a5dc6ce32ac1e3bf9613c066c56fcbca535d66ef5e7d48b6df3f03485be8"
-        },
-        {
-          "market": "Will Democrats 66 win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1761811837,
-          "odds": 98,
-          "stake": 49652,
-          "pl": 978,
-          "won": true,
-          "tx": "0xbe60c8c6c43964555144d8cb1b1da88a5cdd50da77779ddc61ad383d693a32b5"
         },
         {
           "market": "Will the Party for Freedom win the second most seats in the 2025 Netherlands parliamentary election?",
@@ -3625,7 +3625,7 @@
       "address": "0xd49b42bce7ea10bac53e2901c188cae20ea4bdf9",
       "username": "i18z",
       "tier": "notable",
-      "S": 624,
+      "S": 623.9,
       "market": "Will Trump and Xi handshake last 15 seconds or longer during the day of their next meeting in 2026?",
       "marketUrl": "https://polymarket.com/event/how-long-will-trump-and-xi-shake-hands-when-they-meet",
       "episodeTx": "0x80d8190a184de37234a9ac9e9c4e0705b62e6ac4e9d78719e1ab9a4f66aff3c8",
@@ -3634,7 +3634,7 @@
       "won": true,
       "episodeProfit": 1700,
       "zBetCross": 10.89,
-      "zBetWithin": 4.15,
+      "zBetWithin": 4.14,
       "zProfitCross": 8.13,
       "lateBuyFraction": 0.986,
       "directionalScore": 1,
@@ -3779,8 +3779,8 @@
           "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
           "ts": 1778860387,
           "odds": 97,
-          "stake": 8096,
-          "pl": 214,
+          "stake": 8228,
+          "pl": 218,
           "won": true,
           "tx": "0xd970764ed26ef55d3bf4e634de3900a2b995d2e4b2249e5e1427fb6f417b4ea5"
         }
