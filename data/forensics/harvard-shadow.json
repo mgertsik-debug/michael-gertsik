@@ -16,10 +16,10 @@
   "over500": 44,
   "alsoBinomial": 15,
   "onlyHarvard": 29,
-  "observed": 209901,
-  "reviewed": 209901,
+  "observed": 210114,
+  "reviewed": 210114,
   "screened": 6186,
-  "scored": 3773,
+  "scored": 3774,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -5021,12 +5021,12 @@
         {
           "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1761803563,
+          "ts": 1761800103,
           "odds": 96,
-          "stake": 33934,
-          "pl": 1333,
+          "stake": 34165,
+          "pl": 1347,
           "won": true,
-          "tx": "0xcc1f4eb142db3c752709ec3d8b0459293af4085b3d2bd2087f2dc6ead7770a79"
+          "tx": "0xa60190c49d4cb580a5975ea93f5b6049caa07b90b974f14a1b756e63d41ccd0e"
         },
         {
           "market": "Will the Farmer–Citizen Movement win the most seats in the 2025 Netherlands parliamentary election?",
