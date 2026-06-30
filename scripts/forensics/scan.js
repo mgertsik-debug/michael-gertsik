@@ -919,6 +919,10 @@ async function finalize(state, snapshotTs) {
       // category stored). Re-classifying the market's own question every tick (category() returns
       // null for publicly-decided markets) drops these immediately instead of letting them linger.
       if (e.status === "watching" && !poly.category([], e.market || e.question || "")) { delete state.watchlist[id]; continue; }
+      // MIGRATION: drop still-watching entries scored by the OLD model (no scoreVersion / a different
+      // signal set + 0–17 scale). They'd render with stale fields next to the new 0–142 rows; let them
+      // repopulate cleanly under the new directional model. Resolved (promoted/cleared) rows are history → kept.
+      if (e.status === "watching" && e.scoreVersion !== 2) { delete state.watchlist[id]; continue; }
       const c = cat[e.cond];
       if (e.status === "watching" && c && c.w != null) {
         const won = String(c.w).toUpperCase() === String(e.outcome).toUpperCase();
@@ -929,52 +933,87 @@ async function finalize(state, snapshotTs) {
       }
       if ((e.resolvedTs && NOW_S - e.resolvedTs > 7 * 86400) || (NOW_S - (e.ts || NOW_S) > 30 * 86400)) delete state.watchlist[id];
     }
-    // 2) ADD new candidates from the live feed (open markets, outsized BUYS), bounded + deadline-gated.
+    // 2) ADD new candidates from the live feed (open in-scope BUYS). PRE-RESOLUTION scoring: the CHEAP
+    // signals (outsized via market-volume share, long-shot conviction, repeat-suspect) need only the one
+    // batched openMarketMeta call, so the watchlist populates even on a tight budget. The EXPENSIVE
+    // per-candidate lookups (fresh wallet + DIRECTIONAL info-environment) run only on the top few
+    // base-scoring candidates, bounded + deadline-gated — so they refine ranking but never gate listing.
     const winH2 = D.DEFAULTS.newsWindowH || 24;
     let added = 0, scored = 0;
     if (Date.now() < INFO_DEADLINE) {
       const ocOf = (t) => { const o = String(t.outcome != null ? t.outcome : (t.outcomeIndex === 0 ? "Yes" : t.outcomeIndex === 1 ? "No" : "")).trim().toUpperCase(); return (o === "YES" || o === "0") ? "YES" : (o === "NO" || o === "1") ? "NO" : o; };
-      const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 4, 6) });
+      const feed = await poly.recentTrades({ pages: Math.min(+ENV.WATCH_PAGES || 6, 8) });
       const trades = (feed || []).map((t) => ({
         wallet: t.proxyWallet || t.user || t.maker || t.taker,
         cond: t.conditionId || t.market || t.condition_id,
         sizeUsd: num(t.size) * num(t.price), price: num(t.price), ts: num(t.timestamp || t.matchTime || t.time),
-        outcome: ocOf(t), title: t.title || t.question || null, slug: t.slug || t.eventSlug || null, side: String(t.side || "").toUpperCase(),
+        outcome: ocOf(t), title: t.title || t.question || null, side: String(t.side || "").toUpperCase(),
       })).filter((t) => t.wallet && t.cond && t.ts > 0 && t.sizeUsd > 0 && t.side !== "SELL" && !(cat[t.cond] && cat[t.cond].w != null)); // OPEN markets, buys
       const byMarket = {}; trades.forEach((t) => (byMarket[t.cond] = byMarket[t.cond] || []).push(t.sizeUsd));
       const cands = trades.filter((t) => t.sizeUsd >= (+ENV.WATCH_MIN_USD || 2500)).sort((a, b) => b.sizeUsd - a.sizeUsd);
-      // Fetch OPEN-market metadata (question, slug, category) for the top candidate markets in ONE
-      // bounded batch. This gives a WORKING market link (real slug) AND the category — so we DROP
-      // publicly-decided markets (sports / crypto-price / weather), exactly as the resolved engine
-      // excludes them (category() returns null for those). Candidates we can't resolve are skipped.
+      // ONE bounded metadata batch → question, slug, category AND market 24h VOLUME (which drives the
+      // whale-share magnitude signal, so it needs no peer sample). category() null drops publicly-decided
+      // markets (sports / crypto-price / weather), exactly as the resolved engine excludes them.
       const topConds = []; const condSeen = new Set();
-      for (const t of cands) { if (!condSeen.has(t.cond)) { condSeen.add(t.cond); topConds.push(t.cond); } if (topConds.length >= 18) break; }
+      for (const t of cands) { if (!condSeen.has(t.cond)) { condSeen.add(t.cond); topConds.push(t.cond); } if (topConds.length >= 24) break; }
       let meta = {};
-      try { meta = await poly.openMarketMeta(topConds, { maxConds: 18 }); } catch (_) {}
-      const seen = new Set();
+      try { meta = await poly.openMarketMeta(topConds, { maxConds: 24 }); } catch (_) {}
+      // CHEAP BASE SCORE (no extra network): outsized(volume share) + long-shot + repeat-suspect.
+      const base = []; const seen = new Set();
       for (const t of cands) {
-        if (Date.now() >= INFO_DEADLINE || scored >= Math.min(+ENV.WATCH_TOP || 10, 16)) break;
         const md = meta[t.cond];
-        if (!md || md.closed || !md.category) continue;   // drop unknown / already-resolved / sports-crypto-weather
+        if (!md || md.closed || !md.category) continue;        // unknown / already-resolved / out-of-scope
         const id = t.cond + "|" + String(t.wallet).toLowerCase();
         if (state.watchlist[id] || seen.has(id)) continue; seen.add(id);
-        const marketSizes = (byMarket[t.cond] || []).filter((s) => s !== t.sizeUsd);   // peer trades in this market
-        const ents = D.extractEntities(md.question || t.title || "");
-        let nb = false, fr = false, fedDoc = null;
-        if (ents.length) {
-          try { const cnt = await external.gdeltArticleCount(ents[0], t.ts - winH2 * 3600, t.ts, { timeoutMs: 3500 }); nb = (cnt === 0); } catch (_) {}
-          try { const fm = await external.fedRegisterMatches(ents, { anchorSec: t.ts, windowDays: 14, forwardDays: 120, timeoutMs: 3500 }); fr = (fm.matches.length > 0); if (fr && fm.matches[0]) fedDoc = { title: fm.matches[0].title || null, url: fm.matches[0].url || null }; } catch (_) {}
+        const marketSizes = (byMarket[t.cond] || []).filter((s) => s !== t.sizeUsd);
+        const walletFlagged = flaggedLc.has(String(t.wallet).toLowerCase());   // already a published Suspect (the bridge)
+        const inp = { sizeUsd: t.sizeUsd, marketSizes, marketVolUsd: md.volume24hr || md.volume, entryPrice: t.price, walletFlagged };
+        base.push({ t, md, id, inp, walletFlagged, sc: D.watchlistScore(inp) });
+      }
+      base.sort((a, b) => b.sc.score - a.sc.score);             // spend bounded enrichment on the best candidates
+      const ENRICH_N = Math.min(+ENV.WATCH_ENRICH || 8, 14);
+      let enriched = 0;
+      for (const c of base) {
+        if (Date.now() >= INFO_DEADLINE || scored >= Math.min(+ENV.WATCH_TOP || 12, 24)) break;
+        const t = c.t, md = c.md, id = c.id;
+        let fresh = false, walletAgeDays = null, blackout = false, anticipated = false, publicInfo = false, fedDoc = null, blackoutEntity = null;
+        if (enriched < ENRICH_N) {
+          enriched++;
+          // FRESH: the wallet's FIRST-EVER trade ≈ this bet (no track record before a big directional bet).
+          try { const fsTs = await poly.firstSeen(t.wallet); if (fsTs) { walletAgeDays = Math.max(0, (t.ts - fsTs) / 86400); fresh = walletAgeDays <= (+ENV.WATCH_FRESH_DAYS || 14); } } catch (_) {}
+          // DIRECTIONAL INFO-ENVIRONMENT. publicInfo (−, exculpatory): public news in the pre-entry window
+          // OR a matching filing dated ON/BEFORE the bet → traded on PUBLIC info. blackout (+, the clearest
+          // "knew first" tell): we CHECKED and found NO public news/filing before the bet. anticipated (+):
+          // a matching filing dated AFTER the bet → it foresaw a not-yet-public regulatory action.
+          const ents = D.extractEntities(md.question || t.title || "");
+          if (ents.length) {
+            let newsBefore = false, newsChecked = false, filingBefore = false, filingAfter = false;
+            try { const cnt = await external.gdeltArticleCount(ents[0], t.ts - winH2 * 3600, t.ts, { timeoutMs: 3000 }); newsBefore = cnt > 0; newsChecked = true; } catch (_) {}
+            try {
+              const fm = await external.fedRegisterMatches(ents, { anchorSec: t.ts, windowDays: 30, forwardDays: 120, timeoutMs: 3000 });
+              for (const m of (fm.matches || [])) {
+                const d = m.date ? Math.round(Date.parse(m.date + "T00:00:00Z") / 1000) : null;
+                if (d == null) continue;
+                if (d <= t.ts) { filingBefore = true; if (!fedDoc) fedDoc = { title: m.title || null, url: m.url || null, date: m.date, when: "before" }; }
+                else { filingAfter = true; if (!fedDoc || fedDoc.when !== "before") fedDoc = { title: m.title || null, url: m.url || null, date: m.date, when: "after" }; }
+              }
+            } catch (_) {}
+            publicInfo = newsBefore || filingBefore;             // public info predated the bet → exculpatory
+            blackout = newsChecked && !publicInfo;               // checked + found NO public disclosure before → "knew first"
+            anticipated = !publicInfo && filingAfter;            // foresaw a filing dated after the bet
+            if (blackout) blackoutEntity = ents[0] || null;
+          }
         }
-        const sc = D.watchlistScore({ sizeUsd: t.sizeUsd, marketSizes, newsBlackout: nb, fedRegister: fr });
+        const sc = D.watchlistScore(Object.assign({}, c.inp, { fresh, blackout, anticipated, publicInfo }));
         scored++;
-        if (sc.score >= (+ENV.WATCH_SCORE || 6)) {
+        if (sc.score >= (+ENV.WATCH_SCORE || 40)) {
           state.watchlist[id] = {
             id, cond: t.cond, wallet: t.wallet, market: md.question || "(market)", category: md.category,
             url: md.slug ? "https://polymarket.com/event/" + md.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
-            sizeUsd: Math.round(t.sizeUsd), ts: t.ts, firstSeen: monthDay(NOW_S), status: "watching",
-            // drawer evidence (real): pool share, the matched Federal-Register doc, and the news-blackout entity
-            score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, poolPct: sc.poolPct, nPeers: sc.nPeers,
-            newsBlackout: nb, fedRegister: fr, fedDoc, blackoutEntity: nb ? (ents[0] || null) : null,
+            sizeUsd: Math.round(t.sizeUsd), marketVolUsd: Math.round(md.volume24hr || md.volume || 0), ts: t.ts, firstSeen: monthDay(NOW_S), status: "watching",
+            scoreVersion: 2, score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, volShare: sc.volShare, nPeers: sc.nPeers,
+            walletFlagged: c.walletFlagged, fresh, walletAgeDays: walletAgeDays != null ? Math.round(walletAgeDays) : null,
+            blackout, anticipated, publicInfo, fedDoc, blackoutEntity,
           };
           added++;
         }
