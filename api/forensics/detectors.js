@@ -757,11 +757,19 @@ function fedRegister(x, opts) {
  *  proof. Mirrors our philosophy (being INFORMED/EARLY outweighs being BIG): a news-blackout under a
  *  big bet scores highest; raw size lowest. A flagged trade later HARDENS into a forensic case (if it
  *  wins and the wallet flags) or self-clears (the reconcile runs in the scanner on resolution).
- *    x = { sizeUsd, marketSizes:[usd…] (other trades in this market), poolUsd?, newsBlackout(bool), fedRegister(bool) } */
-const WATCH_W = { outsized: 5, pool: 3, blackout: 6, fedReg: 3 };   // magnitude scored ONCE (size+whale are one dimension); informed(blackout) > magnitude; fedReg low
+ *    x = { sizeUsd, marketSizes:[usd…] (peer trades in this market), marketVolUsd? (market 24h $ vol),
+ *          entryPrice (price PAID, 0–1), walletFlagged? (already a published Suspect), fresh? (first-ever
+ *          trade ≈ this bet), blackout? (NO public news before the bet — the clearest "knew first" tell),
+ *          anticipated? (a matching regulatory filing dropped AFTER the bet), publicInfo? (news/filing
+ *          PREDATED the bet → public info, exculpatory) }
+ *  PRE-RESOLUTION model: an open market hasn't resolved, so there is no won/profit/improbable-record to
+ *  test — only signals observable AT PLACEMENT, each an informed-trading tell, none a proof. */
+const WATCH_W = { outsized: 25, longshot: 25, blackout: 35, repeat: 30, fresh: 15, anticipated: 12, publicInfo: -20 };
+const WATCH_MAX = 142;   // sum of the POSITIVE signals; publicInfo (−20) is the exculpatory reducer
 function watchlistScore(x, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   x = x || {};
+  // --- magnitude vs the market (ONE dimension) ---
   const sizes = (x.marketSizes || []).filter((s) => isNum(s) && s > 0);
   const nPeers = sizes.length;
   const mu = nPeers ? sizes.reduce((a, b) => a + b, 0) / nPeers : 0;
@@ -770,24 +778,38 @@ function watchlistScore(x, opts) {
   const p90 = sorted.length ? sorted[Math.floor(0.9 * (sorted.length - 1))] : 0;
   const z = sd > 0 ? (x.sizeUsd - mu) / sd : 0;
   const whaleX = p90 > 0 ? x.sizeUsd / p90 : 0;
-  const poolPct = isNum(x.poolUsd) && x.poolUsd > 0 ? x.sizeUsd / x.poolUsd : 0;
-  // MINIMUM SAMPLE GUARD. A z-score over a handful of peer trades is noise — with 2–3 trades the
-  // std-dev is unstable and a single outlier yields a spurious 3σ; the 90th-percentile "whale" check
-  // is just "the max" until there are ~enough trades. So size/whale only FIRE when the market has at
-  // least `watchMinPeers` other trades (default 6). Raw z/whaleX are still REPORTED for transparency.
+  // The PRIMARY magnitude test is share of the market's 24h volume — it needs no peer sample. A global
+  // recent-trades feed rarely carries ≥ watchMinPeers trades of the SAME open market, which is exactly
+  // why the old peer-only test almost never fired and the score collapsed onto the news signal. The
+  // peer z/whaleX test is a BONUS that fires only with ≥ watchMinPeers peers (a z over 2–3 trades is
+  // noise). Raw z/whaleX/volShare are always reported as diagnostics.
   const minPeers = isNum(o.watchMinPeers) ? o.watchMinPeers : 6;
   const enoughPeers = nPeers >= minPeers;
+  const vol = isNum(x.marketVolUsd) && x.marketVolUsd > 0 ? x.marketVolUsd : 0;
+  const volShare = vol > 0 ? x.sizeUsd / vol : 0;
+  const volThresh = isNum(o.watchVolShare) ? o.watchVolShare : 0.08;     // ≥8% of 24h volume = a whale
+  const outsizedVol = volShare >= volThresh;
+  const outsizedPeers = enoughPeers && (z >= 3 || whaleX >= 10);
   const fired = []; let score = 0;
-  // SIZE (z-score vs mean) and WHALE (ratio to 90th-pct) are two views of ONE dimension — this
-  // trade's size relative to the market's other trades. Scoring them separately double-counted
-  // magnitude (5+4=9) and let raw bet size outrank the news-blackout tell (6), inverting the
-  // intended "informed beats big." So they collapse into a SINGLE "outsized" signal, scored once;
-  // z and whaleX remain as diagnostics. Fires if EITHER threshold is crossed (with enough peers).
-  if (enoughPeers && (z >= 3 || whaleX >= 10)) { fired.push("outsized"); score += WATCH_W.outsized; }
-  if (poolPct >= 0.02) { fired.push("pool"); score += WATCH_W.pool; }     // a large slice of the whole pool
-  if (x.newsBlackout === true) { fired.push("blackout"); score += WATCH_W.blackout; } // bet ahead of the news
-  if (x.fedRegister === true) { fired.push("fedReg"); score += WATCH_W.fedReg; }
-  return { score, fired, sizeZ: +z.toFixed(1), whaleX: +whaleX.toFixed(1), poolPct: +(poolPct * 100).toFixed(2), p90: Math.round(p90), nPeers, enoughPeers };
+  if (outsizedVol || outsizedPeers) { fired.push("outsized"); score += WATCH_W.outsized; }
+  // long-shot CONVICTION: a material BUY into an outcome the market prices as unlikely (≤ tau).
+  const lsMax = isNum(o.watchLongshotMax) ? o.watchLongshotMax : 0.35;
+  const lsMin = isNum(o.watchLongshotMinUsd) ? o.watchLongshotMinUsd : 2500;
+  if (isNum(x.entryPrice) && x.entryPrice > 0 && x.entryPrice <= lsMax && x.sizeUsd >= lsMin) { fired.push("longshot"); score += WATCH_W.longshot; }
+  if (x.walletFlagged === true) { fired.push("repeat"); score += WATCH_W.repeat; }   // already a published Suspect (bridge to the wallet tracker)
+  if (x.fresh === true) { fired.push("fresh"); score += WATCH_W.fresh; }             // first-ever trade ≈ this bet (no track record)
+  // INFORMATION ENVIRONMENT — DIRECTIONAL. This is the "did they trade ahead of the information?" axis.
+  //   blackout (+, HIGHEST): NO public news matched the market's topic in the window before the bet —
+  //     betting big before there is any public news is the clearest "they knew first" tell.
+  //   anticipated (+): a matching regulatory filing was published AFTER the bet → it foresaw a real,
+  //     not-yet-public regulatory action (the forward-looking half of the old fedRegister signal).
+  //   publicInfo (−, EXCULPATORY): news OR a matching filing PREDATED the bet → it was likely placed on
+  //     PUBLIC information, so it LOWERS the score. (The old fedRegister added a flat + for ANY filing
+  //     match regardless of timing, conflating "anticipated a filing" with "acted on a public one".)
+  if (x.blackout === true) { fired.push("blackout"); score += WATCH_W.blackout; }
+  if (x.anticipated === true) { fired.push("anticipated"); score += WATCH_W.anticipated; }
+  if (x.publicInfo === true) { fired.push("publicInfo"); score += WATCH_W.publicInfo; }
+  return { score, fired, sizeZ: +z.toFixed(1), whaleX: +whaleX.toFixed(1), volShare: +(volShare * 100).toFixed(2), p90: Math.round(p90), nPeers, enoughPeers };
 }
 
 /* ============================================================================

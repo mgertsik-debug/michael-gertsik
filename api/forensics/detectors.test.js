@@ -428,18 +428,47 @@ test("fedRegister: TIMING — only credits a bet placed BEFORE the filing was pu
   assert.equal(D.fedRegister({ hasQuery: false }).hasData, false);
 });
 
-test("watchlistScore: trade-time score weights INFORMED over BIG; news-blackout dominates", () => {
-  const peers = [100, 120, 90, 110, 130, 95, 105]; // a market where everyone trades ~$100
-  // a $5k trade here is a huge outlier in size AND vs p90; with a news blackout it should top out.
-  const informed = D.watchlistScore({ sizeUsd: 5000, marketSizes: peers, poolUsd: 200000, newsBlackout: true, fedRegister: false });
-  // size+whale are merged into ONE "outsized" magnitude signal (scored once), so we assert that + blackout.
-  assert.ok(informed.fired.includes("outsized") && informed.fired.includes("blackout") && !informed.fired.includes("whale"), "outsized (merged) + blackout: " + JSON.stringify(informed.fired));
-  // a same-size trade WITHOUT the blackout scores strictly lower — informed > big.
-  const justBig = D.watchlistScore({ sizeUsd: 5000, marketSizes: peers, poolUsd: 200000, newsBlackout: false, fedRegister: false });
-  assert.ok(informed.score > justBig.score, "the news-blackout (informed) signal raises the score above raw size");
-  // a normal-sized trade in line with peers fires nothing.
-  const normal = D.watchlistScore({ sizeUsd: 105, marketSizes: peers, poolUsd: 200000 });
-  assert.equal(normal.score, 0, "an in-distribution trade is not an outlier");
+// LIVE WATCHLIST (pre-resolution). Signals are observable AT PLACEMENT — none needs the market to
+// resolve. Magnitude (vs market volume) is ONE dimension; news-blackout is the highest-weighted tell;
+// the information-environment axis is DIRECTIONAL: publicInfo (a public news/filing PREDATED the bet)
+// is EXCULPATORY and LOWERS the score, the opposite of the old "+ for any filing match".
+test("watchlistScore: whale-share magnitude fires WITHOUT a peer sample", () => {
+  // a global feed rarely carries ≥6 trades of the same open market, so the peer z-test would never
+  // fire — the volume-share test must catch the whale. $12k into a market doing $100k/24h = 12% ≥ 8%.
+  const r = D.watchlistScore({ sizeUsd: 12000, marketSizes: [], marketVolUsd: 100000, entryPrice: 0.6 });
+  assert.ok(r.fired.includes("outsized"), "≥8% of 24h volume fires outsized with no peers: " + JSON.stringify(r.fired));
+  assert.equal(r.volShare, 12, "volShare reported as a percent");
+  // a small slice of a deep market is NOT a whale.
+  const small = D.watchlistScore({ sizeUsd: 3000, marketSizes: [], marketVolUsd: 500000, entryPrice: 0.6 });
+  assert.ok(!small.fired.includes("outsized"), "0.6% of volume is not outsized");
+});
+
+test("watchlistScore: long-shot conviction + repeat-suspect each fire, and ≥2 are needed to clear", () => {
+  // a $4k bet at 9% (a long-shot) from a wallet ALREADY flagged → longshot(25) + repeat(30) = 55 ≥ 40.
+  const r = D.watchlistScore({ sizeUsd: 4000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.09, walletFlagged: true });
+  assert.ok(r.fired.includes("longshot") && r.fired.includes("repeat"), JSON.stringify(r.fired));
+  assert.ok(r.score >= 40, "two signals clear the list bar, score=" + r.score);
+  // a long-shot bet at FAVORITE odds does NOT fire longshot.
+  const fav = D.watchlistScore({ sizeUsd: 4000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.82 });
+  assert.ok(!fav.fired.includes("longshot"), "82% is not a long-shot");
+});
+
+test("watchlistScore: blackout is the highest tell; publicInfo is exculpatory (LOWERS the score)", () => {
+  const base = { sizeUsd: 12000, marketSizes: [], marketVolUsd: 100000, entryPrice: 0.2 };  // outsized + longshot
+  const blackout = D.watchlistScore(Object.assign({}, base, { blackout: true }));
+  const publicInfo = D.watchlistScore(Object.assign({}, base, { publicInfo: true }));
+  const neutral = D.watchlistScore(base);
+  assert.ok(blackout.score > neutral.score, "a news blackout RAISES the score");
+  assert.ok(publicInfo.score < neutral.score, "public info BEFORE the bet LOWERS the score (exculpatory)");
+  assert.equal(neutral.score - publicInfo.score, 20, "publicInfo subtracts exactly 20");
+  // blackout (35) is the single highest-weighted signal.
+  const w = D.WATCH_W;
+  assert.ok(w.blackout >= w.repeat && w.blackout >= w.outsized && w.blackout >= w.longshot, "blackout is weighted highest");
+});
+
+test("watchlistScore: a normal in-distribution favorite bet fires nothing", () => {
+  const normal = D.watchlistScore({ sizeUsd: 105, marketSizes: [100, 120, 90, 110], marketVolUsd: 1e7, entryPrice: 0.55 });
+  assert.equal(normal.score, 0, "an unremarkable trade scores 0");
 });
 
 test("softened gate: small net-positive profit is a TIER CAP, not an exclusion", () => {

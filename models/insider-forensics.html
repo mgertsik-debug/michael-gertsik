@@ -135,15 +135,20 @@
   // reused everywhere that signal appears — its chip, its score-breakdown bar, and its weight in the
   // "THE SCORE" explainer — so colour teaches which flag is which rather than decorating.
   var WSIG = {
-    blackout:{ label:"news blackout", weight:6, color:'#FBBF24', tip:"Nothing in the world's news matched this market's topic in the 24h before the bet. Betting big before there's any public news is the clearest 'they knew first' tell — so it's weighted highest (6)." },
-    outsized:{ label:"outsized trade", weight:5, color:'#5EEAD4', tip:"This bet is far bigger than the other trades on this market — ≥3σ above the typical trade, or 10×+ the 90th-percentile trade. (One combined 'unusually large bet' signal, counted once.)" },
-    pool:{ label:"large % of pool", weight:3, color:'#A78BFA', tip:"A single trade is a large share of the market's total liquidity." },
-    fedReg:{ label:"Federal Register", weight:3, color:'#34D399', tip:"A recent U.S. regulatory filing names this market's exact subject — corroborating, low weight." },
-    // legacy keys kept so rows scored before the size+whale merge still render
-    size:{ label:"outsized vs market", weight:5, color:'#5EEAD4', tip:"Trade size ≥ 3σ above peer trades on this market" },
-    whale:{ label:"lone whale", weight:4, color:'#7FB2FF', tip:"10×+ the 90th-percentile trade on this market" }
+    blackout:{ label:"news blackout", weight:35, color:'#FBBF24', tip:"Nothing in the world's news matched this market's topic in the 24h before the bet. Betting big before there's any public news is the clearest 'they knew first' tell — so it's weighted highest." },
+    repeat:{ label:"repeat suspect", weight:30, color:'#F87171', tip:"This wallet is ALREADY a published Suspect on the Suspect Wallets tracker — a confirmed-pattern account placing a fresh live bet. The bridge between the two trackers, and the strongest live tell." },
+    outsized:{ label:"outsized trade", weight:25, color:'#5EEAD4', tip:"A whale-sized bet relative to the MARKET — ≥8% of the market's 24h volume, or (with enough peers) ≥3σ / 10× the typical trade. One magnitude signal, counted once." },
+    longshot:{ label:"long-shot conviction", weight:25, color:'#A78BFA', tip:"A material bet into an outcome the market prices as unlikely (≤35%). Why stake real money on something the market says won't happen — unless you expect it to?" },
+    fresh:{ label:"fresh wallet", weight:15, color:'#7FB2FF', tip:"The wallet's first-ever trade was within days of this bet — no track record before a big directional position (a purpose-built-wallet pattern)." },
+    anticipated:{ label:"anticipated filing", weight:12, color:'#34D399', tip:"A matching U.S. regulatory filing was published AFTER this bet — the trade foresaw a not-yet-public regulatory action." },
+    publicInfo:{ label:"public info", weight:-20, color:'#6B756F', tip:"EXCULPATORY (−): public news or a regulatory filing PREDATED this bet, so it was likely placed on PUBLIC information — this LOWERS the score." },
+    // legacy keys kept so old resolved (promoted/cleared) rows still render
+    pool:{ label:"large % of pool", weight:3, color:'#A78BFA', tip:"(legacy) a single trade is a large share of the market's liquidity." },
+    fedReg:{ label:"Federal Register", weight:3, color:'#34D399', tip:"(legacy) a regulatory filing matched this market's subject." },
+    size:{ label:"outsized vs market", weight:5, color:'#5EEAD4', tip:"(legacy) trade size ≥ 3σ above peer trades on this market" },
+    whale:{ label:"lone whale", weight:4, color:'#7FB2FF', tip:"(legacy) 10×+ the 90th-percentile trade on this market" }
   };
-  var WGMAX = 17;
+  var WGMAX = 142;
   var WGRID = "88px minmax(180px,1.7fr) 132px 86px 78px minmax(170px,1.3fr) 92px 108px 60px";
   var wlState = { expandedId:null, sort:'recency', search:'', quick:{blackout:false,big:false,hardened:false}, legendOpen:false, scoreOpen:false, copied:null };
 
@@ -189,22 +194,31 @@
   }
 
   function wlEvidence(e){
-    var out='';
+    var sig=(e.signals||[]); var has=function(k){return sig.indexOf(k)>=0;};
     var diag='<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:'+((e.nPeers!=null&&e.nPeers<6)?'8px':'14px')+';">'
-      + wlDiag('SIZE Z-SCORE',(e.sizeZ!=null?e.sizeZ+'σ':'—'),(e.signals||[]).indexOf('size')>=0)
-      + wlDiag('WHALE MULTIPLE',(e.whaleX!=null?e.whaleX+'×':'—'),(e.signals||[]).indexOf('whale')>=0)
-      + wlDiag('% OF POOL',(e.poolPct!=null&&e.poolPct>0?e.poolPct+'%':'—'),(e.signals||[]).indexOf('pool')>=0)
+      + wlDiag('% OF 24H VOL',(e.volShare!=null&&e.volShare>0?e.volShare+'%':'—'),has('outsized'))
+      + wlDiag('SIZE Z-SCORE',(e.sizeZ!=null?e.sizeZ+'σ':'—'),has('outsized'))
+      + wlDiag('ENTRY PRICE',(e.price!=null?Math.round(e.price*100)+'¢':'—'),has('longshot'))
+      + wlDiag('WALLET AGE',(e.walletAgeDays!=null?(e.walletAgeDays+'d'):'—'),has('fresh'))
       + wlDiag('PEER TRADES',(e.nPeers!=null?String(e.nPeers):'—'),false)
       + '</div>';
-    if(e.nPeers!=null && e.nPeers<6) diag+='<div style="font-size:11.5px;color:#FBBF24;line-height:1.5;margin-bottom:14px;">Only '+e.nPeers+' comparable trade'+(e.nPeers===1?'':'s')+' on this market — too few for a reliable size z-score, so the outsized-trade flag is held back here.</div>';
-    if(e.newsBlackout){ out+='<div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.3);border-radius:9px;padding:12px 14px;margin-bottom:10px;">'
-      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#34D399;margin-bottom:6px;">NEWS BLACKOUT · why it counts most</div>'
-      + '<div style="font-size:12.5px;color:#C9CFCB;line-height:1.55;">We searched the world’s news for “'+esc(e.blackoutEntity||"this market's topic")+'” in the 24 hours before this bet and found <b style="color:#ECEFED;">nothing</b>. Putting down a big, confident bet on something the press hasn’t even reported yet is the clearest sign of acting on private information — so it’s weighted highest (6 of the score).</div></div>'; }
-    if(e.fedRegister){ var ft=(e.fedDoc&&e.fedDoc.title)?esc(e.fedDoc.title):"A regulatory filing matched this market's exact subject."; var fl=(e.fedDoc&&e.fedDoc.url)?'<a href="'+esc(e.fedDoc.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#34D399;text-decoration:none;display:inline-block;margin-top:8px;">view filing ↗</a>':'';
-      out+='<div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.3);border-radius:9px;padding:12px 14px;">'
-      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#34D399;margin-bottom:6px;">FEDERAL REGISTER MATCH</div>'
-      + '<div style="font-size:12.5px;color:#ECEFED;line-height:1.5;">'+ft+'</div>'+fl+'</div>'; }
-    if(!e.newsBlackout && !e.fedRegister) out+='<div style="font-size:12px;color:#6B756F;line-height:1.55;">No information-environment corroborator fired on this trade — it is flagged on trade size alone.</div>';
+    if(e.nPeers!=null && e.nPeers<6) diag+='<div style="font-size:11.5px;color:#FBBF24;line-height:1.5;margin-bottom:14px;">Only '+e.nPeers+' comparable trade'+(e.nPeers===1?'':'s')+' on this market in the feed — too few for a reliable peer z-score, so the outsized flag leans on the market-volume share instead.</div>';
+    var out='';
+    if(e.blackout){ out+='<div style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.32);border-radius:9px;padding:12px 14px;margin-bottom:10px;">'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#FBBF24;margin-bottom:6px;">NEWS BLACKOUT · why it counts most</div>'
+      + '<div style="font-size:12.5px;color:#C9CFCB;line-height:1.55;">We searched the world’s news for “'+esc(e.blackoutEntity||"this market’s topic")+'” in the 24 hours before this bet and found <b style="color:#ECEFED;">nothing</b>. Betting big before there is any public news is the clearest sign of acting on private information — so it is weighted highest.</div></div>'; }
+    if(e.publicInfo){ var pb=(e.fedDoc&&e.fedDoc.when==='before'); var pl=(pb&&e.fedDoc.url)?'<a href="'+esc(e.fedDoc.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#9BA39E;text-decoration:none;display:inline-block;margin-top:8px;">view the filing ↗</a>':'';
+      out+='<div style="background:rgba(107,117,111,.08);border:1px solid rgba(107,117,111,.4);border-radius:9px;padding:12px 14px;margin-bottom:10px;">'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#9BA39E;margin-bottom:6px;">PUBLIC INFORMATION · score reduced (−20)</div>'
+      + '<div style="font-size:12.5px;color:#C9CFCB;line-height:1.55;">Public information about this topic '+(pb?('(a regulatory filing'+(e.fedDoc.date?', '+esc(e.fedDoc.date):'')+')'):'(news coverage)')+' already existed <b style="color:#ECEFED;">before</b> this bet, so it was likely placed on public information — not a “knew first” trade. We <b>lower</b> the score for it.</div>'+pl+'</div>'; }
+    if(e.anticipated && e.fedDoc && e.fedDoc.when==='after'){ var al=(e.fedDoc.url)?'<a href="'+esc(e.fedDoc.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#34D399;text-decoration:none;display:inline-block;margin-top:8px;">view the filing ↗</a>':'';
+      out+='<div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.3);border-radius:9px;padding:12px 14px;margin-bottom:10px;">'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#34D399;margin-bottom:6px;">ANTICIPATED A FILING</div>'
+      + '<div style="font-size:12.5px;color:#ECEFED;line-height:1.5;">'+(e.fedDoc.title?esc(e.fedDoc.title):'A matching U.S. regulatory filing')+' was published <b>after</b> this bet'+(e.fedDoc.date?' ('+esc(e.fedDoc.date)+')':'')+' — the trade foresaw a not-yet-public regulatory action.</div>'+al+'</div>'; }
+    if(e.walletFlagged){ out+='<div style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.3);border-radius:9px;padding:12px 14px;margin-bottom:10px;">'
+      + '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.08em;color:#F87171;margin-bottom:6px;">REPEAT SUSPECT · already on the wallet tracker</div>'
+      + '<div style="font-size:12.5px;color:#C9CFCB;line-height:1.55;">This wallet is already a published Suspect on the Suspect Wallets tracker — a confirmed-pattern account placing a fresh live bet.</div></div>'; }
+    if(!e.blackout && !e.publicInfo && !e.anticipated && !e.walletFlagged) out+='<div style="font-size:12px;color:#6B756F;line-height:1.55;">No information-environment signal fired on this trade — it is flagged on trade structure (size / odds) alone.</div>';
     return diag+out;
   }
   function wlDiag(label,val,on){ return '<div style="flex:1;min-width:92px;background:#0E1512;border:1px solid #1F2A25;border-radius:9px;padding:11px 13px;">'
@@ -213,12 +227,12 @@
 
   function wlDrawer(e){
     var score=wlScoreOf(e), sc=wlSC(score);
-    var bd=(e.signals||[]).slice().sort(function(a,b){return ((WSIG[b]&&WSIG[b].weight)||0)-((WSIG[a]&&WSIG[a].weight)||0);}).map(function(k){
-      var sig=WSIG[k]; if(!sig) return ''; var col=sig.color||'#34D399';
+    var bd=(e.signals||[]).slice().sort(function(a,b){return Math.abs((WSIG[b]&&WSIG[b].weight)||0)-Math.abs((WSIG[a]&&WSIG[a].weight)||0);}).map(function(k){
+      var sig=WSIG[k]; if(!sig) return ''; var col=sig.color||'#34D399'; var neg=(sig.weight||0)<0;
       return '<div style="margin-bottom:11px;"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:5px;">'
         + '<span style="font-size:12px;color:#C4CAC6;">'+esc(sig.label)+'</span>'
-        + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:'+col+';">+'+sig.weight+'</span></div>'
-        + '<div style="height:7px;border-radius:4px;background:#16201B;overflow:hidden;"><div style="height:100%;width:'+Math.round(sig.weight/6*100)+'%;border-radius:4px;background:'+col+';box-shadow:0 0 12px -2px '+col+';"></div></div></div>';
+        + '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:'+col+';">'+(neg?'−'+Math.abs(sig.weight):'+'+sig.weight)+'</span></div>'
+        + '<div style="height:7px;border-radius:4px;background:#16201B;overflow:hidden;"><div style="height:100%;width:'+Math.round(Math.abs(sig.weight)/35*100)+'%;border-radius:4px;background:'+col+';box-shadow:0 0 12px -2px '+col+';"></div></div></div>';
     }).join('');
     var entryCtx='<div style="border:1px solid #1F2A25;border-radius:10px;background:#0E1512;padding:14px;">'
       + '<div style="display:flex;align-items:baseline;gap:8px;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:26px;font-weight:700;color:'+(e.outcome==='YES'?'#34D399':'#F87171')+';">'+esc(e.outcome||'?')+'</span><span style="font-family:\'JetBrains Mono\',monospace;font-size:15px;color:#949C98;">@'+Math.round((e.price||0)*100)+'¢</span></div>'

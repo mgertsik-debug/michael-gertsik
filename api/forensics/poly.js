@@ -241,7 +241,16 @@ async function openMarketMeta(conds, opts) {
     // for any multi-market event (e.g. the dated "US strikes Iran by <date>" markets share ONE
     // event page). Fall back to the market slug only when no event is attached.
     const slug = (Array.isArray(m.events) && m.events[0] && m.events[0].slug) || m.slug || "";
-    out[cond] = { question: String(m.question || "").trim(), slug, category: category(tags, m.question), closed: m.closed === true || m.closed === "true" };
+    // Volume drives the live watchlist's "whale share of the market" magnitude signal (a bet ≥ N% of
+    // 24h volume), so it works without a peer sample. Prefer 24h volume; fall back to total. Current
+    // YES price (from outcomePrices "[\"0.07\",\"0.93\"]" or lastTradePrice) is carried for context.
+    const vol24 = num(m.volume24hr != null ? m.volume24hr : m.volume24hrClob);
+    const volTot = num(m.volumeNum != null ? m.volumeNum : m.volume);
+    let priceYes = null;
+    try { const op = typeof m.outcomePrices === "string" ? JSON.parse(m.outcomePrices) : m.outcomePrices; if (Array.isArray(op) && op[0] != null) priceYes = num(op[0]); } catch (_) {}
+    if (priceYes == null && m.lastTradePrice != null) priceYes = num(m.lastTradePrice);
+    out[cond] = { question: String(m.question || "").trim(), slug, category: category(tags, m.question), closed: m.closed === true || m.closed === "true",
+      volume24hr: vol24 || 0, volume: volTot || 0, liquidity: num(m.liquidityNum != null ? m.liquidityNum : m.liquidity) || 0, priceYes };
   };
   for (let i = 0; i < list.length; i += o.concurrency) await Promise.all(list.slice(i, i + o.concurrency).map(one));
   return out;
