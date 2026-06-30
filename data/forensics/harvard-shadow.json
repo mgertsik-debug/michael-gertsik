@@ -1,31 +1,31 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782776873,
-  "total": 14,
+  "total": 18,
   "byTier": {
     "extreme": 1,
-    "high": 2,
-    "notable": 11
+    "high": 3,
+    "notable": 14
   },
-  "medianS": 620.5,
-  "p90": 977.2,
-  "p95": 1174.5,
-  "p99": 1174.5,
+  "medianS": 642,
+  "p90": 997.7,
+  "p95": 1178.1,
+  "p99": 1178.1,
   "minS": 532.2,
-  "maxS": 1174.5,
-  "over500": 14,
-  "alsoBinomial": 8,
+  "maxS": 1178.1,
+  "over500": 18,
+  "alsoBinomial": 12,
   "onlyHarvard": 6,
-  "observed": 184306,
-  "reviewed": 184306,
-  "screened": 4580,
-  "scored": 2056,
+  "observed": 185654,
+  "reviewed": 185654,
+  "screened": 4783,
+  "scored": 2090,
   "top": [
     {
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
       "username": null,
       "tier": "extreme",
-      "S": 1174.5,
+      "S": 1178.1,
       "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0x9969f3e97742fef0c3cf4364b34ebc5b6daa435aaa1b87cb91a0532d2da89d05",
@@ -34,7 +34,7 @@
       "won": true,
       "episodeProfit": 5257,
       "zBetCross": 18.97,
-      "zBetWithin": 0.98,
+      "zBetWithin": 1.16,
       "zProfitCross": 22.35,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -42,7 +42,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 5,
+      "betsCount": 6,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
@@ -93,6 +93,16 @@
           "pl": -1233,
           "won": false,
           "tx": "0xc46ccc8beff65abb4692f75953b5bdbf9a6faeab502896c32a18f3f47e247d03"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 22, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779455908,
+          "odds": 9,
+          "stake": 822,
+          "pl": -822,
+          "won": false,
+          "tx": "0x626730c55460b3a9a8a2a11c239df5fdbfa984f3ff3c2dd8fa981b3bc7c7c59b"
         }
       ],
       "alsoBinomial": true
@@ -101,7 +111,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 977.2,
+      "S": 997.7,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -110,7 +120,7 @@
       "won": true,
       "episodeProfit": 7507,
       "zBetCross": 17.61,
-      "zBetWithin": 4.97,
+      "zBetWithin": 6,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -118,7 +128,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "Sep 23 2024",
-      "betsCount": 116,
+      "betsCount": 170,
       "ledger": [
         {
           "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
@@ -241,24 +251,24 @@
           "tx": null
         },
         {
-          "market": "Will PVV win 33 or more seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/dutch-parliamentary-election-pvv-seats",
-          "ts": 1759230519,
-          "odds": 93,
-          "stake": 9333,
-          "pl": 681,
+          "market": "Will the US strike Iran next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-759",
+          "ts": 1767996784,
+          "odds": 97,
+          "stake": 10597,
+          "pl": 327,
           "won": true,
-          "tx": null
+          "tx": "0xf7d840b10c2bd2cf3c778d34aa15c2b4854b38ccfd015285cac0c7b9781ac48a"
         },
         {
-          "market": "Lighter Airdrop before January 1?",
-          "url": "https://polymarket.com/event/what-day-will-the-lighter-airdrop-be-489",
-          "ts": 1767043089,
-          "odds": 91,
-          "stake": 8741,
-          "pl": 631,
+          "market": "Will the US strike Cuba next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-759",
+          "ts": 1767996784,
+          "odds": 100,
+          "stake": 10207,
+          "pl": 39,
           "won": true,
-          "tx": "0xfaf6397e22cdf5c192716d7617db351b9389381cc58d2d8df216610bc013d4c9"
+          "tx": "0xaac963ab874ed62c30479cba98cc2ead925173e655a7f74ca4dd5e27ea3ce48a"
         }
       ],
       "alsoBinomial": false
@@ -430,6 +440,52 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
+      "username": null,
+      "tier": "high",
+      "S": 810.5,
+      "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+      "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+      "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
+      "stake": 73919,
+      "odds": 81,
+      "won": true,
+      "episodeProfit": 17517,
+      "zBetCross": 12.74,
+      "zBetWithin": 0.71,
+      "zProfitCross": 15.12,
+      "lateBuyFraction": 1,
+      "directionalScore": 0.923,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 2,
+      "ledger": [
+        {
+          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+          "ts": 1772285801,
+          "odds": 81,
+          "stake": 73919,
+          "pl": 17517,
+          "won": true,
+          "tx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e"
+        },
+        {
+          "market": "US x Iran permanent peace deal by October 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781086989,
+          "odds": 14,
+          "stake": 3945,
+          "pl": -1450,
+          "won": false,
+          "tx": "0x6f6c9d6bc2f390e6585c915dcffccfce873896875595ac526c236d36267d1337"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0x39ddf7c23d7f1d6537fef553734187109fde0b7b",
       "username": null,
       "tier": "notable",
@@ -538,10 +594,46 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
+      "username": null,
+      "tier": "notable",
+      "S": 683.2,
+      "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+      "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+      "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
+      "stake": 20935,
+      "odds": 48,
+      "won": true,
+      "episodeProfit": 22588,
+      "zBetCross": 3.5,
+      "zBetWithin": 0,
+      "zProfitCross": 19.53,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 1,
+      "ledger": [
+        {
+          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+          "ts": 1771786958,
+          "odds": 48,
+          "stake": 20935,
+          "pl": 22588,
+          "won": true,
+          "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0x7e31a5e9c31638483614e9fd9f945bb34692454d",
       "username": null,
       "tier": "notable",
-      "S": 620.5,
+      "S": 642,
       "market": "Will a province schedule a referendum to leave Canada before 2027?",
       "marketUrl": "https://polymarket.com/event/will-a-province-schedule-a-referendum-to-leave-canada-before-2027",
       "episodeTx": "0xaf5f6fd526206fbd121ef498b2f72a4eb71c4835d1c7886ea55eb3a13eff483e",
@@ -550,7 +642,7 @@
       "won": true,
       "episodeProfit": 3991,
       "zBetCross": 13.04,
-      "zBetWithin": 0.71,
+      "zBetWithin": 1.78,
       "zProfitCross": 9.03,
       "lateBuyFraction": 0,
       "directionalScore": 0.951,
@@ -558,7 +650,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 2,
+      "betsCount": 5,
       "ledger": [
         {
           "market": "Will a province schedule a referendum to leave Canada before 2027?",
@@ -571,6 +663,26 @@
           "tx": "0xaf5f6fd526206fbd121ef498b2f72a4eb71c4835d1c7886ea55eb3a13eff483e"
         },
         {
+          "market": "US x Iran permanent peace deal by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781622415,
+          "odds": 99,
+          "stake": 1599,
+          "pl": 11,
+          "won": true,
+          "tx": "0x180ab54d9a45df2d77dc074e3e09b85230d9f1db80a923bbeca40d89e28cf635"
+        },
+        {
+          "market": "US x Iran permanent peace deal by July 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781622394,
+          "odds": 99,
+          "stake": 539,
+          "pl": 3,
+          "won": true,
+          "tx": "0xb9091c3544c31209a1717527c5e54454698444685aec3ec1bc87f0e54daea4fd"
+        },
+        {
           "market": "Will the US strike Cuba next?",
           "url": "https://polymarket.com/event/next-country-us-strikes-476",
           "ts": 1770225115,
@@ -579,6 +691,16 @@
           "pl": 3,
           "won": true,
           "tx": "0xf856dc7418e9f73d60e011d0f7a562735ef6a32a68b1ee6bd836f86b131117ac"
+        },
+        {
+          "market": "US x Iran permanent peace deal by April 24, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1776967312,
+          "odds": 100,
+          "stake": 165,
+          "pl": 1,
+          "won": true,
+          "tx": "0x9bb32cd9541a97bb0389af1b242b71c52667953955c203c0973ff73406a48e8a"
         }
       ],
       "alsoBinomial": true
@@ -753,7 +875,7 @@
       "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
       "username": null,
       "tier": "notable",
-      "S": 609.4,
+      "S": 616.1,
       "market": "Will the US strike Somalia next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
       "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
@@ -762,7 +884,7 @@
       "won": true,
       "episodeProfit": 1882,
       "zBetCross": 7.77,
-      "zBetWithin": 0.82,
+      "zBetWithin": 1.15,
       "zProfitCross": 12.83,
       "lateBuyFraction": 0.273,
       "directionalScore": 1,
@@ -770,7 +892,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 4,
+      "betsCount": 6,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
@@ -803,6 +925,26 @@
           "tx": "0x7c6abb65db658c76fb55153cf4dbe4ad1b6ae5b0244678944866fba5f1d8a833"
         },
         {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-163",
+          "ts": 1771433134,
+          "odds": 85,
+          "stake": 1673,
+          "pl": 294,
+          "won": true,
+          "tx": "0x5f136a19c5a202609f33d66968abcd6ab1d3fbcd0381036a0343271d5399f4ab"
+        },
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-759",
+          "ts": 1768037952,
+          "odds": 72,
+          "stake": 379,
+          "pl": -379,
+          "won": false,
+          "tx": "0x6cbc9cfd01e94383479afaaa7b9f9920cc3e4e24478e28b28988f6b5c502ad2b"
+        },
+        {
           "market": "Will Trump physically sign US x Iran deal?",
           "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
           "ts": 1781734504,
@@ -819,7 +961,7 @@
       "address": "0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1",
       "username": "aenews2",
       "tier": "notable",
-      "S": 582.9,
+      "S": 583,
       "market": "MicroStrategy sells any Bitcoin by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
       "episodeTx": "0x4c0aeaf648ef2bb0076fc4b27bd88bdf03f800d9f9e8f71a5dd6a682567d4585",
@@ -828,7 +970,7 @@
       "won": true,
       "episodeProfit": 3102,
       "zBetCross": 13.95,
-      "zBetWithin": -0.05,
+      "zBetWithin": -0.04,
       "zProfitCross": 7.16,
       "lateBuyFraction": 0.688,
       "directionalScore": 1,
@@ -836,7 +978,7 @@
       "firstSeen": "Jan 14 2024",
       "createdOnChain": true,
       "created": "Feb 28 2025",
-      "betsCount": 156,
+      "betsCount": 160,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -982,10 +1124,176 @@
       "alsoBinomial": false
     },
     {
+      "address": "0xd49b42bce7ea10bac53e2901c188cae20ea4bdf9",
+      "username": null,
+      "tier": "notable",
+      "S": 580,
+      "market": "Will Trump and Xi handshake last 15 seconds or longer during the day of their next meeting in 2026?",
+      "marketUrl": "https://polymarket.com/event/how-long-will-trump-and-xi-shake-hands-when-they-meet",
+      "episodeTx": "0x80d8190a184de37234a9ac9e9c4e0705b62e6ac4e9d78719e1ab9a4f66aff3c8",
+      "stake": 13574,
+      "odds": 89,
+      "won": true,
+      "episodeProfit": 1700,
+      "zBetCross": 10.89,
+      "zBetWithin": 1.95,
+      "zProfitCross": 8.13,
+      "lateBuyFraction": 0.986,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 53,
+      "ledger": [
+        {
+          "market": "Will Keir Starmer be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 99,
+          "stake": 16746,
+          "pl": 99,
+          "won": true,
+          "tx": "0xa1496003402b42b1f125885730c215101d9db77e062048b28c96cca33342c592"
+        },
+        {
+          "market": "Will Benjamin Netanyahu be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 15490,
+          "pl": 21,
+          "won": true,
+          "tx": "0x178a847f85da9265b346257d6bd729ab75050bad56408ec0c7324170cc9717f4"
+        },
+        {
+          "market": "Will Mahmoud Abbas be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 15412,
+          "pl": 17,
+          "won": true,
+          "tx": "0x3a286128773c9ebbd6cfe6db39f1e5973738d8357b3aa24a7f810e39ccebf75d"
+        },
+        {
+          "market": "Will Trump and Xi handshake last 15 seconds or longer during the day of their next meeting in 2026?",
+          "url": "https://polymarket.com/event/how-long-will-trump-and-xi-shake-hands-when-they-meet",
+          "ts": 1778432487,
+          "odds": 89,
+          "stake": 13574,
+          "pl": 1700,
+          "won": true,
+          "tx": "0x80d8190a184de37234a9ac9e9c4e0705b62e6ac4e9d78719e1ab9a4f66aff3c8"
+        },
+        {
+          "market": "Will no listed leader be out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 11182,
+          "pl": 11,
+          "won": true,
+          "tx": "0x1c5535e14b3372ee64b74638beb6e75d8f24a9ea2ca2f7fc23d5d36c0017a7c2"
+        },
+        {
+          "market": "Will Sanae Takaichi be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 10861,
+          "pl": 14,
+          "won": true,
+          "tx": "0x211480039ddbd0cfad364bdac450b559f3cbe4b0fa805277e88c2a21260f034b"
+        },
+        {
+          "market": "Will Donald Trump be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 10539,
+          "pl": 11,
+          "won": true,
+          "tx": "0xa2543dea5bddf82f94b90667c79c7ef8efd8f9ca2123c680bfaab75ea5f62fb3"
+        },
+        {
+          "market": "Will Miguel Díaz-Canel be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 10245,
+          "pl": 11,
+          "won": true,
+          "tx": "0x157d6302c8ef2f20571131100bd44b93ad86c50ff43574bc79af652c70a76a22"
+        },
+        {
+          "market": "Will Luiz Inácio Lula da Silva be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 10085,
+          "pl": 10,
+          "won": true,
+          "tx": "0x4ff3bd4b06505ea8f4881bb8e51ec7336223d69ec93f2da1148669a86f2469dd"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778860385,
+          "odds": 99,
+          "stake": 9229,
+          "pl": 108,
+          "won": true,
+          "tx": "0xdc132f00474d348860fc598b81439e3a3a81e4bdb83b3f4806445113361fcb2a"
+        },
+        {
+          "market": "Will Vladimir Putin be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 9149,
+          "pl": 9,
+          "won": true,
+          "tx": "0x171d6b3582b17d063e2bd880cfaea7041de3a92f24f48379c2733b096a80b2ee"
+        },
+        {
+          "market": "Will Delcy Rodríguez be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 8855,
+          "pl": 9,
+          "won": true,
+          "tx": "0xa5886b46988fc05ce30c0de86cc17f884fdbedd9b047544a1fc7baec2883d09d"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 300k and 350k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778860385,
+          "odds": 98,
+          "stake": 8584,
+          "pl": 192,
+          "won": true,
+          "tx": "0x684f5d41653e2c129785e7a85f1d8b325e2cd895e0ec5b0882f044ea5d323b74"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 350k and 400k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778860387,
+          "odds": 97,
+          "stake": 8096,
+          "pl": 214,
+          "won": true,
+          "tx": "0xd970764ed26ef55d3bf4e634de3900a2b995d2e4b2249e5e1427fb6f417b4ea5"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": null,
       "tier": "notable",
-      "S": 541.2,
+      "S": 544.2,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": null,
@@ -994,7 +1302,7 @@
       "won": true,
       "episodeProfit": 4363,
       "zBetCross": 10.72,
-      "zBetWithin": 0.72,
+      "zBetWithin": 0.87,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -1002,7 +1310,7 @@
       "firstSeen": "Oct 13 2024",
       "createdOnChain": false,
       "created": null,
-      "betsCount": 145,
+      "betsCount": 193,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -1151,7 +1459,7 @@
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": null,
       "tier": "notable",
-      "S": 539.5,
+      "S": 540.7,
       "market": "Iran successfully targets shipping by June 27?",
       "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
       "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -1160,7 +1468,7 @@
       "won": true,
       "episodeProfit": 16392,
       "zBetCross": 2.27,
-      "zBetWithin": 0.87,
+      "zBetWithin": 0.93,
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -1168,7 +1476,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 15,
+      "betsCount": 17,
       "ledger": [
         {
           "market": "US and Iran sign an agreement by July 31, 2026?",
@@ -1209,6 +1517,16 @@
           "pl": 163,
           "won": true,
           "tx": "0x30ea133d8293bc8f9beff1210b914f51ea320771bda08632f82fece867d6cc11"
+        },
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-163",
+          "ts": 1771454694,
+          "odds": 86,
+          "stake": 2580,
+          "pl": 420,
+          "won": true,
+          "tx": "0x9b498e9d7cfd6bbce5f89253526fddfa3fb90b7d609d4d37643596de308d5452"
         },
         {
           "market": "Will the text of the US-Iran agreement be released by June 17?",
@@ -1271,6 +1589,16 @@
           "tx": "0x2b323d7ad6a0b54840b763e4d0111b4a6ca9e141640986dc61a88c428f543738"
         },
         {
+          "market": "Will the US strike Syria next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-759",
+          "ts": 1768076078,
+          "odds": 90,
+          "stake": 278,
+          "pl": 56,
+          "won": true,
+          "tx": "0x9eb96798a12217c9b78b444d57f77b045d89984976f8342026c1f831bdddc4f0"
+        },
+        {
           "market": "Iran successfully targets shipping by July 31?",
           "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
           "ts": 1782489148,
@@ -1289,26 +1617,6 @@
           "pl": 170,
           "won": true,
           "tx": "0xdbbe89ca2de8940d1e467e7dd71ebf3dfbd1c29838f9e406d61bcdbc0dcd1f9a"
-        },
-        {
-          "market": "Iran successfully targets shipping by August 31?",
-          "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
-          "ts": 1782489161,
-          "odds": 83,
-          "stake": 54,
-          "pl": 11,
-          "won": true,
-          "tx": "0x2a4d3b6c5f6bb9ba4126ab08692f06f4edd79be380761c939cf235b3e296076e"
-        },
-        {
-          "market": "Will the US strike Syria next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-476",
-          "ts": 1770721531,
-          "odds": 11,
-          "stake": 44,
-          "pl": -44,
-          "won": false,
-          "tx": "0xb5415db878404ec93895df78bab736a389fb3c2f98d77b3c11f93b5024ceeea0"
         }
       ],
       "alsoBinomial": true
@@ -1360,6 +1668,172 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x4f1d5ae26fc31472966e951af3183308736d8de2",
+      "username": null,
+      "tier": "notable",
+      "S": 535.2,
+      "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
+      "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+      "episodeTx": "0xdd053b8659edaefa21037220209455955c7d0fb6bb7b79a4283d2d6bf7140eb8",
+      "stake": 6259,
+      "odds": 81,
+      "won": true,
+      "episodeProfit": 1432,
+      "zBetCross": 10.69,
+      "zBetWithin": 1.65,
+      "zProfitCross": 7.37,
+      "lateBuyFraction": 0.268,
+      "directionalScore": 0.995,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 81,
+      "ledger": [
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776943700,
+          "odds": 99,
+          "stake": 12573,
+          "pl": 93,
+          "won": true,
+          "tx": "0x19b6afbf7a52959de91b9fafe6531e85f0ba7e1c5371ed90760ec3ba134a8dd8"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 300k and 350k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776943700,
+          "odds": 99,
+          "stake": 12480,
+          "pl": 190,
+          "won": true,
+          "tx": "0x3b35f0e273d808d717c304e322f4ba47f1a0d26e927a8713cb4b433f0ec3910f"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 350k and 400k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776943700,
+          "odds": 98,
+          "stake": 12330,
+          "pl": 241,
+          "won": true,
+          "tx": "0x1d13321f4c8ff9745b137b0cd8f56d6ca6eaa100a4c1967430bb90b48aba4455"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 400k and 450k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776943702,
+          "odds": 94,
+          "stake": 10860,
+          "pl": 670,
+          "won": true,
+          "tx": "0x6d899bd6a055ca24227c9f312bc78008d248e064b7f16481d84ab3c40392c9fe"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776943700,
+          "odds": 97,
+          "stake": 10748,
+          "pl": 343,
+          "won": true,
+          "tx": "0x56e26708f7e28e4fb50fd65ca857ac5a8020a111d6c2e938b33a129065656f5f"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776943700,
+          "odds": 94,
+          "stake": 10669,
+          "pl": 678,
+          "won": true,
+          "tx": "0x1e31dd8e1f67534e4acc808ac703382e8cf8a0d8c6116088ff320c671823d1bf"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776943700,
+          "odds": 81,
+          "stake": 6259,
+          "pl": 1432,
+          "won": true,
+          "tx": "0xdd053b8659edaefa21037220209455955c7d0fb6bb7b79a4283d2d6bf7140eb8"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776943700,
+          "odds": 39,
+          "stake": 3737,
+          "pl": -3737,
+          "won": false,
+          "tx": "0xf8e6909f4d2d5d047b9475b7f960ad4b94694401f2a70b0bf27f79cd954fb991"
+        },
+        {
+          "market": "Will Jerome Powell depart as Fed Chair between June 27 and July 3?",
+          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
+          "ts": 1778083799,
+          "odds": 100,
+          "stake": 1235,
+          "pl": 3,
+          "won": true,
+          "tx": "0x39b9e5e2ec7740a5bd4e2291d7c4196159167daeab82a1f1df981aea6abfe544"
+        },
+        {
+          "market": "Will Jerome Powell depart as Fed Chair between May 30 and June 5?",
+          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
+          "ts": 1778083799,
+          "odds": 99,
+          "stake": 1231,
+          "pl": 14,
+          "won": true,
+          "tx": "0xdcd68d3f4a06393b9bea37b2328415df9dab0c027a1989bab1ee77f83bdb2d06"
+        },
+        {
+          "market": "Will Jerome Powell depart as Fed Chair between May 23 and May 29?",
+          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
+          "ts": 1778083799,
+          "odds": 92,
+          "stake": 1139,
+          "pl": 101,
+          "won": true,
+          "tx": "0xa30f775d33214e008c49da0a703168ea1b15599b7a2e8f51b2f1a70649ef553c"
+        },
+        {
+          "market": "Will Jerome Powell depart as Fed Chair after July 3?",
+          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
+          "ts": 1778083799,
+          "odds": 100,
+          "stake": 975,
+          "pl": 1,
+          "won": true,
+          "tx": "0x67321ad2330034974fb8cedb980ce7358de7efe6b07bfddaa3e74ae55bdcd703"
+        },
+        {
+          "market": "Will Jerome Powell depart as Fed Chair between June 6 and June 12?",
+          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
+          "ts": 1778083799,
+          "odds": 100,
+          "stake": 803,
+          "pl": 4,
+          "won": true,
+          "tx": "0xe79563c89b8976fd422ab4cf6f7b4330bb7af60f1cac095a0a4d333cb992a38d"
+        },
+        {
+          "market": "Will Jerome Powell depart as Fed Chair between June 13 and June 19?",
+          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
+          "ts": 1778083799,
+          "odds": 100,
+          "stake": 771,
+          "pl": 2,
+          "won": true,
+          "tx": "0x8678914a58c1b8d945fb31c259ef70de61f4d21d7f171a7e54bbe81f1bbd38fe"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0xb10047d6a254b2ebb306d7a7d13bf59171ab6461",
       "username": "Parz1vaI",
       "tier": "notable",
@@ -1372,7 +1846,7 @@
       "won": true,
       "episodeProfit": 6229,
       "zBetCross": 7.25,
-      "zBetWithin": 0.07,
+      "zBetWithin": 0.06,
       "zProfitCross": 11.49,
       "lateBuyFraction": 0,
       "directionalScore": 0.505,
@@ -1380,7 +1854,7 @@
       "firstSeen": "Aug 03 2024",
       "createdOnChain": false,
       "created": null,
-      "betsCount": 151,
+      "betsCount": 152,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
