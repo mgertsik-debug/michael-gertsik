@@ -137,7 +137,7 @@
   var WSIG = {
     blackout:{ label:"news blackout", weight:35, color:'#FBBF24', tip:"Nothing in the world's news matched this market's topic in the 24h before the bet. Betting big before there's any public news is the clearest 'they knew first' tell — so it's weighted highest." },
     repeat:{ label:"repeat suspect", weight:30, color:'#F87171', tip:"This wallet is ALREADY a published Suspect on the Suspect Wallets tracker — a confirmed-pattern account placing a fresh live bet. The bridge between the two trackers, and the strongest live tell." },
-    outsized:{ label:"outsized trade", weight:25, color:'#5EEAD4', tip:"A whale-sized bet relative to the MARKET — ≥8% of the market's 24h volume, or (with enough peers) ≥3σ / 10× the typical trade. One magnitude signal, counted once." },
+    outsized:{ label:"outsized trade", weight:20, color:'#5EEAD4', tip:"A whale-sized bet — a large ABSOLUTE position (≥$25k, catches whales on deep markets), ≥8% of the market's 24h volume (thin markets), or ≥3σ/10× the typical trade vs peers. One magnitude signal, counted once." },
     longshot:{ label:"long-shot conviction", weight:25, color:'#A78BFA', tip:"A material bet into an outcome the market prices as unlikely (≤35%). Why stake real money on something the market says won't happen — unless you expect it to?" },
     fresh:{ label:"fresh wallet", weight:15, color:'#7FB2FF', tip:"The wallet's first-ever trade was within days of this bet — no track record before a big directional position (a purpose-built-wallet pattern)." },
     anticipated:{ label:"anticipated filing", weight:12, color:'#34D399', tip:"A matching U.S. regulatory filing was published AFTER this bet — the trade foresaw a not-yet-public regulatory action." },
@@ -148,7 +148,7 @@
     size:{ label:"outsized vs market", weight:5, color:'#5EEAD4', tip:"(legacy) trade size ≥ 3σ above peer trades on this market" },
     whale:{ label:"lone whale", weight:4, color:'#7FB2FF', tip:"(legacy) 10×+ the 90th-percentile trade on this market" }
   };
-  var WGMAX = 142;
+  var WGMAX = 137;
   var WGRID = "88px minmax(180px,1.7fr) 132px 86px 78px minmax(170px,1.3fr) 92px 108px 60px";
   var wlState = { expandedId:null, sort:'recency', search:'', quick:{blackout:false,big:false,hardened:false}, legendOpen:false, scoreOpen:false, copied:null };
 
