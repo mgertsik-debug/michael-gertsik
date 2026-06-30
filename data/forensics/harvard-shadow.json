@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782776873,
-  "total": 80,
+  "total": 82,
   "byTier": {
     "extreme": 12,
     "high": 13,
-    "notable": 55
+    "notable": 57
   },
   "medianS": 678.9,
-  "p90": 1308.6,
-  "p95": 1527.7,
+  "p90": 1236.2,
+  "p95": 1404.4,
   "p99": 1825.5,
   "minS": 530.7,
   "maxS": 1825.5,
-  "over500": 80,
+  "over500": 82,
   "alsoBinomial": 25,
-  "onlyHarvard": 55,
+  "onlyHarvard": 57,
   "observed": 222393,
   "reviewed": 222393,
-  "screened": 10301,
-  "scored": 6076,
+  "screened": 10306,
+  "scored": 6077,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -2251,16 +2251,16 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1011.6,
+      "S": 1011.4,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
-      "stake": 63949,
+      "stake": 63956,
       "odds": 89,
       "won": true,
-      "episodeProfit": 7516,
+      "episodeProfit": 7509,
       "zBetCross": 17.55,
-      "zBetWithin": 8.02,
+      "zBetWithin": 8.01,
       "zProfitCross": 13.42,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -2285,8 +2285,8 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1758327602,
           "odds": 89,
-          "stake": 63949,
-          "pl": 7516,
+          "stake": 63956,
+          "pl": 7509,
           "won": true,
           "tx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301"
         },
@@ -2295,10 +2295,10 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1758022936,
           "odds": 92,
-          "stake": 56708,
-          "pl": 5242,
+          "stake": 56709,
+          "pl": 5241,
           "won": true,
-          "tx": null
+          "tx": "0xd7ddbafb802e71b94f36a25ab11126836700a50b9f7c4a7d2920a74f3fbc7ce7"
         },
         {
           "market": "Will the Conservative Liberals win the most seats in the 2025 Netherlands parliamentary election?",
@@ -2345,10 +2345,10 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1761806533,
           "odds": 95,
-          "stake": 29964,
-          "pl": 1446,
+          "stake": 30032,
+          "pl": 1378,
           "won": true,
-          "tx": null
+          "tx": "0x0f618e0c27c0a000a2a506ac7568892daf67760071efd72b9768bea0ca19b195"
         },
         {
           "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
@@ -2365,8 +2365,8 @@
           "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
           "ts": 1749227473,
           "odds": 93,
-          "stake": 19334,
-          "pl": 1394,
+          "stake": 19390,
+          "pl": 1249,
           "won": true,
           "tx": "0xb8fe9f749c604a72cae9e80e8c30d215021aa35ea1b7e4f2dff8d61367cb8139"
         },
@@ -4032,6 +4032,172 @@
         }
       ],
       "alsoBinomial": true
+    },
+    {
+      "address": "0x421bf8e567f99bb544f317f38fe71719dbb6ac12",
+      "username": "421bf8e567f99bB544f317F38FE71719dbb6ac12",
+      "tier": "notable",
+      "S": 798.1,
+      "market": "Will the Party for Freedom win the second most seats in the 2025 Netherlands parliamentary election?",
+      "marketUrl": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+      "episodeTx": "0xce782a32aad276c51b1249ff299b65ff60cf37402302e8de7dac5db448f1a54f",
+      "stake": 48108,
+      "odds": 85,
+      "won": true,
+      "episodeProfit": 8409,
+      "zBetCross": 20.82,
+      "zBetWithin": 1.38,
+      "zProfitCross": 7.58,
+      "lateBuyFraction": 0.85,
+      "directionalScore": 0.98,
+      "accountPnl": 261352,
+      "firstSeen": "Nov 07 2024",
+      "createdOnChain": true,
+      "created": "Nov 07 2024",
+      "betsCount": 62,
+      "ledger": [
+        {
+          "market": "U.S. anti-cartel ground operation in Mexico by January 31?",
+          "url": "https://polymarket.com/event/us-anti-cartel-ground-operation-in-mexico-by-january-31",
+          "ts": 1770029182,
+          "odds": 100,
+          "stake": 154290,
+          "pl": 710,
+          "won": true,
+          "tx": "0xbadeb9ced9ddb3f647834ad755524daa4ec59c2d5a40acf61f2d4a2e4b9dce11"
+        },
+        {
+          "market": "US x Venezuela military engagement by December 31?",
+          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by-december-31-391-819-722-945-174-285-817-971-353-859-836-598-255-382-192-983",
+          "ts": 1767486411,
+          "odds": 100,
+          "stake": 74850,
+          "pl": 150,
+          "won": true,
+          "tx": "0xbae0e53eb53b4bff6d64ef1010b326c53fa963d628cbe87db4f93375614fef44"
+        },
+        {
+          "market": "Will Trump talk to Vladimir Putin in January?",
+          "url": "https://polymarket.com/event/will-trump-talk-to-vladimir-putin-in-january",
+          "ts": 1770138304,
+          "odds": 100,
+          "stake": 69860,
+          "pl": 140,
+          "won": true,
+          "tx": "0x8ae34103366399891f0f6b0b3d9525fdf294c20e3af7caf95b69c17caced647e"
+        },
+        {
+          "market": "Will Democrats 66 win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761811837,
+          "odds": 98,
+          "stake": 49652,
+          "pl": 978,
+          "won": true,
+          "tx": "0xbe60c8c6c43964555144d8cb1b1da88a5cdd50da77779ddc61ad383d693a32b5"
+        },
+        {
+          "market": "Will the Party for Freedom win the second most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+          "ts": 1761758157,
+          "odds": 85,
+          "stake": 48108,
+          "pl": 8409,
+          "won": true,
+          "tx": "0xce782a32aad276c51b1249ff299b65ff60cf37402302e8de7dac5db448f1a54f"
+        },
+        {
+          "market": "Will DraftKings launch a prediction market in 2025?",
+          "url": "https://polymarket.com/event/will-draftkings-launch-a-prediction-market-in-2025",
+          "ts": 1766150402,
+          "odds": 100,
+          "stake": 47280,
+          "pl": 47,
+          "won": true,
+          "tx": "0x786a4753bafdcd2c6a6a523e3fcedf7451f8d1ab103b4d5ccc171b3d9515dbc0"
+        },
+        {
+          "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+          "ts": 1761781153,
+          "odds": 99,
+          "stake": 46987,
+          "pl": 661,
+          "won": true,
+          "tx": "0xc5a0e73be5236b884ae2722c8dcbef95382f4b1244ccc886735b4a9da67897eb"
+        },
+        {
+          "market": "Will Lady Gaga win 3 Grammys?",
+          "url": "https://polymarket.com/event/will-lady-gaga-win-3-grammys",
+          "ts": 1770090942,
+          "odds": 100,
+          "stake": 42957,
+          "pl": 43,
+          "won": true,
+          "tx": "0xacea998912561b1e4499fbb134b62f86639ad4cd284b426f6ec3a68a4dbee0b6"
+        },
+        {
+          "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761787115,
+          "odds": 96,
+          "stake": 31260,
+          "pl": 1167,
+          "won": true,
+          "tx": "0x23a29c037993a159496e1acf0041313bfd7418906167263bbfecb22addeae674"
+        },
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-329",
+          "ts": 1768512912,
+          "odds": 98,
+          "stake": 28215,
+          "pl": 489,
+          "won": true,
+          "tx": "0x9649753d4c581b810c8afbf0ce0f874bb36bafc9b653d56c6829f7370bfc205f"
+        },
+        {
+          "market": "Will the GreenLeft–Labour Party alliance win the second most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+          "ts": 1761768637,
+          "odds": 99,
+          "stake": 27867,
+          "pl": -168,
+          "won": true,
+          "tx": "0xca12070ce9c658f08827edd253f619418abb363d3f7fc155c8b4dba563274474"
+        },
+        {
+          "market": "Will the US strike Iran next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-785",
+          "ts": 1769718380,
+          "odds": 98,
+          "stake": 20229,
+          "pl": 434,
+          "won": true,
+          "tx": "0x33b15c32354e7763603f24a6d4b1cd0588e6f6cafd7b28959134aea099b924aa"
+        },
+        {
+          "market": "Will Donald Trump say \"nuclear\" 3+ times during Israel President events on December 29?",
+          "url": "https://polymarket.com/event/will-donald-trump-say-nuclear-3-times-during-israel-president-events-on-december-29",
+          "ts": 1767369051,
+          "odds": 100,
+          "stake": 13377,
+          "pl": 13,
+          "won": true,
+          "tx": "0x2ce5620ea8ca57d04603cce0974916631fb3345b190f5edb9dcbe87c93c85e25"
+        },
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-391",
+          "ts": 1768345532,
+          "odds": 99,
+          "stake": 12942,
+          "pl": 101,
+          "won": true,
+          "tx": "0xfae0b285d8872b4b7a723885b538520c188365699134e0ba9a6973ea4bf13abb"
+        }
+      ],
+      "alsoBinomial": false
     },
     {
       "address": "0x9bac9cc44f57fbd31a02f4fe08545ccdc8958684",
@@ -7064,172 +7230,6 @@
         }
       ],
       "alsoBinomial": false
-    },
-    {
-      "address": "0x662ce90c51d613a2975a536272e477ab7c38bfe7",
-      "username": "ondra123",
-      "tier": "notable",
-      "S": 618.4,
-      "market": "Will Maduro's rule survive a US military engagement?",
-      "marketUrl": "https://polymarket.com/event/will-the-maduro-regime-survive-a-us-military-engagement",
-      "episodeTx": "0x92583119834af70ec972afbe4f6639bf29f53a5dcdf294a5ce7a309f5147da8b",
-      "stake": 8562,
-      "odds": 74,
-      "won": true,
-      "episodeProfit": 2979,
-      "zBetCross": 5.43,
-      "zBetWithin": 1.16,
-      "zProfitCross": 15.27,
-      "lateBuyFraction": 0,
-      "directionalScore": 0.147,
-      "accountPnl": -2868,
-      "firstSeen": "Apr 10 2025",
-      "createdOnChain": true,
-      "created": "Apr 10 2025",
-      "betsCount": 272,
-      "ledger": [
-        {
-          "market": "Israel x Hamas ceasefire by September 30?",
-          "url": "https://polymarket.com/event/israel-x-hamas-ceasefire-by-september-30",
-          "ts": 1754135426,
-          "odds": 91,
-          "stake": 42232,
-          "pl": 4291,
-          "won": true,
-          "tx": "0x0556dca45bb5ddb6024febc5db22e90b8d46644f330b34117956169068c22503"
-        },
-        {
-          "market": "Lisa Cook out as Fed Governor by September 30?",
-          "url": "https://polymarket.com/event/lisa-cook-out-as-fed-governor-by-september-30",
-          "ts": 1756326763,
-          "odds": 90,
-          "stake": 32739,
-          "pl": 3816,
-          "won": true,
-          "tx": "0x60c98853a20b54ed9760e59060aadb8fe833b71b1547c029e7d37142a18bafd6"
-        },
-        {
-          "market": "Fed decreases interest rates by 50+ bps after September 2025 meeting?",
-          "url": "https://polymarket.com/event/fed-decreases-interest-rates-by-50-bps-after-september-2025-meeting",
-          "ts": 1756328215,
-          "odds": 90,
-          "stake": 31438,
-          "pl": 3550,
-          "won": true,
-          "tx": "0x76dd668de16c0ab3d4f7ef162544ac6561eeb8758a7729844dade2ff7a78b73e"
-        },
-        {
-          "market": "US x Venezuela military engagement by November 30?",
-          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by-november-30-216-397-226-467-735-374-192-441-421-482-389",
-          "ts": 1762279813,
-          "odds": 83,
-          "stake": 25187,
-          "pl": 5063,
-          "won": true,
-          "tx": "0x9f5e8611e0835a2dafa6e2f8d5d7cd72baf7b7c77ac9641f9a755408e24af677"
-        },
-        {
-          "market": "Will the US not strike Iran by February 28, 2026?",
-          "url": "https://polymarket.com/event/will-the-us-not-strike-iran-by-february-28-2026",
-          "ts": 1769628190,
-          "odds": 77,
-          "stake": 24044,
-          "pl": -24044,
-          "won": false,
-          "tx": "0xb7883cf841d1740d901655a9d07038d67559f62dd43785fa7331f7ef4e20d006"
-        },
-        {
-          "market": "Will the US not strike Iran by January 31, 2026?",
-          "url": "https://polymarket.com/event/will-the-us-not-strike-iran-by-january-31-2026-314",
-          "ts": 1768303707,
-          "odds": 82,
-          "stake": 20669,
-          "pl": 4558,
-          "won": true,
-          "tx": "0x6821ecc67e6078084ba549457a2b21a82c0f3a37e91545a5ade483a958595107"
-        },
-        {
-          "market": "Israel strikes Iran by January 31, 2026?",
-          "url": "https://polymarket.com/event/israel-strikes-iran-by-january-31-2026-894-994-453",
-          "ts": 1767906646,
-          "odds": 75,
-          "stake": 19993,
-          "pl": 6525,
-          "won": true,
-          "tx": "0x988ce57ef0b93ee0ef8fb441d78d1ad36aff688350a01b3bf64dbc4ca7367c31"
-        },
-        {
-          "market": "No change in Fed interest rates after July 2025 meeting?",
-          "url": "https://polymarket.com/event/no-change-in-fed-interest-rates-after-july-2025-meeting",
-          "ts": 1752998549,
-          "odds": 96,
-          "stake": 18950,
-          "pl": 809,
-          "won": true,
-          "tx": "0x9dbf13665fa208f7fd4d0dcb525e5f10ce54a35a58272fd624c4344e67f4ae83"
-        },
-        {
-          "market": "Nuclear weapon detonation in 2025?",
-          "url": "https://polymarket.com/event/nuclear-weapon-detonation-in-2025",
-          "ts": 1762374285,
-          "odds": 92,
-          "stake": 13340,
-          "pl": 1160,
-          "won": true,
-          "tx": "0x49da0743882a9ae79d73f95fe570ca72db8b2d24253b92eb193cf60cce1fbbb1"
-        },
-        {
-          "market": "Israel x Hamas ceasefire by September 15?",
-          "url": "https://polymarket.com/event/israel-x-hamas-ceasefire-by-september-15",
-          "ts": 1753992552,
-          "odds": 70,
-          "stake": 13321,
-          "pl": 5726,
-          "won": true,
-          "tx": "0x848df15e52464428dc71146cda8ca0f998a1f233382d5ba588b21653ed7178e9"
-        },
-        {
-          "market": "Israel military action against Iran in July?",
-          "url": "https://polymarket.com/event/israel-military-action-against-iran-in-july",
-          "ts": 1753097638,
-          "odds": 95,
-          "stake": 13220,
-          "pl": 766,
-          "won": true,
-          "tx": "0xf6ddc3d4e93c90ddaffa2385cc8258028345eb6c50e0e5e888c1ae6e6d66748f"
-        },
-        {
-          "market": "U.S. x Russia Nuclear deal by December 31?",
-          "url": "https://polymarket.com/event/us-x-russia-nuclear-deal-by-december-31",
-          "ts": 1762374337,
-          "odds": 94,
-          "stake": 11994,
-          "pl": 731,
-          "won": true,
-          "tx": "0x8595e8a49a609e50a1173862631ccf60234c98ccecd27679cbe61a2a59019f0e"
-        },
-        {
-          "market": "Israel x Hamas ceasefire by August 31?",
-          "url": "https://polymarket.com/event/israel-x-hamas-ceasefire-by-august-31",
-          "ts": 1752569659,
-          "odds": 57,
-          "stake": 11844,
-          "pl": 8969,
-          "won": true,
-          "tx": "0xcfbd783eef25c2453b6e8ae02290ceaf9bf97107f7850cbdbc8183fa7a786edf"
-        },
-        {
-          "market": "Russia x Ukraine ceasefire in 2025?",
-          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-in-2025",
-          "ts": 1762373349,
-          "odds": 94,
-          "stake": 11048,
-          "pl": 703,
-          "won": true,
-          "tx": "0xbca3cfbf36205e29d5f07c680e0f5b994a34b4def9d36a9dd374c0c0b01bab2c"
-        }
-      ],
-      "alsoBinomial": true
     }
   ]
 }
