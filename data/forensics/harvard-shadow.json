@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782783439,
-  "total": 32,
+  "total": 35,
   "byTier": {
     "extreme": 4,
     "high": 7,
-    "notable": 21
+    "notable": 24
   },
-  "medianS": 724.4,
-  "p90": 1161.7,
+  "medianS": 704.7,
+  "p90": 1162,
   "p95": 1190.1,
   "p99": 1377.7,
-  "minS": 532.1,
+  "minS": 532.2,
   "maxS": 1377.7,
-  "over500": 32,
-  "alsoBinomial": 9,
-  "onlyHarvard": 23,
-  "observed": 201099,
-  "reviewed": 201099,
-  "screened": 5716,
-  "scored": 3552,
+  "over500": 35,
+  "alsoBinomial": 11,
+  "onlyHarvard": 24,
+  "observed": 201268,
+  "reviewed": 201268,
+  "screened": 5794,
+  "scored": 3589,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -403,7 +403,7 @@
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
       "username": "SaylorMoon",
       "tier": "extreme",
-      "S": 1161.7,
+      "S": 1162,
       "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0x9969f3e97742fef0c3cf4364b34ebc5b6daa435aaa1b87cb91a0532d2da89d05",
@@ -412,7 +412,7 @@
       "won": true,
       "episodeProfit": 5257,
       "zBetCross": 18.97,
-      "zBetWithin": 0.34,
+      "zBetWithin": 0.35,
       "zProfitCross": 22.35,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -420,7 +420,7 @@
       "firstSeen": "Dec 16 2024",
       "createdOnChain": true,
       "created": "Dec 16 2024",
-      "betsCount": 55,
+      "betsCount": 56,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -735,7 +735,7 @@
       "address": "0x53e55bc7cb3d67ad177c023ce891ad076a9d6177",
       "username": "Arbguy",
       "tier": "high",
-      "S": 1051,
+      "S": 1051.2,
       "market": "Will US or Israel strike Iran by February 28, 2026?",
       "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
       "episodeTx": "0x2b3884daa45c21d3860d4514164f7fed4f0bbf7d46af25a46116dc8e227e72df",
@@ -744,7 +744,7 @@
       "won": true,
       "episodeProfit": 190706,
       "zBetCross": 7.46,
-      "zBetWithin": 0.2,
+      "zBetWithin": 0.21,
       "zProfitCross": 28.15,
       "lateBuyFraction": 0.396,
       "directionalScore": 1,
@@ -752,7 +752,7 @@
       "firstSeen": "Jul 03 2024",
       "createdOnChain": true,
       "created": "Jul 03 2024",
-      "betsCount": 100,
+      "betsCount": 101,
       "ledger": [
         {
           "market": "Russia x Ukraine ceasefire by June 30, 2026?",
@@ -901,7 +901,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1011.1,
+      "S": 1015.4,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -910,7 +910,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 6.67,
+      "zBetWithin": 6.88,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -918,7 +918,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "May 18 2026",
-      "betsCount": 259,
+      "betsCount": 276,
       "ledger": [
         {
           "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1565,7 +1565,7 @@
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
       "username": "classified",
       "tier": "high",
-      "S": 817.3,
+      "S": 817.6,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -1574,7 +1574,7 @@
       "won": true,
       "episodeProfit": 17517,
       "zBetCross": 12.74,
-      "zBetWithin": 1.05,
+      "zBetWithin": 1.06,
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
@@ -1582,7 +1582,7 @@
       "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
-      "betsCount": 73,
+      "betsCount": 74,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 30, 2026?",
@@ -2583,7 +2583,7 @@
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
       "username": "tourists",
       "tier": "notable",
-      "S": 691.6,
+      "S": 691.7,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -2600,7 +2600,7 @@
       "firstSeen": "May 12 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 72,
+      "betsCount": 73,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
@@ -2749,7 +2749,7 @@
       "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
       "username": "siick",
       "tier": "notable",
-      "S": 688.5,
+      "S": 688.9,
       "market": "Will the US strike Somalia next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
       "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
@@ -2758,7 +2758,7 @@
       "won": true,
       "episodeProfit": 1882,
       "zBetCross": 7.77,
-      "zBetWithin": 4.77,
+      "zBetWithin": 4.79,
       "zProfitCross": 12.83,
       "lateBuyFraction": 0.273,
       "directionalScore": 1,
@@ -2766,7 +2766,7 @@
       "firstSeen": "Jun 15 2025",
       "createdOnChain": true,
       "created": "Feb 25 2025",
-      "betsCount": 159,
+      "betsCount": 162,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
@@ -3127,7 +3127,7 @@
       "address": "0xbaa2bcb5439e985ce4ccf815b4700027d1b92c73",
       "username": "denizz",
       "tier": "notable",
-      "S": 636.7,
+      "S": 636.8,
       "market": "Maduro out by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/maduro-out-in-2025",
       "episodeTx": "0xa811fedad0f6b9b2d5241dba5ae6e57bbb0578c568114e36c7155d6476645e08",
@@ -3136,7 +3136,7 @@
       "won": true,
       "episodeProfit": 8269,
       "zBetCross": 9.21,
-      "zBetWithin": -0.02,
+      "zBetWithin": -0.01,
       "zProfitCross": 12.94,
       "lateBuyFraction": 1,
       "directionalScore": 0.379,
@@ -3144,7 +3144,7 @@
       "firstSeen": "Sep 11 2024",
       "createdOnChain": true,
       "created": "Sep 11 2024",
-      "betsCount": 92,
+      "betsCount": 93,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -3957,7 +3957,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 580.5,
+      "S": 580.8,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0x09021f0a102b1c3acc51a947ebcd52ad686bc7d23b80125e1a37d74627f66ab6",
@@ -3966,7 +3966,7 @@
       "won": true,
       "episodeProfit": 4365,
       "zBetCross": 10.72,
-      "zBetWithin": 2.68,
+      "zBetWithin": 2.7,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -3974,7 +3974,7 @@
       "firstSeen": "Oct 13 2024",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1308,
+      "betsCount": 1325,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -4118,6 +4118,172 @@
         }
       ],
       "alsoBinomial": false
+    },
+    {
+      "address": "0xcdf82242c9984bd8d274085ab54165633c54b8ea",
+      "username": "momo513",
+      "tier": "notable",
+      "S": 575.8,
+      "market": "Nuclear weapon detonation by December 31?",
+      "marketUrl": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
+      "episodeTx": "0x958f9b483dff5964ea0987473115ac57a015aae700c4a571e5a437ffa36ca3d0",
+      "stake": 6574,
+      "odds": 83,
+      "won": true,
+      "episodeProfit": 1339,
+      "zBetCross": 10.32,
+      "zBetWithin": 0.27,
+      "zProfitCross": 10.08,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": 10006,
+      "firstSeen": "Sep 28 2025",
+      "createdOnChain": true,
+      "created": "Sep 28 2025",
+      "betsCount": 61,
+      "ledger": [
+        {
+          "market": "Xi Jinping out in 2025?",
+          "url": "https://polymarket.com/event/xi-jinping-out-in-2025",
+          "ts": 1759084883,
+          "odds": 96,
+          "stake": 32672,
+          "pl": 1299,
+          "won": true,
+          "tx": "0x5324b9cfec4720b99b5b8c0df5f02b545e6042d36cb3fc0c02d0e7defb9bac06"
+        },
+        {
+          "market": "Will the Fed increase interest rates by 25+ bps after the April 2026 meeting?",
+          "url": "https://polymarket.com/event/will-the-fed-increase-interest-rates-by-25-bps-after-the-april-2026-meeting",
+          "ts": 1767439029,
+          "odds": 98,
+          "stake": 13080,
+          "pl": 260,
+          "won": true,
+          "tx": "0xb70acb9f28299730ea4d27ee5d59673da2f3b4b364034df0f2d04f75106b4e6c"
+        },
+        {
+          "market": "Strait of Hormuz traffic returns to normal by June 15?",
+          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-june-15",
+          "ts": 1780026003,
+          "odds": 97,
+          "stake": 12088,
+          "pl": 396,
+          "won": true,
+          "tx": "0xfa38ee13ec74d0a088ebd135d2d811ffe34cc6226aa639d5d5a5a0c3c6d99320"
+        },
+        {
+          "market": "Will China invade Taiwan in 2025?",
+          "url": "https://polymarket.com/event/will-china-invade-taiwan-in-2025",
+          "ts": 1762245933,
+          "odds": 98,
+          "stake": 10974,
+          "pl": 251,
+          "won": true,
+          "tx": "0x161389bc65b71fba9fb0e1139a8bf0cd9018886b6215b02d83faa5089bfadb8b"
+        },
+        {
+          "market": "Fed decreases interest rates by 25 bps after October 2025 meeting?",
+          "url": "https://polymarket.com/event/fed-decreases-interest-rates-by-25-bps-after-october-2025-meeting",
+          "ts": 1759081257,
+          "odds": 99,
+          "stake": 10940,
+          "pl": 147,
+          "won": true,
+          "tx": "0x76526afcd79d792466f068aaf3e94cb3711b0bd6ec1f0eb0f947a52fd468ed3d"
+        },
+        {
+          "market": "Putin out as President of Russia in 2025?",
+          "url": "https://polymarket.com/event/putin-out-as-president-of-russia-in-2025",
+          "ts": 1764235111,
+          "odds": 99,
+          "stake": 10062,
+          "pl": 104,
+          "won": true,
+          "tx": "0x67e209143b282caf2cf150140101cead4b78de10c201774b1c8dde58bebdf27a"
+        },
+        {
+          "market": "Nuclear weapon detonation in 2025?",
+          "url": "https://polymarket.com/event/nuclear-weapon-detonation-in-2025",
+          "ts": 1762753771,
+          "odds": 97,
+          "stake": 10019,
+          "pl": 258,
+          "won": true,
+          "tx": "0xaef408029241ada81287807a6a95b0223821be41cceadacc218e45cee689d0b6"
+        },
+        {
+          "market": "Fed decreases interest rates by 50+ bps after December 2025 meeting?",
+          "url": "https://polymarket.com/event/fed-decreases-interest-rates-by-50-bps-after-december-2025-meeting",
+          "ts": 1763342255,
+          "odds": 98,
+          "stake": 10000,
+          "pl": 215,
+          "won": true,
+          "tx": "0xc52ab4731cb299a79169ea43706ea21823b25eb3b1eb5d46ca7b64f6008f8cdf"
+        },
+        {
+          "market": "Will Trump meet with Kim Jong Un in October?",
+          "url": "https://polymarket.com/event/will-trump-meet-with-kim-jong-un-in-october",
+          "ts": 1761804319,
+          "odds": 100,
+          "stake": 10000,
+          "pl": 20,
+          "won": true,
+          "tx": "0xaa2bcf55003c4aba04bf79bb02bcb0049a962c29d6788f3f2ac803d814c5860e"
+        },
+        {
+          "market": "Will A Minecraft Movie be the top grossing movie of 2025?",
+          "url": "https://polymarket.com/event/will-a-minecraft-movie-be-the-top-grossing-movie-of-2025",
+          "ts": 1765723449,
+          "odds": 99,
+          "stake": 9949,
+          "pl": 51,
+          "won": true,
+          "tx": "0x3d1db8838b3f290d0da1eacc552ad2c991316570df08d65e3878ca2ced29056c"
+        },
+        {
+          "market": "Xi Jinping out by June 30?",
+          "url": "https://polymarket.com/event/xi-jinping-out-by",
+          "ts": 1766678615,
+          "odds": 98,
+          "stake": 9918,
+          "pl": 225,
+          "won": true,
+          "tx": "0x496bef159ac96410fdc3c5229c043f6300306592fdbe78587ec6ac3fc6147eb1"
+        },
+        {
+          "market": "Fed increases interest rates by 25+ bps after January 2026 meeting?",
+          "url": "https://polymarket.com/event/fed-increases-interest-rates-by-25-bps-after-january-2026-meeting",
+          "ts": 1764233267,
+          "odds": 99,
+          "stake": 9910,
+          "pl": 90,
+          "won": true,
+          "tx": "0x76a89e717bfff7490da08b2efc32900219b440e6c93951ccd2377c908fa80537"
+        },
+        {
+          "market": "Trump out as President by March 31?",
+          "url": "https://polymarket.com/event/trump-out-as-president-by-march-31",
+          "ts": 1770170478,
+          "odds": 99,
+          "stake": 9765,
+          "pl": 135,
+          "won": true,
+          "tx": "0x86206de4199ec9827c362c86a6226cf7d1ff4146d8d62ea82b57d2308df7137e"
+        },
+        {
+          "market": "Netanyahu out by June 30?",
+          "url": "https://polymarket.com/event/netanyahu-out-before-2027",
+          "ts": 1781771167,
+          "odds": 99,
+          "stake": 9736,
+          "pl": 59,
+          "won": true,
+          "tx": "0xd7b13a3622a659f242ffb436632610edb5b6f1e5e7545167732978df194a5eb2"
+        }
+      ],
+      "alsoBinomial": true
     },
     {
       "address": "0x7fdc0f0e0205aac4ee092e7ed6bd35add9451830",
@@ -4286,10 +4452,106 @@
       "alsoBinomial": true
     },
     {
+      "address": "0xa7ce6905990451685b70082424ac9129418d6398",
+      "username": "someone2026",
+      "tier": "notable",
+      "S": 548.5,
+      "market": "Nuclear weapon detonation by June 30?",
+      "marketUrl": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
+      "episodeTx": "0xfbb974817f78bdeb44f013b75d4ffcf2700db4eb587393f36c95cc039900291f",
+      "stake": 10076,
+      "odds": 86,
+      "won": true,
+      "episodeProfit": 1640,
+      "zBetCross": 8.77,
+      "zBetWithin": 0.05,
+      "zProfitCross": 10.11,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 36584,
+      "firstSeen": "Oct 17 2024",
+      "createdOnChain": true,
+      "created": "Oct 17 2024",
+      "betsCount": 7,
+      "ledger": [
+        {
+          "market": "US x Iran ceasefire by March 6?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-6",
+          "ts": 1772567681,
+          "odds": 97,
+          "stake": 31745,
+          "pl": 985,
+          "won": true,
+          "tx": "0x4812e74fd64bab16f8fa4943d5a8e6446190bf24fa9aca9b5c7af88f7a4a9b2c"
+        },
+        {
+          "market": "Will Donald Trump win the 2024 US Presidential Election?",
+          "url": "https://polymarket.com/event/will-donald-trump-win-the-2024-us-presidential-election",
+          "ts": 1729609492,
+          "odds": 55,
+          "stake": 21469,
+          "pl": 17923,
+          "won": true,
+          "tx": "0xaebd753c0f4fa547c3b166f55f3c99649f2cf2a8fbf8cb2673d63e566771544e"
+        },
+        {
+          "market": "Nuclear weapon detonation by June 30?",
+          "url": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
+          "ts": 1772567581,
+          "odds": 86,
+          "stake": 10076,
+          "pl": 1640,
+          "won": true,
+          "tx": "0xfbb974817f78bdeb44f013b75d4ffcf2700db4eb587393f36c95cc039900291f"
+        },
+        {
+          "market": "Will Trump launch a coin before the election?",
+          "url": "https://polymarket.com/event/will-trump-launch-a-coin-before-the-election",
+          "ts": 1729175629,
+          "odds": 1,
+          "stake": 1500,
+          "pl": -1500,
+          "won": false,
+          "tx": "0xfef297c45f773977c447103eaa85e75950f7308d70d98ca91a38db7382341c1d"
+        },
+        {
+          "market": "Will Binance list $DEGEN in 2024?",
+          "url": "https://polymarket.com/event/will-binance-list-degen-in-2024",
+          "ts": 1732125942,
+          "odds": 70,
+          "stake": 1009,
+          "pl": 438,
+          "won": true,
+          "tx": "0x3d096a071688c0057344856f37aa5572b1325ac2dd1760496b7949da6f281a58"
+        },
+        {
+          "market": "Will Binance be accused of insider trading?",
+          "url": "https://polymarket.com/event/will-binance-be-accused-of-insider-trading",
+          "ts": 1771874388,
+          "odds": 15,
+          "stake": 280,
+          "pl": -280,
+          "won": false,
+          "tx": "0x88c21efc86ecdfecbf117f187fd168fe95b9573744abcbdf4c13124a83c1cf91"
+        },
+        {
+          "market": "Nuclear weapon detonation by March 31?",
+          "url": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
+          "ts": 1772568979,
+          "odds": 95,
+          "stake": 224,
+          "pl": 13,
+          "won": true,
+          "tx": "0x775a065afd12f25e8e9e1ac63351a0a38ea759d1b6a7190947e8386d67112516"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": "Hakei.",
       "tier": "notable",
-      "S": 536.7,
+      "S": 536.8,
       "market": "Iran successfully targets shipping by June 27?",
       "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
       "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -4306,7 +4568,7 @@
       "firstSeen": "Apr 06 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 163,
+      "betsCount": 164,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",
@@ -4447,6 +4709,172 @@
           "pl": 16392,
           "won": true,
           "tx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0x11fcbba836d927c5fe6e6a6a64c9c0461e33dc48",
+      "username": "NeH",
+      "tier": "notable",
+      "S": 535.5,
+      "market": "Nuclear weapon detonation by December 31?",
+      "marketUrl": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
+      "episodeTx": "0x8f518454d504d728bce41696c4be911d4c69ca78bdd4581c7b7be665c78250ff",
+      "stake": 7577,
+      "odds": 88,
+      "won": true,
+      "episodeProfit": 1033,
+      "zBetCross": 11.92,
+      "zBetWithin": -0.3,
+      "zProfitCross": 7.78,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": -59556,
+      "firstSeen": "Jun 06 2025",
+      "createdOnChain": true,
+      "created": "Jun 06 2025",
+      "betsCount": 61,
+      "ledger": [
+        {
+          "market": "Will China invade Taiwan in 2025?",
+          "url": "https://polymarket.com/event/will-china-invade-taiwan-in-2025",
+          "ts": 1749330824,
+          "odds": 92,
+          "stake": 230796,
+          "pl": 20468,
+          "won": true,
+          "tx": "0xde4fe5a9d860d0e7a43b3a36c564401f553a5b3236d33fa969dca6b7804ef3d6"
+        },
+        {
+          "market": "Xi Jinping out in 2025?",
+          "url": "https://polymarket.com/event/xi-jinping-out-in-2025",
+          "ts": 1755179736,
+          "odds": 93,
+          "stake": 90087,
+          "pl": 6781,
+          "won": true,
+          "tx": "0x162dde41b65ad5690ebe21722117be25a2f9b42fe174577d3820121921f7aef9"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by end of 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+          "ts": 1768380544,
+          "odds": 58,
+          "stake": 73535,
+          "pl": -73535,
+          "won": false,
+          "tx": "0xb5ecb99572b52e865318ec4e14beb7aed63894b73e054000845a6ae1ad287dba"
+        },
+        {
+          "market": "Putin out as President of Russia in 2025?",
+          "url": "https://polymarket.com/event/putin-out-as-president-of-russia-in-2025",
+          "ts": 1749339455,
+          "odds": 91,
+          "stake": 72606,
+          "pl": 6789,
+          "won": true,
+          "tx": "0xeee5db5c76981ce2c7c703974f322eb32dd819168df3727bcfb1893f7431611f"
+        },
+        {
+          "market": "Will the U.S. invade Iran in 2025?",
+          "url": "https://polymarket.com/event/will-the-us-invade-iran-in-2025",
+          "ts": 1750344898,
+          "odds": 90,
+          "stake": 57272,
+          "pl": 6368,
+          "won": true,
+          "tx": "0x96c2f62207708215664255969df6aa38725b6bc643c4a26acf6920db1d850af7"
+        },
+        {
+          "market": "Will Israel declare war on Iran by Friday?",
+          "url": "https://polymarket.com/event/will-israel-declare-war-on-iran-by-next-friday",
+          "ts": 1749932682,
+          "odds": 89,
+          "stake": 51997,
+          "pl": 6406,
+          "won": true,
+          "tx": "0x84b0a7b6427e6a3e6404bae49d2baa7dce1c12608c95933514d7e31703a9654e"
+        },
+        {
+          "market": "Ukraine signs peace deal with Russia in 2025?",
+          "url": "https://polymarket.com/event/ukraine-signs-peace-deal-with-russia-in-2025",
+          "ts": 1763833113,
+          "odds": 76,
+          "stake": 47849,
+          "pl": 15445,
+          "won": true,
+          "tx": "0xc5e0c3bc5124ad94369847ef4be9da7f384128b9759bc5b4ad9c2fa0e3f9a095"
+        },
+        {
+          "market": "US military action against Iran by Monday?",
+          "url": "https://polymarket.com/event/us-military-action-against-iran-by-monday-177",
+          "ts": 1750487281,
+          "odds": 73,
+          "stake": 37451,
+          "pl": -37451,
+          "won": false,
+          "tx": "0x9c326e3c1d1f0db44ec2e1fbb2c92fa33a9500f7eba4d030f128eecbea159b7d"
+        },
+        {
+          "market": "China x Taiwan military clash by December 31?",
+          "url": "https://polymarket.com/event/china-x-taiwan-military-clash-by-december-31",
+          "ts": 1749331762,
+          "odds": 90,
+          "stake": 36305,
+          "pl": 4140,
+          "won": true,
+          "tx": "0xe5e6dac163bf5dc9693239ec75b8d11eb80e39c34705d450f2812df0c402cc73"
+        },
+        {
+          "market": "Iran Nuke in 2025?",
+          "url": "https://polymarket.com/event/iran-nuke-in-2025",
+          "ts": 1750337887,
+          "odds": 89,
+          "stake": 32446,
+          "pl": 3822,
+          "won": true,
+          "tx": "0xadf5325bba8870fa24f4044fa3e6a33b37cf29e5cfff5d761ff646aa959cf54b"
+        },
+        {
+          "market": "Will Russia capture Sumy before October?",
+          "url": "https://polymarket.com/event/will-russia-capture-sumy-before-october",
+          "ts": 1749934220,
+          "odds": 89,
+          "stake": 31565,
+          "pl": 3706,
+          "won": true,
+          "tx": "0xb5417ea79a7edd01cdd9520e77f7a4e0b23b1573d68d3606c4126857ccf458fc"
+        },
+        {
+          "market": "Will the US officially declare war on Iran before July?",
+          "url": "https://polymarket.com/event/will-the-united-states-officially-declare-war-on-iran-before-july",
+          "ts": 1749936834,
+          "odds": 97,
+          "stake": 29100,
+          "pl": 900,
+          "won": true,
+          "tx": "0xbc0e1f12a97225ecf0524b9de2ebfc5ed3391063d8680d6560c6c862807b60ca"
+        },
+        {
+          "market": "Russian strike on Poland by June 30?",
+          "url": "https://polymarket.com/event/russian-strike-on-poland-by-june-30",
+          "ts": 1768051592,
+          "odds": 96,
+          "stake": 23900,
+          "pl": 996,
+          "won": true,
+          "tx": "0x0e986f12a4826c084bd39fa5bc8e873443632c29b797bf45ab609376e6f6bc20"
+        },
+        {
+          "market": "US military action against Iran by Saturday?",
+          "url": "https://polymarket.com/event/us-military-action-against-iran-by-saturday",
+          "ts": 1750487239,
+          "odds": 93,
+          "stake": 20122,
+          "pl": -20122,
+          "won": false,
+          "tx": "0x7d7c3e457f0d6018c273cc8efe12fc06616ae039c77082f52a8944f75448566c"
         }
       ],
       "alsoBinomial": false
@@ -4621,7 +5049,7 @@
       "address": "0xb10047d6a254b2ebb306d7a7d13bf59171ab6461",
       "username": "Parz1vaI",
       "tier": "notable",
-      "S": 532.1,
+      "S": 532.2,
       "market": "Will Opinion launch a token by February 28, 2026?",
       "marketUrl": "https://polymarket.com/event/will-opinion-launch-a-token-by",
       "episodeTx": null,
@@ -4638,7 +5066,7 @@
       "firstSeen": "Apr 15 2026",
       "createdOnChain": true,
       "created": "Aug 03 2024",
-      "betsCount": 152,
+      "betsCount": 153,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
