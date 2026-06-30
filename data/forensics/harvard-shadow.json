@@ -1,25 +1,268 @@
 {
   "generatedAt": "Jun 30 2026",
-  "snapshot": 1782411002,
-  "total": 8,
+  "snapshot": 1782776873,
+  "total": 14,
   "byTier": {
-    "high": 1,
-    "notable": 7
+    "extreme": 1,
+    "high": 2,
+    "notable": 11
   },
-  "medianS": 727.8,
-  "p90": 859.3,
-  "p95": 859.3,
-  "p99": 859.3,
+  "medianS": 620.5,
+  "p90": 977.2,
+  "p95": 1174.5,
+  "p99": 1174.5,
   "minS": 532.3,
-  "maxS": 859.3,
-  "over500": 8,
-  "alsoBinomial": 5,
-  "onlyHarvard": 3,
-  "observed": 182031,
-  "reviewed": 182031,
-  "screened": 4335,
-  "scored": 1842,
+  "maxS": 1174.5,
+  "over500": 14,
+  "alsoBinomial": 8,
+  "onlyHarvard": 6,
+  "observed": 182310,
+  "reviewed": 182310,
+  "screened": 4496,
+  "scored": 1872,
   "top": [
+    {
+      "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
+      "username": null,
+      "tier": "extreme",
+      "S": 1174.5,
+      "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
+      "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+      "episodeTx": "0x9969f3e97742fef0c3cf4364b34ebc5b6daa435aaa1b87cb91a0532d2da89d05",
+      "stake": 22986,
+      "odds": 81,
+      "won": true,
+      "episodeProfit": 5257,
+      "zBetCross": 18.97,
+      "zBetWithin": 0.98,
+      "zProfitCross": 22.35,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 5,
+      "ledger": [
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778941177,
+          "odds": 65,
+          "stake": 23599,
+          "pl": 13020,
+          "won": true,
+          "tx": "0x5993d226d4bae91d4174bcb779150466ae6d306ff0b6375c1e265e227ec5c1af"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778941141,
+          "odds": 81,
+          "stake": 22986,
+          "pl": 5257,
+          "won": true,
+          "tx": "0x9969f3e97742fef0c3cf4364b34ebc5b6daa435aaa1b87cb91a0532d2da89d05"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1779031509,
+          "odds": 73,
+          "stake": 12031,
+          "pl": 2334,
+          "won": true,
+          "tx": "0x7da9a68b20c4d30286f55988b6d6b6a011b8eeaee32ebf51faa232a56e4724f8"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1779286818,
+          "odds": 99,
+          "stake": 2409,
+          "pl": 46,
+          "won": true,
+          "tx": "0x0c742359bb2bb3a12b162f0b3bec6a151e036321dd0ac5413735397e282f0852"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 400k and 450k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778941172,
+          "odds": 8,
+          "stake": 1233,
+          "pl": -1233,
+          "won": false,
+          "tx": "0xc46ccc8beff65abb4692f75953b5bdbf9a6faeab502896c32a18f3f47e247d03"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
+      "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
+      "username": "cigarettes",
+      "tier": "high",
+      "S": 977.2,
+      "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+      "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
+      "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
+      "stake": 63938,
+      "odds": 89,
+      "won": true,
+      "episodeProfit": 7507,
+      "zBetCross": 17.61,
+      "zBetWithin": 4.97,
+      "zProfitCross": 14.25,
+      "lateBuyFraction": 0,
+      "directionalScore": 0.999,
+      "accountPnl": 1343199,
+      "firstSeen": "Sep 23 2024",
+      "createdOnChain": true,
+      "created": "Sep 23 2024",
+      "betsCount": 116,
+      "ledger": [
+        {
+          "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1758327602,
+          "odds": 89,
+          "stake": 63938,
+          "pl": 7507,
+          "won": true,
+          "tx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301"
+        },
+        {
+          "market": "Will the Christian Democratic Appeal win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1758022936,
+          "odds": 92,
+          "stake": 56709,
+          "pl": 5241,
+          "won": true,
+          "tx": "0xd7ddbafb802e71b94f36a25ab11126836700a50b9f7c4a7d2920a74f3fbc7ce7"
+        },
+        {
+          "market": "Will the Conservative Liberals win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1757979248,
+          "odds": 99,
+          "stake": 50357,
+          "pl": 302,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Forum for Democracy win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1755251974,
+          "odds": 100,
+          "stake": 46146,
+          "pl": 54,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761010716,
+          "odds": 96,
+          "stake": 42503,
+          "pl": 1531,
+          "won": true,
+          "tx": "0xd69866238493f3b79987f934ce79742f0e22f5fecc483399d6f8b7d5a35d1fa2"
+        },
+        {
+          "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1748993906,
+          "odds": 100,
+          "stake": 41114,
+          "pl": 42,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Farmer–Citizen Movement win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1755554837,
+          "odds": 100,
+          "stake": 31746,
+          "pl": 54,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761806533,
+          "odds": 95,
+          "stake": 30032,
+          "pl": 1378,
+          "won": true,
+          "tx": "0x0f618e0c27c0a000a2a506ac7568892daf67760071efd72b9768bea0ca19b195"
+        },
+        {
+          "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1753847731,
+          "odds": 100,
+          "stake": 20922,
+          "pl": 21,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Party for the Animals win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1748993906,
+          "odds": 100,
+          "stake": 16573,
+          "pl": 17,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Democrats 66 win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761810881,
+          "odds": 98,
+          "stake": 15738,
+          "pl": -2338,
+          "won": true,
+          "tx": "0x0914650380068e3f0e4cccc940270d9fe31e95b4b5fdc8623d65f448619a25c9"
+        },
+        {
+          "market": "Will Volt Netherlands win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1748999181,
+          "odds": 100,
+          "stake": 10890,
+          "pl": 11,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will PVV win 33 or more seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/dutch-parliamentary-election-pvv-seats",
+          "ts": 1759230519,
+          "odds": 93,
+          "stake": 9333,
+          "pl": 681,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Lighter Airdrop before January 1?",
+          "url": "https://polymarket.com/event/what-day-will-the-lighter-airdrop-be-489",
+          "ts": 1767043089,
+          "odds": 91,
+          "stake": 8509,
+          "pl": 863,
+          "won": true,
+          "tx": null
+        }
+      ],
+      "alsoBinomial": false
+    },
     {
       "address": "0x9d84ce0306f8551e02efef1680475fc0f1dc1344",
       "username": "ImJustKen",
@@ -341,6 +584,172 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x27abdfc9393c72a6330a3be987da4b46c726e521",
+      "username": null,
+      "tier": "notable",
+      "S": 617.5,
+      "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
+      "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+      "episodeTx": null,
+      "stake": 5176,
+      "odds": 86,
+      "won": true,
+      "episodeProfit": 862,
+      "zBetCross": 7.79,
+      "zBetWithin": 3.75,
+      "zProfitCross": 11.25,
+      "lateBuyFraction": 0.022,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": "Apr 03 2026",
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 171,
+      "ledger": [
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 98,
+          "stake": 5906,
+          "pl": 109,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 350k and 400k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 96,
+          "stake": 5770,
+          "pl": 252,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 300k and 350k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 96,
+          "stake": 5767,
+          "pl": 255,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 92,
+          "stake": 5516,
+          "pl": 509,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 400k and 450k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 90,
+          "stake": 5452,
+          "pl": 584,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 86,
+          "stake": 5176,
+          "pl": 862,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 70,
+          "stake": 4259,
+          "pl": -4259,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 70,
+          "stake": 4240,
+          "pl": 1830,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Benjamin Netanyahu be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246599,
+          "odds": 100,
+          "stake": 2836,
+          "pl": 8,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Keir Starmer be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246599,
+          "odds": 99,
+          "stake": 2805,
+          "pl": 40,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Mahmoud Abbas be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246599,
+          "odds": 100,
+          "stake": 2803,
+          "pl": 4,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Donald Trump be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246601,
+          "odds": 100,
+          "stake": 2788,
+          "pl": 6,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Sanae Takaichi be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246599,
+          "odds": 99,
+          "stake": 2481,
+          "pl": 13,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Luiz Inácio Lula da Silva be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246599,
+          "odds": 100,
+          "stake": 2389,
+          "pl": 2,
+          "won": true,
+          "tx": null
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
       "username": null,
       "tier": "notable",
@@ -361,7 +770,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 3,
+      "betsCount": 4,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
@@ -392,6 +801,16 @@
           "pl": 529,
           "won": true,
           "tx": "0x7c6abb65db658c76fb55153cf4dbe4ad1b6ae5b0244678944866fba5f1d8a833"
+        },
+        {
+          "market": "Will Trump physically sign US x Iran deal?",
+          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
+          "ts": 1781734504,
+          "odds": 85,
+          "stake": 0,
+          "pl": 850,
+          "won": true,
+          "tx": "0xd127a65f590346c5c106108f8c1300a191f47f7104c682b8dab91e9e765149ea"
         }
       ],
       "alsoBinomial": true
@@ -400,7 +819,7 @@
       "address": "0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1",
       "username": "aenews2",
       "tier": "notable",
-      "S": 582.8,
+      "S": 582.9,
       "market": "MicroStrategy sells any Bitcoin by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
       "episodeTx": "0x4c0aeaf648ef2bb0076fc4b27bd88bdf03f800d9f9e8f71a5dd6a682567d4585",
@@ -417,7 +836,7 @@
       "firstSeen": "Jan 14 2024",
       "createdOnChain": true,
       "created": "Feb 28 2025",
-      "betsCount": 154,
+      "betsCount": 156,
       "ledger": [
         {
           "market": "US x Iran permanent peace deal by June 15, 2026?",
@@ -541,7 +960,7 @@
         },
         {
           "market": "Aleksandar Vučić out as Serbian President by June 30, 2026?",
-          "url": "https://polymarket.com/event/aleksandar-vui-out-as-serbian-president-by-june-30-2026-398",
+          "url": "https://polymarket.com/event/aleksandar-vui-out-as-serbian-president-by",
           "ts": 1782626771,
           "odds": 99,
           "stake": 127820,
@@ -561,6 +980,364 @@
         }
       ],
       "alsoBinomial": false
+    },
+    {
+      "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
+      "username": null,
+      "tier": "notable",
+      "S": 541.2,
+      "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+      "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
+      "episodeTx": null,
+      "stake": 39111,
+      "odds": 90,
+      "won": true,
+      "episodeProfit": 4363,
+      "zBetCross": 10.72,
+      "zBetWithin": 0.72,
+      "zProfitCross": 8.29,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": "Oct 13 2024",
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 145,
+      "ledger": [
+        {
+          "market": "Will the Iranian regime fall by June 30?",
+          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-june-30",
+          "ts": 1774997901,
+          "odds": 93,
+          "stake": 437431,
+          "pl": 34824,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Iranian regime fall by April 30?",
+          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-april-30",
+          "ts": 1774602731,
+          "odds": 94,
+          "stake": 129501,
+          "pl": 8573,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will there be no change in Fed interest rates after the April 2026 meeting?",
+          "url": "https://polymarket.com/event/will-there-be-no-change-in-fed-interest-rates-after-the-april-2026-meeting",
+          "ts": 1774515389,
+          "odds": 97,
+          "stake": 104209,
+          "pl": 3361,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761010742,
+          "odds": 99,
+          "stake": 100513,
+          "pl": 986,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781599200,
+          "odds": 98,
+          "stake": 58950,
+          "pl": 1050,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will there be no change in Fed interest rates after the June 2026 meeting?",
+          "url": "https://polymarket.com/event/will-there-be-no-change-in-fed-interest-rates-after-the-june-2026-meeting",
+          "ts": 1778286816,
+          "odds": 97,
+          "stake": 56873,
+          "pl": 1529,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Forum for Democracy win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1755367000,
+          "odds": 100,
+          "stake": 49668,
+          "pl": 55,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1758327602,
+          "odds": 90,
+          "stake": 39111,
+          "pl": 4363,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1752101398,
+          "odds": 100,
+          "stake": 34539,
+          "pl": 36,
+          "won": true,
+          "tx": "0x19b054b33df22b4834327f7f93578dae5d924e09bee8925425e6cfd3f86f724f"
+        },
+        {
+          "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761803563,
+          "odds": 96,
+          "stake": 33910,
+          "pl": 1331,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Farmer–Citizen Movement win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1755846792,
+          "odds": 100,
+          "stake": 32296,
+          "pl": 48,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by May 31, 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-may-31-2026",
+          "ts": 1777924118,
+          "odds": 94,
+          "stake": 31885,
+          "pl": -31885,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will the Conservative Liberals win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1758031282,
+          "odds": 99,
+          "stake": 29560,
+          "pl": 175,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Christian Democratic Appeal win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1758031282,
+          "odds": 91,
+          "stake": 28489,
+          "pl": 2688,
+          "won": true,
+          "tx": null
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
+      "username": null,
+      "tier": "notable",
+      "S": 539.4,
+      "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
+      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+      "episodeTx": "0xa7f748569298dbda8d73cf22803dadede8375726cd2211abe6495b733b392171",
+      "stake": 72082,
+      "odds": 69,
+      "won": true,
+      "episodeProfit": 31763,
+      "zBetCross": 10.71,
+      "zBetWithin": 0.71,
+      "zProfitCross": 7.75,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 2,
+      "ledger": [
+        {
+          "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1780246682,
+          "odds": 69,
+          "stake": 72082,
+          "pl": 31763,
+          "won": true,
+          "tx": "0xa7f748569298dbda8d73cf22803dadede8375726cd2211abe6495b733b392171"
+        },
+        {
+          "market": "Will Trump physically sign US x Iran deal?",
+          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
+          "ts": 1781734237,
+          "odds": 88,
+          "stake": 20835,
+          "pl": -1195,
+          "won": true,
+          "tx": "0x0bab18e28836d763174204a5cc8142c111ba0cb8e6bb4c7334abcde2d147d229"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
+      "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
+      "username": null,
+      "tier": "notable",
+      "S": 536.9,
+      "market": "Iran successfully targets shipping by June 27?",
+      "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
+      "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
+      "stake": 3477,
+      "odds": 18,
+      "won": true,
+      "episodeProfit": 16392,
+      "zBetCross": 2.27,
+      "zBetWithin": 0.74,
+      "zProfitCross": 14.68,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 12,
+      "ledger": [
+        {
+          "market": "US and Iran sign an agreement by July 31, 2026?",
+          "url": "https://polymarket.com/event/us-and-iran-sign-an-agreement-byptptpt-20260611221049850",
+          "ts": 1781531101,
+          "odds": 94,
+          "stake": 7598,
+          "pl": 458,
+          "won": true,
+          "tx": "0xaabd82b738b5cd6cb5382aa7b36afafde0a12e7336f2b437b3d6dbe0983f60df"
+        },
+        {
+          "market": "Iran successfully targets shipping by June 27?",
+          "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
+          "ts": 1782489106,
+          "odds": 18,
+          "stake": 3477,
+          "pl": 16392,
+          "won": true,
+          "tx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df"
+        },
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-476",
+          "ts": 1770732279,
+          "odds": 84,
+          "stake": 3229,
+          "pl": 780,
+          "won": true,
+          "tx": "0x8c7903e2116825744923d53d128b85e5acad48096d7a019c1bde6e73914b1e19"
+        },
+        {
+          "market": "Will Tulsi Gabbard be the next to leave the Trump Cabinet before 2027?",
+          "url": "https://polymarket.com/event/who-will-be-the-next-to-leave-the-trump-cabinet-725",
+          "ts": 1779469564,
+          "odds": 94,
+          "stake": 2731,
+          "pl": 163,
+          "won": true,
+          "tx": "0x30ea133d8293bc8f9beff1210b914f51ea320771bda08632f82fece867d6cc11"
+        },
+        {
+          "market": "Iran successfully targets shipping by July 7?",
+          "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
+          "ts": 1782489133,
+          "odds": 61,
+          "stake": 1722,
+          "pl": 29,
+          "won": true,
+          "tx": "0x6cd623d430557f298b5b7a11861303c1eb2bdf572c8b1ecd921a2282adf10039"
+        },
+        {
+          "market": "Will SpaceX IPO by June 30, 2026?",
+          "url": "https://polymarket.com/event/spacex-ipo-by",
+          "ts": 1780520128,
+          "odds": 96,
+          "stake": 1600,
+          "pl": 69,
+          "won": true,
+          "tx": "0x71ab31c920cd1d2c196e3dbfe12c1420d1a9f96e91def30f0faf8ad67fa4d7d7"
+        },
+        {
+          "market": "US and Iran sign an agreement by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-and-iran-sign-an-agreement-byptptpt-20260611221049850",
+          "ts": 1781531089,
+          "odds": 96,
+          "stake": 1069,
+          "pl": 46,
+          "won": true,
+          "tx": "0x8df7c14e0925c1315d43d3733669c721afade8b67d0aa59fece6df5fdab60e94"
+        },
+        {
+          "market": "Iran successfully targets shipping by July 31?",
+          "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
+          "ts": 1782489148,
+          "odds": 75,
+          "stake": 262,
+          "pl": 88,
+          "won": true,
+          "tx": "0xce2738b039b17c781857d8b5e7421f0654f3e436c347ffa461198b2d8f944f26"
+        },
+        {
+          "market": "Will Trump and Machado share the Nobel Peace Prize?",
+          "url": "https://polymarket.com/event/will-trump-and-machado-share-the-nobel-peace-prize",
+          "ts": 1768513814,
+          "odds": 59,
+          "stake": 236,
+          "pl": 170,
+          "won": true,
+          "tx": "0xdbbe89ca2de8940d1e467e7dd71ebf3dfbd1c29838f9e406d61bcdbc0dcd1f9a"
+        },
+        {
+          "market": "Iran successfully targets shipping by August 31?",
+          "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
+          "ts": 1782489161,
+          "odds": 83,
+          "stake": 54,
+          "pl": 11,
+          "won": true,
+          "tx": "0x2a4d3b6c5f6bb9ba4126ab08692f06f4edd79be380761c939cf235b3e296076e"
+        },
+        {
+          "market": "Will the US strike Syria next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-476",
+          "ts": 1770721531,
+          "odds": 11,
+          "stake": 44,
+          "pl": -44,
+          "won": false,
+          "tx": "0xb5415db878404ec93895df78bab736a389fb3c2f98d77b3c11f93b5024ceeea0"
+        },
+        {
+          "market": "Iran successfully targets shipping by July 15?",
+          "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
+          "ts": 1782489184,
+          "odds": 65,
+          "stake": 2,
+          "pl": -2,
+          "won": true,
+          "tx": "0xaf9a4b04613320ebf81cab7ca69bc5282a894b1fd2e795e31b8b251faafc8311"
+        }
+      ],
+      "alsoBinomial": true
     },
     {
       "address": "0xb10047d6a254b2ebb306d7a7d13bf59171ab6461",
@@ -707,7 +1484,7 @@
         },
         {
           "market": "Iran leadership change by June 30?",
-          "url": "https://polymarket.com/event/iran-leadership-change-by-june-30-689-922",
+          "url": "https://polymarket.com/event/iran-leadership-change-by",
           "ts": 1780577893,
           "odds": 96,
           "stake": 22568,

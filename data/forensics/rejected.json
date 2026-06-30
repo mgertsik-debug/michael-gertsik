@@ -1,7 +1,13 @@
 {
   "generatedAt": "Jun 30 2026",
-  "count": 5,
+  "count": 7,
   "rejected": [
+    {
+      "address": "0x18510d997eba5b8a0102bad7307e70e32bc4ae47",
+      "id": null,
+      "tier": "watch",
+      "reason": "net unprofitable (informed trading is profitable; profit=-3022)"
+    },
     {
       "address": "0x6b1fe46602b39d66ef1dea587e386a930dbc3fd0",
       "id": null,
@@ -13,6 +19,12 @@
       "id": null,
       "tier": "watch",
       "reason": "below net-profit floor (profit=$362 < $1000)"
+    },
+    {
+      "address": "0x90134a5c61876dc0f35b72eed743605daae5fc71",
+      "id": null,
+      "tier": "watch",
+      "reason": "net unprofitable (informed trading is profitable; profit=-61947)"
     },
     {
       "address": "0x07d126ea6f8542a58ee2c4c7c31535dd9b3e8ffa",
