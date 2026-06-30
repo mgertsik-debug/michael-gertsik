@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782849638,
-  "total": 38,
+  "total": 41,
   "byTier": {
     "extreme": 5,
-    "high": 6,
+    "high": 9,
     "notable": 27
   },
   "medianS": 704.7,
-  "p90": 1187,
-  "p95": 1254.6,
+  "p90": 1160.7,
+  "p95": 1190.1,
   "p99": 1377.7,
   "minS": 532.3,
   "maxS": 1377.7,
-  "over500": 38,
+  "over500": 41,
   "alsoBinomial": 12,
-  "onlyHarvard": 26,
-  "observed": 207668,
-  "reviewed": 207668,
-  "screened": 6012,
-  "scored": 3668,
+  "onlyHarvard": 29,
+  "observed": 208002,
+  "reviewed": 208002,
+  "screened": 6154,
+  "scored": 3761,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -1067,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1018.4,
+      "S": 1023.2,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1076,7 +1076,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 7.03,
+      "zBetWithin": 7.27,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1084,7 +1084,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "May 18 2026",
-      "betsCount": 304,
+      "betsCount": 336,
       "ledger": [
         {
           "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1225,6 +1225,338 @@
           "pl": 17,
           "won": true,
           "tx": null
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0xe8dd7741ccb12350957ec71e9ee332e0d1e6ec86",
+      "username": "influenz.eth",
+      "tier": "high",
+      "S": 984.2,
+      "market": "Will the US strike Iran next?",
+      "marketUrl": "https://polymarket.com/event/next-country-us-strikes-329",
+      "episodeTx": "0x43b0257c97df8f7f91640ab4b6268026b9da7fd0d38892ef0c75301aa9fc157b",
+      "stake": 12049,
+      "odds": 78,
+      "won": true,
+      "episodeProfit": 3338,
+      "zBetCross": 19.18,
+      "zBetWithin": 0.35,
+      "zProfitCross": 15.76,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": 1536322,
+      "firstSeen": "Feb 10 2025",
+      "createdOnChain": true,
+      "created": "Jan 26 2025",
+      "betsCount": 689,
+      "ledger": [
+        {
+          "market": "Will Trump nominate Scott Bessent as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1769749498,
+          "odds": 100,
+          "stake": 99458,
+          "pl": 149,
+          "won": true,
+          "tx": "0x1fff1f355398541474bd13eaa829a9827b4c2d530b89c9b3c29766b4bbd06fd4"
+        },
+        {
+          "market": "Will Yoon Suk Yeol be sentenced to 5–10 years in prison?",
+          "url": "https://polymarket.com/event/yoon-insurrection-case-prison-sentence",
+          "ts": 1764885499,
+          "odds": 100,
+          "stake": 77384,
+          "pl": 214,
+          "won": true,
+          "tx": "0xa22e93a99c6b1108a781eb4bace6096337827da142398de2fb41268cefc74cec"
+        },
+        {
+          "market": "Will Yoon Suk Yeol be sentenced to 10–15 years in prison?",
+          "url": "https://polymarket.com/event/yoon-insurrection-case-prison-sentence",
+          "ts": 1765142423,
+          "odds": 100,
+          "stake": 77220,
+          "pl": 228,
+          "won": true,
+          "tx": "0xa2bab92bf26ef44811d0000d30eb1307364d8a39bd87a04e7b2e08f9c6eadad1"
+        },
+        {
+          "market": "Will Yoon Suk Yeol be sentenced to less than 5 years in prison?",
+          "url": "https://polymarket.com/event/yoon-insurrection-case-prison-sentence",
+          "ts": 1765142423,
+          "odds": 100,
+          "stake": 75602,
+          "pl": 169,
+          "won": true,
+          "tx": "0x1afac52c705c06ca38018abae31041b502d7cf0767483689290ebc0e4de642f1"
+        },
+        {
+          "market": "Will Yoon Suk Yeol be sentenced to 15–20 years in prison?",
+          "url": "https://polymarket.com/event/yoon-insurrection-case-prison-sentence",
+          "ts": 1764885499,
+          "odds": 100,
+          "stake": 75322,
+          "pl": 260,
+          "won": true,
+          "tx": "0xc463c46f791a5c6717f023cd8e237824dde1ba60a38cd4be15626e9e5634bf85"
+        },
+        {
+          "market": "Will Keir Starmer be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-684",
+          "ts": 1769877868,
+          "odds": 99,
+          "stake": 72414,
+          "pl": 709,
+          "won": true,
+          "tx": "0x6d356cdfd1107fb6e00fe9af185df1463cd34582bd78f0792859688c30adbfb9"
+        },
+        {
+          "market": "Will Sanae Takaichi be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-684",
+          "ts": 1769466255,
+          "odds": 100,
+          "stake": 65276,
+          "pl": 271,
+          "won": true,
+          "tx": "0x309289b3edd56f4402cc04de7ebbffdf3b605b555db397f9ad4f7e54c1f1fb94"
+        },
+        {
+          "market": "Will Yoon Suk Yeol be sentenced to 20–30 years in prison?",
+          "url": "https://polymarket.com/event/yoon-insurrection-case-prison-sentence",
+          "ts": 1764885499,
+          "odds": 99,
+          "stake": 61118,
+          "pl": 902,
+          "won": true,
+          "tx": "0x700674c4b1c61bdbbf4ace840769c113765c0ef0c6ce686368940deeca116867"
+        },
+        {
+          "market": "Will Ali Khamenei be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-684",
+          "ts": 1769908878,
+          "odds": 98,
+          "stake": 60725,
+          "pl": 1087,
+          "won": true,
+          "tx": "0xa7f0dd00a46c503683034939e6bd55f8da84f2a05089905e1770dd3337c966ec"
+        },
+        {
+          "market": "Will Claudia Sheinbaum be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-684",
+          "ts": 1768201592,
+          "odds": 100,
+          "stake": 59347,
+          "pl": 85,
+          "won": true,
+          "tx": "0x0421115c93be1448d28491596860a640d865ac1071aaa9473ffdd61dfefd81d5"
+        },
+        {
+          "market": "Will Donald Trump be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-684",
+          "ts": 1769432667,
+          "odds": 100,
+          "stake": 58397,
+          "pl": 186,
+          "won": true,
+          "tx": "0xbc8416f687518bc11a7a410a3166fd0faf5051cccfeb11aaa51fa6f2acdd9cf9"
+        },
+        {
+          "market": "Will Kim Jong Un be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-684",
+          "ts": 1768381422,
+          "odds": 100,
+          "stake": 56197,
+          "pl": 86,
+          "won": true,
+          "tx": "0x6e19a9ee65592a0b3594331bee2c0db03d3961e385d1cd1769671f14828696ed"
+        },
+        {
+          "market": "Will Luiz Inácio Lula da Silva be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-684",
+          "ts": 1768825606,
+          "odds": 100,
+          "stake": 55896,
+          "pl": 99,
+          "won": true,
+          "tx": "0xa44ed12104ad50cc823ed9bb65bf1b60b24c8925c4a55e47e7aec31920716dd8"
+        },
+        {
+          "market": "Will the US strike Syria next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-476",
+          "ts": 1770190596,
+          "odds": 98,
+          "stake": 55252,
+          "pl": 915,
+          "won": true,
+          "tx": "0xb3c310220f58330e4f6ec9bc76312a171203fa2164c3033e2a30a6d7ce7488c5"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0xde7be6d489bce070a959e0cb813128ae659b5f4b",
+      "username": "wan123",
+      "tier": "high",
+      "S": 969.4,
+      "market": "Russia x Ukraine ceasefire by end of 2026?",
+      "marketUrl": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+      "episodeTx": "0x40ee6ddfadfa749680a8abb24fccd53f4fb61d499275c5e9a8e2fa904080b0ad",
+      "stake": 79076,
+      "odds": 31,
+      "won": true,
+      "episodeProfit": 173568,
+      "zBetCross": 24.23,
+      "zBetWithin": 1.24,
+      "zProfitCross": 10.74,
+      "lateBuyFraction": 0.431,
+      "directionalScore": 1,
+      "accountPnl": 1534545,
+      "firstSeen": "Mar 05 2026",
+      "createdOnChain": true,
+      "created": "Feb 21 2026",
+      "betsCount": 172,
+      "ledger": [
+        {
+          "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1780315311,
+          "odds": 80,
+          "stake": 396561,
+          "pl": 100660,
+          "won": true,
+          "tx": "0x880f85c5b2e31b81e8aa8767c4a39cb7e9c7834b0359b80f49a00fb48e87fbc5"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779559347,
+          "odds": 24,
+          "stake": 373853,
+          "pl": 1179607,
+          "won": true,
+          "tx": "0x2b2fab2481b60bb3c2730471f855e7dc3ddc192b09d6abe154a2bffb30e7c0fb"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779376546,
+          "odds": 17,
+          "stake": 288781,
+          "pl": -397018,
+          "won": false,
+          "tx": "0x6250af40b353dd25a6bca96c05cb85eaea9a8a9e792a8248586953f5a58a0a5a"
+        },
+        {
+          "market": "US x Iran ceasefire by March 31?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-31",
+          "ts": null,
+          "odds": 23,
+          "stake": 128559,
+          "pl": -128559,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Strait of Hormuz traffic returns to normal by end of June?",
+          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+          "ts": 1779722050,
+          "odds": 15,
+          "stake": 126936,
+          "pl": -126936,
+          "won": false,
+          "tx": "0xe496e4b5846f07edaf87a82dcfde79f02bd1b50edd75532d534b1ad33fa61658"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 26, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779545190,
+          "odds": 12,
+          "stake": 120974,
+          "pl": -115891,
+          "won": false,
+          "tx": "0x99def0ce0c4c58b382b88bac14231e212e1c0bc00917c7ab9e76e567e3957ca3"
+        },
+        {
+          "market": "Strait of Hormuz traffic returns to normal by end of April?",
+          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-april-30",
+          "ts": 1777507200,
+          "odds": 16,
+          "stake": 119104,
+          "pl": -119104,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by end of 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+          "ts": 1777483286,
+          "odds": 31,
+          "stake": 79076,
+          "pl": 173568,
+          "won": true,
+          "tx": "0x40ee6ddfadfa749680a8abb24fccd53f4fb61d499275c5e9a8e2fa904080b0ad"
+        },
+        {
+          "market": "US x Iran ceasefire by March 15?",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-15",
+          "ts": null,
+          "odds": 16,
+          "stake": 66808,
+          "pl": -66808,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779559346,
+          "odds": 48,
+          "stake": 60175,
+          "pl": 64275,
+          "won": true,
+          "tx": "0xad4c16ae85256b2b7c7b50c544683b0ff184340ae469e82f00bd7f584993ba6b"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 7, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1779981539,
+          "odds": 9,
+          "stake": 56317,
+          "pl": -56314,
+          "won": false,
+          "tx": "0x5fe1592bb841ad557f1ed9460974fa7fac70f533b48671e0868fdd4679b70519"
+        },
+        {
+          "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772640473,
+          "odds": 99,
+          "stake": 49251,
+          "pl": 749,
+          "won": true,
+          "tx": "0x104b474a6a69b52a8d40dd024016e1d746253713841aa99c6547a9c8a4a0c38e"
+        },
+        {
+          "market": "US x Iran ceasefire extended by April 21, 2026?",
+          "url": "https://polymarket.com/event/will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
+          "ts": 1776729600,
+          "odds": 34,
+          "stake": 46008,
+          "pl": -46008,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will the Iran ceasefire continue through May 25?",
+          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-25",
+          "ts": 1779744954,
+          "odds": 49,
+          "stake": 45807,
+          "pl": 46988,
+          "won": true,
+          "tx": "0xd4a13edbee06016d9aeac7b2097a57ad2005e71385f16e0f2cf854fec90dd917"
         }
       ],
       "alsoBinomial": false
@@ -1730,8 +2062,8 @@
     {
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
       "username": "classified",
-      "tier": "notable",
-      "S": 809.9,
+      "tier": "high",
+      "S": 810.1,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -1740,7 +2072,7 @@
       "won": true,
       "episodeProfit": 17517,
       "zBetCross": 12.74,
-      "zBetWithin": 0.68,
+      "zBetWithin": 0.69,
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
@@ -1748,7 +2080,7 @@
       "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
-      "betsCount": 76,
+      "betsCount": 77,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
@@ -2749,7 +3081,7 @@
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
       "username": "tourists",
       "tier": "notable",
-      "S": 691.6,
+      "S": 691.7,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -2766,7 +3098,7 @@
       "firstSeen": "Nov 07 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 79,
+      "betsCount": 81,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
@@ -2915,7 +3247,7 @@
       "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
       "username": "siick",
       "tier": "notable",
-      "S": 689.5,
+      "S": 690.2,
       "market": "Will the US strike Somalia next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
       "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
@@ -2924,7 +3256,7 @@
       "won": true,
       "episodeProfit": 1882,
       "zBetCross": 7.77,
-      "zBetWithin": 4.82,
+      "zBetWithin": 4.86,
       "zProfitCross": 12.83,
       "lateBuyFraction": 0.273,
       "directionalScore": 1,
@@ -2932,7 +3264,7 @@
       "firstSeen": "Feb 25 2025",
       "createdOnChain": true,
       "created": "Feb 25 2025",
-      "betsCount": 165,
+      "betsCount": 167,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
@@ -3081,7 +3413,7 @@
       "address": "0x9a3fa403a6666eef75f92f181fcf13f9c051914a",
       "username": "Rex416",
       "tier": "notable",
-      "S": 679.5,
+      "S": 679.7,
       "market": "Israel x Lebanon diplomatic meeting by July 31, 2026?",
       "marketUrl": "https://polymarket.com/event/israel-x-lebanon-diplomatic-meeting-byptptpt-20260626200919626",
       "episodeTx": "0xed942fc8cd7250e89e60015641ae8ef1aa00ceddd5de77abf79e5b479e13386c",
@@ -3090,7 +3422,7 @@
       "won": true,
       "episodeProfit": 2953,
       "zBetCross": 10.68,
-      "zBetWithin": 4.6,
+      "zBetWithin": 4.61,
       "zProfitCross": 9.85,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -3098,7 +3430,7 @@
       "firstSeen": "Apr 11 2026",
       "createdOnChain": true,
       "created": "Feb 11 2024",
-      "betsCount": 160,
+      "betsCount": 161,
       "ledger": [
         {
           "market": "Aleksandar Vučić out as Serbian President by June 30, 2026?",
@@ -3617,6 +3949,172 @@
           "pl": 2278,
           "won": true,
           "tx": "0x0b0541c2fb8c6561a6d9eef9caa05eee8a8e17f95355ec95da50ff3633a86abb"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0x5a218c7ad04135830a45c41aaed7294df7809318",
+      "username": "balthazar",
+      "tier": "notable",
+      "S": 633,
+      "market": "Will Alireza Arafi be the next Supreme Leader of Iran?",
+      "marketUrl": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+      "episodeTx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655",
+      "stake": 12423,
+      "odds": 90,
+      "won": true,
+      "episodeProfit": 1378,
+      "zBetCross": 11.89,
+      "zBetWithin": 4.2,
+      "zProfitCross": 7.57,
+      "lateBuyFraction": 1,
+      "directionalScore": 0.964,
+      "accountPnl": 789869,
+      "firstSeen": "Jun 11 2026",
+      "createdOnChain": true,
+      "created": "Feb 07 2025",
+      "betsCount": 490,
+      "ledger": [
+        {
+          "market": "Will Ali Larijani be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772710199,
+          "odds": 98,
+          "stake": 25229,
+          "pl": 369,
+          "won": true,
+          "tx": "0x78e3595761b11d8dec7853a716ca01799565e48b0c8fcd5d60108cbc48349387"
+        },
+        {
+          "market": "Will Muhammad Mirbaqiri be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772728505,
+          "odds": 98,
+          "stake": 24674,
+          "pl": 331,
+          "won": true,
+          "tx": "0xf9c1ef71977b680540b0e5bcb97529c615793539bc73c2e2a053e8f9750bdc71"
+        },
+        {
+          "market": "Will Hassan Rouhani be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772728449,
+          "odds": 98,
+          "stake": 24284,
+          "pl": 373,
+          "won": true,
+          "tx": "0x41983010d9c67e9964a6c66df1c7c45e8a4b22effe7bfe28190e3b8dd4fec845"
+        },
+        {
+          "market": "Will Reza Pahlavi be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772728449,
+          "odds": 100,
+          "stake": 22939,
+          "pl": 88,
+          "won": true,
+          "tx": "0xf00360e486b0f52d9609a02cce62edb43aedeba7bdc1be63c032f20e4c01294b"
+        },
+        {
+          "market": "Will there be no new Supreme Leader of Iran by June 30?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772798729,
+          "odds": 97,
+          "stake": 21390,
+          "pl": 568,
+          "won": true,
+          "tx": "0x8739276d537d5238a4255df2f9775c269a13b04858cef661ca6fc8523979caff"
+        },
+        {
+          "market": "Will Mohsen Araki be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772651285,
+          "odds": 100,
+          "stake": 14009,
+          "pl": 40,
+          "won": true,
+          "tx": "0x746bb3c4816671ddf79005a82411046dcb013da4ff3041ebc4d4c2a89437896a"
+        },
+        {
+          "market": "Will Alireza Arafi be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772903679,
+          "odds": 90,
+          "stake": 12423,
+          "pl": 1378,
+          "won": true,
+          "tx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655"
+        },
+        {
+          "market": "Will Benjamin Netanyahu be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1774471885,
+          "odds": 99,
+          "stake": 6499,
+          "pl": 97,
+          "won": true,
+          "tx": "0x0978d334643191161492f04815701a096472d7bc46f3efd14d1ee3501da1edfd"
+        },
+        {
+          "market": "US x Iran permanent peace deal by July 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781471767,
+          "odds": 82,
+          "stake": 6235,
+          "pl": 1395,
+          "won": true,
+          "tx": "0x3273d698952df336c45b6e0d7515b370ef3bb0e4311e75d509103ed413ffbddd"
+        },
+        {
+          "market": "Will Keir Starmer be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1774471885,
+          "odds": 98,
+          "stake": 6135,
+          "pl": 119,
+          "won": true,
+          "tx": "0x8d84314e17fc533e4e3c98a1eeea0a7c974fc88dbf726ab9b8a0051f8b192073"
+        },
+        {
+          "market": "Will Sanae Takaichi be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1774471885,
+          "odds": 98,
+          "stake": 5824,
+          "pl": 97,
+          "won": true,
+          "tx": "0xd6396baad6c414ea620f08f8563a5e7a6dd5bbf1ccd0971ea014c92d5ccfc4cc"
+        },
+        {
+          "market": "Will Donald Trump be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1774471885,
+          "odds": 99,
+          "stake": 5810,
+          "pl": 58,
+          "won": true,
+          "tx": "0x7ae5f441493ebae8c9ee3f36f9e40978cf8ac9121e6c225a9ad72d7935737e17"
+        },
+        {
+          "market": "Will Volodymyr Zelenskyy be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1774471887,
+          "odds": 99,
+          "stake": 5760,
+          "pl": 61,
+          "won": true,
+          "tx": "0x8599fefb6c61f5a8ff7d06dc83308967b1eef3fddaea87d03a676d12298e3c16"
+        },
+        {
+          "market": "Will Miguel Díaz-Canel be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1774471885,
+          "odds": 97,
+          "stake": 5731,
+          "pl": 196,
+          "won": true,
+          "tx": "0xf3b3cb16bb89074e64159b3f0be6e92a86ad4554ac13a90ad08a2a14c1ace44a"
         }
       ],
       "alsoBinomial": false
@@ -4289,7 +4787,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 579.4,
+      "S": 579.9,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872",
@@ -4298,7 +4796,7 @@
       "won": true,
       "episodeProfit": 4564,
       "zBetCross": 10.72,
-      "zBetWithin": 2.63,
+      "zBetWithin": 2.65,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -4306,7 +4804,7 @@
       "firstSeen": "Feb 21 2026",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1353,
+      "betsCount": 1381,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -4946,7 +5444,7 @@
       "firstSeen": "Apr 06 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 171,
+      "betsCount": 172,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",
@@ -5112,7 +5610,7 @@
       "firstSeen": "Jun 06 2025",
       "createdOnChain": true,
       "created": "Jun 06 2025",
-      "betsCount": 61,
+      "betsCount": 62,
       "ledger": [
         {
           "market": "Will China invade Taiwan in 2025?",
