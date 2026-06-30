@@ -16,9 +16,9 @@
   "over500": 23,
   "alsoBinomial": 4,
   "onlyHarvard": 19,
-  "observed": 192367,
-  "reviewed": 192367,
-  "screened": 5137,
+  "observed": 192600,
+  "reviewed": 192600,
+  "screened": 5139,
   "scored": 3278,
   "top": [
     {
@@ -416,7 +416,7 @@
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
-      "accountPnl": 1343199,
+      "accountPnl": 1348407,
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "Sep 23 2024",
@@ -582,8 +582,8 @@
       "zProfitCross": 13.65,
       "lateBuyFraction": 0,
       "directionalScore": 0.991,
-      "accountPnl": 3337699,
-      "firstSeen": "Jan 19 2022",
+      "accountPnl": 3346533,
+      "firstSeen": "Dec 08 2023",
       "createdOnChain": true,
       "created": "Jan 19 2022",
       "betsCount": 316,
@@ -690,7 +690,7 @@
         },
         {
           "market": "Will John Cornyn win the 2026 Texas Republican Primary?",
-          "url": "https://polymarket.com/event/will-john-cornyn-win-the-2026-republican-primary",
+          "url": "https://polymarket.com/event/texas-republican-senate-primary-winner",
           "ts": 1779753600,
           "odds": 84,
           "stake": 40434,
@@ -700,7 +700,7 @@
         },
         {
           "market": "US forces enter Iran by April 30?",
-          "url": "https://polymarket.com/event/us-forces-enter-iran-by-april-30-899",
+          "url": "https://polymarket.com/event/us-forces-enter-iran-by",
           "ts": 1777507200,
           "odds": 34,
           "stake": 34502,
@@ -937,7 +937,7 @@
       "address": "0x421bf8e567f99bb544f317f38fe71719dbb6ac12",
       "username": "421bf8e567f99bB544f317F38FE71719dbb6ac12",
       "tier": "notable",
-      "S": 798.1,
+      "S": 797.6,
       "market": "Will the Party for Freedom win the second most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
       "episodeTx": "0xce782a32aad276c51b1249ff299b65ff60cf37402302e8de7dac5db448f1a54f",
@@ -946,15 +946,15 @@
       "won": true,
       "episodeProfit": 6697,
       "zBetCross": 20.82,
-      "zBetWithin": 1.38,
+      "zBetWithin": 1.36,
       "zProfitCross": 7.58,
       "lateBuyFraction": 0.85,
       "directionalScore": 0.98,
-      "accountPnl": 261352,
+      "accountPnl": 261350,
       "firstSeen": "Nov 07 2024",
       "createdOnChain": true,
       "created": "Nov 07 2024",
-      "betsCount": 65,
+      "betsCount": 67,
       "ledger": [
         {
           "market": "U.S. anti-cartel ground operation in Mexico by January 31?",
@@ -985,6 +985,16 @@
           "pl": 140,
           "won": true,
           "tx": "0x8ae34103366399891f0f6b0b3d9525fdf294c20e3af7caf95b69c17caced647e"
+        },
+        {
+          "market": "Will Trump release the Epstein files by December 19?",
+          "url": "https://polymarket.com/event/will-trump-release-the-epstein-files-by-december-19-771",
+          "ts": 1766432161,
+          "odds": 100,
+          "stake": 49900,
+          "pl": 100,
+          "won": true,
+          "tx": "0x0695a5dc6ce32ac1e3bf9613c066c56fcbca535d66ef5e7d48b6df3f03485be8"
         },
         {
           "market": "Will Democrats 66 win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1085,16 +1095,6 @@
           "pl": 434,
           "won": true,
           "tx": "0x33b15c32354e7763603f24a6d4b1cd0588e6f6cafd7b28959134aea099b924aa"
-        },
-        {
-          "market": "Will the US strike Somalia next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-391",
-          "ts": 1768345532,
-          "odds": 99,
-          "stake": 12942,
-          "pl": 101,
-          "won": true,
-          "tx": "0xfae0b285d8872b4b7a723885b538520c188365699134e0ba9a6973ea4bf13abb"
         }
       ],
       "alsoBinomial": false
@@ -2576,7 +2576,7 @@
       "zProfitCross": 7.16,
       "lateBuyFraction": 0.688,
       "directionalScore": 1,
-      "accountPnl": 2468576,
+      "accountPnl": 2471129,
       "firstSeen": "Jan 14 2024",
       "createdOnChain": true,
       "created": "Feb 28 2025",
@@ -3240,7 +3240,7 @@
       "zProfitCross": 11.49,
       "lateBuyFraction": 0,
       "directionalScore": 0.505,
-      "accountPnl": 669303,
+      "accountPnl": 667783,
       "firstSeen": "Aug 03 2024",
       "createdOnChain": false,
       "created": null,
