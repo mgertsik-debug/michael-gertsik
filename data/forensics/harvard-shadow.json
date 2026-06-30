@@ -1,25 +1,25 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782776873,
-  "total": 19,
+  "total": 20,
   "byTier": {
     "extreme": 2,
     "high": 3,
-    "notable": 14
+    "notable": 15
   },
-  "medianS": 700.8,
+  "medianS": 703.4,
   "p90": 1178.1,
   "p95": 1190.1,
   "p99": 1190.1,
   "minS": 532.2,
   "maxS": 1190.1,
-  "over500": 19,
+  "over500": 20,
   "alsoBinomial": 12,
-  "onlyHarvard": 7,
-  "observed": 188544,
-  "reviewed": 188544,
-  "screened": 4914,
-  "scored": 2534,
+  "onlyHarvard": 8,
+  "observed": 189302,
+  "reviewed": 189302,
+  "screened": 4976,
+  "scored": 2560,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -157,7 +157,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 999.1,
+      "S": 1003.5,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -166,7 +166,7 @@
       "won": true,
       "episodeProfit": 7507,
       "zBetCross": 17.61,
-      "zBetWithin": 6.07,
+      "zBetWithin": 6.29,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -174,7 +174,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "Sep 23 2024",
-      "betsCount": 174,
+      "betsCount": 187,
       "ledger": [
         {
           "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
@@ -340,7 +340,7 @@
       "firstSeen": "Jan 19 2022",
       "createdOnChain": true,
       "created": "Jan 19 2022",
-      "betsCount": 315,
+      "betsCount": 316,
       "ledger": [
         {
           "market": "Will Trump nominate Rick Rieder as the next Fed chair?",
@@ -627,7 +627,7 @@
       "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
       "username": null,
       "tier": "notable",
-      "S": 740.1,
+      "S": 743.4,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
@@ -636,7 +636,7 @@
       "won": true,
       "episodeProfit": 22588,
       "zBetCross": 3.5,
-      "zBetWithin": 2.85,
+      "zBetWithin": 3.01,
       "zProfitCross": 19.53,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -644,7 +644,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 11,
+      "betsCount": 12,
       "ledger": [
         {
           "market": "Khamenei out as Supreme Leader of Iran in 2026?",
@@ -655,6 +655,16 @@
           "pl": 22588,
           "won": true,
           "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
+        },
+        {
+          "market": "Will Lori Chavez-DeRemer be the first to leave the Trump Cabinet before 2027?",
+          "url": "https://polymarket.com/event/who-will-be-the-first-to-leave-the-trump-cabinet-828",
+          "ts": 1768078068,
+          "odds": 76,
+          "stake": 1506,
+          "pl": 476,
+          "won": true,
+          "tx": "0x9414c483509ca0ce0bbb20bd27ce8f38e7c1b440ecdb66f33934221d0bb64ae8"
         },
         {
           "market": "Will the Democrats 66 win the fourth most seats in the 2025 Netherlands parliamentary election?",
@@ -799,7 +809,7 @@
       "address": "0x27abdfc9393c72a6330a3be987da4b46c726e521",
       "username": "pd.unique",
       "tier": "notable",
-      "S": 700.8,
+      "S": 703.4,
       "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": null,
@@ -808,7 +818,7 @@
       "won": true,
       "episodeProfit": 862,
       "zBetCross": 7.79,
-      "zBetWithin": 7.92,
+      "zBetWithin": 8.04,
       "zProfitCross": 11.25,
       "lateBuyFraction": 0.022,
       "directionalScore": 1,
@@ -816,7 +826,7 @@
       "firstSeen": "Apr 03 2026",
       "createdOnChain": true,
       "created": "Apr 03 2026",
-      "betsCount": 911,
+      "betsCount": 938,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
@@ -960,6 +970,172 @@
         }
       ],
       "alsoBinomial": false
+    },
+    {
+      "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
+      "username": null,
+      "tier": "notable",
+      "S": 692.4,
+      "market": "Will SpaceX acquire Cursor by December 31, 2026?",
+      "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
+      "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
+      "stake": 9502,
+      "odds": 86,
+      "won": true,
+      "episodeProfit": 1527,
+      "zBetCross": 14.62,
+      "zBetWithin": -0.24,
+      "zProfitCross": 10.73,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 16,
+      "ledger": [
+        {
+          "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1780533298,
+          "odds": 100,
+          "stake": 216700,
+          "pl": 217,
+          "won": true,
+          "tx": "0xd6e69f247e2ac386cb4b9a6ffb89afcee541966b957492dfc6087264a3d6e2b5"
+        },
+        {
+          "market": "Claude 4.8 released by May 31?",
+          "url": "https://polymarket.com/event/claude-4pt8-released-by",
+          "ts": 1779928904,
+          "odds": 93,
+          "stake": 41941,
+          "pl": 3103,
+          "won": true,
+          "tx": "0x3d7217d8cd75a02cad48bf21c8a2271dd7b0ef8d9b8e4d7c4073d9014b8718c6"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781717327,
+          "odds": 100,
+          "stake": 31718,
+          "pl": 32,
+          "won": true,
+          "tx": "0xcb4e44cab50e81ce64c50b699f24d0c745900edccc5643fd937ae4d22ca56759"
+        },
+        {
+          "market": "Will Iran close the Strait of Hormuz by June 30?",
+          "url": "https://polymarket.com/event/will-iran-close-the-strait-of-hormuz-by-2027",
+          "ts": 1773147309,
+          "odds": 100,
+          "stake": 27281,
+          "pl": 27,
+          "won": true,
+          "tx": "0x629c0cf688127cfc5e2f28fa1c025d093d71f6ecfd4171e048315e0278b7975d"
+        },
+        {
+          "market": "Will SpaceX acquire Cursor by December 31, 2026?",
+          "url": "https://polymarket.com/event/will-spacex-acquire-cursor",
+          "ts": 1776870746,
+          "odds": 86,
+          "stake": 9502,
+          "pl": 1527,
+          "won": true,
+          "tx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6"
+        },
+        {
+          "market": "Will SpaceX IPO by September 30, 2026?",
+          "url": "https://polymarket.com/event/spacex-ipo-by",
+          "ts": 1775978141,
+          "odds": 91,
+          "stake": 6196,
+          "pl": 588,
+          "won": true,
+          "tx": "0x67ba99eb2804ed3e55e8f1a359a47d93538b4e228f65381f1db8565785ea31b8"
+        },
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-476",
+          "ts": 1770732647,
+          "odds": 95,
+          "stake": 3867,
+          "pl": 150,
+          "won": true,
+          "tx": "0x622d09900403f8f4ad66148f7191fd62817bc308eb77848d42af6a207fd57e6e"
+        },
+        {
+          "market": "Will Trump and Machado share the Nobel Peace Prize?",
+          "url": "https://polymarket.com/event/will-trump-and-machado-share-the-nobel-peace-prize",
+          "ts": 1768507150,
+          "odds": 27,
+          "stake": 3058,
+          "pl": -3058,
+          "won": false,
+          "tx": "0x73694525638be39a72aeabb392ef1352b3155cc33b01e1c5905e43e9ac04ea2d"
+        },
+        {
+          "market": "Claude 4.8 released by June 30?",
+          "url": "https://polymarket.com/event/claude-4pt8-released-by",
+          "ts": 1779928901,
+          "odds": 98,
+          "stake": 1247,
+          "pl": 42,
+          "won": true,
+          "tx": "0xda5d64a923afaedeab0777e25a852614690318ceec01b75fb31f682e374ca8f4"
+        },
+        {
+          "market": "Will SpaceX IPO by August 31, 2026?",
+          "url": "https://polymarket.com/event/spacex-ipo-by",
+          "ts": 1776103009,
+          "odds": 89,
+          "stake": 990,
+          "pl": 115,
+          "won": true,
+          "tx": "0x7c9e060a7f573b64a290c806ce82915f16c209e21dc2cc86a845c6810eeb4874"
+        },
+        {
+          "market": "Will SpaceX IPO by June 30, 2026?",
+          "url": "https://polymarket.com/event/spacex-ipo-by",
+          "ts": 1776093117,
+          "odds": 58,
+          "stake": 393,
+          "pl": -393,
+          "won": false,
+          "tx": "0x106355a9347b9f9eed057f2a719340f217e5746201ba66bf637e17b76ddcc1d1"
+        },
+        {
+          "market": "Will Paetongtarn Shinawatra be the next prime minister of Thailand?",
+          "url": "https://polymarket.com/event/next-prime-minister-of-thailand",
+          "ts": 1766018030,
+          "odds": 99,
+          "stake": 77,
+          "pl": 2,
+          "won": true,
+          "tx": "0x2f08f8e2ad60a4ca6d163133caacd2d9ce958dd3117a8e775b279d6b2e41472d"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by June 30, 2027?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-june-30-2027",
+          "ts": 1778301342,
+          "odds": 100,
+          "stake": 20,
+          "pl": 0,
+          "won": true,
+          "tx": "0x436e16953588b9f3f890a09d841d06963380d3337a5b58ac0eb7f02c737c065f"
+        },
+        {
+          "market": "Trump declassifies UFO files before 2027?",
+          "url": "https://polymarket.com/event/trump-declassifies-ufo-files-before-2027",
+          "ts": 1765324390,
+          "odds": 82,
+          "stake": 13,
+          "pl": 73,
+          "won": true,
+          "tx": "0xdef457cea5da2c53ab703bee6a1104f3f6c40eeede4445f8490361cb63f6ea16"
+        }
+      ],
+      "alsoBinomial": true
     },
     {
       "address": "0x7e31a5e9c31638483614e9fd9f945bb34692454d",
@@ -1134,6 +1310,172 @@
       "alsoBinomial": true
     },
     {
+      "address": "0xd49b42bce7ea10bac53e2901c188cae20ea4bdf9",
+      "username": null,
+      "tier": "notable",
+      "S": 583.9,
+      "market": "Will Trump and Xi handshake last 15 seconds or longer during the day of their next meeting in 2026?",
+      "marketUrl": "https://polymarket.com/event/how-long-will-trump-and-xi-shake-hands-when-they-meet",
+      "episodeTx": "0x80d8190a184de37234a9ac9e9c4e0705b62e6ac4e9d78719e1ab9a4f66aff3c8",
+      "stake": 13574,
+      "odds": 89,
+      "won": true,
+      "episodeProfit": 1700,
+      "zBetCross": 10.89,
+      "zBetWithin": 2.14,
+      "zProfitCross": 8.13,
+      "lateBuyFraction": 0.986,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 62,
+      "ledger": [
+        {
+          "market": "Will Keir Starmer be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 99,
+          "stake": 16746,
+          "pl": 99,
+          "won": true,
+          "tx": "0xa1496003402b42b1f125885730c215101d9db77e062048b28c96cca33342c592"
+        },
+        {
+          "market": "Will Benjamin Netanyahu be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 15490,
+          "pl": 21,
+          "won": true,
+          "tx": "0x178a847f85da9265b346257d6bd729ab75050bad56408ec0c7324170cc9717f4"
+        },
+        {
+          "market": "Will Mahmoud Abbas be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 15412,
+          "pl": 17,
+          "won": true,
+          "tx": "0x3a286128773c9ebbd6cfe6db39f1e5973738d8357b3aa24a7f810e39ccebf75d"
+        },
+        {
+          "market": "Will Trump and Xi handshake last 15 seconds or longer during the day of their next meeting in 2026?",
+          "url": "https://polymarket.com/event/how-long-will-trump-and-xi-shake-hands-when-they-meet",
+          "ts": 1778432487,
+          "odds": 89,
+          "stake": 13574,
+          "pl": 1700,
+          "won": true,
+          "tx": "0x80d8190a184de37234a9ac9e9c4e0705b62e6ac4e9d78719e1ab9a4f66aff3c8"
+        },
+        {
+          "market": "Will no listed leader be out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 11182,
+          "pl": 11,
+          "won": true,
+          "tx": "0x1c5535e14b3372ee64b74638beb6e75d8f24a9ea2ca2f7fc23d5d36c0017a7c2"
+        },
+        {
+          "market": "Will Sanae Takaichi be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 10861,
+          "pl": 14,
+          "won": true,
+          "tx": "0x211480039ddbd0cfad364bdac450b559f3cbe4b0fa805277e88c2a21260f034b"
+        },
+        {
+          "market": "Will Donald Trump be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 10539,
+          "pl": 11,
+          "won": true,
+          "tx": "0xa2543dea5bddf82f94b90667c79c7ef8efd8f9ca2123c680bfaab75ea5f62fb3"
+        },
+        {
+          "market": "Will Miguel Díaz-Canel be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 10245,
+          "pl": 11,
+          "won": true,
+          "tx": "0x157d6302c8ef2f20571131100bd44b93ad86c50ff43574bc79af652c70a76a22"
+        },
+        {
+          "market": "Will Luiz Inácio Lula da Silva be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 10085,
+          "pl": 10,
+          "won": true,
+          "tx": "0x4ff3bd4b06505ea8f4881bb8e51ec7336223d69ec93f2da1148669a86f2469dd"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778860385,
+          "odds": 99,
+          "stake": 9229,
+          "pl": 108,
+          "won": true,
+          "tx": "0xdc132f00474d348860fc598b81439e3a3a81e4bdb83b3f4806445113361fcb2a"
+        },
+        {
+          "market": "Will Vladimir Putin be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 9149,
+          "pl": 9,
+          "won": true,
+          "tx": "0x171d6b3582b17d063e2bd880cfaea7041de3a92f24f48379c2733b096a80b2ee"
+        },
+        {
+          "market": "Will Delcy Rodríguez be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1777974204,
+          "odds": 100,
+          "stake": 8855,
+          "pl": 9,
+          "won": true,
+          "tx": "0xa5886b46988fc05ce30c0de86cc17f884fdbedd9b047544a1fc7baec2883d09d"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 300k and 350k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778860385,
+          "odds": 98,
+          "stake": 8584,
+          "pl": 192,
+          "won": true,
+          "tx": "0x684f5d41653e2c129785e7a85f1d8b325e2cd895e0ec5b0882f044ea5d323b74"
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 350k and 400k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1778860387,
+          "odds": 97,
+          "stake": 8096,
+          "pl": 214,
+          "won": true,
+          "tx": "0xd970764ed26ef55d3bf4e634de3900a2b995d2e4b2249e5e1427fb6f417b4ea5"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1",
       "username": "aenews2",
       "tier": "notable",
@@ -1300,176 +1642,10 @@
       "alsoBinomial": false
     },
     {
-      "address": "0xd49b42bce7ea10bac53e2901c188cae20ea4bdf9",
-      "username": null,
-      "tier": "notable",
-      "S": 580,
-      "market": "Will Trump and Xi handshake last 15 seconds or longer during the day of their next meeting in 2026?",
-      "marketUrl": "https://polymarket.com/event/how-long-will-trump-and-xi-shake-hands-when-they-meet",
-      "episodeTx": "0x80d8190a184de37234a9ac9e9c4e0705b62e6ac4e9d78719e1ab9a4f66aff3c8",
-      "stake": 13574,
-      "odds": 89,
-      "won": true,
-      "episodeProfit": 1700,
-      "zBetCross": 10.89,
-      "zBetWithin": 1.95,
-      "zProfitCross": 8.13,
-      "lateBuyFraction": 0.986,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 53,
-      "ledger": [
-        {
-          "market": "Will Keir Starmer be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 99,
-          "stake": 16746,
-          "pl": 99,
-          "won": true,
-          "tx": "0xa1496003402b42b1f125885730c215101d9db77e062048b28c96cca33342c592"
-        },
-        {
-          "market": "Will Benjamin Netanyahu be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 15490,
-          "pl": 21,
-          "won": true,
-          "tx": "0x178a847f85da9265b346257d6bd729ab75050bad56408ec0c7324170cc9717f4"
-        },
-        {
-          "market": "Will Mahmoud Abbas be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 15412,
-          "pl": 17,
-          "won": true,
-          "tx": "0x3a286128773c9ebbd6cfe6db39f1e5973738d8357b3aa24a7f810e39ccebf75d"
-        },
-        {
-          "market": "Will Trump and Xi handshake last 15 seconds or longer during the day of their next meeting in 2026?",
-          "url": "https://polymarket.com/event/how-long-will-trump-and-xi-shake-hands-when-they-meet",
-          "ts": 1778432487,
-          "odds": 89,
-          "stake": 13574,
-          "pl": 1700,
-          "won": true,
-          "tx": "0x80d8190a184de37234a9ac9e9c4e0705b62e6ac4e9d78719e1ab9a4f66aff3c8"
-        },
-        {
-          "market": "Will no listed leader be out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 11182,
-          "pl": 11,
-          "won": true,
-          "tx": "0x1c5535e14b3372ee64b74638beb6e75d8f24a9ea2ca2f7fc23d5d36c0017a7c2"
-        },
-        {
-          "market": "Will Sanae Takaichi be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 10861,
-          "pl": 14,
-          "won": true,
-          "tx": "0x211480039ddbd0cfad364bdac450b559f3cbe4b0fa805277e88c2a21260f034b"
-        },
-        {
-          "market": "Will Donald Trump be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 10539,
-          "pl": 11,
-          "won": true,
-          "tx": "0xa2543dea5bddf82f94b90667c79c7ef8efd8f9ca2123c680bfaab75ea5f62fb3"
-        },
-        {
-          "market": "Will Miguel Díaz-Canel be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 10245,
-          "pl": 11,
-          "won": true,
-          "tx": "0x157d6302c8ef2f20571131100bd44b93ad86c50ff43574bc79af652c70a76a22"
-        },
-        {
-          "market": "Will Luiz Inácio Lula da Silva be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 10085,
-          "pl": 10,
-          "won": true,
-          "tx": "0x4ff3bd4b06505ea8f4881bb8e51ec7336223d69ec93f2da1148669a86f2469dd"
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1778860385,
-          "odds": 99,
-          "stake": 9229,
-          "pl": 108,
-          "won": true,
-          "tx": "0xdc132f00474d348860fc598b81439e3a3a81e4bdb83b3f4806445113361fcb2a"
-        },
-        {
-          "market": "Will Vladimir Putin be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 9149,
-          "pl": 9,
-          "won": true,
-          "tx": "0x171d6b3582b17d063e2bd880cfaea7041de3a92f24f48379c2733b096a80b2ee"
-        },
-        {
-          "market": "Will Delcy Rodríguez be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1777974204,
-          "odds": 100,
-          "stake": 8855,
-          "pl": 9,
-          "won": true,
-          "tx": "0xa5886b46988fc05ce30c0de86cc17f884fdbedd9b047544a1fc7baec2883d09d"
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be between 300k and 350k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1778860385,
-          "odds": 98,
-          "stake": 8584,
-          "pl": 192,
-          "won": true,
-          "tx": "0x684f5d41653e2c129785e7a85f1d8b325e2cd895e0ec5b0882f044ea5d323b74"
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be between 350k and 400k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1778860387,
-          "odds": 97,
-          "stake": 8096,
-          "pl": 214,
-          "won": true,
-          "tx": "0xd970764ed26ef55d3bf4e634de3900a2b995d2e4b2249e5e1427fb6f417b4ea5"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 578.7,
+      "S": 578.6,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": null,
@@ -1478,7 +1654,7 @@
       "won": true,
       "episodeProfit": 4363,
       "zBetCross": 10.72,
-      "zBetWithin": 2.6,
+      "zBetWithin": 2.59,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -1486,7 +1662,7 @@
       "firstSeen": "Oct 13 2024",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1183,
+      "betsCount": 1194,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -1857,7 +2033,7 @@
       "address": "0x4f1d5ae26fc31472966e951af3183308736d8de2",
       "username": null,
       "tier": "notable",
-      "S": 535.7,
+      "S": 537.7,
       "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0xdd053b8659edaefa21037220209455955c7d0fb6bb7b79a4283d2d6bf7140eb8",
@@ -1866,7 +2042,7 @@
       "won": true,
       "episodeProfit": 1432,
       "zBetCross": 10.69,
-      "zBetWithin": 1.68,
+      "zBetWithin": 1.77,
       "zProfitCross": 7.37,
       "lateBuyFraction": 0.268,
       "directionalScore": 0.995,
@@ -1874,7 +2050,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 83,
+      "betsCount": 92,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
@@ -1987,34 +2163,34 @@
           "tx": "0xa30f775d33214e008c49da0a703168ea1b15599b7a2e8f51b2f1a70649ef553c"
         },
         {
-          "market": "Will Jerome Powell depart as Fed Chair after July 3?",
-          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
-          "ts": 1778083799,
+          "market": "Will SpaceX’s initial public offering occur in September 2026 (ET)?",
+          "url": "https://polymarket.com/event/in-which-month-will-spacex-ipo",
+          "ts": 1778785767,
           "odds": 100,
-          "stake": 975,
-          "pl": 1,
+          "stake": 1072,
+          "pl": 3,
           "won": true,
-          "tx": "0x67321ad2330034974fb8cedb980ce7358de7efe6b07bfddaa3e74ae55bdcd703"
+          "tx": "0xb663066ddaa34c17f067ece5a5f1ba3f38dbd68ca5f9fa0541117193bc04effe"
         },
         {
-          "market": "Will Jerome Powell depart as Fed Chair between June 6 and June 12?",
-          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
-          "ts": 1778083799,
+          "market": "Will SpaceX’s initial public offering occur in October 2026 (ET)?",
+          "url": "https://polymarket.com/event/in-which-month-will-spacex-ipo",
+          "ts": 1778785767,
           "odds": 100,
-          "stake": 803,
-          "pl": 4,
+          "stake": 1072,
+          "pl": 3,
           "won": true,
-          "tx": "0xe79563c89b8976fd422ab4cf6f7b4330bb7af60f1cac095a0a4d333cb992a38d"
+          "tx": "0xa29ab926b0f396a9a2c4de14b3b40308fa170265b69229be7b132f6f3bd3c8e0"
         },
         {
-          "market": "Will Jerome Powell depart as Fed Chair between June 13 and June 19?",
-          "url": "https://polymarket.com/event/when-will-jerome-powell-depart-as-fed-chair",
-          "ts": 1778083799,
-          "odds": 100,
-          "stake": 771,
-          "pl": 2,
+          "market": "Will SpaceX fail to complete an initial public offering by December 31, 2026, 11:59 PM ET?",
+          "url": "https://polymarket.com/event/in-which-month-will-spacex-ipo",
+          "ts": 1778785767,
+          "odds": 99,
+          "stake": 1069,
+          "pl": 6,
           "won": true,
-          "tx": "0x8678914a58c1b8d945fb31c259ef70de61f4d21d7f171a7e54bbe81f1bbd38fe"
+          "tx": "0x4893ec0b0cf177cdeedc8113b57c6a27b88b75ed4a621bf0971fbf3806d04384"
         }
       ],
       "alsoBinomial": false
