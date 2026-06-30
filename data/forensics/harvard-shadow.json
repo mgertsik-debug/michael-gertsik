@@ -1,11 +1,11 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782776873,
-  "total": 82,
+  "total": 83,
   "byTier": {
     "extreme": 12,
     "high": 13,
-    "notable": 57
+    "notable": 58
   },
   "medianS": 678.9,
   "p90": 1236.2,
@@ -13,13 +13,13 @@
   "p99": 1825.5,
   "minS": 530.7,
   "maxS": 1825.5,
-  "over500": 82,
+  "over500": 83,
   "alsoBinomial": 25,
-  "onlyHarvard": 57,
-  "observed": 222723,
-  "reviewed": 222723,
-  "screened": 10306,
-  "scored": 6078,
+  "onlyHarvard": 58,
+  "observed": 222771,
+  "reviewed": 222771,
+  "screened": 10308,
+  "scored": 6077,
   "top": [
     {
       "address": "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92",
@@ -4698,6 +4698,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0xa022ba0a68e11a78348382ff168601012d4d77f8",
+      "username": "yungstalin",
+      "tier": "notable",
+      "S": 753,
+      "market": "Trump announces end of military operations against Iran by June 30th?",
+      "marketUrl": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+      "episodeTx": "0x973be21f6ff4b97e1906e59019da1c8f1bd86200cf5ec5c04ba711fa19be2427",
+      "stake": 40488,
+      "odds": 70,
+      "won": true,
+      "episodeProfit": 13119,
+      "zBetCross": 13.04,
+      "zBetWithin": 0.4,
+      "zProfitCross": 13.44,
+      "lateBuyFraction": 0.378,
+      "directionalScore": 1,
+      "accountPnl": 280328,
+      "firstSeen": "Mar 17 2026",
+      "createdOnChain": true,
+      "created": "Mar 17 2026",
+      "betsCount": 106,
+      "ledger": [
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781721455,
+          "odds": 100,
+          "stake": 229310,
+          "pl": 690,
+          "won": true,
+          "tx": "0xf03095fef744f21f027a77ae6533cb0b59e25b59a5b653647a03dee9ea2f0285"
+        },
+        {
+          "market": "Will Spencer Pratt win the 2026 Los Angeles mayoral election?",
+          "url": "https://polymarket.com/event/will-spencer-pratt-win-the-2026-los-angeles-mayoral-election-983",
+          "ts": 1778493396,
+          "odds": 76,
+          "stake": 220779,
+          "pl": 70544,
+          "won": true,
+          "tx": "0x57a1c23a09de1b7d5afae2bb157a302991cdd9376550dcc88db481cce598f460"
+        },
+        {
+          "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1780318792,
+          "odds": 73,
+          "stake": 192636,
+          "pl": 72618,
+          "won": true,
+          "tx": "0x48346c86beaec7595b3d55d5c7e89671ffcb80a0abea3f8fedb62cfd4ca2edca"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1777991958,
+          "odds": 25,
+          "stake": 146981,
+          "pl": -46081,
+          "won": false,
+          "tx": "0x876aa34a2a6939a70501a3bc96232a44d94169360d9adf6261a2e51f4d6965c7"
+        },
+        {
+          "market": "Iran closes its airspace by May 24?",
+          "url": "https://polymarket.com/event/iran-closes-its-airspace-by-may-24",
+          "ts": 1779041150,
+          "odds": 69,
+          "stake": 113491,
+          "pl": -45468,
+          "won": false,
+          "tx": "0x315076d22ad6277a718216e742e9d1af7e497cd4301a1299d099e6ee1cb3ecdc"
+        },
+        {
+          "market": "Strait of Hormuz traffic returns to normal by end of May?",
+          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-may",
+          "ts": 1778023370,
+          "odds": 18,
+          "stake": 106834,
+          "pl": -106834,
+          "won": false,
+          "tx": "0xa74affa49728137423a82d523f9743024e550936e02de90401e7649169c6d4b3"
+        },
+        {
+          "market": "Russia x Ukraine ceasefire by May 31, 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-may-31-2026",
+          "ts": 1778265347,
+          "odds": 64,
+          "stake": 102797,
+          "pl": -102797,
+          "won": false,
+          "tx": "0x4b6ba7b2e3c3e4d6f394cf7d340ff2d80eb3225625e0e202fcc29e8b4fbe87ed"
+        },
+        {
+          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
+          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
+          "ts": 1779664298,
+          "odds": 95,
+          "stake": 102180,
+          "pl": 4948,
+          "won": true,
+          "tx": "0xf6e01d83ff32a08a8f9c3ca111bca75ea33d74a0419ba54a478ce60ff5baf35d"
+        },
+        {
+          "market": "US x Iran permanent peace deal by May 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1778065340,
+          "odds": 77,
+          "stake": 96536,
+          "pl": 29414,
+          "won": true,
+          "tx": "0x813ebed0c5ae54d60510bcd9748ce3b6f7109760c294736707786dcb66ff58ff"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 30, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1778152850,
+          "odds": 27,
+          "stake": 86189,
+          "pl": -15,
+          "won": false,
+          "tx": "0xd487d9c63cc27949c6b09a9deb0643fd93b840fa82621a4dfbde3756d4d1187b"
+        },
+        {
+          "market": "Strait of Hormuz traffic returns to normal by end of June?",
+          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+          "ts": 1778057650,
+          "odds": 16,
+          "stake": 68591,
+          "pl": -68591,
+          "won": false,
+          "tx": "0x6085b1a3c877cfed7c37909330505281c53acbd4ae325643daefdc6dab25f0d6"
+        },
+        {
+          "market": "US x Iran diplomatic meeting by May 31, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-diplomatic-meeting-by-may-31-2026-283-616",
+          "ts": 1778169309,
+          "odds": 70,
+          "stake": 66794,
+          "pl": 28260,
+          "won": true,
+          "tx": "0xa1f2c182faad9f62d235a36b9a094702510e44f67bf2848a4e2caabdd0803087"
+        },
+        {
+          "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by May 31, 2026?",
+          "url": "https://polymarket.com/event/trump-announces-us-blockade-of-hormuz-lifted-by",
+          "ts": 1778013264,
+          "odds": 60,
+          "stake": 64510,
+          "pl": 43177,
+          "won": true,
+          "tx": "0x8845d6529455a24a5dd0c5c3aac58a4f8da4da96a077adff557634e218031407"
+        },
+        {
+          "market": "Trump announces end of military operations against Iran by May 31st?",
+          "url": "https://polymarket.com/event/trump-announces-end-of-military-operations-against-iran-by",
+          "ts": 1777660352,
+          "odds": 81,
+          "stake": 58279,
+          "pl": 12746,
+          "won": true,
+          "tx": "0x455237bf48fe08d0363faa1fcb393c1446d8135fcd97790738870b804bac4b9d"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0xcd95ebd0d0d099fa442b9730991f2b8be5d28c17",
       "username": "2117",
       "tier": "notable",
@@ -7064,172 +7230,6 @@
         }
       ],
       "alsoBinomial": true
-    },
-    {
-      "address": "0xb7ef580a13f0463561170074bece5fb7bbd3812c",
-      "username": "TimRob",
-      "tier": "notable",
-      "S": 620.5,
-      "market": "Will US or Israel strike Iran by March 31, 2026?",
-      "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
-      "episodeTx": "0xdb6c97426d5d1703ba9684b1b08359aa24a670fb886f3aea6523d1b28a0548e9",
-      "stake": 9439,
-      "odds": 39,
-      "won": true,
-      "episodeProfit": 14570,
-      "zBetCross": 7.07,
-      "zBetWithin": 2.54,
-      "zProfitCross": 13.08,
-      "lateBuyFraction": 0,
-      "directionalScore": 0.052,
-      "accountPnl": 23781,
-      "firstSeen": "Jan 27 2026",
-      "createdOnChain": true,
-      "created": "Jan 27 2026",
-      "betsCount": 39,
-      "ledger": [
-        {
-          "market": "Will the Iran ceasefire continue through May 24?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-24-733",
-          "ts": 1779750150,
-          "odds": 97,
-          "stake": 17129,
-          "pl": 549,
-          "won": true,
-          "tx": "0x71fc7fc0e5bee1c6b25cb6c82b26da35001177e79fa386947b7fdfe1f0b1f974"
-        },
-        {
-          "market": "Will US or Israel strike Iran by March 31, 2026?",
-          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
-          "ts": 1771227447,
-          "odds": 39,
-          "stake": 9439,
-          "pl": 14570,
-          "won": true,
-          "tx": "0xdb6c97426d5d1703ba9684b1b08359aa24a670fb886f3aea6523d1b28a0548e9"
-        },
-        {
-          "market": "Strait of Hormuz traffic returns to normal by end of June?",
-          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
-          "ts": 1779229791,
-          "odds": 73,
-          "stake": 5552,
-          "pl": 2017,
-          "won": true,
-          "tx": "0xfb7b47a5417563866f7fd41e17d4703f326767b841aa3a1f2f6378270d7628ff"
-        },
-        {
-          "market": "Will US or Israel strike Iran by June 30, 2026?",
-          "url": "https://polymarket.com/event/usisrael-strikes-iran-by",
-          "ts": 1771283575,
-          "odds": 58,
-          "stake": 4965,
-          "pl": 3535,
-          "won": true,
-          "tx": "0xc697c9bf7e4f3678a0abb6a337a6ed2815cb813eb0bd283e22fb453e5bdb491d"
-        },
-        {
-          "market": "US x Iran permanent peace deal by May 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1779221365,
-          "odds": 78,
-          "stake": 3075,
-          "pl": 855,
-          "won": true,
-          "tx": "0x19f7a69fd7b4c4fe6f1fee954ff2005f4f6dc08ed1cf86a382ad7b99742959ba"
-        },
-        {
-          "market": "US announces new Iran agreement/ceasefire extension by June 30?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-30-848-925-757-129-337-165",
-          "ts": 1779846471,
-          "odds": 78,
-          "stake": 1468,
-          "pl": 407,
-          "won": true,
-          "tx": "0x4c91854ccefaf30ea8ffbbb28de7d4f546a0e9b5104cbf19f9e2d0c792cac6ec"
-        },
-        {
-          "market": "Strait of Hormuz traffic returns to normal by end of May?",
-          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-may",
-          "ts": 1779745605,
-          "odds": 98,
-          "stake": 1348,
-          "pl": 34,
-          "won": true,
-          "tx": "0x4f61d12c80a0108c2d1953a9954d3a9ef4e7bfb2c664642a146a55da537d8909"
-        },
-        {
-          "market": "US x Iran permanent peace deal by July 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1779978613,
-          "odds": 62,
-          "stake": 1240,
-          "pl": 760,
-          "won": true,
-          "tx": "0x1776ad3ea771f04a7ee129a786155200023a4b238635d660a1f86d80a16da6be"
-        },
-        {
-          "market": "US x Iran permanent peace deal by June 30, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1779978604,
-          "odds": 52,
-          "stake": 1047,
-          "pl": -1047,
-          "won": false,
-          "tx": "0x2ef87c518f7c3aba10f8a4ca7d1d69221c028ec8670967d3653a18f1502c4afc"
-        },
-        {
-          "market": "US x Iran permanent peace deal by May 26, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1779806306,
-          "odds": 97,
-          "stake": 884,
-          "pl": 26,
-          "won": true,
-          "tx": "0xa966cef71b101a5d5ced6474b8fac7fd12d31168e73d476e99eb1e09ccc27328"
-        },
-        {
-          "market": "Internet Access restored in Iran by September 30, 2026?",
-          "url": "https://polymarket.com/event/internet-access-restored-in-iran-by-september-30-2026",
-          "ts": 1779800858,
-          "odds": 84,
-          "stake": 800,
-          "pl": 156,
-          "won": true,
-          "tx": "0x6431b00c88d912dcc857a52f7ace18244167ef79b2965e3e44c69699c5952f11"
-        },
-        {
-          "market": "Will SpaceX not IPO by December 31, 2027?",
-          "url": "https://polymarket.com/event/will-spacex-not-ipo-by-december-31-2027-20260606222847125",
-          "ts": 1782864000,
-          "odds": 13,
-          "stake": 714,
-          "pl": -714,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "US announces new Iran agreement/ceasefire extension by June 7?",
-          "url": "https://polymarket.com/event/us-announces-new-iran-agreementceasefire-extension-by-june-7-265-824-655-577-216",
-          "ts": 1779836867,
-          "odds": 34,
-          "stake": 620,
-          "pl": 1220,
-          "won": true,
-          "tx": "0x0e7bc344097d4d4f31b5e7ea03b216fb03603b506e13542a2c6fa0fa97c5a6cb"
-        },
-        {
-          "market": "Will the Iran ceasefire continue through May 21?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-21",
-          "ts": 1779306371,
-          "odds": 94,
-          "stake": 565,
-          "pl": 35,
-          "won": true,
-          "tx": "0xd74603939c9cc263ec64090610b19790abdc4158d56cee6c2b2da8edef04dfd8"
-        }
-      ],
-      "alsoBinomial": false
     }
   ]
 }
