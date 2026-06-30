@@ -11,15 +11,15 @@
   "p90": 977.2,
   "p95": 1174.5,
   "p99": 1174.5,
-  "minS": 532.3,
+  "minS": 532.2,
   "maxS": 1174.5,
   "over500": 14,
   "alsoBinomial": 8,
   "onlyHarvard": 6,
-  "observed": 183777,
-  "reviewed": 183777,
-  "screened": 4510,
-  "scored": 2032,
+  "observed": 184306,
+  "reviewed": 184306,
+  "screened": 4580,
+  "scored": 2056,
   "top": [
     {
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
@@ -255,10 +255,10 @@
           "url": "https://polymarket.com/event/what-day-will-the-lighter-airdrop-be-489",
           "ts": 1767043089,
           "odds": 91,
-          "stake": 8509,
-          "pl": 863,
+          "stake": 8741,
+          "pl": 631,
           "won": true,
-          "tx": null
+          "tx": "0xfaf6397e22cdf5c192716d7617db351b9389381cc58d2d8df216610bc013d4c9"
         }
       ],
       "alsoBinomial": false
@@ -1148,56 +1148,10 @@
       "alsoBinomial": false
     },
     {
-      "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
-      "username": null,
-      "tier": "notable",
-      "S": 539.4,
-      "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
-      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
-      "episodeTx": "0xa7f748569298dbda8d73cf22803dadede8375726cd2211abe6495b733b392171",
-      "stake": 72082,
-      "odds": 69,
-      "won": true,
-      "episodeProfit": 31763,
-      "zBetCross": 10.71,
-      "zBetWithin": 0.71,
-      "zProfitCross": 7.75,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 2,
-      "ledger": [
-        {
-          "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
-          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
-          "ts": 1780246682,
-          "odds": 69,
-          "stake": 72082,
-          "pl": 31763,
-          "won": true,
-          "tx": "0xa7f748569298dbda8d73cf22803dadede8375726cd2211abe6495b733b392171"
-        },
-        {
-          "market": "Will Trump physically sign US x Iran deal?",
-          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
-          "ts": 1781734237,
-          "odds": 88,
-          "stake": 20835,
-          "pl": -1195,
-          "won": true,
-          "tx": "0x0bab18e28836d763174204a5cc8142c111ba0cb8e6bb4c7334abcde2d147d229"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": null,
       "tier": "notable",
-      "S": 538.7,
+      "S": 539.5,
       "market": "Iran successfully targets shipping by June 27?",
       "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
       "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -1206,7 +1160,7 @@
       "won": true,
       "episodeProfit": 16392,
       "zBetCross": 2.27,
-      "zBetWithin": 0.83,
+      "zBetWithin": 0.87,
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -1214,7 +1168,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 14,
+      "betsCount": 15,
       "ledger": [
         {
           "market": "US and Iran sign an agreement by July 31, 2026?",
@@ -1287,6 +1241,16 @@
           "tx": "0x71ab31c920cd1d2c196e3dbfe12c1420d1a9f96e91def30f0faf8ad67fa4d7d7"
         },
         {
+          "market": "Russia x Ukraine ceasefire by end of 2027?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-by-end-of-2027",
+          "ts": 1778265408,
+          "odds": 80,
+          "stake": 1377,
+          "pl": 352,
+          "won": true,
+          "tx": "0xf6cb835961c8e75679af4cbb6efa635457c70626ac714f49242eee8de8acd3f2"
+        },
+        {
           "market": "US and Iran sign an agreement by June 30, 2026?",
           "url": "https://polymarket.com/event/us-and-iran-sign-an-agreement-byptptpt-20260611221049850",
           "ts": 1781531089,
@@ -1345,16 +1309,52 @@
           "pl": -44,
           "won": false,
           "tx": "0xb5415db878404ec93895df78bab736a389fb3c2f98d77b3c11f93b5024ceeea0"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
+      "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
+      "username": null,
+      "tier": "notable",
+      "S": 539.4,
+      "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
+      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+      "episodeTx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b",
+      "stake": 72610,
+      "odds": 69,
+      "won": true,
+      "episodeProfit": 32029,
+      "zBetCross": 10.71,
+      "zBetWithin": 0.71,
+      "zProfitCross": 7.75,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 2,
+      "ledger": [
+        {
+          "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1780111863,
+          "odds": 69,
+          "stake": 72610,
+          "pl": 32029,
+          "won": true,
+          "tx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b"
         },
         {
-          "market": "Iran successfully targets shipping by July 15?",
-          "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
-          "ts": 1782489184,
-          "odds": 65,
-          "stake": 2,
-          "pl": -2,
+          "market": "Will Trump physically sign US x Iran deal?",
+          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
+          "ts": 1781734237,
+          "odds": 88,
+          "stake": 20835,
+          "pl": -1195,
           "won": true,
-          "tx": "0xaf9a4b04613320ebf81cab7ca69bc5282a894b1fd2e795e31b8b251faafc8311"
+          "tx": "0x0bab18e28836d763174204a5cc8142c111ba0cb8e6bb4c7334abcde2d147d229"
         }
       ],
       "alsoBinomial": true
@@ -1363,7 +1363,7 @@
       "address": "0xb10047d6a254b2ebb306d7a7d13bf59171ab6461",
       "username": "Parz1vaI",
       "tier": "notable",
-      "S": 532.3,
+      "S": 532.2,
       "market": "Will Opinion launch a token by February 28, 2026?",
       "marketUrl": "https://polymarket.com/event/will-opinion-launch-a-token-by",
       "episodeTx": null,
