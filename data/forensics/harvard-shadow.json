@@ -16,10 +16,10 @@
   "over500": 37,
   "alsoBinomial": 11,
   "onlyHarvard": 26,
-  "observed": 203585,
-  "reviewed": 203585,
-  "screened": 5844,
-  "scored": 3600,
+  "observed": 203736,
+  "reviewed": 203736,
+  "screened": 5852,
+  "scored": 3605,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -752,7 +752,7 @@
       "firstSeen": "Apr 13 2024",
       "createdOnChain": true,
       "created": "Apr 13 2024",
-      "betsCount": 727,
+      "betsCount": 728,
       "ledger": [
         {
           "market": "Khamenei out as Supreme Leader of Iran in 2026?",
@@ -1067,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1016.9,
+      "S": 1017.2,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1076,7 +1076,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 6.96,
+      "zBetWithin": 6.97,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1084,7 +1084,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "May 18 2026",
-      "betsCount": 285,
+      "betsCount": 286,
       "ledger": [
         {
           "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
@@ -2766,7 +2766,7 @@
       "firstSeen": "May 12 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 73,
+      "betsCount": 74,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
@@ -2915,7 +2915,7 @@
       "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
       "username": "siick",
       "tier": "notable",
-      "S": 688.9,
+      "S": 689.5,
       "market": "Will the US strike Somalia next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
       "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
@@ -2924,7 +2924,7 @@
       "won": true,
       "episodeProfit": 1882,
       "zBetCross": 7.77,
-      "zBetWithin": 4.79,
+      "zBetWithin": 4.82,
       "zProfitCross": 12.83,
       "lateBuyFraction": 0.273,
       "directionalScore": 1,
@@ -2932,7 +2932,7 @@
       "firstSeen": "Jun 15 2025",
       "createdOnChain": true,
       "created": "Feb 25 2025",
-      "betsCount": 162,
+      "betsCount": 165,
       "ledger": [
         {
           "market": "Will the US strike Somalia next?",
@@ -4306,7 +4306,7 @@
       "firstSeen": "Feb 21 2026",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1333,
+      "betsCount": 1334,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
