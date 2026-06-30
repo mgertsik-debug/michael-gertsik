@@ -14,10 +14,10 @@
   "minS": 532.3,
   "maxS": 1377.7,
   "over500": 42,
-  "alsoBinomial": 12,
-  "onlyHarvard": 30,
-  "observed": 209429,
-  "reviewed": 209429,
+  "alsoBinomial": 13,
+  "onlyHarvard": 29,
+  "observed": 209656,
+  "reviewed": 209656,
   "screened": 6185,
   "scored": 3773,
   "top": [
@@ -1067,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1023.8,
+      "S": 1023.4,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1076,7 +1076,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 7.3,
+      "zBetWithin": 7.28,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1121,8 +1121,8 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1757979248,
           "odds": 99,
-          "stake": 51201,
-          "pl": 308,
+          "stake": 52555,
+          "pl": 331,
           "won": true,
           "tx": "0x8d22d2a823e9ccd7cdf5ac1b4d80556ee56d550736fc38aba94c8b9bc0b6423b"
         },
@@ -1139,12 +1139,12 @@
         {
           "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1761010716,
+          "ts": 1760995331,
           "odds": 96,
-          "stake": 42639,
-          "pl": 1536,
+          "stake": 42658,
+          "pl": 1533,
           "won": true,
-          "tx": "0xd69866238493f3b79987f934ce79742f0e22f5fecc483399d6f8b7d5a35d1fa2"
+          "tx": "0xf370e66d44a951e83b4d19fcb3a05c8bfadc14bf2f43a5cefeff3a3e7b79ee2f"
         },
         {
           "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1190,9 +1190,9 @@
           "market": "Will the Democrats 66 win the second most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
           "ts": 1749218652,
-          "odds": 89,
-          "stake": 19566,
-          "pl": 1363,
+          "odds": 90,
+          "stake": 19673,
+          "pl": 1336,
           "won": true,
           "tx": "0x242a2f7f211b7d58a25e8675b3e5257301f41d56015b99da23ae0b2e70d1a07d"
         },
@@ -1399,7 +1399,7 @@
       "address": "0xde7be6d489bce070a959e0cb813128ae659b5f4b",
       "username": "wan123",
       "tier": "high",
-      "S": 969.4,
+      "S": 969.5,
       "market": "Russia x Ukraine ceasefire by end of 2026?",
       "marketUrl": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
       "episodeTx": "0x40ee6ddfadfa749680a8abb24fccd53f4fb61d499275c5e9a8e2fa904080b0ad",
@@ -1408,15 +1408,15 @@
       "won": true,
       "episodeProfit": 173568,
       "zBetCross": 24.23,
-      "zBetWithin": 1.24,
+      "zBetWithin": 1.25,
       "zProfitCross": 10.74,
       "lateBuyFraction": 0.431,
       "directionalScore": 1,
-      "accountPnl": 1534545,
+      "accountPnl": 1533860,
       "firstSeen": "Mar 05 2026",
       "createdOnChain": true,
       "created": "Feb 21 2026",
-      "betsCount": 172,
+      "betsCount": 173,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
@@ -1450,7 +1450,7 @@
         },
         {
           "market": "US x Iran ceasefire by March 31?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-31",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
           "ts": null,
           "odds": 23,
           "stake": 128559,
@@ -1500,7 +1500,7 @@
         },
         {
           "market": "US x Iran ceasefire by March 15?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-15",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
           "ts": null,
           "odds": 16,
           "stake": 66808,
@@ -1540,7 +1540,7 @@
         },
         {
           "market": "US x Iran ceasefire extended by April 21, 2026?",
-          "url": "https://polymarket.com/event/will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-extended-by",
           "ts": 1776729600,
           "odds": 34,
           "stake": 46008,
@@ -5587,7 +5587,7 @@
           "tx": "0x61fcd1961bb9df333445ae5fa2ae354b49f963fffc0c5a9d2389bf279a20acb5"
         }
       ],
-      "alsoBinomial": false
+      "alsoBinomial": true
     },
     {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
