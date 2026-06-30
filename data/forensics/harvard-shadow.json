@@ -296,7 +296,7 @@
       "zProfitCross": 29.16,
       "lateBuyFraction": 0,
       "directionalScore": 0.739,
-      "accountPnl": 421245,
+      "accountPnl": 419960,
       "firstSeen": "Sep 25 2025",
       "createdOnChain": true,
       "created": "Sep 25 2025",
@@ -1193,7 +1193,7 @@
       "lateBuyFraction": 0,
       "directionalScore": 1,
       "accountPnl": -156195,
-      "firstSeen": "Feb 23 2026",
+      "firstSeen": "Mar 18 2026",
       "createdOnChain": true,
       "created": "Feb 23 2026",
       "betsCount": 6,
@@ -3141,8 +3141,8 @@
           "tx": "0x9a8cb9b9d7374957e04dfafb911086dc3ae740b4b897dae7bc7dceffbb6baccb"
         },
         {
-          "market": "0x81ec388b5717ed05da3e00e7d0fcc5cd2ac77fa1cadb1c0441cc2672a98c5b34",
-          "url": null,
+          "market": "Will Iran strike Israel on March 8?",
+          "url": "https://polymarket.com/event/will-iran-strike-israel-on-march-8",
           "ts": 1772841693,
           "odds": 63,
           "stake": 100,
@@ -3201,8 +3201,8 @@
           "tx": "0x1297550c7c165b7f5b627a611dc02af8d593011778a84779bc25e476877caabd"
         },
         {
-          "market": "Will France strike Iran by March 31?",
-          "url": "https://polymarket.com/event/will-france-strike-iran-by-march-31",
+          "market": "0x0942f5ee13a4cdb53b020d60766260a2e0f602af85804392f5c77f80ea9a9b0b",
+          "url": null,
           "ts": 1773084689,
           "odds": 14,
           "stake": 30,
@@ -3549,7 +3549,7 @@
       "address": "0xfffadf38a520cd5a0035ff52d7fceb436a08864b",
       "username": "GoriIIa",
       "tier": "notable",
-      "S": 802.3,
+      "S": 802.9,
       "market": "U.S. anti-cartel ground operation in Mexico by March 31?",
       "marketUrl": "https://polymarket.com/event/us-anti-cartel-ground-operation-in-mexico-by-march-31",
       "episodeTx": "0x8d6ba36f67c4f1b9bc6bc097be12de267272d1c8ad7fc83742247e7576dfdef2",
@@ -3558,15 +3558,15 @@
       "won": true,
       "episodeProfit": 3557,
       "zBetCross": 18.22,
-      "zBetWithin": -0.28,
+      "zBetWithin": -0.24,
       "zProfitCross": 11.41,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 508114,
+      "accountPnl": 506913,
       "firstSeen": "Jun 20 2024",
       "createdOnChain": true,
       "created": "Jun 20 2024",
-      "betsCount": 14,
+      "betsCount": 15,
       "ledger": [
         {
           "market": "Will the Iranian regime fall in 2025?",
@@ -3669,6 +3669,16 @@
           "tx": "0xf4f8c743960d7227b5158a272b5166a9a5dcc847b024289f7a10acc9cb3cb78b"
         },
         {
+          "market": "Iran agrees to end enrichment of uranium by July 31?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-july-31",
+          "ts": 1782039328,
+          "odds": 87,
+          "stake": 9760,
+          "pl": 1458,
+          "won": true,
+          "tx": "0x4925a605fdd11739fa8f254f80bbe875936b51abf691170378234b1e187ea2ec"
+        },
+        {
           "market": "US strikes Iran by February 27, 2026?",
           "url": "https://polymarket.com/event/us-strikes-iran-by",
           "ts": 1772261561,
@@ -3697,16 +3707,6 @@
           "pl": -1890,
           "won": false,
           "tx": "0x071b00a1ebf325fa9589f3be03c4e173db0c58cdd35b685460c192aec77c763d"
-        },
-        {
-          "market": "U.S. anti-cartel ground operation in Mexico by June 30?",
-          "url": "https://polymarket.com/event/us-anti-cartel-ground-operation-in-mexico-by-march-31",
-          "ts": 1771926824,
-          "odds": 67,
-          "stake": 1247,
-          "pl": -1247,
-          "won": false,
-          "tx": "0x6c577c4396ff82648170200553d5504de7b1383d6481c27b321a086fe759b4c3"
         }
       ],
       "alsoBinomial": true
@@ -4626,7 +4626,7 @@
         },
         {
           "market": "US x Iran ceasefire by April 15?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-april-15",
           "ts": 1773710565,
           "odds": 81,
           "stake": 9628,
@@ -5785,7 +5785,7 @@
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
       "username": "tourists",
       "tier": "notable",
-      "S": 677.1,
+      "S": 677.2,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -5798,11 +5798,11 @@
       "zProfitCross": 10.42,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 506686,
+      "accountPnl": 509316,
       "firstSeen": "May 12 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 85,
+      "betsCount": 86,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
