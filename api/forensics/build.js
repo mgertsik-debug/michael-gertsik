@@ -209,6 +209,10 @@ function validateSubject(ctx) {
   // ACCOUNT-LEVEL net loss: even with a profitable long-shot subset, a wallet whose ALL-TIME
   // Polymarket P/L is negative is not a credible insider — they lost money overall. Drop it when
   // the authoritative account P/L is known and ≤ 0. (Clusters pool members' P/L → exempt.)
+  // NOTE (considered + rejected): softening this to a per-episode floor REINTRODUCES the edgeseekr
+  // false positive — a net-negative account whose long-shot streak RECONSTRUCTS to a large profit is
+  // the very signal that the reconstruction was not KEPT (sold/hedged). The authoritative account P/L
+  // is the truth; an insider who profits keeps it. So the blanket veto stands — it is a precision guard.
   if (!isCluster && ctx.accountPL != null && ctx.accountPL <= 0) return "account net-negative (all-time P/L=$" + Math.round(ctx.accountPL) + ")";
   // MEANINGFUL profit floor: a wallet that NET a trivial amount (e.g. +$382 all-time) is
   // not a credible insider even with an improbable long-shot streak — the upside an insider
@@ -926,17 +930,20 @@ function suspicionScore(s) {
   // fired must never rank below one with 7/12, all else equal. The old /5 cap saturated at 5,
   // making 7 and 9 indistinguishable and letting bet-size break the tie the WRONG way.
   const breadth = Math.min(1, (s.detectorsFired || fired.length || s.agreeing || 0) / 9);
-  const timingOn = fired.indexOf("timing") >= 0 || fired.indexOf("crossCat") >= 0 || fired.indexOf("newsBlackout") >= 0 ? 1 : 0; // pre-event timing / cross-category / news-blackout
-  // purpose-built / coordinated structure. `fresh` is EXCLUDED — it fires on ~75% of Polymarket
-  // wallets (per-user proxy wallets are inherently fresh), so it's a near-constant that discriminates
-  // nothing; only concealment / funding-cluster are genuine structural tells.
-  const structOn = (fired.indexOf("conceal") >= 0 || fired.indexOf("cluster") >= 0) ? 1 : 0;
+  const has = (k) => fired.indexOf(k) >= 0;
+  const timingOn = (has("timing") || has("crossCat") || has("newsBlackout")) ? 1 : 0; // pre-event timing / cross-category / news-blackout
+  // STRUCTURAL TELL — coordinated concealment/funding (conceal/cluster) OR the LONE-WOLF signature:
+  // a single high-conviction bet that is ALSO un-hedged and one-directional (conviction + concentration
+  // co-firing). The lone-wolf case is Burdensome-Mix / Maduro — a fresh account that sinks one massive
+  // long-shot on a single thesis hours before a covert event. That record has NO breadth, so the
+  // improbability+breadth backbone structurally under-scores arguably the PUREST insider pattern; this
+  // restores it. (`fresh` itself is still excluded — it fires on ~75% of wallets and discriminates little.)
+  const structOn = (has("conceal") || has("cluster") || (has("conviction") && has("concentration"))) ? 1 : 0;
   const mag = Math.min(1, log10(Math.abs(s.profitNum || 0)) / 6);   // realized magnitude (saturates ~$1M)
   // WEIGHTS — improbability + corroboration DOMINATE (the two things the card shows: "1 in N" and
-  // "X/12 fired"), so the score is legible: more improbable and/or more flags ⇒ higher. Bet-size
-  // (mag) is only a minor tiebreaker — it must NOT let a weak-improbability, fewer-flag whale
-  // outrank a more-improbable, more-corroborated wallet (the old 0.20 mag weight did exactly that).
-  const score = 0.42 * imp + 0.30 * breadth + 0.08 * timingOn + 0.14 * mag + 0.06 * structOn;
+  // "X/12 fired"), so the score stays legible. Bet-size (mag) is only a minor tiebreaker. The structural
+  // term is lifted 0.06→0.12 so a lone concentrated conviction bet (no breadth) can still reach High.
+  const score = 0.40 * imp + 0.28 * breadth + 0.08 * timingOn + 0.12 * mag + 0.12 * structOn;
   return Math.round(score * 1000) / 10;                             // 0..100, one decimal
 }
 
