@@ -16,8 +16,8 @@
   "over500": 84,
   "alsoBinomial": 25,
   "onlyHarvard": 59,
-  "observed": 224115,
-  "reviewed": 224115,
+  "observed": 224489,
+  "reviewed": 224489,
   "screened": 10350,
   "scored": 6094,
   "top": [
@@ -2371,8 +2371,8 @@
           "tx": "0x321fa5921dfdb1032aa05e262d4611a84b8ea935958fa1c20ed8dd88a66bcedc"
         },
         {
-          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
-          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
+          "market": "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538",
+          "url": null,
           "ts": 1779914617,
           "odds": 96,
           "stake": 40082,
@@ -3201,8 +3201,8 @@
           "tx": "0x1297550c7c165b7f5b627a611dc02af8d593011778a84779bc25e476877caabd"
         },
         {
-          "market": "0x0942f5ee13a4cdb53b020d60766260a2e0f602af85804392f5c77f80ea9a9b0b",
-          "url": null,
+          "market": "Will France strike Iran by March 31?",
+          "url": "https://polymarket.com/event/will-france-strike-iran-by-march-31",
           "ts": 1773084689,
           "odds": 14,
           "stake": 30,
@@ -3403,8 +3403,8 @@
       "betsCount": 179,
       "ledger": [
         {
-          "market": "Will Rebecca Shepherd win the 2026 Makerfield by-election?",
-          "url": "https://polymarket.com/event/will-rebecca-shepherd-win-the-2026-makerfield-by-election",
+          "market": "0x85980a4d08e4cf7911782b632108d17b124171c1e1610cf7861e260c6daf3538",
+          "url": null,
           "ts": 1779169019,
           "odds": 93,
           "stake": 25598,
@@ -4061,7 +4061,7 @@
       "lateBuyFraction": 1,
       "directionalScore": 1,
       "accountPnl": 50473,
-      "firstSeen": "Sep 26 2023",
+      "firstSeen": "Sep 17 2023",
       "createdOnChain": true,
       "created": "Sep 17 2023",
       "betsCount": 54,
@@ -7063,8 +7063,8 @@
           "tx": "0x0e7bc344097d4d4f31b5e7ea03b216fb03603b506e13542a2c6fa0fa97c5a6cb"
         },
         {
-          "market": "Will the Iran ceasefire continue through May 21?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-21",
+          "market": "0x393fb0be5ca5832188657b34ad914c8f24a3ea6dfca233d1b996aba14399b48f",
+          "url": null,
           "ts": 1779306371,
           "odds": 94,
           "stake": 565,
