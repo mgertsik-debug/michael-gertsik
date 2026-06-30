@@ -10,22 +10,22 @@
   "medianS": 724.4,
   "p90": 1161.7,
   "p95": 1190.1,
-  "p99": 1377.7,
+  "p99": 1379.8,
   "minS": 532.2,
-  "maxS": 1377.7,
+  "maxS": 1379.8,
   "over500": 32,
   "alsoBinomial": 9,
   "onlyHarvard": 23,
-  "observed": 200584,
-  "reviewed": 200584,
-  "screened": 5659,
+  "observed": 200695,
+  "reviewed": 200695,
+  "screened": 5657,
   "scored": 3540,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
       "username": "redlioneye",
       "tier": "extreme",
-      "S": 1377.7,
+      "S": 1379.8,
       "market": "Will Netflix close Warner Bros. acquisition by end of 2026?",
       "marketUrl": "https://polymarket.com/event/will-netflix-close-warner-brothers-acquisition-by-end-of-2026",
       "episodeTx": "0x649f600b4e5a041895f2052539f54978ad4c6393888412d5fae1620062951abc",
@@ -34,7 +34,7 @@
       "won": true,
       "episodeProfit": 5365,
       "zBetCross": 16.34,
-      "zBetWithin": 5.43,
+      "zBetWithin": 5.53,
       "zProfitCross": 28.36,
       "lateBuyFraction": 0,
       "directionalScore": 0.984,
@@ -42,7 +42,7 @@
       "firstSeen": "May 14 2021",
       "createdOnChain": true,
       "created": "May 11 2021",
-      "betsCount": 65,
+      "betsCount": 70,
       "ledger": [
         {
           "market": "Will Netflix close Warner Bros. acquisition by end of 2026?",
@@ -93,6 +93,16 @@
           "pl": -5177,
           "won": false,
           "tx": "0xc0c19c243b46f393ab5c8c9a5e0d48bad6f6016203b91c4b9bbaf2f8c785b71e"
+        },
+        {
+          "market": "US strikes Iran by January 13, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1768304967,
+          "odds": 95,
+          "stake": 5073,
+          "pl": 271,
+          "won": true,
+          "tx": "0x9c662d9511a89f189a577819c7b319b2794d494728ebcea7d1451ca8ec4db60a"
         },
         {
           "market": "Will UAE strike Iran by March 31?",
@@ -173,16 +183,6 @@
           "pl": -3220,
           "won": false,
           "tx": "0x0567f0c336ceceb22421c98a4daad34832296e7b7b644d6de380f543f7948923"
-        },
-        {
-          "market": "Starmer out by May 15, 2026?",
-          "url": "https://polymarket.com/event/starmer-out-in-2025",
-          "ts": 1778540770,
-          "odds": 69,
-          "stake": 3058,
-          "pl": 1349,
-          "won": true,
-          "tx": "0x598b0e176d27380532f40cd82af4fdc4b3c6d8cbc7a3bb3db09960bff6822013"
         }
       ],
       "alsoBinomial": false
