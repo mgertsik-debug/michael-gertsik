@@ -256,6 +256,45 @@ async function openMarketMeta(conds, opts) {
   return out;
 }
 
+// Enumerate the most-active OPEN, IN-SCOPE markets — for the live watchlist. Mirrors enumResolved but
+// for open markets, ordered by 24h volume, so the watchlist looks exactly where money is moving on
+// insider-prone markets instead of fishing them out of the sports/crypto-dominated GLOBAL trade feed
+// (which structurally under-samples them). Returns [{cond, question, slug, category, volume24hr, volume}].
+async function openInScopeMarkets(opts) {
+  const o = Object.assign({ limit: 40, maxPages: 4, pageDelayMs: 120 }, opts);
+  const out = []; const seen = new Set();
+  let offset = 0, pages = 0;
+  do {
+    const url = GAMMA + "/events?closed=false&archived=false&active=true&limit=100&offset=" + offset + "&order=volume24hr&ascending=false";
+    const evs = await getJSON(url, { timeout: 9000 }).catch(() => null);
+    const arr = Array.isArray(evs) ? evs : (evs && (evs.data || evs.events)) || [];
+    if (!arr.length) break;
+    for (const ev of arr) {
+      const evTags = tagList(ev, null);
+      const evSlug = ev.slug || null;
+      for (const m of (ev.markets || [])) {
+        if (m.closed === true || m.closed === "true") continue;       // OPEN markets only
+        if (!isBinary(m.outcomes)) continue;
+        const cond = m.conditionId || null;
+        if (!cond || seen.has(cond)) continue;
+        const question = String(m.question || m.groupItemTitle || ev.title || "").trim();
+        if (!question) continue;
+        const cat = category(evTags.concat(tagList(null, m)), question);   // insider-prone only (sports/price/weather → null)
+        if (!cat) continue;
+        const vol24 = num(m.volume24hr != null ? m.volume24hr : ev.volume24hr);
+        out.push({ cond, question, slug: evSlug || m.slug || null, category: cat,
+          volume24hr: vol24 || 0, volume: num(m.volumeNum != null ? m.volumeNum : m.volume) || 0 });
+        seen.add(cond);
+      }
+    }
+    offset += 100; pages++;
+    if (out.length >= o.limit * 3) break;        // gathered plenty; the slice below takes the top by 24h volume
+    await sleep(o.pageDelayMs);
+  } while (pages < o.maxPages);
+  out.sort((a, b) => (b.volume24hr - a.volume24hr) || (b.volume - a.volume));
+  return out.slice(0, o.limit);
+}
+
 // Resolve the canonical EVENT slug for a set of condition ids (Gamma). Returns
 // { cond: eventSlug } — only conds that resolve to a non-empty slug are included. Used to
 // REPAIR stored market links that were built from a market-level slug (which 404s for
@@ -742,6 +781,6 @@ async function resolveUsername(handle) {
 
 module.exports = {
   getJSON, sleep, enumResolved, tradesForMarket, firstSeen, aggregateMarket, recentTrades, profileAggregates,
-  userPositions, positionToBet, userTrades, buildUserRecord, txMapFromTrades, marketsByConds, eventSlugByConds, openMarketMeta, category, resolvedWinner, isBinary, tradeOutcome,
+  userPositions, positionToBet, userTrades, buildUserRecord, txMapFromTrades, marketsByConds, eventSlugByConds, openMarketMeta, openInScopeMarkets, category, resolvedWinner, isBinary, tradeOutcome,
   resolveUsername, pickAddress, GAMMA, DATA, CLOB,
 };
