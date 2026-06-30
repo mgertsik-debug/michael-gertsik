@@ -1,6 +1,6 @@
 {
   "generatedAt": "Jun 30 2026",
-  "snapshot": 1782776873,
+  "snapshot": 1782783439,
   "total": 31,
   "byTier": {
     "extreme": 3,
@@ -16,10 +16,10 @@
   "over500": 31,
   "alsoBinomial": 9,
   "onlyHarvard": 22,
-  "observed": 198091,
-  "reviewed": 198091,
-  "screened": 5559,
-  "scored": 3510,
+  "observed": 198161,
+  "reviewed": 198161,
+  "screened": 5642,
+  "scored": 3530,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -569,7 +569,7 @@
       "address": "0x53e55bc7cb3d67ad177c023ce891ad076a9d6177",
       "username": "Arbguy",
       "tier": "high",
-      "S": 1050.9,
+      "S": 1051,
       "market": "Will US or Israel strike Iran by February 28, 2026?",
       "marketUrl": "https://polymarket.com/event/usisrael-strikes-iran-by",
       "episodeTx": "0x2b3884daa45c21d3860d4514164f7fed4f0bbf7d46af25a46116dc8e227e72df",
@@ -582,11 +582,11 @@
       "zProfitCross": 28.15,
       "lateBuyFraction": 0.396,
       "directionalScore": 1,
-      "accountPnl": 583884,
+      "accountPnl": 584788,
       "firstSeen": "Jul 03 2024",
       "createdOnChain": true,
       "created": "Jul 03 2024",
-      "betsCount": 98,
+      "betsCount": 100,
       "ledger": [
         {
           "market": "Russia x Ukraine ceasefire by June 30, 2026?",
@@ -1354,7 +1354,7 @@
         },
         {
           "market": "Will John Cornyn win the 2026 Texas Republican Primary?",
-          "url": "https://polymarket.com/event/texas-republican-senate-primary-winner",
+          "url": "https://polymarket.com/event/will-john-cornyn-win-the-2026-republican-primary",
           "ts": 1779753600,
           "odds": 84,
           "stake": 40434,
@@ -1364,7 +1364,7 @@
         },
         {
           "market": "US forces enter Iran by April 30?",
-          "url": "https://polymarket.com/event/us-forces-enter-iran-by",
+          "url": "https://polymarket.com/event/us-forces-enter-iran-by-april-30-899",
           "ts": 1777507200,
           "odds": 34,
           "stake": 34502,
@@ -3808,7 +3808,7 @@
       "firstSeen": "Oct 13 2024",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1270,
+      "betsCount": 1271,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
