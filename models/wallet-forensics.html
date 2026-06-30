@@ -340,7 +340,7 @@
 
                   <sc-if value="{{ f.hasBets }}" hint-placeholder-val="{{ false }}">
                     <div style="margin-top: 16px;">
-                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 9px;">THE ACTUAL LONG-SHOT BETS · {{ f.betsNote }}</div>
+                      <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #6B756F; margin-bottom: 9px;">{{ f.betsLabel }} · {{ f.betsNote }}</div>
                       <div style="display: flex; flex-direction: column; gap: 7px;">
                         <sc-for list="{{ f.bets }}" as="b" hint-placeholder-count="5">
                           <div style="display: flex; align-items: baseline; gap: 10px; font-size: 12px; line-height: 1.4;">
@@ -1034,10 +1034,9 @@ class Component extends DCLogic {
     if (key === "won") return [["n", String(s.marketsCount) + " bets"], ["k", String(s.wins) + " wins"], ["p", (s.avgImplied / 100).toFixed(2)], ["E[X]", s.expectedWins + " expected wins"], ["P", s.improbText]];
     if (key === "conviction" && s.convBet) return [["stake", "$" + s.convBet.stake.toLocaleString("en-US")], ["p", (s.convBet.entryPct / 100).toFixed(2) + " (" + s.convBet.entryPct + "%)"], ["payout", "$" + s.convBet.payout.toLocaleString("en-US")], ["return", (s.convBet.mult != null ? s.convBet.mult + "×" : "—")]];
     if (key === "longshot") { const ls = this.longshotStat(s); return [["p̄", (ls.pct / 100).toFixed(2)], ["n", String(ls.n) + " long-shots"], ["τ", "0.20"]]; }
-    if (key === "held") { const k = s.wins; return [["held", String(s.marketsCount)], ["total", String(s.marketsCount)], ["h", "1.00"]]; }
-    if (key === "fresh") return [["age", "≈ 4 days"], ["prior_tx", "0"]];
-    if (key === "conceal") return [["tactics", "2–3 co-occurring"], ["cashout_latency", "≈ 3 h"]];
-    if (key === "cluster") return [["wallets", String(this.clusterSize(s))], ["mean link", "0.88"], ["funders", s.cexChips ? String(s.cexChips.length) : "1"]];
+    // held / fresh / conceal / cluster: REAL inputs now come from the server (corroInputs), the same
+    // values the binomial path shows. NO client-side placeholders — if the server didn't supply a
+    // value we show nothing rather than a fabricated one (the old "age ≈ 4 days" / "mean link 0.88").
     return [];
   }
 
@@ -1051,23 +1050,40 @@ class Component extends DCLogic {
     return out;
   }
 
-  // The ACTUAL long-shot bets that fed the detector — the ≤35%-entry rows from the wallet's own
-  // ledger, largest stake first. Shown on the long-shot card so it names the specific markets rather
-  // than only the formula. (The ledger is capped to the largest positions, so this can be a subset of
-  // the detector's full count — labelled honestly via betsNote.)
-  longshotBets(s) {
-    return (s.ledger || [])
-      .filter((b) => b && b.odds != null && Number(b.odds) <= 35)
-      .slice().sort((a, b) => (Number(b.stakeNum) || 0) - (Number(a.stakeNum) || 0))
-      .map((b) => ({ odds: b.odds + "%", market: b.market || "(market)", stake: b.stake || "", pl: b.pl || "", outcome: b.outcome || "" }));
+  // The ACTUAL trades behind a detector — the specific ledger rows it is computed from (market, odds,
+  // stake, P/L), largest stake first — so every trade-based card shows real evidence from THIS wallet's
+  // record, not just the formula. Structural detectors (fresh/cluster/conceal) prove themselves via
+  // their INPUTS (real account-age / link / tactic values) and return no trade rows here.
+  findingProof(s, key) {
+    const led = (s.ledger || []);
+    const byStake = (a, b) => (Number(b.stakeNum) || 0) - (Number(a.stakeNum) || 0);
+    const row = (b) => ({ odds: (b.odds != null ? b.odds + "%" : "—"), market: b.market || "(market)", stake: b.stake || "", pl: b.pl || "" });
+    const ls = led.filter((b) => b && b.odds != null && Number(b.odds) <= 35).slice().sort(byStake);
+    const wins = led.filter((b) => b && b.outcome === "Won").slice().sort(byStake);
+    const all = led.slice().sort(byStake);
+    const pack = (rows, label, total, word) => ({ rows: rows.map(row), label,
+      note: (total != null && total > rows.length) ? ("top " + rows.length + " by stake · " + total + " " + word) : (rows.length + " " + word) });
+    switch (key) {
+      case "longshot": { const st = this.longshotStat(s); return pack(ls, "THE ACTUAL LONG-SHOT BETS", st.n, "long-shot bets"); }
+      case "won":      { const st = this.longshotStat(s); return pack(ls, "THE BETS BEHIND THE 1-IN-N", st.n, "long-shot bets"); }
+      case "baseline": return pack(ls, "THE BETS MEASURED vs BREAK-EVEN", null, "long-shot bets");
+      case "crossCat": return pack(wins, "THE WINNING BETS ACROSS CATEGORIES", s.wins, "winning bets");
+      case "repeat":   return pack(wins, "THE SEPARATE SURPRISES WON", s.wins, "winning bets");
+      case "sizing":
+      case "concentration": return pack(all.slice(0, 6), "THE OUTSIZED POSITIONS", null, "largest bets");
+      case "conviction":
+      case "profitCross":
+      case "hProfit": case "hBetCross": case "hBetWithin": case "hLate": case "hDir":
+        return pack(all.slice(0, 2), "THE BET THIS IS MEASURED ON", null, "bet");
+      case "held":     return pack(all, "POSITIONS HELD TO RESOLUTION", null, "bets");
+      case "timing":   return pack(wins, "WINNING BETS, ENTERED LATE", s.wins, "winning bets");
+      default:         return { rows: [], label: "", note: "" };  // fresh/cluster/conceal — shown via real INPUTS
+    }
   }
 
   enrichFinding(s, entry) {
     const lib = this.methodLib()[entry.key] || {};
-    const lsBets = entry.key === "longshot" ? this.longshotBets(s) : [];
-    const stat = entry.key === "longshot" ? this.longshotStat(s) : null;
-    const betsNote = !lsBets.length ? "" : (stat && lsBets.length < stat.n ? ("top " + lsBets.length + " by stake · " + stat.n + " long-shot bets total")
-      : (lsBets.length + " long-shot bet" + (lsBets.length === 1 ? "" : "s") + ", largest first"));
+    const proof = this.findingProof(s, entry.key);
     return {
       method: lib.name || entry.method, citation: lib.citation || "",
       formula: lib.formula || entry.formula, symbols: lib.symbols || [],
@@ -1076,7 +1092,7 @@ class Component extends DCLogic {
       baseline: this.baselineFor(entry.key, s),
       confidenceNote: lib.confidenceNote || "",
       threshold: lib.threshold || "", source: lib.source || "", calibration: lib.calibration || "",
-      bets: lsBets, hasBets: lsBets.length > 0, betsNote: betsNote,
+      bets: proof.rows, hasBets: proof.rows.length > 0, betsNote: proof.note, betsLabel: proof.label,
     };
   }
 
@@ -1824,7 +1840,7 @@ class Component extends DCLogic {
     const contrib = this.contributionMap(sel);
     const maxContrib = Math.max(1, ...(sel.scorecard || []).map((r) => contrib[r.key] || 0));
     const CORROB = { fedRegister: 1, newsBlackout: 1 };
-    const findings = (sel.scorecard || []).map((r) => {
+    const findings = (sel.scorecard || []).filter((r) => r && r.key !== "fedRegister").map((r) => {
       const open = !!st.measure[r.key];
       const en = this.enrichFinding(sel, r);
       const cpct = contrib[r.key] != null ? contrib[r.key] : 0;
