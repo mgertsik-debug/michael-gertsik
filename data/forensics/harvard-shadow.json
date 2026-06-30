@@ -16,10 +16,10 @@
   "over500": 19,
   "alsoBinomial": 12,
   "onlyHarvard": 7,
-  "observed": 188360,
-  "reviewed": 188360,
-  "screened": 4858,
-  "scored": 2452,
+  "observed": 188544,
+  "reviewed": 188544,
+  "screened": 4914,
+  "scored": 2534,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -489,7 +489,7 @@
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
       "username": null,
       "tier": "high",
-      "S": 810.5,
+      "S": 826.3,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -498,7 +498,7 @@
       "won": true,
       "episodeProfit": 17517,
       "zBetCross": 12.74,
-      "zBetWithin": 0.71,
+      "zBetWithin": 1.5,
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
@@ -506,7 +506,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 2,
+      "betsCount": 4,
       "ledger": [
         {
           "market": "Khamenei out as Supreme Leader of Iran in 2026?",
@@ -527,6 +527,26 @@
           "pl": -1450,
           "won": false,
           "tx": "0x6f6c9d6bc2f390e6585c915dcffccfce873896875595ac526c236d36267d1337"
+        },
+        {
+          "market": "Lighter Airdrop on January 6?",
+          "url": "https://polymarket.com/event/what-day-will-the-lighter-airdrop-be-489",
+          "ts": 1767079733,
+          "odds": 100,
+          "stake": 1247,
+          "pl": 1,
+          "won": true,
+          "tx": "0x138670d215eace686057b129adfcf1ec7a573a949c0761372f73646ab54dfecd"
+        },
+        {
+          "market": "No airdrop by January 10",
+          "url": "https://polymarket.com/event/what-day-will-the-lighter-airdrop-be-489",
+          "ts": 1767079739,
+          "odds": 100,
+          "stake": 1098,
+          "pl": 1,
+          "won": true,
+          "tx": "0x74241ff1deb315cb391cf306df1aa10789a9e4af366ff327e934cccfa1556614"
         }
       ],
       "alsoBinomial": true
@@ -1447,9 +1467,9 @@
     },
     {
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
-      "username": null,
+      "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 544.4,
+      "S": 578.7,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": null,
@@ -1458,15 +1478,15 @@
       "won": true,
       "episodeProfit": 4363,
       "zBetCross": 10.72,
-      "zBetWithin": 0.88,
+      "zBetWithin": 2.6,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": null,
+      "accountPnl": 916197,
       "firstSeen": "Oct 13 2024",
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 196,
+      "createdOnChain": true,
+      "created": "Oct 13 2024",
+      "betsCount": 1183,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -1476,7 +1496,7 @@
           "stake": 437431,
           "pl": 34824,
           "won": true,
-          "tx": null
+          "tx": "0x7dcaeb1c71252bea13cabcdddfa25902ede7bdc43dbb49469158f4cb50a06893"
         },
         {
           "market": "Will the Iranian regime fall by April 30?",
@@ -1486,7 +1506,7 @@
           "stake": 129501,
           "pl": 8573,
           "won": true,
-          "tx": null
+          "tx": "0xe57278bf7b7a60a1a3dcbc6ed631280a763f7848eed94aa867174dd5858a750a"
         },
         {
           "market": "Will there be no change in Fed interest rates after the April 2026 meeting?",
@@ -1496,7 +1516,7 @@
           "stake": 104209,
           "pl": 3361,
           "won": true,
-          "tx": null
+          "tx": "0xc9a6bb34cb170540d7451e7131732de099f750e47c6536561bbc0cb1129773bb"
         },
         {
           "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1516,7 +1536,7 @@
           "stake": 58950,
           "pl": 1050,
           "won": true,
-          "tx": null
+          "tx": "0x92efa2d370a4bee927406f033e1355c8fd02a7db37922c3f55f2e5b76e9434e6"
         },
         {
           "market": "Will there be no change in Fed interest rates after the June 2026 meeting?",
@@ -1526,7 +1546,7 @@
           "stake": 56873,
           "pl": 1529,
           "won": true,
-          "tx": null
+          "tx": "0x3c3c6e599d1ec215c9561a3ce271502d4775f51917dfea2568c8ae15328f5da1"
         },
         {
           "market": "Will Forum for Democracy win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1586,7 +1606,7 @@
           "stake": 31885,
           "pl": -31885,
           "won": false,
-          "tx": null
+          "tx": "0x9270d618875463e6d6094b3a60348680c384f2e10189eb1199f11245969502cc"
         },
         {
           "market": "Will the Conservative Liberals win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1610,6 +1630,62 @@
         }
       ],
       "alsoBinomial": false
+    },
+    {
+      "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
+      "username": null,
+      "tier": "notable",
+      "S": 548.3,
+      "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
+      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+      "episodeTx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b",
+      "stake": 72610,
+      "odds": 69,
+      "won": true,
+      "episodeProfit": 32029,
+      "zBetCross": 10.71,
+      "zBetWithin": 1.15,
+      "zProfitCross": 7.75,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 3,
+      "ledger": [
+        {
+          "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
+          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
+          "ts": 1780111863,
+          "odds": 69,
+          "stake": 72610,
+          "pl": 32029,
+          "won": true,
+          "tx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b"
+        },
+        {
+          "market": "Will Trump physically sign US x Iran deal?",
+          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
+          "ts": 1781734237,
+          "odds": 88,
+          "stake": 20835,
+          "pl": -1195,
+          "won": true,
+          "tx": "0x0bab18e28836d763174204a5cc8142c111ba0cb8e6bb4c7334abcde2d147d229"
+        },
+        {
+          "market": "Will MegaETH launch a token by April 30, 2026?",
+          "url": "https://polymarket.com/event/will-megaeth-launch-a-token-by",
+          "ts": 1776959776,
+          "odds": 91,
+          "stake": 15965,
+          "pl": 789,
+          "won": true,
+          "tx": "0x4b3df2f6b1a6c81fe3de42517823c8548228f7da33d4fc59f5e96c0c24bce79e"
+        }
+      ],
+      "alsoBinomial": true
     },
     {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
@@ -1773,52 +1849,6 @@
           "pl": 294,
           "won": true,
           "tx": "0xd3046a4718854d87b8a46ba67f8bc57169bb3dcd1c3c0daa517fc2ba4dfb749b"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
-      "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
-      "username": null,
-      "tier": "notable",
-      "S": 539.4,
-      "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
-      "marketUrl": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
-      "episodeTx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b",
-      "stake": 72610,
-      "odds": 69,
-      "won": true,
-      "episodeProfit": 32029,
-      "zBetCross": 10.71,
-      "zBetWithin": 0.71,
-      "zProfitCross": 7.75,
-      "lateBuyFraction": 1,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 2,
-      "ledger": [
-        {
-          "market": "MicroStrategy sells any Bitcoin by June 30, 2026?",
-          "url": "https://polymarket.com/event/microstrategy-sell-any-bitcoin-in-2025",
-          "ts": 1780111863,
-          "odds": 69,
-          "stake": 72610,
-          "pl": 32029,
-          "won": true,
-          "tx": "0x9e4c3ecd8a92db3e1033d2d8b3505d10df218f8e70f775132126913bda3e059b"
-        },
-        {
-          "market": "Will Trump physically sign US x Iran deal?",
-          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
-          "ts": 1781734237,
-          "odds": 88,
-          "stake": 20835,
-          "pl": -1195,
-          "won": true,
-          "tx": "0x0bab18e28836d763174204a5cc8142c111ba0cb8e6bb4c7334abcde2d147d229"
         }
       ],
       "alsoBinomial": true
