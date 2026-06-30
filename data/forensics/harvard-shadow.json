@@ -16,10 +16,10 @@
   "over500": 37,
   "alsoBinomial": 11,
   "onlyHarvard": 26,
-  "observed": 202958,
-  "reviewed": 202958,
+  "observed": 202978,
+  "reviewed": 202978,
   "screened": 5844,
-  "scored": 3600,
+  "scored": 3601,
   "top": [
     {
       "address": "0x662a00b70022c45ee80f6f753baa60f1c85f77b7",
@@ -1067,7 +1067,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1016.8,
+      "S": 1017.3,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1076,7 +1076,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 6.95,
+      "zBetWithin": 6.97,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1084,7 +1084,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "May 18 2026",
-      "betsCount": 283,
+      "betsCount": 285,
       "ledger": [
         {
           "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
