@@ -27,16 +27,16 @@
       "reason": "below net-profit floor (profit=$651 < $1000)"
     },
     {
-      "address": "0x88bd568e0e4b504b432d717bbb079059dd77cddb",
+      "address": "0x90ed00b05063b3e45abea79c9a5359b81a75eecb",
       "id": null,
       "tier": "watch",
-      "reason": "net unprofitable (informed trading is profitable; profit=-28)"
+      "reason": "below net-profit floor (profit=$583 < $1000)"
     },
     {
       "address": "0x7b02b2bac2a30ed5e40b7094e734f4c3dc2a4991",
       "id": null,
       "tier": "elevated",
-      "reason": "net unprofitable (informed trading is profitable; profit=-58548)"
+      "reason": "net unprofitable (informed trading is profitable; profit=-43255)"
     }
   ]
 }
