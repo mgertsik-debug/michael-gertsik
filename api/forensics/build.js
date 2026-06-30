@@ -644,7 +644,13 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
   const fired = ["profitCross"].concat(corro);
   const _prof = agg.profile || null;
   const accountPL = _prof && _prof.pnlAllTime != null && isFinite(num(_prof.pnlAllTime)) ? num(_prof.pnlAllTime) : null;
-  if (accountPL != null && accountPL <= 0) return null;       // net-losing account → not an insider
+  // The favorite path leads with ONE big episode (like the Harvard path), so it is exposed to the
+  // same per-market misattribution as @greenfia. Reconcile against the AUTHORITATIVE all-time P&L:
+  // require the wallet to have KEPT material money overall. A wallet whose net flagged record looks
+  // huge but whose authoritative all-time P&L is tiny ($191) either had the position misattributed
+  // or churned it back — not a credible published insider.
+  const FAV_MIN_ACCT = +process.env.FAV_MIN_ACCOUNT_PNL || 1000;
+  if (!(accountPL != null && accountPL >= FAV_MIN_ACCT)) return null;
   const wins = valid.filter((b) => b.won).length;
   const winRate = valid.length ? Math.round(100 * wins / valid.length) : 0;
 
