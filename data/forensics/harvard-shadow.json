@@ -7,7 +7,7 @@
     "high": 3,
     "notable": 14
   },
-  "medianS": 642,
+  "medianS": 700.8,
   "p90": 1178.1,
   "p95": 1190.1,
   "p99": 1190.1,
@@ -16,10 +16,10 @@
   "over500": 19,
   "alsoBinomial": 12,
   "onlyHarvard": 7,
-  "observed": 188076,
-  "reviewed": 188076,
+  "observed": 188207,
+  "reviewed": 188207,
   "screened": 4857,
-  "scored": 2210,
+  "scored": 2367,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -776,6 +776,172 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x27abdfc9393c72a6330a3be987da4b46c726e521",
+      "username": "pd.unique",
+      "tier": "notable",
+      "S": 700.8,
+      "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
+      "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+      "episodeTx": null,
+      "stake": 5176,
+      "odds": 86,
+      "won": true,
+      "episodeProfit": 862,
+      "zBetCross": 7.79,
+      "zBetWithin": 7.92,
+      "zProfitCross": 11.25,
+      "lateBuyFraction": 0.022,
+      "directionalScore": 1,
+      "accountPnl": 85453,
+      "firstSeen": "Apr 03 2026",
+      "createdOnChain": true,
+      "created": "Apr 03 2026",
+      "betsCount": 911,
+      "ledger": [
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 98,
+          "stake": 5906,
+          "pl": 109,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 350k and 400k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 96,
+          "stake": 5770,
+          "pl": 252,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 300k and 350k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 96,
+          "stake": 5767,
+          "pl": 255,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 92,
+          "stake": 5516,
+          "pl": 509,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 400k and 450k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 90,
+          "stake": 5452,
+          "pl": 584,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 86,
+          "stake": 5176,
+          "pl": 862,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 70,
+          "stake": 4259,
+          "pl": -4259,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
+          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
+          "ts": 1776911932,
+          "odds": 70,
+          "stake": 4240,
+          "pl": 1830,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will the Fed increase interest rates by 50+ bps after the July 2026 meeting?",
+          "url": "https://polymarket.com/event/will-the-fed-increase-interest-rates-by-50-bps-after-the-july-2026-meeting",
+          "ts": 1782747728,
+          "odds": 100,
+          "stake": 3635,
+          "pl": 15,
+          "won": true,
+          "tx": "0xef0727626a7a6fb0f04016657bcf33222766cb626f2aefcd34f2c599b32e5a16"
+        },
+        {
+          "market": "Will the Fed decrease interest rates by 50+ bps after the July 2026 meeting?",
+          "url": "https://polymarket.com/event/will-the-fed-decrease-interest-rates-by-50-bps-after-the-july-2026-meeting",
+          "ts": 1782747728,
+          "odds": 99,
+          "stake": 3622,
+          "pl": 27,
+          "won": true,
+          "tx": "0x1f1e6963cf7dc62c3535b5273041a777cffa05e6fa29630d30a51b34301e1894"
+        },
+        {
+          "market": "Will the Fed decrease interest rates by 25 bps after the July 2026 meeting?",
+          "url": "https://polymarket.com/event/will-the-fed-decrease-interest-rates-by-25-bps-after-the-july-2026-meeting",
+          "ts": 1782747728,
+          "odds": 98,
+          "stake": 3592,
+          "pl": 58,
+          "won": true,
+          "tx": "0xe82482ff5e2cdd6155f134e2b9f5e842617228ec65f30c448104b12463acdf81"
+        },
+        {
+          "market": "Will Benjamin Netanyahu be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246599,
+          "odds": 100,
+          "stake": 2836,
+          "pl": 8,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Keir Starmer be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246599,
+          "odds": 99,
+          "stake": 2805,
+          "pl": 40,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Mahmoud Abbas be the next leader out before 2027?",
+          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
+          "ts": 1775246599,
+          "odds": 100,
+          "stake": 2803,
+          "pl": 4,
+          "won": true,
+          "tx": null
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x7e31a5e9c31638483614e9fd9f945bb34692454d",
       "username": null,
       "tier": "notable",
@@ -946,172 +1112,6 @@
         }
       ],
       "alsoBinomial": true
-    },
-    {
-      "address": "0x27abdfc9393c72a6330a3be987da4b46c726e521",
-      "username": null,
-      "tier": "notable",
-      "S": 617.5,
-      "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
-      "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-      "episodeTx": null,
-      "stake": 5176,
-      "odds": 86,
-      "won": true,
-      "episodeProfit": 862,
-      "zBetCross": 7.79,
-      "zBetWithin": 3.75,
-      "zProfitCross": 11.25,
-      "lateBuyFraction": 0.022,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": "Apr 03 2026",
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 171,
-      "ledger": [
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1776911932,
-          "odds": 98,
-          "stake": 5906,
-          "pl": 109,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be between 350k and 400k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1776911932,
-          "odds": 96,
-          "stake": 5770,
-          "pl": 252,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be between 300k and 350k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1776911932,
-          "odds": 96,
-          "stake": 5767,
-          "pl": 255,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be at least 600k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1776911932,
-          "odds": 92,
-          "stake": 5516,
-          "pl": 509,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be between 400k and 450k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1776911932,
-          "odds": 90,
-          "stake": 5452,
-          "pl": 584,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1776911932,
-          "odds": 86,
-          "stake": 5176,
-          "pl": 862,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be between 450k and 500k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1776911932,
-          "odds": 70,
-          "stake": 4259,
-          "pl": -4259,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
-          "url": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
-          "ts": 1776911932,
-          "odds": 70,
-          "stake": 4240,
-          "pl": 1830,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will Benjamin Netanyahu be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1775246599,
-          "odds": 100,
-          "stake": 2836,
-          "pl": 8,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will Keir Starmer be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1775246599,
-          "odds": 99,
-          "stake": 2805,
-          "pl": 40,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will Mahmoud Abbas be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1775246599,
-          "odds": 100,
-          "stake": 2803,
-          "pl": 4,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will Donald Trump be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1775246601,
-          "odds": 100,
-          "stake": 2788,
-          "pl": 6,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will Sanae Takaichi be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1775246599,
-          "odds": 99,
-          "stake": 2481,
-          "pl": 13,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "Will Luiz Inácio Lula da Silva be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1775246599,
-          "odds": 100,
-          "stake": 2389,
-          "pl": 2,
-          "won": true,
-          "tx": null
-        }
-      ],
-      "alsoBinomial": false
     },
     {
       "address": "0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1",
