@@ -16,10 +16,10 @@
   "over500": 32,
   "alsoBinomial": 9,
   "onlyHarvard": 23,
-  "observed": 196386,
-  "reviewed": 196386,
+  "observed": 196486,
+  "reviewed": 196486,
   "screened": 5509,
-  "scored": 3486,
+  "scored": 3484,
   "top": [
     {
       "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
@@ -3130,7 +3130,7 @@
       "zProfitCross": 8.13,
       "lateBuyFraction": 0.986,
       "directionalScore": 1,
-      "accountPnl": 51123,
+      "accountPnl": 51122,
       "firstSeen": "May 05 2026",
       "createdOnChain": true,
       "created": "May 05 2026",
@@ -4292,11 +4292,11 @@
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 93044,
-      "firstSeen": "Jan 08 2026",
+      "accountPnl": 92889,
+      "firstSeen": "Apr 06 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 162,
+      "betsCount": 163,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",
