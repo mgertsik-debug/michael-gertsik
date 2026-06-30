@@ -181,6 +181,27 @@ test("NET-LOSING ACCOUNT: improbable, material long-shot streak but all-time P/L
   assert.ok(ok && ok.tier, "net-positive account with the same record publishes");
 });
 
+test("UNIFORM dossier: a record-flagged wallet shows BOTH record cards AND cross-sectional z-cards", () => {
+  // The owner flagged that record-flagged dossiers spoke "record metrics" while Harvard-flagged ones
+  // spoke "z-scores". Every wallet computes BOTH, so every dossier must now show BOTH vocabularies.
+  // A long-shot RECORD wallet whose biggest bet ALSO carries a qualifying cross-section (outsized +
+  // out-profited + won) must render the record detectors AND the 5 Harvard z-signals, no duplicates.
+  const bets = [];
+  for (let i = 0; i < 7; i++) bets.push({ cond: "0xc" + i, question: "Market " + i + "?", eventGroup: "ev" + i,
+    entryPrice: 0.12, won: true, stakeUsd: 5000 + i * 100, outcome: "Yes", category: "Military & Defense",
+    ts: 1700000000 + i * 86400, resolvedMs: (1700000000 + i * 86400 + 3600) * 1000, held: true, pnl: 30000, hz: null });
+  bets[0].stakeUsd = 60000; bets[0].pnl = 80000;
+  bets[0].hz = { zBetCross: 9.2, zProfitCross: 11.4, lateBuyFraction: 0.7, directionalScore: 0.98,
+    profitUsd: 80000, stakeUsd: 60000, mktMeanProfit: 1000, mktSdProfit: 7000, mktMeanStake: 1500, mktSdStake: 6000, nBuyers: 40, marketVol: 500000 };
+  const agg = { address: "0xUNIFORM0000000000000000000000000000aa01", bets, firstSeenTs: 1699000000, fundingTs: 1698000000, priorTx: 0, profile: { pnlAllTime: 200000 } };
+  const s = B.buildSubject(agg, 0, {});
+  assert.ok(s, "subject built");
+  const keys = (s.scorecard || []).map((c) => c.key);
+  assert.ok(keys.some((k) => ["won", "longshot", "timing", "sizing"].includes(k)), "has RECORD cards: " + keys.join(","));
+  assert.ok(keys.includes("hProfit") && keys.includes("hBetCross") && keys.includes("hBetWithin"), "has cross-sectional z cards: " + keys.join(","));
+  assert.equal(keys.length, new Set(keys).size, "no duplicate scorecard keys");
+});
+
 test("RECONSTRUCTED Iran-ring cluster aggregate -> High-tier subject with cluster card", () => {
   const bets = [];
   for (let i = 0; i < 30; i++) bets.push({ cond: "m" + i, eventGroup: "e" + i, question: "Q" + i, url: "#", category: "Military & Defense", entryPrice: 0.09, stakeUsd: 20000, outcome: "YES", won: true, held: true, ts: 1700000000 + i, tx: "0x" + i });
