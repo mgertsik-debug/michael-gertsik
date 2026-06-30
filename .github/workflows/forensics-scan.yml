@@ -77,8 +77,19 @@ jobs:
           # Enrichment now runs CONCURRENTLY (ENRICH_CONCURRENCY wallets at once), so a
           # much larger batch fits the budget — coverage climbs ~5× faster per tick.
           ENRICH_BATCH: "700"
-          ENRICH_CONCURRENCY: "5"
+          # Bumped 5→6: a safe per-tick throughput gain (more of the 10k+ screened pool gets
+          # fully scored each run, same wall-clock) — part of the user-approved Conservative
+          # coverage widening. State persists, so if a tick nears the cap it simply resumes.
+          ENRICH_CONCURRENCY: "6"
           SCREEN_USD: "2500"
+          # PUBLISH HARVARD "NOTABLE" (user-approved Conservative expansion). The Harvard composite
+          # finds ~5× more qualifying episodes than it publishes — 54 of them caught by Harvard ALONE —
+          # but the weakest "notable" band was held back by default. Surface it, with the $1k account
+          # and $1k episode-profit reconciliation floors STILL applied (precision guards kept) and the
+          # UI labeling that tier as lower-confidence. Tier cutoffs get re-fit to the net distribution
+          # once the net-P&L rescan lands; until then the gross-calibrated cutoffs publish a conservative
+          # (fewer-but-clean) subset, which is the safe direction.
+          HARVARD_PUBLISH_NOTABLE: "1"
           # Retain a large candidate pool (cheap): 790/800 screened wallets already had a
           # winning long-shot, so the old 800 cap evicted real candidates before their
           # full record (the multi-win pattern that flags) could resolve.

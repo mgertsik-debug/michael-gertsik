@@ -982,13 +982,29 @@ class Component extends DCLogic {
 
   findingName(key) { return { fresh: "Brand-new accounts", longshot: "Bet only on long shots", held: "Held to the very end", won: "Won far more than the odds allowed", conceal: "Tried to avoid detection", cluster: "Acted as a group", conviction: "One big high-conviction bet", timing: "Bought right before the surprise", sizing: "Bet dwarfed its own norm", concentration: "All-in on one direction", baseline: "Won past the break-even rate", profitCross: "Profited far more than the market", hProfit: "Profited far more than peers", hBetCross: "Bet far bigger than the market", hBetWithin: "Bet dwarfed its own norm", hLate: "Bought right before the event", hDir: "One-sided, held to the end" }[key] || key; }
 
+  // The long-shot detector runs on the wallet's LONG-SHOT bets only (entry ≤ 35%), not its whole
+  // record — so the card's p̄/n must reflect that subset, never the whole-record average. Using
+  // s.avgImplied showed e.g. "p̄ = 0.54" against a "flag if ≤ 0.20" rule — a contradiction. The
+  // AUTHORITATIVE numbers are the detector's own ("Average entry odds ~NN% across MM bets"), carried
+  // verbatim in the longshot scorecard card, so INPUTS always equal the RESULT line exactly. (The
+  // bet ledger is truncated to the largest stakes, so recomputing from it can drift; only fall back
+  // to it when the detector card is unavailable.)
+  longshotStat(s) {
+    const card = (s.scorecard || []).find((c) => c && c.key === "longshot");
+    const m = card && /~(\d+)%\s+across\s+(\d+)\s+bets/.exec(card.numbers || "");
+    if (m) return { pct: +m[1], n: +m[2] };
+    const ls = (s.ledger || []).filter((b) => b && b.odds != null && Number(b.odds) <= 35);
+    if (ls.length) return { pct: Math.round(ls.reduce((a, b) => a + Number(b.odds), 0) / ls.length), n: ls.length };
+    return { pct: s.avgImplied, n: s.marketsCount || 0 };
+  }
+
   baselineFor(key, s) {
     if (key === "won") {
       const b = { "Military & Defense": "52% on military markets", "Politics": "25% on political markets", "Elections": "25% on political markets" }[s.category] || "14% across all categories";
       return "Normal win rate on bets at ≤ 35% implied odds: " + b + ". This subject: " + s.winRate + "%.";
     }
     return this.methodLib()[key] ? ({
-      longshot: "Median entry odds across reviewed bettors: 41%. This subject: " + s.avgImplied + "%.",
+      longshot: "Median entry odds across reviewed bettors: 41%. This subject's long-shot bets (≤35%): " + this.longshotStat(s).pct + "%.",
       held: "Average hold-to-resolution across reviewed: 38%.",
       fresh: "Median wallet age at first flagged bet across reviewed: 214 days.",
       conceal: "Median post-resolution cash-out across reviewed: 9.4 days.",
@@ -999,7 +1015,7 @@ class Component extends DCLogic {
   inputsFor(key, s) {
     if (key === "won") return [["n", String(s.marketsCount) + " bets"], ["k", String(s.wins) + " wins"], ["p", (s.avgImplied / 100).toFixed(2)], ["E[X]", s.expectedWins + " expected wins"], ["P", s.improbText]];
     if (key === "conviction" && s.convBet) return [["stake", "$" + s.convBet.stake.toLocaleString("en-US")], ["p", (s.convBet.entryPct / 100).toFixed(2) + " (" + s.convBet.entryPct + "%)"], ["payout", "$" + s.convBet.payout.toLocaleString("en-US")], ["return", (s.convBet.mult != null ? s.convBet.mult + "×" : "—")]];
-    if (key === "longshot") return [["p̄", (s.avgImplied / 100).toFixed(2)], ["n", String(s.marketsCount)], ["τ", "0.20"]];
+    if (key === "longshot") { const ls = this.longshotStat(s); return [["p̄", (ls.pct / 100).toFixed(2)], ["n", String(ls.n) + " long-shots"], ["τ", "0.20"]]; }
     if (key === "held") { const k = s.wins; return [["held", String(s.marketsCount)], ["total", String(s.marketsCount)], ["h", "1.00"]]; }
     if (key === "fresh") return [["age", "≈ 4 days"], ["prior_tx", "0"]];
     if (key === "conceal") return [["tactics", "2–3 co-occurring"], ["cashout_latency", "≈ 3 h"]];
@@ -1377,7 +1393,7 @@ class Component extends DCLogic {
     const tally = this.firedTally(s);
     const ROSTER = tally.roster;
     const fired = tally.fired, total = tally.total;
-    const level = s.tier === "extreme" ? "high concern" : s.tier === "elevated" ? "moderate-to-high concern" : "moderate concern";
+    const level = s.tier === "extreme" ? "high concern" : s.tier === "elevated" ? "moderate-to-high concern" : "lower confidence — a notable pattern to review, not a strong case (fewer corroborating signals than the High/Extreme tiers)";
     const segs = [];
     for (let i = 0; i < total; i++) segs.push(h("div", { key: i, style: { flex: 1, height: "9px", borderRadius: "3px", background: i < fired ? "#34D399" : "#16201B", boxShadow: i < fired ? "0 0 10px -2px rgba(52,211,153,0.6)" : "none", transition: "background .3s" } }));
     const skipped = ROSTER - total;
