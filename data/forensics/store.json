@@ -890,8 +890,8 @@
       "_tradedCount": 125,
       "wins": 20,
       "expectedWins": 5.76,
-      "percentile": 99.952,
-      "percentileN": 2090,
+      "percentile": 99.953,
+      "percentileN": 2112,
       "volumeNum": 249063,
       "volume": "$249K",
       "lastActivity": "122 days ago",
@@ -5156,8 +5156,8 @@
       "_tradedCount": 408,
       "wins": 44,
       "expectedWins": 22.88,
-      "percentile": 99.904,
-      "percentileN": 2090,
+      "percentile": 99.905,
+      "percentileN": 2112,
       "volumeNum": 532787,
       "volume": "$533K",
       "lastActivity": "8 days ago",
@@ -8156,8 +8156,8 @@
       "_tradedCount": 2474,
       "wins": 149,
       "expectedWins": 120.42,
-      "percentile": 99.952,
-      "percentileN": 2090,
+      "percentile": 99.953,
+      "percentileN": 2112,
       "volumeNum": 2697853,
       "volume": "$2.7M",
       "lastActivity": "9 days ago",
@@ -11082,11 +11082,11 @@
       "createdOnChain": true,
       "firstSeen": "Oct 21 2024",
       "category": "Military & Defense",
-      "marketsCount": 117,
+      "marketsCount": 116,
       "tier": "elevated",
-      "improbText": "1 in 4.7K",
-      "improbDenom": 4739,
-      "improbFull": "1 in 4.7 thousand",
+      "improbText": "1 in 4.5K",
+      "improbDenom": 4532,
+      "improbFull": "1 in 4.5 thousand",
       "improbCaption": "chance this cross-category record is luck",
       "convictionFlag": false,
       "full": true,
@@ -11117,34 +11117,34 @@
       "detectorsFired": 7,
       "refId": "WF-X-846",
       "cexChips": [],
-      "heroSentence": "This account won 104 of 117 bets across markets the blended odds priced at about 78 percent — roughly 91.49 expected by luck (3.53 standard deviations above chance, about 1 in 4.7K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
+      "heroSentence": "This account won 103 of 116 bets across markets the blended odds priced at about 78 percent — roughly 90.56 expected by luck (3.51 standard deviations above chance, about 1 in 4.5K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
         {
           "key": "crossCat",
-          "metric": "104 of 117 · 78%",
+          "metric": "103 of 116 · 78%",
           "method": "cross-category accuracy",
           "formula": "Poisson-binomial: z = (wins − Σpᵢ) / √Σpᵢ(1−pᵢ) over ALL resolved bets at their own odds",
-          "numbers": "Won 104 of 117 bets across markets the blended odds priced at ~78% — about 91.5 expected by luck (3.5σ above chance, ≈ 1 in 4.7K). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
+          "numbers": "Won 103 of 116 bets across markets the blended odds priced at ~78% — about 90.6 expected by luck (3.5σ above chance, ≈ 1 in 4.5K). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
           "inputs": [
             [
               "n",
-              "117 events"
+              "116 events"
             ],
             [
               "k",
-              "104 wins"
+              "103 wins"
             ],
             [
               "E[X]",
-              "91.49 expected"
+              "90.56 expected"
             ],
             [
               "z",
-              "3.53"
+              "3.51"
             ],
             [
               "P",
-              "1 in 4.7K"
+              "1 in 4.5K"
             ]
           ]
         },
@@ -13410,7 +13410,7 @@
         }
       ],
       "ledgerSummary": {
-        "markets": 117,
+        "markets": 116,
         "winRate": 86,
         "realized": "+$55K"
       },
@@ -13432,10 +13432,10 @@
       "accountPnl": 16562,
       "accountPnlText": "+$17K",
       "_tradedCount": 712,
-      "wins": 101,
-      "expectedWins": 91.26,
-      "percentile": 99.856,
-      "percentileN": 2090,
+      "wins": 100,
+      "expectedWins": 90.48,
+      "percentile": 99.858,
+      "percentileN": 2112,
       "volumeNum": 5593868,
       "volume": "$5.6M",
       "lastActivity": "6 days ago",
@@ -13457,17 +13457,17 @@
       "createdOnChain": false,
       "firstSeen": "Jul 14 2025",
       "category": "World",
-      "marketsCount": 215,
+      "marketsCount": 213,
       "tier": "elevated",
-      "improbText": "1 in 25.4K",
-      "improbDenom": 25403,
-      "improbFull": "1 in 25.4 thousand",
+      "improbText": "1 in 24.3K",
+      "improbDenom": 24327,
+      "improbFull": "1 in 24.3 thousand",
       "improbCaption": "chance this cross-category record is luck",
       "convictionFlag": false,
       "full": true,
       "flagFamily": "crossCat",
       "winRate": 69,
-      "avgImplied": 60,
+      "avgImplied": 59,
       "profit": "+$33K",
       "fired": [
         "crossCat",
@@ -13490,34 +13490,34 @@
       "detectorsFired": 6,
       "refId": "WF-X-849",
       "cexChips": [],
-      "heroSentence": "This account won 149 of 215 bets across markets the blended odds priced at about 60 percent — roughly 128.35 expected by luck (3.95 standard deviations above chance, about 1 in 25.4K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
+      "heroSentence": "This account won 147 of 213 bets across markets the blended odds priced at about 59 percent — roughly 126.41 expected by luck (3.94 standard deviations above chance, about 1 in 24.3K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
         {
           "key": "crossCat",
-          "metric": "149 of 215 · 60%",
+          "metric": "147 of 213 · 59%",
           "method": "cross-category accuracy",
           "formula": "Poisson-binomial: z = (wins − Σpᵢ) / √Σpᵢ(1−pᵢ) over ALL resolved bets at their own odds",
-          "numbers": "Won 149 of 215 bets across markets the blended odds priced at ~60% — about 128.3 expected by luck (3.9σ above chance, ≈ 1 in 25.4K). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
+          "numbers": "Won 147 of 213 bets across markets the blended odds priced at ~59% — about 126.4 expected by luck (3.9σ above chance, ≈ 1 in 24.3K). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
           "inputs": [
             [
               "n",
-              "215 events"
+              "213 events"
             ],
             [
               "k",
-              "149 wins"
+              "147 wins"
             ],
             [
               "E[X]",
-              "128.35 expected"
+              "126.41 expected"
             ],
             [
               "z",
-              "3.95"
+              "3.94"
             ],
             [
               "P",
-              "1 in 25.4K"
+              "1 in 24.3K"
             ]
           ]
         },
@@ -16410,7 +16410,7 @@
         }
       ],
       "ledgerSummary": {
-        "markets": 215,
+        "markets": 213,
         "winRate": 69,
         "realized": "+$33K"
       },
@@ -16432,14 +16432,14 @@
       "accountPnl": 59737,
       "accountPnlText": "+$60K",
       "_tradedCount": 5013,
-      "wins": 148,
-      "expectedWins": 129,
-      "percentile": 99.904,
-      "percentileN": 2090,
+      "wins": 147,
+      "expectedWins": 125.67,
+      "percentile": 99.905,
+      "percentileN": 2112,
       "volumeNum": 4196898,
       "volume": "$4.2M",
       "lastActivity": "4 days ago",
-      "suspicion": 50.4,
+      "suspicion": 50.3,
       "firstFlaggedAt": 1782798780,
       "newlyFlagged": true,
       "archived": false
@@ -19419,8 +19419,8 @@
       "_tradedCount": 915,
       "wins": 172,
       "expectedWins": 154.02,
-      "percentile": 99.904,
-      "percentileN": 2090,
+      "percentile": 99.905,
+      "percentileN": 2112,
       "volumeNum": 1009822,
       "volume": "$1M",
       "lastActivity": "59 days ago",
@@ -20813,8 +20813,8 @@
       "_tradedCount": 1973,
       "wins": 33,
       "expectedWins": 24.84,
-      "percentile": 99.856,
-      "percentileN": 2090,
+      "percentile": 99.858,
+      "percentileN": 2112,
       "volumeNum": 21167808,
       "volume": "$21.2M",
       "lastActivity": "35 days ago",
@@ -23798,8 +23798,8 @@
       "_tradedCount": 591,
       "wins": 184,
       "expectedWins": 163.2,
-      "percentile": 99.904,
-      "percentileN": 2090,
+      "percentile": 99.905,
+      "percentileN": 2112,
       "volumeNum": 389860,
       "volume": "$390K",
       "lastActivity": "8 days ago",
@@ -25818,8 +25818,8 @@
       "_tradedCount": 213,
       "wins": 64,
       "expectedWins": 52.17,
-      "percentile": 99.713,
-      "percentileN": 2090,
+      "percentile": 99.716,
+      "percentileN": 2112,
       "volumeNum": 1376895,
       "volume": "$1.4M",
       "lastActivity": "13 days ago",
@@ -28370,8 +28370,8 @@
       "_tradedCount": 1261,
       "wins": 88,
       "expectedWins": 78.69,
-      "percentile": 99.713,
-      "percentileN": 2090,
+      "percentile": 99.716,
+      "percentileN": 2112,
       "volumeNum": 11409446,
       "volume": "$11.4M",
       "lastActivity": "97 days ago",
@@ -28393,12 +28393,12 @@
       "createdOnChain": true,
       "firstSeen": "Sep 23 2024",
       "category": "Politics",
-      "marketsCount": 170,
+      "marketsCount": 174,
       "tier": "elevated",
       "flagFamily": "harvard-episode",
-      "improbText": "Score 998",
-      "improbDenom": 998,
-      "improbFull": "a composite suspicion score of 998",
+      "improbText": "Score 999",
+      "improbDenom": 999,
+      "improbFull": "a composite suspicion score of 999",
       "improbCaption": "composite suspicion score",
       "convictionFlag": false,
       "convBet": null,
@@ -28423,7 +28423,7 @@
       "agreeing": 5,
       "refId": "WF-H-016",
       "cexChips": [],
-      "heroSentence": "This account's most anomalous (wallet, market) episode scores 998 on the Harvard composite — it bet $64K at about 89% on “Will GreenLeft–Labour win the most seats in the 2025 Netherlands parli”, and won. The score combines all five signals — out-profiting the market, an outsized bet vs peers, an outsized bet vs its own norm, buying late (final 48h), and one-sided conviction — weighted as in Ofir & Ofir (profit/size dominate; timing and directionality are minor). We additionally retain only episodes that actually won and out-profited the market. Consistent with informed trading — not proof of it.",
+      "heroSentence": "This account's most anomalous (wallet, market) episode scores 999 on the Harvard composite — it bet $64K at about 89% on “Will GreenLeft–Labour win the most seats in the 2025 Netherlands parli”, and won. The score combines all five signals — out-profiting the market, an outsized bet vs peers, an outsized bet vs its own norm, buying late (final 48h), and one-sided conviction — weighted as in Ofir & Ofir (profit/size dominate; timing and directionality are minor). We additionally retain only episodes that actually won and out-profited the market. Consistent with informed trading — not proof of it.",
       "scorecard": [
         {
           "key": "hProfit",
@@ -28485,14 +28485,14 @@
         },
         {
           "key": "hBetWithin",
-          "metric": "z = 6.00",
+          "metric": "z = 6.07",
           "method": "Within-trader bet size",
           "formula": "z = (stake − μ_wallet) / σ_wallet · weight 20",
-          "numbers": "You staked $64K here vs your own usual bet — 6.00 SD above your norm.",
+          "numbers": "You staked $64K here vs your own usual bet — 6.07 SD above your norm.",
           "inputs": [
             [
               "z_bet_within",
-              "6.00"
+              "6.07"
             ],
             [
               "your stake",
@@ -28504,7 +28504,7 @@
             ],
             [
               "+S",
-              "120"
+              "121"
             ]
           ]
         },
@@ -28582,14 +28582,14 @@
         },
         {
           "key": "sizing",
-          "metric": "951× median",
+          "metric": "1098× median",
           "method": "within-trader bet-size anomaly",
           "formula": "largest event position ÷ this wallet's median bet",
-          "numbers": "Largest position $434,785 is ~951× this wallet's median bet ($457) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly).",
+          "numbers": "Largest position $434,785 is ~1098× this wallet's median bet ($396) — an informed bet that dwarfs its own trading norm (the within-trader size anomaly).",
           "inputs": [
             [
               "ratio",
-              "951.4×"
+              "1097.9×"
             ]
           ]
         },
@@ -28598,7 +28598,7 @@
           "metric": "95% one-way",
           "method": "directional concentration",
           "formula": "max(YES, NO stake) ÷ total staked",
-          "numbers": "95% of $603,100 staked one direction (NO), 72% in a single event cluster — the un-hedged, single-thesis concentration of someone betting what they already know.",
+          "numbers": "95% of $604,093 staked one direction (NO), 72% in a single event cluster — the un-hedged, single-thesis concentration of someone betting what they already know.",
           "inputs": [
             [
               "one-way share",
@@ -28838,13 +28838,13 @@
           "entryTime": "Sep 30 2025",
           "ts": 1759230519,
           "odds": 93,
-          "stakeNum": 9333,
-          "plNum": 681,
+          "stakeNum": 9368,
+          "plNum": 645,
           "stake": "$9K",
           "outcome": "Won",
-          "pl": "+$681",
-          "tx": "",
-          "txFull": null
+          "pl": "+$645",
+          "tx": "0x2e67…",
+          "txFull": "0x2e6755742b52b1859b6106d080dc60518638f4330f0be1be313f92cdc8ce05a6"
         },
         {
           "market": "Lighter Airdrop before January 1?",
@@ -28931,22 +28931,22 @@
           "txFull": "0x686d3ca44e9864937f64adc2e3d425cc8b383a3ab2c65597c16c87fe01cfc56e"
         },
         {
-          "market": "Will the People's Party for Freedom and Democracy win the third most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-3nd-most-seats-in-netherlands-election",
-          "entryTime": "Sep 07 2025",
-          "ts": 1757231634,
-          "odds": 76,
-          "stakeNum": 3165,
-          "plNum": -3165,
-          "stake": "$3K",
+          "market": "Will PVV win 26 or fewer seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/dutch-parliamentary-election-pvv-seats",
+          "entryTime": "Sep 30 2025",
+          "ts": 1759230519,
+          "odds": 16,
+          "stakeNum": 3527,
+          "plNum": -2847,
+          "stake": "$4K",
           "outcome": "Lost",
           "pl": "−$3K",
-          "tx": "0xa2d4…",
-          "txFull": "0xa2d490903167b0fa71a97b6c9a850f9b6e7b7f5fbe7a7387654cce92f6c652ae"
+          "tx": "0xaa71…",
+          "txFull": "0xaa71796769c3ee115df169135602f49ed70360649494d27559a06713beafaa11"
         }
       ],
       "ledgerSummary": {
-        "markets": 170,
+        "markets": 174,
         "winRate": 94,
         "realized": "+$8K"
       },
@@ -28963,7 +28963,7 @@
       "activityDays": 33,
       "confidenceLimiter": "the composite score is a statistical anomaly across five signals; it ranks suspicion, it does not prove intent",
       "profitSource": "harvard-episode",
-      "harvardScore": 998,
+      "harvardScore": 999,
       "harvardTier": "high",
       "harvardWouldFlag": true,
       "harvardEpisode": {
@@ -28974,7 +28974,7 @@
         "won": true,
         "tx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
         "zBetCross": 17.61,
-        "zBetWithin": 6,
+        "zBetWithin": 6.07,
         "zProfitCross": 14.25,
         "lateBuyFraction": 0,
         "directionalScore": 0.999
@@ -28984,10 +28984,10 @@
       "accountPnlText": "+$1.3M",
       "_tradedCount": 68930,
       "model": "harvard",
-      "wins": 160,
-      "expectedWins": 151.3,
-      "percentile": 99.713,
-      "percentileN": 2090,
+      "wins": 164,
+      "expectedWins": 154.86,
+      "percentile": 99.716,
+      "percentileN": 2112,
       "volumeNum": 535443774,
       "volume": "$535.4M",
       "lastActivity": "33 days ago",
@@ -29990,8 +29990,8 @@
       "_tradedCount": 933,
       "wins": 5,
       "expectedWins": 6.24,
-      "percentile": 85.598,
-      "percentileN": 2090,
+      "percentile": 86.458,
+      "percentileN": 2112,
       "volumeNum": 60632826,
       "volume": "$60.6M",
       "lastActivity": "12 days ago",
@@ -32975,8 +32975,8 @@
       "_tradedCount": 605,
       "wins": 126,
       "expectedWins": 108.63,
-      "percentile": 99.856,
-      "percentileN": 2090,
+      "percentile": 99.858,
+      "percentileN": 2112,
       "volumeNum": 1764949,
       "volume": "$1.8M",
       "lastActivity": "4 days ago",
@@ -34499,8 +34499,8 @@
       "_tradedCount": 699,
       "wins": 61,
       "expectedWins": 48.36,
-      "percentile": 99.856,
-      "percentileN": 2090,
+      "percentile": 99.858,
+      "percentileN": 2112,
       "volumeNum": 5432102,
       "volume": "$5.4M",
       "lastActivity": "19 days ago",
@@ -34728,8 +34728,8 @@
       "_tradedCount": 4,
       "wins": 3,
       "expectedWins": 0.28,
-      "percentile": 90.144,
-      "percentileN": 2090,
+      "percentile": 90.72,
+      "percentileN": 2112,
       "volumeNum": 484417,
       "volume": "$484K",
       "lastActivity": "4 days ago",
@@ -37545,8 +37545,8 @@
       "_tradedCount": 372,
       "wins": 84,
       "expectedWins": 71.75,
-      "percentile": 99.617,
-      "percentileN": 2090,
+      "percentile": 99.716,
+      "percentileN": 2112,
       "volumeNum": 1249498,
       "volume": "$1.2M",
       "lastActivity": "8 days ago",
@@ -38622,8 +38622,8 @@
       "_tradedCount": 145,
       "wins": 33,
       "expectedWins": 23.31,
-      "percentile": 99.761,
-      "percentileN": 2090,
+      "percentile": 99.763,
+      "percentileN": 2112,
       "volumeNum": 79403,
       "volume": "$79K",
       "lastActivity": "183 days ago",
@@ -41066,8 +41066,8 @@
       "_tradedCount": 868,
       "wins": 95,
       "expectedWins": 85.2,
-      "percentile": 99.856,
-      "percentileN": 2090,
+      "percentile": 99.858,
+      "percentileN": 2112,
       "volumeNum": 592248,
       "volume": "$592K",
       "lastActivity": "18 days ago",
@@ -41564,8 +41564,8 @@
       "_tradedCount": 39,
       "wins": 14,
       "expectedWins": 8.28,
-      "percentile": 99.809,
-      "percentileN": 2090,
+      "percentile": 99.811,
+      "percentileN": 2112,
       "volumeNum": 479160,
       "volume": "$479K",
       "lastActivity": "65 days ago",
@@ -44367,8 +44367,8 @@
       "_tradedCount": 1487,
       "wins": 86,
       "expectedWins": 68.82,
-      "percentile": 99.904,
-      "percentileN": 2090,
+      "percentile": 99.905,
+      "percentileN": 2112,
       "volumeNum": 620809,
       "volume": "$621K",
       "lastActivity": "54 days ago",
@@ -44983,8 +44983,8 @@
       "model": "harvard",
       "wins": 35,
       "expectedWins": 173.25,
-      "percentile": 99.617,
-      "percentileN": 2090,
+      "percentile": 99.716,
+      "percentileN": 2112,
       "volumeNum": 482362194,
       "volume": "$482.4M",
       "lastActivity": "8 days ago",
@@ -47945,8 +47945,8 @@
       "_tradedCount": 947,
       "wins": 109,
       "expectedWins": 91.52,
-      "percentile": 99.856,
-      "percentileN": 2090,
+      "percentile": 99.858,
+      "percentileN": 2112,
       "volumeNum": 156743,
       "volume": "$157K",
       "lastActivity": "32 days ago",
@@ -49917,8 +49917,8 @@
       "_tradedCount": 2082,
       "wins": 80,
       "expectedWins": 69.36,
-      "percentile": 99.856,
-      "percentileN": 2090,
+      "percentile": 99.858,
+      "percentileN": 2112,
       "volumeNum": 2752059,
       "volume": "$2.8M",
       "lastActivity": "27 days ago",
@@ -52883,8 +52883,8 @@
       "_tradedCount": 768,
       "wins": 153,
       "expectedWins": 135.68,
-      "percentile": 99.809,
-      "percentileN": 2090,
+      "percentile": 99.811,
+      "percentileN": 2112,
       "volumeNum": 455889,
       "volume": "$456K",
       "lastActivity": "47 days ago",
@@ -54841,8 +54841,8 @@
       "_tradedCount": 520,
       "wins": 64,
       "expectedWins": 56.16,
-      "percentile": 99.713,
-      "percentileN": 2090,
+      "percentile": 99.716,
+      "percentileN": 2112,
       "volumeNum": 265368,
       "volume": "$265K",
       "lastActivity": "138 days ago",
@@ -54864,11 +54864,11 @@
       "createdOnChain": true,
       "firstSeen": "Aug 28 2025",
       "category": "Military & Defense",
-      "marketsCount": 135,
+      "marketsCount": 134,
       "tier": "watch",
-      "improbText": "1 in 2.2K",
-      "improbDenom": 2233,
-      "improbFull": "1 in 2.2 thousand",
+      "improbText": "1 in 2K",
+      "improbDenom": 1981,
+      "improbFull": "1 in 2 thousand",
       "improbCaption": "chance this cross-category record is luck",
       "convictionFlag": false,
       "full": true,
@@ -54891,34 +54891,34 @@
       "detectorsFired": 3,
       "refId": "WF-X-677",
       "cexChips": [],
-      "heroSentence": "This account won 128 of 135 bets across markets the blended odds priced at about 87 percent — roughly 117.84 expected by luck (3.32 standard deviations above chance, about 1 in 2.2K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
+      "heroSentence": "This account won 127 of 134 bets across markets the blended odds priced at about 87 percent — roughly 116.99 expected by luck (3.29 standard deviations above chance, about 1 in 2K). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
         {
           "key": "crossCat",
-          "metric": "128 of 135 · 87%",
+          "metric": "127 of 134 · 87%",
           "method": "cross-category accuracy",
           "formula": "Poisson-binomial: z = (wins − Σpᵢ) / √Σpᵢ(1−pᵢ) over ALL resolved bets at their own odds",
-          "numbers": "Won 128 of 135 bets across markets the blended odds priced at ~87% — about 117.8 expected by luck (3.3σ above chance, ≈ 1 in 2.2K). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
+          "numbers": "Won 127 of 134 bets across markets the blended odds priced at ~87% — about 117.0 expected by luck (3.3σ above chance, ≈ 1 in 2K). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
           "inputs": [
             [
               "n",
-              "135 events"
+              "134 events"
             ],
             [
               "k",
-              "128 wins"
+              "127 wins"
             ],
             [
               "E[X]",
-              "117.84 expected"
+              "116.99 expected"
             ],
             [
               "z",
-              "3.32"
+              "3.29"
             ],
             [
               "P",
-              "1 in 2.2K"
+              "1 in 2K"
             ]
           ]
         },
@@ -57718,7 +57718,7 @@
         }
       ],
       "ledgerSummary": {
-        "markets": 135,
+        "markets": 134,
         "winRate": 94,
         "realized": "+$34K"
       },
@@ -57740,14 +57740,14 @@
       "accountPnl": 91647,
       "accountPnlText": "+$92K",
       "_tradedCount": 2746,
-      "wins": 127,
-      "expectedWins": 117.45,
-      "percentile": 99.809,
-      "percentileN": 2090,
+      "wins": 126,
+      "expectedWins": 116.58,
+      "percentile": 99.811,
+      "percentileN": 2112,
       "volumeNum": 14154486,
       "volume": "$14.2M",
       "lastActivity": "8 days ago",
-      "suspicion": 37.6,
+      "suspicion": 37.4,
       "firstFlaggedAt": 1782795543,
       "newlyFlagged": true,
       "archived": false
@@ -57765,11 +57765,11 @@
       "createdOnChain": true,
       "firstSeen": "Apr 08 2026",
       "category": "Military & Defense",
-      "marketsCount": 172,
+      "marketsCount": 171,
       "tier": "watch",
-      "improbText": "1 in 767",
-      "improbDenom": 767,
-      "improbFull": "1 in 767",
+      "improbText": "1 in 810",
+      "improbDenom": 810,
+      "improbFull": "1 in 810",
       "improbCaption": "chance this cross-category record is luck",
       "convictionFlag": false,
       "full": true,
@@ -57794,18 +57794,18 @@
       "detectorsFired": 4,
       "refId": "WF-X-730",
       "cexChips": [],
-      "heroSentence": "This account won 139 of 172 bets across markets the blended odds priced at about 73 percent — roughly 125.6 expected by luck (3.01 standard deviations above chance, about 1 in 767). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
+      "heroSentence": "This account won 139 of 171 bets across markets the blended odds priced at about 73 percent — roughly 125.53 expected by luck (3.03 standard deviations above chance, about 1 in 810). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.",
       "scorecard": [
         {
           "key": "crossCat",
-          "metric": "139 of 172 · 73%",
+          "metric": "139 of 171 · 73%",
           "method": "cross-category accuracy",
           "formula": "Poisson-binomial: z = (wins − Σpᵢ) / √Σpᵢ(1−pᵢ) over ALL resolved bets at their own odds",
-          "numbers": "Won 139 of 172 bets across markets the blended odds priced at ~73% — about 125.6 expected by luck (3.0σ above chance, ≈ 1 in 767). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
+          "numbers": "Won 139 of 171 bets across markets the blended odds priced at ~73% — about 125.5 expected by luck (3.0σ above chance, ≈ 1 in 810). A near-perfect record across diverse, moderate-odds markets the long-shot test can't see.",
           "inputs": [
             [
               "n",
-              "172 events"
+              "171 events"
             ],
             [
               "k",
@@ -57813,15 +57813,15 @@
             ],
             [
               "E[X]",
-              "125.6 expected"
+              "125.53 expected"
             ],
             [
               "z",
-              "3.01"
+              "3.03"
             ],
             [
               "P",
-              "1 in 767"
+              "1 in 810"
             ]
           ]
         },
@@ -60680,7 +60680,7 @@
         }
       ],
       "ledgerSummary": {
-        "markets": 172,
+        "markets": 171,
         "winRate": 81,
         "realized": "+$3K"
       },
@@ -60703,13 +60703,13 @@
       "accountPnlText": "+$493",
       "_tradedCount": 649,
       "wins": 139,
-      "expectedWins": 125.56,
-      "percentile": 99.617,
-      "percentileN": 2090,
+      "expectedWins": 124.83,
+      "percentile": 99.716,
+      "percentileN": 2112,
       "volumeNum": 66571,
       "volume": "$67K",
       "lastActivity": "3 days ago",
-      "suspicion": 36.9,
+      "suspicion": 37,
       "firstFlaggedAt": 1782795020,
       "newlyFlagged": true,
       "archived": false
@@ -60907,8 +60907,8 @@
       "_tradedCount": 2,
       "wins": 1,
       "expectedWins": 0.24,
-      "percentile": 83.923,
-      "percentileN": 2090,
+      "percentile": 84.754,
+      "percentileN": 2112,
       "volumeNum": 1587379,
       "volume": "$1.6M",
       "lastActivity": "181 days ago",
@@ -61510,8 +61510,8 @@
       "model": "harvard",
       "wins": 101,
       "expectedWins": 142.4,
-      "percentile": 99.474,
-      "percentileN": 2090,
+      "percentile": 99.621,
+      "percentileN": 2112,
       "volumeNum": 240095545,
       "volume": "$240.1M",
       "lastActivity": "today",
@@ -62126,8 +62126,8 @@
       "model": "harvard",
       "wins": 116,
       "expectedWins": 91.2,
-      "percentile": 99.474,
-      "percentileN": 2090,
+      "percentile": 99.621,
+      "percentileN": 2112,
       "volumeNum": 58310953,
       "volume": "$58.3M",
       "lastActivity": "8 days ago",
@@ -62137,34 +62137,80 @@
       "archived": false
     }
   ],
-  "observed": 185654,
-  "reviewed": 185654,
-  "screened": 4783,
+  "observed": 187436,
+  "reviewed": 187436,
+  "screened": 4857,
   "totalFlaggedProfit": 2161957,
   "totalFlaggedProfitText": "$2.2M",
   "flaggedCount": 32,
-  "scored": 2090,
+  "scored": 2112,
   "harvardShadow": {
-    "total": 18,
+    "total": 19,
     "byTier": {
-      "extreme": 1,
+      "extreme": 2,
       "high": 3,
       "notable": 14
     },
     "medianS": 642,
-    "p90": 997.7,
-    "p95": 1178.1,
-    "p99": 1178.1,
+    "p90": 1178.1,
+    "p95": 1190.1,
+    "p99": 1190.1,
     "minS": 532.2,
-    "maxS": 1178.1,
-    "over500": 18,
-    "alsoBinomial": 12,
-    "onlyHarvard": 6,
-    "observed": 185654,
-    "reviewed": 185654,
-    "screened": 4783,
-    "scored": 2090,
+    "maxS": 1190.1,
+    "over500": 19,
+    "alsoBinomial": 11,
+    "onlyHarvard": 8,
+    "observed": 187436,
+    "reviewed": 187436,
+    "screened": 4857,
+    "scored": 2112,
     "top": [
+      {
+        "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
+        "username": null,
+        "tier": "extreme",
+        "S": 1190.1,
+        "market": "Claude 4.8 released by May 31?",
+        "marketUrl": "https://polymarket.com/event/claude-4pt8-released-by",
+        "episodeTx": "0x11422c7115cf8e9905973bbe921349910d190deeef59009ee95d2ed5149c9f9c",
+        "stake": 22524,
+        "odds": 84,
+        "won": true,
+        "episodeProfit": 4192,
+        "zBetCross": 15.11,
+        "zBetWithin": 0.71,
+        "zProfitCross": 25.77,
+        "lateBuyFraction": 1,
+        "directionalScore": 1,
+        "accountPnl": null,
+        "firstSeen": null,
+        "createdOnChain": false,
+        "created": null,
+        "betsCount": 2,
+        "ledger": [
+          {
+            "market": "Claude 4.8 released by May 31?",
+            "url": "https://polymarket.com/event/claude-4pt8-released-by",
+            "ts": 1779919797,
+            "odds": 84,
+            "stake": 22524,
+            "pl": 4192,
+            "won": true,
+            "tx": "0x11422c7115cf8e9905973bbe921349910d190deeef59009ee95d2ed5149c9f9c"
+          },
+          {
+            "market": "Claude 4.8 released by June 15?",
+            "url": "https://polymarket.com/event/claude-4pt8-released-by",
+            "ts": 1779919892,
+            "odds": 95,
+            "stake": 475,
+            "pl": 25,
+            "won": true,
+            "tx": "0x807f1a3bd6f21f8e1be6865a254d1577b5ba465bb3272461481b71ec1746eab0"
+          }
+        ],
+        "alsoBinomial": true
+      },
       {
         "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
         "username": null,
@@ -62255,7 +62301,7 @@
         "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
         "username": "cigarettes",
         "tier": "high",
-        "S": 997.7,
+        "S": 999.1,
         "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
         "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
         "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -62264,7 +62310,7 @@
         "won": true,
         "episodeProfit": 7507,
         "zBetCross": 17.61,
-        "zBetWithin": 6,
+        "zBetWithin": 6.07,
         "zProfitCross": 14.25,
         "lateBuyFraction": 0,
         "directionalScore": 0.999,
@@ -62272,7 +62318,7 @@
         "firstSeen": "Sep 23 2024",
         "createdOnChain": true,
         "created": "Sep 23 2024",
-        "betsCount": 170,
+        "betsCount": 174,
         "ledger": [
           {
             "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
@@ -62702,6 +62748,142 @@
         "alsoBinomial": true
       },
       {
+        "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
+        "username": null,
+        "tier": "notable",
+        "S": 740.1,
+        "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+        "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+        "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
+        "stake": 20935,
+        "odds": 48,
+        "won": true,
+        "episodeProfit": 22588,
+        "zBetCross": 3.5,
+        "zBetWithin": 2.85,
+        "zProfitCross": 19.53,
+        "lateBuyFraction": 0,
+        "directionalScore": 1,
+        "accountPnl": null,
+        "firstSeen": null,
+        "createdOnChain": false,
+        "created": null,
+        "betsCount": 11,
+        "ledger": [
+          {
+            "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+            "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+            "ts": 1771786958,
+            "odds": 48,
+            "stake": 20935,
+            "pl": 22588,
+            "won": true,
+            "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
+          },
+          {
+            "market": "Will the Democrats 66 win the fourth most seats in the 2025 Netherlands parliamentary election?",
+            "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
+            "ts": 1759251407,
+            "odds": 25,
+            "stake": 584,
+            "pl": -502,
+            "won": false,
+            "tx": "0xcfa37c56eebc8611139d725841c506f569376caf659873930d646a902daeefd3"
+          },
+          {
+            "market": "Will the Christian Democratic Appeal win the fourth most seats in the 2025 Netherlands parliamentary election?",
+            "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
+            "ts": 1761667391,
+            "odds": 40,
+            "stake": 330,
+            "pl": -168,
+            "won": false,
+            "tx": "0xf66a10bb7247096684fd0156d585fb297a2a460c4bcdb18bf8cb689969a5bffa"
+          },
+          {
+            "market": "Will the People's Party for Freedom and Democracy win the fourth most seats in the 2025 Netherlands parliamentary election?",
+            "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
+            "ts": 1759233189,
+            "odds": 30,
+            "stake": 257,
+            "pl": -257,
+            "won": false,
+            "tx": "0xafb9789f99e7f6a7f9c075dcd25e7e329e53b83bb1e30d9e71687189b757b106"
+          },
+          {
+            "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+            "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+            "ts": 1761707941,
+            "odds": 86,
+            "stake": 248,
+            "pl": -19,
+            "won": true,
+            "tx": "0x3760ca3f0f4081ceae2d55b884f875c68266e709bef7fae73d0236ef8507be56"
+          },
+          {
+            "market": "Will Jonathan Dearden win Top Chef Season 23?",
+            "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+            "ts": 1777880758,
+            "odds": 96,
+            "stake": 88,
+            "pl": 3,
+            "won": true,
+            "tx": "0x83262b7c5411b1ca43c8f1611579b898773ba19a75f155f88923e699e9e65e22"
+          },
+          {
+            "market": "Will Rhoda Magbitang win Top Chef Season 23?",
+            "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+            "ts": 1779844367,
+            "odds": 94,
+            "stake": 63,
+            "pl": -63,
+            "won": true,
+            "tx": "0x9277c9de7d212656cd0991021aa063d2e075d62a859b3a7c471d482f25ae8e6b"
+          },
+          {
+            "market": "Will GroenLinks–PvdA win 22 or fewer seats in the 2025 Netherlands parliamentary election?",
+            "url": "https://polymarket.com/event/dutch-parliamentary-election-groenlinkspvda-seats",
+            "ts": 1760916578,
+            "odds": 72,
+            "stake": 36,
+            "pl": -36,
+            "won": false,
+            "tx": "0x800b0f6227b2df4f8de623d518fb9b81c9774edcf293958cecffc456be470e05"
+          },
+          {
+            "market": "Will Laurence Louie win Top Chef Season 23?",
+            "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+            "ts": 1778333058,
+            "odds": 7,
+            "stake": 24,
+            "pl": -24,
+            "won": false,
+            "tx": "0x06b6a475e4e98b2736439c81d4fed6b2247840ddcf9f931952278e8a34aa7051"
+          },
+          {
+            "market": "Will Sherry Cardoso win Top Chef Season 23?",
+            "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+            "ts": 1780471781,
+            "odds": 1,
+            "stake": 1,
+            "pl": -1,
+            "won": false,
+            "tx": "0x21c885a3741768dfe47bce5ef218110c06857c1cdcfa44bced318c118d72a885"
+          },
+          {
+            "market": "Will Duyen Ha win Top Chef Season 23?",
+            "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+            "ts": 1777097204,
+            "odds": 2,
+            "stake": 0,
+            "pl": 0,
+            "won": false,
+            "tx": "0x595dc62d516149a4e7a0c7c8978d9ae8df9f553cc39d3792fc21d6242e984e45"
+          }
+        ],
+        "alsoBinomial": false
+      },
+      {
         "address": "0x2b76c1d12cd928b1d95a6d2c7f1e6f6e7f14edef",
         "username": null,
         "tier": "notable",
@@ -62733,42 +62915,6 @@
             "pl": 6454,
             "won": true,
             "tx": "0x5f849355ba165bf52a45c32acdb513d139c4b98eed6040aba7bae262ea5978cc"
-          }
-        ],
-        "alsoBinomial": true
-      },
-      {
-        "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
-        "username": null,
-        "tier": "notable",
-        "S": 683.2,
-        "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-        "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-        "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
-        "stake": 20935,
-        "odds": 48,
-        "won": true,
-        "episodeProfit": 22588,
-        "zBetCross": 3.5,
-        "zBetWithin": 0,
-        "zProfitCross": 19.53,
-        "lateBuyFraction": 0,
-        "directionalScore": 1,
-        "accountPnl": null,
-        "firstSeen": null,
-        "createdOnChain": false,
-        "created": null,
-        "betsCount": 1,
-        "ledger": [
-          {
-            "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-            "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-            "ts": 1771786958,
-            "odds": 48,
-            "stake": 20935,
-            "pl": 22588,
-            "won": true,
-            "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
           }
         ],
         "alsoBinomial": true
@@ -62845,6 +62991,102 @@
             "pl": 1,
             "won": true,
             "tx": "0x9bb32cd9541a97bb0389af1b242b71c52667953955c203c0973ff73406a48e8a"
+          }
+        ],
+        "alsoBinomial": true
+      },
+      {
+        "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
+        "username": null,
+        "tier": "notable",
+        "S": 619.6,
+        "market": "Will the US strike Somalia next?",
+        "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
+        "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
+        "stake": 13654,
+        "odds": 88,
+        "won": true,
+        "episodeProfit": 1882,
+        "zBetCross": 7.77,
+        "zBetWithin": 1.33,
+        "zProfitCross": 12.83,
+        "lateBuyFraction": 0.273,
+        "directionalScore": 1,
+        "accountPnl": null,
+        "firstSeen": null,
+        "createdOnChain": false,
+        "created": null,
+        "betsCount": 7,
+        "ledger": [
+          {
+            "market": "Will the US strike Somalia next?",
+            "url": "https://polymarket.com/event/next-country-us-strikes-476",
+            "ts": 1770665345,
+            "odds": 88,
+            "stake": 13654,
+            "pl": 1882,
+            "won": true,
+            "tx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352"
+          },
+          {
+            "market": "Will the US strike Iran next?",
+            "url": "https://polymarket.com/event/next-country-us-strikes-476",
+            "ts": 1770682015,
+            "odds": 96,
+            "stake": 11805,
+            "pl": 540,
+            "won": true,
+            "tx": "0x1e2163f9369a06adbc1e3124a746c6d2aaf1e6bbb955a3b4d20b637528c580b7"
+          },
+          {
+            "market": "Will the US strike Syria next?",
+            "url": "https://polymarket.com/event/next-country-us-strikes-476",
+            "ts": 1770225769,
+            "odds": 92,
+            "stake": 6789,
+            "pl": 529,
+            "won": true,
+            "tx": "0x7c6abb65db658c76fb55153cf4dbe4ad1b6ae5b0244678944866fba5f1d8a833"
+          },
+          {
+            "market": "Will the US strike Somalia next?",
+            "url": "https://polymarket.com/event/next-country-us-strikes-163",
+            "ts": 1771433134,
+            "odds": 85,
+            "stake": 1673,
+            "pl": 294,
+            "won": true,
+            "tx": "0x5f136a19c5a202609f33d66968abcd6ab1d3fbcd0381036a0343271d5399f4ab"
+          },
+          {
+            "market": "Will the US strike Somalia next?",
+            "url": "https://polymarket.com/event/next-country-us-strikes-759",
+            "ts": 1768037952,
+            "odds": 72,
+            "stake": 379,
+            "pl": -379,
+            "won": false,
+            "tx": "0x6cbc9cfd01e94383479afaaa7b9f9920cc3e4e24478e28b28988f6b5c502ad2b"
+          },
+          {
+            "market": "US-Iran nuclear deal by July 31?",
+            "url": "https://polymarket.com/event/us-iran-nuclear-deal-by-july-31",
+            "ts": 1780067538,
+            "odds": 66,
+            "stake": 18,
+            "pl": 10,
+            "won": true,
+            "tx": "0xe95eacaf979d62183017ee7fe9bcc909115c977d8439929d924dacab922e1c78"
+          },
+          {
+            "market": "Will Trump physically sign US x Iran deal?",
+            "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
+            "ts": 1781734504,
+            "odds": 85,
+            "stake": 0,
+            "pl": 850,
+            "won": true,
+            "tx": "0xd127a65f590346c5c106108f8c1300a191f47f7104c682b8dab91e9e765149ea"
           }
         ],
         "alsoBinomial": true
@@ -63014,92 +63256,6 @@
           }
         ],
         "alsoBinomial": false
-      },
-      {
-        "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
-        "username": null,
-        "tier": "notable",
-        "S": 616.1,
-        "market": "Will the US strike Somalia next?",
-        "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
-        "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
-        "stake": 13654,
-        "odds": 88,
-        "won": true,
-        "episodeProfit": 1882,
-        "zBetCross": 7.77,
-        "zBetWithin": 1.15,
-        "zProfitCross": 12.83,
-        "lateBuyFraction": 0.273,
-        "directionalScore": 1,
-        "accountPnl": null,
-        "firstSeen": null,
-        "createdOnChain": false,
-        "created": null,
-        "betsCount": 6,
-        "ledger": [
-          {
-            "market": "Will the US strike Somalia next?",
-            "url": "https://polymarket.com/event/next-country-us-strikes-476",
-            "ts": 1770665345,
-            "odds": 88,
-            "stake": 13654,
-            "pl": 1882,
-            "won": true,
-            "tx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352"
-          },
-          {
-            "market": "Will the US strike Iran next?",
-            "url": "https://polymarket.com/event/next-country-us-strikes-476",
-            "ts": 1770682015,
-            "odds": 96,
-            "stake": 11805,
-            "pl": 540,
-            "won": true,
-            "tx": "0x1e2163f9369a06adbc1e3124a746c6d2aaf1e6bbb955a3b4d20b637528c580b7"
-          },
-          {
-            "market": "Will the US strike Syria next?",
-            "url": "https://polymarket.com/event/next-country-us-strikes-476",
-            "ts": 1770225769,
-            "odds": 92,
-            "stake": 6789,
-            "pl": 529,
-            "won": true,
-            "tx": "0x7c6abb65db658c76fb55153cf4dbe4ad1b6ae5b0244678944866fba5f1d8a833"
-          },
-          {
-            "market": "Will the US strike Somalia next?",
-            "url": "https://polymarket.com/event/next-country-us-strikes-163",
-            "ts": 1771433134,
-            "odds": 85,
-            "stake": 1673,
-            "pl": 294,
-            "won": true,
-            "tx": "0x5f136a19c5a202609f33d66968abcd6ab1d3fbcd0381036a0343271d5399f4ab"
-          },
-          {
-            "market": "Will the US strike Somalia next?",
-            "url": "https://polymarket.com/event/next-country-us-strikes-759",
-            "ts": 1768037952,
-            "odds": 72,
-            "stake": 379,
-            "pl": -379,
-            "won": false,
-            "tx": "0x6cbc9cfd01e94383479afaaa7b9f9920cc3e4e24478e28b28988f6b5c502ad2b"
-          },
-          {
-            "market": "Will Trump physically sign US x Iran deal?",
-            "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
-            "ts": 1781734504,
-            "odds": 85,
-            "stake": 0,
-            "pl": 850,
-            "won": true,
-            "tx": "0xd127a65f590346c5c106108f8c1300a191f47f7104c682b8dab91e9e765149ea"
-          }
-        ],
-        "alsoBinomial": true
       },
       {
         "address": "0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1",
@@ -63437,7 +63593,7 @@
         "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
         "username": null,
         "tier": "notable",
-        "S": 544.2,
+        "S": 544.4,
         "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
         "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
         "episodeTx": null,
@@ -63446,7 +63602,7 @@
         "won": true,
         "episodeProfit": 4363,
         "zBetCross": 10.72,
-        "zBetWithin": 0.87,
+        "zBetWithin": 0.88,
         "zProfitCross": 8.29,
         "lateBuyFraction": 0,
         "directionalScore": 1,
@@ -63454,7 +63610,7 @@
         "firstSeen": "Oct 13 2024",
         "createdOnChain": false,
         "created": null,
-        "betsCount": 193,
+        "betsCount": 196,
         "ledger": [
           {
             "market": "Will the Iranian regime fall by June 30?",
@@ -63603,7 +63759,7 @@
         "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
         "username": null,
         "tier": "notable",
-        "S": 540.7,
+        "S": 542.8,
         "market": "Iran successfully targets shipping by June 27?",
         "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
         "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -63612,7 +63768,7 @@
         "won": true,
         "episodeProfit": 16392,
         "zBetCross": 2.27,
-        "zBetWithin": 0.93,
+        "zBetWithin": 1.03,
         "zProfitCross": 14.68,
         "lateBuyFraction": 1,
         "directionalScore": 1,
@@ -63620,7 +63776,7 @@
         "firstSeen": null,
         "createdOnChain": false,
         "created": null,
-        "betsCount": 17,
+        "betsCount": 19,
         "ledger": [
           {
             "market": "US and Iran sign an agreement by July 31, 2026?",
@@ -63753,14 +63909,14 @@
             "tx": "0xce2738b039b17c781857d8b5e7421f0654f3e436c347ffa461198b2d8f944f26"
           },
           {
-            "market": "Will Trump and Machado share the Nobel Peace Prize?",
-            "url": "https://polymarket.com/event/will-trump-and-machado-share-the-nobel-peace-prize",
-            "ts": 1768513814,
-            "odds": 59,
-            "stake": 236,
-            "pl": 170,
+            "market": "Total Internet Blackout in Iran by July 31, 2026?",
+            "url": "https://polymarket.com/event/total-internet-blackout-in-iran-by-732",
+            "ts": 1781251374,
+            "odds": 45,
+            "stake": 243,
+            "pl": 294,
             "won": true,
-            "tx": "0xdbbe89ca2de8940d1e467e7dd71ebf3dfbd1c29838f9e406d61bcdbc0dcd1f9a"
+            "tx": "0xd3046a4718854d87b8a46ba67f8bc57169bb3dcd1c3c0daa517fc2ba4dfb749b"
           }
         ],
         "alsoBinomial": true
@@ -63815,7 +63971,7 @@
         "address": "0x4f1d5ae26fc31472966e951af3183308736d8de2",
         "username": null,
         "tier": "notable",
-        "S": 535.2,
+        "S": 535.7,
         "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
         "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
         "episodeTx": "0xdd053b8659edaefa21037220209455955c7d0fb6bb7b79a4283d2d6bf7140eb8",
@@ -63824,7 +63980,7 @@
         "won": true,
         "episodeProfit": 1432,
         "zBetCross": 10.69,
-        "zBetWithin": 1.65,
+        "zBetWithin": 1.68,
         "zProfitCross": 7.37,
         "lateBuyFraction": 0.268,
         "directionalScore": 0.995,
@@ -63832,7 +63988,7 @@
         "firstSeen": null,
         "createdOnChain": false,
         "created": null,
-        "betsCount": 81,
+        "betsCount": 83,
         "ledger": [
           {
             "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
@@ -63975,7 +64131,7 @@
             "tx": "0x8678914a58c1b8d945fb31c259ef70de61f4d21d7f171a7e54bbe81f1bbd38fe"
           }
         ],
-        "alsoBinomial": true
+        "alsoBinomial": false
       },
       {
         "address": "0xb10047d6a254b2ebb306d7a7d13bf59171ab6461",
@@ -64146,34 +64302,34 @@
     ]
   },
   "meta": {
-    "observed": 185654,
-    "reviewed": 185654,
-    "screened": 4783,
-    "scored": 2090,
+    "observed": 187436,
+    "reviewed": 187436,
+    "screened": 4857,
+    "scored": 2112,
     "fdr": {
       "q": 0.1,
       "pStar": 0.000044271294492650965,
       "fixedBar": 0.01,
       "effectiveCut": 0.000044271294492650965,
-      "scored": 2090,
-      "droppedBinomial": 10
+      "scored": 2112,
+      "droppedBinomial": 9
     },
     "block": "",
     "snapshot": "Jun 29 2026",
     "recomputed": "Jun 30 2026"
   },
-  "generatedAt": "2026-06-30T06:18:37.040Z",
+  "generatedAt": "2026-06-30T06:26:51.309Z",
   "coverageByCategory": {
-    "Politics": 3186,
+    "Politics": 3184,
     "Elections": 3703,
-    "Tech & Announcements": 2226,
-    "Corporate & M&A": 1289,
-    "World": 2558,
+    "Tech & Announcements": 2233,
+    "Corporate & M&A": 1294,
+    "World": 2561,
     "Culture": 2567,
-    "Economics": 957,
+    "Economics": 960,
     "Crypto Events": 496,
-    "Military & Defense": 2695,
-    "Legal & Regulatory": 1175
+    "Military & Defense": 2702,
+    "Legal & Regulatory": 1176
   },
   "surpriseMarkets": [
     {
@@ -64198,15 +64354,15 @@
       "hasData": true,
       "nBets": 3581,
       "observedWins": 2325,
-      "expectedWins": 1967,
+      "expectedWins": 1966.4,
       "sd": 22.29,
       "zScore": 16.1,
       "avgImplied": 54.9,
       "iters": 10000,
-      "simMeanWins": 1967.3,
+      "simMeanWins": 1966.7,
       "pEmpirical": 0,
       "pText": "p < 1e-4",
-      "statement": "Is this just luck? We took every long-shot bet placed by the 32 flagged wallets — 3,581 bets in all — and used the market's own prices to work out how many they should win by pure guessing: about 1,967. They actually won 2,325. We then re-ran every outcome 10,000 times at random; the group beat chance by 16.1 standard deviations (p < 1e-4) — a margin so large it essentially never happens by accident. Strong evidence the group as a whole was trading on information; not proof for any single wallet."
+      "statement": "Is this just luck? We took every long-shot bet placed by the 32 flagged wallets — 3,581 bets in all — and used the market's own prices to work out how many they should win by pure guessing: about 1,966. They actually won 2,325. We then re-ran every outcome 10,000 times at random; the group beat chance by 16.1 standard deviations (p < 1e-4) — a margin so large it essentially never happens by accident. Strong evidence the group as a whole was trading on information; not proof for any single wallet."
     },
     "perDetector": [
       {
@@ -64364,420 +64520,15 @@
       }
     ],
     "flaggedCount": 32,
-    "computedAt": 1782799878
+    "computedAt": 1782800363
   },
   "ringGroups": [
-    {
-      "hub": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
-      "hubLabel": null,
-      "size": 79,
-      "seedFrom": "0x6baf05d193692bb208d616709e27442c910a94c5",
-      "ts": 1782799344,
-      "flaggedCount": 1,
-      "members": [
-        {
-          "addr": "0x6baf05d193692bb208d616709e27442c910a94c5",
-          "flagged": true,
-          "tier": "elevated"
-        },
-        {
-          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x365e12b47919b0e3bcf1c8cc3ecd8fb88b80560f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4d96190e8d0487d019987cd9df34dd51f617037f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc69b076626ae65cfdce0de5f6a7caad60cb7b0fc",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x01a23b7408650ba910b11740a814071e57fbfbe3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x37943881b103619b62c1b8f28da55e7cdd755547",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x01a4333b6acb5091cf0219646f35e289546f4656",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd63bba35211f27acc4b73c1007605b245537f257",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6734c8996ffe57b39b4fb2176e532173a2b3e241",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x31331ec182777b3e3cf127f4709a8aaa8f76e549",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x90d612fb10218cbb694ac525b7958bc1599e0c1c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc4275c63c772068cdb8a24fc9eb9ef00c0be4c16",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x9a32b1a10504489f9b88106acec79c672630158c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd1b62bd6b3af1c9ab61735389cc28b2767399b31",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2e3ede5a282b0ac1c31f0a19158845c1a9aa24b0",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8c8372c9a22ce6c8d928afe147190957455dbdbf",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1a720be11ea204cb4a7ec26a8ebff5328995e805",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x905f5adc0df1643ce8bd4945aa4e0cf65cdb9cdd",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6866d5862794b63c6a3d26ebaf6229563e38c55b",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xea5963c83b6e38d766ecf506f39a82e723adc709",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3928b141c2a11c14de7de4e910520ae4ad1da492",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3c402b4c588f7c0ceaeab6914b778e97970a3876",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2f102897fa911f21c524688dbce6b496d941cf76",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xb97fbad20ba4340f0728101d8d292be31073d270",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xe724a57d2a86b2a7a8aec4c45a08cdae588b84e5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc00f941dc66944a079192b221db993f4a3cacc98",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd5c0d17ccb9071d27a4f7ed8255f59989b9aee0d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x0449e53aa1a3f75133df621d0ee755d5381a934e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xe1c83ffbd2f9dce7b73d6dd84c19cee39a23d5e6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x635787466cb7b789a807a35156848f3c265cdb59",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xbc69dcb4b5911a6693fcadc171ce6eed3306bef0",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x69d8eb6aefee5caba2c63abb6d991dc50ce89166",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x90b6a1f8df231cd7fd5cca4fc4a2ee3a25ffc8e5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x44b7e6461af76ae31800ae7b756aff8307d919f3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8b5e4db198ffc7f69f8f11f6592f682717df1d92",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x03508bb71268bba25ecacc8f620e01866650532c",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x7fda9642514a486e36f756df160fb9096888b9fb",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3b1ee855a70fda2ac2913c603f87f7e8a2f972d6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xafa5d687dab231aefda05ce07a305b1e38b0ae5a",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x29632ca895ad52ce4804c961b29630f4ba3f1bad",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x54899c1f7a2d9e9d386a9318a1f9197b9cc5c289",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x282a6b3d73895f6168b107f89135506f7d18aa6f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x7a9df9652d72e6d14466fbafbaa607dc35a2d1e1",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x6bc610a62672c6a0eaf60ea817f7e8f710ff95ad",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x9d73a9d90497daf0a600ea99625be450f4510951",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xeeead71c30d7f2ba4594c7a068b2019cb36c4af9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x35a611ff527cc7c9b5a002c59e873b1e8f25cb8f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8664c740b6c0a643868abaf516abcdacd29f9981",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xf7ba643d125393b93c721e43e4fae24b5481bb9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc35f8e7fc3291e372648dae4e19ac84b1ca7960d",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xc9ddc880a29fa83e627e887ca3720f2fe1052aae",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8f0f74af14a3ee808864ec8d25684efaeab178a2",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x83b32e3fce9018d9fb6b1f3b337eb8d0c50b7801",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x8546e3d99aaaa33afa644376552d93f6385ffcef",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1b58ae5ab71526362331d1d684b611ffc3c920af",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x568ddeac4ca7ac5b8b8d67caefbf5bd5b033dcca",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x640b3b4a1699c116ddabca1101f99d4aa4a5144f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x391010201e75323afb8687fd20c48505f5057ba2",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x3c8003e75717c864cade10f174c01c4ab5b2a5f3",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x35df8fcc213d47b5d8ecca4628eb0a3a93b684d2",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd1bedc686753e7676b61ff3a8dd04c5c4ee6f380",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xbca5f37511010747af2a474467691b74db9951e9",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
-          "flagged": false,
-          "tier": null
-        }
-      ]
-    },
     {
       "hub": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
       "hubLabel": null,
       "size": 60,
       "seedFrom": "0xd1091712f4ed0e17261feb174f5c080977506fa0",
-      "ts": 1782799878,
+      "ts": 1782800363,
       "flaggedCount": 1,
       "members": [
         {
@@ -65085,48 +64836,23 @@
     {
       "hub": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
       "hubLabel": null,
-      "size": 50,
-      "seedFrom": "0xaf2383b66194112d57ac196b00ab25f78c17aa95",
-      "ts": 1782799878,
+      "size": 44,
+      "seedFrom": "0x06dcaa14f57d8a0573f5dc5940565e6de667af59",
+      "ts": 1782800363,
       "flaggedCount": 1,
       "members": [
         {
-          "addr": "0xaf2383b66194112d57ac196b00ab25f78c17aa95",
+          "addr": "0x06dcaa14f57d8a0573f5dc5940565e6de667af59",
           "flagged": true,
           "tier": "elevated"
         },
         {
-          "addr": "0x4fb04a6607e7eb453bea7df2215094581516c691",
+          "addr": "0x1929347e025d4f5f8d6b2bd2261e2f4efcacd215",
           "flagged": false,
           "tier": null
         },
         {
-          "addr": "0x4cd00e387622c35bddb9b4c962c136462338bc31",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xd326b2b79dfdbff7e2baabf1f62e207748ed68f4",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xb92fe925dc43a0ecde6c8b1a2709c170ec4fff4f",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x30d460bc127010291a732a4eb0dd1d21159a1130",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0x2c0367a9db231ddebd88a94b4f6461a6e47c58b1",
-          "flagged": false,
-          "tier": null
-        },
-        {
-          "addr": "0xee3afe347d5c74317041e2618c49534daf887c24",
+          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
           "flagged": false,
           "tier": null
         },
@@ -65334,9 +65060,234 @@
           "addr": "0x421a018cc5839c4c0300afb21c725776dc389b1a",
           "flagged": false,
           "tier": null
+        }
+      ]
+    },
+    {
+      "hub": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
+      "hubLabel": null,
+      "size": 44,
+      "seedFrom": "0x6baf05d193692bb208d616709e27442c910a94c5",
+      "ts": 1782800363,
+      "flaggedCount": 1,
+      "members": [
+        {
+          "addr": "0x6baf05d193692bb208d616709e27442c910a94c5",
+          "flagged": true,
+          "tier": "elevated"
         },
         {
-          "addr": "0x4bfb41d5b3570defd03c39a9a4d8de6bd8b8982e",
+          "addr": "0x4d97dcd97ec945f40cf65f87097ace5ea0476045",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa67d7eb4dc68fa6ce8e34ef8cadaf075b9893fbb",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x7fda9642514a486e36f756df160fb9096888b9fb",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3b1ee855a70fda2ac2913c603f87f7e8a2f972d6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x2edb6c4eacbe85a11ffd21e42caea9ae53849ac5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xafa5d687dab231aefda05ce07a305b1e38b0ae5a",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x5b9f44ccdde966d164d39871d7472e836dca0fc9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x4427dd04fa8d8cec4660b2e827c2d7f60060498d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x29632ca895ad52ce4804c961b29630f4ba3f1bad",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x54899c1f7a2d9e9d386a9318a1f9197b9cc5c289",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x282a6b3d73895f6168b107f89135506f7d18aa6f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1c340f19253d83dd2c57c1493d326d44a74f0cf6",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x7a9df9652d72e6d14466fbafbaa607dc35a2d1e1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xcb858814f0e2ea2a5afca8dd74cc34bb86540de5",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x9f53af93273d3a1778e138f0c2ae999d128924d1",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x6bc610a62672c6a0eaf60ea817f7e8f710ff95ad",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x9d73a9d90497daf0a600ea99625be450f4510951",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xeeead71c30d7f2ba4594c7a068b2019cb36c4af9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xde63827b8f8ddd627ad9d7e0b09e8cc49bc446c2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x35a611ff527cc7c9b5a002c59e873b1e8f25cb8f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8664c740b6c0a643868abaf516abcdacd29f9981",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xf7ba643d125393b93c721e43e4fae24b5481bb9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xa8bc9dd22edd71d5ea5d1d28e60fa59e84e739f9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc35f8e7fc3291e372648dae4e19ac84b1ca7960d",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x5dc978a47d28f2dcdc2b2c8ffc4e3d4e343b1d9e",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xc9ddc880a29fa83e627e887ca3720f2fe1052aae",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8f0f74af14a3ee808864ec8d25684efaeab178a2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x83b32e3fce9018d9fb6b1f3b337eb8d0c50b7801",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x8546e3d99aaaa33afa644376552d93f6385ffcef",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1b58ae5ab71526362331d1d684b611ffc3c920af",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x988e38878bf34ab4e67d049ecab2bb817a4f5558",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3d3831f5b7265c0329346653a517a189741fe2a8",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x568ddeac4ca7ac5b8b8d67caefbf5bd5b033dcca",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x640b3b4a1699c116ddabca1101f99d4aa4a5144f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x391010201e75323afb8687fd20c48505f5057ba2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x3c8003e75717c864cade10f174c01c4ab5b2a5f3",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x35df8fcc213d47b5d8ecca4628eb0a3a93b684d2",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xd1bedc686753e7676b61ff3a8dd04c5c4ee6f380",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xcbf622b65d4e6ad5363f1a8359d4c5f99b02301f",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x1c181cc54e2e99e37e53b2f321e1b81c87312fb9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0xbca5f37511010747af2a474467691b74db9951e9",
+          "flagged": false,
+          "tier": null
+        },
+        {
+          "addr": "0x47cdb2ac4a15b5895b5d3655c624d68ee579bbc9",
           "flagged": false,
           "tier": null
         }
@@ -65347,7 +65298,7 @@
       "hubLabel": null,
       "size": 35,
       "seedFrom": "0xf9e1a97ed5cb0e55a48803d754e27d04cadce46f",
-      "ts": 1782799344,
+      "ts": 1782800363,
       "flaggedCount": 1,
       "members": [
         {
@@ -65532,7 +65483,7 @@
       "hubLabel": null,
       "size": 34,
       "seedFrom": "0xeb22f4735df6bd5d14e1b5fd10faefa7757d808a",
-      "ts": 1782799344,
+      "ts": 1782800363,
       "flaggedCount": 1,
       "members": [
         {
@@ -65887,7 +65838,7 @@
       "hubLabel": null,
       "size": 21,
       "seedFrom": "0x744a283ddda3533d6abf89240bfe2f43201a923b",
-      "ts": 1782799344,
+      "ts": 1782800363,
       "flaggedCount": 1,
       "members": [
         {

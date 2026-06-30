@@ -1,26 +1,72 @@
 {
   "generatedAt": "Jun 30 2026",
   "snapshot": 1782776873,
-  "total": 18,
+  "total": 19,
   "byTier": {
-    "extreme": 1,
+    "extreme": 2,
     "high": 3,
     "notable": 14
   },
   "medianS": 642,
-  "p90": 997.7,
-  "p95": 1178.1,
-  "p99": 1178.1,
+  "p90": 1178.1,
+  "p95": 1190.1,
+  "p99": 1190.1,
   "minS": 532.2,
-  "maxS": 1178.1,
-  "over500": 18,
-  "alsoBinomial": 12,
-  "onlyHarvard": 6,
-  "observed": 185654,
-  "reviewed": 185654,
-  "screened": 4783,
-  "scored": 2090,
+  "maxS": 1190.1,
+  "over500": 19,
+  "alsoBinomial": 11,
+  "onlyHarvard": 8,
+  "observed": 187436,
+  "reviewed": 187436,
+  "screened": 4857,
+  "scored": 2112,
   "top": [
+    {
+      "address": "0x0d7c1d8cbf0e4094f0a5f1e1fdcd7e30bb926a3a",
+      "username": null,
+      "tier": "extreme",
+      "S": 1190.1,
+      "market": "Claude 4.8 released by May 31?",
+      "marketUrl": "https://polymarket.com/event/claude-4pt8-released-by",
+      "episodeTx": "0x11422c7115cf8e9905973bbe921349910d190deeef59009ee95d2ed5149c9f9c",
+      "stake": 22524,
+      "odds": 84,
+      "won": true,
+      "episodeProfit": 4192,
+      "zBetCross": 15.11,
+      "zBetWithin": 0.71,
+      "zProfitCross": 25.77,
+      "lateBuyFraction": 1,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 2,
+      "ledger": [
+        {
+          "market": "Claude 4.8 released by May 31?",
+          "url": "https://polymarket.com/event/claude-4pt8-released-by",
+          "ts": 1779919797,
+          "odds": 84,
+          "stake": 22524,
+          "pl": 4192,
+          "won": true,
+          "tx": "0x11422c7115cf8e9905973bbe921349910d190deeef59009ee95d2ed5149c9f9c"
+        },
+        {
+          "market": "Claude 4.8 released by June 15?",
+          "url": "https://polymarket.com/event/claude-4pt8-released-by",
+          "ts": 1779919892,
+          "odds": 95,
+          "stake": 475,
+          "pl": 25,
+          "won": true,
+          "tx": "0x807f1a3bd6f21f8e1be6865a254d1577b5ba465bb3272461481b71ec1746eab0"
+        }
+      ],
+      "alsoBinomial": true
+    },
     {
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
       "username": null,
@@ -111,7 +157,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 997.7,
+      "S": 999.1,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -120,7 +166,7 @@
       "won": true,
       "episodeProfit": 7507,
       "zBetCross": 17.61,
-      "zBetWithin": 6,
+      "zBetWithin": 6.07,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -128,7 +174,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "Sep 23 2024",
-      "betsCount": 170,
+      "betsCount": 174,
       "ledger": [
         {
           "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
@@ -558,6 +604,142 @@
       "alsoBinomial": true
     },
     {
+      "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
+      "username": null,
+      "tier": "notable",
+      "S": 740.1,
+      "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+      "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+      "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
+      "stake": 20935,
+      "odds": 48,
+      "won": true,
+      "episodeProfit": 22588,
+      "zBetCross": 3.5,
+      "zBetWithin": 2.85,
+      "zProfitCross": 19.53,
+      "lateBuyFraction": 0,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 11,
+      "ledger": [
+        {
+          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
+          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
+          "ts": 1771786958,
+          "odds": 48,
+          "stake": 20935,
+          "pl": 22588,
+          "won": true,
+          "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
+        },
+        {
+          "market": "Will the Democrats 66 win the fourth most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
+          "ts": 1759251407,
+          "odds": 25,
+          "stake": 584,
+          "pl": -502,
+          "won": false,
+          "tx": "0xcfa37c56eebc8611139d725841c506f569376caf659873930d646a902daeefd3"
+        },
+        {
+          "market": "Will the Christian Democratic Appeal win the fourth most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
+          "ts": 1761667391,
+          "odds": 40,
+          "stake": 330,
+          "pl": -168,
+          "won": false,
+          "tx": "0xf66a10bb7247096684fd0156d585fb297a2a460c4bcdb18bf8cb689969a5bffa"
+        },
+        {
+          "market": "Will the People's Party for Freedom and Democracy win the fourth most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-4nd-most-seats-in-netherlands-election",
+          "ts": 1759233189,
+          "odds": 30,
+          "stake": 257,
+          "pl": -257,
+          "won": false,
+          "tx": "0xafb9789f99e7f6a7f9c075dcd25e7e329e53b83bb1e30d9e71687189b757b106"
+        },
+        {
+          "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761707941,
+          "odds": 86,
+          "stake": 248,
+          "pl": -19,
+          "won": true,
+          "tx": "0x3760ca3f0f4081ceae2d55b884f875c68266e709bef7fae73d0236ef8507be56"
+        },
+        {
+          "market": "Will Jonathan Dearden win Top Chef Season 23?",
+          "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+          "ts": 1777880758,
+          "odds": 96,
+          "stake": 88,
+          "pl": 3,
+          "won": true,
+          "tx": "0x83262b7c5411b1ca43c8f1611579b898773ba19a75f155f88923e699e9e65e22"
+        },
+        {
+          "market": "Will Rhoda Magbitang win Top Chef Season 23?",
+          "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+          "ts": 1779844367,
+          "odds": 94,
+          "stake": 63,
+          "pl": -63,
+          "won": true,
+          "tx": "0x9277c9de7d212656cd0991021aa063d2e075d62a859b3a7c471d482f25ae8e6b"
+        },
+        {
+          "market": "Will GroenLinks–PvdA win 22 or fewer seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/dutch-parliamentary-election-groenlinkspvda-seats",
+          "ts": 1760916578,
+          "odds": 72,
+          "stake": 36,
+          "pl": -36,
+          "won": false,
+          "tx": "0x800b0f6227b2df4f8de623d518fb9b81c9774edcf293958cecffc456be470e05"
+        },
+        {
+          "market": "Will Laurence Louie win Top Chef Season 23?",
+          "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+          "ts": 1778333058,
+          "odds": 7,
+          "stake": 24,
+          "pl": -24,
+          "won": false,
+          "tx": "0x06b6a475e4e98b2736439c81d4fed6b2247840ddcf9f931952278e8a34aa7051"
+        },
+        {
+          "market": "Will Sherry Cardoso win Top Chef Season 23?",
+          "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+          "ts": 1780471781,
+          "odds": 1,
+          "stake": 1,
+          "pl": -1,
+          "won": false,
+          "tx": "0x21c885a3741768dfe47bce5ef218110c06857c1cdcfa44bced318c118d72a885"
+        },
+        {
+          "market": "Will Duyen Ha win Top Chef Season 23?",
+          "url": "https://polymarket.com/event/who-will-win-top-chef-season-23",
+          "ts": 1777097204,
+          "odds": 2,
+          "stake": 0,
+          "pl": 0,
+          "won": false,
+          "tx": "0x595dc62d516149a4e7a0c7c8978d9ae8df9f553cc39d3792fc21d6242e984e45"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x2b76c1d12cd928b1d95a6d2c7f1e6f6e7f14edef",
       "username": null,
       "tier": "notable",
@@ -589,42 +771,6 @@
           "pl": 6454,
           "won": true,
           "tx": "0x5f849355ba165bf52a45c32acdb513d139c4b98eed6040aba7bae262ea5978cc"
-        }
-      ],
-      "alsoBinomial": true
-    },
-    {
-      "address": "0x38e59b36aae31b164200d0cad7c3fe5e0ee795e7",
-      "username": null,
-      "tier": "notable",
-      "S": 683.2,
-      "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-      "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-      "episodeTx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542",
-      "stake": 20935,
-      "odds": 48,
-      "won": true,
-      "episodeProfit": 22588,
-      "zBetCross": 3.5,
-      "zBetWithin": 0,
-      "zProfitCross": 19.53,
-      "lateBuyFraction": 0,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 1,
-      "ledger": [
-        {
-          "market": "Khamenei out as Supreme Leader of Iran in 2026?",
-          "url": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
-          "ts": 1771786958,
-          "odds": 48,
-          "stake": 20935,
-          "pl": 22588,
-          "won": true,
-          "tx": "0x16921c729b9d0a15124fc541c159eeb2b4f08c0b8526c4ad6d370e21fadf8542"
         }
       ],
       "alsoBinomial": true
@@ -701,6 +847,102 @@
           "pl": 1,
           "won": true,
           "tx": "0x9bb32cd9541a97bb0389af1b242b71c52667953955c203c0973ff73406a48e8a"
+        }
+      ],
+      "alsoBinomial": true
+    },
+    {
+      "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
+      "username": null,
+      "tier": "notable",
+      "S": 619.6,
+      "market": "Will the US strike Somalia next?",
+      "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
+      "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
+      "stake": 13654,
+      "odds": 88,
+      "won": true,
+      "episodeProfit": 1882,
+      "zBetCross": 7.77,
+      "zBetWithin": 1.33,
+      "zProfitCross": 12.83,
+      "lateBuyFraction": 0.273,
+      "directionalScore": 1,
+      "accountPnl": null,
+      "firstSeen": null,
+      "createdOnChain": false,
+      "created": null,
+      "betsCount": 7,
+      "ledger": [
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-476",
+          "ts": 1770665345,
+          "odds": 88,
+          "stake": 13654,
+          "pl": 1882,
+          "won": true,
+          "tx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352"
+        },
+        {
+          "market": "Will the US strike Iran next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-476",
+          "ts": 1770682015,
+          "odds": 96,
+          "stake": 11805,
+          "pl": 540,
+          "won": true,
+          "tx": "0x1e2163f9369a06adbc1e3124a746c6d2aaf1e6bbb955a3b4d20b637528c580b7"
+        },
+        {
+          "market": "Will the US strike Syria next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-476",
+          "ts": 1770225769,
+          "odds": 92,
+          "stake": 6789,
+          "pl": 529,
+          "won": true,
+          "tx": "0x7c6abb65db658c76fb55153cf4dbe4ad1b6ae5b0244678944866fba5f1d8a833"
+        },
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-163",
+          "ts": 1771433134,
+          "odds": 85,
+          "stake": 1673,
+          "pl": 294,
+          "won": true,
+          "tx": "0x5f136a19c5a202609f33d66968abcd6ab1d3fbcd0381036a0343271d5399f4ab"
+        },
+        {
+          "market": "Will the US strike Somalia next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-759",
+          "ts": 1768037952,
+          "odds": 72,
+          "stake": 379,
+          "pl": -379,
+          "won": false,
+          "tx": "0x6cbc9cfd01e94383479afaaa7b9f9920cc3e4e24478e28b28988f6b5c502ad2b"
+        },
+        {
+          "market": "US-Iran nuclear deal by July 31?",
+          "url": "https://polymarket.com/event/us-iran-nuclear-deal-by-july-31",
+          "ts": 1780067538,
+          "odds": 66,
+          "stake": 18,
+          "pl": 10,
+          "won": true,
+          "tx": "0xe95eacaf979d62183017ee7fe9bcc909115c977d8439929d924dacab922e1c78"
+        },
+        {
+          "market": "Will Trump physically sign US x Iran deal?",
+          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
+          "ts": 1781734504,
+          "odds": 85,
+          "stake": 0,
+          "pl": 850,
+          "won": true,
+          "tx": "0xd127a65f590346c5c106108f8c1300a191f47f7104c682b8dab91e9e765149ea"
         }
       ],
       "alsoBinomial": true
@@ -870,92 +1112,6 @@
         }
       ],
       "alsoBinomial": false
-    },
-    {
-      "address": "0xf9b71663d723d28fa455db659098e1dacde860a4",
-      "username": null,
-      "tier": "notable",
-      "S": 616.1,
-      "market": "Will the US strike Somalia next?",
-      "marketUrl": "https://polymarket.com/event/next-country-us-strikes-476",
-      "episodeTx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352",
-      "stake": 13654,
-      "odds": 88,
-      "won": true,
-      "episodeProfit": 1882,
-      "zBetCross": 7.77,
-      "zBetWithin": 1.15,
-      "zProfitCross": 12.83,
-      "lateBuyFraction": 0.273,
-      "directionalScore": 1,
-      "accountPnl": null,
-      "firstSeen": null,
-      "createdOnChain": false,
-      "created": null,
-      "betsCount": 6,
-      "ledger": [
-        {
-          "market": "Will the US strike Somalia next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-476",
-          "ts": 1770665345,
-          "odds": 88,
-          "stake": 13654,
-          "pl": 1882,
-          "won": true,
-          "tx": "0x3647433cd9c96bc51c63995be0714644de47d2cf8d7cc85ab4d06e11b38b1352"
-        },
-        {
-          "market": "Will the US strike Iran next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-476",
-          "ts": 1770682015,
-          "odds": 96,
-          "stake": 11805,
-          "pl": 540,
-          "won": true,
-          "tx": "0x1e2163f9369a06adbc1e3124a746c6d2aaf1e6bbb955a3b4d20b637528c580b7"
-        },
-        {
-          "market": "Will the US strike Syria next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-476",
-          "ts": 1770225769,
-          "odds": 92,
-          "stake": 6789,
-          "pl": 529,
-          "won": true,
-          "tx": "0x7c6abb65db658c76fb55153cf4dbe4ad1b6ae5b0244678944866fba5f1d8a833"
-        },
-        {
-          "market": "Will the US strike Somalia next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-163",
-          "ts": 1771433134,
-          "odds": 85,
-          "stake": 1673,
-          "pl": 294,
-          "won": true,
-          "tx": "0x5f136a19c5a202609f33d66968abcd6ab1d3fbcd0381036a0343271d5399f4ab"
-        },
-        {
-          "market": "Will the US strike Somalia next?",
-          "url": "https://polymarket.com/event/next-country-us-strikes-759",
-          "ts": 1768037952,
-          "odds": 72,
-          "stake": 379,
-          "pl": -379,
-          "won": false,
-          "tx": "0x6cbc9cfd01e94383479afaaa7b9f9920cc3e4e24478e28b28988f6b5c502ad2b"
-        },
-        {
-          "market": "Will Trump physically sign US x Iran deal?",
-          "url": "https://polymarket.com/event/will-trump-physically-sign-us-x-iran-deal-20260615192526331",
-          "ts": 1781734504,
-          "odds": 85,
-          "stake": 0,
-          "pl": 850,
-          "won": true,
-          "tx": "0xd127a65f590346c5c106108f8c1300a191f47f7104c682b8dab91e9e765149ea"
-        }
-      ],
-      "alsoBinomial": true
     },
     {
       "address": "0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1",
@@ -1293,7 +1449,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": null,
       "tier": "notable",
-      "S": 544.2,
+      "S": 544.4,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": null,
@@ -1302,7 +1458,7 @@
       "won": true,
       "episodeProfit": 4363,
       "zBetCross": 10.72,
-      "zBetWithin": 0.87,
+      "zBetWithin": 0.88,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -1310,7 +1466,7 @@
       "firstSeen": "Oct 13 2024",
       "createdOnChain": false,
       "created": null,
-      "betsCount": 193,
+      "betsCount": 196,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
@@ -1459,7 +1615,7 @@
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": null,
       "tier": "notable",
-      "S": 540.7,
+      "S": 542.8,
       "market": "Iran successfully targets shipping by June 27?",
       "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
       "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -1468,7 +1624,7 @@
       "won": true,
       "episodeProfit": 16392,
       "zBetCross": 2.27,
-      "zBetWithin": 0.93,
+      "zBetWithin": 1.03,
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -1476,7 +1632,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 17,
+      "betsCount": 19,
       "ledger": [
         {
           "market": "US and Iran sign an agreement by July 31, 2026?",
@@ -1609,14 +1765,14 @@
           "tx": "0xce2738b039b17c781857d8b5e7421f0654f3e436c347ffa461198b2d8f944f26"
         },
         {
-          "market": "Will Trump and Machado share the Nobel Peace Prize?",
-          "url": "https://polymarket.com/event/will-trump-and-machado-share-the-nobel-peace-prize",
-          "ts": 1768513814,
-          "odds": 59,
-          "stake": 236,
-          "pl": 170,
+          "market": "Total Internet Blackout in Iran by July 31, 2026?",
+          "url": "https://polymarket.com/event/total-internet-blackout-in-iran-by-732",
+          "ts": 1781251374,
+          "odds": 45,
+          "stake": 243,
+          "pl": 294,
           "won": true,
-          "tx": "0xdbbe89ca2de8940d1e467e7dd71ebf3dfbd1c29838f9e406d61bcdbc0dcd1f9a"
+          "tx": "0xd3046a4718854d87b8a46ba67f8bc57169bb3dcd1c3c0daa517fc2ba4dfb749b"
         }
       ],
       "alsoBinomial": true
@@ -1671,7 +1827,7 @@
       "address": "0x4f1d5ae26fc31472966e951af3183308736d8de2",
       "username": null,
       "tier": "notable",
-      "S": 535.2,
+      "S": 535.7,
       "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0xdd053b8659edaefa21037220209455955c7d0fb6bb7b79a4283d2d6bf7140eb8",
@@ -1680,7 +1836,7 @@
       "won": true,
       "episodeProfit": 1432,
       "zBetCross": 10.69,
-      "zBetWithin": 1.65,
+      "zBetWithin": 1.68,
       "zProfitCross": 7.37,
       "lateBuyFraction": 0.268,
       "directionalScore": 0.995,
@@ -1688,7 +1844,7 @@
       "firstSeen": null,
       "createdOnChain": false,
       "created": null,
-      "betsCount": 81,
+      "betsCount": 83,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
@@ -1831,7 +1987,7 @@
           "tx": "0x8678914a58c1b8d945fb31c259ef70de61f4d21d7f171a7e54bbe81f1bbd38fe"
         }
       ],
-      "alsoBinomial": true
+      "alsoBinomial": false
     },
     {
       "address": "0xb10047d6a254b2ebb306d7a7d13bf59171ab6461",
