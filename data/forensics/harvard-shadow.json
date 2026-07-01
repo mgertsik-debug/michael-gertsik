@@ -1,10 +1,10 @@
 {
   "generatedAt": "Jul 01 2026",
   "snapshot": 1782918547,
-  "total": 46,
+  "total": 47,
   "byTier": {
     "extreme": 7,
-    "high": 9,
+    "high": 10,
     "notable": 30
   },
   "medianS": 710.7,
@@ -13,13 +13,13 @@
   "p99": 1637.8,
   "minS": 530.1,
   "maxS": 1637.8,
-  "over500": 46,
+  "over500": 47,
   "alsoBinomial": 15,
-  "onlyHarvard": 31,
-  "observed": 224772,
-  "reviewed": 224772,
-  "screened": 6351,
-  "scored": 3885,
+  "onlyHarvard": 32,
+  "observed": 226107,
+  "reviewed": 226107,
+  "screened": 6362,
+  "scored": 3887,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -984,6 +984,172 @@
           "stake": 1793,
           "pl": -1793,
           "won": false,
+          "tx": null
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
+      "address": "0xbacd00c9080a82ded56f504ee8810af732b0ab35",
+      "username": "ScottyNooo",
+      "tier": "high",
+      "S": 1079.2,
+      "market": "Will Larry Ellison/Oracle acquire TikTok?",
+      "marketUrl": "https://polymarket.com/event/who-will-acquire-tiktok-559",
+      "episodeTx": "0x6649c3f8ca2b67e9f45985c4c66d9c3ab75169d891ced37fbb468798ae2da316",
+      "stake": 25870,
+      "odds": 87,
+      "won": true,
+      "episodeProfit": 2150,
+      "zBetCross": 23.31,
+      "zBetWithin": 0.39,
+      "zProfitCross": 16.12,
+      "lateBuyFraction": 0,
+      "directionalScore": 0.516,
+      "accountPnl": 1227378,
+      "firstSeen": "Oct 04 2025",
+      "createdOnChain": true,
+      "created": "May 06 2025",
+      "betsCount": 329,
+      "ledger": [
+        {
+          "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772640579,
+          "odds": 100,
+          "stake": 342937,
+          "pl": 631,
+          "won": true,
+          "tx": "0xd0cd3652ec27724262748954eeba74d79475fc928f6388b2d8b55e0ebeff081d"
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781416179,
+          "odds": 93,
+          "stake": 278116,
+          "pl": 22225,
+          "won": true,
+          "tx": "0xc5b6972ef2b42cc638207cd7a943486b050d095aecaffc14e6bfb8f696f1832b"
+        },
+        {
+          "market": "Will Trump nominate Rick Rieder as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772640843,
+          "odds": 100,
+          "stake": 232758,
+          "pl": 575,
+          "won": true,
+          "tx": "0x70a42167646438064e76419e770808fa58c82290bac261aa719d68beb056bc00"
+        },
+        {
+          "market": "Israel x Iran permanent peace deal by June 30, 2026?",
+          "url": "https://polymarket.com/event/israel-x-iran-permanent-peace-deal-by",
+          "ts": 1781433202,
+          "odds": 90,
+          "stake": 214189,
+          "pl": -19796,
+          "won": false,
+          "tx": "0x13d951006f3832ed85fe2d452925a824e1225f6c4422a6817db2e7e29ff3f43a"
+        },
+        {
+          "market": "Will the US strike Iran next?",
+          "url": "https://polymarket.com/event/next-country-us-strikes-632",
+          "ts": 1769557043,
+          "odds": 100,
+          "stake": 159784,
+          "pl": 320,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Trump nominate Kevin Warsh as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772633199,
+          "odds": 100,
+          "stake": 129680,
+          "pl": 528,
+          "won": true,
+          "tx": "0x916158f8a9a2319d8ed74b367d28aee46312ed2c9ea5da43ff9a733576cffb6e"
+        },
+        {
+          "market": "Will Trump nominate no one before 2027?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1771821312,
+          "odds": 100,
+          "stake": 127650,
+          "pl": 1117,
+          "won": true,
+          "tx": "0xed1ea54b844a9aa7962df71345af5f81aa8be2ab56350ed5daaf9dbca32091ec"
+        },
+        {
+          "market": "Will Trump nominate Kevin Hassett as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1772640811,
+          "odds": 100,
+          "stake": 121489,
+          "pl": 733,
+          "won": true,
+          "tx": "0x277e709960a99fdb48e066f304b2a8c7fffe2d098d089af33ae4d80c4e3e5e3f"
+        },
+        {
+          "market": "Iran agrees to end enrichment of uranium by June 30?",
+          "url": "https://polymarket.com/event/iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+          "ts": 1781469757,
+          "odds": 47,
+          "stake": 120141,
+          "pl": -68395,
+          "won": false,
+          "tx": "0x38b65a9c9dd670560633019896c518f1d052538cc925f627a7167792a2763e30"
+        },
+        {
+          "market": "US strikes Iran by February 6, 2026?",
+          "url": "https://polymarket.com/event/us-strikes-iran-by",
+          "ts": 1770310283,
+          "odds": 98,
+          "stake": 104977,
+          "pl": 1659,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Iran close the Strait of Hormuz before 2027?",
+          "url": "https://polymarket.com/event/will-iran-close-the-strait-of-hormuz-by-2027",
+          "ts": 1772752105,
+          "odds": 99,
+          "stake": 71225,
+          "pl": 440,
+          "won": true,
+          "tx": "0xa90ffed14255c96ab6c95063bfeb34303313fbde8b0686feccadea4f1eb27cd9"
+        },
+        {
+          "market": "Clavicular pregnancy in 2026?",
+          "url": "https://polymarket.com/event/clavicular-pregnancy-in-2026",
+          "ts": 1777583322,
+          "odds": 100,
+          "stake": 69845,
+          "pl": 220,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Israel announces suspension of Lebanon offensive by April 17, 2026?",
+          "url": "https://polymarket.com/event/israel-announces-suspension-of-lebanon-offensive-by",
+          "ts": 1776310214,
+          "odds": 89,
+          "stake": 69463,
+          "pl": 8738,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "Will Donald Trump announce that the United States blockade of the Strait of Hormuz has been lifted by April 23, 2026?",
+          "url": "https://polymarket.com/event/trump-announces-us-blockade-of-hormuz-lifted-by",
+          "ts": 1776889982,
+          "odds": 98,
+          "stake": 67825,
+          "pl": 1538,
+          "won": true,
           "tx": null
         }
       ],
@@ -1998,7 +2164,7 @@
       "won": true,
       "episodeProfit": 10099,
       "zBetCross": 17.47,
-      "zBetWithin": 0.16,
+      "zBetWithin": 0.17,
       "zProfitCross": 13.65,
       "lateBuyFraction": 0,
       "directionalScore": 0.991,
@@ -2006,7 +2172,7 @@
       "firstSeen": "Dec 08 2023",
       "createdOnChain": true,
       "created": "Jan 19 2022",
-      "betsCount": 338,
+      "betsCount": 344,
       "ledger": [
         {
           "market": "Will Trump nominate Rick Rieder as the next Fed chair?",
