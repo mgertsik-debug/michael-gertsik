@@ -1,10 +1,36 @@
 {
-  "updatedAt": "2026-07-01T17:54:32.446Z",
+  "updatedAt": "2026-07-01T19:54:09.180Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-2646848",
+      "ts": "19:54 UTC",
+      "platform": "polymarket",
+      "market": "US x Iran diplomatic meeting by July 3, 2026?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "50 · Elevated",
+      "index": 50,
+      "url": "https://polymarket.com/event/next-round-of-us-iran-peace-talks-byptptpt-20260623022722982",
+      "engine": "manipulation",
+      "firstSeen": "2026-07-01T19:54:09.180Z"
+    },
+    {
+      "id": "pm-1654958",
+      "ts": "19:54 UTC",
+      "platform": "polymarket",
+      "market": "Will there be no change in Fed interest rates after the July 2026 meeting?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "51 · Elevated",
+      "index": 51,
+      "url": "https://polymarket.com/event/fed-decision-in-july-181",
+      "engine": "manipulation",
+      "firstSeen": "2026-07-01T19:54:09.180Z"
+    },
     {
       "id": "pm-2176262",
       "ts": "17:54 UTC",
