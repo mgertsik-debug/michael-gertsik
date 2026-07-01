@@ -16,10 +16,10 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 227975,
-  "reviewed": 227975,
+  "observed": 228093,
+  "reviewed": 228093,
   "screened": 6366,
-  "scored": 3889,
+  "scored": 3888,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1504,8 +1504,8 @@
       "zProfitCross": 15.76,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 1467136,
-      "firstSeen": "Feb 02 2025",
+      "accountPnl": 1466781,
+      "firstSeen": "Feb 10 2025",
       "createdOnChain": true,
       "created": "Jan 26 2025",
       "betsCount": 743,
@@ -4394,10 +4394,10 @@
       "zProfitCross": 8.13,
       "lateBuyFraction": 0.986,
       "directionalScore": 1,
-      "accountPnl": 36395,
+      "accountPnl": 36346,
       "firstSeen": "May 06 2026",
       "createdOnChain": true,
-      "created": "May 08 2026",
+      "created": "May 05 2026",
       "betsCount": 211,
       "ledger": [
         {
@@ -6040,11 +6040,11 @@
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 89891,
+      "accountPnl": 88719,
       "firstSeen": "Jan 08 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 181,
+      "betsCount": 183,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",
@@ -6157,6 +6157,16 @@
           "tx": "0x0c17de2edb08f85ab0413ec4ef95776f97eba1e3dcd7357a6e7c98ac1b80e7ce"
         },
         {
+          "market": "US x Iran diplomatic meeting by July 3, 2026?",
+          "url": "https://polymarket.com/event/next-round-of-us-iran-peace-talks-byptptpt-20260623022722982",
+          "ts": 1782732745,
+          "odds": 55,
+          "stake": 4153,
+          "pl": -4153,
+          "won": false,
+          "tx": "0xe3f5658ef839fcb81b891e2871d268d654f8ad42db4037131d7ced3bc0b3ee62"
+        },
+        {
           "market": "US x Iran permanent peace deal by May 15, 2026?",
           "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
           "ts": 1778444002,
@@ -6175,16 +6185,6 @@
           "pl": 3036,
           "won": true,
           "tx": "0x6b586c699d9eed5e176145aa0d38c4c0790d98279f84aaed611bf4b9e30ebab8"
-        },
-        {
-          "market": "Iran successfully targets shipping by June 27?",
-          "url": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
-          "ts": 1782489106,
-          "odds": 18,
-          "stake": 3477,
-          "pl": 16392,
-          "won": true,
-          "tx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df"
         }
       ],
       "alsoBinomial": false
