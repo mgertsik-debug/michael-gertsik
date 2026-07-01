@@ -14,12 +14,12 @@
   "minS": 530.1,
   "maxS": 1637.8,
   "over500": 47,
-  "alsoBinomial": 15,
-  "onlyHarvard": 32,
-  "observed": 226173,
-  "reviewed": 226173,
-  "screened": 6362,
-  "scored": 3888,
+  "alsoBinomial": 14,
+  "onlyHarvard": 33,
+  "observed": 226636,
+  "reviewed": 226636,
+  "screened": 6363,
+  "scored": 3889,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1657,7 +1657,7 @@
       "address": "0xde7be6d489bce070a959e0cb813128ae659b5f4b",
       "username": "wan123",
       "tier": "high",
-      "S": 969.8,
+      "S": 969.9,
       "market": "Russia x Ukraine ceasefire by end of 2026?",
       "marketUrl": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
       "episodeTx": "0x40ee6ddfadfa749680a8abb24fccd53f4fb61d499275c5e9a8e2fa904080b0ad",
@@ -1666,15 +1666,15 @@
       "won": true,
       "episodeProfit": 173568,
       "zBetCross": 24.23,
-      "zBetWithin": 1.26,
+      "zBetWithin": 1.27,
       "zProfitCross": 10.74,
       "lateBuyFraction": 0.431,
       "directionalScore": 1,
-      "accountPnl": 1535552,
+      "accountPnl": 1534682,
       "firstSeen": "Mar 05 2026",
       "createdOnChain": true,
       "created": "Feb 21 2026",
-      "betsCount": 176,
+      "betsCount": 177,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
@@ -1708,7 +1708,7 @@
         },
         {
           "market": "US x Iran ceasefire by March 31?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-31",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
           "ts": null,
           "odds": 23,
           "stake": 128559,
@@ -1758,7 +1758,7 @@
         },
         {
           "market": "US x Iran ceasefire by March 15?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-15",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
           "ts": null,
           "odds": 16,
           "stake": 66808,
@@ -1798,7 +1798,7 @@
         },
         {
           "market": "US x Iran ceasefire extended by April 21, 2026?",
-          "url": "https://polymarket.com/event/will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-extended-by",
           "ts": 1776729600,
           "odds": 34,
           "stake": 46008,
@@ -5874,8 +5874,8 @@
       "zProfitCross": 11.62,
       "lateBuyFraction": 0.324,
       "directionalScore": 0.949,
-      "accountPnl": -4401,
-      "firstSeen": "Apr 30 2026",
+      "accountPnl": -4094,
+      "firstSeen": "Jul 11 2024",
       "createdOnChain": true,
       "created": "Jul 11 2024",
       "betsCount": 30,
@@ -6021,7 +6021,7 @@
           "tx": "0xb5f6cce9fd30e43b20bb75df1e87d0517227e82adb326d0fd2c63bb3fa738c82"
         }
       ],
-      "alsoBinomial": true
+      "alsoBinomial": false
     },
     {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
