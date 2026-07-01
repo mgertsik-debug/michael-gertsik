@@ -16,10 +16,10 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 227277,
-  "reviewed": 227277,
+  "observed": 227492,
+  "reviewed": 227492,
   "screened": 6365,
-  "scored": 3889,
+  "scored": 3886,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -5224,7 +5224,7 @@
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 917705,
+      "accountPnl": 917667,
       "firstSeen": "Feb 22 2026",
       "createdOnChain": true,
       "created": "Oct 13 2024",
@@ -5836,7 +5836,7 @@
         },
         {
           "market": "Will Binance be accused of insider trading?",
-          "url": "https://polymarket.com/event/which-crypto-company-will-zachxbt-expose-for-insider-trading",
+          "url": "https://polymarket.com/event/will-binance-be-accused-of-insider-trading",
           "ts": 1771874388,
           "odds": 15,
           "stake": 280,
