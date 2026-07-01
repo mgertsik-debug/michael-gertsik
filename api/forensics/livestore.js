@@ -21,7 +21,7 @@
 const OWNER = process.env.VERCEL_GIT_REPO_OWNER || "mgertsik-debug";
 const REPO = process.env.VERCEL_GIT_REPO_SLUG || "michael-gertsik";
 const RAW = "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/main/";
-const TIMEOUT_MS = +process.env.LIVE_READ_TIMEOUT_MS || 3500;
+const TIMEOUT_MS = +process.env.LIVE_READ_TIMEOUT_MS || 8000;   // headroom: the cumulative store grows (kept dossiers), and raw fetch of ~12MB needs >3.5s
 
 // Fetch repoRelPath (e.g. "data/forensics/store.json") from GitHub raw and JSON-parse it. Returns the
 // parsed object, or the `bundled` fallback (a value or a thunk) on ANY failure — network error,
