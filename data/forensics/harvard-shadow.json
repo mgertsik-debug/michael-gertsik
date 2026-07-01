@@ -16,10 +16,10 @@
   "over500": 45,
   "alsoBinomial": 15,
   "onlyHarvard": 30,
-  "observed": 220597,
-  "reviewed": 220597,
+  "observed": 220755,
+  "reviewed": 220755,
   "screened": 6346,
-  "scored": 3880,
+  "scored": 3881,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -5211,7 +5211,7 @@
       "address": "0xcdf82242c9984bd8d274085ab54165633c54b8ea",
       "username": "momo513",
       "tier": "notable",
-      "S": 576.5,
+      "S": 576.2,
       "market": "Nuclear weapon detonation by December 31?",
       "marketUrl": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
       "episodeTx": "0x958f9b483dff5964ea0987473115ac57a015aae700c4a571e5a437ffa36ca3d0",
@@ -5220,15 +5220,15 @@
       "won": true,
       "episodeProfit": 1339,
       "zBetCross": 10.32,
-      "zBetWithin": 0.3,
+      "zBetWithin": 0.28,
       "zProfitCross": 10.08,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 10224,
+      "accountPnl": 10356,
       "firstSeen": "May 11 2026",
       "createdOnChain": true,
       "created": "Sep 28 2025",
-      "betsCount": 64,
+      "betsCount": 65,
       "ledger": [
         {
           "market": "Xi Jinping out in 2025?",
@@ -5259,6 +5259,16 @@
           "pl": 396,
           "won": true,
           "tx": "0xfa38ee13ec74d0a088ebd135d2d811ffe34cc6226aa639d5d5a5a0c3c6d99320"
+        },
+        {
+          "market": "Will China invade Taiwan by end of 2026?",
+          "url": "https://polymarket.com/event/will-china-invade-taiwan-before-2027",
+          "ts": 1764233221,
+          "odds": 90,
+          "stake": 11336,
+          "pl": 1210,
+          "won": true,
+          "tx": "0xe2f4637f99f6f63598a0376dfc94c1636d81a1936261cb98dfb87ae79e5fb910"
         },
         {
           "market": "Will China invade Taiwan in 2025?",
@@ -5359,16 +5369,6 @@
           "pl": 135,
           "won": true,
           "tx": "0x86206de4199ec9827c362c86a6226cf7d1ff4146d8d62ea82b57d2308df7137e"
-        },
-        {
-          "market": "Netanyahu out by June 30?",
-          "url": "https://polymarket.com/event/netanyahu-out-before-2027",
-          "ts": 1781771167,
-          "odds": 99,
-          "stake": 9736,
-          "pl": 59,
-          "won": true,
-          "tx": "0xd7b13a3622a659f242ffb436632610edb5b6f1e5e7545167732978df194a5eb2"
         }
       ],
       "alsoBinomial": true
@@ -5589,7 +5589,7 @@
       "address": "0xa7ce6905990451685b70082424ac9129418d6398",
       "username": "someone2026",
       "tier": "notable",
-      "S": 548.5,
+      "S": 542.5,
       "market": "Nuclear weapon detonation by June 30?",
       "marketUrl": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
       "episodeTx": "0xfbb974817f78bdeb44f013b75d4ffcf2700db4eb587393f36c95cc039900291f",
@@ -5598,16 +5598,26 @@
       "won": true,
       "episodeProfit": 1640,
       "zBetCross": 8.77,
-      "zBetWithin": 0.05,
+      "zBetWithin": -0.25,
       "zProfitCross": 10.11,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 37201,
-      "firstSeen": "Oct 17 2024",
+      "accountPnl": 37442,
+      "firstSeen": "Nov 06 2024",
       "createdOnChain": true,
       "created": "Oct 17 2024",
-      "betsCount": 7,
+      "betsCount": 8,
       "ledger": [
+        {
+          "market": "Will China invade Taiwan by end of 2026?",
+          "url": "https://polymarket.com/event/will-china-invade-taiwan-before-2027",
+          "ts": 1773840239,
+          "odds": 90,
+          "stake": 53949,
+          "pl": 6052,
+          "won": true,
+          "tx": "0xc63e6f97a177c3e60588598f80dda135ca56aed7d140b72e0711e69370e6b069"
+        },
         {
           "market": "US x Iran ceasefire by March 6?",
           "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-6",
@@ -5660,7 +5670,7 @@
         },
         {
           "market": "Will Binance be accused of insider trading?",
-          "url": "https://polymarket.com/event/will-binance-be-accused-of-insider-trading",
+          "url": "https://polymarket.com/event/which-crypto-company-will-zachxbt-expose-for-insider-trading",
           "ts": 1771874388,
           "odds": 15,
           "stake": 280,
@@ -6017,7 +6027,7 @@
       "address": "0x11fcbba836d927c5fe6e6a6a64c9c0461e33dc48",
       "username": "NeH",
       "tier": "notable",
-      "S": 535.6,
+      "S": 535.1,
       "market": "Nuclear weapon detonation by December 31?",
       "marketUrl": "https://polymarket.com/event/nuclear-weapon-detonation-by-562",
       "episodeTx": "0x8f518454d504d728bce41696c4be911d4c69ca78bdd4581c7b7be665c78250ff",
@@ -6026,15 +6036,15 @@
       "won": true,
       "episodeProfit": 1033,
       "zBetCross": 11.92,
-      "zBetWithin": -0.29,
+      "zBetWithin": -0.32,
       "zProfitCross": 7.78,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": -78571,
-      "firstSeen": "Jun 06 2025",
+      "accountPnl": -77740,
+      "firstSeen": "Jun 08 2025",
       "createdOnChain": true,
       "created": "Jun 06 2025",
-      "betsCount": 63,
+      "betsCount": 64,
       "ledger": [
         {
           "market": "Will China invade Taiwan in 2025?",
@@ -6045,6 +6055,16 @@
           "pl": 20468,
           "won": true,
           "tx": "0xde4fe5a9d860d0e7a43b3a36c564401f553a5b3236d33fa969dca6b7804ef3d6"
+        },
+        {
+          "market": "Will China invade Taiwan by end of 2026?",
+          "url": "https://polymarket.com/event/will-china-invade-taiwan-before-2027",
+          "ts": 1765737443,
+          "odds": 89,
+          "stake": 133003,
+          "pl": 15832,
+          "won": true,
+          "tx": "0xafdf5e32dce48d1a03d2dc61ed92a27cecb00676e6a7761508ca7793b4f36d37"
         },
         {
           "market": "Xi Jinping out in 2025?",
@@ -6165,16 +6185,6 @@
           "pl": 996,
           "won": true,
           "tx": "0x0e986f12a4826c084bd39fa5bc8e873443632c29b797bf45ab609376e6f6bc20"
-        },
-        {
-          "market": "US military action against Iran by Saturday?",
-          "url": "https://polymarket.com/event/us-military-action-against-iran-by-saturday",
-          "ts": 1750487239,
-          "odds": 93,
-          "stake": 20122,
-          "pl": -20122,
-          "won": false,
-          "tx": "0x7d7c3e457f0d6018c273cc8efe12fc06616ae039c77082f52a8944f75448566c"
         }
       ],
       "alsoBinomial": false
