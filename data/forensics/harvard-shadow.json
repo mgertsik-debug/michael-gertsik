@@ -14,12 +14,12 @@
   "minS": 532.3,
   "maxS": 1637.8,
   "over500": 44,
-  "alsoBinomial": 15,
-  "onlyHarvard": 29,
-  "observed": 214454,
-  "reviewed": 214454,
-  "screened": 6313,
-  "scored": 3855,
+  "alsoBinomial": 14,
+  "onlyHarvard": 30,
+  "observed": 214484,
+  "reviewed": 214484,
+  "screened": 6317,
+  "scored": 3856,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -5532,7 +5532,7 @@
       "zProfitCross": 11.62,
       "lateBuyFraction": 0.324,
       "directionalScore": 0.949,
-      "accountPnl": 3266,
+      "accountPnl": -4340,
       "firstSeen": "Jul 11 2024",
       "createdOnChain": true,
       "created": "Jul 11 2024",
@@ -5679,7 +5679,7 @@
           "tx": "0xb5f6cce9fd30e43b20bb75df1e87d0517227e82adb326d0fd2c63bb3fa738c82"
         }
       ],
-      "alsoBinomial": true
+      "alsoBinomial": false
     },
     {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
