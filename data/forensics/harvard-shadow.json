@@ -16,10 +16,10 @@
   "over500": 44,
   "alsoBinomial": 15,
   "onlyHarvard": 29,
-  "observed": 217888,
-  "reviewed": 217888,
-  "screened": 6324,
-  "scored": 3866,
+  "observed": 218072,
+  "reviewed": 218072,
+  "screened": 6325,
+  "scored": 3865,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1263,7 +1263,7 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1753847731,
           "odds": 100,
-          "stake": 22088,
+          "stake": 22115,
           "pl": 22,
           "won": true,
           "tx": "0x6e33c347201adb511f276eb377768ee453223e510c33052d41ace98cd1716e8c"
@@ -3007,7 +3007,7 @@
       "address": "0x27abdfc9393c72a6330a3be987da4b46c726e521",
       "username": "pd.unique",
       "tier": "notable",
-      "S": 709.6,
+      "S": 709.7,
       "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": null,
@@ -3024,7 +3024,7 @@
       "firstSeen": "Jun 03 2026",
       "createdOnChain": true,
       "created": "Apr 03 2026",
-      "betsCount": 1008,
+      "betsCount": 1010,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
