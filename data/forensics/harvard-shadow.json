@@ -16,10 +16,10 @@
   "over500": 44,
   "alsoBinomial": 15,
   "onlyHarvard": 29,
-  "observed": 211226,
-  "reviewed": 211226,
+  "observed": 211327,
+  "reviewed": 211327,
   "screened": 6241,
-  "scored": 3814,
+  "scored": 3817,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -3186,7 +3186,7 @@
       "zProfitCross": 10.73,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 510216,
+      "accountPnl": 512689,
       "firstSeen": "Nov 07 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
@@ -4049,7 +4049,7 @@
       "address": "0x5a218c7ad04135830a45c41aaed7294df7809318",
       "username": "balthazar",
       "tier": "notable",
-      "S": 633.3,
+      "S": 631.9,
       "market": "Will Alireza Arafi be the next Supreme Leader of Iran?",
       "marketUrl": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
       "episodeTx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655",
@@ -4058,16 +4058,26 @@
       "won": true,
       "episodeProfit": 1378,
       "zBetCross": 11.89,
-      "zBetWithin": 4.22,
+      "zBetWithin": 4.14,
       "zProfitCross": 7.57,
       "lateBuyFraction": 1,
       "directionalScore": 0.964,
-      "accountPnl": 789869,
-      "firstSeen": "Jun 11 2026",
+      "accountPnl": 777249,
+      "firstSeen": "Feb 07 2025",
       "createdOnChain": true,
       "created": "Feb 07 2025",
-      "betsCount": 494,
+      "betsCount": 566,
       "ledger": [
+        {
+          "market": "Will José Williams win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/peru-presidential-election-winner",
+          "ts": 1780790400,
+          "odds": 30,
+          "stake": 26015,
+          "pl": -26015,
+          "won": false,
+          "tx": null
+        },
         {
           "market": "Will Ali Larijani be the next Supreme Leader of Iran?",
           "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
@@ -4139,6 +4149,16 @@
           "tx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655"
         },
         {
+          "market": "Will ByteDance have the best AI model at the end of June 2026?",
+          "url": "https://polymarket.com/event/which-company-has-best-ai-model-end-of-june",
+          "ts": 1782777600,
+          "odds": 50,
+          "stake": 6926,
+          "pl": -6926,
+          "won": false,
+          "tx": null
+        },
+        {
           "market": "Will Benjamin Netanyahu be the next leader out before 2027?",
           "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
           "ts": 1774471885,
@@ -4187,26 +4207,6 @@
           "pl": 58,
           "won": true,
           "tx": "0x7ae5f441493ebae8c9ee3f36f9e40978cf8ac9121e6c225a9ad72d7935737e17"
-        },
-        {
-          "market": "Will Volodymyr Zelenskyy be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1774471887,
-          "odds": 99,
-          "stake": 5760,
-          "pl": 61,
-          "won": true,
-          "tx": "0x8599fefb6c61f5a8ff7d06dc83308967b1eef3fddaea87d03a676d12298e3c16"
-        },
-        {
-          "market": "Will Miguel Díaz-Canel be the next leader out before 2027?",
-          "url": "https://polymarket.com/event/next-leader-out-of-power-before-2027-795",
-          "ts": 1774471885,
-          "odds": 97,
-          "stake": 5731,
-          "pl": 196,
-          "won": true,
-          "tx": "0xf3b3cb16bb89074e64159b3f0be6e92a86ad4554ac13a90ad08a2a14c1ace44a"
         }
       ],
       "alsoBinomial": false
@@ -6030,7 +6030,7 @@
       "zProfitCross": 7.75,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 1446729,
+      "accountPnl": 1445928,
       "firstSeen": "Sep 01 2025",
       "createdOnChain": true,
       "created": "Jul 05 2024",
