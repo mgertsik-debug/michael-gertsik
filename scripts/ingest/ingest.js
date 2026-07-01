@@ -32,6 +32,7 @@ const https = require("https");
 const { classify } = require("./lib/relevance");
 const { toDraftMatter } = require("./lib/transform");
 const { loadRepo, docketIdOf, DATA_PATH } = require("./lib/repo");
+const { docketIdFromMatter, fetchDocketStatus, computeRefresh } = require("./lib/refresh");
 
 const ROOT = path.resolve(__dirname, "../..");
 const INGEST_DIR = path.join(ROOT, "data", "ingest");
@@ -51,6 +52,7 @@ function parseArgs(argv) {
   const a = {
     dryRun: false, backfill: false, days: 60, auto: false, review: false,
     approve: null, approveAll: false, allowStub: false, fixture: null, quiet: false,
+    noRefresh: false, refreshOnly: false,
   };
   for (let i = 2; i < argv.length; i++) {
     const t = argv[i];
@@ -61,6 +63,8 @@ function parseArgs(argv) {
     else if (t === "--approve-all") a.approveAll = true;
     else if (t === "--allow-stub") a.allowStub = true;
     else if (t === "--quiet") a.quiet = true;
+    else if (t === "--no-refresh") a.noRefresh = true;      // skip the status-refresh pass
+    else if (t === "--refresh-only") a.refreshOnly = true;  // ONLY re-poll existing matters
     else if (t === "--approve") a.approve = argv[++i];
     else if (t === "--days") a.days = parseInt(argv[++i], 10) || 60;
     else if (t === "--fixture") a.fixture = argv[++i];
@@ -250,6 +254,88 @@ function publishToDataJs(newMatters) {
   fs.writeFileSync(DATA_PATH, text);
 }
 
+/* -------------------------------------------------- status refresh (live) -- */
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** Re-poll every tracked matter's docket and compute honest field updates.
+ *  Sequential + adaptive to CourtListener's rate limit: a small base gap, and
+ *  on HTTP 429 it backs off and retries so a free-tier token (5/min) still
+ *  completes instead of aborting. Matters without a CL docket are skipped. */
+async function runRefresh(repo, args) {
+  const today = todayISO();
+  const targets = repo.matters
+    .map((m) => ({ m, docketId: docketIdFromMatter(m) }))
+    .filter((x) => x.docketId != null);
+  log(`\n${C.bold}Status refresh${C.off} ${C.dim}(re-polling ${targets.length} tracked docket(s) for updates)${C.off}`);
+
+  const refreshes = [];
+  // Pace to respect CourtListener's free-tier limit (5 req/min ≈ one per 12s).
+  // Override via INGEST_REFRESH_GAP_MS if the repo's token has a higher tier.
+  // The 429 backoff below is the backstop if we still get throttled.
+  const baseGap = parseInt(process.env.INGEST_REFRESH_GAP_MS, 10) || 13000;
+  for (const { m, docketId } of targets) {
+    let status = null;
+    for (let attempt = 0; attempt < 4 && !status; attempt++) {
+      try {
+        status = await fetchDocketStatus(clGet, docketId);
+      } catch (e) {
+        const msg = String(e && e.message || e);
+        if (/HTTP 429/.test(msg) && attempt < 3) { await sleep(20000); continue; }  // throttled — back off + retry
+        log(`${C.dim}  · skip ${m.id} (docket ${docketId}): ${msg.slice(0, 80)}${C.off}`);
+        break;
+      }
+    }
+    if (!status) { await sleep(baseGap); continue; }
+    const r = computeRefresh(m, status, today);
+    if (r.changes.length || r.flagOutcome) refreshes.push(r);
+    await sleep(baseGap);
+  }
+  return refreshes;
+}
+
+/** Apply refresh field updates to data.js IN PLACE. Only ever writes the two
+ *  auto-derivable date fields (lastUpdate, decidedDate); never touches a field
+ *  that carries legal judgment (gate/outcome/posture/summary/…), honoring the
+ *  DATA_CONTRACT sticky-human-edit rule. Rewrites only the changed matter lines,
+ *  preserving the rest of the file byte-for-byte. Returns count applied. */
+const REFRESH_FIELDS = ["lastUpdate", "decidedDate"];
+function applyFieldUpdates(refreshes) {
+  const byId = new Map(refreshes.map((r) => [r.id, r]));
+  const lines = fs.readFileSync(DATA_PATH, "utf8").split("\n");
+  let applied = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const t = lines[i].trim().replace(/,\s*$/, "");
+    if (!t.startsWith("{")) continue;
+    let obj;
+    try { obj = JSON.parse(t); } catch (_) { continue; }
+    if (!obj || !obj.id || !byId.has(obj.id)) continue;
+    const r = byId.get(obj.id);
+    let changed = false;
+    for (const f of REFRESH_FIELDS) {
+      if (r[f] !== undefined && obj[f] !== r[f]) { obj[f] = r[f]; changed = true; }
+    }
+    if (changed) { lines[i] = serializeMatter(obj); applied++; }
+  }
+  if (applied) fs.writeFileSync(DATA_PATH, lines.join("\n"));
+  return applied;
+}
+
+/** Print the STATUS REFRESH section and list matters needing a human outcome. */
+function reportRefresh(refreshes) {
+  if (!refreshes.length) { log(`${C.dim}  no status changes — every tracked docket already current.${C.off}`); return; }
+  log(`${C.upd}${C.bold}STATUS REFRESH (auto date fields on existing matters)${C.off}`);
+  refreshes.forEach((r) => {
+    log(`${C.upd}  ~ ${r.id}${C.off}`);
+    r.changes.forEach(([f, was, now]) => log(`      ${f}: ${JSON.stringify(was)} -> ${JSON.stringify(now)}`));
+  });
+  const flagged = refreshes.filter((r) => r.flagOutcome);
+  if (flagged.length) {
+    log(`\n${C.held}${C.bold}NEEDS HUMAN OUTCOME (docket terminated; posture/outcome left untouched):${C.off}`);
+    flagged.forEach((r) => log(`${C.held}  ⚑${C.off} ${r.id}`));
+  }
+  log("");
+}
+
 /* --------------------------------------------------------------- reports -- */
 function printDiff(diff, source) {
   const { inserts, upserts, skips, held } = diff;
@@ -360,12 +446,47 @@ function approve(ids, args, repo) {
 }
 
 /* -------------------------------------------------------------------- main -- */
+/** Re-load the repo and run the model's own validator; log the result. */
+function revalidate(label) {
+  const after = loadRepo();
+  const problems = after.PMLE.validate ? after.PMLE.validate(after.matters, after.constants) : [];
+  if (problems.length) {
+    log(`${C.red}VALIDATION FAILED after ${label} — ${problems.length} issue(s):${C.off}`);
+    problems.forEach((p) => log("  • " + p));
+  } else {
+    log(`${C.ins}${label}: validator clean.${C.off}`);
+  }
+  return problems.length === 0;
+}
+
+/** Whether the status-refresh pass should run this invocation. Live only
+ *  (needs the token), skipped with --no-refresh, forced by --refresh-only or a
+ *  dry-run, otherwise throttled to once per day via the watermark. */
+function shouldRefresh(args) {
+  if (args.noRefresh) return false;
+  if (args.fixture) return false;                        // offline test path
+  if (!process.env.COURTLISTENER_API_TOKEN) return false;
+  if (args.refreshOnly || args.dryRun) return true;
+  return readWatermark().lastRefresh !== todayISO();     // once/day
+}
+
 async function main() {
   const args = parseArgs(process.argv);
   const repo = loadRepo();
 
   if (args.review) return listPending();
   if (args.approve || args.approveAll) return approve(args.approve ? [args.approve] : [], args, repo);
+
+  // --refresh-only: re-poll existing matters and stop (no insert scan).
+  if (args.refreshOnly) {
+    const refreshes = await runRefresh(repo, args);
+    reportRefresh(refreshes);
+    if (args.dryRun) { log(`${C.dim}--dry-run: nothing written.${C.off}`); return; }
+    const n = applyFieldUpdates(refreshes);
+    if (n) revalidate(`status refresh (${n} matter(s))`);
+    writeJSON(WATERMARK_PATH, { ...readWatermark(), lastRefresh: todayISO() });
+    return;
+  }
 
   const { records, filedAfter, source } = await gatherDockets(args);
   const seen = readJSON(SEEN_PATH, { dockets: [] });
@@ -374,16 +495,34 @@ async function main() {
 
   printDiff(diff, `${source}, filed_after ${filedAfter}, ${records.length} raw hits`);
 
+  // Status-refresh pass: keep EVERY existing matter live, not just new filings.
+  const refreshRan = shouldRefresh(args);
+  let refreshes = [];
+  if (refreshRan) {
+    refreshes = await runRefresh(repo, args);
+    reportRefresh(refreshes);
+  }
+
   if (args.dryRun) {
-    log(`${C.dim}--dry-run: nothing written. Re-run without --dry-run to stage drafts into data/ingest/pending/.${C.off}`);
+    log(`${C.dim}--dry-run: nothing written. Re-run without --dry-run to stage drafts + apply refreshes.${C.off}`);
     return;
   }
 
-  // stage drafts (review-before-publish). Never touches data.js here.
+  // stage insert drafts (review-before-publish). Never touches data.js here.
   writePending(diff);
   writeJSON(HELD_PATH, { generatedAt: todayISO(), held: diff.held });
-  writeJSON(WATERMARK_PATH, { lastRun: todayISO(), lastFiledAfter: filedAfter });
   log(`\nStaged ${diff.inserts.length} draft(s) into data/ingest/pending/.`);
+
+  // apply the status refresh IN PLACE to existing matters (auto date fields only)
+  let refreshed = 0;
+  if (refreshes.length) {
+    refreshed = applyFieldUpdates(refreshes);
+    log(`Applied ${refreshed} status refresh(es) to data.js.`);
+  }
+
+  const wm = { lastRun: todayISO(), lastFiledAfter: filedAfter };
+  wm.lastRefresh = refreshes !== null && shouldRefreshRan(args) ? todayISO() : (readWatermark().lastRefresh || null);
+  writeJSON(WATERMARK_PATH, wm);
   log(`Next: review with  --review,  then publish with  --approve <id>  /  --approve-all.`);
 
   if (args.auto) {
@@ -392,8 +531,15 @@ async function main() {
     // provenance stub summary discloses that merits/gate are not yet reviewed,
     // so nothing here asserts a legal fact. allowStub is implied.
     log(`\n--auto: publishing ${diff.inserts.length} draft(s) to data.js (no review gate)…`);
-    approve([], { ...args, approveAll: true, allowStub: true }, repo);
+    approve([], { ...args, approveAll: true, allowStub: true }, repo);   // approve() re-validates the whole file
+  } else if (refreshed) {
+    revalidate(`status refresh (${refreshed} matter(s))`);
   }
 }
 
-main().catch((e) => { console.error(`${C.red}ingest error:${C.off} ${e.message}`); process.exit(1); });
+if (require.main === module) {
+  main().catch((e) => { console.error(`${C.red}ingest error:${C.off} ${e.message}`); process.exit(1); });
+}
+
+// Exported for unit tests (the CLI still runs via require.main above).
+module.exports = { buildDiff, classify, serializeMatter, applyFieldUpdates, runRefresh };
