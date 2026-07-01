@@ -1,6 +1,6 @@
 {
   "generatedAt": "Jul 01 2026",
-  "count": 10,
+  "count": 8,
   "rejected": [
     {
       "address": "0xd9a890ad8981c2e3d56bdf366e50e0f5c62f6e67",
@@ -25,18 +25,6 @@
       "id": null,
       "tier": "watch",
       "reason": "below net-profit floor (profit=$513 < $1000)"
-    },
-    {
-      "address": "0x0527c28985afe239a351634fe4996dcd73d120b1",
-      "id": null,
-      "tier": "watch",
-      "reason": "account net-negative (all-time P/L=$-24)"
-    },
-    {
-      "address": "0xd83153b415ce10fca60d813f575c46b61b63351b",
-      "id": null,
-      "tier": "watch",
-      "reason": "account net-negative (all-time P/L=$-360)"
     },
     {
       "address": "0x7b02b2bac2a30ed5e40b7094e734f4c3dc2a4991",
