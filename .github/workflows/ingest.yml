@@ -52,13 +52,23 @@ jobs:
       - name: Commit + deploy if data changed
         run: |
           if git diff --quiet -- models/pmle/data.js data/ingest; then
-            echo "No new cases. Nothing to deploy."
+            echo "No changes. Nothing to deploy."
             exit 0
           fi
           git config user.email "noreply@anthropic.com"
           git config user.name  "courtlistener-ingest"
-          git add models/pmle/data.js data/ingest
-          n=$(git diff --cached --numstat -- models/pmle/data.js | awk '{print $1}')
-          git commit -m "ingest: auto-publish new CourtListener case(s) to the live Tracker"
-          # push to the branch this workflow ran on (the default/deploy branch)
-          git push origin HEAD:"${GITHUB_REF_NAME}"
+          # The forensics scan commits to this branch every ~10 min, and our run
+          # can take ~20-30 min (rate-limited docket refresh), so main will have
+          # moved by the time we push. Re-base our file changes onto the latest tip
+          # and retry — our files (models/pmle/data.js, data/ingest) never overlap
+          # the forensics data, so this is always a clean fast-forward.
+          for i in 1 2 3 4 5; do
+            git add models/pmle/data.js data/ingest
+            git fetch origin "${GITHUB_REF_NAME}"
+            git reset --soft "origin/${GITHUB_REF_NAME}"
+            git diff --cached --quiet && { echo "nothing to commit after rebase"; exit 0; }
+            git commit -m "ingest: refresh tracked dockets + publish new CourtListener case(s)"
+            if git push origin HEAD:"${GITHUB_REF_NAME}"; then echo "pushed on attempt $i"; exit 0; fi
+            echo "push attempt $i failed (main moved?), retrying…"; sleep $((i * 3))
+          done
+          echo "::error::could not push after 5 rebase+retry attempts"; exit 1
