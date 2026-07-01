@@ -27,10 +27,10 @@
       "reason": "below net-profit floor (profit=$583 < $1000)"
     },
     {
-      "address": "0x328ef94bc7f57183eb62d57306509c93401f4475",
+      "address": "0x0527c28985afe239a351634fe4996dcd73d120b1",
       "id": null,
       "tier": "watch",
-      "reason": "below net-profit floor (profit=$784 < $1000)"
+      "reason": "account net-negative (all-time P/L=$-14)"
     },
     {
       "address": "0x7b02b2bac2a30ed5e40b7094e734f4c3dc2a4991",

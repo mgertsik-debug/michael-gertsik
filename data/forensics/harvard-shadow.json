@@ -18,8 +18,8 @@
   "onlyHarvard": 29,
   "observed": 211052,
   "reviewed": 211052,
-  "screened": 6195,
-  "scored": 3780,
+  "screened": 6241,
+  "scored": 3810,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1159,7 +1159,7 @@
       "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
       "username": "cigarettes",
       "tier": "high",
-      "S": 1023.1,
+      "S": 1026,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0xe33b4314afc1e5e17a51c602b8cc35dc35f8bccc02d3ca2d55733d266d863301",
@@ -1168,7 +1168,7 @@
       "won": true,
       "episodeProfit": 7629,
       "zBetCross": 17.61,
-      "zBetWithin": 7.27,
+      "zBetWithin": 7.41,
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
@@ -1176,7 +1176,7 @@
       "firstSeen": "Sep 23 2024",
       "createdOnChain": true,
       "created": "May 18 2026",
-      "betsCount": 339,
+      "betsCount": 356,
       "ledger": [
         {
           "market": "Will New Social Contract win the most seats in the 2025 Netherlands parliamentary election?",
@@ -1325,7 +1325,7 @@
       "address": "0xe8dd7741ccb12350957ec71e9ee332e0d1e6ec86",
       "username": "influenz.eth",
       "tier": "high",
-      "S": 984.3,
+      "S": 984.4,
       "market": "Will the US strike Iran next?",
       "marketUrl": "https://polymarket.com/event/next-country-us-strikes-329",
       "episodeTx": "0x43b0257c97df8f7f91640ab4b6268026b9da7fd0d38892ef0c75301aa9fc157b",
@@ -1334,7 +1334,7 @@
       "won": true,
       "episodeProfit": 3338,
       "zBetCross": 19.18,
-      "zBetWithin": 0.35,
+      "zBetWithin": 0.36,
       "zProfitCross": 15.76,
       "lateBuyFraction": 1,
       "directionalScore": 1,
@@ -1342,7 +1342,7 @@
       "firstSeen": "Feb 10 2025",
       "createdOnChain": true,
       "created": "Jan 26 2025",
-      "betsCount": 692,
+      "betsCount": 710,
       "ledger": [
         {
           "market": "Will Trump nominate Scott Bessent as the next Fed chair?",
@@ -2155,7 +2155,7 @@
       "address": "0x12d6cccfc7470a3f4bafc53599a4779cbf2cf2a8",
       "username": "classified",
       "tier": "high",
-      "S": 810.1,
+      "S": 811,
       "market": "Khamenei out as Supreme Leader of Iran in 2026?",
       "marketUrl": "https://polymarket.com/event/khamenei-out-as-supreme-leader-of-iran-by-december-31-2026",
       "episodeTx": "0xb0385522b0fb5d80fad1914c92439dd6c16e832a0caa318ad90814a8711c1c6e",
@@ -2164,7 +2164,7 @@
       "won": true,
       "episodeProfit": 17517,
       "zBetCross": 12.74,
-      "zBetWithin": 0.69,
+      "zBetWithin": 0.73,
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
@@ -2172,7 +2172,7 @@
       "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
-      "betsCount": 77,
+      "betsCount": 83,
       "ledger": [
         {
           "market": "Will Trump nominate Judy Shelton as the next Fed chair?",
@@ -4879,7 +4879,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 580,
+      "S": 580.3,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872",
@@ -4888,7 +4888,7 @@
       "won": true,
       "episodeProfit": 4564,
       "zBetCross": 10.72,
-      "zBetWithin": 2.66,
+      "zBetWithin": 2.67,
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
@@ -4896,7 +4896,7 @@
       "firstSeen": "Feb 21 2026",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1386,
+      "betsCount": 1404,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
