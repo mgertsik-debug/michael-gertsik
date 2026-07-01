@@ -3,3 +3,10 @@
 # never committed). Can reach hundreds of MB; the scan stages only the small data outputs.
 data/forensics/screened.ndjson
 data/forensics/screened.ndjson.tmp
+
+# Node artifacts. This is a static site with no build step; node_modules and an
+# npm-generated package/lock only appear when a dev/CI step installs a tool
+# (e.g. a headless-browser driver for UI checks) — never commit them.
+node_modules/
+package.json
+package-lock.json
