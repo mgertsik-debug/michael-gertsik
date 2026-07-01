@@ -16,10 +16,10 @@
   "over500": 46,
   "alsoBinomial": 15,
   "onlyHarvard": 31,
-  "observed": 222533,
-  "reviewed": 222533,
+  "observed": 223038,
+  "reviewed": 223038,
   "screened": 6348,
-  "scored": 3882,
+  "scored": 3881,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -674,7 +674,7 @@
       "zProfitCross": 22.35,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 358262,
+      "accountPnl": 357804,
       "firstSeen": "Mar 10 2025",
       "createdOnChain": true,
       "created": "Dec 16 2024",
@@ -722,11 +722,11 @@
         },
         {
           "market": "Will Spencer Pratt win the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/will-spencer-pratt-win-the-2026-los-angeles-mayoral-election-983",
+          "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
           "ts": 1780394838,
           "odds": 22,
           "stake": 80800,
-          "pl": -80800,
+          "pl": -21814,
           "won": false,
           "tx": "0x610112b04a74ac1e0e8e363c31fddcfeafb1b2d3c04d87b81a69259c81f1539b"
         },
@@ -3352,7 +3352,7 @@
       "zProfitCross": 12.83,
       "lateBuyFraction": 0.273,
       "directionalScore": 1,
-      "accountPnl": 83469,
+      "accountPnl": 83597,
       "firstSeen": "Jun 15 2025",
       "createdOnChain": true,
       "created": "Feb 25 2025",
@@ -4381,7 +4381,7 @@
       "address": "0x4f1d5ae26fc31472966e951af3183308736d8de2",
       "username": "e46m3",
       "tier": "notable",
-      "S": 622.9,
+      "S": 624.4,
       "market": "Will \"Iceman\" - Drake debut week album sales be between 500k and 550k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": "0xdd053b8659edaefa21037220209455955c7d0fb6bb7b79a4283d2d6bf7140eb8",
@@ -4390,15 +4390,15 @@
       "won": true,
       "episodeProfit": 1432,
       "zBetCross": 10.69,
-      "zBetWithin": 6.04,
+      "zBetWithin": 6.11,
       "zProfitCross": 7.37,
       "lateBuyFraction": 0.268,
       "directionalScore": 0.995,
-      "accountPnl": 252810,
+      "accountPnl": 253654,
       "firstSeen": "May 02 2026",
       "createdOnChain": true,
       "created": "Apr 10 2026",
-      "betsCount": 996,
+      "betsCount": 1020,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
@@ -4472,7 +4472,7 @@
         },
         {
           "market": "Will another pair of candidates advance to the second round of the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/will-another-pair-of-candidates-advance-to-the-second-round-of-the-2026-los-angeles-mayoral-election",
+          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
           "ts": 1780358400,
           "odds": 20,
           "stake": 3761,
@@ -4491,8 +4491,8 @@
           "tx": "0xf8e6909f4d2d5d047b9475b7f960ad4b94694401f2a70b0bf27f79cd954fb991"
         },
         {
-          "market": "0xe79972d28e543046c88cb43847a06f46fd85930a3ad0b71a1339fc5973e5a815",
-          "url": null,
+          "market": "Will Miguel Uribe Turbay win the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/colombia-presidential-election",
           "ts": 1782000000,
           "odds": 4,
           "stake": 3510,
@@ -4502,7 +4502,7 @@
         },
         {
           "market": "Will Germán Vargas Lleras win the 2026 Colombian presidential election?",
-          "url": "https://polymarket.com/event/will-germn-vargas-lleras-win-the-2026-colombian-presidential-election",
+          "url": "https://polymarket.com/event/colombia-presidential-election",
           "ts": 1782000000,
           "odds": 4,
           "stake": 3510,
@@ -4512,7 +4512,7 @@
         },
         {
           "market": "Will a candidate win the 2026 Los Angeles mayoral election in the first round?",
-          "url": "https://polymarket.com/event/will-a-candidate-win-the-2026-los-angeles-mayoral-election-in-the-first-round",
+          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
           "ts": 1780358400,
           "odds": 20,
           "stake": 3499,
@@ -4522,7 +4522,7 @@
         },
         {
           "market": "Will Nithya Raman & Spencer Pratt advance to the second round of the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/will-nithya-raman-spencer-pratt-advance-to-the-second-round-of-the-2026-los-angeles-mayoral-election",
+          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
           "ts": 1780358400,
           "odds": 20,
           "stake": 3431,
@@ -4531,8 +4531,8 @@
           "tx": null
         },
         {
-          "market": "0x2890121a9277d619b936695405544bda9f80d184b05d9503fd8f173c52867365",
-          "url": null,
+          "market": "Will Germán Vargas Lleras win the 1st round of the 2026 Colombian presidential election?",
+          "url": "https://polymarket.com/event/colombia-presidential-election-1st-round-winner",
           "ts": 1780185600,
           "odds": 4,
           "stake": 2535,
