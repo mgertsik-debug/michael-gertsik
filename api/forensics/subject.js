@@ -8,10 +8,13 @@
 const fs = require("fs");
 const path = require("path");
 
+const { readLive } = require("./livestore.js");               // fetch the LATEST committed store at request time
 const STORE = path.resolve(__dirname, "../../data/forensics/store.json");
-function readStore() {
-  try { return require("../../data/forensics/store.json"); } catch (_) {}
-  try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; }
+async function readStore() {
+  return await readLive("data/forensics/store.json", () => {
+    try { return require("../../data/forensics/store.json"); } catch (_) {}
+    try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; }
+  });
 }
 
 module.exports = async (req, res) => {
@@ -25,7 +28,7 @@ module.exports = async (req, res) => {
   if (!id && req.url) { const m = String(req.url).match(/\/subject\/([^/?]+)/); if (m) id = decodeURIComponent(m[1]); }
   if (!id) { res.status(400).json({ error: "missing id" }); return; }
 
-  const store = readStore();
+  const store = await readStore();
   const subject = store && Array.isArray(store.subjects) ? store.subjects.find((s) => s.id === id) : null;
   if (!subject) { res.status(404).json({ error: "subject not found", id }); return; }
   res.status(200).json({ subject, meta: store.meta || {}, generatedAt: store.generatedAt || null });

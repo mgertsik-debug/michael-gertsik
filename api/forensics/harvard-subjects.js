@@ -12,11 +12,14 @@
 const fs = require("fs");
 const path = require("path");
 
+const { readLive } = require("./livestore.js");               // fetch the LATEST committed store at request time
 const STORE = path.resolve(__dirname, "../../data/forensics/harvard-store.json");
 
-function readStore() {
-  try { return require("../../data/forensics/harvard-store.json"); } catch (_) {}
-  try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; }
+async function readStore() {
+  return await readLive("data/forensics/harvard-store.json", () => {
+    try { return require("../../data/forensics/harvard-store.json"); } catch (_) {}
+    try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; }
+  });
 }
 
 module.exports = async (req, res) => {
@@ -25,7 +28,7 @@ module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=600");
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
 
-  const store = readStore();
+  const store = await readStore();
   if (!store || !Array.isArray(store.subjects)) {
     res.status(200).json({ subjects: [], reviewed: 0, screened: 0, meta: {}, model: "harvard", calibrating: true });
     return;

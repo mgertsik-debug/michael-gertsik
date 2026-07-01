@@ -1,4 +1,6 @@
 {
+  "$comment": "ignoreCommand: skip a Vercel deploy when a push changed ONLY data/forensics/* — the scan commits those every ~10 min (144/day), which alone blows the daily deploy cap and freezes code deploys too. The site now reads that data LIVE from GitHub raw at request time (api/forensics/livestore.js), so data commits need no deploy; any change OUTSIDE data/forensics still deploys. Vercel: exit 0 = skip build, exit 1 = build.",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)data/forensics' && exit 0 || exit 1",
   "rewrites": [
     { "source": "/((?!api/|models/).*)", "destination": "/index.html" }
   ],
