@@ -16,10 +16,10 @@
   "over500": 44,
   "alsoBinomial": 15,
   "onlyHarvard": 29,
-  "observed": 213853,
-  "reviewed": 213853,
+  "observed": 213883,
+  "reviewed": 213883,
   "screened": 6308,
-  "scored": 3849,
+  "scored": 3846,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1172,10 +1172,10 @@
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
-      "accountPnl": 1344102,
-      "firstSeen": "Sep 23 2024",
+      "accountPnl": 1342223,
+      "firstSeen": "May 01 2026",
       "createdOnChain": true,
-      "created": "May 18 2026",
+      "created": "Sep 23 2024",
       "betsCount": 370,
       "ledger": [
         {
@@ -2110,7 +2110,7 @@
         },
         {
           "market": "Will John Cornyn win the 2026 Texas Republican Primary?",
-          "url": "https://polymarket.com/event/texas-republican-senate-primary-winner",
+          "url": "https://polymarket.com/event/will-john-cornyn-win-the-2026-republican-primary",
           "ts": 1779753600,
           "odds": 84,
           "stake": 40434,
@@ -2120,7 +2120,7 @@
         },
         {
           "market": "US forces enter Iran by April 30?",
-          "url": "https://polymarket.com/event/us-forces-enter-iran-by",
+          "url": "https://polymarket.com/event/us-forces-enter-iran-by-april-30-899",
           "ts": 1777507200,
           "odds": 34,
           "stake": 34502,
@@ -3896,8 +3896,8 @@
       "zProfitCross": 12.94,
       "lateBuyFraction": 1,
       "directionalScore": 0.379,
-      "accountPnl": 2428762,
-      "firstSeen": "Sep 11 2024",
+      "accountPnl": 2428368,
+      "firstSeen": "Apr 09 2026",
       "createdOnChain": true,
       "created": "Sep 11 2024",
       "betsCount": 93,
