@@ -16,10 +16,10 @@
   "over500": 46,
   "alsoBinomial": 15,
   "onlyHarvard": 31,
-  "observed": 224168,
-  "reviewed": 224168,
+  "observed": 224241,
+  "reviewed": 224241,
   "screened": 6350,
-  "scored": 3881,
+  "scored": 3882,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1172,10 +1172,10 @@
       "zProfitCross": 14.25,
       "lateBuyFraction": 0,
       "directionalScore": 0.999,
-      "accountPnl": 1265671,
+      "accountPnl": 1268238,
       "firstSeen": "May 01 2026",
       "createdOnChain": true,
-      "created": "May 18 2026",
+      "created": "Sep 23 2024",
       "betsCount": 416,
       "ledger": [
         {
@@ -4062,7 +4062,7 @@
       "zProfitCross": 12.94,
       "lateBuyFraction": 1,
       "directionalScore": 0.379,
-      "accountPnl": 2432777,
+      "accountPnl": 2433319,
       "firstSeen": "Apr 09 2026",
       "createdOnChain": true,
       "created": "Sep 11 2024",
