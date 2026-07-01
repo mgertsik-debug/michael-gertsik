@@ -4,6 +4,14 @@
   "rewrites": [
     { "source": "/((?!api/|models/).*)", "destination": "/index.html" }
   ],
+  "headers": [
+    {
+      "source": "/((?!api/).*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate, max-age=0" }
+      ]
+    }
+  ],
   "functions": {
     "api/surveillance/feed.js": { "maxDuration": 45 },
     "api/forensics/subjects.js": { "includeFiles": "data/forensics/**" },
