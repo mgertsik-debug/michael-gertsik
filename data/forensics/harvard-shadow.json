@@ -14,8 +14,8 @@
   "minS": 532.3,
   "maxS": 1637.8,
   "over500": 44,
-  "alsoBinomial": 14,
-  "onlyHarvard": 30,
+  "alsoBinomial": 15,
+  "onlyHarvard": 29,
   "observed": 214484,
   "reviewed": 214484,
   "screened": 6317,
@@ -1272,9 +1272,9 @@
           "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
           "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
           "ts": 1749227473,
-          "odds": 94,
-          "stake": 19820,
-          "pl": 1239,
+          "odds": 93,
+          "stake": 19892,
+          "pl": 1256,
           "won": true,
           "tx": "0xb8fe9f749c604a72cae9e80e8c30d215021aa35ea1b7e4f2dff8d61367cb8139"
         },
@@ -1491,7 +1491,7 @@
       "address": "0xde7be6d489bce070a959e0cb813128ae659b5f4b",
       "username": "wan123",
       "tier": "high",
-      "S": 969.5,
+      "S": 969.7,
       "market": "Russia x Ukraine ceasefire by end of 2026?",
       "marketUrl": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
       "episodeTx": "0x40ee6ddfadfa749680a8abb24fccd53f4fb61d499275c5e9a8e2fa904080b0ad",
@@ -1500,15 +1500,15 @@
       "won": true,
       "episodeProfit": 173568,
       "zBetCross": 24.23,
-      "zBetWithin": 1.25,
+      "zBetWithin": 1.26,
       "zProfitCross": 10.74,
       "lateBuyFraction": 0.431,
       "directionalScore": 1,
-      "accountPnl": 1533860,
+      "accountPnl": 1536940,
       "firstSeen": "Mar 05 2026",
       "createdOnChain": true,
       "created": "Feb 21 2026",
-      "betsCount": 173,
+      "betsCount": 175,
       "ledger": [
         {
           "market": "MicroStrategy sells any Bitcoin by May 31, 2026?",
@@ -1542,7 +1542,7 @@
         },
         {
           "market": "US x Iran ceasefire by March 31?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-31",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
           "ts": null,
           "odds": 23,
           "stake": 128559,
@@ -1592,7 +1592,7 @@
         },
         {
           "market": "US x Iran ceasefire by March 15?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-15",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
           "ts": null,
           "odds": 16,
           "stake": 66808,
@@ -1632,7 +1632,7 @@
         },
         {
           "market": "US x Iran ceasefire extended by April 21, 2026?",
-          "url": "https://polymarket.com/event/will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-extended-by",
           "ts": 1776729600,
           "odds": 34,
           "stake": 46008,
@@ -5679,7 +5679,7 @@
           "tx": "0xb5f6cce9fd30e43b20bb75df1e87d0517227e82adb326d0fd2c63bb3fa738c82"
         }
       ],
-      "alsoBinomial": false
+      "alsoBinomial": true
     },
     {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
