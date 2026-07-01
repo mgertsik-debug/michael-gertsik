@@ -521,7 +521,7 @@ async function main() {
   }
 
   const wm = { lastRun: todayISO(), lastFiledAfter: filedAfter };
-  wm.lastRefresh = refreshes !== null && shouldRefreshRan(args) ? todayISO() : (readWatermark().lastRefresh || null);
+  wm.lastRefresh = refreshRan ? todayISO() : (readWatermark().lastRefresh || null);
   writeJSON(WATERMARK_PATH, wm);
   log(`Next: review with  --review,  then publish with  --approve <id>  /  --approve-all.`);
 
