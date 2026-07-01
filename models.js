@@ -94,7 +94,7 @@ const MODELS = [
     title: "Prediction Market Litigation Explorer",
     summary: "Trace every suit, regulatory action, and ruling across Kalshi, Polymarket, and the agencies they answer to. Filter the field once, then read it through five synchronized lenses, or build a hypothetical fact pattern and predict its posture.",
     status: "live",
-    src: "/models/prediction-market-explorer.html?v=3",
+    src: "/models/prediction-market-explorer.html?v=4",
   },
 
   // ── LIVE INTERACTIVE MODEL ───────────────────────────────
