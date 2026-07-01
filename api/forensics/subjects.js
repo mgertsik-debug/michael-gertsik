@@ -14,15 +14,19 @@
 const fs = require("fs");
 const path = require("path");
 const build = require("./build.js");                          // for the composite suspicion fallback
+const { readLive } = require("./livestore.js");               // fetch the LATEST committed store at request time
 
 const STORE = path.resolve(__dirname, "../../data/forensics/store.json");
 
-// Read the committed store. Prefer require() — bundlers (Vercel) reliably include
-// a statically-required JSON in the function bundle, whereas a runtime fs read of
-// a repo file may be missing from the deployment. fs is the local-dev fallback.
-function readStore() {
-  try { return require("../../data/forensics/store.json"); } catch (_) {}
-  try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; }
+// Read the store LIVE from GitHub raw (the scan commits it every ~10 min), so the site reflects each
+// tick WITHOUT waiting for a Vercel rebuild — the redeploy path froze the whole site once data commits
+// blew past the daily deploy cap. On any failure we fall back to the build-time copy: require() first
+// (bundlers reliably include a statically-required JSON), then a runtime fs read for local dev.
+async function readStore() {
+  return await readLive("data/forensics/store.json", () => {
+    try { return require("../../data/forensics/store.json"); } catch (_) {}
+    try { return JSON.parse(fs.readFileSync(STORE, "utf8")); } catch (_) { return null; }
+  });
 }
 
 module.exports = async (req, res) => {
@@ -34,7 +38,7 @@ module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "s-maxage=20, stale-while-revalidate=40");
   if (req.method === "OPTIONS") { res.status(204).end(); return; }
 
-  const store = readStore();
+  const store = await readStore();
   if (!store || !Array.isArray(store.subjects)) {
     res.status(200).json({ subjects: [], reviewed: 0, screened: 0, meta: {} });
     return;
