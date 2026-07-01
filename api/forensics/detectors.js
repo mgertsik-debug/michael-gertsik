@@ -764,8 +764,23 @@ function fedRegister(x, opts) {
  *          PREDATED the bet → public info, exculpatory) }
  *  PRE-RESOLUTION model: an open market hasn't resolved, so there is no won/profit/improbable-record to
  *  test — only signals observable AT PLACEMENT, each an informed-trading tell, none a proof. */
-const WATCH_W = { outsized: 20, longshot: 25, blackout: 35, repeat: 30, fresh: 15, anticipated: 12, publicInfo: -20 };
-const WATCH_MAX = 137;   // sum of the POSITIVE signals; publicInfo (−20) is the exculpatory reducer
+const WATCH_W = { outsized: 20, blackout: 35, repeat: 30, fresh: 15, anticipated: 12, publicInfo: -20 };
+// Entry-price CONVICTION is CONTINUOUS, not a fixed chip: the market's implied improbability of the
+// side they bet IS the informed edge. Graded on a curve — strongly + for a cheap long-shot that won,
+// ~0 for a fair favorite, strongly − for a near-certainty with no possible profit. Replaces the old
+// binary long-shot(+25). Zero-crossing at a fair favorite (85¢) so a 70¢ underdog still scores mildly +.
+const CONV_MAX = 35, CONV_MIN = -25, CONV_NEUTRAL = 0.85;
+function priceConviction(p) {
+  if (!isNum(p) || p <= 0) return { pts: 0, tier: null };
+  const q = p > 1 ? 1 : p;   // a 100¢ entry (zero possible profit) = max discount, never skipped
+  if (q < CONV_NEUTRAL) {
+    return { pts: Math.round(CONV_MAX * (CONV_NEUTRAL - q) / CONV_NEUTRAL),
+             tier: q <= 0.15 ? "deepLongshot" : q <= 0.35 ? "longshot" : q <= 0.60 ? "underdog" : "slightEdge" };
+  }
+  return { pts: Math.round(CONV_MIN * (q - CONV_NEUTRAL) / (1 - CONV_NEUTRAL)),
+           tier: q >= 0.92 ? "nearCertain" : "nearConsensus" };
+}
+const WATCH_MAX = 147;   // outsized20 + conviction35 + blackout35 + repeat30 + fresh15 + anticipated12; publicInfo(−20) & near-certain conviction are exculpatory reducers
 function watchlistScore(x, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   x = x || {};
@@ -798,10 +813,16 @@ function watchlistScore(x, opts) {
   const outsizedPeers = enoughPeers && (z >= 3 || whaleX >= 10);
   const fired = []; let score = 0;
   if (bigAbs || outsizedVol || outsizedPeers) { fired.push("outsized"); score += WATCH_W.outsized; }
-  // long-shot CONVICTION: a material BUY into an outcome the market prices as unlikely (≤ tau).
-  const lsMax = isNum(o.watchLongshotMax) ? o.watchLongshotMax : 0.35;
-  const lsMin = isNum(o.watchLongshotMinUsd) ? o.watchLongshotMinUsd : 2500;
-  if (isNum(x.entryPrice) && x.entryPrice > 0 && x.entryPrice <= lsMax && x.sizeUsd >= lsMin) { fired.push("longshot"); score += WATCH_W.longshot; }
+  // ENTRY-PRICE CONVICTION (continuous). For a MATERIAL bet, grade how cheap they got in on the side
+  // that won: the market's implied improbability of their outcome IS the edge. A cheap long-shot is the
+  // core informed tell (up to +35); a near-certain entry with no possible profit is discounted (−25).
+  const convMin = isNum(o.watchConvictionMinUsd) ? o.watchConvictionMinUsd : 2500;
+  let convictionPts = 0, convictionTier = null;
+  if (x.sizeUsd >= convMin) {
+    const cv = priceConviction(x.entryPrice);
+    convictionPts = cv.pts; convictionTier = cv.tier;
+    if (cv.tier) { fired.push(cv.tier); score += cv.pts; }
+  }
   if (x.walletFlagged === true) { fired.push("repeat"); score += WATCH_W.repeat; }   // already a published Suspect (bridge to the wallet tracker)
   if (x.fresh === true) { fired.push("fresh"); score += WATCH_W.fresh; }             // first-ever trade ≈ this bet (no track record)
   // INFORMATION ENVIRONMENT — DIRECTIONAL. This is the "did they trade ahead of the information?" axis.
@@ -815,7 +836,8 @@ function watchlistScore(x, opts) {
   if (x.blackout === true) { fired.push("blackout"); score += WATCH_W.blackout; }
   if (x.anticipated === true) { fired.push("anticipated"); score += WATCH_W.anticipated; }
   if (x.publicInfo === true) { fired.push("publicInfo"); score += WATCH_W.publicInfo; }
-  return { score, fired, sizeZ: +z.toFixed(1), whaleX: +whaleX.toFixed(1), volShare: +(volShare * 100).toFixed(2), p90: Math.round(p90), nPeers, enoughPeers };
+  if (score < 0) score = 0;   // exculpatory reducers (publicInfo / near-certain) can't push below zero
+  return { score, fired, convictionPts, convictionTier, sizeZ: +z.toFixed(1), whaleX: +whaleX.toFixed(1), volShare: +(volShare * 100).toFixed(2), p90: Math.round(p90), nPeers, enoughPeers };
 }
 
 /* ============================================================================

@@ -461,11 +461,11 @@ test("watchlistScore: a single STRONG tell earns a watch; a lone whale needs a 2
   assert.ok(D.watchlistScore({ sizeUsd: 1000, marketSizes: [], walletFlagged: true }).score >= THRESH, "repeat-suspect alone is a watch");
   // a lone whale (outsized 20) does NOT clear — big money alone isn't suspicious.
   assert.ok(D.watchlistScore({ sizeUsd: 40000, marketSizes: [], marketVolUsd: 5e6 }).score < THRESH, "a lone whale needs corroboration");
-  // long-shot (25) + repeat (30) clears comfortably.
+  // a cheap-entry conviction (continuous) + repeat (30) clears comfortably.
   const r = D.watchlistScore({ sizeUsd: 4000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.09, walletFlagged: true });
-  assert.ok(r.fired.includes("longshot") && r.fired.includes("repeat") && r.score >= THRESH, JSON.stringify(r.fired));
-  // a long-shot bet at FAVORITE odds does NOT fire longshot.
-  assert.ok(!D.watchlistScore({ sizeUsd: 4000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.82 }).fired.includes("longshot"), "82% is not a long-shot");
+  assert.ok(r.fired.some((f) => ["deepLongshot", "longshot"].includes(f)) && r.fired.includes("repeat") && r.score >= THRESH, JSON.stringify(r.fired));
+  // a near-certain FAVORITE bet does NOT earn positive conviction — it's discounted (near-certain/near-consensus).
+  assert.ok(!D.watchlistScore({ sizeUsd: 4000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.98 }).fired.some((f) => ["deepLongshot", "longshot", "underdog"].includes(f)), "98% is not a conviction long-shot");
 });
 
 test("watchlistScore: blackout is the highest tell; publicInfo is exculpatory (LOWERS the score)", () => {
@@ -478,7 +478,7 @@ test("watchlistScore: blackout is the highest tell; publicInfo is exculpatory (L
   assert.equal(neutral.score - publicInfo.score, 20, "publicInfo subtracts exactly 20");
   // blackout (35) is the single highest-weighted signal.
   const w = D.WATCH_W;
-  assert.ok(w.blackout >= w.repeat && w.blackout >= w.outsized && w.blackout >= w.longshot, "blackout is weighted highest");
+  assert.ok(w.blackout >= w.repeat && w.blackout >= w.outsized && w.blackout >= w.fresh, "blackout is the highest FIXED tell");
 });
 
 test("watchlistScore: a normal in-distribution favorite bet fires nothing", () => {
