@@ -16,8 +16,8 @@
   "over500": 44,
   "alsoBinomial": 15,
   "onlyHarvard": 29,
-  "observed": 217704,
-  "reviewed": 217704,
+  "observed": 217819,
+  "reviewed": 217819,
   "screened": 6324,
   "scored": 3865,
   "top": [
@@ -4472,7 +4472,7 @@
         },
         {
           "market": "Will another pair of candidates advance to the second round of the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
+          "url": "https://polymarket.com/event/will-another-pair-of-candidates-advance-to-the-second-round-of-the-2026-los-angeles-mayoral-election",
           "ts": 1780358400,
           "odds": 20,
           "stake": 3761,
@@ -4491,8 +4491,8 @@
           "tx": "0xf8e6909f4d2d5d047b9475b7f960ad4b94694401f2a70b0bf27f79cd954fb991"
         },
         {
-          "market": "Will Miguel Uribe Turbay win the 2026 Colombian presidential election?",
-          "url": "https://polymarket.com/event/colombia-presidential-election",
+          "market": "0xe79972d28e543046c88cb43847a06f46fd85930a3ad0b71a1339fc5973e5a815",
+          "url": null,
           "ts": 1782000000,
           "odds": 4,
           "stake": 3510,
@@ -4502,7 +4502,7 @@
         },
         {
           "market": "Will Germán Vargas Lleras win the 2026 Colombian presidential election?",
-          "url": "https://polymarket.com/event/colombia-presidential-election",
+          "url": "https://polymarket.com/event/will-germn-vargas-lleras-win-the-2026-colombian-presidential-election",
           "ts": 1782000000,
           "odds": 4,
           "stake": 3510,
@@ -4512,7 +4512,7 @@
         },
         {
           "market": "Will a candidate win the 2026 Los Angeles mayoral election in the first round?",
-          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
+          "url": "https://polymarket.com/event/will-a-candidate-win-the-2026-los-angeles-mayoral-election-in-the-first-round",
           "ts": 1780358400,
           "odds": 20,
           "stake": 3499,
@@ -4522,7 +4522,7 @@
         },
         {
           "market": "Will Nithya Raman & Spencer Pratt advance to the second round of the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/la-mayoral-election-who-will-advance-to-the-2nd-round",
+          "url": "https://polymarket.com/event/will-nithya-raman-spencer-pratt-advance-to-the-second-round-of-the-2026-los-angeles-mayoral-election",
           "ts": 1780358400,
           "odds": 20,
           "stake": 3431,
@@ -4531,8 +4531,8 @@
           "tx": null
         },
         {
-          "market": "Will Germán Vargas Lleras win the 1st round of the 2026 Colombian presidential election?",
-          "url": "https://polymarket.com/event/colombia-presidential-election-1st-round-winner",
+          "market": "0x2890121a9277d619b936695405544bda9f80d184b05d9503fd8f173c52867365",
+          "url": null,
           "ts": 1780185600,
           "odds": 4,
           "stake": 2535,
