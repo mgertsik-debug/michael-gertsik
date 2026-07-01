@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-07-01T01:33:42.908Z",
+  "updatedAt": "2026-07-01T06:10:46.241Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-561261",
+      "ts": "06:10 UTC",
+      "platform": "polymarket",
+      "market": "Will Jon Ossoff win the 2028 US Presidential Election?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "67 · Elevated",
+      "index": 67,
+      "url": "https://polymarket.com/event/presidential-election-winner-2028",
+      "engine": "manipulation",
+      "firstSeen": "2026-07-01T06:10:46.241Z"
+    },
     {
       "id": "pm-1388704",
       "ts": "23:12 UTC",
