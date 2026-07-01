@@ -658,6 +658,47 @@ async function finalize(state, snapshotTs) {
   };
   const payload = build.buildPayload(singleAggs.concat(clusterAggs), meta, state._catalog || {});
 
+  // ---- CUMULATIVE flagged set: keep wallets FOREVER + monotonic realized profit ----------------
+  // The tracker's purpose is the total realized profit of suspicious trades across ALL wallets — live
+  // AND after their markets resolve. So a flagged wallet must never silently leave when its market
+  // resolves, and the headline total must only grow. Two persistent structures make that honest:
+  //   (1) state.flaggedLedger: wallet ADDRESS -> locked realized profit (kept at its MAX). Keying by
+  //       address (and splitting a ring's pooled P/L across its members) means a wallet is counted
+  //       exactly once whether it shows up solo or inside a cluster — no double-counting. The headline
+  //       total sums THIS ledger, so it is monotonic (max never drops; addresses are only added).
+  //   (2) A union of the previously-published dossiers with this tick's, so a resolved wallet's card
+  //       stays on the site instead of vanishing. Re-seeding the ledger from the git-durable store.json
+  //       each run means even an Actions-cache reset can't shrink the cumulative total.
+  (function cumulate() {
+    state.flaggedLedger = state.flaggedLedger || {};
+    const addrsOf = (s) => (s.memberAddresses && s.memberAddresses.length ? s.memberAddresses : [s.address])
+      .map((a) => String(a || "").toLowerCase()).filter(Boolean);
+    const ledgerAdd = (s) => {
+      const a = addrsOf(s); if (!a.length) return;
+      const per = (Number(s.profitNum) || 0) / a.length;               // split a ring's pooled P/L across members
+      a.forEach((k) => { state.flaggedLedger[k] = Math.max(state.flaggedLedger[k] || 0, per); });
+    };
+    // union previously-published dossiers with this tick's, keyed by id, keeping the higher-profit copy
+    const byId = new Map();
+    ((read(STORE, {}) || {}).subjects || []).forEach((s) => byId.set(s.id, s));
+    payload.subjects.forEach((s) => {
+      const p = byId.get(s.id);
+      byId.set(s.id, (!p || (Number(s.profitNum) || 0) >= (Number(p.profitNum) || 0)) ? s : p);
+    });
+    let merged = Array.from(byId.values());
+    merged.forEach(ledgerAdd);                                          // lock realized P/L for every flagged wallet
+    merged.sort((a, b) => (Number(b.suspicion) || 0) - (Number(a.suspicion) || 0) || (Number(b.profitNum) || 0) - (Number(a.profitNum) || 0));
+    const CAP = +ENV.STORE_SUBJECTS_CAP || 250;                         // bound store.json; ledger total still counts all
+    if (merged.length > CAP) merged = merged.slice(0, CAP);
+    payload.subjects = merged;
+    const totalCum = Object.values(state.flaggedLedger).reduce((a, v) => a + (Number(v) || 0), 0);
+    const fmtUsd = (v) => (Math.abs(v) >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
+    payload.totalFlaggedProfit = Math.round(totalCum);
+    payload.totalFlaggedProfitText = fmtUsd(totalCum);
+    payload.flaggedCount = Object.keys(state.flaggedLedger).length;     // distinct suspicious wallets, cumulative
+    payload.cumulative = true;
+  })();
+
   // ---- category coverage: how many RESOLVED markets the scanner has cataloged in
   // each insider-tradeable category. The UI drives its category filter off this, so
   // every category being SCANNED is visible — not just the ones with a flag yet.
