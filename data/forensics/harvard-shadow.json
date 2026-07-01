@@ -16,10 +16,10 @@
   "over500": 44,
   "alsoBinomial": 15,
   "onlyHarvard": 29,
-  "observed": 216640,
-  "reviewed": 216640,
+  "observed": 216762,
+  "reviewed": 216762,
   "screened": 6321,
-  "scored": 3858,
+  "scored": 3860,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1379,7 +1379,7 @@
           "url": "https://polymarket.com/event/yoon-insurrection-case-prison-sentence",
           "ts": 1765142423,
           "odds": 100,
-          "stake": 75602,
+          "stake": 75729,
           "pl": 169,
           "won": true,
           "tx": "0x1afac52c705c06ca38018abae31041b502d7cf0767483689290ebc0e4de642f1"
@@ -4879,7 +4879,7 @@
       "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
       "username": "wokerjoesleeper",
       "tier": "notable",
-      "S": 580.5,
+      "S": 580.7,
       "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
       "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
       "episodeTx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872",
@@ -4892,11 +4892,11 @@
       "zProfitCross": 8.29,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 915198,
-      "firstSeen": "Feb 21 2026",
+      "accountPnl": 914914,
+      "firstSeen": "Oct 13 2024",
       "createdOnChain": true,
       "created": "Oct 13 2024",
-      "betsCount": 1418,
+      "betsCount": 1424,
       "ledger": [
         {
           "market": "Will the Iranian regime fall by June 30?",
