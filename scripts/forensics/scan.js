@@ -963,7 +963,7 @@ async function finalize(state, snapshotTs) {
       // MIGRATION: drop still-watching entries scored by the OLD model (no scoreVersion / a different
       // signal set + 0–17 scale). They'd render with stale fields next to the new 0–142 rows; let them
       // repopulate cleanly under the new directional model. Resolved (promoted/cleared) rows are history → kept.
-      if (e.status === "watching" && e.scoreVersion !== 2) { delete state.watchlist[id]; continue; }
+      if (e.status === "watching" && e.scoreVersion !== 3) { delete state.watchlist[id]; continue; }   // v3 = continuous entry-price conviction curve
       const c = cat[e.cond];
       if (e.status === "watching" && c && c.w != null) {
         const won = String(c.w).toUpperCase() === String(e.outcome).toUpperCase();
@@ -1057,7 +1057,7 @@ async function finalize(state, snapshotTs) {
             id, cond: t.cond, wallet: t.wallet, market: md.question || "(market)", category: md.category,
             url: md.slug ? "https://polymarket.com/event/" + md.slug : null, outcome: t.outcome, price: +t.price.toFixed(3),
             sizeUsd: Math.round(t.sizeUsd), marketVolUsd: Math.round(md.volume24hr || md.volume || 0), ts: t.ts, firstSeen: monthDay(NOW_S), status: "watching",
-            scoreVersion: 2, score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, volShare: sc.volShare, nPeers: sc.nPeers,
+            scoreVersion: 3, score: sc.score, signals: sc.fired, sizeZ: sc.sizeZ, whaleX: sc.whaleX, volShare: sc.volShare, nPeers: sc.nPeers,
             walletFlagged: c.walletFlagged, fresh, walletAgeDays: walletAgeDays != null ? Math.round(walletAgeDays) : null,
             blackout, anticipated, publicInfo, fedDoc, blackoutEntity,
           };
