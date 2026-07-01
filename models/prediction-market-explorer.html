@@ -113,22 +113,50 @@
 </div>
 
 <!-- ---- DATA LAYER + UI ----
-     Loaded with a runtime timestamp so an updated data.js is ALWAYS fetched
-     fresh (no browser/CDN caching can serve a stale copy). The scripts are
-     written in order, so they execute constants -> data -> validate -> app. -->
+     Load order is constants -> data -> validate -> app. The MATTER DATA is
+     fetched LIVE from the repo's GitHub raw at load time, so the tracker reflects
+     each ingest commit (new filings AND status refreshes on existing cases)
+     WITHOUT waiting for a redeploy. On ANY failure — offline, CORS, non-200,
+     timeout — it falls back to the copy bundled at build time, so it degrades
+     honestly and always renders. constants/validate/app are bundled (they rarely
+     change); a runtime cache-bust keeps them fresh. -->
 <script>
   (function () {
     var bust = '?_=' + Date.now();
-    ['constants', 'data', 'validate', 'app'].forEach(function (f) {
-      document.write('<script src="/models/pmle/' + f + '.js' + bust + '"><\/script>');
-    });
+    var RAW = 'https://raw.githubusercontent.com/mgertsik-debug/michael-gertsik/main/models/pmle/data.js';
+
+    function bundled(name, cb) {                 // load /models/pmle/<name>.js, then cb
+      var s = document.createElement('script');
+      s.src = '/models/pmle/' + name + '.js' + bust;
+      s.onload = cb; s.onerror = cb;             // continue even if one asset fails
+      document.head.appendChild(s);
+    }
+    function runCode(code) {                      // execute the repo's own data.js IIFE inline
+      var s = document.createElement('script');
+      s.textContent = code;                       // sets window.PMLE.matters synchronously
+      document.head.appendChild(s);
+    }
+    function afterData() {
+      try {                                        // hide the SAMPLE-DATA banner once real data is in
+        if (window.PMLE && window.PMLE.SAMPLE_DATA === false) {
+          var b = document.getElementById('pmle-sample-banner'); if (b) b.style.display = 'none';
+        }
+      } catch (e) {}
+      bundled('validate', function () { bundled('app', null); });
+    }
+    function loadData() {
+      var done = false;
+      var fallback = function () { if (done) return; done = true; bundled('data', afterData); };
+      try {
+        fetch(RAW, { cache: 'no-store' })
+          .then(function (r) { if (!r.ok) throw 0; return r.text(); })
+          .then(function (code) { if (done) return; done = true; runCode(code); afterData(); })
+          .catch(fallback);
+        setTimeout(fallback, 4000);               // safety net if the live fetch hangs
+      } catch (e) { fallback(); }
+    }
+    bundled('constants', loadData);               // constants first, then live data, then validate+app
   })();
-</script>
-<script>
-  // Hide the SAMPLE-DATA banner automatically once real data is in (PMLE.SAMPLE_DATA=false).
-  if (window.PMLE && window.PMLE.SAMPLE_DATA === false) {
-    var b = document.getElementById('pmle-sample-banner'); if (b) b.style.display = 'none';
-  }
 </script>
 </body>
 </html>
