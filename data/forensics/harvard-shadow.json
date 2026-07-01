@@ -19,7 +19,7 @@
   "observed": 227975,
   "reviewed": 227975,
   "screened": 6366,
-  "scored": 3892,
+  "scored": 3889,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -3352,8 +3352,8 @@
       "zProfitCross": 10.73,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 512809,
-      "firstSeen": "Nov 07 2025",
+      "accountPnl": 505837,
+      "firstSeen": "May 12 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
       "betsCount": 82,
@@ -4734,7 +4734,7 @@
       "ledger": [
         {
           "market": "Will José Williams win the 2026 Peruvian presidential election?",
-          "url": "https://polymarket.com/event/peru-presidential-election-winner",
+          "url": "https://polymarket.com/event/will-jos-williams-win-the-2026-peruvian-presidential-election",
           "ts": 1780790400,
           "odds": 30,
           "stake": 26015,
@@ -4864,7 +4864,7 @@
         },
         {
           "market": "Will ByteDance have the best AI model at the end of June 2026?",
-          "url": "https://polymarket.com/event/which-company-has-best-ai-model-end-of-june",
+          "url": "https://polymarket.com/event/will-bytedance-have-the-best-ai-model-at-the-end-of-june-2026",
           "ts": 1782777600,
           "odds": 50,
           "stake": 6926,
@@ -6372,8 +6372,8 @@
       "zProfitCross": 7.75,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 1446563,
-      "firstSeen": "Jul 05 2024",
+      "accountPnl": 1458010,
+      "firstSeen": "Sep 01 2025",
       "createdOnChain": true,
       "created": "Jul 05 2024",
       "betsCount": 64,
