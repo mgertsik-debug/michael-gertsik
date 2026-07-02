@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-07-02T07:50:23.864Z",
+  "updatedAt": "2026-07-02T10:38:22.536Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-1633611",
+      "ts": "10:38 UTC",
+      "platform": "polymarket",
+      "market": "Will China invade Taiwan by December 31, 2027?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "62 · Elevated",
+      "index": 62,
+      "url": "https://polymarket.com/event/will-china-invade-taiwan-by-december-31-2027",
+      "engine": "manipulation",
+      "firstSeen": "2026-07-02T10:38:22.536Z"
+    },
     {
       "id": "pm-2646848",
       "ts": "19:54 UTC",
