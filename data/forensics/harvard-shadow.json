@@ -19,7 +19,7 @@
   "observed": 231596,
   "reviewed": 231596,
   "screened": 6448,
-  "scored": 3895,
+  "scored": 3891,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -4402,7 +4402,7 @@
       "ledger": [
         {
           "market": "Will José Williams win the 2026 Peruvian presidential election?",
-          "url": "https://polymarket.com/event/peru-presidential-election-winner",
+          "url": "https://polymarket.com/event/will-jos-williams-win-the-2026-peruvian-presidential-election",
           "ts": 1780790400,
           "odds": 30,
           "stake": 26015,
@@ -4532,7 +4532,7 @@
         },
         {
           "market": "Will ByteDance have the best AI model at the end of June 2026?",
-          "url": "https://polymarket.com/event/which-company-has-best-ai-model-end-of-june",
+          "url": "https://polymarket.com/event/will-bytedance-have-the-best-ai-model-at-the-end-of-june-2026",
           "ts": 1782777600,
           "odds": 50,
           "stake": 6926,
@@ -6027,7 +6027,7 @@
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
       "username": "Hakei.",
       "tier": "notable",
-      "S": 538,
+      "S": 538.1,
       "market": "Iran successfully targets shipping by June 27?",
       "marketUrl": "https://polymarket.com/event/iran-successfully-targets-shipping-byptptpt-20260625215134143",
       "episodeTx": "0x6bc0f4a58c4d16b376d36747391cd82eacefcee93005e1209eea87662bd7a6df",
@@ -6036,15 +6036,15 @@
       "won": true,
       "episodeProfit": 16392,
       "zBetCross": 2.27,
-      "zBetWithin": 0.79,
+      "zBetWithin": 0.8,
       "zProfitCross": 14.68,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 88719,
-      "firstSeen": "Jan 08 2026",
+      "accountPnl": 90344,
+      "firstSeen": "Apr 06 2026",
       "createdOnChain": true,
       "created": "Jan 07 2026",
-      "betsCount": 183,
+      "betsCount": 184,
       "ledger": [
         {
           "market": "US x Iran diplomatic meeting by June 30, 2026?",
