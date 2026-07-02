@@ -1,18 +1,18 @@
 {
   "generatedAt": "Jul 02 2026",
-  "count": 7,
+  "count": 9,
   "rejected": [
     {
       "address": "0xd9a890ad8981c2e3d56bdf366e50e0f5c62f6e67",
       "id": null,
       "tier": "watch",
-      "reason": "below net-profit floor (profit=$646 < $1000)"
+      "reason": "below net-profit floor (profit=$646 < $2500)"
     },
     {
       "address": "0x1c4cd350bce3cb791daf88ce2034de9b03318d85",
       "id": null,
       "tier": "watch",
-      "reason": "below net-profit floor (profit=$414 < $1000)"
+      "reason": "below net-profit floor (profit=$414 < $2500)"
     },
     {
       "address": "0xeca48c68b7cc6cea3c04b472ea905e567b9ffda6",
@@ -24,7 +24,7 @@
       "address": "0x90ed00b05063b3e45abea79c9a5359b81a75eecb",
       "id": null,
       "tier": "watch",
-      "reason": "below net-profit floor (profit=$513 < $1000)"
+      "reason": "below net-profit floor (profit=$513 < $2500)"
     },
     {
       "address": "0x7b02b2bac2a30ed5e40b7094e734f4c3dc2a4991",
@@ -36,13 +36,25 @@
       "address": "0x99984e22205053950eb25453779267bcc1aee858",
       "id": null,
       "tier": "watch",
-      "reason": "below net-profit floor (profit=$71 < $1000)"
+      "reason": "below net-profit floor (profit=$71 < $2500)"
     },
     {
       "address": "0x521453b6b0e922cec0e75bc20cae92f2cf4795c9",
       "id": null,
       "tier": "watch",
       "reason": "account net-negative (all-time P/L=$-752)"
+    },
+    {
+      "address": "0x77e595582f4509ff3672c58c143e44bddcc2ec41",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$1542 < $2500)"
+    },
+    {
+      "address": "0x141ef9052a46984e9d403100dc9c611d48388c87",
+      "id": null,
+      "tier": "watch",
+      "reason": "below net-profit floor (profit=$2377 < $2500)"
     }
   ]
 }
