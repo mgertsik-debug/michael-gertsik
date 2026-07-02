@@ -16,10 +16,10 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 235831,
-  "reviewed": 235831,
+  "observed": 235867,
+  "reviewed": 235867,
   "screened": 6452,
-  "scored": 3896,
+  "scored": 3894,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -508,7 +508,7 @@
       "zProfitCross": 21.67,
       "lateBuyFraction": 0.063,
       "directionalScore": 0.552,
-      "accountPnl": -59027,
+      "accountPnl": -59033,
       "firstSeen": "Mar 22 2026",
       "createdOnChain": true,
       "created": "Jan 01 2026",
