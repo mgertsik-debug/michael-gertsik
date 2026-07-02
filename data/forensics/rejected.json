@@ -36,7 +36,7 @@
       "address": "0x7b02b2bac2a30ed5e40b7094e734f4c3dc2a4991",
       "id": null,
       "tier": "elevated",
-      "reason": "net unprofitable (informed trading is profitable; profit=-43255)"
+      "reason": "net unprofitable (informed trading is profitable; profit=-43711)"
     },
     {
       "address": "0x99984e22205053950eb25453779267bcc1aee858",
@@ -72,7 +72,7 @@
       "address": "0xa66bc2b52667f2844e9f76100806028d30c60b8b",
       "id": null,
       "tier": "watch",
-      "reason": "below net-profit floor (profit=$1107 < $2500)"
+      "reason": "below net-profit floor (profit=$1100 < $2500)"
     }
   ]
 }
