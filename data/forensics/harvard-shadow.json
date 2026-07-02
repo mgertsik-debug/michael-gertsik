@@ -19,7 +19,7 @@
   "observed": 231596,
   "reviewed": 231596,
   "screened": 6448,
-  "scored": 3891,
+  "scored": 3895,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -3352,8 +3352,8 @@
       "zProfitCross": 10.73,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 505837,
-      "firstSeen": "May 12 2025",
+      "accountPnl": 506496,
+      "firstSeen": "Nov 07 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
       "betsCount": 82,
@@ -4378,6 +4378,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x5a218c7ad04135830a45c41aaed7294df7809318",
+      "username": "balthazar",
+      "tier": "notable",
+      "S": 624.7,
+      "market": "Will Alireza Arafi be the next Supreme Leader of Iran?",
+      "marketUrl": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+      "episodeTx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655",
+      "stake": 12423,
+      "odds": 90,
+      "won": true,
+      "episodeProfit": 1378,
+      "zBetCross": 11.89,
+      "zBetWithin": 3.79,
+      "zProfitCross": 7.57,
+      "lateBuyFraction": 1,
+      "directionalScore": 0.964,
+      "accountPnl": 799723,
+      "firstSeen": "Jun 12 2026",
+      "createdOnChain": true,
+      "created": "Feb 07 2025",
+      "betsCount": 750,
+      "ledger": [
+        {
+          "market": "Will José Williams win the 2026 Peruvian presidential election?",
+          "url": "https://polymarket.com/event/peru-presidential-election-winner",
+          "ts": 1780790400,
+          "odds": 30,
+          "stake": 26015,
+          "pl": -26015,
+          "won": false,
+          "tx": null
+        },
+        {
+          "market": "Will Ali Larijani be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772710199,
+          "odds": 98,
+          "stake": 25229,
+          "pl": 369,
+          "won": true,
+          "tx": "0x78e3595761b11d8dec7853a716ca01799565e48b0c8fcd5d60108cbc48349387"
+        },
+        {
+          "market": "Will Muhammad Mirbaqiri be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772728505,
+          "odds": 98,
+          "stake": 24674,
+          "pl": 331,
+          "won": true,
+          "tx": "0xf9c1ef71977b680540b0e5bcb97529c615793539bc73c2e2a053e8f9750bdc71"
+        },
+        {
+          "market": "Will Gholam-Hossein Mohseni-Eje'i be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772747421,
+          "odds": 98,
+          "stake": 24303,
+          "pl": 436,
+          "won": true,
+          "tx": "0x5d76858c0da91600585569c4a324ce9cd833b06b495dcd5e8a05b857b4f6eeef"
+        },
+        {
+          "market": "Will Hassan Rouhani be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772728449,
+          "odds": 98,
+          "stake": 24284,
+          "pl": 373,
+          "won": true,
+          "tx": "0x41983010d9c67e9964a6c66df1c7c45e8a4b22effe7bfe28190e3b8dd4fec845"
+        },
+        {
+          "market": "Will Sadegh Larijani be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772759285,
+          "odds": 98,
+          "stake": 24194,
+          "pl": 358,
+          "won": true,
+          "tx": "0x1e2d02228edfbdd8b1edfa8851d8ec3b0d62abf8dd9b60f0781b1c9e50bbdd73"
+        },
+        {
+          "market": "Will Hassan Khomeini be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772770987,
+          "odds": 98,
+          "stake": 23395,
+          "pl": 479,
+          "won": true,
+          "tx": "0x1e1775256d580d18950a0aef6b3bc01ef0aca7acc2029a4e7320867f62c58221"
+        },
+        {
+          "market": "Will Reza Pahlavi be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772728449,
+          "odds": 100,
+          "stake": 22939,
+          "pl": 88,
+          "won": true,
+          "tx": "0xf00360e486b0f52d9609a02cce62edb43aedeba7bdc1be63c032f20e4c01294b"
+        },
+        {
+          "market": "Will the position of Supreme Leader of Iran be abolished?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772798729,
+          "odds": 98,
+          "stake": 21572,
+          "pl": 465,
+          "won": true,
+          "tx": "0x500dafbce3de95aed0141ad7f541b1f5d1565d9eee8cf69f0f8d7e4376a86dbd"
+        },
+        {
+          "market": "Will there be no new Supreme Leader of Iran by June 30?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772798729,
+          "odds": 97,
+          "stake": 21390,
+          "pl": 568,
+          "won": true,
+          "tx": "0x8739276d537d5238a4255df2f9775c269a13b04858cef661ca6fc8523979caff"
+        },
+        {
+          "market": "Will Hashem Hosseini Bushehri be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772685843,
+          "odds": 99,
+          "stake": 20658,
+          "pl": 83,
+          "won": true,
+          "tx": "0x013c8a314be51d11fcce302f5bc4a4f31692cf470cdceb2586da24a21b52f64a"
+        },
+        {
+          "market": "Will Mohsen Araki be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772651285,
+          "odds": 100,
+          "stake": 14009,
+          "pl": 40,
+          "won": true,
+          "tx": "0x746bb3c4816671ddf79005a82411046dcb013da4ff3041ebc4d4c2a89437896a"
+        },
+        {
+          "market": "Will Alireza Arafi be the next Supreme Leader of Iran?",
+          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
+          "ts": 1772903679,
+          "odds": 90,
+          "stake": 12423,
+          "pl": 1378,
+          "won": true,
+          "tx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655"
+        },
+        {
+          "market": "Will ByteDance have the best AI model at the end of June 2026?",
+          "url": "https://polymarket.com/event/which-company-has-best-ai-model-end-of-june",
+          "ts": 1782777600,
+          "odds": 50,
+          "stake": 6926,
+          "pl": -6926,
+          "won": false,
+          "tx": null
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0xd49b42bce7ea10bac53e2901c188cae20ea4bdf9",
       "username": "i18z",
       "tier": "notable",
@@ -4703,172 +4869,6 @@
           "odds": 4,
           "stake": 2535,
           "pl": -2535,
-          "won": false,
-          "tx": null
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
-      "address": "0x5a218c7ad04135830a45c41aaed7294df7809318",
-      "username": "balthazar",
-      "tier": "notable",
-      "S": 624.3,
-      "market": "Will Alireza Arafi be the next Supreme Leader of Iran?",
-      "marketUrl": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-      "episodeTx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655",
-      "stake": 12423,
-      "odds": 90,
-      "won": true,
-      "episodeProfit": 1378,
-      "zBetCross": 11.89,
-      "zBetWithin": 3.77,
-      "zProfitCross": 7.57,
-      "lateBuyFraction": 1,
-      "directionalScore": 0.964,
-      "accountPnl": 797523,
-      "firstSeen": "Jun 12 2026",
-      "createdOnChain": true,
-      "created": "Feb 07 2025",
-      "betsCount": 742,
-      "ledger": [
-        {
-          "market": "Will José Williams win the 2026 Peruvian presidential election?",
-          "url": "https://polymarket.com/event/will-jos-williams-win-the-2026-peruvian-presidential-election",
-          "ts": 1780790400,
-          "odds": 30,
-          "stake": 26015,
-          "pl": -26015,
-          "won": false,
-          "tx": null
-        },
-        {
-          "market": "Will Ali Larijani be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772710199,
-          "odds": 98,
-          "stake": 25229,
-          "pl": 369,
-          "won": true,
-          "tx": "0x78e3595761b11d8dec7853a716ca01799565e48b0c8fcd5d60108cbc48349387"
-        },
-        {
-          "market": "Will Muhammad Mirbaqiri be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772728505,
-          "odds": 98,
-          "stake": 24674,
-          "pl": 331,
-          "won": true,
-          "tx": "0xf9c1ef71977b680540b0e5bcb97529c615793539bc73c2e2a053e8f9750bdc71"
-        },
-        {
-          "market": "Will Gholam-Hossein Mohseni-Eje'i be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772747421,
-          "odds": 98,
-          "stake": 24303,
-          "pl": 436,
-          "won": true,
-          "tx": "0x5d76858c0da91600585569c4a324ce9cd833b06b495dcd5e8a05b857b4f6eeef"
-        },
-        {
-          "market": "Will Hassan Rouhani be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772728449,
-          "odds": 98,
-          "stake": 24284,
-          "pl": 373,
-          "won": true,
-          "tx": "0x41983010d9c67e9964a6c66df1c7c45e8a4b22effe7bfe28190e3b8dd4fec845"
-        },
-        {
-          "market": "Will Sadegh Larijani be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772759285,
-          "odds": 98,
-          "stake": 24194,
-          "pl": 358,
-          "won": true,
-          "tx": "0x1e2d02228edfbdd8b1edfa8851d8ec3b0d62abf8dd9b60f0781b1c9e50bbdd73"
-        },
-        {
-          "market": "Will Hassan Khomeini be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772770987,
-          "odds": 98,
-          "stake": 23395,
-          "pl": 479,
-          "won": true,
-          "tx": "0x1e1775256d580d18950a0aef6b3bc01ef0aca7acc2029a4e7320867f62c58221"
-        },
-        {
-          "market": "Will Reza Pahlavi be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772728449,
-          "odds": 100,
-          "stake": 22939,
-          "pl": 88,
-          "won": true,
-          "tx": "0xf00360e486b0f52d9609a02cce62edb43aedeba7bdc1be63c032f20e4c01294b"
-        },
-        {
-          "market": "Will the position of Supreme Leader of Iran be abolished?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772798729,
-          "odds": 98,
-          "stake": 21572,
-          "pl": 465,
-          "won": true,
-          "tx": "0x500dafbce3de95aed0141ad7f541b1f5d1565d9eee8cf69f0f8d7e4376a86dbd"
-        },
-        {
-          "market": "Will there be no new Supreme Leader of Iran by June 30?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772798729,
-          "odds": 97,
-          "stake": 21390,
-          "pl": 568,
-          "won": true,
-          "tx": "0x8739276d537d5238a4255df2f9775c269a13b04858cef661ca6fc8523979caff"
-        },
-        {
-          "market": "Will Hashem Hosseini Bushehri be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772685843,
-          "odds": 99,
-          "stake": 20658,
-          "pl": 83,
-          "won": true,
-          "tx": "0x013c8a314be51d11fcce302f5bc4a4f31692cf470cdceb2586da24a21b52f64a"
-        },
-        {
-          "market": "Will Mohsen Araki be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772651285,
-          "odds": 100,
-          "stake": 14009,
-          "pl": 40,
-          "won": true,
-          "tx": "0x746bb3c4816671ddf79005a82411046dcb013da4ff3041ebc4d4c2a89437896a"
-        },
-        {
-          "market": "Will Alireza Arafi be the next Supreme Leader of Iran?",
-          "url": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
-          "ts": 1772903679,
-          "odds": 90,
-          "stake": 12423,
-          "pl": 1378,
-          "won": true,
-          "tx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655"
-        },
-        {
-          "market": "Will ByteDance have the best AI model at the end of June 2026?",
-          "url": "https://polymarket.com/event/will-bytedance-have-the-best-ai-model-at-the-end-of-june-2026",
-          "ts": 1782777600,
-          "odds": 50,
-          "stake": 6926,
-          "pl": -6926,
           "won": false,
           "tx": null
         }
@@ -6372,7 +6372,7 @@
       "zProfitCross": 7.75,
       "lateBuyFraction": 1,
       "directionalScore": 1,
-      "accountPnl": 1458010,
+      "accountPnl": 1458229,
       "firstSeen": "Sep 01 2025",
       "createdOnChain": true,
       "created": "Jul 05 2024",
