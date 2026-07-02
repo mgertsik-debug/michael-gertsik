@@ -16,10 +16,10 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 237408,
-  "reviewed": 237408,
+  "observed": 237626,
+  "reviewed": 237626,
   "screened": 6454,
-  "scored": 3897,
+  "scored": 3896,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -2155,7 +2155,7 @@
       "address": "0x9d84ce0306f8551e02efef1680475fc0f1dc1344",
       "username": "ImJustKen",
       "tier": "high",
-      "S": 859.6,
+      "S": 859.7,
       "market": "Will SpaceX IPO by June 30, 2026?",
       "marketUrl": "https://polymarket.com/event/spacex-ipo-by",
       "episodeTx": "0x6539b6cdd393cc45b777cfae8df51b6059db081ee97e8eb80896b41738e521f6",
@@ -2168,11 +2168,11 @@
       "zProfitCross": 13.65,
       "lateBuyFraction": 0,
       "directionalScore": 0.991,
-      "accountPnl": 3386684,
+      "accountPnl": 3382614,
       "firstSeen": "Dec 08 2023",
       "createdOnChain": true,
-      "created": "Jan 19 2022",
-      "betsCount": 345,
+      "created": "Nov 10 2025",
+      "betsCount": 346,
       "ledger": [
         {
           "market": "Will Trump nominate Rick Rieder as the next Fed chair?",
