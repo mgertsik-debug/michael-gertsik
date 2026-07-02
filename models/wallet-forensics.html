@@ -29,6 +29,13 @@
   /* never show a white/UA outline on the cards — the SELECTED state already glows green
      (border + box-shadow via cardStyle). Kill every outline so a click/focus never paints white. */
   .wf-card, .wf-card:focus, .wf-card:focus-visible, .wf-card:active { outline: none !important; }
+  /* THE WHITE-BOX FIX: the runtime's loading placeholders (.sc-placeholder) default to a border of
+     50% currentColor — near-WHITE on this page (#ECEFED text) — so any card whose data is still
+     resolving flashed/stuck as a white box. Restyle placeholders to the page's own dark card chrome:
+     boxes are never white; only a SELECTED card glows green (cardStyle). */
+  .sc-placeholder { border-color: #1F2A25 !important; background: #0E1512 !important; }
+  .sc-interp.sc-missing { background: #10201A !important; border-color: #1F2A25 !important; }
+  .sc-interp.sc-unresolved { color: #4A5550 !important; background: #10201A !important; }
 </style>
 </helmet>
 <div style="position: relative; overflow: hidden; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #ECEFED; background: #0A0E0D; line-height: 1.55; -webkit-font-smoothing: antialiased; padding: 2px 0 44px;">
