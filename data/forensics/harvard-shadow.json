@@ -19,7 +19,7 @@
   "observed": 228699,
   "reviewed": 228699,
   "screened": 6447,
-  "scored": 3890,
+  "scored": 3893,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -2168,11 +2168,11 @@
       "zProfitCross": 13.65,
       "lateBuyFraction": 0,
       "directionalScore": 0.991,
-      "accountPnl": 3377813,
+      "accountPnl": 3380939,
       "firstSeen": "Dec 08 2023",
       "createdOnChain": true,
       "created": "Jan 19 2022",
-      "betsCount": 344,
+      "betsCount": 345,
       "ledger": [
         {
           "market": "Will Trump nominate Rick Rieder as the next Fed chair?",
@@ -2276,7 +2276,7 @@
         },
         {
           "market": "Will John Cornyn win the 2026 Texas Republican Primary?",
-          "url": "https://polymarket.com/event/will-john-cornyn-win-the-2026-republican-primary",
+          "url": "https://polymarket.com/event/texas-republican-senate-primary-winner",
           "ts": 1779753600,
           "odds": 84,
           "stake": 40434,
@@ -2286,7 +2286,7 @@
         },
         {
           "market": "US forces enter Iran by April 30?",
-          "url": "https://polymarket.com/event/us-forces-enter-iran-by-april-30-899",
+          "url": "https://polymarket.com/event/us-forces-enter-iran-by",
           "ts": 1777507200,
           "odds": 34,
           "stake": 34502,
