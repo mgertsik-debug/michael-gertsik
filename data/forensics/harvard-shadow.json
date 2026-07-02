@@ -7,7 +7,7 @@
     "high": 10,
     "notable": 30
   },
-  "medianS": 711.7,
+  "medianS": 711.8,
   "p90": 1190.1,
   "p95": 1379.8,
   "p99": 1637.8,
@@ -16,8 +16,8 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 234469,
-  "reviewed": 234469,
+  "observed": 234736,
+  "reviewed": 234736,
   "screened": 6452,
   "scored": 3896,
   "top": [
@@ -3173,7 +3173,7 @@
       "address": "0x27abdfc9393c72a6330a3be987da4b46c726e521",
       "username": "pd.unique",
       "tier": "notable",
-      "S": 711.7,
+      "S": 711.8,
       "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": null,
@@ -3186,11 +3186,11 @@
       "zProfitCross": 11.25,
       "lateBuyFraction": 0.022,
       "directionalScore": 1,
-      "accountPnl": 80851,
+      "accountPnl": 80980,
       "firstSeen": "Jun 03 2026",
       "createdOnChain": true,
       "created": "Apr 03 2026",
-      "betsCount": 1032,
+      "betsCount": 1033,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
