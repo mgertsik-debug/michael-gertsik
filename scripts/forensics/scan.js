@@ -658,52 +658,9 @@ async function finalize(state, snapshotTs) {
   };
   const payload = build.buildPayload(singleAggs.concat(clusterAggs), meta, state._catalog || {});
 
-  // ---- CUMULATIVE flagged set: keep wallets FOREVER + monotonic realized profit ----------------
-  // The tracker's purpose is the total realized profit of suspicious trades across ALL wallets — live
-  // AND after their markets resolve. So a flagged wallet must never silently leave when its market
-  // resolves, and the headline total must only grow. Two persistent structures make that honest:
-  //   (1) state.flaggedLedger: wallet ADDRESS -> locked realized profit (kept at its MAX). Keying by
-  //       address (and splitting a ring's pooled P/L across its members) means a wallet is counted
-  //       exactly once whether it shows up solo or inside a cluster — no double-counting. The headline
-  //       total sums THIS ledger, so it is monotonic (max never drops; addresses are only added).
-  //   (2) A union of the previously-published dossiers with this tick's, so a resolved wallet's card
-  //       stays on the site instead of vanishing. Re-seeding the ledger from the git-durable store.json
-  //       each run means even an Actions-cache reset can't shrink the cumulative total.
-  (function cumulate() {
-    state.flaggedLedger = state.flaggedLedger || {};
-    const addrsOf = (s) => ((s.memberAddresses && s.memberAddresses.length ? s.memberAddresses : s.addresses && s.addresses.length ? s.addresses : [s.address]) || [])
-      .map((a) => String(a || "").toLowerCase()).filter(Boolean);
-    const ledgerAdd = (s) => {
-      const a = addrsOf(s); if (!a.length) return;
-      const per = (Number(s.profitNum) || 0) / a.length;               // split a ring's pooled P/L across members
-      a.forEach((k) => { state.flaggedLedger[k] = Math.max(state.flaggedLedger[k] || 0, per); });
-    };
-    // HISTORICAL BACKFILL (git-mined, post-profit-fix era ONLY): every wallet published on the site
-    // during the window before this ledger existed, so it can never leave the cumulative total even
-    // though its dossier already rotated off. Ledger-only (no fabricated cards) + idempotent via max().
-    // Pre-fix-era estimates are deliberately excluded (known-inflated); genuinely suspicious older
-    // wallets re-enter through the perpetual rolling sweep under current rules.
-    try { ((read(path.join(DIR, "backfill-ledger.json"), {}) || {}).records || []).forEach(ledgerAdd); } catch (_) {}
-    // union previously-published dossiers with this tick's, keyed by id, keeping the higher-profit copy
-    const byId = new Map();
-    ((read(STORE, {}) || {}).subjects || []).forEach((s) => byId.set(s.id, s));
-    payload.subjects.forEach((s) => {
-      const p = byId.get(s.id);
-      byId.set(s.id, (!p || (Number(s.profitNum) || 0) >= (Number(p.profitNum) || 0)) ? s : p);
-    });
-    let merged = Array.from(byId.values());
-    merged.forEach(ledgerAdd);                                          // lock realized P/L for every flagged wallet
-    merged.sort((a, b) => (Number(b.suspicion) || 0) - (Number(a.suspicion) || 0) || (Number(b.profitNum) || 0) - (Number(a.profitNum) || 0));
-    const CAP = +ENV.STORE_SUBJECTS_CAP || 250;                         // bound store.json; ledger total still counts all
-    if (merged.length > CAP) merged = merged.slice(0, CAP);
-    payload.subjects = merged;
-    const totalCum = Object.values(state.flaggedLedger).reduce((a, v) => a + (Number(v) || 0), 0);
-    const fmtUsd = (v) => (Math.abs(v) >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
-    payload.totalFlaggedProfit = Math.round(totalCum);
-    payload.totalFlaggedProfitText = fmtUsd(totalCum);
-    payload.flaggedCount = Object.keys(state.flaggedLedger).length;     // distinct suspicious wallets, cumulative
-    payload.cumulative = true;
-  })();
+  // (CUMULATIVE flagged set: see cumulate() below — it runs AFTER the ring→cluster surgery so it is
+  //  the FINAL word on payload.subjects and the headline totals. It used to live here, where the
+  //  downstream recompute overwrote its numbers and re-imported stale ring subjects → duplicate ids.)
 
   // ---- category coverage: how many RESOLVED markets the scanner has cataloged in
   // each insider-tradeable category. The UI drives its category filter off this, so
@@ -873,18 +830,50 @@ async function finalize(state, snapshotTs) {
     payload.clusters = payload.subjects.filter((s) => s.type === "cluster").length;
     log("ring→cluster: published " + ringClusterSubjects.length + " on-chain ring(s) as Groups clusters");
   }
-  // RECOMPUTE the headline aggregate P/L + count over the FINAL subject set. buildPayload()
-  // computed these before the ring→cluster surgery (which adds Group subjects and removes
-  // absorbed singles), so without this the top-line total omits the bundled groups — the
-  // exact "doesn't add up across the groups" discrepancy. Now it sums every published subject.
-  {
-    const tot = payload.subjects.reduce((a, s) => a + (Number(s.profitNum) || 0), 0);
+  // ---- CUMULATIVE flagged set — the FINAL word on payload.subjects + the headline totals. --------
+  // Owner directive: wallets stay on the tracker even after their markets resolve, and the headline
+  // counts the profit of suspicious trades across ALL wallets ever flagged. Runs AFTER the
+  // ring→cluster surgery so nothing downstream re-imports stale subjects or overwrites its numbers.
+  //   • Dossier union is keyed by the wallet ADDRESS-SET (not the tick-local id): the same wallet's
+  //     re-scored dossier REPLACES its older copy (newest wins), so one wallet can't accumulate
+  //     multiple episode cards or duplicate ids; a departed wallet keeps its last published card.
+  //   • state.flaggedLedger holds each address's LAST-KNOWN per-wallet profit — the current tick's
+  //     honest re-estimate while the wallet is live, frozen at its final value when it departs.
+  //     Deliberately NOT max()-locked: ratcheting transient estimates inflates the total dishonestly.
+  //   • The git-mined backfill (post-profit-fix era only) fills gaps for wallets that rotated off
+  //     before this ledger existed. Wallets are only ever ADDED, so the count is monotonic and the
+  //     total can never drop from a wallet disappearing — only from an honest downward re-estimate
+  //     of a still-live wallet.
+  (function cumulate() {
+    if (state.flaggedLedgerV !== 2) { state.flaggedLedger = {}; state.flaggedLedgerV = 2; }   // one-time: discard v1 max()-ratcheted values
+    const addrsOf = (s) => ((s.memberAddresses && s.memberAddresses.length ? s.memberAddresses : s.addresses && s.addresses.length ? s.addresses : [s.address]) || [])
+      .map((a) => String(a || "").toLowerCase()).filter(Boolean);
+    const keyOf = (s) => addrsOf(s).slice().sort().join("|");
+    const perOf = (s, n) => (Number(s.profitNum) || 0) / (n || 1);      // split a ring's pooled P/L across members
+    const ledgerSet = (s) => { const a = addrsOf(s); a.forEach((k) => { state.flaggedLedger[k] = perOf(s, a.length); }); };
+    const ledgerKeep = (s) => { const a = addrsOf(s); a.forEach((k) => { if (state.flaggedLedger[k] == null) state.flaggedLedger[k] = perOf(s, a.length); }); };
+    // union: previous store's dossiers + this tick's, newest copy per address-set wins
+    const byKey = new Map();
+    ((read(STORE, {}) || {}).subjects || []).forEach((s) => { const k = keyOf(s); if (k) byKey.set(k, s); });
+    payload.subjects.forEach((s) => { const k = keyOf(s); if (k) byKey.set(k, s); });
+    let merged = Array.from(byKey.values());
+    // ledger: keep last-known for departed wallets (union + git-mined backfill), then CURRENT values overwrite
+    try { ((read(path.join(DIR, "backfill-ledger.json"), {}) || {}).records || []).forEach(ledgerKeep); } catch (_) {}
+    merged.forEach(ledgerKeep);
+    payload.subjects.forEach(ledgerSet);
+    merged.sort((a, b) => (Number(b.suspicion) || 0) - (Number(a.suspicion) || 0) || (Number(b.profitNum) || 0) - (Number(a.profitNum) || 0));
+    const CAP = +ENV.STORE_SUBJECTS_CAP || 250;                         // bound store.json; the ledger still counts ALL wallets
+    if (merged.length > CAP) merged = merged.slice(0, CAP);
+    payload.subjects = merged;
+    payload.clusters = payload.subjects.filter((s) => s.type === "cluster").length;
+    const totalCum = Object.values(state.flaggedLedger).reduce((a, v) => a + (Number(v) || 0), 0);
     const fmtUsd = (v) => (Math.abs(v) >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : Math.abs(v) >= 1e6 ? "$" + (v / 1e6).toFixed(1) + "M" : Math.abs(v) >= 1e3 ? "$" + Math.round(v / 1e3) + "K" : "$" + Math.round(v));
-    payload.totalFlaggedProfit = Math.round(tot);
-    payload.totalFlaggedProfitText = fmtUsd(tot);
-    payload.flaggedCount = payload.subjects.length;
+    payload.totalFlaggedProfit = Math.round(totalCum);
+    payload.totalFlaggedProfitText = fmtUsd(totalCum);
+    payload.flaggedCount = Object.keys(state.flaggedLedger).length;     // distinct suspicious wallets, cumulative
+    payload.cumulative = true;
     payload.scored = payload.scored || (payload.meta && payload.meta.scored) || 0;
-  }
+  })();
 
   log("flagged " + payload.subjects.length + " subjects (" +
     payload.subjects.filter((s) => s.tier === "extreme").length + " extreme · " +
