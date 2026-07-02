@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-07-02T10:38:22.536Z",
+  "updatedAt": "2026-07-02T14:58:46.719Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-601828",
+      "ts": "14:58 UTC",
+      "platform": "polymarket",
+      "market": "Will Romeu Zema win the 2026 Brazilian presidential election?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "55 · Elevated",
+      "index": 55,
+      "url": "https://polymarket.com/event/brazil-presidential-election",
+      "engine": "manipulation",
+      "firstSeen": "2026-07-02T14:58:46.719Z"
+    },
     {
       "id": "pm-1633611",
       "ts": "10:38 UTC",
