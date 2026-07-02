@@ -1,6 +1,6 @@
 {
   "generatedAt": "Jul 02 2026",
-  "count": 8,
+  "count": 7,
   "rejected": [
     {
       "address": "0xd9a890ad8981c2e3d56bdf366e50e0f5c62f6e67",
@@ -43,12 +43,6 @@
       "id": null,
       "tier": "watch",
       "reason": "account net-negative (all-time P/L=$-752)"
-    },
-    {
-      "address": "0x078523be4de2ddd9185125e4e62c09e5e54ea475",
-      "id": null,
-      "tier": "elevated",
-      "reason": "account net-negative (all-time P/L=$-24)"
     }
   ]
 }
