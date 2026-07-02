@@ -302,18 +302,8 @@
     var watching=WL.filter(function(e){return e.status==='watching';}).length;
     var promoted=WL.filter(function(e){return e.status==='promoted';}).length;
     var cleared=WL.filter(function(e){return e.status==='cleared';}).length;
-    // stat cards + peak gauge
-    var peak=WL.reduce(function(m,e){return (m&&wlScoreOf(m)>=wlScoreOf(e))?m:e;}, WL[0]||null);
-    var peakScore=peak?wlScoreOf(peak):0;
-    // DASHBOARD: lead with the strongest live signal (the eye-catching dial), then plain-named counts.
-    var pc=peak?wlSC(peakScore):{c:'#1F2A25',g:'rgba(0,0,0,0)'};
-    var dialCard='<div style="display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,#0F1714,#0B100E);border:1px solid '+pc.c+'40;border-radius:14px;padding:14px 18px;box-shadow:0 0 26px -10px '+pc.c+'cc,inset 0 1px 0 0 '+pc.c+'2b,0 16px 34px -26px rgba(0,0,0,.85);">'
-        + (peak?wlGauge(peakScore,90):'')
-        + '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.12em;color:#7E8C86;">STRONGEST LIVE SIGNAL</div>'
-        + '<div style="font-size:12.5px;color:#ECEFED;margin-top:6px;font-weight:600;">'+(peak?('score '+peakScore+' / '+WGMAX):'—')+'</div>'
-        + '<div style="font-size:11px;color:#949C98;margin-top:4px;line-height:1.4;">'+(peak?'the hottest open trade right now':'no live signals yet')+'</div></div></div>';
-    var stats='<div style="display:grid;grid-template-columns:'+(window.innerWidth<900?'1fr 1fr':'1.2fr repeat(3,1fr)')+';gap:14px;margin-top:16px;">'
-      + dialCard
+    // stat cards — three plain-named lifecycle counts (the "strongest live signal" dial was removed).
+    var stats='<div style="display:grid;grid-template-columns:'+(window.innerWidth<900?'1fr 1fr':'repeat(3,1fr)')+';gap:14px;margin-top:16px;">'
       + wlStatCard('WATCHING NOW',watching,'open trades scored live','#34D399')
       + wlStatCard('HARDENED SIGNALS',promoted,'strong flag pre-resolution · won · wallet now a Suspect','#F87171',(promoted>0?'#F87171':'#ECEFED'))
       + wlStatCard('SELF-CLEARED',cleared,'resolved — no case · the early warning didn\'t pan out','#5EEAD4')
