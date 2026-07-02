@@ -852,16 +852,30 @@ async function finalize(state, snapshotTs) {
     const perOf = (s, n) => (Number(s.profitNum) || 0) / (n || 1);      // split a ring's pooled P/L across members
     const ledgerSet = (s) => { const a = addrsOf(s); a.forEach((k) => { state.flaggedLedger[k] = perOf(s, a.length); }); };
     const ledgerKeep = (s) => { const a = addrsOf(s); a.forEach((k) => { if (state.flaggedLedger[k] == null) state.flaggedLedger[k] = perOf(s, a.length); }); };
+    // RULE-REJECTED wallets are NOT "departed" — the pre-publish gate dropped them under CURRENT
+    // rules (immaterial profit, net-losing, bad data). "Wallets never leave" applies to wallets that
+    // rotated off the tick; a wallet the rules now reject must leave the union AND the ledger, or a
+    // tightened gate could never clean the board. A wallet that later re-passes the gates un-rejects.
+    state.ruleRejected = state.ruleRejected || {};
+    ((meta && meta._rejects) || []).forEach((r) => { const a = String((r && r.address) || "").toLowerCase(); if (a) state.ruleRejected[a] = NOW_S; });
+    payload.subjects.forEach((s) => addrsOf(s).forEach((a) => { delete state.ruleRejected[a]; }));
+    const isRejected = (s) => addrsOf(s).some((a) => state.ruleRejected[a] != null);
     // union: previous store's dossiers + this tick's, newest copy per address-set wins
     const byKey = new Map();
     ((read(STORE, {}) || {}).subjects || []).forEach((s) => { const k = keyOf(s); if (k) byKey.set(k, s); });
     payload.subjects.forEach((s) => { const k = keyOf(s); if (k) byKey.set(k, s); });
-    let merged = Array.from(byKey.values());
+    let merged = Array.from(byKey.values()).filter((x) => !isRejected(x));
     // ledger: keep last-known for departed wallets (union + git-mined backfill), then CURRENT values overwrite
     try { ((read(path.join(DIR, "backfill-ledger.json"), {}) || {}).records || []).forEach(ledgerKeep); } catch (_) {}
     merged.forEach(ledgerKeep);
     payload.subjects.forEach(ledgerSet);
+    Object.keys(state.ruleRejected).forEach((a) => { delete state.flaggedLedger[a]; });   // rejected under current rules -> out of the total
     merged.sort((a, b) => (Number(b.suspicion) || 0) - (Number(a.suspicion) || 0) || (Number(b.profitNum) || 0) - (Number(a.profitNum) || 0));
+    // ids must be unique in the published store (dossier lookup + React keys). A ring whose member
+    // set changed keeps its id but gets a new address-set key, so both copies survive the union —
+    // keep only the strongest (list is already sorted by suspicion).
+    const seenIds = new Set();
+    merged = merged.filter((s) => { if (seenIds.has(s.id)) return false; seenIds.add(s.id); return true; });
     const CAP = +ENV.STORE_SUBJECTS_CAP || 250;                         // bound store.json; the ledger still counts ALL wallets
     if (merged.length > CAP) merged = merged.slice(0, CAP);
     payload.subjects = merged;
@@ -1073,7 +1087,11 @@ async function finalize(state, snapshotTs) {
     // 3) EMIT into store.json (committed): promoted first, then watching, then cleared; newest first.
     const rank = { promoted: 3, watching: 2, cleared: 1 };
     payload.watchlist = Object.values(state.watchlist).sort((a, b) => (rank[b.status] - rank[a.status]) || ((b.ts || 0) - (a.ts || 0))).slice(0, 150);
-    payload.watchlistMeta = { total: payload.watchlist.length, watching: payload.watchlist.filter((e) => e.status === "watching").length, promoted: payload.watchlist.filter((e) => e.status === "promoted").length,
+    // TRUE all-time listing count. The board keeps only the top 150 rows, so its length PINS at 150
+    // once full — displaying that as "all-time" was a lie. Track every id ever listed instead.
+    state.wlSeen = state.wlSeen || {};
+    Object.keys(state.watchlist).forEach((id) => { state.wlSeen[id] = 1; });
+    payload.watchlistMeta = { total: payload.watchlist.length, allTime: Object.keys(state.wlSeen).length, watching: payload.watchlist.filter((e) => e.status === "watching").length, promoted: payload.watchlist.filter((e) => e.status === "promoted").length,
       // live funnel (surfaced so the watchlist's coverage is auditable from the DATA, not just run logs):
       // open in-scope markets polled → candidate BUYS ≥ floor → scored → newly listed this tick.
       marketsPolled: mktCount, candidates: candCount, scoredThisTick: scored, addedThisTick: added, scanAt: NOW_S };

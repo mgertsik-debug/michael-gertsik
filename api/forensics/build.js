@@ -412,7 +412,7 @@ function buildSubject(agg, idx, opts, catalog) {
   bets.forEach((b) => { const e = b.eventGroup || b.cond || b.question; _stakeByEvent[e] = (_stakeByEvent[e] || 0) + num(b.stakeUsd); });
   const _maxEventStake = Object.values(_stakeByEvent).reduce((m, s) => Math.max(m, s), 0);
   const _material = Math.max(_stakeTotal, _maxEventStake);
-  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
+  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 2500;
   const _floor = (f.tier === "extreme" || f.tier === "high") ? MATERIALITY_USD * 0.5 : MATERIALITY_USD;
   if (agg.type !== "cluster" && _material < _floor) return null;   // immaterial stake → not published
 
@@ -444,9 +444,11 @@ function buildSubject(agg, idx, opts, catalog) {
   // DELETES a statistically-improbable wallet — it just caps it at the WATCH tier (a confidence
   // input). Material profit is needed to reach the elevated/extreme tiers. Clusters are exempt
   // (members split the position). Configurable via TIER_CONF_USD; default $5,000.
-  const _tierConfUsd = +((opts && opts.tierConfUsd)) || +process.env.TIER_CONF_USD || 5000;
-  if (agg.type !== "cluster" && profitNum > 0 && profitNum < _tierConfUsd && (tier === "extreme" || tier === "elevated")) {
-    tier = "watch";
+  const _tierConfUsd = +((opts && opts.tierConfUsd)) || +process.env.TIER_CONF_USD || 10000;
+  const _extremeConfUsd = +((opts && opts.extremeConfUsd)) || +process.env.EXTREME_CONF_USD || 25000;
+  if (agg.type !== "cluster" && profitNum > 0) {
+    if (tier === "extreme" && profitNum < _extremeConfUsd) tier = "elevated";   // red demands serious money
+    if ((tier === "extreme" || tier === "elevated") && profitNum < _tierConfUsd) tier = "watch";
   }
   const category = dominantCategory(bets);
   const fired = f.fired.slice();
@@ -546,7 +548,7 @@ function buildSubject(agg, idx, opts, catalog) {
   // watch tier above), not deleted. We keep only a tiny materiality floor so dust isn't flagged;
   // validateSubject still requires NET-POSITIVE P/L (informed trading is profitable). Clusters are
   // exempt (a bundle splits the position; the ring is the unit). Configurable via MIN_PROFIT_USD.
-  const _minProfit = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 1000;
+  const _minProfit = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 2500;
   const _reason = validateSubject({ n, k, avgImplied, winRate, improbDenom, profitNum, bets, tier, won, conv, convOnly, isCluster, recordImprobable, minProfit: _minProfit, accountPL });
   if (_reason) {
     if (opts && Array.isArray(opts._rejects)) opts._rejects.push({ address: agg.address || ((agg.members || [])[0]) || null, id: agg.id || null, tier, reason: _reason });
@@ -681,7 +683,7 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
   const epOdds = Math.round(num(anchor.entryPrice) * 100);
   // MATERIALITY — real money on the flagged episode (stake or realized P/L). Same floor logic
   // as the binomial path: insider trading is about money, not odd records on trivial stakes.
-  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
+  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 2500;
   const _material = Math.max(epStake, Math.abs(epPL));
   if (_material < MATERIALITY_USD) return null;
   // NET-PROFITABILITY (the gate the OLD favorites path lacked — and why it flagged net-losing
@@ -712,9 +714,14 @@ function buildFavoriteSubject(agg, idx, opts, catalog) {
   // already required above, so every favorite flag carries the profit outlier AND on-chain structure.
   const z = pc.z;
   const sc2 = structural.length;
-  const ftier = (z >= 4 && sc2 >= 2) ? "extreme"
+  let ftier = (z >= 4 && sc2 >= 2) ? "extreme"
     : (z >= 3 || sc2 >= 2) ? "high"
     : "notable";
+  // The tier states confidence in THIS flagged episode, so it is capped by the episode's own
+  // realized profit — a $1.7K coin-flip bet is never "High" just because the peer sigma is big
+  // and the ACCOUNT is rich. (env: TIER_CONF_USD)
+  const _epTierConf = +((opts && opts.tierConfUsd)) || +process.env.TIER_CONF_USD || 10000;
+  if (!(num(epPL) >= _epTierConf) && ftier !== "notable") ftier = "notable";
   const tier = TIER[ftier];
   if (!tier) return null;
   const fired = ["profitCross"].concat(corro);
@@ -908,9 +915,9 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
   const _stakeTotal = valid.reduce((a, b) => a + num(b.stakeUsd), 0);
   const _byEvent = {}; valid.forEach((b) => { const e = b.eventGroup || b.cond || b.question; _byEvent[e] = (_byEvent[e] || 0) + num(b.stakeUsd); });
   const _material = Math.max(_stakeTotal, Object.values(_byEvent).reduce((m, x) => Math.max(m, x), 0));
-  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 1000;
+  const MATERIALITY_USD = +((opts && opts.materialityUsd)) || +process.env.MATERIALITY_USD || 2500;
   if (_material < MATERIALITY_USD) return null;               // immaterial stake → not published
-  const MIN_FLAGGED = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 1000;
+  const MIN_FLAGGED = +((opts && opts.minProfitUsd)) || +process.env.MIN_PROFIT_USD || 2500;
   if (!(netPL >= MIN_FLAGGED)) return null;                   // trivial flagged profit → dropped
   // TIER capped at elevated — the normal-tail approximation is conservative in the extreme, so a
   // mixed-odds record is never "extreme" on this path alone (matches fuse()'s crossCat cap).
@@ -974,7 +981,7 @@ function buildCrossCatSubject(agg, idx, opts, catalog) {
   const timeline = lead ? { market: qOf(lead), priceStart: num(lead.entryPrice), priceEnd: lead.won ? 0.95 : 0.05, entries: [num(lead.entryPrice)], resolution: lead.won ? 0.92 : 0.08, candidates: [] } : {};
   const heroSentence = "This account won " + cc.k + " of " + cc.n + " bets across markets the blended odds priced at about " + cc.meanImplied +
     " percent — roughly " + cc.expectedWins + " expected by luck (" + cc.z + " standard deviations above chance, about " + cc.improbText +
-    "). A near-perfect record across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.";
+    "). A persistent edge across diverse, moderate-odds markets is the cross-category signature the long-shot test cannot see. Consistent with informed trading — not proof of it.";
   return {
     id: "x" + (idx + 1), type: "wallet", address: agg.address || null, memberAddresses: [agg.address],
     idLabel: short(agg.address), username: agg.pseudonym || (_prof && _prof.username) || null,
@@ -1105,7 +1112,8 @@ function derive(all, scoredPop) {
     // NO "Extreme" tier: the tool flags patterns "consistent with informed trading, not proof of
     // it", so a red top tier overstated certainty. Two published tiers only — High (amber) and
     // Notable (slate); the strongest wallets sit at the top of High.
-    s.tier = s.suspicion >= 45 ? "elevated" : "watch";
+    const _upConf = +process.env.TIER_CONF_USD || 10000;   // High also demands material flagged profit
+    s.tier = (s.suspicion >= 45 && (Number(s.profitNum) || 0) >= _upConf) ? "elevated" : "watch";
     delete s._profitNum; delete s._profileVolume;
   });
   return all;
