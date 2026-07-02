@@ -1,6 +1,6 @@
 {
   "generatedAt": "Jul 02 2026",
-  "count": 9,
+  "count": 10,
   "rejected": [
     {
       "address": "0xd9a890ad8981c2e3d56bdf366e50e0f5c62f6e67",
@@ -49,6 +49,12 @@
       "id": null,
       "tier": "watch",
       "reason": "below net-profit floor (profit=$1542 < $2500)"
+    },
+    {
+      "address": "0x078523be4de2ddd9185125e4e62c09e5e54ea475",
+      "id": null,
+      "tier": "watch",
+      "reason": "account net-negative (all-time P/L=$-24)"
     },
     {
       "address": "0x141ef9052a46984e9d403100dc9c611d48388c87",
