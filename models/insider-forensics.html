@@ -95,7 +95,7 @@
       <div class="sub"><span class="dot"></span>LIVE FEED</div>
     </div>
   </div>
-  <div class="intro">Two complementary lenses on the same on-chain data. <b>Suspect Wallets</b> is the <i>proof</i> engine — accounts whose resolved record is too improbable to be chance. <b>Live Watchlist</b> is the <i>early-warning</i> engine — outsized trades on <i>open</i> markets, flagged the moment they're placed, that later harden into a forensic case or self-clear when the market resolves. Educational analysis, not legal advice; “consistent with informed trading” is not proof of it.</div>
+  <div class="intro">Two complementary lenses on the same on-chain data. <b>Suspect Wallets</b> is the <i>proof</i> engine — accounts whose resolved record is too improbable to be chance. <b>Live Watchlist</b> is the <i>early-warning</i> engine — outsized trades on <i>open</i> markets, flagged the moment they're placed, that either harden — a strong flag that won, whose wallet is now a published Suspect — or self-clear when the market resolves. Educational analysis, not legal advice; “consistent with informed trading” is not proof of it.</div>
 
   <div class="tabs">
     <div class="tab on" id="t-wallets" onclick="show('wallets')">SUSPECT WALLETS <span class="n" id="n-wallets"></span></div>
@@ -314,7 +314,7 @@
     var stats='<div style="display:grid;grid-template-columns:'+(window.innerWidth<900?'1fr 1fr':'1.2fr repeat(3,1fr)')+';gap:14px;margin-top:16px;">'
       + dialCard
       + wlStatCard('WATCHING NOW',watching,'open trades scored live','#34D399')
-      + wlStatCard('CONFIRMED CASES',promoted,'resolved → became a real case','#F87171',(promoted>0?'#F87171':'#ECEFED'))
+      + wlStatCard('HARDENED SIGNALS',promoted,'strong flag pre-resolution · won · wallet now a Suspect','#F87171',(promoted>0?'#F87171':'#ECEFED'))
       + wlStatCard('TOTAL FLAGGED',WL.length,'all-time · incl. self-cleared','#5EEAD4')
       + '</div>';
     // legend
