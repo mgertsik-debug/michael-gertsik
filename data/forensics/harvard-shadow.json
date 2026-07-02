@@ -16,10 +16,10 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 229606,
-  "reviewed": 229606,
+  "observed": 229851,
+  "reviewed": 229851,
   "screened": 6447,
-  "scored": 3893,
+  "scored": 3892,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1864,7 +1864,7 @@
         },
         {
           "market": "Will Fidesz–KDNP win the most seats in the next Hungarian parliamentary election?",
-          "url": "https://polymarket.com/event/hungary-parliamentary-election-winner",
+          "url": "https://polymarket.com/event/will-fideszkdnp-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
           "ts": 1774010277,
           "odds": 73,
           "stake": 37315,
@@ -1914,7 +1914,7 @@
         },
         {
           "market": "Will TISZA – Respect and Freedom Party (TISZA) win the most seats in the next Hungarian parliamentary election?",
-          "url": "https://polymarket.com/event/hungary-parliamentary-election-winner",
+          "url": "https://polymarket.com/event/will-tisza-respect-and-freedom-party-tisza-win-the-most-seats-in-the-next-hungarian-parliamentary-election",
           "ts": 1774451799,
           "odds": 73,
           "stake": 24611,
@@ -1964,7 +1964,7 @@
         },
         {
           "market": "Israel x Iran ceasefire broken by March 31, 2026?",
-          "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by",
+          "url": "https://polymarket.com/event/israel-x-iran-ceasefire-broken-by-march-31-2026-312-682",
           "ts": 1774915200,
           "odds": 50,
           "stake": 16185,
@@ -4879,7 +4879,7 @@
       "address": "0x5a218c7ad04135830a45c41aaed7294df7809318",
       "username": "balthazar",
       "tier": "notable",
-      "S": 624.2,
+      "S": 624.3,
       "market": "Will Alireza Arafi be the next Supreme Leader of Iran?",
       "marketUrl": "https://polymarket.com/event/who-will-be-next-supreme-leader-of-iran-515",
       "episodeTx": "0x0bd5f035016883f35fe7fc61c73e54282d9fc1d2d070becd6d8409ffeb50b655",
@@ -4888,7 +4888,7 @@
       "won": true,
       "episodeProfit": 1378,
       "zBetCross": 11.89,
-      "zBetWithin": 3.76,
+      "zBetWithin": 3.77,
       "zProfitCross": 7.57,
       "lateBuyFraction": 1,
       "directionalScore": 0.964,
@@ -4896,7 +4896,7 @@
       "firstSeen": "Jun 12 2026",
       "createdOnChain": true,
       "created": "Feb 07 2025",
-      "betsCount": 741,
+      "betsCount": 742,
       "ledger": [
         {
           "market": "Will José Williams win the 2026 Peruvian presidential election?",
