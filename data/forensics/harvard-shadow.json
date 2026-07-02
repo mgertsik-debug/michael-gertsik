@@ -14,12 +14,12 @@
   "minS": 530.1,
   "maxS": 1637.8,
   "over500": 47,
-  "alsoBinomial": 14,
-  "onlyHarvard": 33,
+  "alsoBinomial": 15,
+  "onlyHarvard": 32,
   "observed": 230425,
   "reviewed": 230425,
   "screened": 6448,
-  "scored": 3893,
+  "scored": 3895,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -6021,7 +6021,7 @@
           "tx": "0xb5f6cce9fd30e43b20bb75df1e87d0517227e82adb326d0fd2c63bb3fa738c82"
         }
       ],
-      "alsoBinomial": false
+      "alsoBinomial": true
     },
     {
       "address": "0x97ead83eb0e6b7f142e63284791882f05ddf3363",
