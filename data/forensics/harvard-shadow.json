@@ -7,7 +7,7 @@
     "high": 10,
     "notable": 30
   },
-  "medianS": 711.3,
+  "medianS": 711.4,
   "p90": 1190.1,
   "p95": 1379.8,
   "p99": 1637.8,
@@ -16,10 +16,10 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 228699,
-  "reviewed": 228699,
+  "observed": 228834,
+  "reviewed": 228834,
   "screened": 6447,
-  "scored": 3893,
+  "scored": 3890,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -2276,7 +2276,7 @@
         },
         {
           "market": "Will John Cornyn win the 2026 Texas Republican Primary?",
-          "url": "https://polymarket.com/event/texas-republican-senate-primary-winner",
+          "url": "https://polymarket.com/event/will-john-cornyn-win-the-2026-republican-primary",
           "ts": 1779753600,
           "odds": 84,
           "stake": 40434,
@@ -2286,7 +2286,7 @@
         },
         {
           "market": "US forces enter Iran by April 30?",
-          "url": "https://polymarket.com/event/us-forces-enter-iran-by",
+          "url": "https://polymarket.com/event/us-forces-enter-iran-by-april-30-899",
           "ts": 1777507200,
           "odds": 34,
           "stake": 34502,
@@ -3173,7 +3173,7 @@
       "address": "0x27abdfc9393c72a6330a3be987da4b46c726e521",
       "username": "pd.unique",
       "tier": "notable",
-      "S": 711.3,
+      "S": 711.4,
       "market": "Will \"Iceman\" - Drake debut week album sales be between 550k and 600k?",
       "marketUrl": "https://polymarket.com/event/drake-iceman-first-week-album-sales",
       "episodeTx": null,
@@ -3182,7 +3182,7 @@
       "won": true,
       "episodeProfit": 862,
       "zBetCross": 7.79,
-      "zBetWithin": 8.44,
+      "zBetWithin": 8.45,
       "zProfitCross": 11.25,
       "lateBuyFraction": 0.022,
       "directionalScore": 1,
@@ -3190,7 +3190,7 @@
       "firstSeen": "Apr 03 2026",
       "createdOnChain": true,
       "created": "Apr 03 2026",
-      "betsCount": 1027,
+      "betsCount": 1029,
       "ledger": [
         {
           "market": "Will \"Iceman\" - Drake debut week album sales be less than 300k?",
