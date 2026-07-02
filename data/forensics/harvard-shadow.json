@@ -16,8 +16,8 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 233938,
-  "reviewed": 233938,
+  "observed": 234017,
+  "reviewed": 234017,
   "screened": 6450,
   "scored": 3894,
   "top": [
@@ -1399,8 +1399,8 @@
           "url": "https://polymarket.com/event/netherlands-parliamentary-election",
           "ts": 1760995331,
           "odds": 96,
-          "stake": 42658,
-          "pl": 1533,
+          "stake": 42660,
+          "pl": 1534,
           "won": true,
           "tx": "0xf370e66d44a951e83b4d19fcb3a05c8bfadc14bf2f43a5cefeff3a3e7b79ee2f"
         },
@@ -1449,8 +1449,8 @@
           "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
           "ts": 1749218652,
           "odds": 90,
-          "stake": 19718,
-          "pl": 1351,
+          "stake": 19803,
+          "pl": 1366,
           "won": true,
           "tx": "0x242a2f7f211b7d58a25e8675b3e5257301f41d56015b99da23ae0b2e70d1a07d"
         },
@@ -3834,6 +3834,172 @@
       "alsoBinomial": false
     },
     {
+      "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
+      "username": "wokerjoesleeper",
+      "tier": "notable",
+      "S": 673.7,
+      "market": "Will the Democrats 66 win the second most seats in the 2025 Netherlands parliamentary election?",
+      "marketUrl": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+      "episodeTx": "0x330013c06afe9b29d9f29a8369faa77a9d746a8178b79514c12d0b57ccc77c6a",
+      "stake": 34398,
+      "odds": 87,
+      "won": true,
+      "episodeProfit": 4862,
+      "zBetCross": 12.07,
+      "zBetWithin": 2.33,
+      "zProfitCross": 10.34,
+      "lateBuyFraction": 0.365,
+      "directionalScore": 0.983,
+      "accountPnl": 919451,
+      "firstSeen": "Oct 13 2024",
+      "createdOnChain": true,
+      "created": "Oct 13 2024",
+      "betsCount": 1438,
+      "ledger": [
+        {
+          "market": "Will the Iranian regime fall by June 30?",
+          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-june-30",
+          "ts": 1774997901,
+          "odds": 93,
+          "stake": 437431,
+          "pl": 34824,
+          "won": true,
+          "tx": "0x7dcaeb1c71252bea13cabcdddfa25902ede7bdc43dbb49469158f4cb50a06893"
+        },
+        {
+          "market": "Will Trump nominate Michelle Bowman as the next Fed chair?",
+          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
+          "ts": 1771632898,
+          "odds": 100,
+          "stake": 158747,
+          "pl": -68,
+          "won": false,
+          "tx": "0x7a7f2dac746fb6e55fb5062da5b04e86062b981c6419f2ae0f799ad5cf60792b"
+        },
+        {
+          "market": "Will the Iranian regime fall by April 30?",
+          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-april-30",
+          "ts": 1774602731,
+          "odds": 94,
+          "stake": 129501,
+          "pl": 8573,
+          "won": true,
+          "tx": "0xe57278bf7b7a60a1a3dcbc6ed631280a763f7848eed94aa867174dd5858a750a"
+        },
+        {
+          "market": "Will there be no change in Fed interest rates after the April 2026 meeting?",
+          "url": "https://polymarket.com/event/will-there-be-no-change-in-fed-interest-rates-after-the-april-2026-meeting",
+          "ts": 1774515389,
+          "odds": 97,
+          "stake": 104209,
+          "pl": 3361,
+          "won": true,
+          "tx": "0xc9a6bb34cb170540d7451e7131732de099f750e47c6536561bbc0cb1129773bb"
+        },
+        {
+          "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761010742,
+          "odds": 99,
+          "stake": 100513,
+          "pl": 986,
+          "won": true,
+          "tx": null
+        },
+        {
+          "market": "US x Iran permanent peace deal by June 15, 2026?",
+          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
+          "ts": 1781599200,
+          "odds": 98,
+          "stake": 58950,
+          "pl": 1050,
+          "won": true,
+          "tx": "0x92efa2d370a4bee927406f033e1355c8fd02a7db37922c3f55f2e5b76e9434e6"
+        },
+        {
+          "market": "Will there be no change in Fed interest rates after the June 2026 meeting?",
+          "url": "https://polymarket.com/event/will-there-be-no-change-in-fed-interest-rates-after-the-june-2026-meeting",
+          "ts": 1778286816,
+          "odds": 97,
+          "stake": 56873,
+          "pl": 1529,
+          "won": true,
+          "tx": "0x3c3c6e599d1ec215c9561a3ce271502d4775f51917dfea2568c8ae15328f5da1"
+        },
+        {
+          "market": "Will Forum for Democracy win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1755367000,
+          "odds": 100,
+          "stake": 54199,
+          "pl": 61,
+          "won": true,
+          "tx": "0x1b932786097bf9599033d0a3fc25958604da320039a18d423a4484737397cac9"
+        },
+        {
+          "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+          "ts": 1749216336,
+          "odds": 96,
+          "stake": 42815,
+          "pl": 1860,
+          "won": true,
+          "tx": "0xbffaaa45b811083c4c92a878da6e851c8d539ec298226b04f58622ed78292851"
+        },
+        {
+          "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1758140470,
+          "odds": 90,
+          "stake": 39749,
+          "pl": 4564,
+          "won": true,
+          "tx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872"
+        },
+        {
+          "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1753417134,
+          "odds": 100,
+          "stake": 35437,
+          "pl": 37,
+          "won": true,
+          "tx": "0xbd09570087449517a2ec5e8abee1654a476047c068401bacaabd316ce4dcdbb9"
+        },
+        {
+          "market": "Will the Democrats 66 win the second most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
+          "ts": 1749218638,
+          "odds": 87,
+          "stake": 34398,
+          "pl": 4862,
+          "won": true,
+          "tx": "0x330013c06afe9b29d9f29a8369faa77a9d746a8178b79514c12d0b57ccc77c6a"
+        },
+        {
+          "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1761800103,
+          "odds": 96,
+          "stake": 34189,
+          "pl": 1349,
+          "won": true,
+          "tx": "0xa60190c49d4cb580a5975ea93f5b6049caa07b90b974f14a1b756e63d41ccd0e"
+        },
+        {
+          "market": "Will the Farmer–Citizen Movement win the most seats in the 2025 Netherlands parliamentary election?",
+          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
+          "ts": 1755846792,
+          "odds": 100,
+          "stake": 33774,
+          "pl": 53,
+          "won": true,
+          "tx": "0x55778dcdd4ad71dc3ba273bda0ce12326c83d70148ce075899e9ace48c54b491"
+        }
+      ],
+      "alsoBinomial": false
+    },
+    {
       "address": "0x090a0d3fc9d68d3e16db70e3460e3e4b510801b4",
       "username": "slight-",
       "tier": "notable",
@@ -5203,172 +5369,6 @@
           "pl": -2395,
           "won": true,
           "tx": "0x5f6234ebc0c48c8099039b540e5222748cc45fc43481df5817c682a517b131e1"
-        }
-      ],
-      "alsoBinomial": false
-    },
-    {
-      "address": "0x63d43bbb87f85af03b8f2f9e2fad7b54334fa2f1",
-      "username": "wokerjoesleeper",
-      "tier": "notable",
-      "S": 580.9,
-      "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
-      "marketUrl": "https://polymarket.com/event/netherlands-parliamentary-election",
-      "episodeTx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872",
-      "stake": 39749,
-      "odds": 90,
-      "won": true,
-      "episodeProfit": 4564,
-      "zBetCross": 10.72,
-      "zBetWithin": 2.71,
-      "zProfitCross": 8.29,
-      "lateBuyFraction": 0,
-      "directionalScore": 1,
-      "accountPnl": 919451,
-      "firstSeen": "Oct 13 2024",
-      "createdOnChain": true,
-      "created": "Oct 13 2024",
-      "betsCount": 1438,
-      "ledger": [
-        {
-          "market": "Will the Iranian regime fall by June 30?",
-          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-june-30",
-          "ts": 1774997901,
-          "odds": 93,
-          "stake": 437431,
-          "pl": 34824,
-          "won": true,
-          "tx": "0x7dcaeb1c71252bea13cabcdddfa25902ede7bdc43dbb49469158f4cb50a06893"
-        },
-        {
-          "market": "Will Trump nominate Michelle Bowman as the next Fed chair?",
-          "url": "https://polymarket.com/event/who-will-trump-nominate-as-fed-chair",
-          "ts": 1771632898,
-          "odds": 100,
-          "stake": 158747,
-          "pl": -68,
-          "won": false,
-          "tx": "0x7a7f2dac746fb6e55fb5062da5b04e86062b981c6419f2ae0f799ad5cf60792b"
-        },
-        {
-          "market": "Will the Iranian regime fall by April 30?",
-          "url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-april-30",
-          "ts": 1774602731,
-          "odds": 94,
-          "stake": 129501,
-          "pl": 8573,
-          "won": true,
-          "tx": "0xe57278bf7b7a60a1a3dcbc6ed631280a763f7848eed94aa867174dd5858a750a"
-        },
-        {
-          "market": "Will there be no change in Fed interest rates after the April 2026 meeting?",
-          "url": "https://polymarket.com/event/will-there-be-no-change-in-fed-interest-rates-after-the-april-2026-meeting",
-          "ts": 1774515389,
-          "odds": 97,
-          "stake": 104209,
-          "pl": 3361,
-          "won": true,
-          "tx": "0xc9a6bb34cb170540d7451e7131732de099f750e47c6536561bbc0cb1129773bb"
-        },
-        {
-          "market": "Will People's Party for Freedom and Democracy win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1761010742,
-          "odds": 99,
-          "stake": 100513,
-          "pl": 986,
-          "won": true,
-          "tx": null
-        },
-        {
-          "market": "US x Iran permanent peace deal by June 15, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-permanent-peace-deal-by",
-          "ts": 1781599200,
-          "odds": 98,
-          "stake": 58950,
-          "pl": 1050,
-          "won": true,
-          "tx": "0x92efa2d370a4bee927406f033e1355c8fd02a7db37922c3f55f2e5b76e9434e6"
-        },
-        {
-          "market": "Will there be no change in Fed interest rates after the June 2026 meeting?",
-          "url": "https://polymarket.com/event/will-there-be-no-change-in-fed-interest-rates-after-the-june-2026-meeting",
-          "ts": 1778286816,
-          "odds": 97,
-          "stake": 56873,
-          "pl": 1529,
-          "won": true,
-          "tx": "0x3c3c6e599d1ec215c9561a3ce271502d4775f51917dfea2568c8ae15328f5da1"
-        },
-        {
-          "market": "Will Forum for Democracy win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1755367000,
-          "odds": 100,
-          "stake": 54199,
-          "pl": 61,
-          "won": true,
-          "tx": "0x1b932786097bf9599033d0a3fc25958604da320039a18d423a4484737397cac9"
-        },
-        {
-          "market": "Will the People's Party for Freedom and Democracy win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1749216336,
-          "odds": 96,
-          "stake": 42815,
-          "pl": 1860,
-          "won": true,
-          "tx": "0xbffaaa45b811083c4c92a878da6e851c8d539ec298226b04f58622ed78292851"
-        },
-        {
-          "market": "Will GreenLeft–Labour win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1758140470,
-          "odds": 90,
-          "stake": 39749,
-          "pl": 4564,
-          "won": true,
-          "tx": "0x146a14866b39d76c8e6c2936598c3541107612bad494895345c2606c0306c872"
-        },
-        {
-          "market": "Will the Socialist Party win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1753417134,
-          "odds": 100,
-          "stake": 35437,
-          "pl": 37,
-          "won": true,
-          "tx": "0xbd09570087449517a2ec5e8abee1654a476047c068401bacaabd316ce4dcdbb9"
-        },
-        {
-          "market": "Will the Democrats 66 win the second most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/which-party-wins-2nd-most-seats-in-netherlands-election",
-          "ts": 1749218638,
-          "odds": 87,
-          "stake": 34392,
-          "pl": -31,
-          "won": false,
-          "tx": "0x330013c06afe9b29d9f29a8369faa77a9d746a8178b79514c12d0b57ccc77c6a"
-        },
-        {
-          "market": "Will the Party for Freedom win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1761800103,
-          "odds": 96,
-          "stake": 34189,
-          "pl": 1349,
-          "won": true,
-          "tx": "0xa60190c49d4cb580a5975ea93f5b6049caa07b90b974f14a1b756e63d41ccd0e"
-        },
-        {
-          "market": "Will the Farmer–Citizen Movement win the most seats in the 2025 Netherlands parliamentary election?",
-          "url": "https://polymarket.com/event/netherlands-parliamentary-election",
-          "ts": 1755846792,
-          "odds": 100,
-          "stake": 33774,
-          "pl": 53,
-          "won": true,
-          "tx": "0x55778dcdd4ad71dc3ba273bda0ce12326c83d70148ce075899e9ace48c54b491"
         }
       ],
       "alsoBinomial": false
