@@ -671,13 +671,19 @@ async function finalize(state, snapshotTs) {
   //       each run means even an Actions-cache reset can't shrink the cumulative total.
   (function cumulate() {
     state.flaggedLedger = state.flaggedLedger || {};
-    const addrsOf = (s) => (s.memberAddresses && s.memberAddresses.length ? s.memberAddresses : [s.address])
+    const addrsOf = (s) => ((s.memberAddresses && s.memberAddresses.length ? s.memberAddresses : s.addresses && s.addresses.length ? s.addresses : [s.address]) || [])
       .map((a) => String(a || "").toLowerCase()).filter(Boolean);
     const ledgerAdd = (s) => {
       const a = addrsOf(s); if (!a.length) return;
       const per = (Number(s.profitNum) || 0) / a.length;               // split a ring's pooled P/L across members
       a.forEach((k) => { state.flaggedLedger[k] = Math.max(state.flaggedLedger[k] || 0, per); });
     };
+    // HISTORICAL BACKFILL (git-mined, post-profit-fix era ONLY): every wallet published on the site
+    // during the window before this ledger existed, so it can never leave the cumulative total even
+    // though its dossier already rotated off. Ledger-only (no fabricated cards) + idempotent via max().
+    // Pre-fix-era estimates are deliberately excluded (known-inflated); genuinely suspicious older
+    // wallets re-enter through the perpetual rolling sweep under current rules.
+    try { ((read(path.join(DIR, "backfill-ledger.json"), {}) || {}).records || []).forEach(ledgerAdd); } catch (_) {}
     // union previously-published dossiers with this tick's, keyed by id, keeping the higher-profit copy
     const byId = new Map();
     ((read(STORE, {}) || {}).subjects || []).forEach((s) => byId.set(s.id, s));
