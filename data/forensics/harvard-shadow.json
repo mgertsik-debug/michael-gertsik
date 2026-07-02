@@ -16,10 +16,10 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 236388,
-  "reviewed": 236388,
+  "observed": 236587,
+  "reviewed": 236587,
   "screened": 6452,
-  "scored": 3896,
+  "scored": 3900,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -840,7 +840,7 @@
       "zProfitCross": 19.53,
       "lateBuyFraction": 0,
       "directionalScore": 1,
-      "accountPnl": 176629,
+      "accountPnl": 175692,
       "firstSeen": "Apr 10 2026",
       "createdOnChain": true,
       "created": "Apr 13 2024",
@@ -858,7 +858,7 @@
         },
         {
           "market": "Will Mikie Sherrill win the New Jersey Governor Election in 2025",
-          "url": "https://polymarket.com/event/will-mikie-sherrill-win-the-new-jersey-governor-election-in-2025",
+          "url": "https://polymarket.com/event/new-jersey-governor-election-winner-2025",
           "ts": 1762214400,
           "odds": 19,
           "stake": 10648,
@@ -868,7 +868,7 @@
         },
         {
           "market": "US x Venezuela military engagement by January 31, 2026?",
-          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by-january-31-2026-977",
+          "url": "https://polymarket.com/event/us-x-venezuela-military-engagement-by",
           "ts": 1769817600,
           "odds": 83,
           "stake": 10006,
@@ -888,7 +888,7 @@
         },
         {
           "market": "Will Spencer Pratt win the 2026 Los Angeles mayoral election?",
-          "url": "https://polymarket.com/event/will-spencer-pratt-win-the-2026-los-angeles-mayoral-election-983",
+          "url": "https://polymarket.com/event/los-angeles-mayoral-election-117",
           "ts": 1780358400,
           "odds": 14,
           "stake": 4217,
@@ -898,7 +898,7 @@
         },
         {
           "market": "Fed decreases interest rates by 25 bps after July 2025 meeting?",
-          "url": "https://polymarket.com/event/fed-decreases-interest-rates-by-25-bps-after-july-2025-meeting",
+          "url": "https://polymarket.com/event/fed-decision-in-july",
           "ts": 1753833600,
           "odds": 11,
           "stake": 3281,
@@ -908,7 +908,7 @@
         },
         {
           "market": "Will monthly inflation increase by 0.4% or more in June?",
-          "url": "https://polymarket.com/event/will-monthly-inflation-increase-by-0pt4-or-more-in-june",
+          "url": "https://polymarket.com/event/june-inflation-monthly",
           "ts": 1752537600,
           "odds": 12,
           "stake": 2142,
@@ -928,7 +928,7 @@
         },
         {
           "market": "Will US GDP growth in Q3 2025 be between 3.0% and 3.5%?",
-          "url": "https://polymarket.com/event/will-us-gdp-growth-in-q2-2025-be-between-3pt0-and-3pt5-533",
+          "url": "https://polymarket.com/event/us-gdp-growth-in-q3-2025",
           "ts": 1761782400,
           "odds": 14,
           "stake": 2139,
@@ -938,7 +938,7 @@
         },
         {
           "market": "No change in Fed interest rates after September 2025 meeting?",
-          "url": "https://polymarket.com/event/no-change-in-fed-interest-rates-after-september-2025-meeting",
+          "url": "https://polymarket.com/event/fed-decision-in-september",
           "ts": 1758067200,
           "odds": 7,
           "stake": 2126,
@@ -948,7 +948,7 @@
         },
         {
           "market": "Will US GDP growth in Q3 2025 be between 2.5% and 3.0%?",
-          "url": "https://polymarket.com/event/will-us-gdp-growth-in-q2-2025-be-between-2pt5-and-3pt0-847",
+          "url": "https://polymarket.com/event/us-gdp-growth-in-q3-2025",
           "ts": 1761782400,
           "odds": 16,
           "stake": 2093,
@@ -958,7 +958,7 @@
         },
         {
           "market": "Will People’s Party (PPLE) win the most seats in the 2026 Thai legislative election?",
-          "url": "https://polymarket.com/event/will-peoples-party-pple-win-the-most-seats-in-the-2026-thai-legislative-election",
+          "url": "https://polymarket.com/event/thai-legislative-election-winner",
           "ts": 1770508800,
           "odds": 67,
           "stake": 1963,
@@ -968,7 +968,7 @@
         },
         {
           "market": "Will xAI have the best AI model at the end of January 2026?",
-          "url": "https://polymarket.com/event/will-xai-have-the-best-ai-model-at-the-end-of-january-2026",
+          "url": "https://polymarket.com/event/which-company-has-the-best-ai-model-end-of-january",
           "ts": 1769817600,
           "odds": 5,
           "stake": 1887,
@@ -977,8 +977,8 @@
           "tx": null
         },
         {
-          "market": "0xe2c486555a303e0a31c161a0d59955b937455c14db0fc7bdd424d163379d9300",
-          "url": null,
+          "market": "Will annual inflation increase by 3.0% or more in August?",
+          "url": "https://polymarket.com/event/august-inflation-annual",
           "ts": 1757548800,
           "odds": 15,
           "stake": 1793,
@@ -2334,8 +2334,8 @@
       "zProfitCross": 15.12,
       "lateBuyFraction": 1,
       "directionalScore": 0.923,
-      "accountPnl": 832775,
-      "firstSeen": "Nov 13 2025",
+      "accountPnl": 832977,
+      "firstSeen": "Mar 23 2025",
       "createdOnChain": true,
       "created": "Mar 12 2025",
       "betsCount": 87,
@@ -2402,7 +2402,7 @@
         },
         {
           "market": "Will the Iran ceasefire continue through May 26?",
-          "url": "https://polymarket.com/event/will-the-iran-ceasefire-continue-through-may-26",
+          "url": "https://polymarket.com/event/iran-ceasefire-continues-through",
           "ts": 1779753600,
           "odds": 86,
           "stake": 32520,
