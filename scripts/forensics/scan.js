@@ -969,28 +969,38 @@ async function finalize(state, snapshotTs) {
       // category stored). Re-classifying the market's own question every tick (category() returns
       // null for publicly-decided markets) drops these immediately instead of letting them linger.
       if (e.status === "watching" && !poly.category([], e.market || e.question || "")) { delete state.watchlist[id]; continue; }
-      // MIGRATION: drop still-watching entries scored by the OLD model (no scoreVersion / a different
-      // signal set + 0–17 scale). They'd render with stale fields next to the new 0–142 rows; let them
-      // repopulate cleanly under the new directional model. Resolved (promoted/cleared) rows are history → kept.
-      if (e.status === "watching" && e.scoreVersion !== 3) { delete state.watchlist[id]; continue; }   // v3 = continuous entry-price conviction curve
+      // RE-SCORE to the CURRENT model, every row, every tick. The old code dropped still-watching v2
+      // rows and FROZE resolved v2 rows as stale history, so the board stayed dominated by whatever
+      // version each row was first scored under (last seen: 137 of 150 rows still on the old scale, so
+      // the new metrics were effectively invisible). rescoreWatchRow is deterministic + network-free (it
+      // reuses the stats already stored on the row), so re-applying it here makes the WHOLE board reflect
+      // the live metrics — the entry-price conviction curve, the outsized-dollar floor, and the
+      // near-certain veto reach every listing, not just new ones.
+      if (e.status === "watching") e.walletFlagged = flaggedLc.has(String(e.wallet).toLowerCase());   // keep the suspect-bridge current for LIVE rows
+      const rs = D.rescoreWatchRow(e);
+      e.score = rs.score; e.signals = rs.fired; e.scoreVersion = 3;
       const c = cat[e.cond];
-      // RETRO-DEMOTE: rows promoted under older criteria (no score floor / old scoring model) don't
-      // meet the current bar for "hardened" — an early flag only hardens if it was a STRONG signal at
-      // placement. Keep them as resolved history, just without the red badge.
+      // A hardened flag must have been a STRONG live signal at placement; re-score can demote a row that
+      // no longer clears that bar under the current metrics. Keep it as resolved history, no red badge.
       const PROMOTE_MIN = +ENV.WATCH_PROMOTE_MIN || 65;   // ≈ the amber line (45% of WATCH_MAX 147)
-      if (e.status === "promoted" && (e.scoreVersion !== 3 || (Number(e.score) || 0) < PROMOTE_MIN)) e.status = "cleared";
+      if (e.status === "promoted" && (Number(e.score) || 0) < PROMOTE_MIN) e.status = "cleared";
       if (e.status === "watching" && c && c.w != null) {
         const won = String(c.w).toUpperCase() === String(e.outcome).toUpperCase();
         const flagged = flaggedLc.has(String(e.wallet).toLowerCase());
-        // HARDENED requires all three: the entry was a STRONG live signal when placed (score floor),
-        // the market resolved in its favor, AND the wallet independently ended up flagged on the
-        // Suspect Wallets tracker. A won-but-weak entry (e.g. a near-certain favorite) just clears —
-        // a 97¢ bet winning confirms nothing.
-        const strong = e.scoreVersion === 3 && (Number(e.score) || 0) >= PROMOTE_MIN;
+        // HARDENED requires all three: a STRONG live signal at placement (score floor), the market
+        // resolved in its favor, AND the wallet independently ended up flagged on Suspect Wallets. A
+        // won-but-weak entry (e.g. a near-certain favorite) just clears — a 97¢ bet winning confirms nothing.
+        const strong = (Number(e.score) || 0) >= PROMOTE_MIN;
         e.status = (won && flagged && strong) ? "promoted" : "cleared";
         e.won = won; e.walletFlagged = flagged; e.resolvedTs = NOW_S;
         if (e.status === "promoted") promoted++; else cleared++;
       }
+      // PRUNE under the live metrics: a row that no longer clears the SAME bar that gates entry
+      // (WATCH_SCORE) isn't a flag anymore — drop it so the board reflects the current model instead of
+      // padding the count with rows the new metrics would never have listed. Hardened (promoted) rows are
+      // kept as permanent case history regardless of their live score.
+      const WATCH_KEEP = +ENV.WATCH_SCORE || 25;
+      if (e.status !== "promoted" && (Number(e.score) || 0) < WATCH_KEEP) { delete state.watchlist[id]; continue; }
       if ((e.resolvedTs && NOW_S - e.resolvedTs > 7 * 86400) || (NOW_S - (e.ts || NOW_S) > 30 * 86400)) delete state.watchlist[id];
     }
     // 2) ADD new candidates — MARKET-DRIVEN. The live diagnostic proved the global recent-trades feed

@@ -301,6 +301,7 @@
     var st=wlState;
     var watching=WL.filter(function(e){return e.status==='watching';}).length;
     var promoted=WL.filter(function(e){return e.status==='promoted';}).length;
+    var cleared=WL.filter(function(e){return e.status==='cleared';}).length;
     // stat cards + peak gauge
     var peak=WL.reduce(function(m,e){return (m&&wlScoreOf(m)>=wlScoreOf(e))?m:e;}, WL[0]||null);
     var peakScore=peak?wlScoreOf(peak):0;
@@ -315,7 +316,7 @@
       + dialCard
       + wlStatCard('WATCHING NOW',watching,'open trades scored live','#34D399')
       + wlStatCard('HARDENED SIGNALS',promoted,'strong flag pre-resolution · won · wallet now a Suspect','#F87171',(promoted>0?'#F87171':'#ECEFED'))
-      + wlStatCard('TOTAL FLAGGED',(WMETA&&WMETA.allTime)||WL.length,'all-time listings · board keeps the latest 150','#5EEAD4')
+      + wlStatCard('SELF-CLEARED',cleared,'resolved — no case · the early warning didn\'t pan out','#5EEAD4')
       + '</div>';
     // legend
     var legend='<div style="margin-top:16px;"><button onclick="wlLegend()" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#090D0C;border:1px solid #1F2A25;border-radius:12px;padding:13px 16px;cursor:pointer;">'
