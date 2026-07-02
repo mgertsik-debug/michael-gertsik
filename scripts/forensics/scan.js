@@ -971,10 +971,20 @@ async function finalize(state, snapshotTs) {
       // repopulate cleanly under the new directional model. Resolved (promoted/cleared) rows are history → kept.
       if (e.status === "watching" && e.scoreVersion !== 3) { delete state.watchlist[id]; continue; }   // v3 = continuous entry-price conviction curve
       const c = cat[e.cond];
+      // RETRO-DEMOTE: rows promoted under older criteria (no score floor / old scoring model) don't
+      // meet the current bar for "hardened" — an early flag only hardens if it was a STRONG signal at
+      // placement. Keep them as resolved history, just without the red badge.
+      const PROMOTE_MIN = +ENV.WATCH_PROMOTE_MIN || 65;   // ≈ the amber line (45% of WATCH_MAX 147)
+      if (e.status === "promoted" && (e.scoreVersion !== 3 || (Number(e.score) || 0) < PROMOTE_MIN)) e.status = "cleared";
       if (e.status === "watching" && c && c.w != null) {
         const won = String(c.w).toUpperCase() === String(e.outcome).toUpperCase();
         const flagged = flaggedLc.has(String(e.wallet).toLowerCase());
-        e.status = (won && flagged) ? "promoted" : "cleared";
+        // HARDENED requires all three: the entry was a STRONG live signal when placed (score floor),
+        // the market resolved in its favor, AND the wallet independently ended up flagged on the
+        // Suspect Wallets tracker. A won-but-weak entry (e.g. a near-certain favorite) just clears —
+        // a 97¢ bet winning confirms nothing.
+        const strong = e.scoreVersion === 3 && (Number(e.score) || 0) >= PROMOTE_MIN;
+        e.status = (won && flagged && strong) ? "promoted" : "cleared";
         e.won = won; e.walletFlagged = flagged; e.resolvedTs = NOW_S;
         if (e.status === "promoted") promoted++; else cleared++;
       }
