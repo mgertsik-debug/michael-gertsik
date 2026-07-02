@@ -14,6 +14,10 @@
 const ARTICLES = {
 
   // ── INSIGHTS ──
+  'cftc-2026-proposed-rule-prediction-markets': {
+    title: "From Categorical Bans to Case-by-Case Review: The CFTC's 2026 Proposed Rule on Prediction Markets",
+    description: "The CFTC's proposed rewrite of Rule 40.11 would end categorical prohibitions on event contracts, define \"gaming\" for the first time, codify the Kalshi court's reading of \"involve,\" and build a procedural framework around public interest review. A close read of the full proposal, and what it signals about where enforcement is heading.",
+  },
   'cftc-mlb-prediction-markets-2026': {
     title: 'CFTC-MLB Agreement Signals Next Step in Prediction Market Oversight',
     description: "The CFTC's first formal agreement with a professional sports league establishes a framework for cooperation on sports-related prediction markets.",
