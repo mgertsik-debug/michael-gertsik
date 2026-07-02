@@ -770,6 +770,12 @@ const WATCH_W = { outsized: 20, blackout: 35, repeat: 30, fresh: 15, anticipated
 // ~0 for a fair favorite, strongly − for a near-certainty with no possible profit. Replaces the old
 // binary long-shot(+25). Zero-crossing at a fair favorite (85¢) so a 70¢ underdog still scores mildly +.
 const CONV_MAX = 35, CONV_MIN = -25, CONV_NEUTRAL = 0.85;
+// NEAR-CERTAIN VETO. An entry ≥95¢ has ≤~5% max return and is a bet WITH near-certain consensus — the
+// antithesis of the informed cheap-long-shot signature. No dollar size / news blackout / repeat-suspect
+// status makes betting the OBVIOUS side an informed edge, so a near-certain entry is capped below the
+// watch bar regardless of what else fired. (93% of a recent board was ≥99¢ consensus bets scored high
+// on incidental signals — this is what stops that.)
+const CONV_CAP_PRICE = 0.95, CONV_CAP_SCORE = 15;
 function priceConviction(p) {
   if (!isNum(p) || p <= 0) return { pts: 0, tier: null };
   const q = p > 1 ? 1 : p;   // a 100¢ entry (zero possible profit) = max discount, never skipped
@@ -781,6 +787,38 @@ function priceConviction(p) {
            tier: q >= 0.92 ? "nearCertain" : "nearConsensus" };
 }
 const WATCH_MAX = 147;   // outsized20 + conviction35 + blackout35 + repeat30 + fresh15 + anticipated12; publicInfo(−20) & near-certain conviction are exculpatory reducers
+// Combine the resolved signals into a score + fired list. The SINGLE place the weights are applied, so
+// live scoring (watchlistScore, from a peer sample) and deterministic re-scoring of a stored row
+// (rescoreWatchRow, from persisted stats) can never drift onto different math.
+function combineWatch(sig) {
+  const fired = []; let score = 0;
+  if (sig.outsized) { fired.push("outsized"); score += WATCH_W.outsized; }
+  if (sig.convictionTier) { fired.push(sig.convictionTier); score += sig.convictionPts; }
+  if (sig.repeat) { fired.push("repeat"); score += WATCH_W.repeat; }
+  if (sig.fresh) { fired.push("fresh"); score += WATCH_W.fresh; }
+  if (sig.blackout) { fired.push("blackout"); score += WATCH_W.blackout; }
+  if (sig.anticipated) { fired.push("anticipated"); score += WATCH_W.anticipated; }
+  if (sig.publicInfo) { fired.push("publicInfo"); score += WATCH_W.publicInfo; }
+  if (score < 0) score = 0;   // exculpatory reducers (publicInfo / near-certain conviction) can't push below zero
+  // NEAR-CERTAIN VETO: a bet on the near-certain side (≥95¢) can't be an informed edge — cap it below the
+  // watch bar so incidental blackout/repeat/outsized signals can't flag someone for betting the obvious side.
+  const q = isNum(sig.entryPrice) ? (sig.entryPrice > 1 ? 1 : sig.entryPrice) : 0;
+  if (q >= CONV_CAP_PRICE && score > CONV_CAP_SCORE) score = CONV_CAP_SCORE;
+  return { score, fired };
+}
+// OUTSIZED needs an absolute-dollar FLOOR on the share/peer paths: a $1.5k bet that happens to be a big
+// slice of a THIN market is not a whale, and badging it "outsized trade" (and adding +20) was inflating
+// every small-market row. Only a large ABSOLUTE bet (bigAbs, ≥$25k) bypasses the floor. `volShareFrac`
+// is a fraction (0–1); z/whaleX/nPeers are the peer-sample diagnostics.
+function isOutsized(sizeUsd, volShareFrac, z, whaleX, nPeers, o) {
+  const bigAbs = sizeUsd >= (isNum(o.watchBigUsd) ? o.watchBigUsd : 25000);
+  const floor = isNum(o.watchOutsizedMinUsd) ? o.watchOutsizedMinUsd : 5000;
+  const volThresh = isNum(o.watchVolShare) ? o.watchVolShare : 0.08;
+  const minPeers = isNum(o.watchMinPeers) ? o.watchMinPeers : 6;
+  const outsizedVol = volShareFrac >= volThresh && sizeUsd >= floor;
+  const outsizedPeers = nPeers >= minPeers && (z >= 3 || whaleX >= 10) && sizeUsd >= floor;
+  return bigAbs || outsizedVol || outsizedPeers;
+}
 function watchlistScore(x, opts) {
   const o = Object.assign({}, DEFAULTS, opts);
   x = x || {};
@@ -808,36 +846,47 @@ function watchlistScore(x, opts) {
   // $5M/24h market, so 8% never triggered, exactly where insiders trade): (a) a large ABSOLUTE bet, (b)
   // a large SHARE of 24h volume (thin markets), or (c) a peer z/whaleX outlier (when the feed carries
   // ≥minPeers peers). Magnitude is still ONE signal, scored once.
-  const bigAbs = x.sizeUsd >= (isNum(o.watchBigUsd) ? o.watchBigUsd : 25000);
-  const outsizedVol = volShare >= volThresh;
-  const outsizedPeers = enoughPeers && (z >= 3 || whaleX >= 10);
-  const fired = []; let score = 0;
-  if (bigAbs || outsizedVol || outsizedPeers) { fired.push("outsized"); score += WATCH_W.outsized; }
-  // ENTRY-PRICE CONVICTION (continuous). For a MATERIAL bet, grade how cheap they got in on the side
-  // that won: the market's implied improbability of their outcome IS the edge. A cheap long-shot is the
-  // core informed tell (up to +35); a near-certain entry with no possible profit is discounted (−25).
-  const convMin = isNum(o.watchConvictionMinUsd) ? o.watchConvictionMinUsd : 2500;
+  const outsized = isOutsized(x.sizeUsd, volShare, z, whaleX, nPeers, o);
+  // ENTRY-PRICE CONVICTION (continuous). Applies to EVERY listed bet — the board's own $1k floor is the
+  // materiality gate, so gating conviction at a separate higher threshold just left the small NO-on-a-
+  // near-certain-favorite bets (exactly what looks unsuspicious) unpenalised. The market's implied
+  // improbability of the side they bet IS the edge: a cheap long-shot is the core tell (up to +35); a
+  // near-certain entry with no possible profit is discounted (−25) at ANY size.
+  const convMin = isNum(o.watchConvictionMinUsd) ? o.watchConvictionMinUsd : 1000;
   let convictionPts = 0, convictionTier = null;
-  if (x.sizeUsd >= convMin) {
-    const cv = priceConviction(x.entryPrice);
-    convictionPts = cv.pts; convictionTier = cv.tier;
-    if (cv.tier) { fired.push(cv.tier); score += cv.pts; }
-  }
-  if (x.walletFlagged === true) { fired.push("repeat"); score += WATCH_W.repeat; }   // already a published Suspect (bridge to the wallet tracker)
-  if (x.fresh === true) { fired.push("fresh"); score += WATCH_W.fresh; }             // first-ever trade ≈ this bet (no track record)
-  // INFORMATION ENVIRONMENT — DIRECTIONAL. This is the "did they trade ahead of the information?" axis.
-  //   blackout (+, HIGHEST): NO public news matched the market's topic in the window before the bet —
-  //     betting big before there is any public news is the clearest "they knew first" tell.
-  //   anticipated (+): a matching regulatory filing was published AFTER the bet → it foresaw a real,
-  //     not-yet-public regulatory action (the forward-looking half of the old fedRegister signal).
-  //   publicInfo (−, EXCULPATORY): news OR a matching filing PREDATED the bet → it was likely placed on
-  //     PUBLIC information, so it LOWERS the score. (The old fedRegister added a flat + for ANY filing
-  //     match regardless of timing, conflating "anticipated a filing" with "acted on a public one".)
-  if (x.blackout === true) { fired.push("blackout"); score += WATCH_W.blackout; }
-  if (x.anticipated === true) { fired.push("anticipated"); score += WATCH_W.anticipated; }
-  if (x.publicInfo === true) { fired.push("publicInfo"); score += WATCH_W.publicInfo; }
-  if (score < 0) score = 0;   // exculpatory reducers (publicInfo / near-certain) can't push below zero
+  if (x.sizeUsd >= convMin) { const cv = priceConviction(x.entryPrice); convictionPts = cv.pts; convictionTier = cv.tier; }
+  // INFORMATION ENVIRONMENT — DIRECTIONAL ("did they trade ahead of the information?"). blackout (+,
+  // HIGHEST): no public news matched the topic before the bet. anticipated (+): a matching filing landed
+  // AFTER the bet. publicInfo (−, EXCULPATORY): news/filing PREDATED the bet → likely placed on public info.
+  const { score, fired } = combineWatch({
+    outsized, convictionTier, convictionPts, entryPrice: x.entryPrice,
+    repeat: x.walletFlagged === true, fresh: x.fresh === true,
+    blackout: x.blackout === true, anticipated: x.anticipated === true, publicInfo: x.publicInfo === true,
+  });
   return { score, fired, convictionPts, convictionTier, sizeZ: +z.toFixed(1), whaleX: +whaleX.toFixed(1), volShare: +(volShare * 100).toFixed(2), p90: Math.round(p90), nPeers, enoughPeers };
+}
+// Deterministically re-score a STORED watchlist row under the CURRENT model — network-free, reusing the
+// derived stats already persisted on the row (volShare is stored as a PERCENT; sizeZ/whaleX/nPeers are
+// the peer diagnostics). This lets the scanner migrate the WHOLE board to the live metrics on every tick
+// instead of freezing resolved rows on whatever version they were first scored under. Any signal a stale
+// row never persisted reads as false (missing → didn't fire), so re-scoring is conservative and never
+// invents a signal. Returns the same { score, fired, convictionPts, convictionTier } shape as scoring.
+function rescoreWatchRow(e, opts) {
+  const o = Object.assign({}, DEFAULTS, opts);
+  e = e || {};
+  const sizeUsd = Number(e.sizeUsd) || 0;
+  const volShareFrac = (Number(e.volShare) || 0) / 100;   // persisted as a percentage
+  const outsized = isOutsized(sizeUsd, volShareFrac, Number(e.sizeZ) || 0, Number(e.whaleX) || 0, Number(e.nPeers) || 0, o);
+  const convMin = isNum(o.watchConvictionMinUsd) ? o.watchConvictionMinUsd : 1000;
+  let convictionPts = 0, convictionTier = null;
+  const entryPrice = Number(e.price != null ? e.price : e.entryPrice);
+  if (sizeUsd >= convMin) { const cv = priceConviction(entryPrice); convictionPts = cv.pts; convictionTier = cv.tier; }
+  const { score, fired } = combineWatch({
+    outsized, convictionTier, convictionPts, entryPrice,
+    repeat: e.walletFlagged === true, fresh: e.fresh === true,
+    blackout: e.blackout === true, anticipated: e.anticipated === true, publicInfo: e.publicInfo === true,
+  });
+  return { score, fired, convictionPts, convictionTier };
 }
 
 /* ============================================================================
@@ -980,6 +1029,6 @@ module.exports = {
   DEFAULTS, isNum, clip, lgamma, logChoose, binomTailGE, improbDenom, improbText,
   decorrelate, won, crossCat, longshot, held, fresh, baseline, profitCross, concealment, conviction, timing, repeat,
   concentration, sizing, clusterLink, clusterScore, fuse, winBaseline, categoryRisk, normalUpperTail,
-  extractEntities, corrKey: corrKeyOf, betGroupKey, newsBlackout, fedRegister, watchlistScore, WATCH_W,
+  extractEntities, corrKey: corrKeyOf, betGroupKey, newsBlackout, fedRegister, watchlistScore, rescoreWatchRow, combineWatch, isOutsized, priceConviction, WATCH_W, WATCH_MAX,
   harvardEpisode, harvardTier, HARVARD_W, HARVARD_TIERS,
 };

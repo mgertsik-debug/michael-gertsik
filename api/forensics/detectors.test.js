@@ -486,6 +486,44 @@ test("watchlistScore: a normal in-distribution favorite bet fires nothing", () =
   assert.equal(normal.score, 0, "an unremarkable trade scores 0");
 });
 
+test("watchlistScore: NEAR-CERTAIN veto — a ≥95¢ bet can't be flagged on incidental signals", () => {
+  // A big NO bet at 99¢ with a news blackout AND a repeat-suspect wallet: three signals that would
+  // otherwise total ~85, but betting the near-certain side carries no informed edge (≤~1% max return).
+  const nearCertain = D.watchlistScore({ sizeUsd: 40000, marketSizes: [], marketVolUsd: 5e6, entryPrice: 0.99, blackout: true, walletFlagged: true });
+  assert.ok(nearCertain.score <= 15, "near-certain entry is capped below the watch bar (got " + nearCertain.score + ")");
+  assert.ok(nearCertain.fired.includes("nearCertain"), "the near-certain tier is surfaced");
+  // A genuine cheap long-shot with the same corroboration is NOT capped — it's the real tell.
+  const longshot = D.watchlistScore({ sizeUsd: 40000, marketSizes: [], marketVolUsd: 5e6, entryPrice: 0.12, blackout: true, walletFlagged: true });
+  assert.ok(longshot.score >= 60, "a deep long-shot with the same signals scores high (got " + longshot.score + ")");
+});
+
+test("watchlistScore: OUTSIZED needs an absolute-dollar floor — a big share of a thin market isn't a whale", () => {
+  // $1,500 is 15% of a tiny $10k/24h market: a big SHARE but a small BET. Not 'outsized'.
+  const smallShare = D.watchlistScore({ sizeUsd: 1500, marketSizes: [], marketVolUsd: 10000, entryPrice: 0.5 });
+  assert.ok(!smallShare.fired.includes("outsized"), "a $1.5k bet is never badged outsized");
+  // A large ABSOLUTE bet still fires via bigAbs regardless of share.
+  const bigAbs = D.watchlistScore({ sizeUsd: 30000, marketSizes: [], marketVolUsd: 5e6, entryPrice: 0.5 });
+  assert.ok(bigAbs.fired.includes("outsized"), "a $30k bet is outsized on absolute size");
+});
+
+test("watchlistScore: entry-price conviction applies down to the $1k board floor", () => {
+  // A $1,000 deep long-shot (the board's own materiality floor) gets the conviction reward — the old
+  // $2,500 gate left small long-shots unscored on entry price.
+  const r = D.watchlistScore({ sizeUsd: 1000, marketSizes: [], marketVolUsd: 1e7, entryPrice: 0.10 });
+  assert.ok(r.fired.includes("deepLongshot"), "a $1k deep long-shot is graded on entry price");
+  assert.ok(r.convictionPts > 0, "conviction awards points at the board floor");
+});
+
+test("rescoreWatchRow: re-scores a STORED row from persisted stats, matching live scoring", () => {
+  // A stored near-certain row (as scan.js persists it) must re-score to the SAME capped result the
+  // live path produces — this is what migrates the whole board to the current metrics every tick.
+  const stored = { sizeUsd: 40000, marketVolUsd: 5e6, price: 0.99, volShare: 0.8, sizeZ: 0, whaleX: 0, nPeers: 0, blackout: true, walletFlagged: true };
+  const rs = D.rescoreWatchRow(stored);
+  assert.ok(rs.score <= 15, "stored near-certain row re-scores below the watch bar (got " + rs.score + ")");
+  const storedLongshot = { sizeUsd: 40000, marketVolUsd: 5e6, price: 0.12, volShare: 0.8, sizeZ: 0, whaleX: 0, nPeers: 0, blackout: true, walletFlagged: true };
+  assert.ok(D.rescoreWatchRow(storedLongshot).score >= 60, "stored deep long-shot re-scores high");
+});
+
 test("softened gate: small net-positive profit is a TIER CAP, not an exclusion", () => {
   // validateSubject floor is now a tiny materiality ($250), not $5k — a $2k-profit improbable single
   // wallet is published (the tier cap handles confidence), but a net loser is still rejected.
