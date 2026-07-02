@@ -16,10 +16,10 @@
   "over500": 47,
   "alsoBinomial": 15,
   "onlyHarvard": 32,
-  "observed": 238673,
-  "reviewed": 238673,
+  "observed": 238945,
+  "reviewed": 238945,
   "screened": 6454,
-  "scored": 3895,
+  "scored": 3896,
   "top": [
     {
       "address": "0x857b539b443876f4e5eb4013d2a98bbef5b50fd4",
@@ -1708,7 +1708,7 @@
         },
         {
           "market": "US x Iran ceasefire by March 31?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-31",
           "ts": null,
           "odds": 23,
           "stake": 128559,
@@ -1758,7 +1758,7 @@
         },
         {
           "market": "US x Iran ceasefire by March 15?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by",
+          "url": "https://polymarket.com/event/us-x-iran-ceasefire-by-march-15",
           "ts": null,
           "odds": 16,
           "stake": 66808,
@@ -1798,7 +1798,7 @@
         },
         {
           "market": "US x Iran ceasefire extended by April 21, 2026?",
-          "url": "https://polymarket.com/event/us-x-iran-ceasefire-extended-by",
+          "url": "https://polymarket.com/event/will-the-us-x-iran-ceasefire-be-extended-by-april-21-2026-365",
           "ts": 1776729600,
           "odds": 34,
           "stake": 46008,
@@ -3339,7 +3339,7 @@
       "address": "0xc6dd722558dbfbd8fa780efcbe819ed8c6604b9f",
       "username": "tourists",
       "tier": "notable",
-      "S": 691.8,
+      "S": 691.9,
       "market": "Will SpaceX acquire Cursor by December 31, 2026?",
       "marketUrl": "https://polymarket.com/event/will-spacex-acquire-cursor",
       "episodeTx": "0x201a5a08abcbde75f78bf866d9186bc234aa5936ac503d5aa52e85a2d26552e6",
@@ -3356,7 +3356,7 @@
       "firstSeen": "Nov 07 2025",
       "createdOnChain": true,
       "created": "May 12 2025",
-      "betsCount": 82,
+      "betsCount": 83,
       "ledger": [
         {
           "market": "Strait of Hormuz traffic returns to normal by end of June?",
