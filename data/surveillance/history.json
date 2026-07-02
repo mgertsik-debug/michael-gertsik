@@ -1,10 +1,23 @@
 {
-  "updatedAt": "2026-07-02T14:58:46.719Z",
+  "updatedAt": "2026-07-02T16:57:40.006Z",
   "sources": {
     "polymarket": "ok",
     "kalshi": "ok(auth)"
   },
   "alerts": [
+    {
+      "id": "pm-2673621",
+      "ts": "16:57 UTC",
+      "platform": "polymarket",
+      "market": "Will NVIDIA be the largest company in the world by market cap on July 31?",
+      "detector": "washTrade",
+      "sev": "med",
+      "metric": "51 · Elevated",
+      "index": 51,
+      "url": "https://polymarket.com/event/largest-company-end-of-july-20260624192302727",
+      "engine": "manipulation",
+      "firstSeen": "2026-07-02T16:57:40.006Z"
+    },
     {
       "id": "pm-601828",
       "ts": "14:58 UTC",
